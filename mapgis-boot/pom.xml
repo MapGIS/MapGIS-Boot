@@ -1,0 +1,447 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.zondy.mapgis</groupId>
+    <artifactId>mapgis-boot</artifactId>
+    <packaging>pom</packaging>
+    <version>0.0.1</version>
+
+    <modules>
+        <module>mapgis-common</module>
+        <module>mapgis-module-system</module>
+        <module>mapgis-server</module>
+        <module>mapgis-module-file</module>
+        <module>mapgis-module-auth</module>
+    </modules>
+
+    <name>mapgis-boot</name>
+    <description>MapGIS开发平台</description>
+
+    <properties>
+        <mapgis.boot.version>0.0.1</mapgis.boot.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <java.version>1.8</java.version>
+        <spring-boot.version>2.6.3</spring-boot.version>
+        <spring-cloud.version>2021.0.0</spring-cloud.version>
+        <spring-cloud-alibaba.version>2021.1</spring-cloud-alibaba.version>
+        <alibaba.nacos.version>2.0.4</alibaba.nacos.version>
+        <spring-boot-admin.version>2.6.2</spring-boot-admin.version>
+        <mybatis-spring-boot.version>2.2.0</mybatis-spring-boot.version>
+        <swagger.version>3.0.0</swagger.version>
+        <swagger.fox.version>3.0.0</swagger.fox.version>
+        <swagger.core.version>1.6.2</swagger.core.version>
+        <tobato.version>1.27.2</tobato.version>
+        <kaptcha.version>2.3.2</kaptcha.version>
+        <pagehelper.boot.version>1.4.1</pagehelper.boot.version>
+        <druid.version>1.2.8</druid.version>
+        <dynamic-ds.version>3.5.0</dynamic-ds.version>
+        <commons.io.version>2.11.0</commons.io.version>
+        <commons.fileupload.version>1.4</commons.fileupload.version>
+        <fastjson.version>1.2.79</fastjson.version>
+        <jjwt.version>0.9.1</jjwt.version>
+        <minio.version>8.2.2</minio.version>
+        <poi.version>4.1.2</poi.version>
+        <transmittable-thread-local.version>2.12.2</transmittable-thread-local.version>
+        <bitwalker.version>1.21</bitwalker.version>
+        <oshi.version>5.8.6</oshi.version>
+    </properties>
+
+    <!-- 依赖声明 -->
+    <dependencyManagement>
+        <dependencies>
+            <!-- SpringCloud 微服务 -->
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${spring-cloud.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <!-- SpringCloud Alibaba 微服务 -->
+            <dependency>
+                <groupId>com.alibaba.cloud</groupId>
+                <artifactId>spring-cloud-alibaba-dependencies</artifactId>
+                <version>${spring-cloud-alibaba.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <!-- Alibaba Nacos 配置 -->
+            <dependency>
+                <groupId>com.alibaba.nacos</groupId>
+                <artifactId>nacos-client</artifactId>
+                <version>${alibaba.nacos.version}</version>
+            </dependency>
+
+            <!-- SpringBoot 依赖配置 -->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>${spring-boot.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <!--  SpringBoot 监控客户端 -->
+            <dependency>
+                <groupId>de.codecentric</groupId>
+                <artifactId>spring-boot-admin-starter-client</artifactId>
+                <version>${spring-boot-admin.version}</version>
+            </dependency>
+
+            <!-- FastDFS 分布式文件系统 -->
+            <dependency>
+                <groupId>com.github.tobato</groupId>
+                <artifactId>fastdfs-client</artifactId>
+                <version>${tobato.version}</version>
+            </dependency>
+
+            <!-- Mybatis 依赖配置 -->
+            <dependency>
+                <groupId>org.mybatis.spring.boot</groupId>
+                <artifactId>mybatis-spring-boot-starter</artifactId>
+                <version>${mybatis-spring-boot.version}</version>
+            </dependency>
+
+            <!-- Swagger 依赖配置 -->
+            <dependency>
+                <groupId>io.swagger</groupId>
+                <artifactId>swagger-annotations</artifactId>
+                <version>${swagger.core.version}</version>
+            </dependency>
+
+            <!-- 验证码 -->
+            <dependency>
+                <groupId>com.github.penggle</groupId>
+                <artifactId>kaptcha</artifactId>
+                <version>${kaptcha.version}</version>
+            </dependency>
+
+            <!-- pagehelper 分页插件 -->
+            <dependency>
+                <groupId>com.github.pagehelper</groupId>
+                <artifactId>pagehelper-spring-boot-starter</artifactId>
+                <version>${pagehelper.boot.version}</version>
+            </dependency>
+
+            <!-- excel工具 -->
+            <dependency>
+                <groupId>org.apache.poi</groupId>
+                <artifactId>poi-ooxml</artifactId>
+                <version>${poi.version}</version>
+            </dependency>
+
+            <!-- io常用工具类 -->
+            <dependency>
+                <groupId>commons-io</groupId>
+                <artifactId>commons-io</artifactId>
+                <version>${commons.io.version}</version>
+            </dependency>
+
+            <!-- 文件上传工具类 -->
+            <dependency>
+                <groupId>commons-fileupload</groupId>
+                <artifactId>commons-fileupload</artifactId>
+                <version>${commons.fileupload.version}</version>
+            </dependency>
+
+            <!-- JSON 解析器和生成器 -->
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>fastjson</artifactId>
+                <version>${fastjson.version}</version>
+            </dependency>
+
+            <!-- JWT -->
+            <dependency>
+                <groupId>io.jsonwebtoken</groupId>
+                <artifactId>jjwt</artifactId>
+                <version>${jjwt.version}</version>
+            </dependency>
+
+            <!-- 线程传递值 -->
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>transmittable-thread-local</artifactId>
+                <version>${transmittable-thread-local.version}</version>
+            </dependency>
+
+            <!-- 阿里数据库连接池 -->
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>druid-spring-boot-starter</artifactId>
+                <version>${druid.version}</version>
+            </dependency>
+
+            <!-- 解析客户端操作系统、浏览器等 -->
+            <dependency>
+                <groupId>eu.bitwalker</groupId>
+                <artifactId>UserAgentUtils</artifactId>
+                <version>${bitwalker.version}</version>
+            </dependency>
+
+            <!-- 获取系统信息 -->
+            <dependency>
+                <groupId>com.github.oshi</groupId>
+                <artifactId>oshi-core</artifactId>
+                <version>${oshi.version}</version>
+            </dependency>
+
+            <!-- 获取系统信息 -->
+            <dependency>
+                <groupId>com.github.oshi</groupId>
+                <artifactId>oshi-core</artifactId>
+                <version>${oshi.version}</version>
+            </dependency>
+
+            <!-- 核心模块 -->
+            <dependency>
+                <groupId>com.zondy.mapgis</groupId>
+                <artifactId>mapgis-common-core</artifactId>
+                <version>${mapgis.boot.version}</version>
+            </dependency>
+
+            <!-- 缓存模块 -->
+            <dependency>
+                <groupId>com.zondy.mapgis</groupId>
+                <artifactId>mapgis-common-redis</artifactId>
+                <version>${mapgis.boot.version}</version>
+            </dependency>
+
+            <!-- 防重复提交模块 -->
+            <dependency>
+                <groupId>com.zondy.mapgis</groupId>
+                <artifactId>mapgis-common-repeatsubmit</artifactId>
+                <version>${mapgis.boot.version}</version>
+            </dependency>
+
+            <!-- 数据范围模块 -->
+            <dependency>
+                <groupId>com.zondy.mapgis</groupId>
+                <artifactId>mapgis-common-datascope</artifactId>
+                <version>${mapgis.boot.version}</version>
+            </dependency>
+
+            <!-- 多数据源模块 -->
+            <dependency>
+                <groupId>com.zondy.mapgis</groupId>
+                <artifactId>mapgis-common-datasource</artifactId>
+                <version>${mapgis.boot.version}</version>
+            </dependency>
+
+            <!-- 系统模块 -->
+            <dependency>
+                <groupId>com.zondy.mapgis</groupId>
+                <artifactId>mapgis-module-system-biz</artifactId>
+                <version>${mapgis.boot.version}</version>
+            </dependency>
+
+            <!-- 文件模块 -->
+            <dependency>
+                <groupId>com.zondy.mapgis</groupId>
+                <artifactId>mapgis-module-file-biz</artifactId>
+                <version>${mapgis.boot.version}</version>
+            </dependency>
+
+            <!-- 授权模块 -->
+            <dependency>
+                <groupId>com.zondy.mapgis</groupId>
+                <artifactId>mapgis-module-auth-biz</artifactId>
+                <version>${mapgis.boot.version}</version>
+            </dependency>
+
+            <!-- System Base Api -->
+            <dependency>
+                <groupId>com.zondy.mapgis</groupId>
+                <artifactId>mapgis-module-system-base-api</artifactId>
+                <version>${mapgis.boot.version}</version>
+            </dependency>
+
+            <!-- System Local Api -->
+            <dependency>
+                <groupId>com.zondy.mapgis</groupId>
+                <artifactId>mapgis-module-system-local-api</artifactId>
+                <version>${mapgis.boot.version}</version>
+            </dependency>
+
+            <!-- System Cloud Api -->
+            <dependency>
+                <groupId>com.zondy.mapgis</groupId>
+                <artifactId>mapgis-module-system-cloud-api</artifactId>
+                <version>${mapgis.boot.version}</version>
+            </dependency>
+
+            <!-- Common Base Log -->
+            <dependency>
+                <groupId>com.zondy.mapgis</groupId>
+                <artifactId>mapgis-common-base-log</artifactId>
+                <version>${mapgis.boot.version}</version>
+            </dependency>
+
+            <!-- Common Local Log -->
+            <dependency>
+                <groupId>com.zondy.mapgis</groupId>
+                <artifactId>mapgis-common-local-log</artifactId>
+                <version>${mapgis.boot.version}</version>
+            </dependency>
+
+            <!-- Common Cloud Log -->
+            <dependency>
+                <groupId>com.zondy.mapgis</groupId>
+                <artifactId>mapgis-common-cloud-log</artifactId>
+                <version>${mapgis.boot.version}</version>
+            </dependency>
+
+            <!-- Common Base Security -->
+            <dependency>
+                <groupId>com.zondy.mapgis</groupId>
+                <artifactId>mapgis-common-base-security</artifactId>
+                <version>${mapgis.boot.version}</version>
+            </dependency>
+
+            <!-- 单体安全模块 -->
+            <dependency>
+                <groupId>com.zondy.mapgis</groupId>
+                <artifactId>mapgis-common-local-security</artifactId>
+                <version>${mapgis.boot.version}</version>
+            </dependency>
+
+            <!-- 微服务安全模块 -->
+            <dependency>
+                <groupId>com.zondy.mapgis</groupId>
+                <artifactId>mapgis-common-cloud-security</artifactId>
+                <version>${mapgis.boot.version}</version>
+            </dependency>
+
+            <!-- File Base Api -->
+            <dependency>
+                <groupId>com.zondy.mapgis</groupId>
+                <artifactId>mapgis-module-file-base-api</artifactId>
+                <version>${mapgis.boot.version}</version>
+            </dependency>
+
+            <!-- File Local Api -->
+            <dependency>
+                <groupId>com.zondy.mapgis</groupId>
+                <artifactId>mapgis-module-file-local-api</artifactId>
+                <version>${mapgis.boot.version}</version>
+            </dependency>
+
+            <!-- File Cloud Api -->
+            <dependency>
+                <groupId>com.zondy.mapgis</groupId>
+                <artifactId>mapgis-module-file-cloud-api</artifactId>
+                <version>${mapgis.boot.version}</version>
+            </dependency>
+
+            <!-- Auth Base Api -->
+            <dependency>
+                <groupId>com.zondy.mapgis</groupId>
+                <artifactId>mapgis-module-auth-base-api</artifactId>
+                <version>${mapgis.boot.version}</version>
+            </dependency>
+
+            <!-- Auth Local Api -->
+            <dependency>
+                <groupId>com.zondy.mapgis</groupId>
+                <artifactId>mapgis-module-auth-local-api</artifactId>
+                <version>${mapgis.boot.version}</version>
+            </dependency>
+
+            <!-- Auth Cloud Api -->
+            <dependency>
+                <groupId>com.zondy.mapgis</groupId>
+                <artifactId>mapgis-module-auth-cloud-api</artifactId>
+                <version>${mapgis.boot.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <dependencies>
+        <!-- bootstrap 启动器 -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-bootstrap</artifactId>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.1</version>
+                <configuration>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+                    <encoding>${project.build.sourceEncoding}</encoding>
+                </configuration>
+            </plugin>
+        </plugins>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
+    </build>
+
+    <profiles>
+        <!-- 单体模式 -->
+        <profile>
+            <id>local</id>
+            <activation>
+                <!--默认激活配置-->
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <mapgis.common.security.artifact>mapgis-common-local-security</mapgis.common.security.artifact>
+                <mapgis.common.log.artifact>mapgis-common-local-log</mapgis.common.log.artifact>
+                <mapgis.module.system.api.artifact>mapgis-module-system-local-api</mapgis.module.system.api.artifact>
+                <mapgis.module.file.api.artifact>mapgis-module-file-local-api</mapgis.module.file.api.artifact>
+                <mapgis.module.auth.api.artifact>mapgis-module-auth-local-api</mapgis.module.auth.api.artifact>
+            </properties>
+            <dependencyManagement>
+                <dependencies>
+                    <!-- Swagger3依赖 -->
+                    <dependency>
+                        <groupId>io.springfox</groupId>
+                        <artifactId>springfox-boot-starter</artifactId>
+                        <version>${swagger.version}</version>
+                        <exclusions>
+                            <exclusion>
+                                <groupId>io.swagger</groupId>
+                                <artifactId>swagger-models</artifactId>
+                            </exclusion>
+                        </exclusions>
+                    </dependency>
+                    <dependency>
+                        <groupId>io.swagger</groupId>
+                        <artifactId>swagger-models</artifactId>
+                        <version>${swagger.core.version}</version>
+                    </dependency>
+                </dependencies>
+            </dependencyManagement>
+        </profile>
+        <!-- 微服务模式 -->
+        <profile>
+            <id>cloud</id>
+            <activation>
+                <!--默认激活配置-->
+                <activeByDefault>false</activeByDefault>
+            </activation>
+            <properties>
+                <mapgis.common.security.artifact>mapgis-common-cloud-security</mapgis.common.security.artifact>
+                <mapgis.common.log.artifact>mapgis-common-cloud-log</mapgis.common.log.artifact>
+                <mapgis.module.system.api.artifact>mapgis-module-system-cloud-api</mapgis.module.system.api.artifact>
+                <mapgis.module.file.api.artifact>mapgis-module-file-cloud-api</mapgis.module.file.api.artifact>
+                <mapgis.module.auth.api.artifact>mapgis-module-auth-cloud-api</mapgis.module.auth.api.artifact>
+            </properties>
+        </profile>
+    </profiles>
+</project>

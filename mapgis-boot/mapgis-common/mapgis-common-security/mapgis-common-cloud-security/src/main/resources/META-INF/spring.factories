@@ -1,0 +1,5 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  com.zondy.mapgis.common.security.config.WebMvcConfig,\
+  com.zondy.mapgis.common.security.service.TokenService,\
+  com.zondy.mapgis.common.security.aspect.PreAuthorizeAspect,\
+  com.zondy.mapgis.common.security.aspect.InnerAuthAspect
