@@ -1,7 +1,5 @@
 package com.zondy.mapgis.common.core.domain;
 
-import com.zondy.mapgis.common.core.constant.Constants;
-
 import java.io.Serializable;
 
 /**

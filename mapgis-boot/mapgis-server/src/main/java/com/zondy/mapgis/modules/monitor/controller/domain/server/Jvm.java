@@ -2,6 +2,7 @@ package com.zondy.mapgis.modules.monitor.controller.domain.server;
 
 import com.zondy.mapgis.common.core.utils.Arith;
 import com.zondy.mapgis.common.core.utils.DateUtils;
+import lombok.Data;
 
 import java.lang.management.ManagementFactory;
 
@@ -11,6 +12,7 @@ import java.lang.management.ManagementFactory;
  * @author xiongbo
  * @since 2022/3/15 18:00
  */
+@Data
 public class Jvm {
     /**
      * 当前JVM占用的内存总数(M)
@@ -41,24 +43,12 @@ public class Jvm {
         return Arith.div(total, (1024 * 1024), 2);
     }
 
-    public void setTotal(double total) {
-        this.total = total;
-    }
-
     public double getMax() {
         return Arith.div(max, (1024 * 1024), 2);
     }
 
-    public void setMax(double max) {
-        this.max = max;
-    }
-
     public double getFree() {
         return Arith.div(free, (1024 * 1024), 2);
-    }
-
-    public void setFree(double free) {
-        this.free = free;
     }
 
     public double getUsed() {
@@ -74,22 +64,6 @@ public class Jvm {
      */
     public String getName() {
         return ManagementFactory.getRuntimeMXBean().getVmName();
-    }
-
-    public String getVersion() {
-        return version;
-    }
-
-    public void setVersion(String version) {
-        this.version = version;
-    }
-
-    public String getHome() {
-        return home;
-    }
-
-    public void setHome(String home) {
-        this.home = home;
     }
 
     /**

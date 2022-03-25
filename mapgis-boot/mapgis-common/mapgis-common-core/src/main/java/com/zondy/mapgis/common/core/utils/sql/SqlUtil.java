@@ -40,17 +40,13 @@ public class SqlUtil {
     /**
      * SQL关键字检查
      */
-    public static void filterKeyword(String value)
-    {
-        if (StringUtils.isEmpty(value))
-        {
+    public static void filterKeyword(String value) {
+        if (StringUtils.isEmpty(value)) {
             return;
         }
         String[] sqlKeywords = StringUtils.split(SQL_REGEX, "\\|");
-        for (int i = 0; i < sqlKeywords.length; i++)
-        {
-            if (StringUtils.indexOfIgnoreCase(value, sqlKeywords[i]) > -1)
-            {
+        for (int i = 0; i < sqlKeywords.length; i++) {
+            if (StringUtils.indexOfIgnoreCase(value, sqlKeywords[i]) > -1) {
                 throw new UtilException("参数存在SQL注入风险");
             }
         }

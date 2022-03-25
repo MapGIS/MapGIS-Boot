@@ -1,10 +1,10 @@
 package com.zondy.mapgis.modules.auth.controller;
 
+import com.zondy.mapgis.auth.api.domain.service.ValidateCodeService;
 import com.zondy.mapgis.common.core.web.domain.AjaxResult;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
-import com.zondy.mapgis.auth.api.domain.service.ValidateCodeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

@@ -3,7 +3,6 @@ package com.zondy.mapgis.common.core.config.properties;
 import com.zondy.mapgis.common.core.utils.EnvironmentUtil;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
 /**
@@ -33,6 +32,7 @@ public class FileProperties {
 
     /**
      * 获取完整路径
+     *
      * @return 完整路径
      */
     public String getFullPath() {

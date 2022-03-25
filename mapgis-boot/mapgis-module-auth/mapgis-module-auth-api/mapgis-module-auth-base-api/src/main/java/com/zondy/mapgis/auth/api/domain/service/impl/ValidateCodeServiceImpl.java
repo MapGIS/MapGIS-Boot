@@ -2,6 +2,7 @@ package com.zondy.mapgis.auth.api.domain.service.impl;
 
 import com.google.code.kaptcha.Producer;
 import com.zondy.mapgis.auth.api.domain.config.properties.CaptchaProperties;
+import com.zondy.mapgis.auth.api.domain.service.ValidateCodeService;
 import com.zondy.mapgis.common.core.constant.Constants;
 import com.zondy.mapgis.common.core.exception.user.CaptchaException;
 import com.zondy.mapgis.common.core.exception.user.CaptchaExpireException;
@@ -9,7 +10,6 @@ import com.zondy.mapgis.common.core.utils.sign.Base64;
 import com.zondy.mapgis.common.core.utils.uuid.IdUtils;
 import com.zondy.mapgis.common.core.web.domain.AjaxResult;
 import com.zondy.mapgis.common.redis.service.RedisService;
-import com.zondy.mapgis.auth.api.domain.service.ValidateCodeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.FastByteArrayOutputStream;

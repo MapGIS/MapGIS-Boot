@@ -4,8 +4,8 @@
       <a-row :gutter="24">
         <a-col :span="12">
           <a-card :loading="loading" title="CPU" :bordered="false">
-            <a-row :gutter="24" v-if="server.cpu">
-              <a-col :span="12">
+            <a-row :gutter="24">
+              <a-col :span="12" v-if="server.cpu">
                 <a-space direction="vertical" size="large">
                   <a-statistic
                     title="核心数"
@@ -31,7 +31,7 @@
                   </a-statistic>
                 </a-space>
               </a-col>
-              <a-col :span="12">
+              <a-col :span="12" v-if="server.cpu">
                 <a-space direction="vertical" size="large">
                   <a-statistic
                     title="系统使用率"

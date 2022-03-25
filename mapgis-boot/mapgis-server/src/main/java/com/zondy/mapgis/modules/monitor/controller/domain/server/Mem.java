@@ -1,6 +1,7 @@
 package com.zondy.mapgis.modules.monitor.controller.domain.server;
 
 import com.zondy.mapgis.common.core.utils.Arith;
+import lombok.Data;
 
 /**
  * 內存相关信息
@@ -8,6 +9,7 @@ import com.zondy.mapgis.common.core.utils.Arith;
  * @author xiongbo
  * @since 2022/3/15 18:00
  */
+@Data
 public class Mem {
     /**
      * 内存总量
@@ -28,24 +30,12 @@ public class Mem {
         return Arith.div(total, (1024 * 1024 * 1024), 2);
     }
 
-    public void setTotal(long total) {
-        this.total = total;
-    }
-
     public double getUsed() {
         return Arith.div(used, (1024 * 1024 * 1024), 2);
     }
 
-    public void setUsed(long used) {
-        this.used = used;
-    }
-
     public double getFree() {
         return Arith.div(free, (1024 * 1024 * 1024), 2);
-    }
-
-    public void setFree(long free) {
-        this.free = free;
     }
 
     public double getUsage() {

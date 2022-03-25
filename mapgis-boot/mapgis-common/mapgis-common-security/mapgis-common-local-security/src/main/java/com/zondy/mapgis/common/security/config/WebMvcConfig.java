@@ -3,7 +3,6 @@ package com.zondy.mapgis.common.security.config;
 import com.zondy.mapgis.common.core.config.properties.FileProperties;
 import com.zondy.mapgis.common.repeatsubmit.interceptor.RepeatSubmitInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.cors.CorsConfiguration;
