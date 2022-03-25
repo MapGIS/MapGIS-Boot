@@ -11,7 +11,7 @@
  Target Server Version : 50736
  File Encoding         : 65001
 
- Date: 24/03/2022 16:55:28
+ Date: 25/03/2022 14:56:20
 */
 
 SET NAMES utf8mb4;
@@ -253,9 +253,6 @@ CREATE TABLE `sys_job`  (
 -- ----------------------------
 -- Records of sys_job
 -- ----------------------------
-INSERT INTO `sys_job` VALUES (1, '系统默认（无参）', 'DEFAULT', 'mapTask.mapNoParams', '0/10 * * * * ?', '3', '1', '1', 'admin', '2022-03-23 22:12:32', '', NULL, '');
-INSERT INTO `sys_job` VALUES (2, '系统默认（有参）', 'DEFAULT', 'mapTask.mapParams(\'gis\')', '0/15 * * * * ?', '3', '1', '1', 'admin', '2022-03-23 22:12:32', '', NULL, '');
-INSERT INTO `sys_job` VALUES (3, '系统默认（多参）', 'DEFAULT', 'mapTask.mapMultipleParams(\'gis\', true, 2000L, 316.50D, 100)', '0/20 * * * * ?', '3', '1', '1', 'admin', '2022-03-23 22:12:32', '', NULL, '');
 
 -- ----------------------------
 -- Table structure for sys_job_log
