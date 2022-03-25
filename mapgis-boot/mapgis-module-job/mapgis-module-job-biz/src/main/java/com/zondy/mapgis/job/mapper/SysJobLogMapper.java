@@ -8,7 +8,7 @@ import java.util.List;
  * 调度任务日志信息 数据层
  *
  * @author xiongbo
- * @since 2021/12/9 20:18
+ * @since 2022/3/15 18:00
  */
 public interface SysJobLogMapper {
     /**

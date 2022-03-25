@@ -11,7 +11,7 @@ import java.util.Properties;
  * 定时任务配置（单机部署建议删除此类和qrtz数据库表，默认走内存会最高效）
  *
  * @author xiongbo
- * @since 2021/12/9 20:08
+ * @since 2022/3/15 18:00
  */
 @Configuration
 public class ScheduleConfig {

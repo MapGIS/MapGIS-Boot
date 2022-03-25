@@ -12,7 +12,7 @@ import java.util.List;
  * 定时任务调度日志信息 服务层
  *
  * @author xiongbo
- * @since 2021/12/9 20:41
+ * @since 2022/3/15 18:00
  */
 @Service
 public class SysJobLogServiceImpl implements ISysJobLogService {

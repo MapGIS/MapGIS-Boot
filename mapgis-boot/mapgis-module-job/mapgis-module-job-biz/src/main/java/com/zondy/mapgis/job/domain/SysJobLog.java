@@ -12,7 +12,7 @@ import java.util.Date;
  * 定时任务调度日志表 sys_job_log
  *
  * @author xiongbo
- * @since 2021/12/9 20:26
+ * @since 2022/3/15 18:00
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
