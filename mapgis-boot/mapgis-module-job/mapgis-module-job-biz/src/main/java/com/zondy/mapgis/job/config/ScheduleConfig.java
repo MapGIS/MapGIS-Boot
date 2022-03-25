@@ -22,7 +22,7 @@ public class ScheduleConfig {
 
         // quartz参数
         Properties prop = new Properties();
-        prop.put("org.quartz.scheduler.instanceName", "MapGISScheduler");
+        prop.put("org.quartz.scheduler.instanceName", "MapScheduler");
         prop.put("org.quartz.scheduler.instanceId", "AUTO");
         // 线程池配置
         prop.put("org.quartz.threadPool.class", "org.quartz.simpl.SimpleThreadPool");
@@ -42,7 +42,7 @@ public class ScheduleConfig {
         prop.put("org.quartz.jobStore.tablePrefix", "QRTZ_");
         factory.setQuartzProperties(prop);
 
-        factory.setSchedulerName("MapGISScheduler");
+        factory.setSchedulerName("MapScheduler");
         // 延时启动
         factory.setStartupDelay(1);
         factory.setApplicationContextSchedulerContextKey("applicationContextKey");

@@ -15,7 +15,7 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @EnableFeignClients
-public @interface EnableMapGISServerFeignClients {
+public @interface EnableMapFeignClients {
     String[] value() default {};
 
     String[] basePackages() default {"com.zondy.mapgis"};

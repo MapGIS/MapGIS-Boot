@@ -11,8 +11,8 @@ import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
  * @since 2022/3/15 18:00
  */
 @SpringBootApplication(exclude = {DataSourceAutoConfiguration.class})
-public class ServerApplication {
+public class MapApplication {
     public static void main(String[] args) {
-        SpringApplication.run(ServerApplication.class, args);
+        SpringApplication.run(MapApplication.class, args);
     }
 }

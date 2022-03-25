@@ -21,6 +21,6 @@ import java.lang.annotation.*;
 @EnableAsync
 // 自动加载类
 @Import({ApplicationConfig.class, FeignAutoConfiguration.class})
-public @interface EnableCustomConfig {
+public @interface EnableMapConfig {
 
 }
