@@ -3,7 +3,6 @@ package com.zondy.mapgis.system.controller;
 import com.zondy.mapgis.common.core.constant.UserConstants;
 import com.zondy.mapgis.common.core.domain.R;
 import com.zondy.mapgis.common.core.utils.StringUtils;
-import com.zondy.mapgis.common.core.utils.file.FileUploadUtils;
 import com.zondy.mapgis.common.core.web.controller.BaseController;
 import com.zondy.mapgis.common.core.web.domain.AjaxResult;
 import com.zondy.mapgis.common.log.annotation.Log;

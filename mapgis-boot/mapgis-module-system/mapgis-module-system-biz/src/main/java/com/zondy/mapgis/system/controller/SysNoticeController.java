@@ -5,6 +5,7 @@ import com.zondy.mapgis.common.core.web.domain.AjaxResult;
 import com.zondy.mapgis.common.core.web.page.TableDataInfo;
 import com.zondy.mapgis.common.log.annotation.Log;
 import com.zondy.mapgis.common.log.enums.BusinessType;
+import com.zondy.mapgis.common.security.annotation.RequiresPermissions;
 import com.zondy.mapgis.common.security.utils.SecurityUtils;
 import com.zondy.mapgis.system.domain.SysNotice;
 import com.zondy.mapgis.system.service.ISysNoticeService;
@@ -37,6 +38,7 @@ public class SysNoticeController extends BaseController {
      */
     @ApiOperation("获取通知公告列表")
     @PreAuthorize("@ss.hasPermi('system:notice:list')")
+    @RequiresPermissions("system:notice:list")
     @GetMapping("/list")
     public TableDataInfo list(SysNotice notice) {
         startPage();
@@ -49,6 +51,7 @@ public class SysNoticeController extends BaseController {
      */
     @ApiOperation("根据通知公告编号获取详细信息")
     @PreAuthorize("@ss.hasPermi('system:notice:query')")
+    @RequiresPermissions("system:notice:query")
     @GetMapping(value = "/{noticeId}")
     public AjaxResult getInfo(@PathVariable Long noticeId) {
         return AjaxResult.success(noticeService.selectNoticeById(noticeId));
@@ -59,6 +62,7 @@ public class SysNoticeController extends BaseController {
      */
     @ApiOperation("新增通知公告")
     @PreAuthorize("@ss.hasPermi('system:notice:add')")
+    @RequiresPermissions("system:notice:add")
     @Log(title = "通知公告", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@Validated @RequestBody SysNotice notice) {
@@ -71,6 +75,7 @@ public class SysNoticeController extends BaseController {
      */
     @ApiOperation("修改通知公告")
     @PreAuthorize("@ss.hasPermi('system:notice:edit')")
+    @RequiresPermissions("system:notice:edit")
     @Log(title = "通知公告", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@Validated @RequestBody SysNotice notice) {
@@ -83,6 +88,7 @@ public class SysNoticeController extends BaseController {
      */
     @ApiOperation("删除通知公告")
     @PreAuthorize("@ss.hasPermi('system:notice:remove')")
+    @RequiresPermissions("system:notice:remove")
     @Log(title = "通知公告", businessType = BusinessType.DELETE)
     @DeleteMapping("/{noticeIds}")
     public AjaxResult remove(@PathVariable Long[] noticeIds) {

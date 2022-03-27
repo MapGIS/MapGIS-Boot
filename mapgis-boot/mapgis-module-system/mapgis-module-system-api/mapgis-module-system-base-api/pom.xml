@@ -17,6 +17,12 @@
     </properties>
 
     <dependencies>
+        <!-- spring security 安全认证 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
+
         <!-- MapGIS Common Core-->
         <dependency>
             <groupId>com.zondy.mapgis</groupId>

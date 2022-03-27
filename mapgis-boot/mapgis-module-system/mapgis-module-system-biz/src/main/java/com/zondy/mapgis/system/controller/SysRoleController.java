@@ -8,15 +8,16 @@ import com.zondy.mapgis.common.core.web.domain.AjaxResult;
 import com.zondy.mapgis.common.core.web.page.TableDataInfo;
 import com.zondy.mapgis.common.log.annotation.Log;
 import com.zondy.mapgis.common.log.enums.BusinessType;
+import com.zondy.mapgis.common.security.annotation.RequiresPermissions;
 import com.zondy.mapgis.common.security.service.TokenService;
 import com.zondy.mapgis.common.security.utils.SecurityUtils;
 import com.zondy.mapgis.system.api.domain.SysRole;
 import com.zondy.mapgis.system.api.domain.SysUser;
-import com.zondy.mapgis.system.domain.SysUserRole;
 import com.zondy.mapgis.system.api.model.LoginUser;
 import com.zondy.mapgis.system.api.service.ISysPermissionService;
-import com.zondy.mapgis.system.service.ISysRoleService;
 import com.zondy.mapgis.system.api.service.ISysUserService;
+import com.zondy.mapgis.system.domain.SysUserRole;
+import com.zondy.mapgis.system.service.ISysRoleService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -50,6 +51,7 @@ public class SysRoleController extends BaseController {
 
     @ApiOperation("查询角色信息列表")
     @PreAuthorize("@ss.hasPermi('system:role:list')")
+    @RequiresPermissions("system:role:list")
     @GetMapping("/list")
     public TableDataInfo list(SysRole role) {
         startPage();
@@ -58,8 +60,9 @@ public class SysRoleController extends BaseController {
     }
 
     @ApiOperation("导出角色信息列表")
-    @Log(title = "角色管理", businessType = BusinessType.EXPORT)
     @PreAuthorize("@ss.hasPermi('system:role:export')")
+    @RequiresPermissions("system:role:export")
+    @Log(title = "角色管理", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     public void export(HttpServletResponse response, SysRole role) {
         List<SysRole> list = roleService.selectRoleList(role);
@@ -72,6 +75,7 @@ public class SysRoleController extends BaseController {
      */
     @ApiOperation("根据角色编号获取详细信息")
     @PreAuthorize("@ss.hasPermi('system:role:query')")
+    @RequiresPermissions("system:role:query")
     @GetMapping(value = "/{roleId}")
     public AjaxResult getInfo(@PathVariable Long roleId) {
         roleService.checkRoleDataScope(roleId);
@@ -83,6 +87,7 @@ public class SysRoleController extends BaseController {
      */
     @ApiOperation("新增角色")
     @PreAuthorize("@ss.hasPermi('system:role:add')")
+    @RequiresPermissions("system:role:add")
     @Log(title = "角色管理", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@Validated @RequestBody SysRole role) {
@@ -101,6 +106,7 @@ public class SysRoleController extends BaseController {
      */
     @ApiOperation("修改保存角色")
     @PreAuthorize("@ss.hasPermi('system:role:edit')")
+    @RequiresPermissions("system:role:edit")
     @Log(title = "角色管理", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@Validated @RequestBody SysRole role) {
@@ -130,6 +136,7 @@ public class SysRoleController extends BaseController {
      */
     @ApiOperation("修改保存数据权限")
     @PreAuthorize("@ss.hasPermi('system:role:edit')")
+    @RequiresPermissions("system:role:edit")
     @Log(title = "角色管理", businessType = BusinessType.UPDATE)
     @PutMapping("/dataScope")
     public AjaxResult dataScope(@RequestBody SysRole role) {
@@ -142,6 +149,7 @@ public class SysRoleController extends BaseController {
      */
     @ApiOperation("状态修改")
     @PreAuthorize("@ss.hasPermi('system:role:edit')")
+    @RequiresPermissions("system:role:edit")
     @Log(title = "角色管理", businessType = BusinessType.UPDATE)
     @PutMapping("/changeStatus")
     public AjaxResult changeStatus(@RequestBody SysRole role) {
@@ -155,6 +163,7 @@ public class SysRoleController extends BaseController {
      */
     @ApiOperation("删除角色")
     @PreAuthorize("@ss.hasPermi('system:role:remove')")
+    @RequiresPermissions("system:role:remove")
     @Log(title = "角色管理", businessType = BusinessType.DELETE)
     @DeleteMapping("/{roleIds}")
     public AjaxResult remove(@PathVariable Long[] roleIds) {
@@ -166,6 +175,7 @@ public class SysRoleController extends BaseController {
      */
     @ApiOperation("获取角色选择框列表")
     @PreAuthorize("@ss.hasPermi('system:role:query')")
+    @RequiresPermissions("system:role:query")
     @GetMapping("/optionselect")
     public AjaxResult optionselect() {
         return AjaxResult.success(roleService.selectRoleAll());
@@ -176,6 +186,7 @@ public class SysRoleController extends BaseController {
      */
     @ApiOperation("查询已分配用户角色列表")
     @PreAuthorize("@ss.hasPermi('system:role:list')")
+    @RequiresPermissions("system:role:list")
     @GetMapping("/authUser/allocatedList")
     public TableDataInfo allocatedList(SysUser user) {
         startPage();
@@ -188,6 +199,7 @@ public class SysRoleController extends BaseController {
      */
     @ApiOperation("查询未分配用户角色列表")
     @PreAuthorize("@ss.hasPermi('system:role:list')")
+    @RequiresPermissions("system:role:list")
     @GetMapping("/authUser/unallocatedList")
     public TableDataInfo unallocatedList(SysUser user) {
         startPage();
@@ -200,6 +212,7 @@ public class SysRoleController extends BaseController {
      */
     @ApiOperation("取消授权用户")
     @PreAuthorize("@ss.hasPermi('system:role:edit')")
+    @RequiresPermissions("system:role:edit")
     @Log(title = "角色管理", businessType = BusinessType.GRANT)
     @PutMapping("/authUser/cancel")
     public AjaxResult cancelAuthUser(@RequestBody SysUserRole userRole) {
@@ -211,6 +224,7 @@ public class SysRoleController extends BaseController {
      */
     @ApiOperation("批量取消授权用户")
     @PreAuthorize("@ss.hasPermi('system:role:edit')")
+    @RequiresPermissions("system:role:edit")
     @Log(title = "角色管理", businessType = BusinessType.GRANT)
     @PutMapping("/authUser/cancelAll")
     public AjaxResult cancelAuthUserAll(Long roleId, Long[] userIds) {
@@ -222,6 +236,7 @@ public class SysRoleController extends BaseController {
      */
     @ApiOperation("批量选择用户授权")
     @PreAuthorize("@ss.hasPermi('system:role:edit')")
+    @RequiresPermissions("system:role:edit")
     @Log(title = "角色管理", businessType = BusinessType.GRANT)
     @PutMapping("/authUser/selectAll")
     public AjaxResult selectAuthUserAll(Long roleId, Long[] userIds) {

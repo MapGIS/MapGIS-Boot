@@ -7,6 +7,7 @@ import com.zondy.mapgis.common.core.web.domain.AjaxResult;
 import com.zondy.mapgis.common.core.web.page.TableDataInfo;
 import com.zondy.mapgis.common.log.annotation.Log;
 import com.zondy.mapgis.common.log.enums.BusinessType;
+import com.zondy.mapgis.common.security.annotation.RequiresPermissions;
 import com.zondy.mapgis.common.security.utils.SecurityUtils;
 import com.zondy.mapgis.system.api.domain.SysDictType;
 import com.zondy.mapgis.system.service.ISysDictTypeService;
@@ -37,6 +38,7 @@ public class SysDictTypeController extends BaseController {
 
     @ApiOperation("查询字典类型列表")
     @PreAuthorize("@ss.hasPermi('system:dict:list')")
+    @RequiresPermissions("system:dict:list")
     @GetMapping("/list")
     public TableDataInfo list(SysDictType dictType) {
         startPage();
@@ -47,6 +49,7 @@ public class SysDictTypeController extends BaseController {
     @ApiOperation("导出字典类型列表")
     @Log(title = "字典类型", businessType = BusinessType.EXPORT)
     @PreAuthorize("@ss.hasPermi('system:dict:export')")
+    @RequiresPermissions("system:dict:export")
     @PostMapping("/export")
     public void export(HttpServletResponse response, SysDictType dictType) {
         List<SysDictType> list = dictTypeService.selectDictTypeList(dictType);
@@ -59,6 +62,7 @@ public class SysDictTypeController extends BaseController {
      */
     @ApiOperation("查询字典类型详细")
     @PreAuthorize("@ss.hasPermi('system:dict:query')")
+    @RequiresPermissions("system:dict:query")
     @GetMapping(value = "/{dictId}")
     public AjaxResult getInfo(@PathVariable Long dictId) {
         return AjaxResult.success(dictTypeService.selectDictTypeById(dictId));
@@ -69,6 +73,7 @@ public class SysDictTypeController extends BaseController {
      */
     @ApiOperation("新增字典类型")
     @PreAuthorize("@ss.hasPermi('system:dict:add')")
+    @RequiresPermissions("system:dict:add")
     @Log(title = "字典类型", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@Validated @RequestBody SysDictType dict) {
@@ -84,6 +89,7 @@ public class SysDictTypeController extends BaseController {
      */
     @ApiOperation("修改字典类型")
     @PreAuthorize("@ss.hasPermi('system:dict:edit')")
+    @RequiresPermissions("system:dict:edit")
     @Log(title = "字典类型", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@Validated @RequestBody SysDictType dict) {
@@ -99,6 +105,7 @@ public class SysDictTypeController extends BaseController {
      */
     @ApiOperation("删除字典类型")
     @PreAuthorize("@ss.hasPermi('system:dict:remove')")
+    @RequiresPermissions("system:dict:remove")
     @Log(title = "字典类型", businessType = BusinessType.DELETE)
     @DeleteMapping("/{dictIds}")
     public AjaxResult remove(@PathVariable Long[] dictIds) {
@@ -111,6 +118,7 @@ public class SysDictTypeController extends BaseController {
      */
     @ApiOperation("刷新字典缓存")
     @PreAuthorize("@ss.hasPermi('system:dict:remove')")
+    @RequiresPermissions("system:dict:remove")
     @Log(title = "字典类型", businessType = BusinessType.CLEAN)
     @DeleteMapping("/refreshCache")
     public AjaxResult refreshCache() {

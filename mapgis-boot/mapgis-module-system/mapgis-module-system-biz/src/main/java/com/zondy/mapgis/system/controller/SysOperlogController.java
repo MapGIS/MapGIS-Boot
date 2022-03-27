@@ -6,7 +6,7 @@ import com.zondy.mapgis.common.core.web.domain.AjaxResult;
 import com.zondy.mapgis.common.core.web.page.TableDataInfo;
 import com.zondy.mapgis.common.log.annotation.Log;
 import com.zondy.mapgis.common.log.enums.BusinessType;
-import com.zondy.mapgis.common.security.annotation.InnerAuth;
+import com.zondy.mapgis.common.security.annotation.RequiresPermissions;
 import com.zondy.mapgis.system.api.domain.SysOperLog;
 import com.zondy.mapgis.system.api.service.ISysOperLogService;
 import io.swagger.annotations.Api;
@@ -35,6 +35,7 @@ public class SysOperlogController extends BaseController {
 
     @ApiOperation("查询操作日志记录列表")
     @PreAuthorize("@ss.hasPermi('system:operlog:list')")
+    @RequiresPermissions("system:operlog:list")
     @GetMapping("/list")
     public TableDataInfo list(SysOperLog operLog) {
         startPage();
@@ -43,8 +44,9 @@ public class SysOperlogController extends BaseController {
     }
 
     @ApiOperation("导出操作日志记录列表")
-    @Log(title = "操作日志", businessType = BusinessType.EXPORT)
     @PreAuthorize("@ss.hasPermi('system:operlog:export')")
+    @RequiresPermissions("system:operlog:export")
+    @Log(title = "操作日志", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     public void export(HttpServletResponse response, SysOperLog operLog) {
         List<SysOperLog> list = operLogService.selectOperLogList(operLog);
@@ -53,16 +55,18 @@ public class SysOperlogController extends BaseController {
     }
 
     @ApiOperation("删除操作日志记录")
-    @Log(title = "操作日志", businessType = BusinessType.DELETE)
     @PreAuthorize("@ss.hasPermi('system:operlog:remove')")
+    @RequiresPermissions("system:operlog:remove")
+    @Log(title = "操作日志", businessType = BusinessType.DELETE)
     @DeleteMapping("/{operIds}")
     public AjaxResult remove(@PathVariable Long[] operIds) {
         return toAjax(operLogService.deleteOperLogByIds(operIds));
     }
 
     @ApiOperation("清空操作日志记录")
-    @Log(title = "操作日志", businessType = BusinessType.CLEAN)
     @PreAuthorize("@ss.hasPermi('system:operlog:remove')")
+    @RequiresPermissions("system:operlog:remove")
+    @Log(title = "操作日志", businessType = BusinessType.CLEAN)
     @DeleteMapping("/clean")
     public AjaxResult clean() {
         operLogService.cleanOperLog();

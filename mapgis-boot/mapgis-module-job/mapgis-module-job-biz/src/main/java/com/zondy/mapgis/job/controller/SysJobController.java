@@ -9,6 +9,7 @@ import com.zondy.mapgis.common.core.web.domain.AjaxResult;
 import com.zondy.mapgis.common.core.web.page.TableDataInfo;
 import com.zondy.mapgis.common.log.annotation.Log;
 import com.zondy.mapgis.common.log.enums.BusinessType;
+import com.zondy.mapgis.common.security.annotation.RequiresPermissions;
 import com.zondy.mapgis.common.security.utils.SecurityUtils;
 import com.zondy.mapgis.job.domain.SysJob;
 import com.zondy.mapgis.job.server.ISysJobService;
@@ -38,6 +39,7 @@ public class SysJobController extends BaseController {
      * 查询定时任务列表
      */
     @PreAuthorize("@ss.hasPermi('monitor:job:list')")
+    @RequiresPermissions("monitor:job:list")
     @GetMapping("/list")
     public TableDataInfo list(SysJob sysJob) {
         startPage();
@@ -49,6 +51,7 @@ public class SysJobController extends BaseController {
      * 导出定时任务列表
      */
     @PreAuthorize("@ss.hasPermi('monitor:job:export')")
+    @RequiresPermissions("monitor:job:export")
     @Log(title = "定时任务", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     public void export(HttpServletResponse response, SysJob sysJob) {
@@ -61,6 +64,7 @@ public class SysJobController extends BaseController {
      * 获取定时任务详细信息
      */
     @PreAuthorize("@ss.hasPermi('monitor:job:query')")
+    @RequiresPermissions("monitor:job:query")
     @GetMapping(value = "/{jobId}")
     public AjaxResult getInfo(@PathVariable("jobId") Long jobId) {
         return AjaxResult.success(jobService.selectJobById(jobId));
@@ -70,6 +74,7 @@ public class SysJobController extends BaseController {
      * 新增定时任务
      */
     @PreAuthorize("@ss.hasPermi('monitor:job:add')")
+    @RequiresPermissions("monitor:job:add")
     @Log(title = "定时任务", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@RequestBody SysJob job) throws SchedulerException, TaskException {
@@ -94,6 +99,7 @@ public class SysJobController extends BaseController {
      * 修改定时任务
      */
     @PreAuthorize("@ss.hasPermi('monitor:job:edit')")
+    @RequiresPermissions("monitor:job:edit")
     @Log(title = "定时任务", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@RequestBody SysJob job) throws SchedulerException, TaskException {
@@ -118,6 +124,7 @@ public class SysJobController extends BaseController {
      * 定时任务状态修改
      */
     @PreAuthorize("@ss.hasPermi('monitor:job:changeStatus')")
+    @RequiresPermissions("monitor:job:changeStatus")
     @Log(title = "定时任务", businessType = BusinessType.UPDATE)
     @PutMapping("/changeStatus")
     public AjaxResult changeStatus(@RequestBody SysJob job) throws SchedulerException {
@@ -130,6 +137,7 @@ public class SysJobController extends BaseController {
      * 定时任务立即执行一次
      */
     @PreAuthorize("@ss.hasPermi('monitor:job:changeStatus')")
+    @RequiresPermissions("monitor:job:changeStatus")
     @Log(title = "定时任务", businessType = BusinessType.UPDATE)
     @PutMapping("/run")
     public AjaxResult run(@RequestBody SysJob job) throws SchedulerException {
@@ -141,6 +149,7 @@ public class SysJobController extends BaseController {
      * 删除定时任务
      */
     @PreAuthorize("@ss.hasPermi('monitor:job:remove')")
+    @RequiresPermissions("monitor:job:remove")
     @Log(title = "定时任务", businessType = BusinessType.DELETE)
     @DeleteMapping("/{jobIds}")
     public AjaxResult remove(@PathVariable Long[] jobIds) throws SchedulerException, TaskException {

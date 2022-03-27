@@ -7,6 +7,7 @@ import com.zondy.mapgis.common.core.web.domain.AjaxResult;
 import com.zondy.mapgis.common.core.web.page.TableDataInfo;
 import com.zondy.mapgis.common.log.annotation.Log;
 import com.zondy.mapgis.common.log.enums.BusinessType;
+import com.zondy.mapgis.common.security.annotation.RequiresPermissions;
 import com.zondy.mapgis.common.security.utils.SecurityUtils;
 import com.zondy.mapgis.system.domain.SysPost;
 import com.zondy.mapgis.system.service.ISysPostService;
@@ -40,6 +41,7 @@ public class SysPostController extends BaseController {
      */
     @ApiOperation("获取岗位列表")
     @PreAuthorize("@ss.hasPermi('system:post:list')")
+    @RequiresPermissions("system:post:list")
     @GetMapping("/list")
     public TableDataInfo list(SysPost post) {
         startPage();
@@ -48,8 +50,9 @@ public class SysPostController extends BaseController {
     }
 
     @ApiOperation("导出岗位列表")
-    @Log(title = "岗位管理", businessType = BusinessType.EXPORT)
     @PreAuthorize("@ss.hasPermi('system:post:export')")
+    @RequiresPermissions("system:post:export")
+    @Log(title = "岗位管理", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     public void export(HttpServletResponse response, SysPost post) {
         List<SysPost> list = postService.selectPostList(post);
@@ -62,6 +65,7 @@ public class SysPostController extends BaseController {
      */
     @ApiOperation("根据岗位编号获取详细信息")
     @PreAuthorize("@ss.hasPermi('system:post:query')")
+    @RequiresPermissions("system:post:query")
     @GetMapping(value = "/{postId}")
     public AjaxResult getInfo(@PathVariable Long postId) {
         return AjaxResult.success(postService.selectPostById(postId));
@@ -72,6 +76,7 @@ public class SysPostController extends BaseController {
      */
     @ApiOperation("新增岗位")
     @PreAuthorize("@ss.hasPermi('system:post:add')")
+    @RequiresPermissions("system:post:add")
     @Log(title = "岗位管理", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@Validated @RequestBody SysPost post) {
@@ -89,6 +94,7 @@ public class SysPostController extends BaseController {
      */
     @ApiOperation("修改岗位")
     @PreAuthorize("@ss.hasPermi('system:post:edit')")
+    @RequiresPermissions("system:post:edit")
     @Log(title = "岗位管理", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@Validated @RequestBody SysPost post) {
@@ -106,6 +112,7 @@ public class SysPostController extends BaseController {
      */
     @ApiOperation("删除岗位")
     @PreAuthorize("@ss.hasPermi('system:post:remove')")
+    @RequiresPermissions("system:post:remove")
     @Log(title = "岗位管理", businessType = BusinessType.DELETE)
     @DeleteMapping("/{postIds}")
     public AjaxResult remove(@PathVariable Long[] postIds) {

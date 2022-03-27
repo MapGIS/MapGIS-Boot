@@ -1,7 +1,6 @@
 package com.zondy.mapgis.system.controller;
 
 import com.zondy.mapgis.common.core.constant.UserConstants;
-import com.zondy.mapgis.common.core.domain.R;
 import com.zondy.mapgis.common.core.utils.StringUtils;
 import com.zondy.mapgis.common.core.utils.poi.ExcelUtil;
 import com.zondy.mapgis.common.core.web.controller.BaseController;
@@ -9,16 +8,14 @@ import com.zondy.mapgis.common.core.web.domain.AjaxResult;
 import com.zondy.mapgis.common.core.web.page.TableDataInfo;
 import com.zondy.mapgis.common.log.annotation.Log;
 import com.zondy.mapgis.common.log.enums.BusinessType;
-import com.zondy.mapgis.common.security.annotation.InnerAuth;
+import com.zondy.mapgis.common.security.annotation.RequiresPermissions;
 import com.zondy.mapgis.common.security.utils.SecurityUtils;
 import com.zondy.mapgis.system.api.domain.SysRole;
 import com.zondy.mapgis.system.api.domain.SysUser;
-import com.zondy.mapgis.system.api.model.LoginUser;
 import com.zondy.mapgis.system.api.service.ISysPermissionService;
-import com.zondy.mapgis.system.service.ISysRoleService;
 import com.zondy.mapgis.system.api.service.ISysUserService;
-import com.zondy.mapgis.system.service.ISysConfigService;
 import com.zondy.mapgis.system.service.ISysPostService;
+import com.zondy.mapgis.system.service.ISysRoleService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -59,6 +56,7 @@ public class SysUserController extends BaseController {
      */
     @ApiOperation("获取用户列表")
     @PreAuthorize("@ss.hasPermi('system:user:list')")
+    @RequiresPermissions("system:user:list")
     @GetMapping("/list")
     public TableDataInfo list(SysUser user) {
         startPage();
@@ -67,8 +65,9 @@ public class SysUserController extends BaseController {
     }
 
     @ApiOperation("导出用户列表")
-    @Log(title = "用户管理", businessType = BusinessType.EXPORT)
     @PreAuthorize("@ss.hasPermi('system:user:export')")
+    @RequiresPermissions("system:user:export")
+    @Log(title = "用户管理", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     public void export(HttpServletResponse response, SysUser user) {
         List<SysUser> list = userService.selectUserList(user);
@@ -77,8 +76,9 @@ public class SysUserController extends BaseController {
     }
 
     @ApiOperation("导入用户列表")
-    @Log(title = "用户管理", businessType = BusinessType.IMPORT)
     @PreAuthorize("@ss.hasPermi('system:user:import')")
+    @RequiresPermissions("system:user:import")
+    @Log(title = "用户管理", businessType = BusinessType.IMPORT)
     @PostMapping("/importData")
     public AjaxResult importData(MultipartFile file, boolean updateSupport) throws Exception {
         ExcelUtil<SysUser> util = new ExcelUtil<SysUser>(SysUser.class);
@@ -120,6 +120,7 @@ public class SysUserController extends BaseController {
      */
     @ApiOperation("根据用户编号获取详细信息")
     @PreAuthorize("@ss.hasPermi('system:user:query')")
+    @RequiresPermissions("system:user:query")
     @GetMapping(value = {"/", "/{userId}"})
     public AjaxResult getInfo(@PathVariable(value = "userId", required = false) Long userId) {
         userService.checkUserDataScope(userId);
@@ -141,6 +142,7 @@ public class SysUserController extends BaseController {
      */
     @ApiOperation("新增用户")
     @PreAuthorize("@ss.hasPermi('system:user:add')")
+    @RequiresPermissions("system:user:add")
     @Log(title = "用户管理", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@Validated @RequestBody SysUser user) {
@@ -163,6 +165,7 @@ public class SysUserController extends BaseController {
      */
     @ApiOperation("修改用户")
     @PreAuthorize("@ss.hasPermi('system:user:edit')")
+    @RequiresPermissions("system:user:edit")
     @Log(title = "用户管理", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@Validated @RequestBody SysUser user) {
@@ -183,6 +186,7 @@ public class SysUserController extends BaseController {
      */
     @ApiOperation("删除用户")
     @PreAuthorize("@ss.hasPermi('system:user:remove')")
+    @RequiresPermissions("system:user:remove")
     @Log(title = "用户管理", businessType = BusinessType.DELETE)
     @DeleteMapping("/{userIds}")
     public AjaxResult remove(@PathVariable Long[] userIds) {
@@ -197,6 +201,7 @@ public class SysUserController extends BaseController {
      */
     @ApiOperation("重置密码")
     @PreAuthorize("@ss.hasPermi('system:user:resetPwd')")
+    @RequiresPermissions("system:user:edit")
     @Log(title = "用户管理", businessType = BusinessType.UPDATE)
     @PutMapping("/resetPwd")
     public AjaxResult resetPwd(@RequestBody SysUser user) {
@@ -211,6 +216,7 @@ public class SysUserController extends BaseController {
      */
     @ApiOperation("状态修改")
     @PreAuthorize("@ss.hasPermi('system:user:edit')")
+    @RequiresPermissions("system:user:edit")
     @Log(title = "用户管理", businessType = BusinessType.UPDATE)
     @PutMapping("/changeStatus")
     public AjaxResult changeStatus(@RequestBody SysUser user) {
@@ -224,6 +230,7 @@ public class SysUserController extends BaseController {
      */
     @ApiOperation("根据用户编号获取授权角色")
     @PreAuthorize("@ss.hasPermi('system:user:query')")
+    @RequiresPermissions("system:user:query")
     @GetMapping("/authRole/{userId}")
     public AjaxResult authRole(@PathVariable("userId") Long userId) {
         AjaxResult ajax = AjaxResult.success();
@@ -239,6 +246,7 @@ public class SysUserController extends BaseController {
      */
     @ApiOperation("用户授权角色")
     @PreAuthorize("@ss.hasPermi('system:user:edit')")
+    @RequiresPermissions("system:user:edit")
     @Log(title = "用户管理", businessType = BusinessType.GRANT)
     @PutMapping("/authRole")
     public AjaxResult insertAuthRole(Long userId, Long[] roleIds) {

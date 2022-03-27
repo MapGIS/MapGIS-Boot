@@ -6,6 +6,7 @@ import com.zondy.mapgis.common.core.web.controller.BaseController;
 import com.zondy.mapgis.common.core.web.domain.AjaxResult;
 import com.zondy.mapgis.common.log.annotation.Log;
 import com.zondy.mapgis.common.log.enums.BusinessType;
+import com.zondy.mapgis.common.security.annotation.RequiresPermissions;
 import com.zondy.mapgis.common.security.utils.SecurityUtils;
 import com.zondy.mapgis.system.domain.SysMenu;
 import com.zondy.mapgis.system.service.ISysMenuService;
@@ -38,6 +39,7 @@ public class SysMenuController extends BaseController {
      */
     @ApiOperation("获取菜单列表")
     @PreAuthorize("@ss.hasPermi('system:menu:list')")
+    @RequiresPermissions("system:menu:list")
     @GetMapping("/list")
     public AjaxResult list(SysMenu menu) {
         Long userId = SecurityUtils.getUserId();
@@ -50,6 +52,7 @@ public class SysMenuController extends BaseController {
      */
     @ApiOperation("根据菜单编号获取详细信息")
     @PreAuthorize("@ss.hasPermi('system:menu:query')")
+    @RequiresPermissions("system:menu:query")
     @GetMapping(value = "/{menuId}")
     public AjaxResult getInfo(@PathVariable Long menuId) {
         return AjaxResult.success(menuService.selectMenuById(menuId));
@@ -85,6 +88,7 @@ public class SysMenuController extends BaseController {
      */
     @ApiOperation("新增菜单")
     @PreAuthorize("@ss.hasPermi('system:menu:add')")
+    @RequiresPermissions("system:menu:add")
     @Log(title = "菜单管理", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@Validated @RequestBody SysMenu menu) {
@@ -102,6 +106,7 @@ public class SysMenuController extends BaseController {
      */
     @ApiOperation("修改菜单")
     @PreAuthorize("@ss.hasPermi('system:menu:edit')")
+    @RequiresPermissions("system:menu:edit")
     @Log(title = "菜单管理", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@Validated @RequestBody SysMenu menu) {
@@ -121,6 +126,7 @@ public class SysMenuController extends BaseController {
      */
     @ApiOperation("删除菜单")
     @PreAuthorize("@ss.hasPermi('system:menu:remove')")
+    @RequiresPermissions("system:menu:remove")
     @Log(title = "菜单管理", businessType = BusinessType.DELETE)
     @DeleteMapping("/{menuId}")
     public AjaxResult remove(@PathVariable("menuId") Long menuId) {
