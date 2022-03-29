@@ -24,7 +24,7 @@ logging:
 # Spring配置
 spring:
   application:
-    name: ${APP_NAME:MapGIS Server}
+    name: ${APP_NAME:mapgis-server}
   # 资源信息
   messages:
     # 国际化资源文件路径
@@ -133,14 +133,14 @@ file:
 
 # FastDFS配置
 fdfs:
-  domain:
+  domain: http://127.0.0.1
   soTimeout: 3000
   connectTimeout: 2000
-  trackerList:
+  trackerList: 127.0.0.1:22122
 
 # Minio配置
 minio:
-  url: http://www.mapgis.com
+  url: http://127.0.0.1:9000
   accessKey: minioadmin
   secretKey: minioadmin
   bucketName: test

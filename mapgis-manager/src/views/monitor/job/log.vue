@@ -121,7 +121,7 @@
 </template>
 
 <script>
-import { listJobLog, delJobLog, cleanJobLog } from '@/api/monitor/jobLog'
+import { listJobLog, delJobLog, cleanJobLog } from '@/api/schedule/jobLog'
 import LogViewForm from './modules/LogViewForm'
 import { tableMixin } from '@/store/table-mixin'
 

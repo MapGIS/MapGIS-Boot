@@ -1,7 +1,7 @@
 package com.zondy.mapgis.common.security.config;
 
-import com.zondy.mapgis.common.core.config.properties.FileProperties;
 import com.zondy.mapgis.common.repeatsubmit.interceptor.RepeatSubmitInterceptor;
+import com.zondy.mapgis.file.api.config.properties.FileProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

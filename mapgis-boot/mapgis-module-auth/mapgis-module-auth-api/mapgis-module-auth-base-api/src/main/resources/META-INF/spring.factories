@@ -1,0 +1,4 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  com.zondy.mapgis.auth.api.config.properties.CaptchaProperties,\
+  com.zondy.mapgis.auth.api.config.CaptchaConfig,\
+  com.zondy.mapgis.auth.api.service.impl.ValidateCodeServiceImpl

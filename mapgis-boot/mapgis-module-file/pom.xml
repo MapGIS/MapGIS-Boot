@@ -14,6 +14,7 @@
     <modules>
         <module>mapgis-module-file-api</module>
         <module>mapgis-module-file-biz</module>
+        <module>mapgis-module-file-server</module>
     </modules>
 
     <properties>

@@ -13,6 +13,7 @@
     <packaging>pom</packaging>
     <modules>
         <module>mapgis-module-job-biz</module>
+        <module>mapgis-module-job-server</module>
     </modules>
 
     <properties>

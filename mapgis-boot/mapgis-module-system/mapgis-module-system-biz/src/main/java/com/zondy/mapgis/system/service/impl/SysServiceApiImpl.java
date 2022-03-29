@@ -14,6 +14,7 @@ import com.zondy.mapgis.system.api.service.ISysPermissionService;
 import com.zondy.mapgis.system.api.service.ISysUserService;
 import com.zondy.mapgis.system.service.ISysConfigService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
 import java.util.Set;
@@ -22,7 +23,7 @@ import java.util.Set;
  * @author xiongbo
  * @since 2022/3/15 18:00
  */
-@Service
+@Service("SysServiceApiImpl")
 public class SysServiceApiImpl implements ISysServiceApi {
 
     @Autowired

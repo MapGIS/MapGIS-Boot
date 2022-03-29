@@ -30,7 +30,7 @@ import java.util.List;
  * @since 2022/3/15 18:00
  */
 @RestController
-@RequestMapping("/monitor/job")
+@RequestMapping("/schedule/job")
 public class SysJobController extends BaseController {
     @Autowired
     private ISysJobService jobService;

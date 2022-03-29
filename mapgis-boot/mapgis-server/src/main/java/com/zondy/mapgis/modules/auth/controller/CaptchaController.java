@@ -1,6 +1,6 @@
 package com.zondy.mapgis.modules.auth.controller;
 
-import com.zondy.mapgis.auth.api.domain.service.ValidateCodeService;
+import com.zondy.mapgis.auth.api.service.ValidateCodeService;
 import com.zondy.mapgis.common.core.web.domain.AjaxResult;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

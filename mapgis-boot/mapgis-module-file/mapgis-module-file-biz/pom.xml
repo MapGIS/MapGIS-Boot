@@ -36,7 +36,7 @@
             <version>${minio.version}</version>
         </dependency>
 
-        <!-- File API -->
+        <!-- MapGIS File API -->
         <dependency>
             <groupId>com.zondy.mapgis</groupId>
             <artifactId>${mapgis.module.file.api.artifact}</artifactId>

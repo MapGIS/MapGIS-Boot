@@ -8,20 +8,21 @@ import com.zondy.mapgis.system.api.domain.SysLogininfor;
 import com.zondy.mapgis.system.api.domain.SysOperLog;
 import com.zondy.mapgis.system.api.domain.SysUser;
 import com.zondy.mapgis.system.api.model.LoginUser;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.*;
 
 /**
  * @author xiongbo
  * @since 2022/3/15 18:00
  */
-@RequiredArgsConstructor(onConstructor_ = @Autowired)
 @RestController
 @RequestMapping("/system/api")
 public class SysServiceApiController extends BaseController {
 
-    private final ISysServiceApi sysServiceApi;
+    @Autowired
+    @Qualifier("SysServiceApiImpl")
+    private ISysServiceApi sysServiceApi;
 
     /**
      * 获取当前用户信息

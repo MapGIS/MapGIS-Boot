@@ -1,0 +1,4 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  com.zondy.mapgis.common.swagger.config.SwaggerAutoConfiguration,\
+  com.zondy.mapgis.common.swagger.config.SwaggerWebConfiguration,\
+  com.zondy.mapgis.common.swagger.config.SwaggerBeanPostProcessor

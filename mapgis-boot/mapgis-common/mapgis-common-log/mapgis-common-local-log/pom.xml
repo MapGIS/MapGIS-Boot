@@ -17,7 +17,7 @@
     </properties>
 
     <dependencies>
-        <!-- Common Base Log -->
+        <!-- MapGIS Common Base Log -->
         <dependency>
             <groupId>com.zondy.mapgis</groupId>
             <artifactId>mapgis-common-base-log</artifactId>

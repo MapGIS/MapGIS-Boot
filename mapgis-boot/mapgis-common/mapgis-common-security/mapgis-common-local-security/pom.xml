@@ -35,10 +35,16 @@
             <artifactId>UserAgentUtils</artifactId>
         </dependency>
 
-        <!-- System Local API -->
+        <!-- MapGIS System Local API -->
         <dependency>
             <groupId>com.zondy.mapgis</groupId>
             <artifactId>mapgis-module-system-local-api</artifactId>
+        </dependency>
+
+        <!-- MapGIS File Base API -->
+        <dependency>
+            <groupId>com.zondy.mapgis</groupId>
+            <artifactId>mapgis-module-file-base-api</artifactId>
         </dependency>
 
         <!-- MapGIS Common Redis-->
@@ -47,7 +53,7 @@
             <artifactId>mapgis-common-redis</artifactId>
         </dependency>
 
-        <!-- Common Base Security -->
+        <!-- MapGIS Common Base Security -->
         <dependency>
             <groupId>com.zondy.mapgis</groupId>
             <artifactId>mapgis-common-base-security</artifactId>

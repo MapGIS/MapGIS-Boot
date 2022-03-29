@@ -18,6 +18,7 @@
         <module>mapgis-common-datasource</module>
         <module>mapgis-common-security</module>
         <module>mapgis-common-log</module>
+        <module>mapgis-common-swagger</module>
     </modules>
 
     <artifactId>mapgis-common</artifactId>

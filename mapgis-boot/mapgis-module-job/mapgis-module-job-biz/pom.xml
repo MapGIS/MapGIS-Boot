@@ -35,12 +35,6 @@
             <artifactId>mapgis-common-core</artifactId>
         </dependency>
 
-        <!-- 多数据源模块 -->
-        <dependency>
-            <groupId>com.zondy.mapgis</groupId>
-            <artifactId>mapgis-common-datasource</artifactId>
-        </dependency>
-
         <!-- 日志模块 -->
         <dependency>
             <groupId>com.zondy.mapgis</groupId>

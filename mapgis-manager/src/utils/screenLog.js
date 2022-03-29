@@ -14,5 +14,5 @@ export const printANSI = () => {
   ""    ""   """" ""  ## """       """"    """"""    """""   
                       ##                                       
 `
-  console.log(`%c${text}`, 'color: #fc4d50')
+  console.log(`%c${text}`, 'color: #1890ff')
 }

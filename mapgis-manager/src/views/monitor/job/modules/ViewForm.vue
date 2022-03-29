@@ -41,7 +41,7 @@
 </template>
 
 <script>
-import { getJob } from '@/api/monitor/job'
+import { getJob } from '@/api/schedule/job'
 
 export default {
   name: 'ViewForm',

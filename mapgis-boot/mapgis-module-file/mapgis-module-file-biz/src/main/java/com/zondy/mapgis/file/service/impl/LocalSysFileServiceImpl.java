@@ -1,7 +1,7 @@
 package com.zondy.mapgis.file.service.impl;
 
-import com.zondy.mapgis.common.core.config.properties.FileProperties;
 import com.zondy.mapgis.common.core.utils.file.FileUploadUtils;
+import com.zondy.mapgis.file.api.config.properties.FileProperties;
 import com.zondy.mapgis.file.service.IFileStorageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;

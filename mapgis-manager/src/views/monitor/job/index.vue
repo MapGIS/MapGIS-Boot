@@ -164,7 +164,7 @@
 </template>
 
 <script>
-import { listJob, delJob, runJob, changeJobStatus } from '@/api/monitor/job'
+import { listJob, delJob, runJob, changeJobStatus } from '@/api/schedule/job'
 import CreateForm from './modules/CreateForm'
 import ViewForm from './modules/ViewForm'
 import { tableMixin } from '@/store/table-mixin'

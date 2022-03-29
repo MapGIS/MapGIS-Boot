@@ -15,7 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
  * @author xiongbo
  * @since 2022/3/15 18:00
  */
-@Service
+@Service("FileServiceApiImpl")
 public class FileServiceApiImpl implements IFileServiceApi {
     private static final Logger log = LoggerFactory.getLogger(FileServiceApiImpl.class);
 

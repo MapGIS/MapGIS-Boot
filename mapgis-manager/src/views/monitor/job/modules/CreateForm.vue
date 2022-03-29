@@ -70,7 +70,7 @@
 </template>
 
 <script>
-import { getJob, addJob, updateJob } from '@/api/monitor/job'
+import { getJob, addJob, updateJob } from '@/api/schedule/job'
 import GenCrontab from './GenCrontab'
 
 export default {
