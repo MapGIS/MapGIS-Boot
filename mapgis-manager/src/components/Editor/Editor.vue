@@ -44,7 +44,7 @@ export default {
   },
   data() {
     return {
-      uploadImgUrl: process.env.VUE_APP_BASE_API + '/common/upload',
+      uploadImgUrl: process.env.VUE_APP_BASE_API + '/file/upload',
       headers: {
         Authorization: 'Bearer ' + storage.get(ACCESS_TOKEN),
         Accept: 'application/json, text/plain, */*'
@@ -110,7 +110,11 @@ export default {
       this.editor.config.uploadImgHooks = {
         customInsert: function (insertImgFn, result) {
           // insertImgFn 可把图片插入到编辑器，传入图片 src ，执行函数即可
-          insertImgFn(result.url)
+          let imgUrl = process.env.VUE_APP_BASE_API + result.data.url
+          if (result.data.url.startsWith('http') || result.data.url.startsWith('https')) {
+            imgUrl = result.data.url
+          }
+          insertImgFn(imgUrl)
         }
       }
       // 视频
@@ -120,8 +124,12 @@ export default {
       this.editor.config.uploadVideoName = 'file'
       this.editor.config.uploadVideoHooks = {
         customInsert: function (insertVideoFn, result) {
-          // insertImgFn 可把图片插入到编辑器，传入图片 src ，执行函数即可
-          insertVideoFn(result.url)
+          // insertVideoFn 可把视频插入到编辑器，传入视频 src ，执行函数即可
+          let videoUrl = process.env.VUE_APP_BASE_API + result.data.url
+          if (result.data.url.startsWith('http') || result.data.url.startsWith('https')) {
+            videoUrl = result.data.url
+          }
+          insertVideoFn(videoUrl)
         }
       }
       // 数据双向绑定

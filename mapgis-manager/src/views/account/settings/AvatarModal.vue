@@ -132,9 +132,13 @@ export default {
           formData.append('avatarfile', data, this.fileName)
           uploadAvatar(formData).then(response => {
             this.open = false
-            store.commit('SET_AVATAR', process.env.VUE_APP_BASE_API + response.imgUrl)
+            let imgUrl = process.env.VUE_APP_BASE_API + response.imgUrl
+            if (response.imgUrl.startsWith('http') || response.imgUrl.startsWith('https')) {
+              imgUrl = response.imgUrl
+            }
+            store.commit('SET_AVATAR', imgUrl)
             _this.$message.success('上传成功')
-            _this.$emit('ok', process.env.VUE_APP_BASE_API + response.imgUrl)
+            _this.$emit('ok', imgUrl)
             _this.visible = false
           })
         })

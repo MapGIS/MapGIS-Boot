@@ -55,8 +55,11 @@ const user = {
         getInfo(state.token)
           .then(res => {
             const user = res.user
-            const avatar =
-              user.avatar === '' ? require('@/assets/images/profile.jpg') : process.env.VUE_APP_BASE_API + user.avatar
+            let avatarUrl = process.env.VUE_APP_BASE_API + user.avatar
+            if (user.avatar.startsWith('http') || user.avatar.startsWith('https')) {
+              avatarUrl = user.avatar
+            }
+            const avatar = user.avatar === '' ? require('@/assets/images/profile.jpg') : avatarUrl
             if (res.roles && res.roles.length > 0) {
               // 验证返回的roles是否是一个非空数组
               commit('SET_ROLES', res.roles)
