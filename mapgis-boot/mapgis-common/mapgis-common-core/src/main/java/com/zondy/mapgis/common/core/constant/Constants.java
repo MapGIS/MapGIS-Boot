@@ -83,21 +83,6 @@ public class Constants {
     public static final long CAPTCHA_EXPIRATION = 2;
 
     /**
-     * 令牌
-     */
-    public static final String TOKEN = "token";
-
-    /**
-     * 令牌前缀
-     */
-    public static final String TOKEN_PREFIX = "Bearer ";
-
-    /**
-     * 登录用户key
-     */
-    public static final String LOGIN_USER_KEY = "login_user_key";
-
-    /**
      * 参数管理 cache key
      */
     public static final String SYS_CONFIG_KEY = "sys_config:";

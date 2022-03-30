@@ -18,7 +18,7 @@ public class CacheConstants {
     public final static long REFRESH_TIME = 120;
 
     /**
-     * 权限缓存前缀
+     * 登录用户 redis key
      */
     public final static String LOGIN_TOKEN_KEY = "login_tokens:";
 }

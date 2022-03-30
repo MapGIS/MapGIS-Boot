@@ -13,6 +13,11 @@ public class TokenConstants {
     public static final String AUTHENTICATION = "Authorization";
 
     /**
+     * 令牌
+     */
+    public static final String TOKEN = "token";
+
+    /**
      * 令牌前缀
      */
     public static final String PREFIX = "Bearer ";

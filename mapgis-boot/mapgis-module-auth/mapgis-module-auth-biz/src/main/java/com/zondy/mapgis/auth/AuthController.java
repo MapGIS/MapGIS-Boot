@@ -3,7 +3,7 @@ package com.zondy.mapgis.auth;
 import com.zondy.mapgis.auth.api.domain.model.LoginBody;
 import com.zondy.mapgis.auth.api.domain.model.RegisterBody;
 import com.zondy.mapgis.auth.api.service.SysLoginService;
-import com.zondy.mapgis.common.core.constant.Constants;
+import com.zondy.mapgis.common.core.constant.TokenConstants;
 import com.zondy.mapgis.common.core.web.domain.AjaxResult;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -40,7 +40,7 @@ public class AuthController {
         AjaxResult ajax = AjaxResult.success();
         // 生成令牌
         String token = loginService.login(loginBody);
-        ajax.put(Constants.TOKEN, token);
+        ajax.put(TokenConstants.TOKEN, token);
         return ajax;
     }
 

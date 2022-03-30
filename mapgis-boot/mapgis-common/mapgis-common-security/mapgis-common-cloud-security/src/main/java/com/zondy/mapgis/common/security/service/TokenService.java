@@ -40,29 +40,6 @@ public class TokenService {
     private final static Long MILLIS_MINUTE_TEN = CacheConstants.REFRESH_TIME * MILLIS_MINUTE;
 
     /**
-     * 创建令牌
-     */
-    public String createToken(LoginUser loginUser) {
-        String token = IdUtils.fastUUID();
-        Long userId = loginUser.getUser().getUserId();
-        String userName = loginUser.getUser().getUserName();
-        loginUser.setToken(token);
-        loginUser.setUserId(userId);
-        loginUser.setUsername(userName);
-        loginUser.setIpaddr(IpUtils.getIpAddr(ServletUtils.getRequest()));
-        refreshToken(loginUser);
-
-        // Jwt存储信息
-        Map<String, Object> claimsMap = new HashMap<String, Object>();
-        claimsMap.put(SecurityConstants.USER_KEY, token);
-        claimsMap.put(SecurityConstants.DETAILS_USER_ID, userId);
-        claimsMap.put(SecurityConstants.DETAILS_USERNAME, userName);
-
-        // 生成token
-        return JwtUtils.createToken(claimsMap);
-    }
-
-    /**
      * 获取用户身份信息
      *
      * @return 用户信息
@@ -117,6 +94,32 @@ public class TokenService {
             String userkey = JwtUtils.getUserKey(token);
             redisService.deleteObject(getTokenKey(userkey));
         }
+    }
+
+    /**
+     * 创建令牌
+     *
+     * @param loginUser 用户信息
+     * @return 令牌
+     */
+    public String createToken(LoginUser loginUser) {
+        String token = IdUtils.fastUUID();
+        Long userId = loginUser.getUser().getUserId();
+        String userName = loginUser.getUser().getUserName();
+        loginUser.setToken(token);
+        loginUser.setUserId(userId);
+        loginUser.setUsername(userName);
+        loginUser.setIpaddr(IpUtils.getIpAddr(ServletUtils.getRequest()));
+        refreshToken(loginUser);
+
+        // Jwt存储信息
+        Map<String, Object> claimsMap = new HashMap<String, Object>();
+        claimsMap.put(SecurityConstants.USER_KEY, token);
+        claimsMap.put(SecurityConstants.DETAILS_USER_ID, userId);
+        claimsMap.put(SecurityConstants.DETAILS_USERNAME, userName);
+
+        // 生成token
+        return JwtUtils.createToken(claimsMap);
     }
 
     /**
