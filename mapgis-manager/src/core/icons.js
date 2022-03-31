@@ -62,6 +62,8 @@ import treeIcon from '@/assets/icons/tree.svg?inline'
 import uploadIcon from '@/assets/icons/upload.svg?inline'
 import userIcon from '@/assets/icons/user.svg?inline'
 import validCodeIcon from '@/assets/icons/validCode.svg?inline'
+import sentinelIcon from '@/assets/icons/sentinel.svg?inline'
+import nacosIcon from '@/assets/icons/nacos.svg?inline'
 
 const allIcon = {
   bugIcon,
@@ -118,7 +120,9 @@ const allIcon = {
   treeIcon,
   uploadIcon,
   userIcon,
-  validCodeIcon
+  validCodeIcon,
+  sentinelIcon,
+  nacosIcon
 }
 
 export default allIcon

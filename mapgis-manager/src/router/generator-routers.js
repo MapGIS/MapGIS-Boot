@@ -161,8 +161,10 @@ export const generator = (routerMap, parent, routers) => {
     }
     // antdv-pro的pro-layout要求每个路径需为全路径
     if (!constantRouterComponents[item.component || item.key]) {
-      // currentRouter.path = `${parent && parent.path !== '/' && parent.path || ''}/${item.path}`
-      currentRouter.path = `${(parent && parent.path !== '/' && parent.path + '/') || ''}${item.path}`
+      if (!validURL(item.path)) {
+        // currentRouter.path = `${parent && parent.path !== '/' && parent.path || ''}/${item.path}`
+        currentRouter.path = `${(parent && parent.path !== '/' && parent.path + '/') || ''}${item.path}`
+      }
     }
     // 是否设置了隐藏子菜单
     if (hideChildren) {

@@ -27,7 +27,7 @@ spring:
         file-extension: yml
         # 共享配置
         shared-configs[0]:
-          data-id: application-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}
+          data-id: mapgis-application-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}
           group: MAPGIS_GROUP
     sentinel:
       # 取消控制台懒加载
