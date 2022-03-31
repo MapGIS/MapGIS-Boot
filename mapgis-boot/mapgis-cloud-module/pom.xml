@@ -12,7 +12,8 @@
     <artifactId>mapgis-cloud-module</artifactId>
     <packaging>pom</packaging>
     <modules>
-        <module>mapgis-module-gateway</module>
+        <module>mapgis-cloud-module-gateway</module>
+        <module>mapgis-cloud-module-monitor</module>
     </modules>
 
     <properties>
