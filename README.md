@@ -3,7 +3,7 @@
 <h2 align="center">MapGIS Boot</h2>
 <h5 align="center">基于Spring Boot、Spring Cloud & Alibaba的前后端分离微服务极速后台开发框架。</h3>
 
-MapGIS Boot是一个 Java EE 企业级快速开发平台，基于经典技术组合（Spring Boot、Spring Cloud & Alibaba、Ant Design Vue），内置模块如：部门管理、角色用户、菜单及按钮授权、数据权限、系统参数、日志管理、在线定时任务等。
+MapGIS Boot 是一个 Java EE 企业级快速开发平台，基于经典技术组合（Spring Boot、Spring Cloud & Alibaba、Ant Design Vue），内置模块如：部门管理、角色用户、菜单及按钮授权、数据权限、系统参数、日志管理、在线定时任务等。
 
 **系统需求**
 
@@ -16,15 +16,15 @@ MapGIS Boot是一个 Java EE 企业级快速开发平台，基于经典技术组
 
 ## 项目简介
 
-MapGIS Boot是一款基于Spring Boot、Spring Cloud & Alibaba、MyBatis、Jwt、Ant Design Vue的前后端分离微服务极速后台开发框架。
+MapGIS Boot 是一款基于 Spring Boot、Spring Cloud & Alibaba、MyBatis、Jwt、Ant Design Vue 的前后端分离微服务极速后台开发框架。
 
 ## 主要特性
 
 - 支持单体和微服务自由切换
 - 支持按钮及数据权限，可自定义部门数据权限
 - 支持菜单动态路由
-- 完善的XSS防范及脚本过滤，彻底杜绝XSS攻击
-- Maven多项目依赖，模块及插件分项目，尽量松耦合，方便模块升级、增减模块
+- 完善的 XSS 防范及脚本过滤，彻底杜绝 XSS 攻击
+- Maven 多项目依赖，模块及插件分项目，尽量松耦合，方便模块升级、增减模块
 - 完善的日志记录体系简单注解即可实现
 
 ## 技术选型
@@ -119,29 +119,29 @@ sentinel >= 1.6.0
 
 #### 后端项目导入
 
-后端工程`mapgis-boot`，将其导入到`IDEA`，通过右侧maven窗口下载依赖
+后端工程`mapgis-boot`，将其导入到`IDEA`，通过右侧 maven 窗口下载依赖
 
 #### 后端项目启动（单体模式）
 
 1、初始化数据库
 
-创建数据库`mapgis-boot`并导入`local-script/sql`下数据脚本`mapgis-boot-xxxxxxxx.sql`（必须），quartz.sql（可选）
+创建数据库`mapgis-boot`并导入`local-script/sql`下数据脚本`mapgis-boot-xxxxxxxx.sql`（必须），`quartz.sql`（可选）
 
 > 字符集：utf8mb4、排序规则：utf8mb4_general_ci
 
-2、修改项目配置 (数据库、redis等)
+2、修改项目配置 (数据库、redis 等)
 
->配置文件：`mapgis-boot/local-script/config/application.properties`，可参考`application.example.properties`中变量。
+> 配置文件：`mapgis-boot/local-script/config/application.properties`，可参考`application.example.properties`中变量。
 
 将上述配置文件设置到启动类`mapgis-boot/mapgis-server/src/main/java/com/zondy/mapgis/MapApplication`的环境变量中：
 
-```Edit Configurations->Configuration->Environment->Environment Variables：```
+`Edit Configurations->Configuration->Environment->Environment Variables：`
 
 > --spring.config.additional-location=file:local-script/config
 
-3、运行Redis
+3、运行 Redis
 
-4、运行 ``mapgis-boot/mapgis-server/src/main/java/com/zondy/mapgis/MapApplication.java`，出现如下图表示启动成功
+4、运行 `mapgis-boot/mapgis-server/src/main/java/com/zondy/mapgis/MapApplication.java`，出现如下图表示启动成功
 
 ```
 __  __              _____ _____  _____    _____
@@ -154,21 +154,21 @@ __  __              _____ _____  _____    _____
              |_|
 ```
 
->提示
+> 提示
 >
->运行前需要先启动`redis`，后端运行成功后可以继续参考下面步骤部署mapgis-manager前端，然后通过前端地址来访问
+> 运行前需要先启动`redis`，后端运行成功后可以继续参考下面步骤部署 mapgis-manager 前端，然后通过前端地址来访问
 
 #### 后端项目启动（微服务模式）
 
 1、初始化数据库
 
-创建数据库`mapgis-cloud`并导入cloud-script/sql`下数据脚本`mapgis-cloud-xxxxxxxx.sql`（必须），quartz.sql（可选）
+创建数据库`mapgis-cloud`并导入 `cloud-script/sql`下数据脚本`mapgis-cloud-xxxxxxxx.sql`（必须），`quartz.sql`（可选）
 
 创建数据库`mapgis-cloud-config`并导入数据脚本`mapgis-cloud-config-xxxxxxxx.sql`（必须）
 
 > 字符集：utf8mb4、排序规则：utf8mb4_general_ci
 
-3、配置`nacos`持久化，修改`conf/application.properties`文件，增加支持`mysql`数据源配置
+2、配置`nacos`持久化，修改`conf/application.properties`文件，增加支持`mysql`数据源配置
 
 ```properties
 # db mysql
@@ -183,17 +183,17 @@ db.password=123456
 >
 > 配置文件`application.properties`是在下载的`nacos-server`包`conf`目录下
 > 需要下载的`nacos-server`必须`>=2.x.x`版本
-> 默认配置单机模式，`nacos`集群/多集群部署模式参考 ([Nacos支持三种部署模式](https://nacos.io/zh-cn/docs/deployment.html))
+> 默认配置单机模式，`nacos`集群/多集群部署模式参考 ([Nacos 支持三种部署模式](https://nacos.io/zh-cn/docs/deployment.html))
 
-4、运行Nacos修改项目配置 (数据库、redis等)
+3、运行 Nacos 修改项目配置 (数据库、redis 等)
 
-访问http://localhost:8848/nacos，修改组为MAPGIS_GROUP下的配置文件
+访问[http://localhost:8848/nacos](http://localhost:8848/nacos)，修改组为 MAPGIS_GROUP 下的配置文件
 
-> -dev为开发环境下的配置，-prod为生产环境下的配置
+> -dev 为开发环境下的配置，-prod 为生产环境下的配置
 
-5、运行Redis
+4、运行 Redis
 
-6、运行各模块（启动没有先后顺序）
+5、运行各模块（启动没有先后顺序）
 
 - MapGatewayApplication （网关模块 必须）
 - MapAuthApplication （认证模块 必须）
@@ -202,11 +202,11 @@ db.password=123456
 - MapJobApplication （定时任务 可选）
 - MapFileApplication （文件服务 可选）
 
->提示
+> 提示
 >
->运行前需要先启动`nacos`和`redis`，后端运行成功后可以继续参考下面步骤部署mapgis-manager前端，然后通过前端地址来访问
+> 运行前需要先启动`nacos`和`redis`，后端运行成功后可以继续参考下面步骤部署 mapgis-manager 前端，然后通过前端地址来访问
 
-###  前端运行
+### 前端运行
 
 ```shell
 # 进入项目目录
@@ -222,20 +222,20 @@ npm install --registry=https://registry.npmmirror.com
 npm run serve
 ```
 
-打开浏览器，输入：([http://localhost:8000](http://localhost:8000/)) 默认账户/密码 `admin/admin123`）
+打开浏览器，输入：[http://localhost:8000](http://localhost:8000/)，默认账户/密码 `admin/admin123`
 若能正确展示登录页面，并能成功登录，菜单及页面展示正常，则表明环境搭建成功
 
 > 提示
 >
 > 因为本项目是前后端完全分离的，所以需要前后端都单独启动好，才能进行访问
-> 前端安装完node后，最好设置下淘宝的镜像源，不建议使用cnpm（可能会出现奇怪的问题）
+> 前端安装完 node 后，最好设置下淘宝的镜像源，不建议使用 cnpm（可能会出现奇怪的问题）
 
 # 项目结构
 
 ## 后端结构
 
 ```text
-com.zondy.mapgis     
+com.zondy.mapgis
 ├── mapgis-common                                       // 通用模块
 │   ├── mapgis-common-core                              // 核心模块
 │   ├── mapgis-common-datascope                         // 权限范围
@@ -286,7 +286,7 @@ com.zondy.mapgis
 ## 前端结构
 
 ```text
-├── build                      // 构建相关  
+├── build                      // 构建相关
 ├── bin                        // 执行脚本
 ├── public                     // 公共文件
 │   ├── favicon.ico            // favicon图标
