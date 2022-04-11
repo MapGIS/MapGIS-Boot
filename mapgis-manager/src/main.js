@@ -5,6 +5,7 @@ import 'regenerator-runtime/runtime'
 import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
+import './theme/index.less'
 import permission from './directive/permission'
 import style from './directive/style'
 import store from './store/'
@@ -13,7 +14,6 @@ import { VueAxios } from './utils/request'
 import ProLayout, { PageHeaderWrapper } from '@/components/ProLayout'
 import FooterToolBar from '@/components/FooterToolbar'
 import FileUpload from '@/components/FileUpload'
-import themePluginConfig from '../config/themePluginConfig'
 import { TableSetting } from '@/components'
 
 import bootstrap from './core/bootstrap'
@@ -60,7 +60,6 @@ Vue.component('table-setting', TableSetting)
 Vue.use(permission)
 Vue.use(style)
 
-window.umi_plugin_ant_themeVar = themePluginConfig.theme
 new Vue({
   router,
   store,

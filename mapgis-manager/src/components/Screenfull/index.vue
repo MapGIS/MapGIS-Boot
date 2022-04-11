@@ -4,7 +4,7 @@
       <template slot="title">
         {{ isFullscreen ? '退出全屏' : '切为全屏' }}
       </template>
-      <a-icon :type="isFullscreen ? 'fullscreen-exit' : 'fullscreen'" @click="click" :style="{ fontSize: '20px' }" />
+      <a-icon :type="isFullscreen ? 'fullscreen-exit' : 'fullscreen'" @click="click" :style="{ fontSize: '16px' }" />
     </a-tooltip>
   </div>
 </template>

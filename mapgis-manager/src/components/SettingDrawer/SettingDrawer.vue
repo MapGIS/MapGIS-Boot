@@ -18,7 +18,17 @@
               <template slot="title"> 亮色菜单风格 </template>
               <div class="setting-drawer-index-blockChecbox-item" @click="handleChange('theme', 'light')">
                 <img src="https://gw.alipayobjects.com/zos/rmsportal/jpRkZQMyYRryryPNtyIC.svg" alt="light" />
-                <div class="setting-drawer-index-selectIcon" v-if="navTheme !== 'dark'">
+                <div class="setting-drawer-index-selectIcon" v-if="navTheme === 'light'">
+                  <a-icon type="check" />
+                </div>
+              </div>
+            </a-tooltip>
+
+            <a-tooltip>
+              <template slot="title"> 暗黑模式 </template>
+              <div class="setting-drawer-index-blockChecbox-item" @click="handleChange('theme', 'night')">
+                <img src="https://gw.alipayobjects.com/zos/antfincdn/hmKaLQvmY2/LCkqqYNmvBEbokSDscrm.svg" alt="night" />
+                <div class="setting-drawer-index-selectIcon" v-if="navTheme === 'night'">
                   <a-icon type="check" />
                 </div>
               </div>
@@ -70,7 +80,7 @@
                   <a-select
                     size="small"
                     style="width: 80px"
-                    v-model="contentWidth"
+                    :value="contentWidth"
                     @change="value => handleChange('contentWidth', value)"
                   >
                     <a-select-option value="Fixed" v-if="layout === 'topmenu'">固定</a-select-option>
@@ -198,7 +208,11 @@ export default {
     handleChange(type, value) {
       if (type === 'primaryColor') {
         // 更新主色调
-        updateTheme(value)
+        updateTheme(this.navTheme, value)
+      }
+      if (type === 'theme') {
+        // 更新主题模式
+        updateTheme(value, this.primaryColor)
       }
       if (type === 'colorWeak') {
         updateColorWeak(value)
@@ -216,7 +230,7 @@ export default {
     },
     doCopy() {
       // get current settings from mixin or this.$store.state.app, pay attention to the property name
-      const text = `export default {
+      const text = `module.exports = {
   navTheme: '${this.navTheme}', // theme for nav menu
   primaryColor: '${this.primaryColor}', // primary color of ant design
   layout: '${this.layout}', // nav menu position: sidemenu or topmenu

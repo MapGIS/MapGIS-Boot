@@ -5,7 +5,7 @@
 
 .@{multi-tab-prefix-cls} {
   margin: -23px -24px 24px -24px;
-  background: #fff;
+  background: @base-bg-color;
 }
 
 .topmenu .@{multi-tab-wrapper-prefix-cls} {
@@ -15,10 +15,10 @@
 
 .@{multi-tab-wrapper-prefix-cls} {
   .ant-tabs-card .ant-tabs-bar .ant-tabs-tab-active {
-    border-color: #e8e8e8;
+    border-color: @border-color;
     border-top-right-radius: 10px;
     border-top-left-radius: 10px;
-    background: #fff;
+    background: @base-bg-color;
     box-shadow: 2px 0 4px rgb(0 21 41 / 5%);
   }
 }
@@ -28,12 +28,12 @@
     .ant-tabs-tab {
       border-top-right-radius: 10px;
       border-top-left-radius: 10px;
-      border-color: #e8e8e8;
+      border-color: @border-color;
     }
     .ant-tabs-tab-active {
-      background: #fff;
+      background: @base-bg-color;
       box-shadow: 2px 0 4px rgb(0 21 41 / 5%);
-      border-bottom: 1px solid #fff;
+      border-bottom: 1px solid @border-color;
     }
   }
 }

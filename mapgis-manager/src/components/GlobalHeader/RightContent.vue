@@ -1,8 +1,8 @@
 <template>
   <div :class="wrpCls">
-    <a-space size="middle">
-      <screenfull />
-      <notice-icon v-hasPermi="['system:notice:list']" />
+    <a-space size="0">
+      <screenfull :class="prefixCls" />
+      <notice-icon v-hasPermi="['system:notice:list']" :class="prefixCls" />
       <avatar-dropdown :menu="showMenu" :current-user="currentUser" :class="prefixCls" />
     </a-space>
   </div>

@@ -47,7 +47,7 @@
 
 <script>
 import MultiTab from '@/components/MultiTab'
-import { updateTheme } from '@/components/ProLayout'
+import { updateTheme } from '@/components/SettingDrawer/settingConfig'
 import SettingDrawer from '@/components/SettingDrawer'
 import { i18nRender } from '@/locales'
 import { mapState } from 'vuex'
@@ -99,7 +99,7 @@ export default {
         layout: defaultSettings.layout, // 'sidemenu', 'topmenu'
         // CONTENT_WIDTH_TYPE
         contentWidth: defaultSettings.layout === 'sidemenu' ? CONTENT_WIDTH_TYPE.Fluid : defaultSettings.contentWidth,
-        // 主题 'dark' | 'light'
+        // 主题 'dark' | 'light' | 'night'
         theme: defaultSettings.navTheme,
         // 主色调
         primaryColor: defaultSettings.primaryColor,
@@ -167,7 +167,7 @@ export default {
     // first update color
     // TIPS: THEME COLOR HANDLER!! PLEASE CHECK THAT!!
     if (process.env.NODE_ENV !== 'production' || process.env.VUE_APP_PREVIEW === 'true') {
-      updateTheme(this.settings.primaryColor)
+      updateTheme(this.navTheme, this.settings.primaryColor)
     }
   },
   methods: {

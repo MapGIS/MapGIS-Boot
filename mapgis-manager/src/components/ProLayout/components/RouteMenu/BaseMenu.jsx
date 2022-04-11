@@ -91,7 +91,7 @@ const RouteMenu = {
     }
   },
   render(h) {
-    const { mode, theme, menus, i18nRender } = this
+    const { mode, menuTheme, menus, i18nRender } = this
     const handleOpenChange = openKeys => {
       // 在水平模式下时，不再执行后续
       if (mode === 'horizontal') {
@@ -109,7 +109,7 @@ const RouteMenu = {
     const dynamicProps = {
       props: {
         mode,
-        theme,
+        theme: menuTheme,
         openKeys: this.openKeys,
         selectedKeys: this.selectedKeys
       },
@@ -155,6 +155,9 @@ const RouteMenu = {
       const keys = []
       vm.menus.forEach(item => keys.push(item.name))
       return keys
+    },
+    menuTheme() {
+      return this.theme === 'light' ? this.theme : 'dark'
     }
   },
   created() {

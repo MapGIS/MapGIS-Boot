@@ -41,7 +41,7 @@
         </a-spin>
       </template>
       <span @click="fetchNotice" class="header-notice" ref="noticeRef">
-        <a-icon style="font-size: 20px" type="bell" />
+        <a-icon style="font-size: 16px" type="bell" />
       </span>
     </a-popover>
     <notice-detail ref="noticeDetail" :typeOptions="typeOptions" />

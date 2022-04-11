@@ -1,7 +1,7 @@
 /**
  * 项目默认配置项
  * primaryColor - 默认主题色, 如果修改颜色不生效，请清理 localStorage
- * navTheme - sidebar theme ['dark', 'light'] 两种主题
+ * navTheme - sidebar theme ['dark', 'light', 'night'] 三种主题
  * colorWeak - 色盲模式
  * layout - 整体布局方式 ['sidemenu', 'topmenu'] 两种布局
  * fixedHeader - 固定 Header : boolean
@@ -12,7 +12,7 @@
  *
  */
 
-export default {
+module.exports = {
   navTheme: 'dark', // theme for nav menu
   primaryColor: '#1890ff', // primary color of ant design
   layout: 'sidemenu', // nav menu position: `sidemenu` or `topmenu`

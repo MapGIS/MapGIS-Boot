@@ -9,13 +9,6 @@
   height: @layout-header-height;
   box-shadow: @box-shadow-base;
   transition: background 0.3s, width 0.2s;
-  .ant-menu-submenu.ant-menu-submenu-horizontal {
-    height: 100%;
-    line-height: @layout-header-height;
-    .ant-menu-submenu-title {
-      height: 100%;
-    }
-  }
 
   &.light {
     background-color: @component-background;
@@ -57,9 +50,9 @@
       vertical-align: middle;
     }
     h1 {
+      color: @menu-dark-highlight-color;
       display: inline-block;
       margin: 0 0 0 12px;
-      color: @btn-primary-color;
       font-weight: 400;
       font-size: 16px;
       vertical-align: top;
@@ -70,6 +63,7 @@
       height: @layout-header-height;
       line-height: @layout-header-height;
       border: none;
+      box-shadow: none;
     }
   }
 }

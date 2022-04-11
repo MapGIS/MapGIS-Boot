@@ -3,7 +3,9 @@ const webpack = require('webpack')
 const GitRevisionPlugin = require('git-revision-webpack-plugin')
 const GitRevision = new GitRevisionPlugin()
 const buildDate = JSON.stringify(new Date().toLocaleString())
-const createThemeColorReplacerPlugin = require('./config/plugin.config')
+const ThemeColorReplacer = require('webpack-theme-color-replacer')
+const { getThemeColors, modifyVars } = require('./src/utils/themeUtil')
+const { resolveCss } = require('./src/utils/theme-color-replacer-extend')
 
 function resolve(dir) {
   return path.join(__dirname, dir)
@@ -39,9 +41,21 @@ const assetsCDN = {
 
 // vue.config.js
 const vueConfig = {
+  pluginOptions: {
+    'style-resources-loader': {
+      preProcessor: 'less',
+      patterns: [path.resolve(__dirname, './src/theme/theme.less')]
+    }
+  },
   configureWebpack: {
     // webpack plugins
     plugins: [
+      new ThemeColorReplacer({
+        fileName: 'css/theme-colors-[contenthash:8].css',
+        matchColors: getThemeColors(),
+        injectCss: true,
+        resolveCss
+      }),
       // Ignore all locale files of moment.js
       new webpack.IgnorePlugin({
         resourceRegExp: /^\.\/locale$/,
@@ -76,6 +90,14 @@ const vueConfig = {
         name: 'assets/[name].[hash:8].[ext]'
       })
 
+    // 生产环境下关闭css压缩的 colormin 项，因为此项优化与主题色替换功能冲突
+    if (isProd) {
+      config.plugin('optimize-css').tap(args => {
+        args[0].cssnanoOptions.preset[1].colormin = false
+        return args
+      })
+    }
+
     // if prod is on
     // assets require on cdn
     if (isProd) {
@@ -89,15 +111,10 @@ const vueConfig = {
   css: {
     loaderOptions: {
       less: {
-        modifyVars: {
-          // less vars，customize ant design theme
-
-          // 'primary-color': '#F5222D',
-          // 'link-color': '#F5222D',
-          'border-radius-base': '2px'
-        },
-        // DO NOT REMOVE THIS LINE
-        javascriptEnabled: true
+        lessOptions: {
+          modifyVars: modifyVars(),
+          javascriptEnabled: true
+        }
       }
     }
   },
@@ -122,13 +139,6 @@ const vueConfig = {
   lintOnSave: undefined,
   // babel-loader no-ignore node_modules/*
   transpileDependencies: []
-}
-
-// preview.pro.loacg.com only do not use in your production;
-if (process.env.VUE_APP_PREVIEW === 'true') {
-  console.log('VUE_APP_PREVIEW', true)
-  // add `ThemeColorReplacer` plugin to webpack plugins
-  vueConfig.configureWebpack.plugins.push(createThemeColorReplacerPlugin())
 }
 
 module.exports = vueConfig

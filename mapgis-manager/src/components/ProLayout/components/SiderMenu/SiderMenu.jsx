@@ -68,6 +68,11 @@ const SiderMenu = {
     event: 'collapse'
   },
   props: SiderMenuProps,
+  computed: {
+    menuTheme() {
+      return this.theme === 'light' ? this.theme : 'dark'
+    }
+  },
   render(h) {
     const {
       collapsible,
@@ -75,7 +80,7 @@ const SiderMenu = {
       siderWidth,
       fixSiderbar,
       mode,
-      theme,
+      menuTheme,
       menus,
       logo,
       title,
@@ -86,7 +91,7 @@ const SiderMenu = {
     } = this
     const siderCls = ['ant-pro-sider-menu-sider']
     if (fixSiderbar) siderCls.push('fix-sider-bar')
-    if (theme === 'light') siderCls.push('light')
+    if (menuTheme === 'light') siderCls.push('light')
     //
     // const handleCollapse = (collapsed, type) => {
     //   this.$emit('collapse', collapsed)
@@ -105,7 +110,7 @@ const SiderMenu = {
         breakpoint={'lg'}
         trigger={null}
         width={siderWidth}
-        theme={theme}
+        theme={menuTheme}
         collapsible={collapsible}
         collapsed={collapsed}
       >
@@ -115,7 +120,7 @@ const SiderMenu = {
           </div>
         )}
         {(menuRender && ((isFun(menuRender) && menuRender(h, this.$props)) || menuRender)) || (
-          <BaseMenu collapsed={collapsed} menus={menus} mode={mode} theme={theme} i18nRender={i18nRender} />
+          <BaseMenu collapsed={collapsed} menus={menus} mode={mode} theme={menuTheme} i18nRender={i18nRender} />
         )}
       </Sider>
     )
