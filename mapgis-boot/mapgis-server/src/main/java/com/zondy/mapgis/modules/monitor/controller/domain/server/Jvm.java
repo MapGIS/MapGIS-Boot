@@ -79,4 +79,11 @@ public class Jvm {
     public String getRunTime() {
         return DateUtils.getDatePoor(DateUtils.getNowDate(), DateUtils.getServerStartDate());
     }
+
+    /**
+     * 运行参数
+     */
+    public String getInputArgs() {
+        return ManagementFactory.getRuntimeMXBean().getInputArguments().toString();
+    }
 }

@@ -1,13 +1,14 @@
 package com.zondy.mapgis.common.cache.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.BoundSetOperations;
 import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Component;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -202,12 +203,12 @@ public class RedisCacheServiceImpl implements CacheService {
      * 删除Hash中的数据
      *
      * @param key
-     * @param hkey
+     * @param hKey
      */
     @Override
-    public void delCacheMapValue(final String key, final String hkey) {
+    public void delCacheMapValue(final String key, final String hKey) {
         HashOperations hashOperations = redisTemplate.opsForHash();
-        hashOperations.delete(key, hkey);
+        hashOperations.delete(key, hKey);
     }
 
     /**

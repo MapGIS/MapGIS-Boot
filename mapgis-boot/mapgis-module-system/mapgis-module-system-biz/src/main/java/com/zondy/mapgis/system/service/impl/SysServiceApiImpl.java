@@ -14,7 +14,6 @@ import com.zondy.mapgis.system.api.service.ISysPermissionService;
 import com.zondy.mapgis.system.api.service.ISysUserService;
 import com.zondy.mapgis.system.service.ISysConfigService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
 import java.util.Set;

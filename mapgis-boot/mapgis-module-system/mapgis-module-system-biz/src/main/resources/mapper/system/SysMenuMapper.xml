@@ -34,7 +34,7 @@
                order_num,
                path,
                component,
-               query,
+               `query`,
                is_frame,
                is_cache,
                menu_type,
@@ -68,7 +68,7 @@
                         m.menu_name,
                         m.path,
                         m.component,
-                        m.query,
+                        m.`query`,
                         m.visible,
                         m.status,
                         ifnull(m.perms, '') as perms,
@@ -85,7 +85,7 @@
     </select>
 
     <select id="selectMenuListByUserId" parameterType="SysMenu" resultMap="SysMenuResult">
-        select distinct m.menu_id, m.parent_id, m.menu_name, m.path, m.component, m.query, m.visible, m.status,
+        select distinct m.menu_id, m.parent_id, m.menu_name, m.path, m.component, m.`query`, m.visible, m.status,
         ifnull(m.perms,'') as perms, m.is_frame, m.is_cache, m.menu_type, m.icon, m.order_num, m.create_time
         from sys_menu m
         left join sys_role_menu rm on m.menu_id = rm.menu_id
@@ -110,7 +110,7 @@
                         m.menu_name,
                         m.path,
                         m.component,
-                        m.query,
+                        m.`query`,
                         m.visible,
                         m.status,
                         ifnull(m.perms, '') as perms,
@@ -186,7 +186,7 @@
             <if test="orderNum != null and orderNum != ''">order_num = #{orderNum},</if>
             <if test="path != null and path != ''">path = #{path},</if>
             <if test="component != null">component = #{component},</if>
-            <if test="query != null">query = #{query},</if>
+            <if test="query != null">`query` = #{query},</if>
             <if test="isFrame != null and isFrame != ''">is_frame = #{isFrame},</if>
             <if test="isCache != null and isCache != ''">is_cache = #{isCache},</if>
             <if test="menuType != null and menuType != ''">menu_type = #{menuType},</if>
@@ -209,7 +209,7 @@
         <if test="orderNum != null and orderNum != ''">order_num,</if>
         <if test="path != null and path != ''">path,</if>
         <if test="component != null and component != ''">component,</if>
-        <if test="query != null and query != ''">query,</if>
+        <if test="query != null and query != ''">`query`,</if>
         <if test="isFrame != null and isFrame != ''">is_frame,</if>
         <if test="isCache != null and isCache != ''">is_cache,</if>
         <if test="menuType != null and menuType != ''">menu_type,</if>

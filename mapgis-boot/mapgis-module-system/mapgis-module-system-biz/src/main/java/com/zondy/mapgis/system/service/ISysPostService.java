@@ -79,7 +79,6 @@ public interface ISysPostService {
      *
      * @param postIds 需要删除的岗位ID
      * @return 结果
-     * @throws Exception 异常
      */
     public int deletePostByIds(Long[] postIds);
 

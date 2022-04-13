@@ -7,6 +7,7 @@ import com.zondy.mapgis.common.cache.service.CacheService;
 import com.zondy.mapgis.common.core.constant.Constants;
 import com.zondy.mapgis.common.core.exception.user.CaptchaException;
 import com.zondy.mapgis.common.core.exception.user.CaptchaExpireException;
+import com.zondy.mapgis.common.core.utils.StringUtils;
 import com.zondy.mapgis.common.core.utils.sign.Base64;
 import com.zondy.mapgis.common.core.utils.uuid.IdUtils;
 import com.zondy.mapgis.common.core.web.domain.AjaxResult;
@@ -47,7 +48,7 @@ public class ValidateCodeServiceImpl implements ValidateCodeService {
     public AjaxResult createCaptcha() throws IOException, CaptchaException {
         AjaxResult ajax = AjaxResult.success();
         boolean captchaOnOff = captchaProperties.getEnabled();
-        ajax.put("captchaOnOff" , captchaOnOff);
+        ajax.put("captchaOnOff", captchaOnOff);
         if (!captchaOnOff) {
             return ajax;
         }
@@ -75,13 +76,13 @@ public class ValidateCodeServiceImpl implements ValidateCodeService {
         // 转换流信息写出
         FastByteArrayOutputStream os = new FastByteArrayOutputStream();
         try {
-            ImageIO.write(image, "jpg" , os);
+            ImageIO.write(image, "jpg", os);
         } catch (IOException e) {
             return AjaxResult.error(e.getMessage());
         }
 
-        ajax.put("uuid" , uuid);
-        ajax.put("img" , Base64.encode(os.toByteArray()));
+        ajax.put("uuid", uuid);
+        ajax.put("img", Base64.encode(os.toByteArray()));
         return ajax;
     }
 
@@ -90,7 +91,8 @@ public class ValidateCodeServiceImpl implements ValidateCodeService {
      */
     @Override
     public void checkCaptcha(String code, String uuid) throws CaptchaException {
-        String verifyKey = Constants.CAPTCHA_CODE_KEY + uuid;
+        String verifyKey = Constants.CAPTCHA_CODE_KEY + StringUtils.nvl(uuid, "");
+        ;
         String captcha = cacheService.getCacheObject(verifyKey);
         cacheService.deleteObject(verifyKey);
         if (captcha == null) {

@@ -30,7 +30,7 @@ import java.util.List;
  * @author xiongbo
  * @since 2022/3/15 18:00
  */
-@Api(value = "在线用户监控" , tags = {"在线用户监控管理"})
+@Api(value = "在线用户监控", tags = {"在线用户监控管理"})
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
 @RestController
 @RequestMapping("/system/online")
@@ -76,7 +76,7 @@ public class SysUserOnlineController extends BaseController {
     @ApiOperation("强退用户")
     @PreAuthorize("@ss.hasPermi('monitor:online:forceLogout')")
     @RequiresPermissions("monitor:online:forceLogout")
-    @Log(title = "在线用户" , businessType = BusinessType.FORCE)
+    @Log(title = "在线用户", businessType = BusinessType.FORCE)
     @DeleteMapping("/{tokenId}")
     public AjaxResult forceLogout(@PathVariable String tokenId) {
         cacheService.deleteObject(CacheConstants.LOGIN_TOKEN_KEY + tokenId);

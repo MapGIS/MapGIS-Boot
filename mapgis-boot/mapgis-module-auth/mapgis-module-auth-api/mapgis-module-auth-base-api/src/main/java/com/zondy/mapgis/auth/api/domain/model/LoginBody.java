@@ -37,6 +37,6 @@ public class LoginBody {
      * 唯一标识
      */
     @ApiModelProperty(value = "唯一标识")
-    private String uuid = "";
+    private String uuid;
 }
 

@@ -5,12 +5,14 @@ import com.zondy.mapgis.common.core.exception.file.FileSizeLimitExceededExceptio
 import com.zondy.mapgis.common.core.exception.file.InvalidExtensionException;
 import com.zondy.mapgis.common.core.utils.DateUtils;
 import com.zondy.mapgis.common.core.utils.StringUtils;
-import com.zondy.mapgis.common.core.utils.uuid.IdUtils;
+import com.zondy.mapgis.common.core.utils.uuid.Seq;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Paths;
+import java.util.Objects;
 
 /**
  * 文件上传工具类
@@ -60,7 +62,7 @@ public class FileUploadUtils {
     public static final String upload(String baseDir, MultipartFile file, String[] allowedExtension)
             throws FileSizeLimitExceededException, IOException, FileNameLengthLimitExceededException,
             InvalidExtensionException {
-        int fileNamelength = file.getOriginalFilename().length();
+        int fileNamelength = Objects.requireNonNull(file.getOriginalFilename()).length();
         if (fileNamelength > FileUploadUtils.DEFAULT_FILE_NAME_LENGTH) {
             throw new FileNameLengthLimitExceededException(FileUploadUtils.DEFAULT_FILE_NAME_LENGTH);
         }
@@ -69,20 +71,17 @@ public class FileUploadUtils {
 
         String fileName = extractFilename(file);
 
-        File desc = getAbsoluteFile(baseDir, fileName);
-        file.transferTo(desc);
-        String pathFileName = getPathFileName(baseDir, fileName);
-        return pathFileName;
+        String absPath = getAbsoluteFile(baseDir, fileName).getAbsolutePath();
+        file.transferTo(Paths.get(absPath));
+        return getPathFileName(baseDir, fileName);
     }
 
     /**
      * 编码文件名
      */
     public static final String extractFilename(MultipartFile file) {
-        String fileName = file.getOriginalFilename();
-        String extension = getExtension(file);
-        fileName = DateUtils.datePath() + "/" + IdUtils.fastUUID() + "." + extension;
-        return fileName;
+        return StringUtils.format("{}/{}_{}.{}", DateUtils.datePath(),
+                FilenameUtils.getBaseName(file.getOriginalFilename()), Seq.getId(Seq.uploadSeqType), getExtension(file));
     }
 
     public static final File getAbsoluteFile(String uploadDir, String fileName) throws IOException {
@@ -111,7 +110,7 @@ public class FileUploadUtils {
     public static final void assertAllowed(MultipartFile file, String[] allowedExtension)
             throws FileSizeLimitExceededException, InvalidExtensionException {
         long size = file.getSize();
-        if (DEFAULT_MAX_SIZE != -1 && size > DEFAULT_MAX_SIZE) {
+        if (size > DEFAULT_MAX_SIZE) {
             throw new FileSizeLimitExceededException(DEFAULT_MAX_SIZE / 1024 / 1024);
         }
 
@@ -161,7 +160,7 @@ public class FileUploadUtils {
     public static final String getExtension(MultipartFile file) {
         String extension = FilenameUtils.getExtension(file.getOriginalFilename());
         if (StringUtils.isEmpty(extension)) {
-            extension = MimeTypeUtils.getExtension(file.getContentType());
+            extension = MimeTypeUtils.getExtension(Objects.requireNonNull(file.getContentType()));
         }
         return extension;
     }

@@ -226,10 +226,10 @@ public class EhcacheCacheServiceImpl implements CacheService {
      * 删除Hash中的数据
      *
      * @param key
-     * @param hkey
+     * @param hKey
      */
     @Override
-    public void delCacheMapValue(final String key, final String hkey) {
+    public void delCacheMapValue(final String key, final String hKey) {
     }
 
     /**

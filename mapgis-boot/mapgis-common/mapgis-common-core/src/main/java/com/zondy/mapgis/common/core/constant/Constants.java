@@ -43,6 +43,17 @@ public class Constants {
     public static final String HTTPS = "https://";
 
     /**
+     * 登录成功状态
+     */
+    public static final String LOGIN_SUCCESS_STATUS = "0";
+
+    /**
+     * 登录失败状态
+     */
+    public static final String LOGIN_FAIL_STATUS = "1";
+
+
+    /**
      * 登录成功
      */
     public static final String LOGIN_SUCCESS = "Success";

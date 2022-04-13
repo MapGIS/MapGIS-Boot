@@ -10,6 +10,7 @@ import com.zondy.mapgis.common.core.utils.StringUtils;
 import com.zondy.mapgis.common.core.utils.file.FileTypeUtils;
 import com.zondy.mapgis.common.core.utils.file.ImageUtils;
 import com.zondy.mapgis.common.core.utils.reflect.ReflectUtils;
+import org.apache.commons.lang3.RegExUtils;
 import org.apache.poi.hssf.usermodel.*;
 import org.apache.poi.ooxml.POIXMLDocumentPart;
 import org.apache.poi.ss.usermodel.*;
@@ -29,6 +30,8 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -40,6 +43,10 @@ import java.util.stream.Collectors;
  */
 public class ExcelUtil<T> {
     private static final Logger log = LoggerFactory.getLogger(ExcelUtil.class);
+
+    public static final String FORMULA_REGEX_STR = "=|-|\\+|@";
+
+    public static final String[] FORMULA_STR = {"=", "-", "+", "@"};
 
     /**
      * Excel sheet最大行数，默认65536
@@ -240,14 +247,14 @@ public class ExcelUtil<T> {
                         } else {
                             String dateFormat = field.getAnnotation(Excel.class).dateFormat();
                             if (StringUtils.isNotEmpty(dateFormat)) {
-                                val = DateUtils.parseDateToStr(dateFormat, (Date) val);
+                                val = parseDateToStr(dateFormat, val);
                             } else {
                                 val = Convert.toStr(val);
                             }
                         }
                     } else if ((Integer.TYPE == fieldType || Integer.class == fieldType) && StringUtils.isNumeric(Convert.toStr(val))) {
                         val = Convert.toInt(val);
-                    } else if (Long.TYPE == fieldType || Long.class == fieldType) {
+                    } else if (Long.TYPE == fieldType || Long.class == fieldType && StringUtils.isNumeric(Convert.toStr(val))) {
                         val = Convert.toLong(val);
                     } else if (Double.TYPE == fieldType || Double.class == fieldType) {
                         val = Convert.toDouble(val);
@@ -289,7 +296,6 @@ public class ExcelUtil<T> {
      * @param list      导出数据集合
      * @param sheetName 工作表的名称
      * @return 结果
-     * @throws IOException
      */
     public void exportExcel(HttpServletResponse response, List<T> list, String sheetName) {
         exportExcel(response, list, sheetName, StringUtils.EMPTY);
@@ -303,7 +309,6 @@ public class ExcelUtil<T> {
      * @param sheetName 工作表的名称
      * @param title     标题
      * @return 结果
-     * @throws IOException
      */
     public void exportExcel(HttpServletResponse response, List<T> list, String sheetName, String title) {
         response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
@@ -497,7 +502,12 @@ public class ExcelUtil<T> {
      */
     public void setCellVo(Object value, Excel attr, Cell cell) {
         if (ColumnType.STRING == attr.cellType()) {
-            cell.setCellValue(StringUtils.isNull(value) ? attr.defaultValue() : value + attr.suffix());
+            String cellValue = Convert.toStr(value);
+            // 对于任何以表达式触发字符 =-+@开头的单元格，直接使用tab字符作为前缀，防止CSV注入。
+            if (StringUtils.startsWithAny(cellValue, FORMULA_STR)) {
+                cellValue = RegExUtils.replaceFirst(cellValue, FORMULA_REGEX_STR, "\t$0");
+            }
+            cell.setCellValue(StringUtils.isNull(cellValue) ? attr.defaultValue() : cellValue + attr.suffix());
         } else if (ColumnType.NUMERIC == attr.cellType()) {
             if (StringUtils.isNotNull(value)) {
                 cell.setCellValue(StringUtils.contains(Convert.toStr(value), ".") ? Convert.toDouble(value) : Convert.toInt(value));
@@ -546,15 +556,9 @@ public class ExcelUtil<T> {
             // 设置列宽
             sheet.setColumnWidth(column, (int) ((attr.width() + 0.72) * 256));
         }
-        // 如果设置了提示信息则鼠标放上去提示.
-        if (StringUtils.isNotEmpty(attr.prompt())) {
-            // 这里默认设了2-101列提示.
-            setXSSFPrompt(sheet, "", attr.prompt(), 1, 100, column, column);
-        }
-        // 如果设置了combo属性则本列只能选择不能输入
-        if (attr.combo().length > 0) {
-            // 这里默认设了2-101列只能选择不能输入.
-            setXSSFValidation(sheet, attr.combo(), 1, 100, column, column);
+        if (StringUtils.isNotEmpty(attr.prompt()) || attr.combo().length > 0) {
+            // 提示信息或只能选择不能输入的列内容.
+            setPromptOrValidation(sheet, attr.combo(), attr.prompt(), 1, 100, column, column);
         }
     }
 
@@ -579,7 +583,7 @@ public class ExcelUtil<T> {
                 String readConverterExp = attr.readConverterExp();
                 String separator = attr.separator();
                 if (StringUtils.isNotEmpty(dateFormat) && StringUtils.isNotNull(value)) {
-                    cell.setCellValue(DateUtils.parseDateToStr(dateFormat, (Date) value));
+                    cell.setCellValue(parseDateToStr(dateFormat, value));
                 } else if (StringUtils.isNotEmpty(readConverterExp) && StringUtils.isNotNull(value)) {
                     cell.setCellValue(convertByExp(Convert.toStr(value), readConverterExp, separator));
                 } else if (value instanceof BigDecimal && -1 != attr.scale()) {
@@ -599,24 +603,34 @@ public class ExcelUtil<T> {
     }
 
     /**
-     * 设置 POI XSSFSheet 单元格提示
+     * 设置 POI XSSFSheet 单元格提示或选择框
      *
      * @param sheet         表单
-     * @param promptTitle   提示标题
+     * @param textlist      下拉框显示的内容
      * @param promptContent 提示内容
      * @param firstRow      开始行
      * @param endRow        结束行
      * @param firstCol      开始列
      * @param endCol        结束列
      */
-    public void setXSSFPrompt(Sheet sheet, String promptTitle, String promptContent, int firstRow, int endRow,
-                              int firstCol, int endCol) {
+    public void setPromptOrValidation(Sheet sheet, String[] textlist, String promptContent, int firstRow, int endRow,
+                                      int firstCol, int endCol) {
         DataValidationHelper helper = sheet.getDataValidationHelper();
-        DataValidationConstraint constraint = helper.createCustomConstraint("DD1");
+        DataValidationConstraint constraint = textlist.length > 0 ? helper.createExplicitListConstraint(textlist) : helper.createCustomConstraint("DD1");
         CellRangeAddressList regions = new CellRangeAddressList(firstRow, endRow, firstCol, endCol);
         DataValidation dataValidation = helper.createValidation(constraint, regions);
-        dataValidation.createPromptBox(promptTitle, promptContent);
-        dataValidation.setShowPromptBox(true);
+        if (StringUtils.isNotEmpty(promptContent)) {
+            // 如果设置了提示信息则鼠标放上去提示
+            dataValidation.createPromptBox("", promptContent);
+            dataValidation.setShowPromptBox(true);
+        }
+        // 处理Excel兼容性问题
+        if (dataValidation instanceof XSSFDataValidation) {
+            dataValidation.setSuppressDropDownArrow(true);
+            dataValidation.setShowErrorBox(true);
+        } else {
+            dataValidation.setSuppressDropDownArrow(false);
+        }
         sheet.addValidationData(dataValidation);
     }
 
@@ -776,7 +790,7 @@ public class ExcelUtil<T> {
         Object o = field.get(vo);
         if (StringUtils.isNotEmpty(excel.targetAttr())) {
             String target = excel.targetAttr();
-            if (target.indexOf(".") > -1) {
+            if (target.contains(".")) {
                 String[] targets = target.split("[.]");
                 for (String name : targets) {
                     o = getValue(o, name);
@@ -855,7 +869,7 @@ public class ExcelUtil<T> {
         double maxHeight = 0;
         for (Object[] os : this.fields) {
             Excel excel = (Excel) os[1];
-            maxHeight = maxHeight > excel.height() ? maxHeight : excel.height();
+            maxHeight = Math.max(maxHeight, excel.height());
         }
         return (short) (maxHeight * 20);
     }
@@ -997,5 +1011,29 @@ public class ExcelUtil<T> {
             }
         }
         return sheetIndexPicMap;
+    }
+
+    /**
+     * 格式化不同类型的日期对象
+     *
+     * @param dateFormat 日期格式
+     * @param val        被格式化的日期对象
+     * @return 格式化后的日期字符
+     */
+    public String parseDateToStr(String dateFormat, Object val) {
+        if (val == null) {
+            return "";
+        }
+        String str;
+        if (val instanceof Date) {
+            str = DateUtils.parseDateToStr(dateFormat, (Date) val);
+        } else if (val instanceof LocalDateTime) {
+            str = DateUtils.parseDateToStr(dateFormat, DateUtils.toDate((LocalDateTime) val));
+        } else if (val instanceof LocalDate) {
+            str = DateUtils.parseDateToStr(dateFormat, DateUtils.toDate((LocalDate) val));
+        } else {
+            str = val.toString();
+        }
+        return str;
     }
 }
