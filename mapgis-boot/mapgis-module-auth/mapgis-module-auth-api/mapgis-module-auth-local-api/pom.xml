@@ -23,7 +23,7 @@
             <artifactId>mapgis-module-auth-base-api</artifactId>
         </dependency>
 
-        <!-- Common Local Security -->
+        <!-- 单体安全模块 -->
         <dependency>
             <groupId>com.zondy.mapgis</groupId>
             <artifactId>mapgis-common-local-security</artifactId>

@@ -17,7 +17,7 @@
     </properties>
 
     <dependencies>
-        <!-- MapGIS File Base Api-->
+        <!-- MapGIS File Base Api -->
         <dependency>
             <groupId>com.zondy.mapgis</groupId>
             <artifactId>mapgis-module-file-base-api</artifactId>

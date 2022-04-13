@@ -1,0 +1,3 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  com.zondy.mapgis.common.cache.config.RedisConfig,\
+  com.zondy.mapgis.common.cache.service.RedisCacheServiceImpl

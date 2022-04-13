@@ -1,7 +1,7 @@
 <template>
   <div>
     <create-data-form ref="createDataForm" :statusOptions="statusOptions" :dictType="dictType" @ok="getList" />
-    <a-card :bordered="false" :style="{ background: '#f2f4f5' }">
+    <a-card :bordered="false" class="dict-data-background">
       <div class="table-operations">
         <a-button
           type="primary"
@@ -220,3 +220,10 @@ export default {
   }
 }
 </script>
+
+<style lang="less" scoped>
+.dict-data-background {
+  background: @background-color-light;
+  border: 1px solid @shadow-color;
+}
+</style>

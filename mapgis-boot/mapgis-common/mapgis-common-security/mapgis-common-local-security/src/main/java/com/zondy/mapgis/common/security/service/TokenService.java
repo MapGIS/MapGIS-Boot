@@ -1,5 +1,6 @@
 package com.zondy.mapgis.common.security.service;
 
+import com.zondy.mapgis.common.cache.service.CacheService;
 import com.zondy.mapgis.common.core.constant.CacheConstants;
 import com.zondy.mapgis.common.core.constant.SecurityConstants;
 import com.zondy.mapgis.common.core.utils.JwtUtils;
@@ -7,7 +8,6 @@ import com.zondy.mapgis.common.core.utils.ServletUtils;
 import com.zondy.mapgis.common.core.utils.StringUtils;
 import com.zondy.mapgis.common.core.utils.ip.IpUtils;
 import com.zondy.mapgis.common.core.utils.uuid.IdUtils;
-import com.zondy.mapgis.common.redis.service.RedisService;
 import com.zondy.mapgis.common.security.utils.SecurityUtils;
 import com.zondy.mapgis.system.api.model.LoginUser;
 import eu.bitwalker.useragentutils.UserAgent;
@@ -28,7 +28,7 @@ import java.util.concurrent.TimeUnit;
 @Component
 public class TokenService {
     @Autowired
-    private RedisService redisService;
+    private CacheService cacheService;
 
     protected static final long MILLIS_SECOND = 1000;
 
@@ -70,7 +70,7 @@ public class TokenService {
         try {
             if (StringUtils.isNotEmpty(token)) {
                 String userkey = JwtUtils.getUserKey(token);
-                user = redisService.getCacheObject(getTokenKey(userkey));
+                user = cacheService.getCacheObject(getTokenKey(userkey));
                 return user;
             }
         } catch (Exception e) {
@@ -93,7 +93,7 @@ public class TokenService {
     public void delLoginUser(String token) {
         if (StringUtils.isNotEmpty(token)) {
             String userkey = JwtUtils.getUserKey(token);
-            redisService.deleteObject(getTokenKey(userkey));
+            cacheService.deleteObject(getTokenKey(userkey));
         }
     }
 
@@ -140,7 +140,7 @@ public class TokenService {
         loginUser.setExpireTime(loginUser.getLoginTime() + expireTime * MILLIS_MINUTE);
         // 根据uuid将loginUser缓存
         String userKey = getTokenKey(loginUser.getToken());
-        redisService.setCacheObject(userKey, loginUser, expireTime, TimeUnit.MINUTES);
+        cacheService.setCacheObject(userKey, loginUser, expireTime, TimeUnit.MINUTES);
     }
 
     /**

@@ -23,10 +23,10 @@
             <artifactId>mapgis-module-system-base-api</artifactId>
         </dependency>
 
-        <!-- MapGIS Common Redis-->
+        <!-- MapGIS Common Base Cache -->
         <dependency>
             <groupId>com.zondy.mapgis</groupId>
-            <artifactId>mapgis-common-redis</artifactId>
+            <artifactId>mapgis-common-base-cache</artifactId>
         </dependency>
     </dependencies>
 </project>

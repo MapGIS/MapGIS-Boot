@@ -1,5 +1,6 @@
 package com.zondy.mapgis.gateway.filter;
 
+import com.zondy.mapgis.common.cache.service.CacheService;
 import com.zondy.mapgis.common.core.constant.CacheConstants;
 import com.zondy.mapgis.common.core.constant.HttpStatus;
 import com.zondy.mapgis.common.core.constant.SecurityConstants;
@@ -7,7 +8,6 @@ import com.zondy.mapgis.common.core.constant.TokenConstants;
 import com.zondy.mapgis.common.core.utils.JwtUtils;
 import com.zondy.mapgis.common.core.utils.ServletUtils;
 import com.zondy.mapgis.common.core.utils.StringUtils;
-import com.zondy.mapgis.common.redis.service.RedisService;
 import com.zondy.mapgis.gateway.config.properties.IgnoreWhiteProperties;
 import io.jsonwebtoken.Claims;
 import org.slf4j.Logger;
@@ -36,8 +36,7 @@ public class AuthFilter implements GlobalFilter, Ordered {
     private IgnoreWhiteProperties ignoreWhite;
 
     @Autowired
-    private RedisService redisService;
-
+    private CacheService cacheService;
 
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
@@ -58,7 +57,7 @@ public class AuthFilter implements GlobalFilter, Ordered {
             return unauthorizedResponse(exchange, "令牌已过期或验证不正确！");
         }
         String userkey = JwtUtils.getUserKey(claims);
-        boolean islogin = redisService.hasKey(getTokenKey(userkey));
+        boolean islogin = cacheService.hasKey(getTokenKey(userkey));
         if (!islogin) {
             return unauthorizedResponse(exchange, "登录状态已过期");
         }
@@ -91,7 +90,7 @@ public class AuthFilter implements GlobalFilter, Ordered {
     }
 
     private Mono<Void> unauthorizedResponse(ServerWebExchange exchange, String msg) {
-        log.error("[鉴权异常处理]请求路径:{}", exchange.getRequest().getPath());
+        log.error("[鉴权异常处理]请求路径:{}" , exchange.getRequest().getPath());
         return ServletUtils.webFluxResponseWriter(exchange.getResponse(), msg, HttpStatus.UNAUTHORIZED);
     }
 

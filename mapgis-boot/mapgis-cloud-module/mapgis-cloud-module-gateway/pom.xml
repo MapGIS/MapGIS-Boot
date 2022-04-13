@@ -76,6 +76,12 @@
             <artifactId>springfox-swagger2</artifactId>
             <version>${swagger.fox.version}</version>
         </dependency>
+
+        <!-- MapGIS Common Cloud Cache -->
+        <dependency>
+            <groupId>com.zondy.mapgis</groupId>
+            <artifactId>mapgis-common-cloud-cache</artifactId>
+        </dependency>
     </dependencies>
 
     <build>

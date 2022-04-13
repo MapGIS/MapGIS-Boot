@@ -17,10 +17,16 @@
     </properties>
 
     <dependencies>
-        <!-- MapGIS Common Redis-->
+        <!-- SpringBoot Boot Redis -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-redis</artifactId>
+        </dependency>
+
+        <!-- 核心模块 -->
         <dependency>
             <groupId>com.zondy.mapgis</groupId>
-            <artifactId>mapgis-common-redis</artifactId>
+            <artifactId>mapgis-common-core</artifactId>
         </dependency>
     </dependencies>
 </project>

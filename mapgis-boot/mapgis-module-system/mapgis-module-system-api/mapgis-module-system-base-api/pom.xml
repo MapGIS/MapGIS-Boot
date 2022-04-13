@@ -17,7 +17,7 @@
     </properties>
 
     <dependencies>
-        <!-- MapGIS Common Core-->
+        <!-- 核心模块 -->
         <dependency>
             <groupId>com.zondy.mapgis</groupId>
             <artifactId>mapgis-common-core</artifactId>

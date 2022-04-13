@@ -3,13 +3,13 @@ package com.zondy.mapgis.auth.api.service.impl;
 import com.google.code.kaptcha.Producer;
 import com.zondy.mapgis.auth.api.config.properties.CaptchaProperties;
 import com.zondy.mapgis.auth.api.service.ValidateCodeService;
+import com.zondy.mapgis.common.cache.service.CacheService;
 import com.zondy.mapgis.common.core.constant.Constants;
 import com.zondy.mapgis.common.core.exception.user.CaptchaException;
 import com.zondy.mapgis.common.core.exception.user.CaptchaExpireException;
 import com.zondy.mapgis.common.core.utils.sign.Base64;
 import com.zondy.mapgis.common.core.utils.uuid.IdUtils;
 import com.zondy.mapgis.common.core.web.domain.AjaxResult;
-import com.zondy.mapgis.common.redis.service.RedisService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.FastByteArrayOutputStream;
@@ -35,7 +35,7 @@ public class ValidateCodeServiceImpl implements ValidateCodeService {
     private Producer captchaProducerMath;
 
     @Autowired
-    private RedisService redisService;
+    private CacheService cacheService;
 
     @Autowired
     private CaptchaProperties captchaProperties;
@@ -47,7 +47,7 @@ public class ValidateCodeServiceImpl implements ValidateCodeService {
     public AjaxResult createCaptcha() throws IOException, CaptchaException {
         AjaxResult ajax = AjaxResult.success();
         boolean captchaOnOff = captchaProperties.getEnabled();
-        ajax.put("captchaOnOff", captchaOnOff);
+        ajax.put("captchaOnOff" , captchaOnOff);
         if (!captchaOnOff) {
             return ajax;
         }
@@ -71,17 +71,17 @@ public class ValidateCodeServiceImpl implements ValidateCodeService {
             image = captchaProducer.createImage(capStr);
         }
 
-        redisService.setCacheObject(verifyKey, code, Constants.CAPTCHA_EXPIRATION, TimeUnit.MINUTES);
+        cacheService.setCacheObject(verifyKey, code, Constants.CAPTCHA_EXPIRATION, TimeUnit.MINUTES);
         // 转换流信息写出
         FastByteArrayOutputStream os = new FastByteArrayOutputStream();
         try {
-            ImageIO.write(image, "jpg", os);
+            ImageIO.write(image, "jpg" , os);
         } catch (IOException e) {
             return AjaxResult.error(e.getMessage());
         }
 
-        ajax.put("uuid", uuid);
-        ajax.put("img", Base64.encode(os.toByteArray()));
+        ajax.put("uuid" , uuid);
+        ajax.put("img" , Base64.encode(os.toByteArray()));
         return ajax;
     }
 
@@ -91,8 +91,8 @@ public class ValidateCodeServiceImpl implements ValidateCodeService {
     @Override
     public void checkCaptcha(String code, String uuid) throws CaptchaException {
         String verifyKey = Constants.CAPTCHA_CODE_KEY + uuid;
-        String captcha = redisService.getCacheObject(verifyKey);
-        redisService.deleteObject(verifyKey);
+        String captcha = cacheService.getCacheObject(verifyKey);
+        cacheService.deleteObject(verifyKey);
         if (captcha == null) {
             throw new CaptchaExpireException();
         }

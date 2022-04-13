@@ -23,7 +23,7 @@
             <artifactId>mapgis-common-base-log</artifactId>
         </dependency>
 
-        <!-- Common Local Security -->
+        <!-- 单体安全模块 -->
         <dependency>
             <groupId>com.zondy.mapgis</groupId>
             <artifactId>mapgis-common-local-security</artifactId>

@@ -48,7 +48,13 @@
             <artifactId>swagger-models</artifactId>
         </dependency>
 
-        <!-- 安全模块 -->
+        <!-- MapGIS Common Local Cache -->
+        <dependency>
+            <groupId>com.zondy.mapgis</groupId>
+            <artifactId>mapgis-common-local-cache</artifactId>
+        </dependency>
+
+        <!-- 单体安全模块 -->
         <dependency>
             <groupId>com.zondy.mapgis</groupId>
             <artifactId>mapgis-common-local-security</artifactId>

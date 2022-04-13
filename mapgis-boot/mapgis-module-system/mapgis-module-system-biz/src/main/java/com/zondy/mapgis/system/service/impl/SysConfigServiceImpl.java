@@ -1,11 +1,11 @@
 package com.zondy.mapgis.system.service.impl;
 
+import com.zondy.mapgis.common.cache.service.CacheService;
 import com.zondy.mapgis.common.core.constant.Constants;
 import com.zondy.mapgis.common.core.constant.UserConstants;
 import com.zondy.mapgis.common.core.exception.ServiceException;
 import com.zondy.mapgis.common.core.text.Convert;
 import com.zondy.mapgis.common.core.utils.StringUtils;
-import com.zondy.mapgis.common.redis.service.RedisService;
 import com.zondy.mapgis.system.domain.SysConfig;
 import com.zondy.mapgis.system.mapper.SysConfigMapper;
 import com.zondy.mapgis.system.service.ISysConfigService;
@@ -28,7 +28,7 @@ public class SysConfigServiceImpl implements ISysConfigService {
     private SysConfigMapper configMapper;
 
     @Autowired
-    private RedisService redisService;
+    private CacheService cacheService;
 
     /**
      * 项目启动时，初始化参数到缓存
@@ -59,7 +59,7 @@ public class SysConfigServiceImpl implements ISysConfigService {
      */
     @Override
     public String selectConfigByKey(String configKey) {
-        String configValue = Convert.toStr(redisService.getCacheObject(getCacheKey(configKey)));
+        String configValue = Convert.toStr(cacheService.getCacheObject(getCacheKey(configKey)));
         if (StringUtils.isNotEmpty(configValue)) {
             return configValue;
         }
@@ -67,7 +67,7 @@ public class SysConfigServiceImpl implements ISysConfigService {
         config.setConfigKey(configKey);
         SysConfig retConfig = configMapper.selectConfig(config);
         if (StringUtils.isNotNull(retConfig)) {
-            redisService.setCacheObject(getCacheKey(configKey), retConfig.getConfigValue());
+            cacheService.setCacheObject(getCacheKey(configKey), retConfig.getConfigValue());
             return retConfig.getConfigValue();
         }
         return StringUtils.EMPTY;
@@ -94,7 +94,7 @@ public class SysConfigServiceImpl implements ISysConfigService {
     public int insertConfig(SysConfig config) {
         int row = configMapper.insertConfig(config);
         if (row > 0) {
-            redisService.setCacheObject(getCacheKey(config.getConfigKey()), config.getConfigValue());
+            cacheService.setCacheObject(getCacheKey(config.getConfigKey()), config.getConfigValue());
         }
         return row;
     }
@@ -109,7 +109,7 @@ public class SysConfigServiceImpl implements ISysConfigService {
     public int updateConfig(SysConfig config) {
         int row = configMapper.updateConfig(config);
         if (row > 0) {
-            redisService.setCacheObject(getCacheKey(config.getConfigKey()), config.getConfigValue());
+            cacheService.setCacheObject(getCacheKey(config.getConfigKey()), config.getConfigValue());
         }
         return row;
     }
@@ -125,10 +125,10 @@ public class SysConfigServiceImpl implements ISysConfigService {
         for (Long configId : configIds) {
             SysConfig config = selectConfigById(configId);
             if (StringUtils.equals(UserConstants.YES, config.getConfigType())) {
-                throw new ServiceException(String.format("内置参数【%1$s】不能删除 ", config.getConfigKey()));
+                throw new ServiceException(String.format("内置参数【%1$s】不能删除 " , config.getConfigKey()));
             }
             configMapper.deleteConfigById(configId);
-            redisService.deleteObject(getCacheKey(config.getConfigKey()));
+            cacheService.deleteObject(getCacheKey(config.getConfigKey()));
         }
     }
 
@@ -139,7 +139,7 @@ public class SysConfigServiceImpl implements ISysConfigService {
     public void loadingConfigCache() {
         List<SysConfig> configsList = configMapper.selectConfigList(new SysConfig());
         for (SysConfig config : configsList) {
-            redisService.setCacheObject(getCacheKey(config.getConfigKey()), config.getConfigValue());
+            cacheService.setCacheObject(getCacheKey(config.getConfigKey()), config.getConfigValue());
         }
     }
 
@@ -148,8 +148,8 @@ public class SysConfigServiceImpl implements ISysConfigService {
      */
     @Override
     public void clearConfigCache() {
-        Collection<String> keys = redisService.keys(Constants.SYS_CONFIG_KEY + "*");
-        redisService.deleteObject(keys);
+        Collection<String> keys = cacheService.keys(Constants.SYS_CONFIG_KEY + "*");
+        cacheService.deleteObject(keys);
     }
 
     /**

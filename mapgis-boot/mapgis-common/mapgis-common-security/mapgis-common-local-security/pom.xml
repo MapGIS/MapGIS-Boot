@@ -53,7 +53,7 @@
             <artifactId>mapgis-common-base-security</artifactId>
         </dependency>
 
-        <!-- Common RepeatSubmit -->
+        <!-- 防重复提交模块 -->
         <dependency>
             <groupId>com.zondy.mapgis</groupId>
             <artifactId>mapgis-common-repeatsubmit</artifactId>

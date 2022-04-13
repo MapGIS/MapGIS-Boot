@@ -1,11 +1,11 @@
 package com.zondy.mapgis.common.repeatsubmit.interceptor.impl;
 
 import com.alibaba.fastjson.JSONObject;
+import com.zondy.mapgis.common.cache.service.CacheService;
 import com.zondy.mapgis.common.core.constant.Constants;
 import com.zondy.mapgis.common.core.constant.TokenConstants;
 import com.zondy.mapgis.common.core.utils.StringUtils;
 import com.zondy.mapgis.common.core.utils.http.HttpHelper;
-import com.zondy.mapgis.common.redis.service.RedisService;
 import com.zondy.mapgis.common.repeatsubmit.annotation.RepeatSubmit;
 import com.zondy.mapgis.common.repeatsubmit.filter.RepeatedlyRequestWrapper;
 import com.zondy.mapgis.common.repeatsubmit.interceptor.RepeatSubmitInterceptor;
@@ -31,7 +31,7 @@ public class SameUrlDataInterceptor extends RepeatSubmitInterceptor {
     public final String REPEAT_TIME = "repeatTime";
 
     @Autowired
-    private RedisService redisService;
+    private CacheService cacheService;
 
     @SuppressWarnings("unchecked")
     @Override
@@ -59,7 +59,7 @@ public class SameUrlDataInterceptor extends RepeatSubmitInterceptor {
         // 唯一标识（指定key + url + 消息头）
         String cacheRepeatKey = Constants.REPEAT_SUBMIT_KEY + url + submitKey;
 
-        Object sessionObj = redisService.getCacheObject(cacheRepeatKey);
+        Object sessionObj = cacheService.getCacheObject(cacheRepeatKey);
         if (sessionObj != null) {
             Map<String, Object> sessionMap = (Map<String, Object>) sessionObj;
             if (sessionMap.containsKey(url)) {
@@ -71,7 +71,7 @@ public class SameUrlDataInterceptor extends RepeatSubmitInterceptor {
         }
         Map<String, Object> cacheMap = new HashMap<String, Object>();
         cacheMap.put(url, nowDataMap);
-        redisService.setCacheObject(cacheRepeatKey, cacheMap, annotation.interval(), TimeUnit.MILLISECONDS);
+        cacheService.setCacheObject(cacheRepeatKey, cacheMap, annotation.interval(), TimeUnit.MILLISECONDS);
         return false;
     }
 

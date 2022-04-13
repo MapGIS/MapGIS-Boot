@@ -224,13 +224,6 @@
                 <version>${mapgis.boot.version}</version>
             </dependency>
 
-            <!-- 缓存模块 -->
-            <dependency>
-                <groupId>com.zondy.mapgis</groupId>
-                <artifactId>mapgis-common-redis</artifactId>
-                <version>${mapgis.boot.version}</version>
-            </dependency>
-
             <!-- 防重复提交模块 -->
             <dependency>
                 <groupId>com.zondy.mapgis</groupId>
@@ -252,7 +245,7 @@
                 <version>${mapgis.boot.version}</version>
             </dependency>
 
-            <!-- MapGIS Common Swagger-->
+            <!-- MapGIS Common Swagger -->
             <dependency>
                 <groupId>com.zondy.mapgis</groupId>
                 <artifactId>mapgis-common-swagger</artifactId>
@@ -287,24 +280,24 @@
                 <version>${mapgis.boot.version}</version>
             </dependency>
 
-            <!-- MapGIS System Base Api -->
+            <!-- MapGIS Common Base Cache -->
             <dependency>
                 <groupId>com.zondy.mapgis</groupId>
-                <artifactId>mapgis-module-system-base-api</artifactId>
+                <artifactId>mapgis-common-base-cache</artifactId>
                 <version>${mapgis.boot.version}</version>
             </dependency>
 
-            <!-- MapGIS System Local Api -->
+            <!-- MapGIS Common Local Cache -->
             <dependency>
                 <groupId>com.zondy.mapgis</groupId>
-                <artifactId>mapgis-module-system-local-api</artifactId>
+                <artifactId>mapgis-common-local-cache</artifactId>
                 <version>${mapgis.boot.version}</version>
             </dependency>
 
-            <!-- MapGIS System Cloud Api -->
+            <!-- MapGIS Common Cloud Cache -->
             <dependency>
                 <groupId>com.zondy.mapgis</groupId>
-                <artifactId>mapgis-module-system-cloud-api</artifactId>
+                <artifactId>mapgis-common-cloud-cache</artifactId>
                 <version>${mapgis.boot.version}</version>
             </dependency>
 
@@ -347,6 +340,27 @@
             <dependency>
                 <groupId>com.zondy.mapgis</groupId>
                 <artifactId>mapgis-common-cloud-security</artifactId>
+                <version>${mapgis.boot.version}</version>
+            </dependency>
+
+            <!-- MapGIS System Base Api -->
+            <dependency>
+                <groupId>com.zondy.mapgis</groupId>
+                <artifactId>mapgis-module-system-base-api</artifactId>
+                <version>${mapgis.boot.version}</version>
+            </dependency>
+
+            <!-- MapGIS System Local Api -->
+            <dependency>
+                <groupId>com.zondy.mapgis</groupId>
+                <artifactId>mapgis-module-system-local-api</artifactId>
+                <version>${mapgis.boot.version}</version>
+            </dependency>
+
+            <!-- MapGIS System Cloud Api -->
+            <dependency>
+                <groupId>com.zondy.mapgis</groupId>
+                <artifactId>mapgis-module-system-cloud-api</artifactId>
                 <version>${mapgis.boot.version}</version>
             </dependency>
 

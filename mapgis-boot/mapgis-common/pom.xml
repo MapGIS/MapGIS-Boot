@@ -12,7 +12,7 @@
     <modules>
         <module>mapgis-common-core</module>
         <module>mapgis-common-datascope</module>
-        <module>mapgis-common-redis</module>
+        <module>mapgis-common-cache</module>
         <module>mapgis-common-ratelimiter</module>
         <module>mapgis-common-repeatsubmit</module>
         <module>mapgis-common-datasource</module>

@@ -137,7 +137,7 @@ sentinel >= 1.6.0
 
 `Edit Configurations->Configuration->Environment->Environment Variables：`
 
-> --spring.config.additional-location=file:local-script/config
+> --spring.config.additional-location=file:local-script/config/
 
 3、运行 Redis
 
