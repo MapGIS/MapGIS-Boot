@@ -1,7 +1,7 @@
 # 日志配置
 logging:
   level:
-    com.zondy.mapgis: prod
+    com.zondy.mapgis: warn
 
 # 数据源配置
 spring:

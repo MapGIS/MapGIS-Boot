@@ -43,3 +43,4 @@ nbdist/
 !*/build/*.xml
 
 local-script/config/application.properties
+mapgis-server/src/main/resources/static

@@ -210,13 +210,6 @@
                 <version>${oshi.version}</version>
             </dependency>
 
-            <!-- 获取系统信息 -->
-            <dependency>
-                <groupId>com.github.oshi</groupId>
-                <artifactId>oshi-core</artifactId>
-                <version>${oshi.version}</version>
-            </dependency>
-
             <!-- 核心模块 -->
             <dependency>
                 <groupId>com.zondy.mapgis</groupId>
@@ -440,6 +433,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.22.2</version>
                 <configuration>
                     <skipTests>true</skipTests>
                 </configuration>
