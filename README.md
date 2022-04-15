@@ -115,6 +115,10 @@ sentinel >= 1.6.0
 
 ## 运行系统
 
+### 修改产品标识
+
+全项目搜索 `xxx`，替换成产品小写标识，如：`igs、datastore、igs-x、igs-s、workspace、psmap、portal、manager`
+
 ### 后端运行
 
 #### 后端项目导入
@@ -125,23 +129,23 @@ sentinel >= 1.6.0
 
 1、初始化数据库
 
-创建数据库`mapgis-boot`并导入`local-script/sql`下数据脚本`mapgis-boot-xxxxxxxx.sql`（必须），`quartz.sql`（可选）
+创建数据库`mapgis-xxx`并导入`local-script/sql`下数据脚本`mapgis-xxx-xxxxxxxx.sql`（必须），`quartz.sql`（可选）
 
+> 这里 mapgis-xxx 请与产品标识保持一致
 > 字符集：utf8mb4、排序规则：utf8mb4_general_ci
 
-2、修改项目配置 (数据库、redis 等)
+2、修改项目配置 (数据库等)
+`mapgis-boot/local-script/config/application.properties`
 
-> 配置文件：`mapgis-boot/local-script/config/application.properties`，可参考`application.example.properties`中变量。
+> 复制 application.example.properties 为 application.properties，可参考`application.example.properties`中变量。
 
-将上述配置文件设置到启动类`mapgis-boot/mapgis-server/src/main/java/com/zondy/mapgis/MapApplication`的环境变量中：
+将上述配置文件设置到启动类`mapgis-boot/mapgis-server/src/main/java/com/zondy/mapgis/MapApplication`的程序参数中：
 
-`Edit Configurations->Configuration->Environment->Environment Variables：`
+`Edit Configurations->Configuration->Environment->Program arguments：`
 
 > --spring.config.additional-location=file:local-script/config/
 
-3、运行 Redis
-
-4、运行 `mapgis-boot/mapgis-server/src/main/java/com/zondy/mapgis/MapApplication.java`，出现如下图表示启动成功
+3、运行 `mapgis-boot/mapgis-server/src/main/java/com/zondy/mapgis/MapApplication.java`，出现如下图表示启动成功
 
 ```
 __  __              _____ _____  _____    _____
@@ -156,16 +160,17 @@ __  __              _____ _____  _____    _____
 
 > 提示
 >
-> 运行前需要先启动`redis`，后端运行成功后可以继续参考下面步骤部署 mapgis-manager 前端，然后通过前端地址来访问
+> 后端运行成功后可以继续参考下面步骤部署 mapgis-manager 前端，然后通过前端地址来访问
 
 #### 后端项目启动（微服务模式）
 
 1、初始化数据库
 
-创建数据库`mapgis-cloud`并导入 `cloud-script/sql`下数据脚本`mapgis-cloud-xxxxxxxx.sql`（必须），`quartz.sql`（可选）
+创建数据库`mapgis-cloud-xxx`并导入 `cloud-script/sql`下数据脚本`mapgis-cloud-xxx-xxxxxxxx.sql`（必须），`quartz.sql`（可选）
 
 创建数据库`mapgis-cloud-config`并导入数据脚本`mapgis-cloud-config-xxxxxxxx.sql`（必须）
 
+> 这里 mapgis-cloud-xxx 请与产品标识保持一致
 > 字符集：utf8mb4、排序规则：utf8mb4_general_ci
 
 2、配置`nacos`持久化，修改`conf/application.properties`文件，增加支持`mysql`数据源配置
@@ -244,14 +249,18 @@ com.zondy.mapgis
 │       ├── mapgis-common-base-log                      // 基础日志记录
 │       ├── mapgis-common-cloud-log                     // 微服务日志记录
 │       ├── mapgis-common-local-log                     // 单体日志记录
-│   └── mapgis-common-ratelimiter                       // 接口限流
-│   └── mapgis-common-redis                             // 缓存服务
-│   └── mapgis-common-repeatsubmit                      // 防重复提交
+│   ├── mapgis-common-ratelimiter                       // 接口限流
+│   ├── mapgis-common-cache                             // 缓存服务
+│   ├── mapgis-common-cache                             // 缓存模块
+│       ├── mapgis-common-base-cache                    // 基础缓存模块
+│       ├── mapgis-common-cloud-cache                   // 微服务缓存模块
+│       ├── mapgis-common-local-cache                   // 单体缓存模块
+│   ├── mapgis-common-repeatsubmit                      // 防重复提交
 │   ├── mapgis-common-security                          // 安全模块
 │       ├── mapgis-common-base-security                 // 基础安全模块
 │       ├── mapgis-common-cloud-security                // 微服务安全模块
 │       ├── mapgis-common-local-security                // 单体安全模块
-│   └── mapgis-common-swagger                           // 系统接口
+│   ├── mapgis-common-swagger                           // 系统接口
 ├── mapgis-module-auth                                  // 授权模块
 │   ├── mapgis-module-auth-api                          // 授权API
 │       ├── mapgis-module-auth-base-api                 // 基础授权API

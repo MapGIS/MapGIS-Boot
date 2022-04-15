@@ -16,6 +16,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -40,6 +41,12 @@ public class SysUserOnlineController extends BaseController {
 
     private final CacheService cacheService;
 
+    /**
+     * 产品名称
+     */
+    @Value("${mapgis.name:mapgis-xxx}")
+    public String name;
+
     @ApiOperation("在线用户列表")
     @PreAuthorize("@ss.hasPermi('monitor:online:list')")
     @RequiresPermissions("monitor:online:list")
@@ -48,7 +55,7 @@ public class SysUserOnlineController extends BaseController {
         Collection<String> keys = cacheService.keys(CacheConstants.LOGIN_TOKEN_KEY + "*");
         List<SysUserOnline> userOnlineList = new ArrayList<SysUserOnline>();
         for (String key : keys) {
-            LoginUser user = cacheService.getCacheObject(key);
+            LoginUser user = cacheService.getCacheObject(key.replace(name + ":", ""));
             if (StringUtils.isNotEmpty(ipaddr) && StringUtils.isNotEmpty(userName)) {
                 if (StringUtils.equals(ipaddr, user.getIpaddr()) && StringUtils.equals(userName, user.getUsername())) {
                     userOnlineList.add(userOnlineService.selectOnlineByInfo(ipaddr, userName, user));

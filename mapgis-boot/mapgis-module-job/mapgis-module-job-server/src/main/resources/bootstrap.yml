@@ -6,7 +6,7 @@ server:
 spring:
   application:
     # 应用名称
-    name: mapgis-job-server
+    name: mapgis-xxx-job-server
   profiles:
     # 环境配置
     active: dev
@@ -18,11 +18,8 @@ spring:
       config:
         # 配置中心地址
         server-addr: 127.0.0.1:8848
-        # 分组名称
-        group: MAPGIS_GROUP
         # 配置文件格式
         file-extension: yml
         # 共享配置
         shared-configs[0]:
-          data-id: mapgis-application-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}
-          group: MAPGIS_GROUP
+          data-id: mapgis-xxx-application-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}
