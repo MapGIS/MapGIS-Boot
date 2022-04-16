@@ -1,5 +1,6 @@
 package com.zondy.mapgis.system.api.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.zondy.mapgis.common.core.annotation.Excel;
 import com.zondy.mapgis.common.core.annotation.Excel.ColumnType;
 import com.zondy.mapgis.common.core.web.domain.BaseEntity;
@@ -110,12 +111,11 @@ public class SysRole extends BaseEntity {
     @ApiModelProperty(value = "部门组（数据权限）")
     private Long[] deptIds;
 
-
     public SysRole(Long roleId) {
         this.roleId = roleId;
     }
 
-
+    @JsonIgnore
     @ApiModelProperty(value = "是否管理员")
     public boolean isAdmin() {
         return isAdmin(this.roleId);

@@ -1,5 +1,6 @@
 package com.zondy.mapgis.system.api.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.zondy.mapgis.common.core.annotation.Excel;
 import com.zondy.mapgis.common.core.annotation.Excel.ColumnType;
 import com.zondy.mapgis.common.core.constant.UserConstants;
@@ -94,6 +95,7 @@ public class SysDictData extends BaseEntity {
     @Excel(name = "状态", readConverterExp = "0=正常,1=停用")
     private String status;
 
+    @JsonIgnore
     public boolean getDefault() {
         return UserConstants.YES.equals(this.isDefault) ? true : false;
     }

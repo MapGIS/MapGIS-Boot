@@ -1,5 +1,6 @@
 package com.zondy.mapgis.system.api.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.zondy.mapgis.common.core.annotation.Excel;
 import com.zondy.mapgis.common.core.annotation.Excel.ColumnType;
@@ -168,6 +169,7 @@ public class SysUser extends BaseEntity {
         this.userId = userId;
     }
 
+    @JsonIgnore
     @ApiModelProperty(value = "是否管理员")
     public boolean isAdmin() {
         return isAdmin(this.userId);

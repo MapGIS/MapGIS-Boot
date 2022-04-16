@@ -1,8 +1,9 @@
 package com.zondy.mapgis.gateway.filter;
 
-import com.alibaba.fastjson.JSONObject;
+import cn.hutool.core.lang.Dict;
 import com.zondy.mapgis.auth.api.config.properties.CaptchaProperties;
 import com.zondy.mapgis.auth.api.service.ValidateCodeService;
+import com.zondy.mapgis.common.core.utils.JsonUtils;
 import com.zondy.mapgis.common.core.utils.ServletUtils;
 import com.zondy.mapgis.common.core.utils.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,8 +51,8 @@ public class ValidateCodeFilter extends AbstractGatewayFilterFactory<Object> {
 
             try {
                 String rspStr = resolveBodyFromRequest(request);
-                JSONObject obj = JSONObject.parseObject(rspStr);
-                validateCodeService.checkCaptcha(obj.getString(CODE), obj.getString(UUID));
+                Dict obj = JsonUtils.parseMap(rspStr);
+                validateCodeService.checkCaptcha(obj.getStr(CODE), obj.getStr(UUID));
             } catch (Exception e) {
                 return ServletUtils.webFluxResponseWriter(exchange.getResponse(), e.getMessage());
             }

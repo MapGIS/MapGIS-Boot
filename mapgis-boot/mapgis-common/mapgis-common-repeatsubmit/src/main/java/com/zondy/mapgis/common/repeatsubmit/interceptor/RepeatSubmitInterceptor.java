@@ -1,6 +1,6 @@
 package com.zondy.mapgis.common.repeatsubmit.interceptor;
 
-import com.alibaba.fastjson.JSONObject;
+import com.zondy.mapgis.common.core.utils.JsonUtils;
 import com.zondy.mapgis.common.core.utils.ServletUtils;
 import com.zondy.mapgis.common.core.web.domain.AjaxResult;
 import com.zondy.mapgis.common.repeatsubmit.annotation.RepeatSubmit;
@@ -29,7 +29,7 @@ public abstract class RepeatSubmitInterceptor implements HandlerInterceptor {
             if (annotation != null) {
                 if (this.isRepeatSubmit(request, annotation)) {
                     AjaxResult ajaxResult = AjaxResult.error(annotation.message());
-                    ServletUtils.renderString(response, JSONObject.toJSONString(ajaxResult));
+                    ServletUtils.renderString(response, JsonUtils.toJsonString(ajaxResult));
                     return false;
                 }
             }

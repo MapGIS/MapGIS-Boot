@@ -1,9 +1,9 @@
 package com.zondy.mapgis.common.repeatsubmit.interceptor.impl;
 
-import com.alibaba.fastjson.JSONObject;
 import com.zondy.mapgis.common.cache.service.CacheService;
 import com.zondy.mapgis.common.core.constant.Constants;
 import com.zondy.mapgis.common.core.constant.TokenConstants;
+import com.zondy.mapgis.common.core.utils.JsonUtils;
 import com.zondy.mapgis.common.core.utils.StringUtils;
 import com.zondy.mapgis.common.core.utils.http.HttpHelper;
 import com.zondy.mapgis.common.repeatsubmit.annotation.RepeatSubmit;
@@ -44,7 +44,7 @@ public class SameUrlDataInterceptor extends RepeatSubmitInterceptor {
 
         // body参数为空，获取Parameter的数据
         if (StringUtils.isEmpty(nowParams)) {
-            nowParams = JSONObject.toJSONString(request.getParameterMap());
+            nowParams = JsonUtils.toJsonString(request.getParameterMap());
         }
         Map<String, Object> nowDataMap = new HashMap<String, Object>();
         nowDataMap.put(REPEAT_PARAMS, nowParams);

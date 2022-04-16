@@ -1,6 +1,6 @@
 package com.zondy.mapgis.system.api.model;
 
-import com.alibaba.fastjson.annotation.JSONField;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.zondy.mapgis.system.api.domain.SysUser;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -91,12 +91,13 @@ public class LoginUser implements UserDetails {
         this.permissions = permissions;
     }
 
-    @JSONField(serialize = false)
+    @JsonIgnore
     @Override
     public String getPassword() {
         return user.getPassword();
     }
 
+    @JsonIgnore
     @Override
     public String getUsername() {
         return user.getUserName();
@@ -105,7 +106,7 @@ public class LoginUser implements UserDetails {
     /**
      * 账户是否未过期,过期无法验证
      */
-    @JSONField(serialize = false)
+    @JsonIgnore
     @Override
     public boolean isAccountNonExpired() {
         return true;
@@ -116,7 +117,7 @@ public class LoginUser implements UserDetails {
      *
      * @return
      */
-    @JSONField(serialize = false)
+    @JsonIgnore
     @Override
     public boolean isAccountNonLocked() {
         return true;
@@ -127,7 +128,7 @@ public class LoginUser implements UserDetails {
      *
      * @return
      */
-    @JSONField(serialize = false)
+    @JsonIgnore
     @Override
     public boolean isCredentialsNonExpired() {
         return true;
@@ -138,7 +139,7 @@ public class LoginUser implements UserDetails {
      *
      * @return
      */
-    @JSONField(serialize = false)
+    @JsonIgnore
     @Override
     public boolean isEnabled() {
         return true;

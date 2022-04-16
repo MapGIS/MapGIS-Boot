@@ -1,6 +1,5 @@
 package com.zondy.mapgis.common.core.utils;
 
-import com.alibaba.fastjson.JSONObject;
 import com.zondy.mapgis.common.core.constant.Constants;
 import com.zondy.mapgis.common.core.domain.R;
 import com.zondy.mapgis.common.core.text.Convert;
@@ -254,7 +253,7 @@ public class ServletUtils {
         response.setStatusCode(status);
         response.getHeaders().add(HttpHeaders.CONTENT_TYPE, contentType);
         R<?> result = R.fail(code, value.toString());
-        DataBuffer dataBuffer = response.bufferFactory().wrap(JSONObject.toJSONString(result).getBytes());
+        DataBuffer dataBuffer = response.bufferFactory().wrap(JsonUtils.toJsonString(result).getBytes());
         return response.writeWith(Mono.just(dataBuffer));
     }
 }
