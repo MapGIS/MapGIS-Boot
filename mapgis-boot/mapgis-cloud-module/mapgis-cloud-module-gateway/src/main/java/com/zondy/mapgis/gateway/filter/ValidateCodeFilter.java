@@ -4,8 +4,8 @@ import cn.hutool.core.lang.Dict;
 import com.zondy.mapgis.auth.api.config.properties.CaptchaProperties;
 import com.zondy.mapgis.auth.api.service.ValidateCodeService;
 import com.zondy.mapgis.common.core.utils.JsonUtils;
-import com.zondy.mapgis.common.core.utils.ServletUtils;
 import com.zondy.mapgis.common.core.utils.StringUtils;
+import com.zondy.mapgis.gateway.utils.WebFluxUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory;
@@ -54,7 +54,7 @@ public class ValidateCodeFilter extends AbstractGatewayFilterFactory<Object> {
                 Dict obj = JsonUtils.parseMap(rspStr);
                 validateCodeService.checkCaptcha(obj.getStr(CODE), obj.getStr(UUID));
             } catch (Exception e) {
-                return ServletUtils.webFluxResponseWriter(exchange.getResponse(), e.getMessage());
+                return WebFluxUtils.webFluxResponseWriter(exchange.getResponse(), e.getMessage());
             }
             return chain.filter(exchange);
         };

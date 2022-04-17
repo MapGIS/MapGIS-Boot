@@ -9,6 +9,7 @@ import com.zondy.mapgis.common.core.utils.JwtUtils;
 import com.zondy.mapgis.common.core.utils.ServletUtils;
 import com.zondy.mapgis.common.core.utils.StringUtils;
 import com.zondy.mapgis.gateway.config.properties.IgnoreWhiteProperties;
+import com.zondy.mapgis.gateway.utils.WebFluxUtils;
 import io.jsonwebtoken.Claims;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -91,7 +92,7 @@ public class AuthFilter implements GlobalFilter, Ordered {
 
     private Mono<Void> unauthorizedResponse(ServerWebExchange exchange, String msg) {
         log.error("[鉴权异常处理]请求路径:{}", exchange.getRequest().getPath());
-        return ServletUtils.webFluxResponseWriter(exchange.getResponse(), msg, HttpStatus.UNAUTHORIZED);
+        return WebFluxUtils.webFluxResponseWriter(exchange.getResponse(), msg, HttpStatus.UNAUTHORIZED);
     }
 
     /**

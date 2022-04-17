@@ -1,6 +1,6 @@
 package com.zondy.mapgis.gateway.filter;
 
-import com.zondy.mapgis.common.core.utils.ServletUtils;
+import com.zondy.mapgis.gateway.utils.WebFluxUtils;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory;
 import org.springframework.stereotype.Component;
@@ -23,7 +23,7 @@ public class BlackListUrlFilter extends AbstractGatewayFilterFactory<BlackListUr
 
             String url = exchange.getRequest().getURI().getPath();
             if (config.matchBlacklist(url)) {
-                return ServletUtils.webFluxResponseWriter(exchange.getResponse(), "请求地址不允许访问");
+                return WebFluxUtils.webFluxResponseWriter(exchange.getResponse(), "请求地址不允许访问");
             }
 
             return chain.filter(exchange);

@@ -404,12 +404,6 @@
     </dependencyManagement>
 
     <dependencies>
-        <!-- bootstrap 启动器 -->
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-bootstrap</artifactId>
-        </dependency>
-
         <!--Spring boot 测试-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -479,6 +473,13 @@
                 <mapgis.module.file.api.artifact>mapgis-module-file-cloud-api</mapgis.module.file.api.artifact>
                 <mapgis.module.auth.api.artifact>mapgis-module-auth-cloud-api</mapgis.module.auth.api.artifact>
             </properties>
+            <dependencies>
+                <!-- bootstrap 启动器 -->
+                <dependency>
+                    <groupId>org.springframework.cloud</groupId>
+                    <artifactId>spring-cloud-starter-bootstrap</artifactId>
+                </dependency>
+            </dependencies>
         </profile>
     </profiles>
 </project>

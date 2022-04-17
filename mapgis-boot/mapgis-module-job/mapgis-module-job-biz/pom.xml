@@ -17,6 +17,12 @@
     </properties>
 
     <dependencies>
+        <!-- spring-context-support -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context-support</artifactId>
+        </dependency>
+
         <!-- 定时任务 -->
         <dependency>
             <groupId>org.quartz-scheduler</groupId>

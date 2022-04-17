@@ -17,6 +17,19 @@
     </properties>
 
     <dependencies>
+        <!-- SpringCloud Openfeign -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-openfeign</artifactId>
+        </dependency>
+
+        <!-- SpringCloud Loadbalancer -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-loadbalancer</artifactId>
+        </dependency>
+
+        <!-- MapGIS File Base Api -->
         <dependency>
             <groupId>com.zondy.mapgis</groupId>
             <artifactId>mapgis-module-file-base-api</artifactId>
