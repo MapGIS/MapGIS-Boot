@@ -129,7 +129,7 @@ sentinel >= 1.6.0
 
 1、初始化数据库
 
-创建数据库`mapgis-xxx`并导入`local-script/sql`下数据脚本`mapgis-xxx-xxxxxxxx.sql`（必须），`quartz.sql`（可选）
+创建数据库`mapgis-xxx`并导入`local-script/sql`下数据脚本`mapgis-xxx-xxxxxxxx.sql`（必须）
 
 > 这里 mapgis-xxx 请与产品标识保持一致
 > 字符集：utf8mb4、排序规则：utf8mb4_general_ci
