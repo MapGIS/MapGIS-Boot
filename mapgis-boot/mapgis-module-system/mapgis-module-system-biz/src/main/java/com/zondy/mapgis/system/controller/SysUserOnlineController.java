@@ -1,6 +1,7 @@
 package com.zondy.mapgis.system.controller;
 
 import com.zondy.mapgis.common.cache.service.CacheService;
+import com.zondy.mapgis.common.controllerprefix.annotation.ManagerRestController;
 import com.zondy.mapgis.common.core.constant.CacheConstants;
 import com.zondy.mapgis.common.core.utils.StringUtils;
 import com.zondy.mapgis.common.core.web.controller.BaseController;
@@ -18,7 +19,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -33,8 +36,7 @@ import java.util.List;
  */
 @Api(value = "在线用户监控", tags = {"在线用户监控管理"})
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
-@RestController
-@RequestMapping("/system/online")
+@ManagerRestController("/system/online")
 public class SysUserOnlineController extends BaseController {
 
     private final ISysUserOnlineService userOnlineService;

@@ -27,7 +27,7 @@ import java.util.concurrent.atomic.AtomicReference;
  */
 @Component
 public class ValidateCodeFilter extends AbstractGatewayFilterFactory<Object> {
-    private final static String[] VALIDATE_URL = new String[]{"/auth/login", "/auth/register"};
+    private final static String[] VALIDATE_URL = new String[]{"/xxx/rest/services/auth/login", "/xxx/rest/services/auth/register"};
 
     @Autowired
     private ValidateCodeService validateCodeService;

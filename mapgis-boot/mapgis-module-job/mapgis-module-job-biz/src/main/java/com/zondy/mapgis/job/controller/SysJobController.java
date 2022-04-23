@@ -1,5 +1,6 @@
 package com.zondy.mapgis.job.controller;
 
+import com.zondy.mapgis.common.controllerprefix.annotation.ManagerRestController;
 import com.zondy.mapgis.common.core.constant.Constants;
 import com.zondy.mapgis.common.core.exception.job.TaskException;
 import com.zondy.mapgis.common.core.utils.StringUtils;
@@ -29,8 +30,7 @@ import java.util.List;
  * @author xiongbo
  * @since 2022/3/15 18:00
  */
-@RestController
-@RequestMapping("/schedule/job")
+@ManagerRestController("/schedule/job")
 public class SysJobController extends BaseController {
     @Autowired
     private ISysJobService jobService;

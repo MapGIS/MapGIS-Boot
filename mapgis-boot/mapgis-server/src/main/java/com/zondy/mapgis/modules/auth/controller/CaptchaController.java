@@ -1,14 +1,13 @@
 package com.zondy.mapgis.modules.auth.controller;
 
 import com.zondy.mapgis.auth.api.service.ValidateCodeService;
+import com.zondy.mapgis.common.controllerprefix.annotation.ServicesRestController;
 import com.zondy.mapgis.common.core.web.domain.AjaxResult;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
 
@@ -20,8 +19,7 @@ import java.io.IOException;
  */
 @Api(value = "授权控制器", tags = {"授权管理"})
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
-@RestController
-@RequestMapping("/auth")
+@ServicesRestController("/auth")
 public class CaptchaController {
 
     private final ValidateCodeService validateCodeService;

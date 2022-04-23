@@ -26,7 +26,7 @@ public interface ISysServiceApi {
      * @param source   请求来源
      * @return 结果
      */
-    @GetMapping("/system/api/user/info/{username}")
+    @GetMapping("/xxx/rest/manager/system/api/user/info/{username}")
     public R<LoginUser> getUserInfo(@PathVariable("username") String username, @RequestHeader(SecurityConstants.FROM_SOURCE) String source);
 
     /**
@@ -36,7 +36,7 @@ public interface ISysServiceApi {
      * @param source  请求来源
      * @return 结果
      */
-    @PostMapping("/system/api/user/register")
+    @PostMapping("/xxx/rest/manager/system/api/user/register")
     public R<Boolean> registerUserInfo(@RequestBody SysUser sysUser, @RequestHeader(SecurityConstants.FROM_SOURCE) String source);
 
     /**
@@ -46,7 +46,7 @@ public interface ISysServiceApi {
      * @param source     请求来源
      * @return 结果
      */
-    @PostMapping("/system/api/operlog")
+    @PostMapping("/xxx/rest/manager/system/api/operlog")
     public R<Boolean> saveLog(@RequestBody SysOperLog sysOperLog, @RequestHeader(SecurityConstants.FROM_SOURCE) String source);
 
     /**
@@ -56,6 +56,6 @@ public interface ISysServiceApi {
      * @param source        请求来源
      * @return 结果
      */
-    @PostMapping("/system/api/logininfor")
+    @PostMapping("/xxx/rest/manager/system/api/logininfor")
     public R<Boolean> saveLogininfor(@RequestBody SysLogininfor sysLogininfor, @RequestHeader(SecurityConstants.FROM_SOURCE) String source);
 }

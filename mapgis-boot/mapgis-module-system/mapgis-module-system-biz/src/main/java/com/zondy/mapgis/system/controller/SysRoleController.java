@@ -1,5 +1,6 @@
 package com.zondy.mapgis.system.controller;
 
+import com.zondy.mapgis.common.controllerprefix.annotation.ManagerRestController;
 import com.zondy.mapgis.common.core.constant.UserConstants;
 import com.zondy.mapgis.common.core.utils.StringUtils;
 import com.zondy.mapgis.common.core.utils.poi.ExcelUtil;
@@ -37,8 +38,7 @@ import java.util.List;
  */
 @Api(value = "角色信息控制器", tags = {"角色信息管理"})
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
-@RestController
-@RequestMapping("/system/role")
+@ManagerRestController("/system/role")
 public class SysRoleController extends BaseController {
 
     private final ISysRoleService roleService;

@@ -24,6 +24,6 @@ public interface IFileServiceApi {
      * @param file 文件信息
      * @return 结果
      */
-    @PostMapping(value = "/file/api/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PostMapping(value = "/xxx/rest/manager/file/api/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public R<FileStorage> upload(@RequestPart(value = "file") MultipartFile file);
 }

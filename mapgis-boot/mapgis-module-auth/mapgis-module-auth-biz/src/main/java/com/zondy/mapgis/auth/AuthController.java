@@ -3,6 +3,7 @@ package com.zondy.mapgis.auth;
 import com.zondy.mapgis.auth.api.domain.model.LoginBody;
 import com.zondy.mapgis.auth.api.domain.model.RegisterBody;
 import com.zondy.mapgis.auth.api.service.SysLoginService;
+import com.zondy.mapgis.common.controllerprefix.annotation.ServicesRestController;
 import com.zondy.mapgis.common.core.constant.TokenConstants;
 import com.zondy.mapgis.common.core.web.domain.AjaxResult;
 import io.swagger.annotations.Api;
@@ -11,8 +12,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
 /**
  * 授权
@@ -22,8 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @Api(value = "授权控制器", tags = {"授权管理"})
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
-@RestController
-@RequestMapping("/auth")
+@ServicesRestController("/auth")
 public class AuthController {
 
     private final SysLoginService loginService;

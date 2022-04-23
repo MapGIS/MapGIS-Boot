@@ -1,5 +1,6 @@
 package com.zondy.mapgis.system.controller;
 
+import com.zondy.mapgis.common.controllerprefix.annotation.ManagerRestController;
 import com.zondy.mapgis.common.core.domain.R;
 import com.zondy.mapgis.common.core.web.controller.BaseController;
 import com.zondy.mapgis.common.security.annotation.InnerAuth;
@@ -10,14 +11,16 @@ import com.zondy.mapgis.system.api.domain.SysUser;
 import com.zondy.mapgis.system.api.model.LoginUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 /**
  * @author xiongbo
  * @since 2022/3/15 18:00
  */
-@RestController
-@RequestMapping("/system/api")
+@ManagerRestController("/system/api")
 public class SysServiceApiController extends BaseController {
 
     @Autowired

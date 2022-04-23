@@ -1,5 +1,6 @@
 package com.zondy.mapgis.system.controller;
 
+import com.zondy.mapgis.common.controllerprefix.annotation.ManagerRestController;
 import com.zondy.mapgis.common.core.constant.UserConstants;
 import com.zondy.mapgis.common.core.utils.StringUtils;
 import com.zondy.mapgis.common.core.web.controller.BaseController;
@@ -28,8 +29,7 @@ import java.util.List;
  */
 @Api(value = "菜单信息控制器", tags = {"菜单信息管理"})
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
-@RestController
-@RequestMapping("/system/menu")
+@ManagerRestController("/system/menu")
 public class SysMenuController extends BaseController {
 
     private final ISysMenuService menuService;

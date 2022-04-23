@@ -1,5 +1,6 @@
 package com.zondy.mapgis.system.controller;
 
+import com.zondy.mapgis.common.controllerprefix.annotation.ManagerRestController;
 import com.zondy.mapgis.common.core.constant.UserConstants;
 import com.zondy.mapgis.common.core.utils.StringUtils;
 import com.zondy.mapgis.common.core.utils.poi.ExcelUtil;
@@ -39,8 +40,7 @@ import java.util.stream.Collectors;
  */
 @Api(value = "用户信息控制器", tags = {"用户信息管理"})
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
-@RestController
-@RequestMapping("/system/user")
+@ManagerRestController("/system/user")
 public class SysUserController extends BaseController {
 
     private final ISysUserService userService;

@@ -74,8 +74,6 @@ pagehelper:
 swagger:
   # 是否开启swagger
   enabled: true
-  # 请求前缀
-  pathMapping: /api
   # 标题
   title: ${SWAGGER_DOC_TIILE:MapGIS服务器产品 接口文档}
   # 描述
@@ -94,13 +92,19 @@ security:
     # 过滤开关
     enabled: true
     # 排除链接（多个用逗号分隔）
-    excludes: /system/notice
+    excludes: /xxx/rest/manager/system/notice
     # 匹配链接（多个用逗号分隔）
-    urlPatterns: /system/*,/monitor/*,/tool/*
+    urlPatterns: /xxx/rest/manager/system/*,/xxx/rest/manager/monitor/*,/xxx/rest/manager/tool/*
   # 访问
   access:
     # 只读开关
     readonlyEnabled: ${SECURITY_ACCESS_READONLYENABLED:false}
+
+# API前缀
+api:
+  path:
+    services-prefix: xxx/rest/services
+    manager-prefix: xxx/rest/manager
 
 # 本地文件上传
 file:

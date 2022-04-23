@@ -1,5 +1,6 @@
 package com.zondy.mapgis.system.controller;
 
+import com.zondy.mapgis.common.controllerprefix.annotation.ManagerRestController;
 import com.zondy.mapgis.common.core.constant.UserConstants;
 import com.zondy.mapgis.common.core.utils.StringUtils;
 import com.zondy.mapgis.common.core.web.controller.BaseController;
@@ -30,8 +31,7 @@ import java.util.List;
  */
 @Api(value = "部门控制器", tags = {"部门管理"})
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
-@RestController
-@RequestMapping("/system/dept")
+@ManagerRestController("/system/dept")
 public class SysDeptController extends BaseController {
 
     private final ISysDeptService deptService;

@@ -338,6 +338,13 @@
                 <version>${mapgis.boot.version}</version>
             </dependency>
 
+            <!-- 全局前缀模块 -->
+            <dependency>
+                <groupId>com.zondy.mapgis</groupId>
+                <artifactId>mapgis-common-controllerprefix</artifactId>
+                <version>${mapgis.boot.version}</version>
+            </dependency>
+
             <!-- MapGIS System Base Api -->
             <dependency>
                 <groupId>com.zondy.mapgis</groupId>

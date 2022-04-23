@@ -1,5 +1,6 @@
 package com.zondy.mapgis.file.controller;
 
+import com.zondy.mapgis.common.controllerprefix.annotation.ManagerRestController;
 import com.zondy.mapgis.common.core.exception.ServiceException;
 import com.zondy.mapgis.common.core.utils.file.FileUtils;
 import com.zondy.mapgis.common.core.web.controller.BaseController;
@@ -13,8 +14,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
@@ -25,8 +24,7 @@ import org.springframework.web.multipart.MultipartFile;
  */
 @Api(value = "文件存储控制器", tags = {"文件存储管理"})
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
-@RestController
-@RequestMapping("/file")
+@ManagerRestController("/file")
 public class FileStorageController extends BaseController {
     private static final Logger log = LoggerFactory.getLogger(FileStorageController.class);
 

@@ -1,11 +1,11 @@
 import request from '@/utils/request'
 
 const userApi = {
-  Login: '/auth/login',
-  Logout: '/auth/logout',
-  Register: '/auth/register',
+  Login: '/xxx/rest/services/auth/login',
+  Logout: '/xxx/rest/services/auth/logout',
+  Register: '/xxx/rest/services/auth/register',
   // get my info
-  UserInfo: '/system/user/getInfo'
+  UserInfo: '/xxx/rest/manager/system/user/getInfo'
 }
 
 /**
@@ -56,7 +56,7 @@ export function logout() {
 // 获取验证码
 export function getCodeImg() {
   return request({
-    url: '/auth/captchaImage',
+    url: '/xxx/rest/services/auth/captchaImage',
     method: 'get'
   })
 }

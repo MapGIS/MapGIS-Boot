@@ -19,6 +19,7 @@
         <module>mapgis-common-security</module>
         <module>mapgis-common-log</module>
         <module>mapgis-common-swagger</module>
+        <module>mapgis-common-controllerprefix</module>
     </modules>
 
     <artifactId>mapgis-common</artifactId>

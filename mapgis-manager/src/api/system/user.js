@@ -4,7 +4,7 @@ import { parseStrEmpty } from '@/utils/common'
 // 查询用户列表
 export function listUser(query) {
   return request({
-    url: '/system/user/list',
+    url: '/xxx/rest/manager/system/user/list',
     method: 'get',
     params: query
   })
@@ -13,7 +13,7 @@ export function listUser(query) {
 // 查询用户详细
 export function getUser(userId) {
   return request({
-    url: '/system/user/' + parseStrEmpty(userId),
+    url: '/xxx/rest/manager/system/user/' + parseStrEmpty(userId),
     method: 'get'
   })
 }
@@ -21,7 +21,7 @@ export function getUser(userId) {
 // 新增用户
 export function addUser(data) {
   return request({
-    url: '/system/user',
+    url: '/xxx/rest/manager/system/user',
     method: 'post',
     data: data
   })
@@ -30,7 +30,7 @@ export function addUser(data) {
 // 修改用户
 export function updateUser(data) {
   return request({
-    url: '/system/user',
+    url: '/xxx/rest/manager/system/user',
     method: 'put',
     data: data
   })
@@ -39,7 +39,7 @@ export function updateUser(data) {
 // 删除用户
 export function delUser(userId) {
   return request({
-    url: '/system/user/' + userId,
+    url: '/xxx/rest/manager/system/user/' + userId,
     method: 'delete'
   })
 }
@@ -51,7 +51,7 @@ export function resetUserPwd(userId, password) {
     password
   }
   return request({
-    url: '/system/user/resetPwd',
+    url: '/xxx/rest/manager/system/user/resetPwd',
     method: 'put',
     data: data
   })
@@ -64,7 +64,7 @@ export function changeUserStatus(userId, status) {
     status
   }
   return request({
-    url: '/system/user/changeStatus',
+    url: '/xxx/rest/manager/system/user/changeStatus',
     method: 'put',
     data: data
   })
@@ -73,7 +73,7 @@ export function changeUserStatus(userId, status) {
 // 查询用户个人信息
 export function getUserProfile() {
   return request({
-    url: '/system/user/profile',
+    url: '/xxx/rest/manager/system/user/profile',
     method: 'get'
   })
 }
@@ -81,7 +81,7 @@ export function getUserProfile() {
 // 修改用户个人信息
 export function updateUserProfile(data) {
   return request({
-    url: '/system/user/profile',
+    url: '/xxx/rest/manager/system/user/profile',
     method: 'put',
     data: data
   })
@@ -94,7 +94,7 @@ export function updateUserPwd(oldPassword, newPassword) {
     newPassword
   }
   return request({
-    url: '/system/user/profile/updatePwd',
+    url: '/xxx/rest/manager/system/user/profile/updatePwd',
     method: 'put',
     params: data
   })
@@ -103,7 +103,7 @@ export function updateUserPwd(oldPassword, newPassword) {
 // 用户头像上传
 export function uploadAvatar(data) {
   return request({
-    url: '/system/user/profile/avatar',
+    url: '/xxx/rest/manager/system/user/profile/avatar',
     method: 'post',
     data: data
   })
@@ -112,7 +112,7 @@ export function uploadAvatar(data) {
 // 导入用户
 export function importData(data) {
   return request({
-    url: '/system/user/importData',
+    url: '/xxx/rest/manager/system/user/importData',
     method: 'post',
     data: data
   })
@@ -121,7 +121,7 @@ export function importData(data) {
 // 查询授权角色
 export function getAuthRole(userId) {
   return request({
-    url: '/system/user/authRole/' + userId,
+    url: '/xxx/rest/manager/system/user/authRole/' + userId,
     method: 'get'
   })
 }
@@ -129,7 +129,7 @@ export function getAuthRole(userId) {
 // 保存授权角色
 export function updateAuthRole(data) {
   return request({
-    url: '/system/user/authRole',
+    url: '/xxx/rest/manager/system/user/authRole',
     method: 'put',
     params: data
   })

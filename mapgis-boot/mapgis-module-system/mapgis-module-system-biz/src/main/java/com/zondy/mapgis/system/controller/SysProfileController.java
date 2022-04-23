@@ -1,5 +1,6 @@
 package com.zondy.mapgis.system.controller;
 
+import com.zondy.mapgis.common.controllerprefix.annotation.ManagerRestController;
 import com.zondy.mapgis.common.core.constant.UserConstants;
 import com.zondy.mapgis.common.core.domain.R;
 import com.zondy.mapgis.common.core.utils.StringUtils;
@@ -31,8 +32,7 @@ import java.io.IOException;
  */
 @Api(value = "个人信息控制器", tags = {"个人信息管理"})
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
-@RestController
-@RequestMapping("/system/user/profile")
+@ManagerRestController("/system/user/profile")
 public class SysProfileController extends BaseController {
 
     private final ISysUserService userService;

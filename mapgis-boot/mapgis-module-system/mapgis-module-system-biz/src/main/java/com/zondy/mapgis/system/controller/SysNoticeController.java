@@ -1,5 +1,6 @@
 package com.zondy.mapgis.system.controller;
 
+import com.zondy.mapgis.common.controllerprefix.annotation.ManagerRestController;
 import com.zondy.mapgis.common.core.web.controller.BaseController;
 import com.zondy.mapgis.common.core.web.domain.AjaxResult;
 import com.zondy.mapgis.common.core.web.page.TableDataInfo;
@@ -27,8 +28,7 @@ import java.util.List;
  */
 @Api(value = "公告信息控制器", tags = {"公告信息管理"})
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
-@RestController
-@RequestMapping("/system/notice")
+@ManagerRestController("/system/notice")
 public class SysNoticeController extends BaseController {
 
     private final ISysNoticeService noticeService;

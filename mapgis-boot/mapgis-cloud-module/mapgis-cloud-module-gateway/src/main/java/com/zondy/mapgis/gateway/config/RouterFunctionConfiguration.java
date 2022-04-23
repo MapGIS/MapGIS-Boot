@@ -24,7 +24,7 @@ public class RouterFunctionConfiguration {
     @Bean
     public RouterFunction routerFunction() {
         return RouterFunctions.route(
-                RequestPredicates.GET("/auth/captchaImage").and(RequestPredicates.accept(MediaType.TEXT_PLAIN)),
+                RequestPredicates.GET("/xxx/rest/services/auth/captchaImage").and(RequestPredicates.accept(MediaType.TEXT_PLAIN)),
                 validateCodeHandler);
     }
 }

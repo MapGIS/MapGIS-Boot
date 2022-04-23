@@ -46,5 +46,11 @@
             <groupId>com.zondy.mapgis</groupId>
             <artifactId>${mapgis.common.log.artifact}</artifactId>
         </dependency>
+
+        <!-- 全局前缀模块 -->
+        <dependency>
+            <groupId>com.zondy.mapgis</groupId>
+            <artifactId>mapgis-common-controllerprefix</artifactId>
+        </dependency>
     </dependencies>
 </project>

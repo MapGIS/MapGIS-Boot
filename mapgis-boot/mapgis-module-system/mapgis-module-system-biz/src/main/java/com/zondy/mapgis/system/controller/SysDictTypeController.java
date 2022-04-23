@@ -1,5 +1,6 @@
 package com.zondy.mapgis.system.controller;
 
+import com.zondy.mapgis.common.controllerprefix.annotation.ManagerRestController;
 import com.zondy.mapgis.common.core.constant.UserConstants;
 import com.zondy.mapgis.common.core.utils.poi.ExcelUtil;
 import com.zondy.mapgis.common.core.web.controller.BaseController;
@@ -30,8 +31,7 @@ import java.util.List;
  */
 @Api(value = "数据字典信息控制器", tags = {"数据字典信息管理"})
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
-@RestController
-@RequestMapping("/system/dict/type")
+@ManagerRestController("/system/dict/type")
 public class SysDictTypeController extends BaseController {
 
     private final ISysDictTypeService dictTypeService;

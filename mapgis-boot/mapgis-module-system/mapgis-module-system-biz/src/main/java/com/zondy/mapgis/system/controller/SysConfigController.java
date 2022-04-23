@@ -1,5 +1,6 @@
 package com.zondy.mapgis.system.controller;
 
+import com.zondy.mapgis.common.controllerprefix.annotation.ManagerRestController;
 import com.zondy.mapgis.common.core.constant.UserConstants;
 import com.zondy.mapgis.common.core.utils.poi.ExcelUtil;
 import com.zondy.mapgis.common.core.web.controller.BaseController;
@@ -30,8 +31,7 @@ import java.util.List;
  */
 @Api(value = "参数配置控制器", tags = {"参数配置管理"})
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
-@RestController
-@RequestMapping("/system/config")
+@ManagerRestController("/system/config")
 public class SysConfigController extends BaseController {
 
     private final ISysConfigService configService;
