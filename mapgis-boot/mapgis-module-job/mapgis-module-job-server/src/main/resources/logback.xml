@@ -3,12 +3,14 @@
     <!-- 日志存放路径 -->
     <property name="log.path" value="./logs/mapgis-job-server"/>
     <!-- 日志输出格式 -->
+    <property name="console.log.pattern"
+              value="%red(%d{yyyy-MM-dd HH:mm:ss}) %green([%thread]) %highlight(%-5level) %boldMagenta(%logger{20}) - [%method,%line] - %msg%n"/>
     <property name="log.pattern" value="%d{HH:mm:ss.SSS} [%thread] %-5level %logger{20} - [%method,%line] - %msg%n"/>
 
     <!-- 控制台输出 -->
     <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
-            <pattern>${log.pattern}</pattern>
+            <pattern>${console.log.pattern}</pattern>
         </encoder>
     </appender>
 
