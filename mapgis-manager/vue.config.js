@@ -138,7 +138,7 @@ const vueConfig = {
   productionSourceMap: false,
   lintOnSave: undefined,
   // babel-loader no-ignore node_modules/*
-  transpileDependencies: []
+  transpileDependencies: ['vue-echarts']
 }
 
 module.exports = vueConfig

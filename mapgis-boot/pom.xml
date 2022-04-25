@@ -49,7 +49,7 @@
         <transmittable-thread-local.version>2.12.2</transmittable-thread-local.version>
         <bitwalker.version>1.21</bitwalker.version>
         <oshi.version>5.8.6</oshi.version>
-        <hutool.version>5.7.21</hutool.version>
+        <hutool.version>5.7.22</hutool.version>
     </properties>
 
     <!-- 依赖声明 -->

@@ -1,297 +1,273 @@
 <template>
   <page-header-wrapper>
-    <a-space direction="vertical" style="width: 100%">
-      <a-row :gutter="24">
-        <a-col :span="12">
-          <a-card :loading="loading" title="CPU" :bordered="false">
-            <a-row :gutter="24">
-              <a-col :span="12" v-if="server.cpu">
-                <a-space direction="vertical" size="large">
-                  <a-statistic
-                    title="核心数"
-                    :value="server.cpu.cpuNum"
-                    :value-style="{ color: '#3f8600' }"
-                    style="margin-right: 50px"
-                  >
-                    <template #prefix>
-                      <a-icon type="setting" />
-                    </template>
-                  </a-statistic>
-                  <a-statistic
-                    title="用户使用率"
-                    :value="server.cpu.used"
-                    :precision="2"
-                    suffix="%"
-                    :value-style="{ color: '#3f8600' }"
-                    style="margin-right: 50px"
-                  >
-                    <template #prefix>
-                      <a-icon type="team" />
-                    </template>
-                  </a-statistic>
-                </a-space>
-              </a-col>
-              <a-col :span="12" v-if="server.cpu">
-                <a-space direction="vertical" size="large">
-                  <a-statistic
-                    title="系统使用率"
-                    :value="server.cpu.sys"
-                    :precision="2"
-                    suffix="%"
-                    :value-style="{ color: '#3f8600' }"
-                    style="margin-right: 50px"
-                  >
-                    <template #prefix>
-                      <a-icon type="cloud-server" />
-                    </template>
-                  </a-statistic>
-                  <a-statistic
-                    title="当前空闲率"
-                    :value="server.cpu.free"
-                    :precision="2"
-                    suffix="%"
-                    :value-style="{ color: '#3f8600' }"
-                    style="margin-right: 50px"
-                  >
-                    <template #prefix>
-                      <a-icon type="inbox" />
-                    </template>
-                  </a-statistic>
-                </a-space>
-              </a-col>
-            </a-row>
-          </a-card>
-        </a-col>
-        <a-col :span="12">
-          <a-card :loading="loading" title="内存" :bordered="false">
-            <a-table
-              :loading="loading"
-              size="small"
-              rowKey="name"
-              :columns="memColumns"
-              :data-source="memData"
-              :pagination="false"
-            >
-              <span slot="mem" slot-scope="text, record">
-                <div
-                  :style="{
-                    color: record.name == '使用率' && text > 80 ? 'red' : ''
-                  }"
-                >
-                  <a-icon type="warning" style="color: #ffcc00" v-if="record.name == '使用率' && text > 80" />
-                  {{ text }} &nbsp;
-                  <code v-if="record.name == '使用率'">%</code>
-                  <code v-if="record.name != '使用率'">G</code>
+    <a-spin tip="数据加载中..." :spinning="!show">
+      <div v-if="!show" style="height: 500px; width: 100%" />
+    </a-spin>
+    <a-space v-if="show" direction="vertical" style="width: 100%">
+      <a-card :bordered="false">
+        <div class="server-base-info" v-if="data.sys">
+          <a-icon type="setting" style="margin-right: 5px" />
+          <span> 系统：{{ data.sys.os }} </span>
+          <span> IP：{{ data.sys.ip }} </span>
+          <span> 项目已不间断运行：{{ data.sys.day }} </span>
+          <a-icon type="sync" class="icon-refresh" @click="init" />
+        </div>
+      </a-card>
+      <a-card title="状态" :bordered="false">
+        <a-row :gutter="24">
+          <a-col :xs="24" :sm="24" :md="6" :lg="6" :xl="6" style="margin-bottom: 10px">
+            <div class="title">CPU使用率</div>
+            <a-tooltip placement="top">
+              <div slot="title" style="font-size: 12px">
+                <div style="padding: 3px">
+                  {{ data.cpu.name }}
                 </div>
-              </span>
-              <span slot="jvm" slot-scope="text, record">
-                <div
-                  :style="{
-                    color: record.name == '使用率' && text > 80 ? 'red' : ''
-                  }"
-                >
-                  <a-icon type="warning" style="color: #ffcc00" v-if="record.name == '使用率' && text > 80" />
-                  {{ text }} &nbsp;
-                  <code v-if="record.name == '使用率'">%</code>
-                  <code v-if="record.name != '使用率'">M</code>
+                <div style="padding: 3px">
+                  {{ data.cpu.package }}
                 </div>
-              </span>
-            </a-table>
-          </a-card>
-        </a-col>
-      </a-row>
-      <a-row :gutter="24">
-        <a-col :span="24">
-          <a-card :loading="loading" title="服务器信息" :bordered="false">
-            <a-descriptions :column="2" v-if="server.sys">
-              <a-descriptions-item label="服务器名称">
-                {{ server.sys.computerName }}
-              </a-descriptions-item>
-              <a-descriptions-item label="操作系统">
-                {{ server.sys.osName }}
-              </a-descriptions-item>
-              <a-descriptions-item label="服务器IP">
-                {{ server.sys.computerIp }}
-              </a-descriptions-item>
-              <a-descriptions-item label="系统架构">
-                {{ server.sys.osArch }}
-              </a-descriptions-item>
-            </a-descriptions>
-          </a-card>
-        </a-col>
-      </a-row>
-      <a-row :gutter="24">
-        <a-col :span="24">
-          <a-card :loading="loading" title="Java虚拟机信息" :bordered="false">
-            <a-descriptions :column="2" v-if="server.jvm">
-              <a-descriptions-item label="Java名称">
-                {{ server.jvm.name }}
-              </a-descriptions-item>
-              <a-descriptions-item label="Java版本">
-                {{ server.jvm.version }}
-              </a-descriptions-item>
-              <a-descriptions-item label="启动时间">
-                {{ server.jvm.startTime }}
-              </a-descriptions-item>
-              <a-descriptions-item label="运行时长">
-                {{ server.jvm.runTime }}
-              </a-descriptions-item>
-              <a-descriptions-item label="安装路径">
-                {{ server.jvm.home }}
-              </a-descriptions-item>
-              <a-descriptions-item label="项目路径">
-                {{ server.sys.userDir }}
-              </a-descriptions-item>
-              <a-descriptions-item label="运行参数">
-                {{ server.jvm.inputArgs }}
-              </a-descriptions-item>
-            </a-descriptions>
-          </a-card>
-        </a-col>
-      </a-row>
-      <a-row :gutter="24">
-        <a-col :span="24">
-          <a-card :loading="loading" title="磁盘状态" :bordered="false">
-            <a-table
-              :loading="loading"
-              :size="tableSize"
-              rowKey="dirName"
-              :columns="sysColumns"
-              :data-source="sysData"
-              :pagination="false"
-              :bordered="tableBordered"
-            >
-              <span slot="total" slot-scope="text">
-                {{ text }}
-              </span>
-              <span slot="free" slot-scope="text">
-                {{ text }}
-              </span>
-              <span slot="used" slot-scope="text">
-                {{ text }}
-              </span>
-              <span slot="usage" slot-scope="text">
-                <div :style="{ color: text > 80 ? 'red' : '' }">
-                  <a-icon type="warning" style="color: #ffcc00" v-if="text > 80" />
-                  {{ text }}<code>%</code>
+                <div style="padding: 3px">
+                  {{ data.cpu.core }}
                 </div>
-              </span>
-            </a-table>
-          </a-card>
-        </a-col>
-      </a-row>
+                <div style="padding: 3px">
+                  {{ data.cpu.logic }}
+                </div>
+              </div>
+              <div class="content">
+                <a-progress type="dashboard" :percent="parseFloat(data.cpu.used)" />
+              </div>
+            </a-tooltip>
+            <div class="footer">{{ data.cpu.coreNumber }} 核心</div>
+          </a-col>
+          <a-col :xs="24" :sm="24" :md="6" :lg="6" :xl="6" style="margin-bottom: 10px">
+            <div class="title">内存使用率</div>
+            <a-tooltip placement="top">
+              <div slot="title" style="font-size: 12px">
+                <div style="padding: 3px">总量：{{ data.memory.total }}</div>
+                <div style="padding: 3px">已使用：{{ data.memory.used }}</div>
+                <div style="padding: 3px">空闲：{{ data.memory.available }}</div>
+              </div>
+              <div class="content">
+                <a-progress type="dashboard" :percent="parseFloat(data.memory.usageRate)" />
+              </div>
+            </a-tooltip>
+            <div class="footer">{{ data.memory.used }} / {{ data.memory.total }}</div>
+          </a-col>
+          <a-col :xs="24" :sm="24" :md="6" :lg="6" :xl="6" style="margin-bottom: 10px">
+            <div class="title">交换区使用率</div>
+            <a-tooltip placement="top">
+              <div slot="title" style="font-size: 12px">
+                <div style="padding: 3px">总量：{{ data.swap.total }}</div>
+                <div style="padding: 3px">已使用：{{ data.swap.used }}</div>
+                <div style="padding: 3px">空闲：{{ data.swap.available }}</div>
+              </div>
+              <div class="content">
+                <a-progress type="dashboard" :percent="parseFloat(data.swap.usageRate)" />
+              </div>
+            </a-tooltip>
+            <div class="footer">{{ data.swap.used }} / {{ data.swap.total }}</div>
+          </a-col>
+          <a-col :xs="24" :sm="24" :md="6" :lg="6" :xl="6" style="margin-bottom: 10px">
+            <div class="title">磁盘使用率</div>
+            <div class="content">
+              <a-tooltip placement="top">
+                <div slot="title" style="font-size: 12px">
+                  <div style="padding: 3px">总量：{{ data.disk.total }}</div>
+                  <div style="padding: 3px">空闲：{{ data.disk.available }}</div>
+                </div>
+                <div class="content">
+                  <a-progress type="dashboard" :percent="parseFloat(data.disk.usageRate)" />
+                </div>
+              </a-tooltip>
+            </div>
+            <div class="footer">{{ data.disk.used }} / {{ data.disk.total }}</div>
+          </a-col>
+        </a-row>
+      </a-card>
+
+      <div>
+        <a-row :gutter="6">
+          <a-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12" style="margin-bottom: 10px">
+            <a-card title="CPU使用率监控" :bordered="false">
+              <div>
+                <v-chart :options="cpuInfo" />
+              </div>
+            </a-card>
+          </a-col>
+          <a-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12" style="margin-bottom: 10px">
+            <a-card title="内存使用率监控" :bordered="false">
+              <div>
+                <v-chart :options="memoryInfo" />
+              </div>
+            </a-card>
+          </a-col>
+        </a-row>
+      </div>
     </a-space>
   </page-header-wrapper>
 </template>
 
 <script>
+import ECharts from 'vue-echarts'
+import 'echarts/lib/chart/line'
+import 'echarts/lib/component/polar'
 import { getServer } from '@/api/monitor/server'
-import { tableMixin } from '@/store/table-mixin'
 
 export default {
   name: 'Server',
-  mixins: [tableMixin],
+  components: {
+    'v-chart': ECharts
+  },
   data() {
     return {
-      server: [],
-      loading: true,
-      memColumns: [
-        {
-          title: '属性',
-          dataIndex: 'name'
+      show: false,
+      monitor: null,
+      data: {},
+      cpuInfo: {
+        tooltip: {
+          trigger: 'axis'
         },
-        {
-          title: '内存',
-          dataIndex: 'mem',
-          scopedSlots: { customRender: 'mem' }
+        xAxis: {
+          type: 'category',
+          boundaryGap: false,
+          data: []
         },
-        {
-          title: 'JVM',
-          dataIndex: 'jvm',
-          scopedSlots: { customRender: 'jvm' }
-        }
-      ],
-      memData: [],
-      sysColumns: [
-        {
-          title: '盘符路径',
-          dataIndex: 'dirName',
-          ellipsis: true
+        yAxis: {
+          type: 'value',
+          min: 0,
+          max: 100,
+          interval: 20
         },
-        {
-          title: '文件系统',
-          dataIndex: 'sysTypeName'
-        },
-        {
-          title: '盘符类型',
-          dataIndex: 'typeName',
-          ellipsis: true
-        },
-        {
-          title: '总大小',
-          dataIndex: 'total',
-          scopedSlots: { customRender: 'total' }
-        },
-        {
-          title: '可用大小',
-          dataIndex: 'free',
-          scopedSlots: { customRender: 'free' }
-        },
-        {
-          title: '已用大小',
-          dataIndex: 'used',
-          scopedSlots: { customRender: 'used' }
-        },
-        {
-          title: '已用百分比',
-          dataIndex: 'usage',
-          scopedSlots: { customRender: 'usage' }
-        }
-      ],
-      sysData: []
-    }
-  },
-  filters: {},
-  created() {
-    this.getList()
-  },
-  computed: {},
-  watch: {},
-  methods: {
-    /** 查询服务信息 */
-    getList() {
-      // this.loading = true
-      getServer().then(response => {
-        const serverData = response.data
-        this.server = serverData
-        this.memData = [
+        series: [
           {
-            name: '总内存',
-            mem: serverData.mem.total,
-            jvm: serverData.jvm.total
-          },
-          {
-            name: '已用内存',
-            mem: serverData.mem.used,
-            jvm: serverData.jvm.used
-          },
-          {
-            name: '剩余内存',
-            mem: serverData.mem.free,
-            jvm: serverData.jvm.free
-          },
-          {
-            name: '使用率',
-            mem: serverData.mem.usage,
-            jvm: serverData.jvm.usage
+            data: [],
+            type: 'line',
+            areaStyle: {
+              normal: {
+                color: 'rgb(32, 160, 255)' // 改变区域颜色
+              }
+            },
+            itemStyle: {
+              normal: {
+                color: '#6fbae1',
+                lineStyle: {
+                  color: '#6fbae1' // 改变折线颜色
+                }
+              }
+            }
           }
         ]
-        this.sysData = serverData.sysFiles
-        setTimeout(() => {
-          this.loading = false
-        }, 500)
+      },
+      memoryInfo: {
+        tooltip: {
+          trigger: 'axis'
+        },
+        xAxis: {
+          type: 'category',
+          boundaryGap: false,
+          data: []
+        },
+        yAxis: {
+          type: 'value',
+          min: 0,
+          max: 100,
+          interval: 20
+        },
+        series: [
+          {
+            data: [],
+            type: 'line',
+            areaStyle: {
+              normal: {
+                color: 'rgb(32, 160, 255)' // 改变区域颜色
+              }
+            },
+            itemStyle: {
+              normal: {
+                color: '#6fbae1',
+                lineStyle: {
+                  color: '#6fbae1' // 改变折线颜色
+                }
+              }
+            }
+          }
+        ]
+      }
+    }
+  },
+  created() {
+    this.init()
+    this.monitor = window.setInterval(() => {
+      setTimeout(() => {
+        this.init()
+      }, 2)
+    }, 3500)
+  },
+  destroyed() {
+    clearInterval(this.monitor)
+  },
+  methods: {
+    init() {
+      getServer().then(response => {
+        this.data = response.data
+        this.show = true
+        if (this.cpuInfo.xAxis.data.length >= 8) {
+          this.cpuInfo.xAxis.data.shift()
+          this.memoryInfo.xAxis.data.shift()
+          this.cpuInfo.series[0].data.shift()
+          this.memoryInfo.series[0].data.shift()
+        }
+        this.cpuInfo.xAxis.data.push(this.data.time)
+        this.memoryInfo.xAxis.data.push(this.data.time)
+        this.cpuInfo.series[0].data.push(parseFloat(this.data.cpu.used))
+        this.memoryInfo.series[0].data.push(parseFloat(this.data.memory.usageRate))
       })
     }
   }
 }
 </script>
+
+<style lang="less" scoped>
+.server-base-info {
+  color: #666;
+  font-size: 13px;
+  line-height: 1.15;
+  span {
+    margin-right: 28px;
+  }
+  .icon-refresh {
+    margin-right: 10px;
+    float: right;
+    cursor: pointer;
+    margin-left: 40px;
+  }
+}
+.cpu,
+.memory,
+.swap,
+.disk {
+  width: 20%;
+  float: left;
+  padding-bottom: 20px;
+  margin-right: 5%;
+}
+.title {
+  text-align: center;
+  font-size: 15px;
+  font-weight: 500;
+  color: #999;
+  margin-bottom: 16px;
+}
+.footer {
+  text-align: center;
+  font-size: 15px;
+  font-weight: 500;
+  color: #999;
+  margin-top: -5px;
+  margin-bottom: 10px;
+}
+.content {
+  text-align: center;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+</style>
