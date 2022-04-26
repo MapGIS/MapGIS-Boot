@@ -7,19 +7,20 @@ import { generatorDynamicRouter } from '@/router/generator-routers'
 const permission = {
   state: {
     routers: constantRouterMap,
-    menus: []
+    addRouters: []
   },
   mutations: {
-    SET_ROUTERS: (state, res) => {
-      state.menus = constantRouterMap.concat(res.menus)
-      state.routers = constantRouterMap.concat(res.routers)
+    SET_ROUTERS: (state, routers) => {
+      state.addRouters = constantRouterMap.concat(routers)
+      state.routers = constantRouterMap.concat(routers)
+      // state.routers = constantRouterMap
     }
   },
   actions: {
     GenerateRoutes({ commit }, data) {
       return new Promise(resolve => {
-        generatorDynamicRouter(data).then(res => {
-          commit('SET_ROUTERS', res)
+        generatorDynamicRouter(data).then(routers => {
+          commit('SET_ROUTERS', routers)
           resolve()
         })
       })

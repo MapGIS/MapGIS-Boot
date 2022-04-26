@@ -134,16 +134,18 @@ const RouteMenu = {
   },
   methods: {
     updateMenu() {
-      const names = this.$route.meta.names
+      const routes = this.$route.matched.concat()
       const { hidden } = this.$route.meta
-      if (names.length >= 5 && hidden) {
-        names.pop()
+      if (routes.length >= 3 && hidden) {
+        routes.pop()
+        this.selectedKeys = [routes[routes.length - 1].name]
+      } else {
+        this.selectedKeys = [routes.pop().name]
       }
-      this.selectedKeys = [names[names.length - 1]]
       const openKeys = []
       if (this.mode === 'inline') {
-        names.forEach(item => {
-          item && openKeys.push(item)
+        routes.forEach(item => {
+          item.name && openKeys.push(item.name)
         })
       }
 

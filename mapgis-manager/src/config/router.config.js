@@ -16,19 +16,32 @@ import { UserLayout } from '@/layouts'
     icon: 'svg-name'                // 设置该路由的图标
   }
  */
+/**
+ * 需在侧栏展示的，如需一级展示请参考首页实现
+ * 需要注意为了缓存正常,所有父级需为RouteView
+ */
 export const indexRouterMap = [
   {
-    path: '/index',
+    path: '/',
     name: 'Index',
-    component: 'Index',
-    meta: {
-      title: '首页',
-      noCache: false,
-      hidden: true,
-      icon: 'dashboard',
-      hiddenHeaderContent: true
-    }
-  },
+    component: 'RouteView',
+    hidden: false,
+    redirect: '/index',
+    children: [
+      {
+        path: '/index',
+        name: 'Index',
+        component: 'Index',
+        hidden: false,
+        meta: { title: '首页', noCache: false, hidden: true, icon: 'dashboard', hiddenHeaderContent: true }
+      }
+    ]
+  }
+]
+/**
+ * 在侧栏不会显示
+ */
+export const otherRouterMap = [
   {
     path: '/account/center',
     name: 'Center',

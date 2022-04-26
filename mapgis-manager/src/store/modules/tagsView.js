@@ -1,5 +1,5 @@
 const state = {
-  cachedViews: []
+  cachedViews: ['RouteView']
 }
 
 const mutations = {
