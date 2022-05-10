@@ -412,7 +412,7 @@ INSERT INTO `sys_menu`
 VALUES (111, '数据监控', 2, 3, 'druid', 'monitor/druid/index', '', 1, 0, 'C', '0', '0', 'monitor:druid:list', 'druid',
         'admin', '2022-03-23 22:12:32', '', NULL, '数据监控菜单');
 INSERT INTO `sys_menu`
-VALUES (112, '服务监控', 2, 4, 'server', 'monitor/server/index', '', 1, 0, 'C', '0', '0', 'monitor:server:list', 'server',
+VALUES (112, '服务监控', 2, 4, 'server', 'monitor/server/index', '', 1, 1, 'C', '0', '0', 'monitor:server:list', 'server',
         'admin', '2022-03-23 22:12:32', '', NULL, '服务监控菜单');
 INSERT INTO `sys_menu`
 VALUES (113, '系统接口', 3, 1, 'swagger', 'tool/swagger/index', '', 1, 0, 'C', '0', '0', 'tool:swagger:list', 'swagger',
