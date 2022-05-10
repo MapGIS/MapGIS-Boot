@@ -44,7 +44,7 @@ export default {
   },
   data() {
     return {
-      uploadImgUrl: process.env.VUE_APP_BASE_API + '/file/upload',
+      uploadImgUrl: process.env.VUE_APP_BASE_API + '/xxx/rest/manager/file/upload',
       headers: {
         Authorization: 'Bearer ' + storage.get(ACCESS_TOKEN),
         Accept: 'application/json, text/plain, */*'

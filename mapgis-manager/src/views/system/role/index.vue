@@ -340,7 +340,7 @@ export default {
         content: '此操作将导出当前条件下所有数据而非选中数据',
         onOk() {
           that.download(
-            'system/role/export',
+            '/xxx/rest/manager/system/role/export',
             {
               ...that.queryParam
             },

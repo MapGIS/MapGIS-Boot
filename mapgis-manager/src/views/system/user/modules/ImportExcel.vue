@@ -62,7 +62,7 @@ export default {
     /** 下载模板操作 */
     importTemplate() {
       this.download(
-        'system/user/importTemplate',
+        '/xxx/rest/manager/system/user/importTemplate',
         {
           ...this.queryParams
         },
