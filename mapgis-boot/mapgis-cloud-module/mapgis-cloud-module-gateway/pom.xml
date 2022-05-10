@@ -71,12 +71,6 @@
             <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
 
-        <!-- MapGIS Auth Base Api -->
-        <dependency>
-            <groupId>com.zondy.mapgis</groupId>
-            <artifactId>mapgis-module-auth-base-api</artifactId>
-        </dependency>
-
         <!-- Swagger -->
         <dependency>
             <groupId>io.springfox</groupId>
@@ -87,6 +81,18 @@
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger2</artifactId>
             <version>${swagger.fox.version}</version>
+        </dependency>
+
+        <!-- 支持windows上的控制台彩色打印，需要添加-DCONSOLE_WITH_JANSI=true -Dspring.output.ansi.enabled=ALWAYS-->
+        <dependency>
+            <groupId>org.fusesource.jansi</groupId>
+            <artifactId>jansi</artifactId>
+        </dependency>
+
+        <!-- MapGIS Auth Base Api -->
+        <dependency>
+            <groupId>com.zondy.mapgis</groupId>
+            <artifactId>mapgis-module-auth-base-api</artifactId>
         </dependency>
 
         <!-- MapGIS Common Cloud Cache -->

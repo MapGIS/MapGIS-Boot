@@ -40,13 +40,15 @@
         <include refid="selectNoticeVo"/>
         <where>
             <if test="noticeTitle != null and noticeTitle != ''">
-                AND notice_title like concat('%', #{noticeTitle}, '%')
+                <bind name="notice_title_like" value="'%' + noticeTitle + '%'"/>
+                AND notice_title like #{notice_title_like}
             </if>
             <if test="noticeType != null and noticeType != ''">
                 AND notice_type = #{noticeType}
             </if>
             <if test="createBy != null and createBy != ''">
-                AND create_by like concat('%', #{createBy}, '%')
+                <bind name="create_by_like" value="'%' + createBy + '%'"/>
+                AND create_by like #{create_by_like}
             </if>
         </where>
     </select>
@@ -67,7 +69,14 @@
         <if test="status != null and status != ''">#{status},</if>
         <if test="remark != null and remark != ''">#{remark},</if>
         <if test="createBy != null and createBy != ''">#{createBy},</if>
-        sysdate()
+        <choose>
+            <when test="_databaseId == 'sqlite'">
+                (datetime(CURRENT_TIMESTAMP,'localtime'))
+            </when>
+            <otherwise>
+                sysdate()
+            </otherwise>
+        </choose>
         )
     </insert>
 
@@ -79,7 +88,14 @@
             <if test="noticeContent != null">notice_content = #{noticeContent},</if>
             <if test="status != null and status != ''">status = #{status},</if>
             <if test="updateBy != null and updateBy != ''">update_by = #{updateBy},</if>
-            update_time = sysdate()
+            <choose>
+                <when test="_databaseId == 'sqlite'">
+                    update_time = (datetime(CURRENT_TIMESTAMP,'localtime'))
+                </when>
+                <otherwise>
+                    update_time = sysdate()
+                </otherwise>
+            </choose>
         </set>
         where notice_id = #{noticeId}
     </update>

@@ -92,23 +92,42 @@
             AND u.user_id = #{userId}
         </if>
         <if test="userName != null and userName != ''">
-            AND u.user_name like concat('%', #{userName}, '%')
+            <bind name="userName_like" value="'%' + userName + '%'"/>
+            AND u.user_name like #{userName_like}
         </if>
         <if test="status != null and status != ''">
             AND u.status = #{status}
         </if>
         <if test="phonenumber != null and phonenumber != ''">
-            AND u.phonenumber like concat('%', #{phonenumber}, '%')
+            <bind name="phonenumber_like" value="'%' + phonenumber + '%'"/>
+            AND u.phonenumber like #{phonenumber_like}
         </if>
         <if test="params.beginTime != null and params.beginTime != ''"><!-- 开始时间检索 -->
-            AND date_format(u.create_time,'%y%m%d') &gt;= date_format(#{params.beginTime},'%y%m%d')
+            <choose>
+                <when test="_databaseId == 'sqlite'">
+                    and create_time &gt;= #{params.beginTime}
+                </when>
+                <otherwise>
+                    and date_format(create_time,'%y%m%d') &gt;= date_format(#{params.beginTime},'%y%m%d')
+                </otherwise>
+            </choose>
         </if>
         <if test="params.endTime != null and params.endTime != ''"><!-- 结束时间检索 -->
-            AND date_format(u.create_time,'%y%m%d') &lt;= date_format(#{params.endTime},'%y%m%d')
+            <choose>
+                <when test="_databaseId == 'sqlite'">
+                    and create_time &lt;= #{params.endTime}
+                </when>
+                <otherwise>
+                    and date_format(create_time,'%y%m%d') &lt;= date_format(#{params.endTime},'%y%m%d')
+                </otherwise>
+            </choose>
         </if>
         <if test="deptId != null and deptId != 0">
-            AND (u.dept_id = #{deptId} OR u.dept_id IN ( SELECT t.dept_id FROM sys_dept t WHERE find_in_set(#{deptId},
-            ancestors) ))
+            <bind name="deptId_like" value="'%,' + deptId + ',%'"/>
+            <bind name="deptId_like_right" value="'%' + deptId + ',%'"/>
+            <bind name="deptId_like_left" value="'%,' + deptId + '%'"/>
+            AND (u.dept_id = #{deptId} OR u.dept_id IN ( SELECT t.dept_id FROM sys_dept t WHERE ancestors like
+            #{deptId_like} OR ancestors like #{deptId_like_right} OR ancestors like #{deptId_like_left} ))
         </if>
         <!-- 数据范围过滤 -->
         ${params.dataScope}
@@ -122,10 +141,12 @@
         left join sys_role r on r.role_id = ur.role_id
         where u.del_flag = '0' and r.role_id = #{roleId}
         <if test="userName != null and userName != ''">
-            AND u.user_name like concat('%', #{userName}, '%')
+            <bind name="userName_like" value="'%' + userName + '%'"/>
+            AND u.user_name like #{userName_like}
         </if>
         <if test="phonenumber != null and phonenumber != ''">
-            AND u.phonenumber like concat('%', #{phonenumber}, '%')
+            <bind name="phonenumber_like" value="'%' + phonenumber + '%'"/>
+            AND u.phonenumber like #{phonenumber_like}
         </if>
         <!-- 数据范围过滤 -->
         ${params.dataScope}
@@ -141,10 +162,12 @@
         and u.user_id not in (select u.user_id from sys_user u inner join sys_user_role ur on u.user_id = ur.user_id and
         ur.role_id = #{roleId})
         <if test="userName != null and userName != ''">
-            AND u.user_name like concat('%', #{userName}, '%')
+            <bind name="userName_like" value="'%' + userName + '%'"/>
+            AND u.user_name like #{userName_like}
         </if>
         <if test="phonenumber != null and phonenumber != ''">
-            AND u.phonenumber like concat('%', #{phonenumber}, '%')
+            <bind name="phonenumber_like" value="'%' + phonenumber + '%'"/>
+            AND u.phonenumber like #{phonenumber_like}
         </if>
         <!-- 数据范围过滤 -->
         ${params.dataScope}
@@ -209,7 +232,14 @@
         <if test="status != null and status != ''">#{status},</if>
         <if test="createBy != null and createBy != ''">#{createBy},</if>
         <if test="remark != null and remark != ''">#{remark},</if>
-        sysdate()
+        <choose>
+            <when test="_databaseId == 'sqlite'">
+                (datetime(CURRENT_TIMESTAMP,'localtime'))
+            </when>
+            <otherwise>
+                sysdate()
+            </otherwise>
+        </choose>
         )
     </insert>
 
@@ -229,7 +259,14 @@
             <if test="loginDate != null">login_date = #{loginDate},</if>
             <if test="updateBy != null and updateBy != ''">update_by = #{updateBy},</if>
             <if test="remark != null">remark = #{remark},</if>
-            update_time = sysdate()
+            <choose>
+                <when test="_databaseId == 'sqlite'">
+                    update_time = (datetime(CURRENT_TIMESTAMP,'localtime'))
+                </when>
+                <otherwise>
+                    update_time = sysdate()
+                </otherwise>
+            </choose>
         </set>
         where user_id = #{userId}
     </update>

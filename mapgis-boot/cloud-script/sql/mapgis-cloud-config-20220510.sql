@@ -11,7 +11,7 @@
  Target Server Version : 50736
  File Encoding         : 65001
 
- Date: 23/04/2022 18:04:20
+ Date: 10/05/2022 16:51:46
 */
 
 SET NAMES utf8mb4;
@@ -42,7 +42,7 @@ CREATE TABLE `config_info`
     PRIMARY KEY (`id`) USING BTREE,
     UNIQUE INDEX `uk_configinfo_datagrouptenant` (`data_id`, `group_id`, `tenant_id`) USING BTREE
 ) ENGINE = InnoDB
-  AUTO_INCREMENT = 18
+  AUTO_INCREMENT = 100
   CHARACTER SET = utf8
   COLLATE = utf8_bin COMMENT = 'config_info'
   ROW_FORMAT = DYNAMIC;
@@ -52,13 +52,13 @@ CREATE TABLE `config_info`
 -- ----------------------------
 INSERT INTO `config_info`
 VALUES (1, 'mapgis-xxx-application-dev.yml', 'DEFAULT_GROUP',
-        'mapgis:\r\n  name: mapgis-xxx\r\nspring:\n  main:\n    allow-circular-references: true\n    allow-bean-definition-overriding: true\n  autoconfigure:\n    exclude: com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceAutoConfigure\r\n  # 资源信息\r\n  messages:\r\n    # 国际化资源文件路径\r\n    basename: i18n/messages\n  mvc:\n    pathmatch:\r\n      # 适配 boot 2.6 路由与 springfox 兼容\n      matching-strategy: ant_path_matcher\n  cloud:\n    sentinel:\n      filter:\n        # sentinel 在 springboot 2.6.x 不兼容问题的处理\n        enabled: false\n\n# feign 配置\nfeign:\n  sentinel:\n    enabled: true\n  okhttp:\n    enabled: true\n  httpclient:\n    enabled: false\n  client:\n    config:\n      default:\n        connectTimeout: 10000\n        readTimeout: 10000\n  compression:\n    request:\n      enabled: true\n    response:\n      enabled: true\n\n# 暴露监控端点\nmanagement:\n  endpoints:\n    web:\n      exposure:\n        include: \'*\'\r\n\r\n# 安全配置\r\nsecurity:\r\n  # 访问\r\n  access:\r\n    # 只读开关\r\n    readonlyEnabled: false\r\n\r\n# API前缀\r\napi:\r\n  path:\r\n    services-prefix: xxx/rest/services\r\n    manager-prefix: xxx/rest/manager\n',
-        'e6a8dafc6fcec97f777836bea3ed5028', '2022-03-31 00:00:00', '2022-03-31 12:00:00', 'nacos', '0:0:0:0:0:0:0:1',
+        'mapgis:\n  name: mapgis-xxx\nspring:\n  main:\n    allow-circular-references: true\n    allow-bean-definition-overriding: true\n  autoconfigure:\n    exclude: com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceAutoConfigure\n  # 资源信息\n  messages:\n    # 国际化资源文件路径\n    basename: i18n/messages\n  mvc:\n    pathmatch:\n      # 适配 boot 2.6 路由与 springfox 兼容\n      matching-strategy: ant_path_matcher\n  # jackson配置\n  jackson:\n    # 日期格式化\n    date-format: yyyy-MM-dd HH:mm:ss\n    serialization:\n      # 格式化输出\n      INDENT_OUTPUT: false\n      # 忽略无法转换的对象\n      fail_on_empty_beans: false\n    deserialization:\n      # 允许对象忽略json中不存在的属性\n      fail_on_unknown_properties: false\n  cloud:\n    sentinel:\n      filter:\n        # sentinel 在 springboot 2.6.x 不兼容问题的处理\n        enabled: false\n\n# feign 配置\nfeign:\n  sentinel:\n    enabled: true\n  okhttp:\n    enabled: true\n  httpclient:\n    enabled: false\n  client:\n    config:\n      default:\n        connectTimeout: 10000\n        readTimeout: 10000\n  compression:\n    request:\n      enabled: true\n    response:\n      enabled: true\n\n# 暴露监控端点\nmanagement:\n  endpoints:\n    web:\n      exposure:\n        include: \'*\'\n\n# 安全配置\nsecurity:\n  # 访问\n  access:\n    # 只读开关\n    readonlyEnabled: false\n\n# API前缀\napi:\n  path:\n    services-prefix: xxx/rest/services\n    manager-prefix: xxx/rest/manager\n',
+        '89411abd053088abefbc490522656486', '2022-03-31 00:00:00', '2022-05-10 08:51:01', 'nacos', '0:0:0:0:0:0:0:1',
         '', '', '通用配置', 'null', 'null', 'yaml', 'null');
 INSERT INTO `config_info`
 VALUES (2, 'mapgis-xxx-application-prod.yml', 'DEFAULT_GROUP',
-        'spring:\r\n  main:\r\n    allow-circular-references: true\r\n    allow-bean-definition-overriding: true\r\n  autoconfigure:\r\n    exclude: com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceAutoConfigure\r\n  # 资源信息\r\n  messages:\r\n    # 国际化资源文件路径\r\n    basename: i18n/messages\r\n  mvc:\r\n    pathmatch:\r\n      # 适配 boot 2.6 路由与 springfox 兼容\r\n      matching-strategy: ant_path_matcher\r\n  cloud:\r\n    sentinel:\r\n      filter:\r\n        # sentinel 在 springboot 2.6.x 不兼容问题的处理\r\n        enabled: false\r\n\r\n# feign 配置\r\nfeign:\r\n  sentinel:\r\n    enabled: true\r\n  okhttp:\r\n    enabled: true\r\n  httpclient:\r\n    enabled: false\r\n  client:\r\n    config:\r\n      default:\r\n        connectTimeout: 10000\r\n        readTimeout: 10000\r\n  compression:\r\n    request:\r\n      enabled: true\r\n    response:\r\n      enabled: true\r\n\r\n# 暴露监控端点\r\nmanagement:\r\n  endpoints:\r\n    web:\r\n      exposure:\r\n        include: \'*\'\r\n\r\n# 安全配置\r\nsecurity:\r\n  # 访问\r\n  access:\r\n    # 只读开关\r\n    readonlyEnabled: false\r\n		\r\n# API前缀\r\napi:\r\n  path:\r\n    services-prefix: xxx/rest/services\r\n    manager-prefix: xxx/rest/manager\r\n',
-        'e6a8dafc6fcec97f777836bea3ed5028', '2022-03-31 00:00:00', '2022-03-31 12:00:00', 'nacos', '0:0:0:0:0:0:0:1',
+        'spring:\n  main:\n    allow-circular-references: true\n    allow-bean-definition-overriding: true\n  autoconfigure:\n    exclude: com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceAutoConfigure\n  # 资源信息\n  messages:\n    # 国际化资源文件路径\n    basename: i18n/messages\n  mvc:\n    pathmatch:\n      # 适配 boot 2.6 路由与 springfox 兼容\n      matching-strategy: ant_path_matcher\n  # jackson配置\n  jackson:\n    # 日期格式化\n    date-format: yyyy-MM-dd HH:mm:ss\n    serialization:\n      # 格式化输出\n      INDENT_OUTPUT: false\n      # 忽略无法转换的对象\n      fail_on_empty_beans: false\n    deserialization:\n      # 允许对象忽略json中不存在的属性\n      fail_on_unknown_properties: false\n  cloud:\n    sentinel:\n      filter:\n        # sentinel 在 springboot 2.6.x 不兼容问题的处理\n        enabled: false\n\n# feign 配置\nfeign:\n  sentinel:\n    enabled: true\n  okhttp:\n    enabled: true\n  httpclient:\n    enabled: false\n  client:\n    config:\n      default:\n        connectTimeout: 10000\n        readTimeout: 10000\n  compression:\n    request:\n      enabled: true\n    response:\n      enabled: true\n\n# 暴露监控端点\nmanagement:\n  endpoints:\n    web:\n      exposure:\n        include: \'*\'\n\n# 安全配置\nsecurity:\n  # 访问\n  access:\n    # 只读开关\n    readonlyEnabled: false\n\n# API前缀\napi:\n  path:\n    services-prefix: xxx/rest/services\n    manager-prefix: xxx/rest/manager\n',
+        'd6e5182d46faee53d7410ace6bdb58f0', '2022-03-31 00:00:00', '2022-05-10 08:51:16', 'nacos', '0:0:0:0:0:0:0:1',
         '', '', '通用配置', 'null', 'null', 'yaml', 'null');
 INSERT INTO `config_info`
 VALUES (3, 'mapgis-xxx-gateway-server-dev.yml', 'DEFAULT_GROUP',

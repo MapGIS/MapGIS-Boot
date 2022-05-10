@@ -24,19 +24,35 @@
         <include refid="selectDictTypeVo"/>
         <where>
             <if test="dictName != null and dictName != ''">
-                AND dict_name like concat('%', #{dictName}, '%')
+                <bind name="dict_name_like" value="'%' + dictName + '%'"/>
+                AND dict_name like #{dict_name_like}
             </if>
             <if test="status != null and status != ''">
                 AND status = #{status}
             </if>
             <if test="dictType != null and dictType != ''">
-                AND dict_type like concat('%', #{dictType}, '%')
+                <bind name="dict_type_like" value="'%' + dictType + '%'"/>
+                AND dict_type like #{dict_type_like}
             </if>
             <if test="params.beginTime != null and params.beginTime != ''"><!-- 开始时间检索 -->
-                and date_format(create_time,'%y%m%d') &gt;= date_format(#{params.beginTime},'%y%m%d')
+                <choose>
+                    <when test="_databaseId == 'sqlite'">
+                        and create_time &gt;= #{params.beginTime}
+                    </when>
+                    <otherwise>
+                        and date_format(create_time,'%y%m%d') &gt;= date_format(#{params.beginTime},'%y%m%d')
+                    </otherwise>
+                </choose>
             </if>
             <if test="params.endTime != null and params.endTime != ''"><!-- 结束时间检索 -->
-                and date_format(create_time,'%y%m%d') &lt;= date_format(#{params.endTime},'%y%m%d')
+                <choose>
+                    <when test="_databaseId == 'sqlite'">
+                        and create_time &lt;= #{params.endTime}
+                    </when>
+                    <otherwise>
+                        and date_format(create_time,'%y%m%d') &lt;= date_format(#{params.endTime},'%y%m%d')
+                    </otherwise>
+                </choose>
             </if>
         </where>
     </select>
@@ -81,7 +97,14 @@
             <if test="status != null">status = #{status},</if>
             <if test="remark != null">remark = #{remark},</if>
             <if test="updateBy != null and updateBy != ''">update_by = #{updateBy},</if>
-            update_time = sysdate()
+            <choose>
+                <when test="_databaseId == 'sqlite'">
+                    update_time = (datetime(CURRENT_TIMESTAMP,'localtime'))
+                </when>
+                <otherwise>
+                    update_time = sysdate()
+                </otherwise>
+            </choose>
         </set>
         where dict_id = #{dictId}
     </update>
@@ -100,7 +123,14 @@
         <if test="status != null">#{status},</if>
         <if test="remark != null and remark != ''">#{remark},</if>
         <if test="createBy != null and createBy != ''">#{createBy},</if>
-        sysdate()
+        <choose>
+            <when test="_databaseId == 'sqlite'">
+                (datetime(CURRENT_TIMESTAMP,'localtime'))
+            </when>
+            <otherwise>
+                sysdate()
+            </otherwise>
+        </choose>
         )
     </insert>
 

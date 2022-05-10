@@ -12,6 +12,7 @@
         <encoder>
             <pattern>${console.log.pattern}</pattern>
         </encoder>
+        <withJansi>${CONSOLE_WITH_JANSI:-false}</withJansi>
     </appender>
 
     <!-- 系统日志输出 -->

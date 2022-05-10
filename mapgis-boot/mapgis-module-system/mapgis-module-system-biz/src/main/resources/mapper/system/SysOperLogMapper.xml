@@ -43,17 +43,27 @@
 
     <insert id="insertOperlog" parameterType="SysOperLog">
         insert into sys_oper_log(title, business_type, method, request_method, operator_type, oper_name, dept_name,
-                                 oper_url, oper_ip, oper_param, json_result, status, error_msg,
-                                 oper_time)
+        oper_url, oper_ip, oper_param, json_result, status, error_msg,
+        oper_time)
         values (#{title}, #{businessType}, #{method}, #{requestMethod}, #{operatorType}, #{operName}, #{deptName},
-                #{operUrl}, #{operIp}, #{operParam}, #{jsonResult}, #{status}, #{errorMsg}, sysdate())
+        #{operUrl}, #{operIp}, #{operParam}, #{jsonResult}, #{status}, #{errorMsg},
+        <choose>
+            <when test="_databaseId == 'sqlite'">
+                (datetime(CURRENT_TIMESTAMP,'localtime'))
+            </when>
+            <otherwise>
+                sysdate()
+            </otherwise>
+        </choose>
+        )
     </insert>
 
     <select id="selectOperLogList" parameterType="SysOperLog" resultMap="SysOperLogResult">
         <include refid="selectOperLogVo"/>
         <where>
             <if test="title != null and title != ''">
-                AND title like concat('%', #{title}, '%')
+                <bind name="title_like" value="'%' + title + '%'"/>
+                AND title like #{title_like}
             </if>
             <if test="businessType != null and businessType != ''">
                 AND business_type = #{businessType}
@@ -68,13 +78,28 @@
                 AND status = #{status}
             </if>
             <if test="operName != null and operName != ''">
-                AND oper_name like concat('%', #{operName}, '%')
+                <bind name="oper_name_like" value="'%' + operName + '%'"/>
+                AND oper_name like #{oper_name_like}
             </if>
             <if test="params.beginTime != null and params.beginTime != ''"><!-- 开始时间检索 -->
-                and date_format(oper_time,'%y%m%d') &gt;= date_format(#{params.beginTime},'%y%m%d')
+                <choose>
+                    <when test="_databaseId == 'sqlite'">
+                        and create_time &gt;= #{params.beginTime}
+                    </when>
+                    <otherwise>
+                        and date_format(create_time,'%y%m%d') &gt;= date_format(#{params.beginTime},'%y%m%d')
+                    </otherwise>
+                </choose>
             </if>
             <if test="params.endTime != null and params.endTime != ''"><!-- 结束时间检索 -->
-                and date_format(oper_time,'%y%m%d') &lt;= date_format(#{params.endTime},'%y%m%d')
+                <choose>
+                    <when test="_databaseId == 'sqlite'">
+                        and create_time &lt;= #{params.endTime}
+                    </when>
+                    <otherwise>
+                        and date_format(create_time,'%y%m%d') &lt;= date_format(#{params.endTime},'%y%m%d')
+                    </otherwise>
+                </choose>
             </if>
         </where>
         order by oper_id desc
@@ -96,4 +121,11 @@
         truncate table sys_oper_log
     </update>
 
+    <update id="cleanOperLog" databaseId="sqlite">
+        delete
+        from sys_oper_log;
+        update sqlite_sequence
+        SET seq = 0
+        where name = 'sys_oper_log';
+    </update>
 </mapper>

@@ -77,7 +77,7 @@ public class SysMenu extends BaseEntity {
      * 路由参数
      */
     @ApiModelProperty(value = "路由参数")
-    private String query;
+    private String queryString;
 
     /**
      * 是否为外链（0是 1否）

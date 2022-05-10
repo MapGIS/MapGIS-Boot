@@ -39,7 +39,8 @@
         <include refid="selectJobVo"/>
         <where>
             <if test="jobName != null and jobName != ''">
-                AND job_name like concat('%', #{jobName}, '%')
+                <bind name="job_name_like" value="'%' + jobName + '%'"/>
+                AND job_name like #{job_name_like}
             </if>
             <if test="jobGroup != null and jobGroup != ''">
                 AND job_group = #{jobGroup}
@@ -48,7 +49,8 @@
                 AND status = #{status}
             </if>
             <if test="invokeTarget != null and invokeTarget != ''">
-                AND invoke_target like concat('%', #{invokeTarget}, '%')
+                <bind name="invoke_target_like" value="'%' + invokeTarget + '%'"/>
+                AND invoke_target like #{invoke_target_like}
             </if>
         </where>
     </select>
@@ -87,7 +89,14 @@
             <if test="status !=null">status = #{status},</if>
             <if test="remark != null and remark != ''">remark = #{remark},</if>
             <if test="updateBy != null and updateBy != ''">update_by = #{updateBy},</if>
-            update_time = sysdate()
+            <choose>
+                <when test="_databaseId == 'sqlite'">
+                    update_time = (datetime(CURRENT_TIMESTAMP,'localtime'))
+                </when>
+                <otherwise>
+                    update_time = sysdate()
+                </otherwise>
+            </choose>
         </set>
         where job_id = #{jobId}
     </update>
@@ -116,7 +125,14 @@
         <if test="status != null and status != ''">#{status},</if>
         <if test="remark != null and remark != ''">#{remark},</if>
         <if test="createBy != null and createBy != ''">#{createBy},</if>
-        sysdate()
+        <choose>
+            <when test="_databaseId == 'sqlite'">
+                (datetime(CURRENT_TIMESTAMP,'localtime'))
+            </when>
+            <otherwise>
+                sysdate()
+            </otherwise>
+        </choose>
         )
     </insert>
 

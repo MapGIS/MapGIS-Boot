@@ -50,6 +50,7 @@
         <bitwalker.version>1.21</bitwalker.version>
         <oshi.version>5.8.6</oshi.version>
         <hutool.version>5.7.22</hutool.version>
+        <jansi.version>1.18</jansi.version>
     </properties>
 
     <!-- 依赖声明 -->
@@ -210,6 +211,13 @@
                 <groupId>com.github.oshi</groupId>
                 <artifactId>oshi-core</artifactId>
                 <version>${oshi.version}</version>
+            </dependency>
+
+            <!-- 支持windows上的控制台彩色打印，需要添加-DCONSOLE_WITH_JANSI=true -Dspring.output.ansi.enabled=ALWAYS-->
+            <dependency>
+                <groupId>org.fusesource.jansi</groupId>
+                <artifactId>jansi</artifactId>
+                <version>${jansi.version}</version>
             </dependency>
 
             <!-- 核心模块 -->

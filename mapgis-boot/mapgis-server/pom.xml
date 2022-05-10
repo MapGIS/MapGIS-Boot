@@ -31,6 +31,12 @@
             <artifactId>mysql-connector-java</artifactId>
         </dependency>
 
+        <!-- sqlite3 驱动包 -->
+        <dependency>
+            <groupId>org.xerial</groupId>
+            <artifactId>sqlite-jdbc</artifactId>
+        </dependency>
+
         <!-- 获取系统信息 -->
         <dependency>
             <groupId>com.github.oshi</groupId>
@@ -47,6 +53,12 @@
         <dependency>
             <groupId>io.swagger</groupId>
             <artifactId>swagger-models</artifactId>
+        </dependency>
+
+        <!-- 支持windows上的控制台彩色打印，需要添加-DCONSOLE_WITH_JANSI=true -Dspring.output.ansi.enabled=ALWAYS-->
+        <dependency>
+            <groupId>org.fusesource.jansi</groupId>
+            <artifactId>jansi</artifactId>
         </dependency>
 
         <!-- MapGIS Common Local Cache -->

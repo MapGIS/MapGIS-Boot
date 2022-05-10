@@ -11,7 +11,7 @@
  Target Server Version : 50736
  File Encoding         : 65001
 
- Date: 13/04/2022 11:32:41
+ Date: 10/05/2022 15:02:25
 */
 
 SET NAMES utf8mb4;
@@ -90,25 +90,25 @@ INSERT INTO `sys_dept`
 VALUES (102, 100, '0,100', '深圳中地', 2, 'MapGIS', '13888888888', 'mapgis@mapgis.com', '0', '0', 'admin',
         '2022-03-23 22:12:32', '', NULL);
 INSERT INTO `sys_dept`
-VALUES (103, 101, '0,100,101', '研发部门', 1, 'MapGIS', '15888888888', 'mapgis@mapgis.com', '0', '0', 'admin',
+VALUES (103, 101, '0,100,101', '研发部门', 1, 'MapGIS', '13888888888', 'mapgis@mapgis.com', '0', '0', 'admin',
         '2022-03-23 22:12:32', '', NULL);
 INSERT INTO `sys_dept`
-VALUES (104, 101, '0,100,101', '市场部门', 2, 'MapGIS', '15888888888', 'mapgis@mapgis.com', '0', '0', 'admin',
+VALUES (104, 101, '0,100,101', '市场部门', 2, 'MapGIS', '13888888888', 'mapgis@mapgis.com', '0', '0', 'admin',
         '2022-03-23 22:12:32', '', NULL);
 INSERT INTO `sys_dept`
-VALUES (105, 101, '0,100,101', '测试部门', 3, 'MapGIS', '15888888888', 'mapgis@mapgis.com', '0', '0', 'admin',
+VALUES (105, 101, '0,100,101', '测试部门', 3, 'MapGIS', '13888888888', 'mapgis@mapgis.com', '0', '0', 'admin',
         '2022-03-23 22:12:32', '', NULL);
 INSERT INTO `sys_dept`
-VALUES (106, 101, '0,100,101', '财务部门', 4, 'MapGIS', '15888888888', 'mapgis@mapgis.com', '0', '0', 'admin',
+VALUES (106, 101, '0,100,101', '财务部门', 4, 'MapGIS', '13888888888', 'mapgis@mapgis.com', '0', '0', 'admin',
         '2022-03-23 22:12:32', '', NULL);
 INSERT INTO `sys_dept`
-VALUES (107, 101, '0,100,101', '运维部门', 5, 'MapGIS', '15888888888', 'mapgis@mapgis.com', '0', '0', 'admin',
+VALUES (107, 101, '0,100,101', '运维部门', 5, 'MapGIS', '13888888888', 'mapgis@mapgis.com', '0', '0', 'admin',
         '2022-03-23 22:12:32', '', NULL);
 INSERT INTO `sys_dept`
-VALUES (108, 102, '0,100,102', '市场部门', 1, 'MapGIS', '15888888888', 'mapgis@mapgis.com', '0', '0', 'admin',
+VALUES (108, 102, '0,100,102', '市场部门', 1, 'MapGIS', '13888888888', 'mapgis@mapgis.com', '0', '0', 'admin',
         '2022-03-23 22:12:32', '', NULL);
 INSERT INTO `sys_dept`
-VALUES (109, 102, '0,100,102', '财务部门', 2, 'MapGIS', '15888888888', 'mapgis@mapgis.com', '0', '0', 'admin',
+VALUES (109, 102, '0,100,102', '财务部门', 2, 'MapGIS', '13888888888', 'mapgis@mapgis.com', '0', '0', 'admin',
         '2022-03-23 22:12:32', '', NULL);
 
 -- ----------------------------
@@ -337,25 +337,25 @@ CREATE TABLE `sys_logininfor`
 DROP TABLE IF EXISTS `sys_menu`;
 CREATE TABLE `sys_menu`
 (
-    `menu_id`     bigint(20)                                                    NOT NULL AUTO_INCREMENT COMMENT '菜单ID',
-    `menu_name`   varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci  NOT NULL COMMENT '菜单名称',
-    `parent_id`   bigint(20)                                                    NULL DEFAULT 0 COMMENT '父菜单ID',
-    `order_num`   int(4)                                                        NULL DEFAULT 0 COMMENT '显示顺序',
-    `path`        varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '路由地址',
-    `component`   varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '组件路径',
-    `query`       varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '路由参数',
-    `is_frame`    int(1)                                                        NULL DEFAULT 1 COMMENT '是否为外链（0是 1否）',
-    `is_cache`    int(1)                                                        NULL DEFAULT 0 COMMENT '是否缓存（0缓存 1不缓存）',
-    `menu_type`   char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci      NULL DEFAULT '' COMMENT '菜单类型（M目录 C菜单 F按钮）',
-    `visible`     char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci      NULL DEFAULT '0' COMMENT '菜单状态（0显示 1隐藏）',
-    `status`      char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci      NULL DEFAULT '0' COMMENT '菜单状态（0正常 1停用）',
-    `perms`       varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '权限标识',
-    `icon`        varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '#' COMMENT '菜单图标',
-    `create_by`   varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci  NULL DEFAULT '' COMMENT '创建者',
-    `create_time` datetime                                                      NULL DEFAULT NULL COMMENT '创建时间',
-    `update_by`   varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci  NULL DEFAULT '' COMMENT '更新者',
-    `update_time` datetime                                                      NULL DEFAULT NULL COMMENT '更新时间',
-    `remark`      varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '备注',
+    `menu_id`      bigint(20)                                                    NOT NULL AUTO_INCREMENT COMMENT '菜单ID',
+    `menu_name`    varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci  NOT NULL COMMENT '菜单名称',
+    `parent_id`    bigint(20)                                                    NULL DEFAULT 0 COMMENT '父菜单ID',
+    `order_num`    int(4)                                                        NULL DEFAULT 0 COMMENT '显示顺序',
+    `path`         varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '路由地址',
+    `component`    varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '组件路径',
+    `query_string` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '路由参数',
+    `is_frame`     int(1)                                                        NULL DEFAULT 1 COMMENT '是否为外链（0是 1否）',
+    `is_cache`     int(1)                                                        NULL DEFAULT 0 COMMENT '是否缓存（0缓存 1不缓存）',
+    `menu_type`    char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci      NULL DEFAULT '' COMMENT '菜单类型（M目录 C菜单 F按钮）',
+    `visible`      char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci      NULL DEFAULT '0' COMMENT '菜单状态（0显示 1隐藏）',
+    `status`       char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci      NULL DEFAULT '0' COMMENT '菜单状态（0正常 1停用）',
+    `perms`        varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '权限标识',
+    `icon`         varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '#' COMMENT '菜单图标',
+    `create_by`    varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci  NULL DEFAULT '' COMMENT '创建者',
+    `create_time`  datetime                                                      NULL DEFAULT NULL COMMENT '创建时间',
+    `update_by`    varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci  NULL DEFAULT '' COMMENT '更新者',
+    `update_time`  datetime                                                      NULL DEFAULT NULL COMMENT '更新时间',
+    `remark`       varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '备注',
     PRIMARY KEY (`menu_id`) USING BTREE
 ) ENGINE = InnoDB
   AUTO_INCREMENT = 2000
@@ -383,7 +383,7 @@ VALUES (101, '角色管理', 1, 2, 'role', 'system/role/index', '', 1, 0, 'C', '
         '2022-03-23 22:12:32', '', NULL, '角色管理菜单');
 INSERT INTO `sys_menu`
 VALUES (102, '菜单管理', 1, 3, 'menu', 'system/menu/index', '', 1, 0, 'C', '0', '0', 'system:menu:list', 'treeTable',
-        'admin', '2022-03-23 22:12:32', 'admin', '2022-03-23 22:13:12', '菜单管理菜单');
+        'admin', '2022-03-23 22:12:32', '', NULL, '菜单管理菜单');
 INSERT INTO `sys_menu`
 VALUES (103, '部门管理', 1, 4, 'dept', 'system/dept/index', '', 1, 0, 'C', '0', '0', 'system:dept:list', 'tree', 'admin',
         '2022-03-23 22:12:32', '', NULL, '部门管理菜单');
@@ -418,7 +418,7 @@ INSERT INTO `sys_menu`
 VALUES (113, 'Admin控制台', 2, 5, 'http://localhost:9100/login', '', '', 0, 0, 'C', '0', '0', 'monitor:server:list',
         'server', 'admin', '2022-03-31 15:00:49', '', NULL, '服务监控菜单');
 INSERT INTO `sys_menu`
-VALUES (114, '系统接口', 3, 2, 'swagger', 'tool/swagger/index', '', 1, 0, 'C', '0', '0', 'tool:swagger:list', 'swagger',
+VALUES (114, '系统接口', 3, 1, 'swagger', 'tool/swagger/index', '', 1, 0, 'C', '0', '0', 'tool:swagger:list', 'swagger',
         'admin', '2022-03-23 22:12:32', '', NULL, '系统接口菜单');
 INSERT INTO `sys_menu`
 VALUES (500, '操作日志', 108, 1, 'operlog', 'system/operlog/index', '', 1, 0, 'C', '0', '0', 'system:operlog:list', 'form',
@@ -716,8 +716,7 @@ CREATE TABLE `sys_role`
 INSERT INTO `sys_role`
 VALUES (1, '超级管理员', 'admin', 1, '1', 1, 1, '0', '0', 'admin', '2022-03-23 22:12:32', '', NULL, '超级管理员');
 INSERT INTO `sys_role`
-VALUES (2, '普通角色', 'common', 2, '2', 1, 1, '0', '0', 'admin', '2022-03-23 22:12:32', 'admin', '2022-03-23 22:16:17',
-        '普通角色');
+VALUES (2, '普通角色', 'common', 2, '2', 1, 1, '0', '0', 'admin', '2022-03-23 22:12:32', '', NULL, '普通角色');
 
 -- ----------------------------
 -- Table structure for sys_role_dept
@@ -795,7 +794,7 @@ VALUES (2, 112);
 INSERT INTO `sys_role_menu`
 VALUES (2, 113);
 INSERT INTO `sys_role_menu`
-VALUES (2, 115);
+VALUES (2, 114);
 INSERT INTO `sys_role_menu`
 VALUES (2, 500);
 INSERT INTO `sys_role_menu`
@@ -958,12 +957,12 @@ CREATE TABLE `sys_user`
 -- ----------------------------
 INSERT INTO `sys_user`
 VALUES (1, 100, 'admin', '超级管理员', '00', 'mapgis@mapgis.com', '13888888888', '1', '',
-        '$2a$10$7JB720yubVSZvUI0rEqK/.VqGOZTH.ulu33dHOiBE8ByOhJIrdAu2', '0', '0', '127.0.0.1', '2022-03-23 22:51:34',
-        'admin', '2022-03-23 22:12:32', '', '2022-03-23 22:51:34', '超级管理员');
+        '$2a$10$7JB720yubVSZvUI0rEqK/.VqGOZTH.ulu33dHOiBE8ByOhJIrdAu2', '0', '0', '', NULL, 'admin',
+        '2022-03-23 22:12:32', '', NULL, '超级管理员');
 INSERT INTO `sys_user`
 VALUES (2, 103, 'giser', 'GISer', '00', 'giser@mapgis.com', '13666666666', '0', '',
-        '$2a$10$7JB720yubVSZvUI0rEqK/.VqGOZTH.ulu33dHOiBE8ByOhJIrdAu2', '0', '0', '127.0.0.1', '2022-03-23 22:12:32',
-        'admin', '2022-03-23 22:12:32', 'admin', '2022-03-23 22:27:44', '工程师');
+        '$2a$10$7JB720yubVSZvUI0rEqK/.VqGOZTH.ulu33dHOiBE8ByOhJIrdAu2', '0', '0', '', NULL, 'admin',
+        '2022-03-23 22:12:32', '', NULL, '工程师');
 
 -- ----------------------------
 -- Table structure for sys_user_post

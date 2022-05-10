@@ -17,26 +17,51 @@
 
     <insert id="insertLogininfor" parameterType="SysLogininfor">
         insert into sys_logininfor (user_name, status, ipaddr, browser, os, msg, login_time)
-        values (#{userName}, #{status}, #{ipaddr}, #{browser}, #{os}, #{msg}, sysdate())
+        values (#{userName}, #{status}, #{ipaddr}, #{browser}, #{os}, #{msg},
+        <choose>
+            <when test="_databaseId == 'sqlite'">
+                (datetime(CURRENT_TIMESTAMP,'localtime'))
+            </when>
+            <otherwise>
+                sysdate()
+            </otherwise>
+        </choose>
+        )
     </insert>
 
     <select id="selectLogininforList" parameterType="SysLogininfor" resultMap="SysLogininforResult">
         select info_id, user_name, ipaddr, browser, os, status, msg, login_time from sys_logininfor
         <where>
             <if test="ipaddr != null and ipaddr != ''">
-                AND ipaddr like concat('%', #{ipaddr}, '%')
+                <bind name="ipaddr_like" value="'%' + ipaddr + '%'"/>
+                AND ipaddr like #{ipaddr_like}
             </if>
             <if test="status != null and status != ''">
                 AND status = #{status}
             </if>
             <if test="userName != null and userName != ''">
-                AND user_name like concat('%', #{userName}, '%')
+                <bind name="user_name_like" value="'%' + userName + '%'"/>
+                AND user_name like #{user_name_like}
             </if>
             <if test="params.beginTime != null and params.beginTime != ''"><!-- 开始时间检索 -->
-                and date_format(login_time,'%y%m%d') &gt;= date_format(#{params.beginTime},'%y%m%d')
+                <choose>
+                    <when test="_databaseId == 'sqlite'">
+                        and create_time &gt;= #{params.beginTime}
+                    </when>
+                    <otherwise>
+                        and date_format(create_time,'%y%m%d') &gt;= date_format(#{params.beginTime},'%y%m%d')
+                    </otherwise>
+                </choose>
             </if>
             <if test="params.endTime != null and params.endTime != ''"><!-- 结束时间检索 -->
-                and date_format(login_time,'%y%m%d') &lt;= date_format(#{params.endTime},'%y%m%d')
+                <choose>
+                    <when test="_databaseId == 'sqlite'">
+                        and create_time &lt;= #{params.endTime}
+                    </when>
+                    <otherwise>
+                        and date_format(create_time,'%y%m%d') &lt;= date_format(#{params.endTime},'%y%m%d')
+                    </otherwise>
+                </choose>
             </if>
         </where>
         order by info_id desc
@@ -53,4 +78,11 @@
         truncate table sys_logininfor
     </update>
 
+    <update id="cleanLogininfor" databaseId="sqlite">
+        delete
+        from sys_logininfor;
+        update sqlite_sequence
+        SET seq = 0
+        where name = 'sys_logininfor';
+    </update>
 </mapper>

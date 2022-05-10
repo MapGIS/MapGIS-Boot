@@ -31,7 +31,8 @@
         <include refid="selectJobLogVo"/>
         <where>
             <if test="jobName != null and jobName != ''">
-                AND job_name like concat('%', #{jobName}, '%')
+                <bind name="job_name_like" value="'%' + jobName + '%'"/>
+                AND job_name like #{job_name_like}
             </if>
             <if test="jobGroup != null and jobGroup != ''">
                 AND job_group = #{jobGroup}
@@ -40,13 +41,28 @@
                 AND status = #{status}
             </if>
             <if test="invokeTarget != null and invokeTarget != ''">
-                AND invoke_target like concat('%', #{invokeTarget}, '%')
+                <bind name="invoke_target_like" value="'%' + invokeTarget + '%'"/>
+                AND invoke_target like #{invoke_target_like}
             </if>
             <if test="params.beginTime != null and params.beginTime != ''"><!-- 开始时间检索 -->
-                and date_format(create_time,'%y%m%d') &gt;= date_format(#{params.beginTime},'%y%m%d')
+                <choose>
+                    <when test="_databaseId == 'sqlite'">
+                        and create_time &gt;= #{params.beginTime}
+                    </when>
+                    <otherwise>
+                        and date_format(create_time,'%y%m%d') &gt;= date_format(#{params.beginTime},'%y%m%d')
+                    </otherwise>
+                </choose>
             </if>
             <if test="params.endTime != null and params.endTime != ''"><!-- 结束时间检索 -->
-                and date_format(create_time,'%y%m%d') &lt;= date_format(#{params.endTime},'%y%m%d')
+                <choose>
+                    <when test="_databaseId == 'sqlite'">
+                        and create_time &lt;= #{params.endTime}
+                    </when>
+                    <otherwise>
+                        and date_format(create_time,'%y%m%d') &lt;= date_format(#{params.endTime},'%y%m%d')
+                    </otherwise>
+                </choose>
             </if>
         </where>
     </select>
@@ -77,6 +93,14 @@
         truncate table sys_job_log
     </update>
 
+    <update id="cleanJobLog" databaseId="sqlite">
+        delete
+        from sys_job_log;
+        update sqlite_sequence
+        SET seq = 0
+        where name = 'sys_job_log';
+    </update>
+
     <insert id="insertJobLog" parameterType="SysJobLog">
         insert into sys_job_log(
         <if test="jobLogId != null and jobLogId != 0">job_log_id,</if>
@@ -95,7 +119,14 @@
         <if test="jobMessage != null and jobMessage != ''">#{jobMessage},</if>
         <if test="status != null and status != ''">#{status},</if>
         <if test="exceptionInfo != null and exceptionInfo != ''">#{exceptionInfo},</if>
-        sysdate()
+        <choose>
+            <when test="_databaseId == 'sqlite'">
+                (datetime(CURRENT_TIMESTAMP,'localtime'))
+            </when>
+            <otherwise>
+                sysdate()
+            </otherwise>
+        </choose>
         )
     </insert>
 

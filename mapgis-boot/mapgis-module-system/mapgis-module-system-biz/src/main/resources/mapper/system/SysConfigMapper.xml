@@ -51,19 +51,35 @@
         <include refid="selectConfigVo"/>
         <where>
             <if test="configName != null and configName != ''">
-                AND config_name like concat('%', #{configName}, '%')
+                <bind name="config_name_like" value="'%' + configName + '%'"/>
+                AND config_name like #{config_name_like}
             </if>
             <if test="configType != null and configType != ''">
                 AND config_type = #{configType}
             </if>
             <if test="configKey != null and configKey != ''">
-                AND config_key like concat('%', #{configKey}, '%')
+                <bind name="config_key_like" value="'%' + configKey + '%'"/>
+                AND config_key like #{config_key_like}
             </if>
             <if test="params.beginTime != null and params.beginTime != ''"><!-- 开始时间检索 -->
-                and date_format(create_time,'%y%m%d') &gt;= date_format(#{params.beginTime},'%y%m%d')
+                <choose>
+                    <when test="_databaseId == 'sqlite'">
+                        and create_time &gt;= #{params.beginTime}
+                    </when>
+                    <otherwise>
+                        and date_format(create_time,'%y%m%d') &gt;= date_format(#{params.beginTime},'%y%m%d')
+                    </otherwise>
+                </choose>
             </if>
             <if test="params.endTime != null and params.endTime != ''"><!-- 结束时间检索 -->
-                and date_format(create_time,'%y%m%d') &lt;= date_format(#{params.endTime},'%y%m%d')
+                <choose>
+                    <when test="_databaseId == 'sqlite'">
+                        and create_time &lt;= #{params.endTime}
+                    </when>
+                    <otherwise>
+                        and date_format(create_time,'%y%m%d') &lt;= date_format(#{params.endTime},'%y%m%d')
+                    </otherwise>
+                </choose>
             </if>
         </where>
     </select>
@@ -89,7 +105,14 @@
         <if test="configType != null and configType != ''">#{configType},</if>
         <if test="createBy != null and createBy != ''">#{createBy},</if>
         <if test="remark != null and remark != ''">#{remark},</if>
-        sysdate()
+        <choose>
+            <when test="_databaseId == 'sqlite'">
+                (datetime(CURRENT_TIMESTAMP,'localtime'))
+            </when>
+            <otherwise>
+                sysdate()
+            </otherwise>
+        </choose>
         )
     </insert>
 
@@ -102,7 +125,14 @@
             <if test="configType != null and configType != ''">config_type = #{configType},</if>
             <if test="updateBy != null and updateBy != ''">update_by = #{updateBy},</if>
             <if test="remark != null">remark = #{remark},</if>
-            update_time = sysdate()
+            <choose>
+                <when test="_databaseId == 'sqlite'">
+                    update_time = (datetime(CURRENT_TIMESTAMP,'localtime'))
+                </when>
+                <otherwise>
+                    update_time = sysdate()
+                </otherwise>
+            </choose>
         </set>
         where config_id = #{configId}
     </update>
