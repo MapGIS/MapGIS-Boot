@@ -88,7 +88,7 @@ public class TokenService {
     }
 
     /**
-     * 删除用户身份信息
+     * 删除用户缓存信息
      */
     public void delLoginUser(String token) {
         if (StringUtils.isNotEmpty(token)) {

@@ -91,10 +91,9 @@ MapGIS Boot 是一款基于 Spring Boot、Spring Cloud & Alibaba、MyBatis、Jwt
 │  ├─定时任务
 │  ├─数据监控（单体）
 │  ├─服务监控（单体）
-│  ├─缓存监控（单体）
-│  ├─Sentinel控制台（单体）
-│  ├─Nacos控制台（单体）
-│  ├─Admin控制台（单体）
+│  ├─Sentinel控制台（微服务）
+│  ├─Nacos控制台（微服务）
+│  ├─Admin控制台（微服务）
 ├─系统工具
 │  ├─系统接口
 ```
@@ -135,6 +134,7 @@ sentinel >= 1.6.0
 > 字符集：utf8mb4、排序规则：utf8mb4_general_ci
 
 2、修改项目配置 (采用 MySQL 数据库需要修改 `DB_TYPE` 为 `mysql`)
+
 `mapgis-boot/local-script/config/application.properties`
 
 > 复制 application.example.properties 为 application.properties，可参考`application.example.properties`中变量。
@@ -144,7 +144,7 @@ sentinel >= 1.6.0
 `Edit Configurations->Configuration->Environment->Program arguments：`
 
 ```
-# 数据源类型（支持mysql、sqlite，不设置默认为sqlite）
+# 数据源类型（支持`mysql`、`sqlite`，不设置默认为`sqlite`）
 DB_TYPE=mysql
 ```
 
@@ -255,7 +255,6 @@ com.zondy.mapgis
 │       ├── mapgis-common-cloud-log                     // 微服务日志记录
 │       ├── mapgis-common-local-log                     // 单体日志记录
 │   ├── mapgis-common-ratelimiter                       // 接口限流
-│   ├── mapgis-common-cache                             // 缓存服务
 │   ├── mapgis-common-cache                             // 缓存模块
 │       ├── mapgis-common-base-cache                    // 基础缓存模块
 │       ├── mapgis-common-cloud-cache                   // 微服务缓存模块
@@ -266,6 +265,7 @@ com.zondy.mapgis
 │       ├── mapgis-common-cloud-security                // 微服务安全模块
 │       ├── mapgis-common-local-security                // 单体安全模块
 │   ├── mapgis-common-swagger                           // 系统接口
+│   ├── mapgis-common-controllerprefix                  // 控制器前缀
 ├── mapgis-module-auth                                  // 授权模块
 │   ├── mapgis-module-auth-api                          // 授权API
 │       ├── mapgis-module-auth-base-api                 // 基础授权API
@@ -277,7 +277,7 @@ com.zondy.mapgis
 │   ├── mapgis-module-system-api                        // 系统API
 │       ├── mapgis-module-system-base-api               // 基础系统API
 │       ├── mapgis-module-system-cloud-api              // 微服务系统API
-│       ├── mapgis-module-system-local-api              // 单体系统权API
+│       ├── mapgis-module-system-local-api              // 单体系统API
 │   ├── mapgis-module-system-biz                        // 系统业务
 │   ├── mapgis-module-system-server                     // 系统服务器 [9201]
 ├── mapgis-module-file                                  // 文件模块
