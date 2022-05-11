@@ -44,13 +44,9 @@ mkdir "%OUT_DIR%"
 mkdir "%OUT_DIR%/config"
 mkdir "%OUT_DIR%/lib"
 mkdir "%OUT_DIR%/bin"
-mkdir "%OUT_DIR%/sql"
-mkdir "%OUT_DIR%/data"
 
 xcopy /y "%BOOT_DIR%\mapgis-server\target\mapgis-server-*.jar" "%OUT_DIR%\lib\"
 xcopy /y "%BOOT_DIR%\local-script\config\application.example.properties" "%OUT_DIR%\config\"
-xcopy /y /e "%BOOT_DIR%\local-script\sql" "%OUT_DIR%\sql\"
-xcopy /y /e "%BOOT_DIR%\data" "%OUT_DIR%\data\"
 xcopy /y /e "%CURRENT_DIR%\package\bin" "%OUT_DIR%\bin\"
 
 endlocal

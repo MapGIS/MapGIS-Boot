@@ -6,6 +6,7 @@ import com.baomidou.dynamic.datasource.spring.boot.autoconfigure.DataSourcePrope
 import com.baomidou.dynamic.datasource.spring.boot.autoconfigure.DynamicDataSourceProperties;
 import com.zondy.mapgis.common.core.utils.EnvironmentUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.flywaydb.core.Flyway;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -66,6 +67,15 @@ public class DataSourceConfig {
             default:
                 addSQLiteDataSource(dataSource);
         }
+
+        try {
+            org.flywaydb.core.api.configuration.Configuration configuration = Flyway.configure().dataSource(dataSource).baselineDescription("initByServer").baselineOnMigrate(true).validateOnMigrate(false).locations(String.format("classpath:data/migration/%s", dbType));
+            Flyway flyway = new Flyway(configuration);
+            flyway.migrate();
+        } catch (Exception e) {
+            log.error("数据库迁移出现异常", e);
+        }
+
         return dataSource;
     }
 

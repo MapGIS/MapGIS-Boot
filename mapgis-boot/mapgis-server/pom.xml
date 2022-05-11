@@ -61,6 +61,12 @@
             <artifactId>jansi</artifactId>
         </dependency>
 
+        <!-- 数据库版本迁移 -->
+        <dependency>
+            <groupId>org.flywaydb</groupId>
+            <artifactId>flyway-core</artifactId>
+        </dependency>
+
         <!-- MapGIS Common Local Cache -->
         <dependency>
             <groupId>com.zondy.mapgis</groupId>

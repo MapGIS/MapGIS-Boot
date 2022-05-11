@@ -51,6 +51,7 @@
         <oshi.version>5.8.6</oshi.version>
         <hutool.version>5.7.22</hutool.version>
         <jansi.version>1.18</jansi.version>
+        <flyway.version>6.4.4</flyway.version>
     </properties>
 
     <!-- 依赖声明 -->
@@ -218,6 +219,13 @@
                 <groupId>org.fusesource.jansi</groupId>
                 <artifactId>jansi</artifactId>
                 <version>${jansi.version}</version>
+            </dependency>
+
+            <!-- 数据库版本迁移 -->
+            <dependency>
+                <groupId>org.flywaydb</groupId>
+                <artifactId>flyway-core</artifactId>
+                <version>${flyway.version}</version>
             </dependency>
 
             <!-- 核心模块 -->

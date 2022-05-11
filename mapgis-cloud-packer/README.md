@@ -10,13 +10,19 @@
 add-support.bat
 ```
 
-#### 运行（临时）
+## 打包
+
+```bash
+package/package.bat
+```
+
+## 运行（临时）
 
 ```bash
 # win-x86_64，其他类似
 release/win-x86_64/bin/startup.bat
 ```
 
-#### 运行（正式）
+## 运行（正式）
 
 > 将与系统兼容的 release/xxx 下的目录发布到该系统下，然后运行启动脚本即可。

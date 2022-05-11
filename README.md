@@ -127,14 +127,14 @@ sentinel >= 1.6.0
 
 #### 后端项目启动（单体模式）
 
-1、初始化 MySQL 数据库（采用本地数据库可跳过此步骤）
+1、初始化 MySQL 数据库（采用本地数据库 Sqlite 可跳过此步骤）
 
-创建数据库`mapgis-xxx`并导入`local-script/sql`下数据脚本`mapgis-xxx-xxxxxxxx.sql`（必须）
+创建数据库`mapgis-xxx`（必须）
 
 > 这里 mapgis-xxx 请与产品标识保持一致
 > 字符集：utf8mb4、排序规则：utf8mb4_general_ci
 
-2、修改项目配置 (数据库等，采用 MySQL 数据库需要修改 DB_TYPE 为 mysql)
+2、修改项目配置 (采用 MySQL 数据库需要修改 `DB_TYPE` 为 `mysql`)
 `mapgis-boot/local-script/config/application.properties`
 
 > 复制 application.example.properties 为 application.properties，可参考`application.example.properties`中变量。
@@ -144,7 +144,7 @@ sentinel >= 1.6.0
 `Edit Configurations->Configuration->Environment->Program arguments：`
 
 ```
-# 数据源类型（支持mysql、sqlite，默认为sqlite）
+# 数据源类型（支持mysql、sqlite，不设置默认为sqlite）
 DB_TYPE=mysql
 ```
 
@@ -169,7 +169,7 @@ __  __              _____ _____  _____    _____
 
 #### 后端项目启动（微服务模式）
 
-1、初始化数据库
+1、初始化 MySQL 数据库
 
 创建数据库`mapgis-cloud-xxx`并导入 `cloud-script/sql`下数据脚本`mapgis-cloud-xxx-xxxxxxxx.sql`（必须），`quartz.sql`（可选）
 

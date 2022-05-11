@@ -66,6 +66,9 @@ spring:
     deserialization:
       # 允许对象忽略json中不存在的属性
       fail_on_unknown_properties: false
+  # flyway配置
+  flyway:
+    enabled: false
 
 # MyBatis配置
 mybatis:
