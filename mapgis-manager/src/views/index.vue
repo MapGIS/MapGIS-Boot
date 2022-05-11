@@ -47,16 +47,19 @@
             </div>
           </a-card>
           <!-- 项目简介 -->
-          <a-card style="width: 100%" title="RuoYi-Antdv 简介">
+          <a-card style="width: 100%" title="MapGIS Boot 简介">
             <p>
-              <b>RuoYi-Antdv</b>，使用<a href="https://gitee.com/y_project/RuoYi-Vue" target="_blank">RuoYi-Vue</a
-              >作为后端，改其原有Element Ui为Ant Design Vue。将会持续完全适配RuoYi-Vue。
+              <b>
+                <a href="http://192.168.200.88/webgis/server/mapgis-boot" target="_blank">
+                  基于Spring Boot、Spring Cloud & Alibaba的前后端分离微服务极速后台开发框架。
+                </a>
+              </b>
             </p>
             <blockquote>
-              <p>RuoYi-Vue是基于SpringBoot，Spring Security，JWT，Vue 的前后端分离权限管理系统。</p>
               <p>
-                拥有用户管理、部门管理、岗位管理、菜单管理、角色管理、字典管理、参数管理、通知公告、操作日志、登录日志、
-                在线用户、定时任务、代码生成、系统接口、服务监控、在线构建器、连接池监视等功能。
+                MapGIS Boot 是一个 Java EE 企业级快速开发平台，基于经典技术组合（Spring Boot、Spring Cloud &
+                Alibaba、Ant Design
+                Vue），内置模块如：部门管理、角色用户、菜单及按钮授权、数据权限、系统参数、日志管理、在线定时任务等。
               </p>
             </blockquote>
           </a-card>
@@ -67,28 +70,10 @@
             <div class="item-group">
               <a href="http://ruoyi.vip/" target="_blank">若依</a>
               <a href="https://www.antdv.com/" target="_blank">Antdv</a>
-              <a href="https://pro.antdv.com/" target="_blank">Antdv-pro</a>
+              <a href="https://pro.antdv.com/" target="_blank">Antdv-Pro</a>
               <a href="https://www.iconfont.cn/" target="_blank">阿里图标</a>
               <a href="https://www.wangeditor.com/" target="_blank">wangEditor</a>
             </div>
-          </a-card>
-          <!-- Github卡片 -->
-          <a-card hoverable style="margin-bottom: 24px">
-            <a href="https://github.com/fuzui/RuoYi-Antdv" target="_blank" slot="cover">
-              <img
-                style="width: 100%"
-                src="https://github-readme-stats.vercel.app/api/pin/?username=fuzui&repo=RuoYi-Antdv"
-              />
-            </a>
-          </a-card>
-          <!-- Gitee卡片 -->
-          <a-card hoverable style="margin-bottom: 24px">
-            <a href="https://gitee.com/fuzui/RuoYi-Antdv" target="_blank" slot="cover">
-              <img
-                style="width: 100%"
-                src="https://gitee.com/fuzui/RuoYi-Antdv/widgets/widget_card.svg?colors=4183c4,ffffff,ffffff,e3e9ed,666666,9b9b9b"
-              />
-            </a>
           </a-card>
         </a-col>
       </a-row>
