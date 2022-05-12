@@ -4,6 +4,7 @@ import com.zondy.mapgis.common.security.filter.JwtAuthenticationTokenFilter;
 import com.zondy.mapgis.common.security.handler.AuthenticationEntryPointImpl;
 import com.zondy.mapgis.common.security.handler.LogoutSuccessHandlerImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -26,6 +27,12 @@ import org.springframework.web.filter.CorsFilter;
  */
 @EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+    /**
+     * 资源映射路径前缀
+     */
+    @Value("${file.prefix:/profile}")
+    public String filePrefix;
+
     /**
      * 自定义用户认证逻辑
      */
@@ -103,7 +110,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/**/*.html",
                         "/**/*.css",
                         "/**/*.js",
-                        "/profile/**"
+                        filePrefix + "/**",
+                        "/static/**"
                 ).permitAll()
                 .antMatchers("/swagger-ui.html").anonymous()
                 .antMatchers("/swagger-resources/**").anonymous()

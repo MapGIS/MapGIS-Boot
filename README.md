@@ -108,7 +108,7 @@ Mysql >= 5.7.0 (推荐5.7版本)
 Redis >= 3.0
 Maven >= 3.0
 Node >= 12
-nacos >= 1.1.0 (mapgis-cloud >= 3.0.0需要下载nacos >= 2.x.x版本)
+nacos >= 2.x.x
 sentinel >= 1.6.0
 ```
 

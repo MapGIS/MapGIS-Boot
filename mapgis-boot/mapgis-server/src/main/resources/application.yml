@@ -49,6 +49,7 @@ spring:
     pathmatch:
       # 适配 boot 2.6 路由与 springfox 兼容
       matching-strategy: ant_path_matcher
+    static-path-pattern: /static/**
   # 缓存配置
   cache:
     type: ehcache

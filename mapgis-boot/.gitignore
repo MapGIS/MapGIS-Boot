@@ -45,4 +45,4 @@ nbdist/
 local-script/config/application.properties
 mapgis-server/src/main/resources/static
 
-data
+/data
