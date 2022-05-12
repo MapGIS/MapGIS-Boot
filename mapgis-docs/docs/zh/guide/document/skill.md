@@ -40,7 +40,7 @@
 
 模块之间的依赖关系如下：
 
-- `mapgis-module-xxx-local-api` 和 `mapgis-module-xxx-local-api` 依赖 `mapgis-module-xxx-base-api`
+- `mapgis-module-xxx-local-api` 和 `mapgis-module-xxx-cloud-api` 依赖 `mapgis-module-xxx-base-api`
 
 - `mapgis-module-xxx-biz`依赖`${mapgis.module.xxx.api.artifact}`
 

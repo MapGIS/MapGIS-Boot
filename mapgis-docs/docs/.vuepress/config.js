@@ -55,6 +55,10 @@ module.exports = {
           {
             text: '指南',
             link: '/zh/guide/document/introduction'
+          },
+          {
+            text: 'GitLab',
+            link: 'http://192.168.200.88/webgis/server/mapgis-boot'
           }
         ],
         sidebar: {
