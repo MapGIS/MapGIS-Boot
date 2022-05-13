@@ -3,6 +3,7 @@ package com.zondy.mapgis.common.core.utils.file;
 import com.zondy.mapgis.common.core.utils.DateUtils;
 import com.zondy.mapgis.common.core.utils.StringUtils;
 import com.zondy.mapgis.common.core.utils.uuid.IdUtils;
+import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.ArrayUtils;
 
@@ -254,5 +255,19 @@ public class FileUtils {
             strFileExtendName = "png";
         }
         return strFileExtendName;
+    }
+
+    /**
+     * 获取不带后缀文件名称 /profile/upload/2022/04/16/mapgis.png -- mapgis
+     *
+     * @param fileName 路径名称
+     * @return 没有文件路径和后缀的名称
+     */
+    public static String getNameNotSuffix(String fileName) {
+        if (fileName == null) {
+            return null;
+        }
+        String baseName = FilenameUtils.getBaseName(fileName);
+        return baseName;
     }
 }

@@ -462,21 +462,43 @@ public class ExcelUtil<T> {
         style.setFont(totalFont);
         styles.put("total", style);
 
-        style = wb.createCellStyle();
-        style.cloneStyleFrom(styles.get("data"));
-        style.setAlignment(HorizontalAlignment.LEFT);
-        styles.put("data1", style);
+        styles.putAll(annotationStyles(wb));
 
-        style = wb.createCellStyle();
-        style.cloneStyleFrom(styles.get("data"));
-        style.setAlignment(HorizontalAlignment.CENTER);
-        styles.put("data2", style);
+        return styles;
+    }
 
-        style = wb.createCellStyle();
-        style.cloneStyleFrom(styles.get("data"));
-        style.setAlignment(HorizontalAlignment.RIGHT);
-        styles.put("data3", style);
-
+    /**
+     * 根据Excel注解创建表格样式
+     *
+     * @param wb 工作薄对象
+     * @return 自定义样式列表
+     */
+    private Map<String, CellStyle> annotationStyles(Workbook wb) {
+        Map<String, CellStyle> styles = new HashMap<String, CellStyle>();
+        for (Object[] os : fields) {
+            Excel excel = (Excel) os[1];
+            String key = "data_" + excel.align() + "_" + excel.color();
+            if (!styles.containsKey(key)) {
+                CellStyle style = wb.createCellStyle();
+                style = wb.createCellStyle();
+                style.setAlignment(excel.align());
+                style.setVerticalAlignment(VerticalAlignment.CENTER);
+                style.setBorderRight(BorderStyle.THIN);
+                style.setRightBorderColor(IndexedColors.GREY_50_PERCENT.getIndex());
+                style.setBorderLeft(BorderStyle.THIN);
+                style.setLeftBorderColor(IndexedColors.GREY_50_PERCENT.getIndex());
+                style.setBorderTop(BorderStyle.THIN);
+                style.setTopBorderColor(IndexedColors.GREY_50_PERCENT.getIndex());
+                style.setBorderBottom(BorderStyle.THIN);
+                style.setBottomBorderColor(IndexedColors.GREY_50_PERCENT.getIndex());
+                Font dataFont = wb.createFont();
+                dataFont.setFontName("Arial");
+                dataFont.setFontHeightInPoints((short) 10);
+                dataFont.setColor(excel.color().index);
+                style.setFont(dataFont);
+                styles.put(key, style);
+            }
+        }
         return styles;
     }
 
@@ -574,8 +596,7 @@ public class ExcelUtil<T> {
             if (attr.isExport()) {
                 // 创建cell
                 cell = row.createCell(column);
-                int align = attr.align().value();
-                cell.setCellStyle(styles.get("data" + (align >= 1 && align <= 3 ? align : "")));
+                cell.setCellStyle(styles.get("data_" + attr.align() + "_" + attr.color()));
 
                 // 用于读取对象中的属性
                 Object value = getTargetValue(vo, field, attr);

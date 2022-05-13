@@ -5,6 +5,7 @@ import com.zondy.mapgis.common.core.constant.ScheduleConstants;
 import com.zondy.mapgis.common.core.exception.job.TaskException;
 import com.zondy.mapgis.common.core.exception.job.TaskException.Code;
 import com.zondy.mapgis.common.core.utils.StringUtils;
+import com.zondy.mapgis.common.core.utils.spring.SpringUtils;
 import com.zondy.mapgis.job.domain.SysJob;
 import org.quartz.*;
 
@@ -107,6 +108,7 @@ public class ScheduleUtils {
         if (count > 1) {
             return StringUtils.containsAnyIgnoreCase(invokeTarget, Constants.JOB_WHITELIST_STR);
         }
-        return true;
+        Object obj = SpringUtils.getBean(StringUtils.split(invokeTarget, ".")[0]);
+        return StringUtils.containsAnyIgnoreCase(obj.getClass().getPackage().getName(), Constants.JOB_WHITELIST_STR);
     }
 }

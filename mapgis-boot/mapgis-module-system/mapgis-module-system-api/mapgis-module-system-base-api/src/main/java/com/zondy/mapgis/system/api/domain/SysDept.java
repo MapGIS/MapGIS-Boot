@@ -9,6 +9,7 @@ import lombok.experimental.Accessors;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
@@ -56,8 +57,8 @@ public class SysDept extends BaseEntity {
      * 显示顺序
      */
     @ApiModelProperty(value = "显示顺序")
-    @NotBlank(message = "显示顺序不能为空")
-    private String orderNum;
+    @NotNull(message = "显示顺序不能为空")
+    private Integer orderNum;
 
     /**
      * 负责人
