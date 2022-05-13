@@ -10,7 +10,6 @@
     <modelVersion>4.0.0</modelVersion>
     <packaging>pom</packaging>
     <modules>
-
         <module>mapgis-common-base-log</module>
         <module>mapgis-common-local-log</module>
         <module>mapgis-common-cloud-log</module>
