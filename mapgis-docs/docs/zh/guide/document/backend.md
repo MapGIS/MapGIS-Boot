@@ -580,7 +580,580 @@ public class SysServiceApiController extends BaseController {
 
 这样在任何其他模块中不管是否跨微服务，只要调用`ISysServiceApi`的接口，在微服务和单体模式下都能调用成功。
 
+### 多数据库支持
+
+MyBatis 可以根据不同的数据库厂商执行不同的语句，可参考[Mybatis 多数据库支持](https://blog.csdn.net/qq_28898917/article/details/103634570)。
+
+#### 配置
+
+```java
+@Configuration
+public class MyBatisConfig {
+	@Bean
+    public DatabaseIdProvider getDatabaseIdProvider() {
+        DatabaseIdProvider databaseIdProvider = new VendorDatabaseIdProvider();
+        Properties properties = new Properties();
+        properties.setProperty("MySQL", "mysql");
+        properties.setProperty("SQLite", "sqlite");
+        databaseIdProvider.setProperties(properties);
+        return databaseIdProvider;
+    }
+}
+```
+
+获取数据库品牌标识的示例代码：
+
+```java
+@SpringBootTest
+public class DataBaseProduct {
+    @Test
+    void getProductName() throws SQLException, ClassNotFoundException {
+        String driver = "org.sqlite.JDBC";
+        String url = "jdbc:sqlite::resource:static/dq.db?date_string_format=yyyy-MM-dd HH:mm:ss";
+        String username = "";
+        String password = "";
+        Class.forName(driver);
+        Connection con = (Connection) DriverManager.getConnection(url, username, password);
+        DatabaseMetaData metaData = (DatabaseMetaData) con.getMetaData();
+        System.out.println("数据库的产品名称:" + metaData.getDatabaseProductName());
+    }
+}
+```
+
+常见的品牌标识如下：
+
+```
+<property name="SQL Server" value="sqlserver"/>
+<property name="DB2" value="db2"/>
+<property name="Oracle" value="oracle" />
+<property name="MySQL" value="mysql" />
+<property name="SQLite" value="sqlite" />
+<property name="PostgreSQL" value="postgre" />
+```
+
+#### 属性 databaseId
+
+Mybatis 支持给每个 statement 添加属性`databaseId`，可根据 databaseId 的取值来写不同的语句，未指明属性的为通用语句。
+
+```xml
+<update id="cleanJobLog">
+    truncate table sys_job_log
+</update>
+
+<update id="cleanJobLog" databaseId="sqlite">
+    delete
+    from sys_job_log;
+    update sqlite_sequence
+    SET seq = 0
+    where name = 'sys_job_log';
+</update>
+```
+
+#### 内置参数\_databaseId
+
+表示当前数据库的别名，可参考[Mybatis 动态 sql 之内置参数\_parameter 和\_databaseId](https://cloud.tencent.com/developer/article/1687061)。
+
+```xml
+<update id="updateJob" parameterType="SysJob">
+    update sys_job
+    <set>
+        <if test="jobName != null and jobName != ''">job_name = #{jobName},</if>
+        <if test="jobGroup != null and jobGroup != ''">job_group = #{jobGroup},</if>
+        <if test="invokeTarget != null and invokeTarget != ''">invoke_target = #{invokeTarget},</if>
+        <if test="cronExpression != null and cronExpression != ''">cron_expression = #{cronExpression},</if>
+        <if test="misfirePolicy != null and misfirePolicy != ''">misfire_policy = #{misfirePolicy},</if>
+        <if test="concurrent != null and concurrent != ''">concurrent = #{concurrent},</if>
+        <if test="status !=null">status = #{status},</if>
+        <if test="remark != null and remark != ''">remark = #{remark},</if>
+        <if test="updateBy != null and updateBy != ''">update_by = #{updateBy},</if>
+        <choose>
+            <when test="_databaseId == 'sqlite'">
+                update_time = (datetime(CURRENT_TIMESTAMP,'localtime'))
+            </when>
+            <otherwise>
+                update_time = sysdate()
+            </otherwise>
+        </choose>
+    </set>
+    where job_id = #{jobId}
+</update>
+```
+
+### flyway 数据库版本管理
+
+单体版采用 flyway 来管理数据库版本，支持在部署的时候执行相应的数据库脚本，这里采用手动配置的方式进行，可参考[SpringBoot 中使用 Flyway](https://blog.csdn.net/qq_35995691/article/details/122770451)。
+
+#### 配置（关闭自动配置)
+
+```yml
+spring:
+  flyway:
+    # flyway自动配置 true 开启
+    enabled: true
+```
+
+#### 通过 java 代码进行迁移
+
+因需要支持 mysql 和 sqlite，所以在`data/migration`目录下分别有 2 个数据库的迁移脚本。
+
+```java
+@Slf4j
+@Configuration
+public class DataSourceConfig {
+    @Value("${DB_TYPE:sqlite}")
+    private String dbType;
+
+	@Primary
+    @Bean
+    public DataSource dataSource(DynamicDataSourceProperties properties) {
+        // ...
+    try {
+            org.flywaydb.core.api.configuration.Configuration configuration = Flyway.configure().dataSource(dataSource).baselineDescription("initByServer").baselineOnMigrate(true).validateOnMigrate(false).locations(String.format("classpath:data/migration/%s", dbType));
+            Flyway flyway = new Flyway(configuration);
+            flyway.migrate();
+        } catch (Exception e) {
+            log.error("数据库迁移出现异常", e);
+        }
+    }
+}
+```
+
+### 缓存管理
+
+项目中存在用户信息、字典数据等需要缓存的内容，为使单体版更加轻量化，采用了 ehcache 来实现，微服务版采用的是 redis（需要单独启动 redis 服务）。
+
+#### ehcache 与 redis 在实现上支持差异
+
+获取对象列表时，redis 原生支持模糊匹配，ehcache 不支持，现有实现只支持完全匹配和带有\*后缀的模糊匹配
+
+```java
+@Component
+public class EhcacheCacheServiceImpl implements CacheService {
+	/**
+     * 获得缓存的基本对象列表
+     *
+     * @param pattern 字符串前缀
+     * @return 对象列表
+     */
+    @Override
+    public Collection<String> keys(final String pattern) {
+        Collection<String> keys = cache.getKeys();
+        final String query = pattern.endsWith("*") ? pattern.substring(0, pattern.length() - 2) : pattern;
+
+        return keys.stream().
+                filter(k -> k.indexOf(query) == 0).
+                collect(Collectors.toList());
+    }
+}
+```
+
+```java
+@Component
+public class RedisCacheServiceImpl implements CacheService {
+    /**
+     * 获得缓存的基本对象列表
+     *
+     * @param pattern 字符串前缀
+     * @return 对象列表
+     */
+    @Override
+    public Collection<String> keys(final String pattern) {
+        return redisTemplate.keys(pattern);
+    }
+}
+```
+
+### 验证码开启和关闭
+
+目前后端支持开启和关闭，单体版在`mapgis-server`模块的配置文件`application.yml`中：
+
+```yml
+# 安全配置
+security:
+  # 验证码
+  captcha:
+    enabled: true
+    # 验证码类型 math 数组计算 char 字符验证
+    type: math
+```
+
+微服务版在网关模块的配置文件`mapgis-xxx-gateway-server-xxx.yml`中（位于 nacos）:
+
+```yml
+# 安全配置
+security:
+  # 验证码
+  captcha:
+    enabled: true
+    # 验证码类型 math 数组计算 char 字符验证
+    type: math
+```
+
+前端目前验证码是固定的，因为后端没有提供获取是否验证码开启和关闭的接口。
+
 ## 单体版核心功能
+
+### 安全配置
+
+允许登录`/xxx/rest/services/auth/login`、注册`/xxx/rest/services/auth/register`、验证码`/xxx/rest/services/auth/captchaImage`请求路径
+
+对于退出`/xxx/rest/services/auth/logout`请求设置处理类`LogoutSuccessHandlerImpl`
+
+```java
+@EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
+public class SecurityConfig extends WebSecurityConfigurerAdapter {
+	@Override
+    protected void configure(HttpSecurity httpSecurity) throws Exception {
+    	httpSecurity
+        // CSRF禁用，因为不使用session
+        .csrf().disable()
+        // 认证失败处理类
+        .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
+        // 基于token，所以不需要session
+        .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
+        // 过滤请求
+        .authorizeRequests()
+        // 对于登录login 注册register 验证码captchaImage 允许匿名访问
+        .antMatchers("/xxx/rest/services/auth/login", "/xxx/rest/services/auth/register", "/xxx/rest/services/auth/captchaImage").anonymous();
+        httpSecurity.logout().logoutUrl("/xxx/rest/services/auth/logout")
+        .logoutSuccessHandler(logoutSuccessHandler);
+    }
+}
+```
+
+### 登录流程
+
+#### 1、获取验证码/xxx/rest/services/auth/captchaImage
+
+直接由 mapgis-xxx-auth-server 中 CaptchaController 控制器/auth/captchaImage 接口对应的方法处理。
+
+```java
+@ApiOperation("生成验证码")
+@GetMapping("/captchaImage")
+public AjaxResult createCaptcha() throws IOException {
+    return validateCodeService.createCaptcha();
+}
+```
+
+#### 2、AuthController 控制器方法 login 进行处理
+
+```java
+@ApiOperation("登录方法")
+@PostMapping("/login")
+public AjaxResult login(@RequestBody LoginBody loginBody) {
+    AjaxResult ajax = AjaxResult.success();
+    // 生成令牌
+    String token = loginService.login(loginBody);
+    ajax.put(TokenConstants.TOKEN, token);
+    return ajax;
+}
+```
+
+#### 3、验证登录信息的有效性
+
+校验验证码、验证用户
+
+```java
+@Component
+public class SysLoginService {
+    /**
+     * 登录验证
+     */
+    public String login(LoginBody loginBody) {
+        String username = loginBody.getUsername(), password = loginBody.getPassword();
+
+        // 校验验证码
+        validateCodeService.checkCaptcha(loginBody.getCode(), loginBody.getUuid());
+
+        // 用户验证
+        Authentication authentication = null;
+        try {
+            // 该方法会去调用UserDetailsServiceImpl.loadUserByUsername
+            authentication = authenticationManager
+                    .authenticate(new UsernamePasswordAuthenticationToken(username, password));
+        } catch (Exception e) {
+            if (e instanceof BadCredentialsException) {
+                AsyncManager.me().execute(AsyncFactory.recordLogininfor(username, Constants.LOGIN_FAIL, MessageUtils.message("user.password.not.match")));
+                throw new UserPasswordNotMatchException();
+            } else {
+                AsyncManager.me().execute(AsyncFactory.recordLogininfor(username, Constants.LOGIN_FAIL, e.getMessage()));
+                throw new ServiceException(e.getMessage());
+            }
+        }
+        // ...
+    }
+}
+```
+
+UserDetailsServiceImpl.loadUserByUsername
+
+```java
+@Service
+public class UserDetailsServiceImpl implements UserDetailsService {
+	@Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        SysUser user = userService.selectUserByUserName(username);
+        if (StringUtils.isNull(user)) {
+            log.info("登录用户：{} 不存在.", username);
+            throw new ServiceException("登录用户：" + username + " 不存在");
+        } else if (UserStatus.DELETED.getCode().equals(user.getDelFlag())) {
+            log.info("登录用户：{} 已被删除.", username);
+            throw new ServiceException("对不起，您的账号：" + username + " 已被删除");
+        } else if (UserStatus.DISABLE.getCode().equals(user.getStatus())) {
+            log.info("登录用户：{} 已被停用.", username);
+            throw new ServiceException("对不起，您的账号：" + username + " 已停用");
+        }
+
+        return createLoginUser(user);
+    }
+
+    public UserDetails createLoginUser(SysUser user) {
+        return new LoginUser(user.getUserId(), user.getDeptId(), user, permissionService.getMenuPermission(user.getUserId()));
+    }
+}
+```
+
+返回用户信息 LoginUser，除包含 SysUser 外，还包含了角色、权限信息。
+
+#### 4、记录登录日志，更新用户登录信息
+
+```java
+@Component
+public class SysLoginService {
+    /**
+     * 登录验证
+     */
+    public String login(LoginBody loginBody) {
+    	// ...
+    	AsyncManager.me().execute(AsyncFactory.recordLogininfor(username, Constants.LOGIN_SUCCESS, MessageUtils.message("user.login.success")));
+        LoginUser loginUser = (LoginUser) authentication.getPrincipal();
+        recordLoginInfo(loginUser.getUserId());
+        // 生成token
+        return tokenService.createToken(loginUser);
+    }
+}
+```
+
+#### 5、返回登录令牌
+
+设置用户登录的更多信息，缓存用户登录信息（`login_tokens:`开头），生成 JWT Token
+
+```java
+@Component
+public class TokenService {
+	/**
+     * 创建令牌
+     *
+     * @param loginUser 用户信息
+     * @return 令牌
+     */
+    public String createToken(LoginUser loginUser) {
+        String token = IdUtils.fastUUID();
+        loginUser.setToken(token);
+        setUserAgent(loginUser);
+        refreshToken(loginUser);
+
+        // Jwt存储信息
+        Map<String, Object> claimsMap = new HashMap<String, Object>();
+        claimsMap.put(SecurityConstants.USER_KEY, token);
+
+        // 生成token
+        return JwtUtils.createToken(claimsMap);
+    }
+}
+```
+
+### 登出流程
+
+#### 1、携带 Token 访问服务/xxx/rest/services/auth/logout
+
+#### 2、`LogoutSuccessHandlerImpl`的`onLogoutSuccess`
+
+#### 3、删除用户缓存记录
+
+> TokenService->delLoginUser->CacheService.deleteObject
+
+```java
+tokenService.delLoginUser(SecurityUtils.getToken());
+```
+
+#### 4、记录登出日志
+
+```java
+// 记录用户退出日志
+AsyncManager.me().execute(AsyncFactory.recordLogininfor(userName, Constants.LOGOUT, "退出成功"));
+```
+
+### 注册流程
+
+#### 1、带上请求体 RegisterBody 访问/xxx/rest/services/auth/register
+
+```java
+public class RegisterBody extends LoginBody {
+
+}
+```
+
+#### 2、AuthController 控制器方法 register 进行处理
+
+```java
+@ApiOperation("用户注册")
+@PostMapping("/register")
+public AjaxResult register(@RequestBody RegisterBody registerBody) {
+	// 用户注册
+	loginService.register(registerBody);
+	return AjaxResult.success();
+}
+```
+
+#### 3、验证注册信息的有效性，进行注册
+
+```java
+@Component
+public class SysLoginService {
+public void register(RegisterBody registerBody) {
+    String username = registerBody.getUsername(), password = registerBody.getPassword();
+
+    // 校验验证码
+    validateCodeService.checkCaptcha(registerBody.getCode(), registerBody.getUuid());
+    // 注册用户信息
+    SysUser sysUser = new SysUser();
+    sysUser.setUserName(username);
+    sysUser.setNickName(username);
+    sysUser.setPassword(SecurityUtils.encryptPassword(password));
+    R<?> registerResult = sysServiceApi.registerUserInfo(sysUser, SecurityConstants.INNER);
+
+    if (R.FAIL == registerResult.getCode()) {
+    throw new ServiceException(registerResult.getMsg());
+    }
+}
+```
+
+#### 4、记录注册登录日志
+
+```java
+@Component
+public class SysLoginService {
+public void register(RegisterBody registerBody) {
+	// ...
+	AsyncManager.me().execute(AsyncFactory.recordLogininfor(username, Constants.REGISTER,
+                MessageUtils.message("user.register.success")));
+}
+```
+
+### 服务访问流程
+
+#### 1、携带令牌 Token 访问服务
+
+#### 2、进入到 Token 过滤器
+
+```java
+@EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
+public class SecurityConfig extends WebSecurityConfigurerAdapter {
+	/**
+     * token认证过滤器
+     */
+    @Autowired
+    private JwtAuthenticationTokenFilter authenticationTokenFilter;
+
+    @Override
+    protected void configure(HttpSecurity httpSecurity) throws Exception {
+    	// ...
+    	// 添加JWT filter
+        httpSecurity.addFilterBefore(authenticationTokenFilter, UsernamePasswordAuthenticationFilter.class);
+        // ...
+    }
+}
+```
+
+#### 3、Token 过滤器中通过 Token 从缓存中获取用户
+
+```java
+@Component
+public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
+    @Override
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws ServletException, IOException {
+        LoginUser loginUser = tokenService.getLoginUser(request);
+
+        // ...
+    }
+}
+
+@Component
+public class TokenService {
+    public LoginUser getLoginUser(HttpServletRequest request) {
+        // 获取请求携带的令牌
+        String token = SecurityUtils.getToken(request);
+        return getLoginUser(token);
+    }
+
+    /**
+     * 获取用户身份信息
+     *
+     * @return 用户信息
+     */
+    public LoginUser getLoginUser(String token) {
+        LoginUser user = null;
+        try {
+            if (StringUtils.isNotEmpty(token)) {
+                String userkey = JwtUtils.getUserKey(token);
+                user = cacheService.getCacheObject(getTokenKey(userkey));
+                return user;
+            }
+        } catch (Exception e) {
+        }
+        return user;
+    }
+}
+
+public class SecurityUtils {
+	/**
+     * 根据request获取请求token
+     */
+    public static String getToken(HttpServletRequest request) {
+        // 从header获取token标识
+        String token = request.getHeader(TokenConstants.AUTHENTICATION);
+        return replaceTokenPrefix(token);
+    }
+}
+```
+
+#### 4、将登录用户记录到安全上下文中，便于本线程后面获取
+
+```java
+@Component
+public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
+    @Autowired
+    private TokenService tokenService;
+
+    @Override
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws ServletException, IOException {
+        LoginUser loginUser = tokenService.getLoginUser(request);
+        if (StringUtils.isNotNull(loginUser) && StringUtils.isNull(SecurityUtils.getAuthentication())) {
+            tokenService.verifyToken(loginUser);
+            UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(loginUser, null, loginUser.getAuthorities());
+            authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+            SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+        }
+        chain.doFilter(request, response);
+    }
+}
+```
+
+```java
+public class SecurityUtils {
+    /**
+     * 获取Authentication
+     */
+    public static Authentication getAuthentication() {
+        return SecurityContextHolder.getContext().getAuthentication();
+    }
+}
+```
+
+#### 5、进入到各控制器相应的方法中处理
+
+有需要可以通过 SecurityUtils 获取用户 ID、用户名称、用户 Key、登录用户信息等。
 
 ## 微服务版核心功能
 
@@ -724,9 +1297,9 @@ public class ValidateCodeFilter extends AbstractGatewayFilterFactory<Object> {
 }
 ```
 
-#### 3、网关鉴权全局过滤器 AuthFilter 校验令牌有效性
+#### 3、网关鉴权全局过滤器 AuthFilter 验证
 
-网关全局过滤器 AuthFilter 会从请求头上获取 Token 进行校验，位于白名单中的全部跳过，正好`/xxx/rest/services/auth/login`在白名单中。
+网关全局过滤器 AuthFilter 首先校验请求路径，位于白名单中的全部跳过，正好`/xxx/rest/services/auth/login`在白名单中。
 
 ```yaml
 # 安全配置
@@ -784,9 +1357,9 @@ public class AuthFilter implements GlobalFilter, Ordered {
 }
 ```
 
-#### 4、TokenController 控制器方法 login 进行处理
+#### AuthController 控制器方法 login 进行处理
 
-经由网关进入到了微服务 mapgis-xxx-auth-server 中 TokenController 控制器/auth/login 接口对应的方法后。
+经由网关进入到了微服务 mapgis-xxx-auth-server 中 AuthController 控制器/auth/login 接口对应的方法后。
 
 ```yaml
 spring:
