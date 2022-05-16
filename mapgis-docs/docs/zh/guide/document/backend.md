@@ -681,7 +681,7 @@ Mybatis 支持给每个 statement 添加属性`databaseId`，可根据 databaseI
 
 ### flyway 数据库版本管理
 
-单体版采用 flyway 来管理数据库版本，支持在部署的时候执行相应的数据库脚本，这里采用手动配置的方式进行，可参考[SpringBoot 中使用 Flyway](https://blog.csdn.net/qq_35995691/article/details/122770451)。
+单体版采用 flyway 来管理数据库版本，支持在部署的时候执行相应的数据库脚本，这里采用手动编写代码的方式进行，可参考[SpringBoot 中使用 Flyway](https://blog.csdn.net/qq_35995691/article/details/122770451)。
 
 #### 配置（关闭自动配置)
 
@@ -722,7 +722,7 @@ public class DataSourceConfig {
 
 项目中存在用户信息、字典数据等需要缓存的内容，为使单体版更加轻量化，采用了 ehcache 来实现，微服务版采用的是 redis（需要单独启动 redis 服务）。
 
-#### ehcache 与 redis 在实现上支持差异
+#### ehcache 与 redis 在实现上存在差异
 
 获取对象列表时，redis 原生支持模糊匹配，ehcache 不支持，现有实现只支持完全匹配和带有\*后缀的模糊匹配
 
@@ -789,7 +789,7 @@ security:
     type: math
 ```
 
-前端目前验证码是固定的，因为后端没有提供获取是否验证码开启和关闭的接口。
+前端目前验证码是否开启是固定的，因为后端没有提供获取是否验证码开启和关闭的接口。
 
 ## 单体版核心功能
 
