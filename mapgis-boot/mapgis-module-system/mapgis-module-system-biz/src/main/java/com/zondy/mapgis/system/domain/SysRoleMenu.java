@@ -1,7 +1,6 @@
 package com.zondy.mapgis.system.domain;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
@@ -13,17 +12,17 @@ import lombok.experimental.Accessors;
  */
 @Data
 @Accessors(chain = true)
-@ApiModel("角色和菜单关联")
+@Schema(name = "角色和菜单关联")
 public class SysRoleMenu {
     /**
      * 角色ID
      */
-    @ApiModelProperty(value = "角色ID")
+    @Schema(description = "角色ID")
     private Long roleId;
 
     /**
      * 菜单ID
      */
-    @ApiModelProperty(value = "菜单ID")
+    @Schema(description = "菜单ID")
     private Long menuId;
 }

@@ -46,9 +46,6 @@ spring:
       # 热部署开关
       enabled: true
   mvc:
-    pathmatch:
-      # 适配 boot 2.6 路由与 springfox 兼容
-      matching-strategy: ant_path_matcher
     static-path-pattern: /static/**
   # 缓存配置
   cache:
@@ -89,12 +86,18 @@ pagehelper:
 # Swagger配置
 swagger:
   # 是否开启swagger
-  enabled: true
+  enabled: ${SWAGGER_DOC_ENABLED:true}
   # 标题
   title: ${SWAGGER_DOC_TIILE:MapGIS服务器产品 接口文档}
   # 描述
   description: ${SWAGGER_DOC_DESC:MapGIS服务器产品}
   version: @mapgis.boot.version@
+
+# SpringDoc配置
+springdoc:
+  swagger-ui:
+    # 开启Swagger UI界面
+    enabled: ${swagger.enabled}
 
 # 安全配置
 security:

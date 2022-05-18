@@ -43,16 +43,10 @@
             <artifactId>oshi-core</artifactId>
         </dependency>
 
-        <!-- swagger3-->
+        <!-- springdoc -->
         <dependency>
-            <groupId>io.springfox</groupId>
-            <artifactId>springfox-boot-starter</artifactId>
-        </dependency>
-
-        <!-- 防止进入swagger页面报类型转换错误，排除3.0.0中的引用，手动增加1.6.2版本 -->
-        <dependency>
-            <groupId>io.swagger</groupId>
-            <artifactId>swagger-models</artifactId>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-ui</artifactId>
         </dependency>
 
         <!-- 支持windows上的控制台彩色打印，需要添加-DCONSOLE_WITH_JANSI=true -Dspring.output.ansi.enabled=ALWAYS-->

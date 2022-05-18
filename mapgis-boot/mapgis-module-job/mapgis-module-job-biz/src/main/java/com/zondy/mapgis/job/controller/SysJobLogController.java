@@ -10,6 +10,8 @@ import com.zondy.mapgis.common.log.enums.BusinessType;
 import com.zondy.mapgis.common.security.annotation.RequiresPermissions;
 import com.zondy.mapgis.job.domain.SysJobLog;
 import com.zondy.mapgis.job.server.ISysJobLogService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -26,6 +28,7 @@ import java.util.List;
  * @author xiongbo
  * @since 2022/3/15 18:00
  */
+@Tag(name = "定时任务调度日志管理", description = "定时任务调度日志控制器")
 @ManagerRestController("/schedule/jobLog")
 public class SysJobLogController extends BaseController {
     @Autowired
@@ -34,6 +37,7 @@ public class SysJobLogController extends BaseController {
     /**
      * 查询定时任务调度日志列表
      */
+    @Operation(summary = "查询定时任务调度日志列表")
     @PreAuthorize("@ss.hasPermi('monitor:job:list')")
     @RequiresPermissions("monitor:job:list")
     @GetMapping("/list")
@@ -46,6 +50,7 @@ public class SysJobLogController extends BaseController {
     /**
      * 导出定时任务调度日志列表
      */
+    @Operation(summary = "导出定时任务调度日志列表")
     @PreAuthorize("@ss.hasPermi('monitor:job:export')")
     @RequiresPermissions("monitor:job:export")
     @Log(title = "任务调度日志", businessType = BusinessType.EXPORT)
@@ -59,6 +64,7 @@ public class SysJobLogController extends BaseController {
     /**
      * 根据调度编号获取详细信息
      */
+    @Operation(summary = "根据调度编号获取详细信息")
     @PreAuthorize("@ss.hasPermi('monitor:job:query')")
     @RequiresPermissions("monitor:job:query")
     @GetMapping(value = "/{configId}")
@@ -70,6 +76,7 @@ public class SysJobLogController extends BaseController {
     /**
      * 删除定时任务调度日志
      */
+    @Operation(summary = "删除定时任务调度日志")
     @PreAuthorize("@ss.hasPermi('monitor:job:remove')")
     @RequiresPermissions("monitor:job:remove")
     @Log(title = "定时任务调度日志", businessType = BusinessType.DELETE)
@@ -81,6 +88,7 @@ public class SysJobLogController extends BaseController {
     /**
      * 清空定时任务调度日志
      */
+    @Operation(summary = "清空定时任务调度日志")
     @PreAuthorize("@ss.hasPermi('monitor:job:remove')")
     @RequiresPermissions("monitor:job:remove")
     @Log(title = "调度日志", businessType = BusinessType.CLEAN)

@@ -13,8 +13,8 @@ import com.zondy.mapgis.common.security.annotation.RequiresPermissions;
 import com.zondy.mapgis.system.api.model.LoginUser;
 import com.zondy.mapgis.system.domain.SysUserOnline;
 import com.zondy.mapgis.system.service.ISysUserOnlineService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -34,7 +34,7 @@ import java.util.List;
  * @author xiongbo
  * @since 2022/3/15 18:00
  */
-@Api(value = "在线用户监控", tags = {"在线用户监控管理"})
+@Tag(name = "在线用户监控管理", description = "在线用户监控")
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
 @ManagerRestController("/system/online")
 public class SysUserOnlineController extends BaseController {
@@ -49,7 +49,7 @@ public class SysUserOnlineController extends BaseController {
     @Value("${mapgis.name:mapgis-xxx}")
     public String name;
 
-    @ApiOperation("在线用户列表")
+    @Operation(summary = "在线用户列表")
     @PreAuthorize("@ss.hasPermi('monitor:online:list')")
     @RequiresPermissions("monitor:online:list")
     @GetMapping("/list")
@@ -82,7 +82,7 @@ public class SysUserOnlineController extends BaseController {
     /**
      * 强退用户
      */
-    @ApiOperation("强退用户")
+    @Operation(summary = "强退用户")
     @PreAuthorize("@ss.hasPermi('monitor:online:forceLogout')")
     @RequiresPermissions("monitor:online:forceLogout")
     @Log(title = "在线用户", businessType = BusinessType.FORCE)

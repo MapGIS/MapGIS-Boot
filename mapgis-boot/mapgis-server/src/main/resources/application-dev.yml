@@ -29,8 +29,3 @@ spring:
         connectionProperties: druid.stat.mergeSql\=true;druid.stat.slowSqlMillis\=5000
       primary: master
       strict: false
-
-# Swagger配置
-swagger:
-  # 请求前缀
-  pathMapping: /api

@@ -956,7 +956,7 @@ CREATE TABLE `sys_user`
 -- Records of sys_user
 -- ----------------------------
 INSERT INTO `sys_user`
-VALUES (1, 100, 'admin', '超级管理员', '00', 'mapgis@mapgis.com', '13888888888', '1', '',
+VALUES (1, 100, 'admin', '超级管理员', '00', 'mapgis@mapgis.com', '13888888888', '0', '',
         '$2a$10$7JB720yubVSZvUI0rEqK/.VqGOZTH.ulu33dHOiBE8ByOhJIrdAu2', '0', '0', '', NULL, 'admin',
         '2022-03-23 22:12:32', '', NULL, '超级管理员');
 INSERT INTO `sys_user`

@@ -41,13 +41,6 @@
             <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
 
-        <!-- Swagger UI -->
-        <dependency>
-            <groupId>io.springfox</groupId>
-            <artifactId>springfox-swagger-ui</artifactId>
-            <version>${swagger.fox.version}</version>
-        </dependency>
-
         <!-- 支持windows上的控制台彩色打印，需要添加-DCONSOLE_WITH_JANSI=true -Dspring.output.ansi.enabled=ALWAYS-->
         <dependency>
             <groupId>org.fusesource.jansi</groupId>

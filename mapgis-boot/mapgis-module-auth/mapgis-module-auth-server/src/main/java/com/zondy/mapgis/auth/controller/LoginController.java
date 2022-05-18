@@ -7,8 +7,8 @@ import com.zondy.mapgis.common.core.utils.StringUtils;
 import com.zondy.mapgis.common.core.web.domain.AjaxResult;
 import com.zondy.mapgis.common.security.auth.AuthUtil;
 import com.zondy.mapgis.common.security.utils.SecurityUtils;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -21,14 +21,14 @@ import javax.servlet.http.HttpServletRequest;
  * @author xiongbo
  * @since 2022/3/15 18:00
  */
-@Api(value = "授权控制器", tags = {"授权管理"})
+@Tag(name = "授权管理", description = "授权控制器")
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
 @ServicesRestController("/auth")
 public class LoginController {
 
     private final SysLoginService loginService;
 
-    @ApiOperation("用户退出")
+    @Operation(summary = "用户退出")
     @DeleteMapping("logout")
     public AjaxResult logout(HttpServletRequest request) {
         String token = SecurityUtils.getToken(request);

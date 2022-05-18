@@ -11,8 +11,8 @@ import com.zondy.mapgis.common.security.annotation.RequiresPermissions;
 import com.zondy.mapgis.common.security.utils.SecurityUtils;
 import com.zondy.mapgis.system.api.domain.SysDept;
 import com.zondy.mapgis.system.service.ISysDeptService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +29,7 @@ import java.util.List;
  * @author xiongbo
  * @since 2022/3/15 18:00
  */
-@Api(value = "部门控制器", tags = {"部门管理"})
+@Tag(name = "部门管理", description = "部门控制器")
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
 @ManagerRestController("/system/dept")
 public class SysDeptController extends BaseController {
@@ -39,7 +39,7 @@ public class SysDeptController extends BaseController {
     /**
      * 获取部门列表
      */
-    @ApiOperation("获取部门列表")
+    @Operation(summary = "获取部门列表")
     @PreAuthorize("@ss.hasPermi('system:dept:list')")
     @RequiresPermissions("system:dept:list")
     @GetMapping("/list")
@@ -51,7 +51,7 @@ public class SysDeptController extends BaseController {
     /**
      * 查询部门列表（排除节点）
      */
-    @ApiOperation("查询部门列表（排除节点）")
+    @Operation(summary = "查询部门列表（排除节点）")
     @PreAuthorize("@ss.hasPermi('system:dept:list')")
     @RequiresPermissions("system:dept:list")
     @GetMapping("/list/exclude/{deptId}")
@@ -71,7 +71,7 @@ public class SysDeptController extends BaseController {
     /**
      * 根据部门编号获取详细信息
      */
-    @ApiOperation("根据部门编号获取详细信息")
+    @Operation(summary = "根据部门编号获取详细信息")
     @PreAuthorize("@ss.hasPermi('system:dept:query')")
     @RequiresPermissions("system:dept:query")
     @GetMapping(value = "/{deptId}")
@@ -83,7 +83,7 @@ public class SysDeptController extends BaseController {
     /**
      * 获取部门下拉树列表
      */
-    @ApiOperation("获取部门下拉树列表")
+    @Operation(summary = "获取部门下拉树列表")
     @GetMapping("/treeselect")
     public AjaxResult treeselect(SysDept dept) {
         List<SysDept> depts = deptService.selectDeptList(dept);
@@ -93,7 +93,7 @@ public class SysDeptController extends BaseController {
     /**
      * 加载对应角色部门列表树
      */
-    @ApiOperation("加载对应角色部门列表树")
+    @Operation(summary = "加载对应角色部门列表树")
     @GetMapping(value = "/roleDeptTreeselect/{roleId}")
     public AjaxResult roleDeptTreeselect(@PathVariable("roleId") Long roleId) {
         List<SysDept> depts = deptService.selectDeptList(new SysDept());
@@ -106,7 +106,7 @@ public class SysDeptController extends BaseController {
     /**
      * 新增部门
      */
-    @ApiOperation("新增部门")
+    @Operation(summary = "新增部门")
     @PreAuthorize("@ss.hasPermi('system:dept:add')")
     @RequiresPermissions("system:dept:add")
     @Log(title = "部门管理", businessType = BusinessType.INSERT)
@@ -122,7 +122,7 @@ public class SysDeptController extends BaseController {
     /**
      * 修改部门
      */
-    @ApiOperation("修改部门")
+    @Operation(summary = "修改部门")
     @PreAuthorize("@ss.hasPermi('system:dept:edit')")
     @RequiresPermissions("system:dept:edit")
     @Log(title = "部门管理", businessType = BusinessType.UPDATE)
@@ -144,7 +144,7 @@ public class SysDeptController extends BaseController {
     /**
      * 删除部门
      */
-    @ApiOperation("删除部门")
+    @Operation(summary = "删除部门")
     @PreAuthorize("@ss.hasPermi('system:dept:remove')")
     @RequiresPermissions("system:dept:remove")
     @Log(title = "部门管理", businessType = BusinessType.DELETE)

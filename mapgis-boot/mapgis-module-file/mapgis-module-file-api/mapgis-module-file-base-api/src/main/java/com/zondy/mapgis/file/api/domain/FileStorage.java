@@ -1,7 +1,6 @@
 package com.zondy.mapgis.file.api.domain;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
@@ -13,17 +12,17 @@ import lombok.experimental.Accessors;
  */
 @Data
 @Accessors(chain = true)
-@ApiModel("文件信息业务对象")
+@Schema(name = "文件信息业务对象")
 public class FileStorage {
     /**
      * 文件名称
      */
-    @ApiModelProperty(value = "文件名称")
+    @Schema(description = "文件名称")
     private String name;
 
     /**
      * 文件地址
      */
-    @ApiModelProperty(value = "文件地址")
+    @Schema(description = "文件地址")
     private String url;
 }

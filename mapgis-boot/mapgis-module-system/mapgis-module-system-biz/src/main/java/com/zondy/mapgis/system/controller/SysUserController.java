@@ -17,8 +17,8 @@ import com.zondy.mapgis.system.api.service.ISysPermissionService;
 import com.zondy.mapgis.system.api.service.ISysUserService;
 import com.zondy.mapgis.system.service.ISysPostService;
 import com.zondy.mapgis.system.service.ISysRoleService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,7 +38,7 @@ import java.util.stream.Collectors;
  * @author xiongbo
  * @since 2022/3/15 18:00
  */
-@Api(value = "用户信息控制器", tags = {"用户信息管理"})
+@Tag(name = "用户信息管理", description = "用户信息控制器")
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
 @ManagerRestController("/system/user")
 public class SysUserController extends BaseController {
@@ -54,7 +54,7 @@ public class SysUserController extends BaseController {
     /**
      * 获取用户列表
      */
-    @ApiOperation("获取用户列表")
+    @Operation(summary = "获取用户列表")
     @PreAuthorize("@ss.hasPermi('system:user:list')")
     @RequiresPermissions("system:user:list")
     @GetMapping("/list")
@@ -64,7 +64,7 @@ public class SysUserController extends BaseController {
         return getDataTable(list);
     }
 
-    @ApiOperation("导出用户列表")
+    @Operation(summary = "导出用户列表")
     @PreAuthorize("@ss.hasPermi('system:user:export')")
     @RequiresPermissions("system:user:export")
     @Log(title = "用户管理", businessType = BusinessType.EXPORT)
@@ -75,7 +75,7 @@ public class SysUserController extends BaseController {
         util.exportExcel(response, list, "用户数据");
     }
 
-    @ApiOperation("导入用户列表")
+    @Operation(summary = "导入用户列表")
     @PreAuthorize("@ss.hasPermi('system:user:import')")
     @RequiresPermissions("system:user:import")
     @Log(title = "用户管理", businessType = BusinessType.IMPORT)
@@ -88,7 +88,7 @@ public class SysUserController extends BaseController {
         return AjaxResult.success(message);
     }
 
-    @ApiOperation("下载导入模板")
+    @Operation(summary = "下载导入模板")
     @PostMapping("/importTemplate")
     public void importTemplate(HttpServletResponse response) {
         ExcelUtil<SysUser> util = new ExcelUtil<SysUser>(SysUser.class);
@@ -100,7 +100,7 @@ public class SysUserController extends BaseController {
      *
      * @return 用户信息
      */
-    @ApiOperation("获取用户信息")
+    @Operation(summary = "获取用户信息")
     @GetMapping("getInfo")
     public AjaxResult getInfo() {
         Long userId = SecurityUtils.getUserId();
@@ -118,7 +118,7 @@ public class SysUserController extends BaseController {
     /**
      * 根据用户编号获取详细信息
      */
-    @ApiOperation("根据用户编号获取详细信息")
+    @Operation(summary = "根据用户编号获取详细信息")
     @PreAuthorize("@ss.hasPermi('system:user:query')")
     @RequiresPermissions("system:user:query")
     @GetMapping(value = {"/", "/{userId}"})
@@ -140,7 +140,7 @@ public class SysUserController extends BaseController {
     /**
      * 新增用户
      */
-    @ApiOperation("新增用户")
+    @Operation(summary = "新增用户")
     @PreAuthorize("@ss.hasPermi('system:user:add')")
     @RequiresPermissions("system:user:add")
     @Log(title = "用户管理", businessType = BusinessType.INSERT)
@@ -163,7 +163,7 @@ public class SysUserController extends BaseController {
     /**
      * 修改用户
      */
-    @ApiOperation("修改用户")
+    @Operation(summary = "修改用户")
     @PreAuthorize("@ss.hasPermi('system:user:edit')")
     @RequiresPermissions("system:user:edit")
     @Log(title = "用户管理", businessType = BusinessType.UPDATE)
@@ -185,7 +185,7 @@ public class SysUserController extends BaseController {
     /**
      * 删除用户
      */
-    @ApiOperation("删除用户")
+    @Operation(summary = "删除用户")
     @PreAuthorize("@ss.hasPermi('system:user:remove')")
     @RequiresPermissions("system:user:remove")
     @Log(title = "用户管理", businessType = BusinessType.DELETE)
@@ -200,7 +200,7 @@ public class SysUserController extends BaseController {
     /**
      * 重置密码
      */
-    @ApiOperation("重置密码")
+    @Operation(summary = "重置密码")
     @PreAuthorize("@ss.hasPermi('system:user:resetPwd')")
     @RequiresPermissions("system:user:edit")
     @Log(title = "用户管理", businessType = BusinessType.UPDATE)
@@ -216,7 +216,7 @@ public class SysUserController extends BaseController {
     /**
      * 状态修改
      */
-    @ApiOperation("状态修改")
+    @Operation(summary = "状态修改")
     @PreAuthorize("@ss.hasPermi('system:user:edit')")
     @RequiresPermissions("system:user:edit")
     @Log(title = "用户管理", businessType = BusinessType.UPDATE)
@@ -231,7 +231,7 @@ public class SysUserController extends BaseController {
     /**
      * 根据用户编号获取授权角色
      */
-    @ApiOperation("根据用户编号获取授权角色")
+    @Operation(summary = "根据用户编号获取授权角色")
     @PreAuthorize("@ss.hasPermi('system:user:query')")
     @RequiresPermissions("system:user:query")
     @GetMapping("/authRole/{userId}")
@@ -247,7 +247,7 @@ public class SysUserController extends BaseController {
     /**
      * 用户授权角色
      */
-    @ApiOperation("用户授权角色")
+    @Operation(summary = "用户授权角色")
     @PreAuthorize("@ss.hasPermi('system:user:edit')")
     @RequiresPermissions("system:user:edit")
     @Log(title = "用户管理", businessType = BusinessType.GRANT)

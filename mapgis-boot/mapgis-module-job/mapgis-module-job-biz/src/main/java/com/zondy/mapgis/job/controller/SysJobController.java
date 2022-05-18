@@ -16,6 +16,8 @@ import com.zondy.mapgis.job.domain.SysJob;
 import com.zondy.mapgis.job.server.ISysJobService;
 import com.zondy.mapgis.job.util.CronUtils;
 import com.zondy.mapgis.job.util.ScheduleUtils;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.quartz.SchedulerException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -30,6 +32,7 @@ import java.util.List;
  * @author xiongbo
  * @since 2022/3/15 18:00
  */
+@Tag(name = "定时任务管理", description = "定时任务控制器")
 @ManagerRestController("/schedule/job")
 public class SysJobController extends BaseController {
     @Autowired
@@ -38,6 +41,7 @@ public class SysJobController extends BaseController {
     /**
      * 查询定时任务列表
      */
+    @Operation(summary = "查询定时任务列表")
     @PreAuthorize("@ss.hasPermi('monitor:job:list')")
     @RequiresPermissions("monitor:job:list")
     @GetMapping("/list")
@@ -50,6 +54,7 @@ public class SysJobController extends BaseController {
     /**
      * 导出定时任务列表
      */
+    @Operation(summary = "导出定时任务列表")
     @PreAuthorize("@ss.hasPermi('monitor:job:export')")
     @RequiresPermissions("monitor:job:export")
     @Log(title = "定时任务", businessType = BusinessType.EXPORT)
@@ -63,6 +68,7 @@ public class SysJobController extends BaseController {
     /**
      * 获取定时任务详细信息
      */
+    @Operation(summary = "获取定时任务详细信息")
     @PreAuthorize("@ss.hasPermi('monitor:job:query')")
     @RequiresPermissions("monitor:job:query")
     @GetMapping(value = "/{jobId}")
@@ -73,6 +79,7 @@ public class SysJobController extends BaseController {
     /**
      * 新增定时任务
      */
+    @Operation(summary = "新增定时任务")
     @PreAuthorize("@ss.hasPermi('monitor:job:add')")
     @RequiresPermissions("monitor:job:add")
     @Log(title = "定时任务", businessType = BusinessType.INSERT)
@@ -98,6 +105,7 @@ public class SysJobController extends BaseController {
     /**
      * 修改定时任务
      */
+    @Operation(summary = "修改定时任务")
     @PreAuthorize("@ss.hasPermi('monitor:job:edit')")
     @RequiresPermissions("monitor:job:edit")
     @Log(title = "定时任务", businessType = BusinessType.UPDATE)
@@ -123,6 +131,7 @@ public class SysJobController extends BaseController {
     /**
      * 定时任务状态修改
      */
+    @Operation(summary = "定时任务状态修改")
     @PreAuthorize("@ss.hasPermi('monitor:job:changeStatus')")
     @RequiresPermissions("monitor:job:changeStatus")
     @Log(title = "定时任务", businessType = BusinessType.UPDATE)
@@ -136,6 +145,7 @@ public class SysJobController extends BaseController {
     /**
      * 定时任务立即执行一次
      */
+    @Operation(summary = "定时任务立即执行一次")
     @PreAuthorize("@ss.hasPermi('monitor:job:changeStatus')")
     @RequiresPermissions("monitor:job:changeStatus")
     @Log(title = "定时任务", businessType = BusinessType.UPDATE)
@@ -148,6 +158,7 @@ public class SysJobController extends BaseController {
     /**
      * 删除定时任务
      */
+    @Operation(summary = "删除定时任务")
     @PreAuthorize("@ss.hasPermi('monitor:job:remove')")
     @RequiresPermissions("monitor:job:remove")
     @Log(title = "定时任务", businessType = BusinessType.DELETE)

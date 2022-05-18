@@ -1,7 +1,6 @@
 package com.zondy.mapgis.system.domain;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
@@ -13,17 +12,17 @@ import lombok.experimental.Accessors;
  */
 @Data
 @Accessors(chain = true)
-@ApiModel("用户和岗位关联")
+@Schema(name = "用户和岗位关联")
 public class SysUserPost {
     /**
      * 用户ID
      */
-    @ApiModelProperty(value = "用户ID")
+    @Schema(description = "用户ID")
     private Long userId;
 
     /**
      * 岗位ID
      */
-    @ApiModelProperty(value = "岗位ID")
+    @Schema(description = "岗位ID")
     private Long postId;
 }

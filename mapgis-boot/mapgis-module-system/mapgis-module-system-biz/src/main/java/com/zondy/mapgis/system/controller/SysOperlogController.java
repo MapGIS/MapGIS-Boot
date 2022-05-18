@@ -10,8 +10,8 @@ import com.zondy.mapgis.common.log.enums.BusinessType;
 import com.zondy.mapgis.common.security.annotation.RequiresPermissions;
 import com.zondy.mapgis.system.api.domain.SysOperLog;
 import com.zondy.mapgis.system.api.service.ISysOperLogService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -29,14 +29,14 @@ import java.util.List;
  * @author xiongbo
  * @since 2022/3/15 18:00
  */
-@Api(value = "操作日志记录控制器", tags = {"操作日志记录管理"})
+@Tag(name = "操作日志记录管理", description = "操作日志记录控制器")
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
 @ManagerRestController("/system/operlog")
 public class SysOperlogController extends BaseController {
 
     private final ISysOperLogService operLogService;
 
-    @ApiOperation("查询操作日志记录列表")
+    @Operation(summary = "查询操作日志记录列表")
     @PreAuthorize("@ss.hasPermi('system:operlog:list')")
     @RequiresPermissions("system:operlog:list")
     @GetMapping("/list")
@@ -46,7 +46,7 @@ public class SysOperlogController extends BaseController {
         return getDataTable(list);
     }
 
-    @ApiOperation("导出操作日志记录列表")
+    @Operation(summary = "导出操作日志记录列表")
     @PreAuthorize("@ss.hasPermi('system:operlog:export')")
     @RequiresPermissions("system:operlog:export")
     @Log(title = "操作日志", businessType = BusinessType.EXPORT)
@@ -57,7 +57,7 @@ public class SysOperlogController extends BaseController {
         util.exportExcel(response, list, "操作日志");
     }
 
-    @ApiOperation("删除操作日志记录")
+    @Operation(summary = "删除操作日志记录")
     @PreAuthorize("@ss.hasPermi('system:operlog:remove')")
     @RequiresPermissions("system:operlog:remove")
     @Log(title = "操作日志", businessType = BusinessType.DELETE)
@@ -66,7 +66,7 @@ public class SysOperlogController extends BaseController {
         return toAjax(operLogService.deleteOperLogByIds(operIds));
     }
 
-    @ApiOperation("清空操作日志记录")
+    @Operation(summary = "清空操作日志记录")
     @PreAuthorize("@ss.hasPermi('system:operlog:remove')")
     @RequiresPermissions("system:operlog:remove")
     @Log(title = "操作日志", businessType = BusinessType.CLEAN)

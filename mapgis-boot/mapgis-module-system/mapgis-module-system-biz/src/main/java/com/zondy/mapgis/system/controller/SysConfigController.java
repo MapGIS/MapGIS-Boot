@@ -12,8 +12,8 @@ import com.zondy.mapgis.common.security.annotation.RequiresPermissions;
 import com.zondy.mapgis.common.security.utils.SecurityUtils;
 import com.zondy.mapgis.system.domain.SysConfig;
 import com.zondy.mapgis.system.service.ISysConfigService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -29,7 +29,7 @@ import java.util.List;
  * @author xiongbo
  * @since 2022/3/15 18:00
  */
-@Api(value = "参数配置控制器", tags = {"参数配置管理"})
+@Tag(name = "参数配置管理", description = "参数配置控制器")
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
 @ManagerRestController("/system/config")
 public class SysConfigController extends BaseController {
@@ -39,7 +39,7 @@ public class SysConfigController extends BaseController {
     /**
      * 获取参数配置列表
      */
-    @ApiOperation("获取参数配置列表")
+    @Operation(summary = "获取参数配置列表")
     @PreAuthorize("@ss.hasPermi('system:config:list')")
     @RequiresPermissions("system:config:list")
     @GetMapping("/list")
@@ -49,7 +49,7 @@ public class SysConfigController extends BaseController {
         return getDataTable(list);
     }
 
-    @ApiOperation("导出参数配置列表")
+    @Operation(summary = "导出参数配置列表")
     @PreAuthorize("@ss.hasPermi('system:config:export')")
     @RequiresPermissions("system:config:export")
     @Log(title = "参数管理", businessType = BusinessType.EXPORT)
@@ -63,7 +63,7 @@ public class SysConfigController extends BaseController {
     /**
      * 根据参数编号获取详细信息
      */
-    @ApiOperation("根据参数编号获取详细信息")
+    @Operation(summary = "根据参数编号获取详细信息")
     @PreAuthorize("@ss.hasPermi('system:config:query')")
     @RequiresPermissions("system:config:query")
     @GetMapping(value = "/{configId}")
@@ -74,7 +74,7 @@ public class SysConfigController extends BaseController {
     /**
      * 根据参数键名查询参数值
      */
-    @ApiOperation("根据参数键名查询参数值")
+    @Operation(summary = "根据参数键名查询参数值")
     @GetMapping(value = "/configKey/{configKey}")
     public AjaxResult getConfigKey(@PathVariable String configKey) {
         return AjaxResult.success(configService.selectConfigByKey(configKey));
@@ -83,7 +83,7 @@ public class SysConfigController extends BaseController {
     /**
      * 新增参数配置
      */
-    @ApiOperation("新增参数配置")
+    @Operation(summary = "新增参数配置")
     @PreAuthorize("@ss.hasPermi('system:config:add')")
     @RequiresPermissions("system:config:add")
     @Log(title = "参数管理", businessType = BusinessType.INSERT)
@@ -99,7 +99,7 @@ public class SysConfigController extends BaseController {
     /**
      * 修改参数配置
      */
-    @ApiOperation("修改参数配置")
+    @Operation(summary = "修改参数配置")
     @PreAuthorize("@ss.hasPermi('system:config:edit')")
     @RequiresPermissions("system:config:edit")
     @Log(title = "参数管理", businessType = BusinessType.UPDATE)
@@ -115,7 +115,7 @@ public class SysConfigController extends BaseController {
     /**
      * 删除参数配置
      */
-    @ApiOperation("删除参数配置")
+    @Operation(summary = "删除参数配置")
     @PreAuthorize("@ss.hasPermi('system:config:remove')")
     @RequiresPermissions("system:config:remove")
     @Log(title = "参数管理", businessType = BusinessType.DELETE)
@@ -128,7 +128,7 @@ public class SysConfigController extends BaseController {
     /**
      * 刷新参数缓存
      */
-    @ApiOperation("刷新参数缓存")
+    @Operation(summary = "刷新参数缓存")
     @PreAuthorize("@ss.hasPermi('system:config:remove')")
     @RequiresPermissions("system:config:remove")
     @Log(title = "参数管理", businessType = BusinessType.CLEAN)

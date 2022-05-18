@@ -12,8 +12,8 @@ import com.zondy.mapgis.common.security.annotation.RequiresPermissions;
 import com.zondy.mapgis.common.security.utils.SecurityUtils;
 import com.zondy.mapgis.system.domain.SysPost;
 import com.zondy.mapgis.system.service.ISysPostService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -29,7 +29,7 @@ import java.util.List;
  * @author xiongbo
  * @since 2022/3/15 18:00
  */
-@Api(value = "岗位信息控制器", tags = {"岗位信息管理"})
+@Tag(name = "岗位信息管理", description = "岗位信息控制器")
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
 @ManagerRestController("/system/post")
 public class SysPostController extends BaseController {
@@ -39,7 +39,7 @@ public class SysPostController extends BaseController {
     /**
      * 获取岗位列表
      */
-    @ApiOperation("获取岗位列表")
+    @Operation(summary = "获取岗位列表")
     @PreAuthorize("@ss.hasPermi('system:post:list')")
     @RequiresPermissions("system:post:list")
     @GetMapping("/list")
@@ -49,7 +49,7 @@ public class SysPostController extends BaseController {
         return getDataTable(list);
     }
 
-    @ApiOperation("导出岗位列表")
+    @Operation(summary = "导出岗位列表")
     @PreAuthorize("@ss.hasPermi('system:post:export')")
     @RequiresPermissions("system:post:export")
     @Log(title = "岗位管理", businessType = BusinessType.EXPORT)
@@ -63,7 +63,7 @@ public class SysPostController extends BaseController {
     /**
      * 根据岗位编号获取详细信息
      */
-    @ApiOperation("根据岗位编号获取详细信息")
+    @Operation(summary = "根据岗位编号获取详细信息")
     @PreAuthorize("@ss.hasPermi('system:post:query')")
     @RequiresPermissions("system:post:query")
     @GetMapping(value = "/{postId}")
@@ -74,7 +74,7 @@ public class SysPostController extends BaseController {
     /**
      * 新增岗位
      */
-    @ApiOperation("新增岗位")
+    @Operation(summary = "新增岗位")
     @PreAuthorize("@ss.hasPermi('system:post:add')")
     @RequiresPermissions("system:post:add")
     @Log(title = "岗位管理", businessType = BusinessType.INSERT)
@@ -92,7 +92,7 @@ public class SysPostController extends BaseController {
     /**
      * 修改岗位
      */
-    @ApiOperation("修改岗位")
+    @Operation(summary = "修改岗位")
     @PreAuthorize("@ss.hasPermi('system:post:edit')")
     @RequiresPermissions("system:post:edit")
     @Log(title = "岗位管理", businessType = BusinessType.UPDATE)
@@ -110,7 +110,7 @@ public class SysPostController extends BaseController {
     /**
      * 删除岗位
      */
-    @ApiOperation("删除岗位")
+    @Operation(summary = "删除岗位")
     @PreAuthorize("@ss.hasPermi('system:post:remove')")
     @RequiresPermissions("system:post:remove")
     @Log(title = "岗位管理", businessType = BusinessType.DELETE)
@@ -122,7 +122,7 @@ public class SysPostController extends BaseController {
     /**
      * 获取岗位选择框列表
      */
-    @ApiOperation("获取岗位选择框列表")
+    @Operation(summary = "获取岗位选择框列表")
     @GetMapping("/optionselect")
     public AjaxResult optionselect() {
         List<SysPost> posts = postService.selectPostAll();

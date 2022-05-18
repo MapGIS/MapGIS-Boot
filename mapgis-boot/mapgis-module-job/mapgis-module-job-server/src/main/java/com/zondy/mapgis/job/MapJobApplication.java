@@ -2,7 +2,7 @@ package com.zondy.mapgis.job;
 
 import com.zondy.mapgis.common.security.annotation.EnableMapConfig;
 import com.zondy.mapgis.common.security.annotation.EnableMapFeignClients;
-import com.zondy.mapgis.common.swagger.annotation.EnableCustomSwagger2;
+import com.zondy.mapgis.common.swagger.annotation.EnableCustomSwagger3;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -13,7 +13,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @since 2022/3/15 18:00
  */
 @EnableMapConfig
-@EnableCustomSwagger2
+@EnableCustomSwagger3
 @EnableMapFeignClients
 @SpringBootApplication
 public class MapJobApplication {

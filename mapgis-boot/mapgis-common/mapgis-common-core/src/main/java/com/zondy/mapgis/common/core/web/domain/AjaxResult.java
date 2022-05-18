@@ -2,8 +2,7 @@ package com.zondy.mapgis.common.core.web.domain;
 
 import com.zondy.mapgis.common.core.constant.HttpStatus;
 import com.zondy.mapgis.common.core.utils.StringUtils;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 import java.util.HashMap;
 
@@ -13,26 +12,26 @@ import java.util.HashMap;
  * @author xiongbo
  * @since 2022/3/15 18:00
  */
-@ApiModel("请求响应对象")
+@Schema(name = "请求响应对象")
 public class AjaxResult extends HashMap<String, Object> {
     private static final long serialVersionUID = 1L;
 
     /**
      * 状态码
      */
-    @ApiModelProperty("状态码")
+    @Schema(description = "状态码")
     public static final String CODE_TAG = "code";
 
     /**
      * 返回内容
      */
-    @ApiModelProperty("返回内容")
+    @Schema(description = "返回内容")
     public static final String MSG_TAG = "msg";
 
     /**
      * 数据对象
      */
-    @ApiModelProperty("数据对象")
+    @Schema(description = "数据对象")
     public static final String DATA_TAG = "data";
 
     /**

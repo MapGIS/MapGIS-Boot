@@ -19,8 +19,8 @@ import com.zondy.mapgis.system.api.service.ISysPermissionService;
 import com.zondy.mapgis.system.api.service.ISysUserService;
 import com.zondy.mapgis.system.domain.SysUserRole;
 import com.zondy.mapgis.system.service.ISysRoleService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -36,7 +36,7 @@ import java.util.List;
  * @author xiongbo
  * @since 2022/3/15 18:00
  */
-@Api(value = "角色信息控制器", tags = {"角色信息管理"})
+@Tag(name = "角色信息管理", description = "角色信息控制器")
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
 @ManagerRestController("/system/role")
 public class SysRoleController extends BaseController {
@@ -49,7 +49,7 @@ public class SysRoleController extends BaseController {
 
     private final ISysUserService userService;
 
-    @ApiOperation("查询角色信息列表")
+    @Operation(summary = "查询角色信息列表")
     @PreAuthorize("@ss.hasPermi('system:role:list')")
     @RequiresPermissions("system:role:list")
     @GetMapping("/list")
@@ -59,7 +59,7 @@ public class SysRoleController extends BaseController {
         return getDataTable(list);
     }
 
-    @ApiOperation("导出角色信息列表")
+    @Operation(summary = "导出角色信息列表")
     @PreAuthorize("@ss.hasPermi('system:role:export')")
     @RequiresPermissions("system:role:export")
     @Log(title = "角色管理", businessType = BusinessType.EXPORT)
@@ -73,7 +73,7 @@ public class SysRoleController extends BaseController {
     /**
      * 根据角色编号获取详细信息
      */
-    @ApiOperation("根据角色编号获取详细信息")
+    @Operation(summary = "根据角色编号获取详细信息")
     @PreAuthorize("@ss.hasPermi('system:role:query')")
     @RequiresPermissions("system:role:query")
     @GetMapping(value = "/{roleId}")
@@ -85,7 +85,7 @@ public class SysRoleController extends BaseController {
     /**
      * 新增角色
      */
-    @ApiOperation("新增角色")
+    @Operation(summary = "新增角色")
     @PreAuthorize("@ss.hasPermi('system:role:add')")
     @RequiresPermissions("system:role:add")
     @Log(title = "角色管理", businessType = BusinessType.INSERT)
@@ -104,7 +104,7 @@ public class SysRoleController extends BaseController {
     /**
      * 修改保存角色
      */
-    @ApiOperation("修改保存角色")
+    @Operation(summary = "修改保存角色")
     @PreAuthorize("@ss.hasPermi('system:role:edit')")
     @RequiresPermissions("system:role:edit")
     @Log(title = "角色管理", businessType = BusinessType.UPDATE)
@@ -135,7 +135,7 @@ public class SysRoleController extends BaseController {
     /**
      * 修改保存数据权限
      */
-    @ApiOperation("修改保存数据权限")
+    @Operation(summary = "修改保存数据权限")
     @PreAuthorize("@ss.hasPermi('system:role:edit')")
     @RequiresPermissions("system:role:edit")
     @Log(title = "角色管理", businessType = BusinessType.UPDATE)
@@ -149,7 +149,7 @@ public class SysRoleController extends BaseController {
     /**
      * 状态修改
      */
-    @ApiOperation("状态修改")
+    @Operation(summary = "状态修改")
     @PreAuthorize("@ss.hasPermi('system:role:edit')")
     @RequiresPermissions("system:role:edit")
     @Log(title = "角色管理", businessType = BusinessType.UPDATE)
@@ -164,7 +164,7 @@ public class SysRoleController extends BaseController {
     /**
      * 删除角色
      */
-    @ApiOperation("删除角色")
+    @Operation(summary = "删除角色")
     @PreAuthorize("@ss.hasPermi('system:role:remove')")
     @RequiresPermissions("system:role:remove")
     @Log(title = "角色管理", businessType = BusinessType.DELETE)
@@ -176,7 +176,7 @@ public class SysRoleController extends BaseController {
     /**
      * 获取角色选择框列表
      */
-    @ApiOperation("获取角色选择框列表")
+    @Operation(summary = "获取角色选择框列表")
     @PreAuthorize("@ss.hasPermi('system:role:query')")
     @RequiresPermissions("system:role:query")
     @GetMapping("/optionselect")
@@ -187,7 +187,7 @@ public class SysRoleController extends BaseController {
     /**
      * 查询已分配用户角色列表
      */
-    @ApiOperation("查询已分配用户角色列表")
+    @Operation(summary = "查询已分配用户角色列表")
     @PreAuthorize("@ss.hasPermi('system:role:list')")
     @RequiresPermissions("system:role:list")
     @GetMapping("/authUser/allocatedList")
@@ -200,7 +200,7 @@ public class SysRoleController extends BaseController {
     /**
      * 查询未分配用户角色列表
      */
-    @ApiOperation("查询未分配用户角色列表")
+    @Operation(summary = "查询未分配用户角色列表")
     @PreAuthorize("@ss.hasPermi('system:role:list')")
     @RequiresPermissions("system:role:list")
     @GetMapping("/authUser/unallocatedList")
@@ -213,7 +213,7 @@ public class SysRoleController extends BaseController {
     /**
      * 取消授权用户
      */
-    @ApiOperation("取消授权用户")
+    @Operation(summary = "取消授权用户")
     @PreAuthorize("@ss.hasPermi('system:role:edit')")
     @RequiresPermissions("system:role:edit")
     @Log(title = "角色管理", businessType = BusinessType.GRANT)
@@ -225,7 +225,7 @@ public class SysRoleController extends BaseController {
     /**
      * 批量取消授权用户
      */
-    @ApiOperation("批量取消授权用户")
+    @Operation(summary = "批量取消授权用户")
     @PreAuthorize("@ss.hasPermi('system:role:edit')")
     @RequiresPermissions("system:role:edit")
     @Log(title = "角色管理", businessType = BusinessType.GRANT)
@@ -237,7 +237,7 @@ public class SysRoleController extends BaseController {
     /**
      * 批量选择用户授权
      */
-    @ApiOperation("批量选择用户授权")
+    @Operation(summary = "批量选择用户授权")
     @PreAuthorize("@ss.hasPermi('system:role:edit')")
     @RequiresPermissions("system:role:edit")
     @Log(title = "角色管理", businessType = BusinessType.GRANT)

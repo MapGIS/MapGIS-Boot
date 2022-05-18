@@ -38,9 +38,8 @@
         <alibaba.nacos.version>2.0.4</alibaba.nacos.version>
         <spring-boot-admin.version>2.6.7</spring-boot-admin.version>
         <mybatis-spring-boot.version>2.2.0</mybatis-spring-boot.version>
-        <swagger.version>3.0.0</swagger.version>
-        <swagger.fox.version>3.0.0</swagger.fox.version>
-        <swagger.core.version>1.6.2</swagger.core.version>
+        <swagger.annotations.version>2.2.0</swagger.annotations.version>
+        <springdoc.version>1.6.8</springdoc.version>
         <tobato.version>1.27.2</tobato.version>
         <kaptcha.version>2.3.2</kaptcha.version>
         <pagehelper.boot.version>1.4.1</pagehelper.boot.version>
@@ -117,27 +116,23 @@
                 <version>${mybatis-spring-boot.version}</version>
             </dependency>
 
-            <!-- Swagger 依赖配置 -->
+            <!-- springdoc -->
             <dependency>
-                <groupId>io.springfox</groupId>
-                <artifactId>springfox-boot-starter</artifactId>
-                <version>${swagger.version}</version>
-                <exclusions>
-                    <exclusion>
-                        <groupId>io.swagger</groupId>
-                        <artifactId>swagger-models</artifactId>
-                    </exclusion>
-                </exclusions>
+                <groupId>org.springdoc</groupId>
+                <artifactId>springdoc-openapi-ui</artifactId>
+                <version>${springdoc.version}</version>
             </dependency>
             <dependency>
-                <groupId>io.swagger</groupId>
-                <artifactId>swagger-models</artifactId>
-                <version>${swagger.core.version}</version>
+                <groupId>org.springdoc</groupId>
+                <artifactId>springdoc-openapi-webflux-ui</artifactId>
+                <version>${springdoc.version}</version>
             </dependency>
+
+            <!-- swagger annotations-->
             <dependency>
-                <groupId>io.swagger</groupId>
+                <groupId>io.swagger.core.v3</groupId>
                 <artifactId>swagger-annotations</artifactId>
-                <version>${swagger.core.version}</version>
+                <version>${swagger.annotations.version}</version>
             </dependency>
 
             <!-- 验证码 -->

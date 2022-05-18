@@ -15,8 +15,8 @@ import com.zondy.mapgis.file.api.domain.FileStorage;
 import com.zondy.mapgis.system.api.domain.SysUser;
 import com.zondy.mapgis.system.api.model.LoginUser;
 import com.zondy.mapgis.system.api.service.ISysUserService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -30,7 +30,7 @@ import java.io.IOException;
  * @author xiongbo
  * @since 2022/3/15 18:00
  */
-@Api(value = "个人信息控制器", tags = {"个人信息管理"})
+@Tag(name = "个人信息管理", description = "个人信息控制器")
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
 @ManagerRestController("/system/user/profile")
 public class SysProfileController extends BaseController {
@@ -44,7 +44,7 @@ public class SysProfileController extends BaseController {
     /**
      * 个人信息
      */
-    @ApiOperation("个人信息")
+    @Operation(summary = "个人信息")
     @GetMapping
     public AjaxResult profile() {
         LoginUser loginUser = SecurityUtils.getLoginUser();
@@ -58,7 +58,7 @@ public class SysProfileController extends BaseController {
     /**
      * 修改用户
      */
-    @ApiOperation("修改用户")
+    @Operation(summary = "修改用户")
     @Log(title = "个人信息", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult updateProfile(@RequestBody SysUser user) {
@@ -90,7 +90,7 @@ public class SysProfileController extends BaseController {
     /**
      * 重置密码
      */
-    @ApiOperation("重置密码")
+    @Operation(summary = "重置密码")
     @Log(title = "个人信息", businessType = BusinessType.UPDATE)
     @PutMapping("/updatePwd")
     public AjaxResult updatePwd(String oldPassword, String newPassword) {
@@ -115,7 +115,7 @@ public class SysProfileController extends BaseController {
     /**
      * 头像上传
      */
-    @ApiOperation("头像上传")
+    @Operation(summary = "头像上传")
     @Log(title = "用户头像", businessType = BusinessType.UPDATE)
     @PostMapping("/avatar")
     public AjaxResult avatar(@RequestParam("avatarfile") MultipartFile file) throws IOException {

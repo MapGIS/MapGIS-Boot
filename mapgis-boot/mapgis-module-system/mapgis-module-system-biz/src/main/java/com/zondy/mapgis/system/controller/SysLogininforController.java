@@ -10,8 +10,8 @@ import com.zondy.mapgis.common.log.enums.BusinessType;
 import com.zondy.mapgis.common.security.annotation.RequiresPermissions;
 import com.zondy.mapgis.system.api.domain.SysLogininfor;
 import com.zondy.mapgis.system.api.service.ISysLogininforService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -29,14 +29,14 @@ import java.util.List;
  * @author xiongbo
  * @since 2022/3/15 18:00
  */
-@Api(value = "系统访问记录控制器", tags = {"系统访问记录管理"})
+@Tag(name = "系统访问记录管理", description = "系统访问记录控制器")
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
 @ManagerRestController("/system/logininfor")
 public class SysLogininforController extends BaseController {
 
     private final ISysLogininforService logininforService;
 
-    @ApiOperation("查询系统访问记录列表")
+    @Operation(summary = "查询系统访问记录列表")
     @PreAuthorize("@ss.hasPermi('system:logininfor:list')")
     @RequiresPermissions("system:logininfor:list")
     @GetMapping("/list")
@@ -46,7 +46,7 @@ public class SysLogininforController extends BaseController {
         return getDataTable(list);
     }
 
-    @ApiOperation("导出系统访问记录列表")
+    @Operation(summary = "导出系统访问记录列表")
     @Log(title = "登录日志", businessType = BusinessType.EXPORT)
     @PreAuthorize("@ss.hasPermi('system:logininfor:export')")
     @RequiresPermissions("system:logininfor:export")
@@ -57,7 +57,7 @@ public class SysLogininforController extends BaseController {
         util.exportExcel(response, list, "登录日志");
     }
 
-    @ApiOperation("删除系统访问记录")
+    @Operation(summary = "删除系统访问记录")
     @PreAuthorize("@ss.hasPermi('system:logininfor:remove')")
     @RequiresPermissions("system:logininfor:remove")
     @Log(title = "登录日志", businessType = BusinessType.DELETE)
@@ -66,7 +66,7 @@ public class SysLogininforController extends BaseController {
         return toAjax(logininforService.deleteLogininforByIds(infoIds));
     }
 
-    @ApiOperation("清空系统访问记录")
+    @Operation(summary = "清空系统访问记录")
     @PreAuthorize("@ss.hasPermi('system:logininfor:remove')")
     @RequiresPermissions("system:logininfor:remove")
     @Log(title = "登录日志", businessType = BusinessType.CLEAN)

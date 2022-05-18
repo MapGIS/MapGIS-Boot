@@ -12,8 +12,8 @@ import com.zondy.mapgis.common.security.annotation.RequiresPermissions;
 import com.zondy.mapgis.common.security.utils.SecurityUtils;
 import com.zondy.mapgis.system.api.domain.SysDictType;
 import com.zondy.mapgis.system.service.ISysDictTypeService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -29,14 +29,14 @@ import java.util.List;
  * @author xiongbo
  * @since 2022/3/15 18:00
  */
-@Api(value = "数据字典信息控制器", tags = {"数据字典信息管理"})
+@Tag(name = "数据字典信息管理", description = "数据字典信息控制器")
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
 @ManagerRestController("/system/dict/type")
 public class SysDictTypeController extends BaseController {
 
     private final ISysDictTypeService dictTypeService;
 
-    @ApiOperation("查询字典类型列表")
+    @Operation(summary = "查询字典类型列表")
     @PreAuthorize("@ss.hasPermi('system:dict:list')")
     @RequiresPermissions("system:dict:list")
     @GetMapping("/list")
@@ -46,7 +46,7 @@ public class SysDictTypeController extends BaseController {
         return getDataTable(list);
     }
 
-    @ApiOperation("导出字典类型列表")
+    @Operation(summary = "导出字典类型列表")
     @Log(title = "字典类型", businessType = BusinessType.EXPORT)
     @PreAuthorize("@ss.hasPermi('system:dict:export')")
     @RequiresPermissions("system:dict:export")
@@ -60,7 +60,7 @@ public class SysDictTypeController extends BaseController {
     /**
      * 查询字典类型详细
      */
-    @ApiOperation("查询字典类型详细")
+    @Operation(summary = "查询字典类型详细")
     @PreAuthorize("@ss.hasPermi('system:dict:query')")
     @RequiresPermissions("system:dict:query")
     @GetMapping(value = "/{dictId}")
@@ -71,7 +71,7 @@ public class SysDictTypeController extends BaseController {
     /**
      * 新增字典类型
      */
-    @ApiOperation("新增字典类型")
+    @Operation(summary = "新增字典类型")
     @PreAuthorize("@ss.hasPermi('system:dict:add')")
     @RequiresPermissions("system:dict:add")
     @Log(title = "字典类型", businessType = BusinessType.INSERT)
@@ -87,7 +87,7 @@ public class SysDictTypeController extends BaseController {
     /**
      * 修改字典类型
      */
-    @ApiOperation("修改字典类型")
+    @Operation(summary = "修改字典类型")
     @PreAuthorize("@ss.hasPermi('system:dict:edit')")
     @RequiresPermissions("system:dict:edit")
     @Log(title = "字典类型", businessType = BusinessType.UPDATE)
@@ -103,7 +103,7 @@ public class SysDictTypeController extends BaseController {
     /**
      * 删除字典类型
      */
-    @ApiOperation("删除字典类型")
+    @Operation(summary = "删除字典类型")
     @PreAuthorize("@ss.hasPermi('system:dict:remove')")
     @RequiresPermissions("system:dict:remove")
     @Log(title = "字典类型", businessType = BusinessType.DELETE)
@@ -116,7 +116,7 @@ public class SysDictTypeController extends BaseController {
     /**
      * 刷新字典缓存
      */
-    @ApiOperation("刷新字典缓存")
+    @Operation(summary = "刷新字典缓存")
     @PreAuthorize("@ss.hasPermi('system:dict:remove')")
     @RequiresPermissions("system:dict:remove")
     @Log(title = "字典类型", businessType = BusinessType.CLEAN)
@@ -129,7 +129,7 @@ public class SysDictTypeController extends BaseController {
     /**
      * 获取字典选择框列表
      */
-    @ApiOperation("获取字典选择框列表")
+    @Operation(summary = "获取字典选择框列表")
     @GetMapping("/optionselect")
     public AjaxResult optionselect() {
         List<SysDictType> dictTypes = dictTypeService.selectDictTypeAll();

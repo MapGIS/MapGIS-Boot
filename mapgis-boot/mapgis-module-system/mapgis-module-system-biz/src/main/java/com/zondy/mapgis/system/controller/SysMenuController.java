@@ -11,8 +11,8 @@ import com.zondy.mapgis.common.security.annotation.RequiresPermissions;
 import com.zondy.mapgis.common.security.utils.SecurityUtils;
 import com.zondy.mapgis.system.domain.SysMenu;
 import com.zondy.mapgis.system.service.ISysMenuService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -27,7 +27,7 @@ import java.util.List;
  * @author xiongbo
  * @since 2022/3/15 18:00
  */
-@Api(value = "菜单信息控制器", tags = {"菜单信息管理"})
+@Tag(name = "菜单信息管理", description = "菜单信息控制器")
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
 @ManagerRestController("/system/menu")
 public class SysMenuController extends BaseController {
@@ -37,7 +37,7 @@ public class SysMenuController extends BaseController {
     /**
      * 获取菜单列表
      */
-    @ApiOperation("获取菜单列表")
+    @Operation(summary = "获取菜单列表")
     @PreAuthorize("@ss.hasPermi('system:menu:list')")
     @RequiresPermissions("system:menu:list")
     @GetMapping("/list")
@@ -50,7 +50,7 @@ public class SysMenuController extends BaseController {
     /**
      * 根据菜单编号获取详细信息
      */
-    @ApiOperation("根据菜单编号获取详细信息")
+    @Operation(summary = "根据菜单编号获取详细信息")
     @PreAuthorize("@ss.hasPermi('system:menu:query')")
     @RequiresPermissions("system:menu:query")
     @GetMapping(value = "/{menuId}")
@@ -61,7 +61,7 @@ public class SysMenuController extends BaseController {
     /**
      * 获取菜单下拉树列表
      */
-    @ApiOperation("获取菜单下拉树列表")
+    @Operation(summary = "获取菜单下拉树列表")
     @GetMapping("/treeselect")
     public AjaxResult treeselect(SysMenu menu) {
         Long userId = SecurityUtils.getUserId();
@@ -72,7 +72,7 @@ public class SysMenuController extends BaseController {
     /**
      * 加载对应角色菜单列表树
      */
-    @ApiOperation("加载对应角色菜单列表树")
+    @Operation(summary = "加载对应角色菜单列表树")
     @GetMapping(value = "/roleMenuTreeselect/{roleId}")
     public AjaxResult roleMenuTreeselect(@PathVariable("roleId") Long roleId) {
         Long userId = SecurityUtils.getUserId();
@@ -86,7 +86,7 @@ public class SysMenuController extends BaseController {
     /**
      * 新增菜单
      */
-    @ApiOperation("新增菜单")
+    @Operation(summary = "新增菜单")
     @PreAuthorize("@ss.hasPermi('system:menu:add')")
     @RequiresPermissions("system:menu:add")
     @Log(title = "菜单管理", businessType = BusinessType.INSERT)
@@ -104,7 +104,7 @@ public class SysMenuController extends BaseController {
     /**
      * 修改菜单
      */
-    @ApiOperation("修改菜单")
+    @Operation(summary = "修改菜单")
     @PreAuthorize("@ss.hasPermi('system:menu:edit')")
     @RequiresPermissions("system:menu:edit")
     @Log(title = "菜单管理", businessType = BusinessType.UPDATE)
@@ -124,7 +124,7 @@ public class SysMenuController extends BaseController {
     /**
      * 删除菜单
      */
-    @ApiOperation("删除菜单")
+    @Operation(summary = "删除菜单")
     @PreAuthorize("@ss.hasPermi('system:menu:remove')")
     @RequiresPermissions("system:menu:remove")
     @Log(title = "菜单管理", businessType = BusinessType.DELETE)
@@ -144,7 +144,7 @@ public class SysMenuController extends BaseController {
      *
      * @return 路由信息
      */
-    @ApiOperation("获取路由信息")
+    @Operation(summary = "获取路由信息")
     @GetMapping("getRouters")
     public AjaxResult getRouters() {
         Long userId = SecurityUtils.getUserId();

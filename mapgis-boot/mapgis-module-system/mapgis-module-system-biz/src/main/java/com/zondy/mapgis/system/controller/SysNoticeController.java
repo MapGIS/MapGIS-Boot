@@ -10,8 +10,8 @@ import com.zondy.mapgis.common.security.annotation.RequiresPermissions;
 import com.zondy.mapgis.common.security.utils.SecurityUtils;
 import com.zondy.mapgis.system.domain.SysNotice;
 import com.zondy.mapgis.system.service.ISysNoticeService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -26,7 +26,7 @@ import java.util.List;
  * @author xiongbo
  * @since 2022/3/15 18:00
  */
-@Api(value = "公告信息控制器", tags = {"公告信息管理"})
+@Tag(name = "公告信息管理", description = "公告信息控制器")
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
 @ManagerRestController("/system/notice")
 public class SysNoticeController extends BaseController {
@@ -36,7 +36,7 @@ public class SysNoticeController extends BaseController {
     /**
      * 获取通知公告列表
      */
-    @ApiOperation("获取通知公告列表")
+    @Operation(summary = "获取通知公告列表")
     @PreAuthorize("@ss.hasPermi('system:notice:list')")
     @RequiresPermissions("system:notice:list")
     @GetMapping("/list")
@@ -49,7 +49,7 @@ public class SysNoticeController extends BaseController {
     /**
      * 根据通知公告编号获取详细信息
      */
-    @ApiOperation("根据通知公告编号获取详细信息")
+    @Operation(summary = "根据通知公告编号获取详细信息")
     @PreAuthorize("@ss.hasPermi('system:notice:query')")
     @RequiresPermissions("system:notice:query")
     @GetMapping(value = "/{noticeId}")
@@ -60,7 +60,7 @@ public class SysNoticeController extends BaseController {
     /**
      * 新增通知公告
      */
-    @ApiOperation("新增通知公告")
+    @Operation(summary = "新增通知公告")
     @PreAuthorize("@ss.hasPermi('system:notice:add')")
     @RequiresPermissions("system:notice:add")
     @Log(title = "通知公告", businessType = BusinessType.INSERT)
@@ -73,7 +73,7 @@ public class SysNoticeController extends BaseController {
     /**
      * 修改通知公告
      */
-    @ApiOperation("修改通知公告")
+    @Operation(summary = "修改通知公告")
     @PreAuthorize("@ss.hasPermi('system:notice:edit')")
     @RequiresPermissions("system:notice:edit")
     @Log(title = "通知公告", businessType = BusinessType.UPDATE)
@@ -86,7 +86,7 @@ public class SysNoticeController extends BaseController {
     /**
      * 删除通知公告
      */
-    @ApiOperation("删除通知公告")
+    @Operation(summary = "删除通知公告")
     @PreAuthorize("@ss.hasPermi('system:notice:remove')")
     @RequiresPermissions("system:notice:remove")
     @Log(title = "通知公告", businessType = BusinessType.DELETE)

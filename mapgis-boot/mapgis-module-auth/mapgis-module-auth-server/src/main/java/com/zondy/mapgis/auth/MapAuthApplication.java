@@ -1,7 +1,7 @@
 package com.zondy.mapgis.auth;
 
 import com.zondy.mapgis.common.security.annotation.EnableMapFeignClients;
-import com.zondy.mapgis.common.swagger.annotation.EnableCustomSwagger2;
+import com.zondy.mapgis.common.swagger.annotation.EnableCustomSwagger3;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
@@ -12,7 +12,7 @@ import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
  * @author xiongbo
  * @since 2022/3/15 18:00
  */
-@EnableCustomSwagger2
+@EnableCustomSwagger3
 @EnableMapFeignClients
 @SpringBootApplication(exclude = {DataSourceAutoConfiguration.class})
 public class MapAuthApplication {
