@@ -12,7 +12,7 @@ export default {
   components: {},
   data() {
     return {
-      src: process.env.VUE_APP_BASE_API + '/swagger-ui/index.html',
+      src: process.env.VUE_APP_BASE_API + '/webjars/swagger-ui/index.html',
       height: document.documentElement.clientHeight - 94.5 + 'px;',
       loading: true
     }
