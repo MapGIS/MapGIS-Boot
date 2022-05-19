@@ -31,7 +31,7 @@ public class SwaggerAutoConfiguration {
     public OpenAPI openApi(SwaggerProperties swaggerProperties) {
         // servers
         List<Server> serverList = new ArrayList<>();
-        serverList.add(new Server().url(swaggerProperties.getGateway() + "/api"));
+        serverList.add(new Server().url(swaggerProperties.getGateway()));
 
         return new OpenAPI()
                 .info(new Info()
