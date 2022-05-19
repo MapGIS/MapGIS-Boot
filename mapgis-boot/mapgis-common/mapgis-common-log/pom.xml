@@ -11,8 +11,6 @@
     <packaging>pom</packaging>
     <modules>
         <module>mapgis-common-base-log</module>
-        <module>mapgis-common-local-log</module>
-        <module>mapgis-common-cloud-log</module>
     </modules>
     <artifactId>mapgis-common-log</artifactId>
 
@@ -21,4 +19,19 @@
         <maven.compiler.target>8</maven.compiler.target>
     </properties>
 
+    <profiles>
+        <!-- 单体模式 -->
+        <profile>
+            <id>local</id>
+            <modules>
+                <module>mapgis-common-local-log</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>cloud</id>
+            <modules>
+                <module>mapgis-common-cloud-log</module>
+            </modules>
+        </profile>
+    </profiles>
 </project>

@@ -13,7 +13,6 @@
     <packaging>pom</packaging>
     <modules>
         <module>mapgis-module-job-biz</module>
-        <module>mapgis-module-job-server</module>
     </modules>
 
     <properties>
@@ -21,4 +20,16 @@
         <maven.compiler.target>8</maven.compiler.target>
     </properties>
 
+    <profiles>
+        <!-- 单体模式 -->
+        <profile>
+            <id>local</id>
+        </profile>
+        <profile>
+            <id>cloud</id>
+            <modules>
+                <module>mapgis-module-job-server</module>
+            </modules>
+        </profile>
+    </profiles>
 </project>

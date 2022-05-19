@@ -13,12 +13,10 @@
         <module>mapgis-common-core</module>
         <module>mapgis-common-datascope</module>
         <module>mapgis-common-cache</module>
-        <module>mapgis-common-ratelimiter</module>
         <module>mapgis-common-repeatsubmit</module>
         <module>mapgis-common-datasource</module>
         <module>mapgis-common-security</module>
         <module>mapgis-common-log</module>
-        <module>mapgis-common-swagger</module>
         <module>mapgis-common-controllerprefix</module>
     </modules>
 
@@ -30,4 +28,17 @@
         <maven.compiler.target>8</maven.compiler.target>
     </properties>
 
+    <profiles>
+        <!-- 单体模式 -->
+        <profile>
+            <id>local</id>
+        </profile>
+        <profile>
+            <id>cloud</id>
+            <modules>
+                <module>mapgis-common-ratelimiter</module>
+                <module>mapgis-common-swagger</module>
+            </modules>
+        </profile>
+    </profiles>
 </project>

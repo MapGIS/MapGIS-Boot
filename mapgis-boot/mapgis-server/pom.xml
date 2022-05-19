@@ -17,14 +17,6 @@
     </properties>
 
     <dependencies>
-        <!-- spring-boot-devtools -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-devtools</artifactId>
-            <scope>runtime</scope>
-            <optional>true</optional> <!-- 表示依赖不会传递 -->
-        </dependency>
-
         <!-- Mysql驱动包 -->
         <dependency>
             <groupId>mysql</groupId>
@@ -123,4 +115,19 @@
             </resource>
         </resources>
     </build>
+
+    <profiles>
+        <profile>
+            <id>devtools</id>
+            <dependencies>
+                <!-- spring-boot-devtools，机器配置好，可选择开启-->
+                <dependency>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-devtools</artifactId>
+                    <scope>runtime</scope>
+                    <optional>true</optional> <!-- 表示依赖不会传递 -->
+                </dependency>
+            </dependencies>
+        </profile>
+    </profiles>
 </project>

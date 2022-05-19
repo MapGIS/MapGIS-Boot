@@ -13,8 +13,6 @@
     <packaging>pom</packaging>
     <modules>
         <module>mapgis-common-base-cache</module>
-        <module>mapgis-common-local-cache</module>
-        <module>mapgis-common-cloud-cache</module>
     </modules>
 
     <properties>
@@ -30,4 +28,19 @@
         </dependency>
     </dependencies>
 
+    <profiles>
+        <!-- 单体模式 -->
+        <profile>
+            <id>local</id>
+            <modules>
+                <module>mapgis-common-local-cache</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>cloud</id>
+            <modules>
+                <module>mapgis-common-cloud-cache</module>
+            </modules>
+        </profile>
+    </profiles>
 </project>

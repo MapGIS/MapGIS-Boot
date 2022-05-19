@@ -17,11 +17,9 @@
     <modules>
         <module>mapgis-common</module>
         <module>mapgis-module-system</module>
-        <module>mapgis-server</module>
         <module>mapgis-module-file</module>
         <module>mapgis-module-auth</module>
         <module>mapgis-module-job</module>
-        <module>mapgis-cloud-module</module>
     </modules>
 
     <name>mapgis-boot</name>
@@ -465,6 +463,9 @@
                 <!--默认激活配置-->
                 <activeByDefault>true</activeByDefault>
             </activation>
+            <modules>
+                <module>mapgis-server</module>
+            </modules>
             <properties>
                 <mapgis.common.security.artifact>mapgis-common-local-security</mapgis.common.security.artifact>
                 <mapgis.common.log.artifact>mapgis-common-local-log</mapgis.common.log.artifact>
@@ -480,6 +481,9 @@
                 <!--默认激活配置-->
                 <activeByDefault>false</activeByDefault>
             </activation>
+            <modules>
+                <module>mapgis-cloud-module</module>
+            </modules>
             <properties>
                 <mapgis.common.security.artifact>mapgis-common-cloud-security</mapgis.common.security.artifact>
                 <mapgis.common.log.artifact>mapgis-common-cloud-log</mapgis.common.log.artifact>
