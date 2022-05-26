@@ -214,6 +214,20 @@ public class SysUserController extends BaseController {
     }
 
     /**
+     * 验证密码,传入{ password: xxx }
+     */
+    @Operation(summary = "验证密码")
+    @PostMapping("/checkPassword")
+    public AjaxResult checkPwd(@RequestBody SysUser user) {
+        String correctPassword = userService.selectUserById(SecurityUtils.getUserId()).getPassword();
+        if (SecurityUtils.matchesPassword(user.getPassword(), correctPassword)) {
+            return AjaxResult.success();
+        } else {
+            return AjaxResult.error("密码不正确");
+        }
+    }
+
+    /**
      * 状态修改
      */
     @Operation(summary = "状态修改")

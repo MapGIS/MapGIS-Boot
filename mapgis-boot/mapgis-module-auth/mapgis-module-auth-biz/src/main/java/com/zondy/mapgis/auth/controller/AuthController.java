@@ -1,4 +1,4 @@
-package com.zondy.mapgis.auth;
+package com.zondy.mapgis.auth.controller;
 
 import com.zondy.mapgis.auth.api.domain.model.LoginBody;
 import com.zondy.mapgis.auth.api.domain.model.RegisterBody;

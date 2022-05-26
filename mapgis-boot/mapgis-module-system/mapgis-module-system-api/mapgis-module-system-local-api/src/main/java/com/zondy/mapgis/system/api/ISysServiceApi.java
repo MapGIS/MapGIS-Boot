@@ -1,10 +1,13 @@
 package com.zondy.mapgis.system.api;
 
 import com.zondy.mapgis.common.core.domain.R;
+import com.zondy.mapgis.system.api.domain.SysAuthUser;
 import com.zondy.mapgis.system.api.domain.SysLogininfor;
 import com.zondy.mapgis.system.api.domain.SysOperLog;
 import com.zondy.mapgis.system.api.domain.SysUser;
 import com.zondy.mapgis.system.api.model.LoginUser;
+
+import java.util.List;
 
 /**
  * 系统服务API，提供其他独立模块调用
@@ -48,4 +51,31 @@ public interface ISysServiceApi {
      * @return 结果
      */
     public R<Boolean> saveLogininfor(SysLogininfor sysLogininfor, String source);
+
+    /**
+     * 获取授权用户列表
+     *
+     * @param user   查询条件
+     * @param source 请求来源
+     * @return 结果
+     */
+    public R<List<SysAuthUser>> selectAuthUserList(SysAuthUser user, String source);
+
+    /**
+     * 根据uuid查询用户信息
+     *
+     * @param uuid   唯一信息
+     * @param source 请求来源
+     * @return 结果
+     */
+    public R<SysUser> selectUserByAuthUuid(String uuid, String source);
+
+    /**
+     * 新增第三方授权信息
+     *
+     * @param authUser 用户信息
+     * @param source   请求来源
+     * @return 结果
+     */
+    public R<Boolean> saveAuthUser(SysAuthUser authUser, String source);
 }

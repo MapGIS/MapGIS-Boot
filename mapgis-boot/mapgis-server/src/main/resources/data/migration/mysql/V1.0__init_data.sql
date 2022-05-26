@@ -11,11 +11,37 @@
  Target Server Version : 50736
  File Encoding         : 65001
 
- Date: 10/05/2022 14:57:40
+ Date: 26/05/2022 11:19:50
 */
 
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
+
+-- ----------------------------
+-- Table structure for sys_auth_user
+-- ----------------------------
+DROP TABLE IF EXISTS `sys_auth_user`;
+CREATE TABLE `sys_auth_user`
+(
+    `auth_id`     bigint(20)                                                    NOT NULL AUTO_INCREMENT COMMENT '授权ID',
+    `uuid`        varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '第三方平台用户唯一ID',
+    `user_id`     bigint(20)                                                    NULL DEFAULT NULL COMMENT '系统用户ID',
+    `login_name`  varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci  NOT NULL COMMENT '登录账号',
+    `user_name`   varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci  NULL DEFAULT '' COMMENT '用户昵称',
+    `avatar`      varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '头像地址',
+    `email`       varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '用户邮箱',
+    `source`      varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '用户来源',
+    `create_time` datetime                                                      NULL DEFAULT NULL COMMENT '创建时间',
+    PRIMARY KEY (`auth_id`) USING BTREE
+) ENGINE = InnoDB
+  AUTO_INCREMENT = 110
+  CHARACTER SET = utf8mb4
+  COLLATE = utf8mb4_general_ci COMMENT = '第三方授权表'
+  ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Records of sys_auth_user
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for sys_config

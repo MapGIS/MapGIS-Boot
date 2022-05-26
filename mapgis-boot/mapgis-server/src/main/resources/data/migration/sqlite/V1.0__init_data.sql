@@ -10,8 +10,25 @@
  Target Server Version : 3030001
  File Encoding         : 65001
 
- Date: 10/05/2022 15:38:09
+ Date: 26/05/2022 11:19:50
 */
+
+-- ----------------------------
+-- Table structure for sys_auth_user
+-- ----------------------------
+DROP TABLE IF EXISTS "sys_auth_user";
+CREATE TABLE "sys_auth_user"
+(
+    "auth_id"     integer   NOT NULL PRIMARY KEY AUTOINCREMENT,
+    "uuid"        text(500) NOT NULL,
+    "user_id"     integer(20) DEFAULT NULL,
+    "login_name"  text(30)  NOT NULL,
+    "user_name"   text(30)    DEFAULT '',
+    "avatar"      text(500)   DEFAULT '',
+    "email"       text(255)   DEFAULT '',
+    "source"      text(255)   DEFAULT '',
+    "create_time" text        DEFAULT NULL
+);
 
 -- ----------------------------
 -- Table structure for sys_config

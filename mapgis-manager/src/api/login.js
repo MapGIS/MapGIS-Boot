@@ -60,3 +60,14 @@ export function getCodeImg() {
     method: 'get'
   })
 }
+
+// 第三方登录
+export function thirdLogin(token, source) {
+  return request({
+    url: `/xxx/rest/services/auth/thirdLogin/getLoginUser/${token}/${source}`,
+    method: 'get',
+    headers: {
+      'Content-Type': 'application/json;charset=UTF-8'
+    }
+  })
+}

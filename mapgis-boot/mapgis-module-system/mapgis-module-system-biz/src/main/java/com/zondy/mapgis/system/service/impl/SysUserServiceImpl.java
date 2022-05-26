@@ -7,6 +7,7 @@ import com.zondy.mapgis.common.core.utils.bean.BeanValidators;
 import com.zondy.mapgis.common.core.utils.spring.SpringUtils;
 import com.zondy.mapgis.common.datascope.annotation.DataScope;
 import com.zondy.mapgis.common.security.utils.SecurityUtils;
+import com.zondy.mapgis.system.api.domain.SysAuthUser;
 import com.zondy.mapgis.system.api.domain.SysRole;
 import com.zondy.mapgis.system.api.domain.SysUser;
 import com.zondy.mapgis.system.api.service.ISysUserService;
@@ -497,5 +498,83 @@ public class SysUserServiceImpl implements ISysUserService {
             successMsg.insert(0, "恭喜您，数据已全部导入成功！共 " + successNum + " 条，数据如下：");
         }
         return successMsg.toString();
+    }
+
+    /**
+     * 根据条件分页查询授权用户列表
+     *
+     * @param user 用户信息
+     * @return 授权列表
+     */
+    @Override
+    public List<SysAuthUser> selectAuthUserList(SysAuthUser user) {
+        return userMapper.selectAuthUserList(user);
+    }
+
+    /**
+     * 根据用户编号查询授权列表
+     *
+     * @param userId 用户编号
+     * @return 授权列表
+     */
+    @Override
+    public List<SysAuthUser> selectAuthUserListByUserId(Long userId) {
+        return userMapper.selectAuthUserListByUserId(userId);
+    }
+
+    /**
+     * 根据uuid查询用户信息
+     *
+     * @param uuid 唯一信息
+     * @return 结果
+     */
+    @Override
+    public SysUser selectUserByAuthUuid(String uuid) {
+        return userMapper.selectUserByAuthUuid(uuid);
+    }
+
+    /**
+     * 新增第三方授权信息
+     *
+     * @param authUser 用户信息
+     * @return 结果
+     */
+    @Override
+    public int insertAuthUser(SysAuthUser authUser) {
+        return userMapper.insertAuthUser(authUser);
+    }
+
+    /**
+     * 更新第三方授权用户信息
+     *
+     * @param authUser 用户信息
+     * @return 结果
+     */
+    @Override
+    public int updateAuthUser(SysAuthUser authUser) {
+        return userMapper.updateAuthUser(authUser);
+    }
+
+    /**
+     * 校验source平台是否绑定
+     *
+     * @param userId 用户编号
+     * @param source 绑定平台
+     * @return 结果
+     */
+    @Override
+    public int checkAuthUser(Long userId, String source) {
+        return userMapper.checkAuthUser(userId, source);
+    }
+
+    /**
+     * 根据编号删除第三方授权信息
+     *
+     * @param authId 授权编号
+     * @return 结果
+     */
+    @Override
+    public int deleteAuthUser(Long authId) {
+        return userMapper.deleteAuthUser(authId);
     }
 }

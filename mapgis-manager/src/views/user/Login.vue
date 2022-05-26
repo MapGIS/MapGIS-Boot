@@ -34,6 +34,7 @@
       </a-row>
       <a-form-model-item prop="rememberMe">
         <a-checkbox :checked="form.rememberMe" @change="rememberMe">记住密码</a-checkbox>
+        <router-link class="register" :to="{ name: 'register' }" style="float: right">注册账户</router-link>
       </a-form-model-item>
       <a-form-item style="margin-top: 24px">
         <a-button
@@ -49,7 +50,7 @@
         </a-button>
       </a-form-item>
       <div class="user-login-other">
-        <router-link class="register" :to="{ name: 'register' }">注册账户</router-link>
+        <third-login ref="thirdLogin"></third-login>
       </div>
     </a-form-model>
   </div>
@@ -61,9 +62,12 @@ import { timeFix } from '@/utils/util'
 import { getCodeImg } from '@/api/login'
 import { LOGIN_USERNAME, LOGIN_PASSWORD, LOGIN_REMEMBERME } from '@/store/mutation-types'
 import storage from 'store'
+import ThirdLogin from './third/ThirdLogin'
 
 export default {
-  components: {},
+  components: {
+    ThirdLogin
+  },
   data() {
     return {
       codeUrl: '',
@@ -190,9 +194,6 @@ export default {
     text-align: left;
     margin-top: 24px;
     line-height: 22px;
-    .register {
-      float: right;
-    }
   }
 }
 </style>

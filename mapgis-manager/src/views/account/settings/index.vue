@@ -5,20 +5,29 @@
         <div class="account-settings-info-left">
           <a-menu
             :mode="isMobile ? 'horizontal' : 'inline'"
-            v-model="currentKey"
+            :default-selected-keys="['base']"
             :style="{ border: '0', width: isMobile ? '560px' : 'auto' }"
             type="inner"
+            @openChange="onOpenChange"
           >
-            <a-menu-item key="base"> 基本设置 </a-menu-item>
-            <a-menu-item key="security"> 安全设置 </a-menu-item>
+            <a-menu-item key="base">
+              <a @click="baseClick"> 基本设置 </a>
+            </a-menu-item>
+            <a-menu-item key="security">
+              <a @click="securityClick">安全设置</a>
+            </a-menu-item>
+            <a-menu-item key="binding">
+              <a @click="bindingClick">账号绑定</a>
+            </a-menu-item>
           </a-menu>
         </div>
         <div class="account-settings-info-right">
           <div class="account-settings-info-title">
-            <span>{{ currentKey.indexOf('base') > -1 ? '基本设置' : '安全设置' }}</span>
+            <span>{{ title }}</span>
           </div>
-          <base-setting v-if="currentKey.indexOf('base') > -1" />
-          <security v-if="currentKey.indexOf('security') > -1" />
+          <base-setting ref="baseSetting" v-if="base"></base-setting>
+          <security ref="security" v-if="security"></security>
+          <binding ref="binding" v-if="binding"></binding>
         </div>
       </div>
     </a-card>
@@ -29,24 +38,51 @@
 import { baseMixin } from '@/store/app-mixin'
 import Security from './Security'
 import BaseSetting from './BaseSetting'
+import Binding from './Binding'
 
 export default {
   name: 'Settings',
   components: {
     Security,
-    BaseSetting
+    BaseSetting,
+    Binding
   },
   mixins: [baseMixin],
   data() {
     return {
       // horizontal  inline
       mode: 'inline',
-      currentKey: ['base']
+      openKeys: [],
+      title: '基本设置',
+      base: true,
+      security: false,
+      binding: false
     }
   },
   mounted() {},
-  methods: {},
-  watch: {}
+  methods: {
+    onOpenChange(openKeys) {
+      this.openKeys = openKeys
+    },
+    baseClick() {
+      this.base = true
+      this.security = false
+      this.binding = false
+      this.title = '基本设置'
+    },
+    securityClick() {
+      this.base = false
+      this.security = true
+      this.binding = false
+      this.title = '安全设置'
+    },
+    bindingClick() {
+      this.base = false
+      this.security = false
+      this.binding = true
+      this.title = '账号绑定'
+    }
+  }
 }
 </script>
 

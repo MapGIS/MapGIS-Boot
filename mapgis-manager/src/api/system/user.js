@@ -134,3 +134,11 @@ export function updateAuthRole(data) {
     params: data
   })
 }
+
+export function checkPassword(data) {
+  return request({
+    url: '/xxx/rest/manager/system/user/checkPassword',
+    method: 'post',
+    data: data
+  })
+}

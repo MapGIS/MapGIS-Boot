@@ -5,6 +5,7 @@ import com.zondy.mapgis.common.core.domain.R;
 import com.zondy.mapgis.common.core.web.controller.BaseController;
 import com.zondy.mapgis.common.security.annotation.InnerAuth;
 import com.zondy.mapgis.system.api.ISysServiceApi;
+import com.zondy.mapgis.system.api.domain.SysAuthUser;
 import com.zondy.mapgis.system.api.domain.SysLogininfor;
 import com.zondy.mapgis.system.api.domain.SysOperLog;
 import com.zondy.mapgis.system.api.domain.SysUser;
@@ -15,6 +16,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+
+import java.util.List;
 
 /**
  * @author xiongbo
@@ -61,5 +64,32 @@ public class SysServiceApiController extends BaseController {
     @PostMapping("/operlog")
     public R<Boolean> saveLog(@RequestBody SysOperLog sysOperLog) {
         return sysServiceApi.saveLog(sysOperLog, "");
+    }
+
+    /**
+     * 获取授权用户列表
+     */
+    @InnerAuth
+    @PostMapping("/authUser/list")
+    public R<List<SysAuthUser>> selectAuthUserList(@RequestBody SysAuthUser user) {
+        return sysServiceApi.selectAuthUserList(user, "");
+    }
+
+    /**
+     * 根据uuid查询用户信息
+     */
+    @InnerAuth
+    @GetMapping("/authUser/user")
+    public R<SysUser> selectUserByAuthUuid(String uuid) {
+        return sysServiceApi.selectUserByAuthUuid(uuid, "");
+    }
+
+    /**
+     * 新增第三方授权信息
+     */
+    @InnerAuth
+    @PostMapping("/authUser")
+    public R<Boolean> saveAuthUser(@RequestBody SysAuthUser authUser) {
+        return sysServiceApi.saveAuthUser(authUser, "");
     }
 }

@@ -21,24 +21,6 @@ function getGitHash() {
 
 const isProd = process.env.NODE_ENV === 'production'
 
-const assetsCDN = {
-  // webpack build externals
-  externals: {
-    vue: 'Vue',
-    'vue-router': 'VueRouter',
-    vuex: 'Vuex',
-    axios: 'axios'
-  },
-  css: [],
-  // https://unpkg.com/browse/vue@2.6.10/
-  js: [
-    '//unpkg.zhimg.com/vue@2.6.10/dist/vue.min.js',
-    '//unpkg.zhimg.com/vue-router@3.1.3/dist/vue-router.min.js',
-    '//unpkg.zhimg.com/vuex@3.1.1/dist/vuex.min.js',
-    '//unpkg.zhimg.com/axios@0.19.0/dist/axios.min.js'
-  ]
-}
-
 // vue.config.js
 const vueConfig = {
   pluginOptions: {
@@ -66,9 +48,7 @@ const vueConfig = {
         GIT_HASH: JSON.stringify(getGitHash()),
         BUILD_DATE: buildDate
       })
-    ],
-    // if prod, add externals
-    externals: isProd ? assetsCDN.externals : {}
+    ]
   },
 
   chainWebpack: config => {
@@ -94,15 +74,6 @@ const vueConfig = {
     if (isProd) {
       config.plugin('optimize-css').tap(args => {
         args[0].cssnanoOptions.preset[1].colormin = false
-        return args
-      })
-    }
-
-    // if prod is on
-    // assets require on cdn
-    if (isProd) {
-      config.plugin('html').tap(args => {
-        args[0].cdn = assetsCDN
         return args
       })
     }

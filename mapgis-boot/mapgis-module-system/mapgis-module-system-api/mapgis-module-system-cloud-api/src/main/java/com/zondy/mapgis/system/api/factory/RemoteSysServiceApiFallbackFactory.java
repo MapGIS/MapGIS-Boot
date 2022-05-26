@@ -2,6 +2,7 @@ package com.zondy.mapgis.system.api.factory;
 
 import com.zondy.mapgis.common.core.domain.R;
 import com.zondy.mapgis.system.api.ISysServiceApi;
+import com.zondy.mapgis.system.api.domain.SysAuthUser;
 import com.zondy.mapgis.system.api.domain.SysLogininfor;
 import com.zondy.mapgis.system.api.domain.SysOperLog;
 import com.zondy.mapgis.system.api.domain.SysUser;
@@ -10,6 +11,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cloud.openfeign.FallbackFactory;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 /**
  * 系统基础服务降级处理
@@ -43,6 +46,21 @@ public class RemoteSysServiceApiFallbackFactory implements FallbackFactory<ISysS
             @Override
             public R<Boolean> saveLogininfor(SysLogininfor sysLogininfor, String source) {
                 return R.fail("添加访问日志失败:" + throwable.getMessage());
+            }
+
+            @Override
+            public R<List<SysAuthUser>> selectAuthUserList(SysAuthUser user, String source) {
+                return R.fail("获取第三方授权用户失败:" + throwable.getMessage());
+            }
+
+            @Override
+            public R<SysUser> selectUserByAuthUuid(String uuid, String source) {
+                return R.fail("根据第三方授权UUID查询用户:" + throwable.getMessage());
+            }
+
+            @Override
+            public R<Boolean> saveAuthUser(SysAuthUser authUser, String source) {
+                return R.fail("添加第三方授权用户失败:" + throwable.getMessage());
             }
         };
     }

@@ -67,6 +67,20 @@ spring:
   # flyway配置
   flyway:
     enabled: false
+  # 配置freemarker
+  freemarker:
+    # 设置模板后缀名
+    suffix: .ftl
+    # 设置文档类型
+    content-type: text/html
+    # 设置页面编码格式
+    charset: UTF-8
+    # 设置页面缓存
+    cache: false
+    prefer-file-system-access: false
+    # 设置ftl文件路径
+    template-loader-path:
+      - classpath:/templates
 
 # MyBatis配置
 mybatis:
@@ -98,6 +112,7 @@ springdoc:
   swagger-ui:
     # 开启Swagger UI界面
     enabled: ${swagger.enabled}
+    path: /webjars/swagger-ui.html
 
 # 安全配置
 security:
@@ -143,3 +158,30 @@ minio:
   accessKey: minioadmin
   secretKey: minioadmin
   bucketName: test
+
+# 第三方登录
+justauth:
+  enabled: true
+  type:
+    GITHUB:
+      client-id: ${JUSTAUTH_GITHUB_CLIENT_ID}
+      client-secret: ${JUSTAUTH_GITHUB_CLIENT_SECRET}
+      redirect-uri: ${JUSTAUTH_GITHUB_REDIRECT_URI:http://127.0.0.1:8080/xxx/rest/services/auth/thirdLogin/callback/github}
+    GITEE:
+      client-id: ${JUSTAUTH_GITEE_CLIENT_ID}
+      client-secret: ${JUSTAUTH_GITEE_CLIENT_SECRET}
+      redirect-uri: ${JUSTAUTH_GITEE_REDIRECT_URI:http://127.0.0.1:8080/xxx/rest/services/auth/thirdLogin/callback/gitee}
+  cache:
+    type: default
+  extend:
+    enum-class: ${JUSTAUTH_CUSTOM_ENUM_CLASS:com.zondy.mapgis.auth.justauth.source.AuthCustomSource}
+    authorize: ${JUSTAUTH_CUSTOM_AUTHORIZE_URL}
+    access-token: ${JUSTAUTH_CUSTOM_ACCESS_TOKEN_URL}
+    user-info: ${JUSTAUTH_CUSTOM_USER_INFO_URL}
+    config:
+      CUSTOM:
+        request-class: ${JUSTAUTH_CUSTOM_REQUEST_CLASS:com.zondy.mapgis.auth.justauth.request.AuthCustomRequest}
+        client-id: ${JUSTAUTH_CUSTOM_CLIENT_ID}
+        client-secret: ${JUSTAUTH_CUSTOM_CLIENT_SECRET}
+        redirect-uri: ${JUSTAUTH_CUSTOM_REDIRECT_URI:http://127.0.0.1:8080/xxx/rest/services/auth/thirdLogin/callback/custom}
+        scopes: ${JUSTAUTH_CUSTOM_SCOPES}

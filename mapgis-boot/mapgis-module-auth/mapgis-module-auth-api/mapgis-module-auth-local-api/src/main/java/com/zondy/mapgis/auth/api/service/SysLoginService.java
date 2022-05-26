@@ -26,6 +26,8 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
@@ -50,6 +52,9 @@ public class SysLoginService {
 
     @Autowired
     private ValidateCodeService validateCodeService;
+
+    @Autowired
+    private UserDetailsService userDetailsService;
 
     /**
      * 登录验证
@@ -77,6 +82,30 @@ public class SysLoginService {
         }
         AsyncManager.me().execute(AsyncFactory.recordLogininfor(username, Constants.LOGIN_SUCCESS, MessageUtils.message("user.login.success")));
         LoginUser loginUser = (LoginUser) authentication.getPrincipal();
+        recordLoginInfo(loginUser.getUserId());
+        // 生成token
+        return tokenService.createToken(loginUser);
+    }
+
+    /**
+     * 无密码登录验证
+     */
+    public String login(String username) {
+        UserDetails userDetails = null;
+
+        try {
+            userDetails = userDetailsService.loadUserByUsername(username);
+        } catch (Exception e) {
+            if (e instanceof BadCredentialsException) {
+                AsyncManager.me().execute(AsyncFactory.recordLogininfor(username, Constants.LOGIN_FAIL, MessageUtils.message("user.password.not.match")));
+                throw new UserPasswordNotMatchException();
+            } else {
+                AsyncManager.me().execute(AsyncFactory.recordLogininfor(username, Constants.LOGIN_FAIL, e.getMessage()));
+                throw new ServiceException(e.getMessage());
+            }
+        }
+        AsyncManager.me().execute(AsyncFactory.recordLogininfor(username, Constants.LOGIN_SUCCESS, MessageUtils.message("user.login.success")));
+        LoginUser loginUser = (LoginUser) userDetails;
         recordLoginInfo(loginUser.getUserId());
         // 生成token
         return tokenService.createToken(loginUser);
@@ -130,5 +159,23 @@ public class SysLoginService {
         sysUser.setLoginIp(IpUtils.getIpAddr(ServletUtils.getRequest()));
         sysUser.setLoginDate(DateUtils.getNowDate());
         userService.updateUserProfile(sysUser);
+    }
+
+    /**
+     * 获取用户身份信息
+     *
+     * @return 用户信息
+     */
+    public LoginUser getLoginUser(String token) {
+        return tokenService.getLoginUser(token);
+    }
+
+    /**
+     * 刷新令牌有效期
+     *
+     * @param loginUser 登录信息
+     */
+    public void refreshToken(LoginUser loginUser) {
+        tokenService.refreshToken(loginUser);
     }
 }

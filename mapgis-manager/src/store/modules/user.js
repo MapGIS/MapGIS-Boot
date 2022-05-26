@@ -1,5 +1,5 @@
 import storage from 'store'
-import { login, getInfo, logout } from '@/api/login'
+import { login, getInfo, logout, thirdLogin } from '@/api/login'
 import { ACCESS_TOKEN } from '@/store/mutation-types'
 
 const user = {
@@ -92,6 +92,21 @@ const user = {
             commit('SET_ROLES', [])
             commit('SET_PERMISSIONS', [])
             storage.remove(ACCESS_TOKEN)
+          })
+      })
+    },
+
+    // 第三方登录
+    ThirdLogin({ commit }, param) {
+      return new Promise((resolve, reject) => {
+        thirdLogin(param.token, param.source)
+          .then(res => {
+            storage.set(ACCESS_TOKEN, res.token, 7 * 24 * 60 * 60 * 1000)
+            commit('SET_TOKEN', res.token)
+            resolve()
+          })
+          .catch(error => {
+            reject(error)
           })
       })
     }

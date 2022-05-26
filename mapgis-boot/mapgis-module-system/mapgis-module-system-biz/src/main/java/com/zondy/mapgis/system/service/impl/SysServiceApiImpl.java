@@ -4,6 +4,7 @@ import com.zondy.mapgis.common.core.constant.UserConstants;
 import com.zondy.mapgis.common.core.domain.R;
 import com.zondy.mapgis.common.core.utils.StringUtils;
 import com.zondy.mapgis.system.api.ISysServiceApi;
+import com.zondy.mapgis.system.api.domain.SysAuthUser;
 import com.zondy.mapgis.system.api.domain.SysLogininfor;
 import com.zondy.mapgis.system.api.domain.SysOperLog;
 import com.zondy.mapgis.system.api.domain.SysUser;
@@ -16,6 +17,7 @@ import com.zondy.mapgis.system.service.ISysConfigService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -84,6 +86,29 @@ public class SysServiceApiImpl implements ISysServiceApi {
             return R.ok(true);
         } else {
             return R.fail("添加访问日志失败");
+        }
+    }
+
+    @Override
+    public R<List<SysAuthUser>> selectAuthUserList(SysAuthUser user, String source) {
+        List<SysAuthUser> sysAuthUsers = userService.selectAuthUserList(user);
+
+        return R.ok(sysAuthUsers);
+    }
+
+    @Override
+    public R<SysUser> selectUserByAuthUuid(String uuid, String source) {
+        SysUser sysUser = userService.selectUserByAuthUuid(uuid);
+
+        return R.ok(sysUser);
+    }
+
+    @Override
+    public R<Boolean> saveAuthUser(SysAuthUser authUser, String source) {
+        if (userService.insertAuthUser(authUser) > 0) {
+            return R.ok(true);
+        } else {
+            return R.fail("添加授权用户失败");
         }
     }
 }

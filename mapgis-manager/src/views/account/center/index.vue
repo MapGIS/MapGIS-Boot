@@ -43,9 +43,7 @@
                 @blur="handleTagInputConfirm"
                 @keyup.enter="handleTagInputConfirm"
               />
-              <a-tag v-else @click="showTagInput" style="background: #fff; borderstyle: dashed">
-                <a-icon type="plus" />New Tag
-              </a-tag>
+              <a-tag v-else @click="showTagInput" style="borderstyle: dashed"> <a-icon type="plus" />New Tag </a-tag>
             </div>
           </div>
           <a-divider :dashed="true" />
