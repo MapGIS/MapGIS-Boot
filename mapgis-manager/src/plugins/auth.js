@@ -3,7 +3,7 @@ import store from '@/store'
 function authPermission(permission) {
   const allPermission = '*:*:*'
   const permissions = store.getters && store.getters.permissions
-  if (permission && permission.length > 0) {
+  if (permissions && permission && permission.length > 0) {
     return permissions.some(v => {
       return allPermission === v || v === permission
     })

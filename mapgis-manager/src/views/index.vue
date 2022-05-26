@@ -7,7 +7,7 @@
         </div>
         <div class="content">
           <div class="content-title">{{ timeFix }}，{{ nickname }}<span class="welcome-text"></span></div>
-          <div>{{ postGroup }} | {{ user.dept.deptName }}</div>
+          <div>{{ introduction }}</div>
         </div>
       </div>
     </template>
@@ -153,7 +153,14 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['avatar', 'nickname'])
+    ...mapGetters(['avatar', 'nickname']),
+    introduction() {
+      if (this.user.dept) {
+        return `${this.postGroup} | ${this.user.dept.deptName}`
+      } else {
+        return `${this.postGroup}`
+      }
+    }
   },
   created() {
     this.getUser()
