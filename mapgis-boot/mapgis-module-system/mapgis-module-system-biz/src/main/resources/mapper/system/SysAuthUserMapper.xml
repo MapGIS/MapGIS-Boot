@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zondy.mapgis.system.mapper.SysAuthUserMapper">
+
+    <resultMap type="SysUser" id="SysUserResult">
+        <id property="userId" column="user_id"/>
+        <result property="deptId" column="dept_id"/>
+        <result property="userName" column="user_name"/>
+        <result property="nickName" column="nick_name"/>
+        <result property="email" column="email"/>
+        <result property="phonenumber" column="phonenumber"/>
+        <result property="sex" column="sex"/>
+        <result property="avatar" column="avatar"/>
+        <result property="password" column="password"/>
+        <result property="status" column="status"/>
+        <result property="delFlag" column="del_flag"/>
+        <result property="loginIp" column="login_ip"/>
+        <result property="loginDate" column="login_date"/>
+        <result property="createBy" column="create_by"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateBy" column="update_by"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="remark" column="remark"/>
+        <association property="dept" column="dept_id" javaType="SysDept" resultMap="deptResult"/>
+        <collection property="roles" javaType="java.util.List" resultMap="RoleResult"/>
+    </resultMap>
+
+    <resultMap id="deptResult" type="SysDept">
+        <id property="deptId" column="dept_id"/>
+        <result property="parentId" column="parent_id"/>
+        <result property="deptName" column="dept_name"/>
+        <result property="ancestors" column="ancestors"/>
+        <result property="orderNum" column="order_num"/>
+        <result property="leader" column="leader"/>
+        <result property="status" column="dept_status"/>
+    </resultMap>
+
+    <resultMap id="RoleResult" type="SysRole">
+        <id property="roleId" column="role_id"/>
+        <result property="roleName" column="role_name"/>
+        <result property="roleKey" column="role_key"/>
+        <result property="roleSort" column="role_sort"/>
+        <result property="dataScope" column="data_scope"/>
+        <result property="status" column="role_status"/>
+    </resultMap>
+
+    <resultMap id="SysAuthUserResult" type="SysAuthUser">
+        <id property="authId" column="auth_id"/>
+        <result property="uuid" column="uuid"/>
+        <result property="userId" column="user_id"/>
+        <result property="loginName" column="login_name"/>
+        <result property="userName" column="user_name"/>
+        <result property="avatar" column="avatar"/>
+        <result property="email" column="email"/>
+        <result property="source" column="source"/>
+        <result property="createTime" column="create_time"/>
+    </resultMap>
+
+    <select id="selectAuthUserList" parameterType="SysAuthUser" resultMap="SysAuthUserResult">
+        select auth_id,
+        uuid,
+        user_id,
+        login_name,
+        user_name,
+        avatar,
+        email,
+        source,
+        create_time
+        from sys_auth_user
+        <where>
+            <if test="userId != null and userId != 0">
+                AND user_id = #{userId}
+            </if>
+            <if test="uuid != null and uuid != ''">
+                <bind name="uuid_like" value="'%' + uuid + '%'"/>
+                AND uuid like #{uuid_like}
+            </if>
+            <if test="loginName != null and loginName != ''">
+                <bind name="loginName_like" value="'%' + loginName + '%'"/>
+                AND login_name like #{loginName_like}
+            </if>
+            <if test="userName != null and userName != ''">
+                <bind name="userName_like" value="'%' + userName + '%'"/>
+                AND user_name like #{userName_like}
+            </if>
+            <if test="email != null and email != ''">
+                <bind name="email_like" value="'%' + email + '%'"/>
+                AND email like #{email_like}
+            </if>
+            <if test="source != null and source != ''">
+                <bind name="source_like" value="'%' + source + '%'"/>
+                AND source like #{source_like}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectAuthUserListByUserId" parameterType="Long" resultMap="SysAuthUserResult">
+        select auth_id,
+               uuid,
+               user_id,
+               login_name,
+               user_name,
+               avatar,
+               email,
+               source,
+               create_time
+        from sys_auth_user
+        where user_id = #{userId}
+    </select>
+
+    <select id="selectUserByAuthUuid" parameterType="String" resultMap="SysUserResult">
+        select b.user_id as user_id, b.user_name as user_name
+        from sys_auth_user a
+                 left join sys_user b on a.user_id = b.user_id
+        where a.uuid = #{uuid}
+          and b.del_flag = '0'
+    </select>
+
+    <select id="checkAuthUser" parameterType="SysAuthUser" resultType="int">
+        select count(1)
+        from sys_auth_user
+        where user_id = #{userId}
+          and source = #{source}
+        limit 1
+    </select>
+
+    <insert id="insertAuthUser" parameterType="SysAuthUser">
+        insert into sys_auth_user(
+        <if test="uuid != null and uuid != ''">uuid,</if>
+        <if test="userId != null and userId != 0">user_id,</if>
+        <if test="loginName != null and loginName != ''">login_name,</if>
+        <if test="userName != null and userName != ''">user_name,</if>
+        <if test="avatar != null and avatar != ''">avatar,</if>
+        <if test="email != null and email != ''">email,</if>
+        <if test="source != null and source != ''">source,</if>
+        create_time
+        )values(
+        <if test="uuid != null and uuid != ''">#{uuid},</if>
+        <if test="userId != null and userId != 0">#{userId},</if>
+        <if test="loginName != null and loginName != ''">#{loginName},</if>
+        <if test="userName != null and userName != ''">#{userName},</if>
+        <if test="avatar != null and avatar != ''">#{avatar},</if>
+        <if test="email != null and email != ''">#{email},</if>
+        <if test="source != null and source != ''">#{source},</if>
+        <choose>
+            <when test="_databaseId == 'sqlite'">
+                (datetime(CURRENT_TIMESTAMP,'localtime'))
+            </when>
+            <otherwise>
+                sysdate()
+            </otherwise>
+        </choose>
+        )
+    </insert>
+
+    <update id="updateAuthUser" parameterType="SysAuthUser">
+        update sys_auth_user
+        <set>
+            <if test="userId != null and userId != 0">user_id = #{userId},</if>
+            <if test="loginName != null and loginName != ''">login_name = #{loginName},</if>
+            <if test="userName != null and userName != ''">user_name = #{userName},</if>
+            <if test="avatar != null ">avatar = #{avatar},</if>
+            <if test="email != null ">email = #{email},</if>
+        </set>
+        where auth_id = #{authId}
+    </update>
+
+    <delete id="deleteAuthUser" parameterType="Long">
+        delete
+        from sys_auth_user
+        where auth_id = #{authId}
+    </delete>
+</mapper> 

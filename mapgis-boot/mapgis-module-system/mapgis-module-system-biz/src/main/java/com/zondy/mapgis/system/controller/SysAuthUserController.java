@@ -6,7 +6,7 @@ import com.zondy.mapgis.common.core.web.controller.BaseController;
 import com.zondy.mapgis.common.core.web.domain.AjaxResult;
 import com.zondy.mapgis.common.security.utils.SecurityUtils;
 import com.zondy.mapgis.system.api.domain.SysAuthUser;
-import com.zondy.mapgis.system.api.service.ISysUserService;
+import com.zondy.mapgis.system.service.ISysAuthUserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -28,7 +28,7 @@ import java.util.List;
 @ManagerRestController("/system/authUser")
 public class SysAuthUserController extends BaseController {
 
-    private final ISysUserService userService;
+    private final ISysAuthUserService authUserService;
 
     /**
      * 获取当前用户授权信息
@@ -39,7 +39,7 @@ public class SysAuthUserController extends BaseController {
     @GetMapping("/info")
     public AjaxResult getInfo() {
         Long userId = SecurityUtils.getUserId();
-        List<SysAuthUser> sysAuthUsers = userService.selectAuthUserListByUserId(userId);
+        List<SysAuthUser> sysAuthUsers = authUserService.selectAuthUserListByUserId(userId);
         AjaxResult ajax = AjaxResult.success();
         ajax.put("auths", sysAuthUsers);
         return ajax;
@@ -52,7 +52,7 @@ public class SysAuthUserController extends BaseController {
     @PostMapping("/check")
     public AjaxResult checkAuthUser(String source) {
         Long userId = SecurityUtils.getUserId();
-        if (userService.checkAuthUser(userId, source) > 0) {
+        if (authUserService.checkAuthUser(userId, source) > 0) {
             throw new ServiceException("平台账号已经绑定");
         }
         return AjaxResult.success();
@@ -64,14 +64,14 @@ public class SysAuthUserController extends BaseController {
     @Operation(summary = "绑定授权,传入{ uuid: xxx }")
     @PostMapping("/bind")
     public AjaxResult bindAuth(@RequestBody SysAuthUser authUser) {
-        List<SysAuthUser> sysAuthUserList = userService.selectAuthUserList(authUser);
+        List<SysAuthUser> sysAuthUserList = authUserService.selectAuthUserList(authUser);
         if (sysAuthUserList.size() == 0) {
             throw new ServiceException("第三方账号不存在");
         }
 
         authUser = sysAuthUserList.get(0);
         authUser.setUserId(SecurityUtils.getUserId());
-        return toAjax(userService.updateAuthUser(authUser));
+        return toAjax(authUserService.updateAuthUser(authUser));
     }
 
     /**
@@ -80,6 +80,6 @@ public class SysAuthUserController extends BaseController {
     @Operation(summary = "取消授权,传入{ authId: xxx}")
     @PostMapping("/unbind")
     public AjaxResult unbindAuth(@RequestBody SysAuthUser authUser) {
-        return toAjax(userService.deleteAuthUser(authUser.getAuthId()));
+        return toAjax(authUserService.deleteAuthUser(authUser.getAuthId()));
     }
 }

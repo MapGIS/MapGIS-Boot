@@ -13,6 +13,7 @@ import com.zondy.mapgis.system.api.service.ISysLogininforService;
 import com.zondy.mapgis.system.api.service.ISysOperLogService;
 import com.zondy.mapgis.system.api.service.ISysPermissionService;
 import com.zondy.mapgis.system.api.service.ISysUserService;
+import com.zondy.mapgis.system.service.ISysAuthUserService;
 import com.zondy.mapgis.system.service.ISysConfigService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,6 +30,9 @@ public class SysServiceApiImpl implements ISysServiceApi {
 
     @Autowired
     private ISysUserService userService;
+
+    @Autowired
+    private ISysAuthUserService authUserService;
 
     @Autowired
     private ISysPermissionService permissionService;
@@ -91,21 +95,21 @@ public class SysServiceApiImpl implements ISysServiceApi {
 
     @Override
     public R<List<SysAuthUser>> selectAuthUserList(SysAuthUser user, String source) {
-        List<SysAuthUser> sysAuthUsers = userService.selectAuthUserList(user);
+        List<SysAuthUser> sysAuthUsers = authUserService.selectAuthUserList(user);
 
         return R.ok(sysAuthUsers);
     }
 
     @Override
     public R<SysUser> selectUserByAuthUuid(String uuid, String source) {
-        SysUser sysUser = userService.selectUserByAuthUuid(uuid);
+        SysUser sysUser = authUserService.selectUserByAuthUuid(uuid);
 
         return R.ok(sysUser);
     }
 
     @Override
     public R<Boolean> saveAuthUser(SysAuthUser authUser, String source) {
-        if (userService.insertAuthUser(authUser) > 0) {
+        if (authUserService.insertAuthUser(authUser) > 0) {
             return R.ok(true);
         } else {
             return R.fail("添加授权用户失败");
