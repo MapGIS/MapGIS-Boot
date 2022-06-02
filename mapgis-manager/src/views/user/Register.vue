@@ -12,7 +12,7 @@
         :after-close="handleCloseRegisterError"
       />
       <a-form-model-item prop="username">
-        <a-input v-model="form.username" size="large" autocomplete="off" placeholder="账户" />
+        <a-input v-model="form.username" size="large" autocomplete="off" placeholder="账号" />
       </a-form-model-item>
       <a-form-model-item has-feedback prop="password">
         <a-input-password v-model="form.password" size="large" autocomplete="off" placeholder="密码" :maxLength="20" />
@@ -50,7 +50,7 @@
         >
           注册
         </a-button>
-        <router-link class="login" :to="{ name: 'login' }">使用已有账户登录</router-link>
+        <router-link class="login" :to="{ name: 'login' }">使用已有账号登录</router-link>
       </a-form-item>
     </a-form-model>
   </div>

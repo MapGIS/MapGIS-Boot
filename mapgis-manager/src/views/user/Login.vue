@@ -11,7 +11,7 @@
         :after-close="handleCloseLoginError"
       />
       <a-form-model-item prop="username">
-        <a-input v-model="form.username" size="large" placeholder="账户: admin">
+        <a-input v-model="form.username" size="large" placeholder="账号: admin">
           <a-icon slot="prefix" type="user" :style="{ color: 'rgba(0,0,0,.25)' }" />
         </a-input>
       </a-form-model-item>
@@ -34,7 +34,7 @@
       </a-row>
       <a-form-model-item prop="rememberMe">
         <a-checkbox :checked="form.rememberMe" @change="rememberMe">记住密码</a-checkbox>
-        <router-link class="register" :to="{ name: 'register' }" style="float: right">注册账户</router-link>
+        <router-link class="register" :to="{ name: 'register' }" style="float: right">注册账号</router-link>
       </a-form-model-item>
       <a-form-item style="margin-top: 24px">
         <a-button

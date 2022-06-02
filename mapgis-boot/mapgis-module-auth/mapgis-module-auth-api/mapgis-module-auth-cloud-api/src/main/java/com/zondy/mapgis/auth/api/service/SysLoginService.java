@@ -88,7 +88,7 @@ public class SysLoginService {
         }
         if (username.length() < UserConstants.USERNAME_MIN_LENGTH
                 || username.length() > UserConstants.USERNAME_MAX_LENGTH) {
-            throw new ServiceException("账户长度必须在2到20个字符之间");
+            throw new ServiceException("账号长度必须在2到20个字符之间");
         }
         if (password.length() < UserConstants.PASSWORD_MIN_LENGTH
                 || password.length() > UserConstants.PASSWORD_MAX_LENGTH) {

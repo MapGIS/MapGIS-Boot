@@ -32,7 +32,7 @@ export default {
     return {
       data: [
         {
-          title: '账户密码',
+          title: '账号密码',
           description: '当前密码强度',
           value: '强',
           actions: {
