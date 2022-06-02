@@ -15,11 +15,14 @@ import com.zondy.mapgis.common.core.utils.ip.IpUtils;
 import com.zondy.mapgis.common.security.service.TokenService;
 import com.zondy.mapgis.common.security.utils.SecurityUtils;
 import com.zondy.mapgis.system.api.ISysServiceApi;
+import com.zondy.mapgis.system.api.domain.SysAuthUser;
 import com.zondy.mapgis.system.api.domain.SysLogininfor;
 import com.zondy.mapgis.system.api.domain.SysUser;
 import com.zondy.mapgis.system.api.model.LoginUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 /**
  * 登录校验方法
@@ -72,6 +75,13 @@ public class SysLoginService {
     public void register(RegisterBody registerBody) {
         String username = registerBody.getUsername(), password = registerBody.getPassword();
 
+        register(username, password);
+    }
+
+    /**
+     * 注册
+     */
+    public void register(String username, String password) {
         // 用户名或密码为空 错误
         if (StringUtils.isAnyBlank(username, password)) {
             throw new ServiceException("用户/密码必须填写");
@@ -104,7 +114,6 @@ public class SysLoginService {
      * @param username 用户名
      * @param status   状态
      * @param message  消息内容
-     * @return
      */
     public void recordLogininfor(String username, String status, String message) {
         SysLogininfor logininfor = new SysLogininfor();
@@ -168,5 +177,15 @@ public class SysLoginService {
      */
     public void refreshToken(LoginUser loginUser) {
         tokenService.refreshToken(loginUser);
+    }
+
+    public List<SysAuthUser> selectAuthUserList(SysAuthUser user) {
+        R<List<SysAuthUser>> sysAuthUserListResult = sysServiceApi.selectAuthUserList(user, SecurityConstants.INNER);
+
+        if (R.FAIL == sysAuthUserListResult.getCode()) {
+            throw new ServiceException(sysAuthUserListResult.getMsg());
+        }
+
+        return sysAuthUserListResult.getData();
     }
 }

@@ -50,7 +50,7 @@ public class SysServiceApiImpl implements ISysServiceApi {
     public R<LoginUser> getUserInfo(String username, String source) {
         SysUser sysUser = userService.selectUserByUserName(username);
         if (StringUtils.isNull(sysUser)) {
-            return R.fail("用户名或密码错误");
+            return R.fail("登录用户：" + username + " 不存在");
         }
         // 角色集合
         Set<String> roles = permissionService.getRolePermission(sysUser.getUserId());
@@ -114,5 +114,19 @@ public class SysServiceApiImpl implements ISysServiceApi {
         } else {
             return R.fail("添加授权用户失败");
         }
+    }
+
+    @Override
+    public R<Boolean> updateAuthUser(SysAuthUser authUser, String source) {
+        if (authUserService.updateAuthUser(authUser) > 0) {
+            return R.ok(true);
+        } else {
+            return R.fail("添加授权用户失败");
+        }
+    }
+
+    @Override
+    public R<String> selectConfigByKey(String configKey, String source) {
+        return R.ok(configService.selectConfigByKey(configKey));
     }
 }

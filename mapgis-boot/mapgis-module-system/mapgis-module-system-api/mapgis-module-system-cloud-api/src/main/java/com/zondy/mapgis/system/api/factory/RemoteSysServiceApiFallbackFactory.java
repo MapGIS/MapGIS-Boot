@@ -62,6 +62,16 @@ public class RemoteSysServiceApiFallbackFactory implements FallbackFactory<ISysS
             public R<Boolean> saveAuthUser(SysAuthUser authUser, String source) {
                 return R.fail("添加第三方授权用户失败:" + throwable.getMessage());
             }
+
+            @Override
+            public R<Boolean> updateAuthUser(SysAuthUser authUser, String source) {
+                return R.fail("更新第三方授权用户失败:" + throwable.getMessage());
+            }
+
+            @Override
+            public R<String> selectConfigByKey(String configKey, String source) {
+                return R.fail("根据键名查询参数配置信息失败:" + throwable.getMessage());
+            }
         };
     }
 }

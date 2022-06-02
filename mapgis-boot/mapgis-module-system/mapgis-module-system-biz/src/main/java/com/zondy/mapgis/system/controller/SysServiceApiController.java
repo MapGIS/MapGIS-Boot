@@ -12,10 +12,7 @@ import com.zondy.mapgis.system.api.domain.SysUser;
 import com.zondy.mapgis.system.api.model.LoginUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -91,5 +88,23 @@ public class SysServiceApiController extends BaseController {
     @PostMapping("/authUser")
     public R<Boolean> saveAuthUser(@RequestBody SysAuthUser authUser) {
         return sysServiceApi.saveAuthUser(authUser, "");
+    }
+
+    /**
+     * 更新第三方授权信息
+     */
+    @InnerAuth
+    @PutMapping("/authUser")
+    public R<Boolean> updateAuthUser(@RequestBody SysAuthUser authUser) {
+        return sysServiceApi.updateAuthUser(authUser, "");
+    }
+
+    /**
+     * 根据键名查询参数配置信息
+     */
+    @InnerAuth
+    @GetMapping("/config/configKey/{configKey}")
+    public R<String> selectConfigByKey(@PathVariable("configKey") String configKey) {
+        return sysServiceApi.selectConfigByKey(configKey, "");
     }
 }

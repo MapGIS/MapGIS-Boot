@@ -104,7 +104,7 @@ export default {
           if (token === '登录失败') {
             that.$message.warning(token)
           } else {
-            that.$message.warning('请确认是否已经绑定')
+            that.$message.warning('第三方账号已绑定')
           }
         } else if (typeof token === 'object') {
           // 对象类型 说明需要提示是否绑定现有账号
@@ -115,6 +115,8 @@ export default {
         } else {
           that.$message.warning('不识别的信息传递')
         }
+
+        window.removeEventListener('message', receiveMessage)
       }
       window.addEventListener('message', receiveMessage, false)
     },

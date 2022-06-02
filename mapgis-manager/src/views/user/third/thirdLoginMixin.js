@@ -3,12 +3,20 @@
  */
 import { mapActions } from 'vuex'
 import { timeFix } from '@/utils/util'
+import { thirdLoginUserCreate, thirdLoginCheckPassword } from '@/api/login'
 
 const thirdLoginMixin = {
   data() {
     return {
       // 第三方登录相关信息
       thirdType: '',
+      thirdLoginInfo: '',
+      thirdPasswordShow: false,
+      thirdLoginPassword: '',
+      thirdLoginUsername: '',
+      thirdLoginUserId: '',
+      thirdConfirmShow: false,
+      thirdCreateUserLoding: false,
       thirdLoginState: false
     }
   },
@@ -24,6 +32,7 @@ const thirdLoginMixin = {
       )
       const that = this
       that.thirdType = source
+      that.thirdLoginInfo = ''
       that.thirdLoginState = false
       const receiveMessage = function (event) {
         const token = event.data
@@ -35,7 +44,13 @@ const thirdLoginMixin = {
             that.doThirdLogin(token)
           }
         } else if (typeof token === 'object') {
-          that.$message.warning('对不起，您没有绑定注册用户，请先注册后在个人设置绑定第三方授权信息！')
+          // 对象类型 说明需要提示是否绑定现有账号
+          if (token['isObj'] === true) {
+            that.thirdConfirmShow = true
+            that.thirdLoginInfo = { ...token }
+            that.thirdLoginUsername = that.thirdLoginInfo.loginName
+            that.thirdLoginUserId = that.thirdLoginInfo.userId
+          }
         } else {
           that.$message.warning('不识别的信息传递')
         }
@@ -55,6 +70,47 @@ const thirdLoginMixin = {
           .then(res => this.loginSuccess(res))
           .catch(err => this.requestFailed(err))
       }
+    },
+    // 绑定已有账号 需要输入密码
+    thirdLoginUserBind() {
+      this.thirdLoginPassword = ''
+      this.thirdConfirmShow = false
+      this.thirdPasswordShow = true
+    },
+    // 创建新账号
+    thirdLoginUserCreate() {
+      this.thirdCreateUserLoding = true
+      // 账号名后面添加三位随机数
+      this.thirdLoginInfo['suffix'] = parseInt(Math.random() * 900 + 100)
+      thirdLoginUserCreate(this.thirdLoginInfo)
+        .then(res => {
+          const token = res.token
+          this.doThirdLogin(token)
+          this.thirdConfirmShow = false
+        })
+        .finally(() => {
+          this.thirdCreateUserLoding = false
+        })
+    },
+    thirdLoginNoConfirm() {
+      this.thirdConfirmShow = false
+    },
+    // 核实密码
+    thirdLoginCheckPassword() {
+      const param = Object.assign({}, this.thirdLoginInfo, { password: this.thirdLoginPassword })
+      thirdLoginCheckPassword(param)
+        .then(res => {
+          this.doThirdLogin(res.token)
+        })
+        .finally(() => {
+          this.thirdLoginNoPassword()
+        })
+    },
+    // 没有密码 取消操作
+    thirdLoginNoPassword() {
+      this.thirdPasswordShow = false
+      this.thirdLoginPassword = ''
+      this.thirdLoginUserName = ''
     },
     loginSuccess(res) {
       this.$router.push({ path: '/' })

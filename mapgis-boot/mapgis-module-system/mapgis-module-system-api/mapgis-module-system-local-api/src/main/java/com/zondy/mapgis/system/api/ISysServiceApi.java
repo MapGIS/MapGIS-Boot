@@ -78,4 +78,21 @@ public interface ISysServiceApi {
      * @return 结果
      */
     public R<Boolean> saveAuthUser(SysAuthUser authUser, String source);
+
+    /**
+     * 更新第三方授权用户信息
+     *
+     * @param authUser 授权用户信息
+     * @param source   请求来源
+     * @return 结果
+     */
+    public R<Boolean> updateAuthUser(SysAuthUser authUser, String source);
+
+    /**
+     * 根据键名查询参数配置信息
+     *
+     * @param configKey 参数键名
+     * @return 参数键值
+     */
+    public R<String> selectConfigByKey(String configKey, String source);
 }

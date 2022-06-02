@@ -91,4 +91,24 @@ public interface ISysServiceApi {
      */
     @PostMapping("/xxx/rest/manager/system/api/authUser")
     public R<Boolean> saveAuthUser(@RequestBody SysAuthUser authUser, @RequestHeader(SecurityConstants.FROM_SOURCE) String source);
+
+    /**
+     * 更新第三方授权用户信息
+     *
+     * @param authUser 授权用户信息
+     * @param source   请求来源
+     * @return 结果
+     */
+    @PutMapping("/xxx/rest/manager/system/api/authUser")
+    public R<Boolean> updateAuthUser(@RequestBody SysAuthUser authUser, @RequestHeader(SecurityConstants.FROM_SOURCE) String source);
+
+    /**
+     * 根据键名查询参数配置信息
+     *
+     * @param configKey 参数键名
+     * @param source    请求来源
+     * @return 结果
+     */
+    @GetMapping("/xxx/rest/manager/system/api/config/configKey/{configKey}")
+    public R<String> selectConfigByKey(@PathVariable("configKey") String configKey, @RequestHeader(SecurityConstants.FROM_SOURCE) String source);
 }

@@ -71,3 +71,21 @@ export function thirdLogin(token, source) {
     }
   })
 }
+
+// 创建账号并与第三方授权用户绑定
+export function thirdLoginUserCreate(data) {
+  return request({
+    url: '/xxx/rest/services/auth/thirdLogin/user/create',
+    method: 'post',
+    data: data
+  })
+}
+
+// 创建账号并与第三方授权用户绑定
+export function thirdLoginCheckPassword(data) {
+  return request({
+    url: '/xxx/rest/services/auth/thirdLogin/user/checkPassword',
+    method: 'post',
+    data: data
+  })
+}

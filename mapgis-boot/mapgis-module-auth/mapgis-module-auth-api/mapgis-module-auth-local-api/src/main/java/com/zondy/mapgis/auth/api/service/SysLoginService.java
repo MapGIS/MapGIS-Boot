@@ -18,6 +18,7 @@ import com.zondy.mapgis.common.security.manager.factory.AsyncFactory;
 import com.zondy.mapgis.common.security.service.TokenService;
 import com.zondy.mapgis.common.security.utils.SecurityUtils;
 import com.zondy.mapgis.system.api.ISysServiceApi;
+import com.zondy.mapgis.system.api.domain.SysAuthUser;
 import com.zondy.mapgis.system.api.domain.SysUser;
 import com.zondy.mapgis.system.api.model.LoginUser;
 import com.zondy.mapgis.system.api.service.ISysUserService;
@@ -31,6 +32,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * @author xiongbo
@@ -120,6 +122,13 @@ public class SysLoginService {
         // 校验验证码
         validateCodeService.checkCaptcha(registerBody.getCode(), registerBody.getUuid());
 
+        register(username, password);
+    }
+
+    /**
+     * 注册
+     */
+    public void register(String username, String password) {
         // 用户名或密码为空 错误
         if (StringUtils.isAnyBlank(username, password)) {
             throw new ServiceException("用户/密码必须填写");
@@ -177,5 +186,15 @@ public class SysLoginService {
      */
     public void refreshToken(LoginUser loginUser) {
         tokenService.refreshToken(loginUser);
+    }
+
+    public List<SysAuthUser> selectAuthUserList(SysAuthUser user) {
+        R<List<SysAuthUser>> sysAuthUserListResult = sysServiceApi.selectAuthUserList(user, SecurityConstants.INNER);
+
+        if (R.FAIL == sysAuthUserListResult.getCode()) {
+            throw new ServiceException(sysAuthUserListResult.getMsg());
+        }
+
+        return sysAuthUserListResult.getData();
     }
 }
