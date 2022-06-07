@@ -24,7 +24,7 @@ const thirdLoginMixin = {
   methods: {
     ...mapActions(['ThirdLogin']),
     onThirdLogin(source) {
-      const loginUrl = process.env.VUE_APP_BASE_API + `/xxx/rest/services/auth/thirdLogin/render/${source}`
+      const loginUrl = process.env.VUE_APP_API_BASE_URL + `/xxx/rest/services/auth/thirdLogin/render/${source}`
       window.open(
         loginUrl,
         `login ${source}`,

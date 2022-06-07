@@ -55,7 +55,7 @@ const user = {
         getInfo(state.token)
           .then(res => {
             const user = res.user
-            let avatarUrl = process.env.VUE_APP_BASE_API + user.avatar
+            let avatarUrl = process.env.VUE_APP_API_BASE_URL + user.avatar
             if (user.avatar.startsWith('http') || user.avatar.startsWith('https')) {
               avatarUrl = user.avatar
             }
