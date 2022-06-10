@@ -43,7 +43,7 @@ public class SysLoginService {
      */
     public String login(LoginBody loginBody) {
         String username = loginBody.getUsername(), password = loginBody.getPassword();
-        LoginUser loginUser = checkUsername(username);
+        LoginUser loginUser = loadUserByUsername(username);
         SysUser user = loginUser.getUser();
 
         if (!SecurityUtils.matchesPassword(password, user.getPassword())) {
@@ -59,7 +59,7 @@ public class SysLoginService {
      * 无密码登录验证
      */
     public String login(String username) {
-        LoginUser loginUser = checkUsername(username);
+        LoginUser loginUser = loadUserByUsername(username);
         recordLogininfor(username, Constants.LOGIN_SUCCESS, MessageUtils.message("user.login.success"));
         // 生成token
         return tokenService.createToken(loginUser);
@@ -129,7 +129,7 @@ public class SysLoginService {
         sysServiceApi.saveLogininfor(logininfor, SecurityConstants.INNER);
     }
 
-    private LoginUser checkUsername(String username) {
+    public LoginUser loadUserByUsername(String username) {
         // 用户名不在指定范围内 错误
         if (username.length() < UserConstants.USERNAME_MIN_LENGTH
                 || username.length() > UserConstants.USERNAME_MAX_LENGTH) {

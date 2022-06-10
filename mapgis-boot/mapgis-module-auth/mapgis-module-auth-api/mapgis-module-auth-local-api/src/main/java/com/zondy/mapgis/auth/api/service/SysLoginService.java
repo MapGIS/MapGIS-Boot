@@ -13,6 +13,7 @@ import com.zondy.mapgis.common.core.utils.MessageUtils;
 import com.zondy.mapgis.common.core.utils.ServletUtils;
 import com.zondy.mapgis.common.core.utils.StringUtils;
 import com.zondy.mapgis.common.core.utils.ip.IpUtils;
+import com.zondy.mapgis.common.core.utils.spring.SpringUtils;
 import com.zondy.mapgis.common.security.manager.AsyncManager;
 import com.zondy.mapgis.common.security.manager.factory.AsyncFactory;
 import com.zondy.mapgis.common.security.service.TokenService;
@@ -27,11 +28,9 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -42,9 +41,6 @@ import java.util.List;
 public class SysLoginService {
     @Autowired
     private TokenService tokenService;
-
-    @Resource
-    private AuthenticationManager authenticationManager;
 
     @Autowired
     private ISysServiceApi sysServiceApi;
@@ -71,7 +67,7 @@ public class SysLoginService {
         Authentication authentication = null;
         try {
             // 该方法会去调用UserDetailsServiceImpl.loadUserByUsername
-            authentication = authenticationManager
+            authentication = SpringUtils.getBean(AuthenticationManager.class)
                     .authenticate(new UsernamePasswordAuthenticationToken(username, password));
         } catch (Exception e) {
             if (e instanceof BadCredentialsException) {
@@ -93,10 +89,10 @@ public class SysLoginService {
      * 无密码登录验证
      */
     public String login(String username) {
-        UserDetails userDetails = null;
+        LoginUser loginUser = null;
 
         try {
-            userDetails = userDetailsService.loadUserByUsername(username);
+            loginUser = loadUserByUsername(username);
         } catch (Exception e) {
             if (e instanceof BadCredentialsException) {
                 AsyncManager.me().execute(AsyncFactory.recordLogininfor(username, Constants.LOGIN_FAIL, MessageUtils.message("user.password.not.match")));
@@ -107,7 +103,6 @@ public class SysLoginService {
             }
         }
         AsyncManager.me().execute(AsyncFactory.recordLogininfor(username, Constants.LOGIN_SUCCESS, MessageUtils.message("user.login.success")));
-        LoginUser loginUser = (LoginUser) userDetails;
         recordLoginInfo(loginUser.getUserId());
         // 生成token
         return tokenService.createToken(loginUser);
@@ -168,6 +163,10 @@ public class SysLoginService {
         sysUser.setLoginIp(IpUtils.getIpAddr(ServletUtils.getRequest()));
         sysUser.setLoginDate(DateUtils.getNowDate());
         userService.updateUserProfile(sysUser);
+    }
+
+    public LoginUser loadUserByUsername(String username) {
+        return (LoginUser) userDetailsService.loadUserByUsername(username);
     }
 
     /**

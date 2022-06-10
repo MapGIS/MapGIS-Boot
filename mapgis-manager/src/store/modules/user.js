@@ -1,5 +1,5 @@
 import storage from 'store'
-import { login, getInfo, logout, thirdLogin } from '@/api/login'
+import { login, getInfo, logout, thirdLogin, casLogin } from '@/api/login'
 import { ACCESS_TOKEN } from '@/store/mutation-types'
 
 const user = {
@@ -82,6 +82,9 @@ const user = {
       return new Promise((resolve, reject) => {
         logout(state.token)
           .then(() => {
+            if (window._CONFIG['enableSSO']) {
+              window.location.href = window._CONFIG['casLogoutUrl']
+            }
             resolve()
           })
           .catch(error => {
@@ -100,6 +103,21 @@ const user = {
     ThirdLogin({ commit }, param) {
       return new Promise((resolve, reject) => {
         thirdLogin(param.token, param.source)
+          .then(res => {
+            storage.set(ACCESS_TOKEN, res.token, 7 * 24 * 60 * 60 * 1000)
+            commit('SET_TOKEN', res.token)
+            resolve()
+          })
+          .catch(error => {
+            reject(error)
+          })
+      })
+    },
+
+    // CAS登录
+    ValidateLogin({ commit }, token) {
+      return new Promise((resolve, reject) => {
+        casLogin(token)
           .then(res => {
             storage.set(ACCESS_TOKEN, res.token, 7 * 24 * 60 * 60 * 1000)
             commit('SET_TOKEN', res.token)

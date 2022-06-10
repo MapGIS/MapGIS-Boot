@@ -7,6 +7,7 @@ import notification from 'ant-design-vue/es/notification'
 import { setDocumentTitle, domTitle } from '@/utils/domUtil'
 import { ACCESS_TOKEN } from '@/store/mutation-types'
 import { i18nRender } from '@/locales'
+import qs from 'qs'
 
 NProgress.configure({ showSpinner: false }) // NProgress Configuration
 
@@ -68,7 +69,23 @@ router.beforeEach((to, from, next) => {
       // 在免登录名单，直接进入
       next()
     } else {
-      next({ path: loginRoutePath, query: { redirect: to.fullPath } })
+      if (window._CONFIG['enableSSO']) {
+        const queryParams = qs.parse(document.location.toString().split('?')[1])
+        const token = queryParams.token
+
+        // 判断来源是不是cas的地址
+        if (
+          token &&
+          (window._CONFIG['casLoginUrl'].includes(document.referrer) ||
+            document.referrer.includes(document.location.host))
+        ) {
+          validateToken(token, to, from, next)
+        } else {
+          window.location.href = window._CONFIG['casLoginUrl']
+        }
+      } else {
+        next({ path: loginRoutePath, query: { redirect: to.fullPath } })
+      }
       NProgress.done() // if current page is login will not trigger afterEach hook, so manually handle it
     }
   }
@@ -77,3 +94,15 @@ router.beforeEach((to, from, next) => {
 router.afterEach(() => {
   NProgress.done() // finish progress bar
 })
+
+function validateToken(token, to, from, next) {
+  store
+    .dispatch('ValidateLogin', token)
+    .then(res => {
+      const url = document.location.toString().split('?')[0]
+      window.location.href = url
+    })
+    .catch(() => {
+      window.location.href = window._CONFIG['casLoginUrl']
+    })
+}

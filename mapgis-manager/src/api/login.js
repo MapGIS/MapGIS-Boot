@@ -89,3 +89,14 @@ export function thirdLoginCheckPassword(data) {
     data: data
   })
 }
+
+// CAS登录
+export function casLogin(token) {
+  return request({
+    url: `/xxx/rest/services/auth/casLogin/getLoginUser/${token}`,
+    method: 'get',
+    headers: {
+      'Content-Type': 'application/json;charset=UTF-8'
+    }
+  })
+}

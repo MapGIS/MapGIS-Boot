@@ -35,6 +35,12 @@
             <artifactId>okhttp</artifactId>
         </dependency>
 
+        <!-- spring security cas-->
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-cas</artifactId>
+        </dependency>
+
         <!-- 授权服务API -->
         <dependency>
             <groupId>com.zondy.mapgis</groupId>
