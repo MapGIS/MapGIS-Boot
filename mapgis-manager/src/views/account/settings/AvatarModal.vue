@@ -132,7 +132,7 @@ export default {
           formData.append('avatarfile', data, this.fileName)
           uploadAvatar(formData).then(response => {
             this.open = false
-            let imgUrl = process.env.VUE_APP_API_BASE_URL + response.imgUrl
+            let imgUrl = window._CONFIG['domianURL'] + response.imgUrl
             if (response.imgUrl.startsWith('http') || response.imgUrl.startsWith('https')) {
               imgUrl = response.imgUrl
             }

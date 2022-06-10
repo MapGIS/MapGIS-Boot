@@ -7,7 +7,7 @@ const mimeMap = {
   zip: 'application/zip'
 }
 
-const baseUrl = process.env.VUE_APP_API_BASE_URL
+const baseUrl = window._CONFIG['domianURL']
 export function downLoadZip(str, filename) {
   var url = baseUrl + str
   axios({

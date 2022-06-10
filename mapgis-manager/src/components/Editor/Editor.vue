@@ -44,7 +44,7 @@ export default {
   },
   data() {
     return {
-      uploadImgUrl: process.env.VUE_APP_API_BASE_URL + '/xxx/rest/manager/file/upload',
+      uploadImgUrl: window._CONFIG['domianURL'] + '/xxx/rest/manager/file/upload',
       headers: {
         Authorization: 'Bearer ' + storage.get(ACCESS_TOKEN),
         Accept: 'application/json, text/plain, */*'
@@ -110,7 +110,7 @@ export default {
       this.editor.config.uploadImgHooks = {
         customInsert: function (insertImgFn, result) {
           // insertImgFn 可把图片插入到编辑器，传入图片 src ，执行函数即可
-          let imgUrl = process.env.VUE_APP_API_BASE_URL + result.data.url
+          let imgUrl = window._CONFIG['domianURL'] + result.data.url
           if (result.data.url.startsWith('http') || result.data.url.startsWith('https')) {
             imgUrl = result.data.url
           }
@@ -125,7 +125,7 @@ export default {
       this.editor.config.uploadVideoHooks = {
         customInsert: function (insertVideoFn, result) {
           // insertVideoFn 可把视频插入到编辑器，传入视频 src ，执行函数即可
-          let videoUrl = process.env.VUE_APP_API_BASE_URL + result.data.url
+          let videoUrl = window._CONFIG['domianURL'] + result.data.url
           if (result.data.url.startsWith('http') || result.data.url.startsWith('https')) {
             videoUrl = result.data.url
           }

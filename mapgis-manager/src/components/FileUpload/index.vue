@@ -51,7 +51,7 @@ export default {
     return {
       loading: false,
       open: false,
-      uploadImgUrl: process.env.VUE_APP_API_BASE_URL + '/common/upload',
+      uploadImgUrl: window._CONFIG['domianURL'] + '/common/upload',
       headers: {
         Authorization: 'Bearer ' + storage.get(ACCESS_TOKEN)
       }

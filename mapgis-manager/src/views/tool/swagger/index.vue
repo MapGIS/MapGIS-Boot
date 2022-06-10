@@ -12,7 +12,7 @@ export default {
   components: {},
   data() {
     return {
-      src: process.env.VUE_APP_API_BASE_URL + '/webjars/swagger-ui/index.html',
+      src: window._CONFIG['domianURL'] + '/webjars/swagger-ui/index.html',
       height: document.documentElement.clientHeight - 94.5 + 'px;',
       loading: true
     }
