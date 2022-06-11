@@ -41,16 +41,33 @@
             <artifactId>spring-security-cas</artifactId>
         </dependency>
 
-        <!-- 授权服务API -->
-        <dependency>
-            <groupId>com.zondy.mapgis</groupId>
-            <artifactId>${mapgis.module.auth.api.artifact}</artifactId>
-        </dependency>
-
         <!-- 全局前缀模块 -->
         <dependency>
             <groupId>com.zondy.mapgis</groupId>
             <artifactId>mapgis-common-controllerprefix</artifactId>
         </dependency>
     </dependencies>
+
+    <profiles>
+        <profile>
+            <id>local</id>
+            <dependencies>
+                <!-- 授权服务API -->
+                <dependency>
+                    <groupId>com.zondy.mapgis</groupId>
+                    <artifactId>mapgis-module-auth-local-api</artifactId>
+                </dependency>
+            </dependencies>
+        </profile>
+        <profile>
+            <id>cloud</id>
+            <dependencies>
+                <!-- 授权服务API -->
+                <dependency>
+                    <groupId>com.zondy.mapgis</groupId>
+                    <artifactId>mapgis-module-auth-cloud-api</artifactId>
+                </dependency>
+            </dependencies>
+        </profile>
+    </profiles>
 </project>

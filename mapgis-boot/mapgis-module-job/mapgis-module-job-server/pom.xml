@@ -57,18 +57,6 @@
         <dependency>
             <groupId>com.zondy.mapgis</groupId>
             <artifactId>mapgis-module-job-biz</artifactId>
-            <exclusions>
-                <exclusion>
-                    <groupId>com.zondy.mapgis</groupId>
-                    <artifactId>mapgis-common-local-log</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-
-        <!-- 日志模块 -->
-        <dependency>
-            <groupId>com.zondy.mapgis</groupId>
-            <artifactId>${mapgis.common.log.artifact}</artifactId>
         </dependency>
 
         <!-- MapGIS Common Swagger -->
@@ -103,4 +91,27 @@
             </resource>
         </resources>
     </build>
+
+    <profiles>
+        <profile>
+            <id>local</id>
+            <dependencies>
+                <!-- 日志模块 -->
+                <dependency>
+                    <groupId>com.zondy.mapgis</groupId>
+                    <artifactId>mapgis-common-local-log</artifactId>
+                </dependency>
+            </dependencies>
+        </profile>
+        <profile>
+            <id>cloud</id>
+            <dependencies>
+                <!-- 日志模块 -->
+                <dependency>
+                    <groupId>com.zondy.mapgis</groupId>
+                    <artifactId>mapgis-common-cloud-log</artifactId>
+                </dependency>
+            </dependencies>
+        </profile>
+    </profiles>
 </project>

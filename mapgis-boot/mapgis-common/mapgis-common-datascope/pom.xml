@@ -16,11 +16,26 @@
         <maven.compiler.target>8</maven.compiler.target>
     </properties>
 
-    <dependencies>
-        <!-- 安全模块 -->
-        <dependency>
-            <groupId>com.zondy.mapgis</groupId>
-            <artifactId>${mapgis.common.security.artifact}</artifactId>
-        </dependency>
-    </dependencies>
+    <profiles>
+        <profile>
+            <id>local</id>
+            <dependencies>
+                <!-- 安全模块 -->
+                <dependency>
+                    <groupId>com.zondy.mapgis</groupId>
+                    <artifactId>mapgis-common-local-security</artifactId>
+                </dependency>
+            </dependencies>
+        </profile>
+        <profile>
+            <id>cloud</id>
+            <dependencies>
+                <!-- 安全模块 -->
+                <dependency>
+                    <groupId>com.zondy.mapgis</groupId>
+                    <artifactId>mapgis-common-cloud-security</artifactId>
+                </dependency>
+            </dependencies>
+        </profile>
+    </profiles>
 </project>

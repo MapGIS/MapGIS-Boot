@@ -481,38 +481,16 @@
         <!-- 单体模式 -->
         <profile>
             <id>local</id>
-            <activation>
-                <!--默认激活配置-->
-                <activeByDefault>true</activeByDefault>
-            </activation>
             <modules>
                 <module>mapgis-server</module>
             </modules>
-            <properties>
-                <mapgis.common.security.artifact>mapgis-common-local-security</mapgis.common.security.artifact>
-                <mapgis.common.log.artifact>mapgis-common-local-log</mapgis.common.log.artifact>
-                <mapgis.module.system.api.artifact>mapgis-module-system-local-api</mapgis.module.system.api.artifact>
-                <mapgis.module.file.api.artifact>mapgis-module-file-local-api</mapgis.module.file.api.artifact>
-                <mapgis.module.auth.api.artifact>mapgis-module-auth-local-api</mapgis.module.auth.api.artifact>
-            </properties>
         </profile>
         <!-- 微服务模式 -->
         <profile>
             <id>cloud</id>
-            <activation>
-                <!--默认激活配置-->
-                <activeByDefault>false</activeByDefault>
-            </activation>
             <modules>
                 <module>mapgis-cloud-module</module>
             </modules>
-            <properties>
-                <mapgis.common.security.artifact>mapgis-common-cloud-security</mapgis.common.security.artifact>
-                <mapgis.common.log.artifact>mapgis-common-cloud-log</mapgis.common.log.artifact>
-                <mapgis.module.system.api.artifact>mapgis-module-system-cloud-api</mapgis.module.system.api.artifact>
-                <mapgis.module.file.api.artifact>mapgis-module-file-cloud-api</mapgis.module.file.api.artifact>
-                <mapgis.module.auth.api.artifact>mapgis-module-auth-cloud-api</mapgis.module.auth.api.artifact>
-            </properties>
             <dependencies>
                 <!-- bootstrap 启动器 -->
                 <dependency>

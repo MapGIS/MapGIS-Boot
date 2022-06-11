@@ -21,12 +21,6 @@
         <dependency>
             <groupId>com.zondy.mapgis</groupId>
             <artifactId>mapgis-common-datascope</artifactId>
-            <exclusions>
-                <exclusion>
-                    <groupId>com.zondy.mapgis</groupId>
-                    <artifactId>mapgis-common-local-security</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
 
         <!-- 多数据源模块 -->
@@ -35,22 +29,45 @@
             <artifactId>mapgis-common-datasource</artifactId>
         </dependency>
 
-        <!-- 日志模块 -->
-        <dependency>
-            <groupId>com.zondy.mapgis</groupId>
-            <artifactId>${mapgis.common.log.artifact}</artifactId>
-        </dependency>
-
-        <!-- 文件服务API -->
-        <dependency>
-            <groupId>com.zondy.mapgis</groupId>
-            <artifactId>${mapgis.module.file.api.artifact}</artifactId>
-        </dependency>
-
         <!-- 全局前缀模块 -->
         <dependency>
             <groupId>com.zondy.mapgis</groupId>
             <artifactId>mapgis-common-controllerprefix</artifactId>
         </dependency>
     </dependencies>
+
+    <profiles>
+        <profile>
+            <id>local</id>
+            <dependencies>
+                <!-- 日志模块 -->
+                <dependency>
+                    <groupId>com.zondy.mapgis</groupId>
+                    <artifactId>mapgis-common-local-log</artifactId>
+                </dependency>
+
+                <!-- 文件服务API -->
+                <dependency>
+                    <groupId>com.zondy.mapgis</groupId>
+                    <artifactId>mapgis-module-file-local-api</artifactId>
+                </dependency>
+            </dependencies>
+        </profile>
+        <profile>
+            <id>cloud</id>
+            <dependencies>
+                <!-- 日志模块 -->
+                <dependency>
+                    <groupId>com.zondy.mapgis</groupId>
+                    <artifactId>mapgis-common-cloud-log</artifactId>
+                </dependency>
+
+                <!-- 文件服务API -->
+                <dependency>
+                    <groupId>com.zondy.mapgis</groupId>
+                    <artifactId>mapgis-module-file-cloud-api</artifactId>
+                </dependency>
+            </dependencies>
+        </profile>
+    </profiles>
 </project>
