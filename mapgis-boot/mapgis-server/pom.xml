@@ -101,7 +101,7 @@
             <artifactId>mapgis-module-job-biz</artifactId>
         </dependency>
 
-        <!-- MapGIS Common Base Log -->
+        <!-- 日志模块 -->
         <dependency>
             <groupId>com.zondy.mapgis</groupId>
             <artifactId>mapgis-common-local-log</artifactId>
