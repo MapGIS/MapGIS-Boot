@@ -1,6 +1,7 @@
 const sidebar = {
   document: [
     '/guide/document/introduction',
+    '/guide/document/frontend',
     '/guide/document/backend',
     '/guide/document/skill'
   ],
