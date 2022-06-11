@@ -42,13 +42,13 @@ public class SecurityUtils {
     }
 
     /**
-     * 获取用户账户
+     * 获取用户账号
      */
     public static String getUsername() {
         try {
             return getLoginUser().getUsername();
         } catch (Exception e) {
-            throw new ServiceException("获取用户账户异常", HttpStatus.UNAUTHORIZED);
+            throw new ServiceException("获取用户账号异常", HttpStatus.UNAUTHORIZED);
         }
     }
 

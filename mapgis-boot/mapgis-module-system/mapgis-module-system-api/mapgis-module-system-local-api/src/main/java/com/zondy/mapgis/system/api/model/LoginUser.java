@@ -104,7 +104,7 @@ public class LoginUser implements UserDetails {
     }
 
     /**
-     * 账户是否未过期,过期无法验证
+     * 账号是否未过期,过期无法验证
      */
     @JsonIgnore
     @Override
