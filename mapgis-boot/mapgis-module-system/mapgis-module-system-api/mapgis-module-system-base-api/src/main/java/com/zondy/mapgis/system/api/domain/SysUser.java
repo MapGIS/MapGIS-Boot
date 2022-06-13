@@ -1,7 +1,6 @@
 package com.zondy.mapgis.system.api.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.zondy.mapgis.common.core.annotation.Excel;
 import com.zondy.mapgis.common.core.annotation.Excel.ColumnType;
 import com.zondy.mapgis.common.core.annotation.Excel.Type;
@@ -176,10 +175,5 @@ public class SysUser extends BaseEntity {
 
     public static boolean isAdmin(Long userId) {
         return userId != null && 1L == userId;
-    }
-
-    @JsonProperty
-    public String getPassword() {
-        return password;
     }
 }

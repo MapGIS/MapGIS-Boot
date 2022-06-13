@@ -65,7 +65,7 @@
                 <bind name="title_like" value="'%' + title + '%'"/>
                 AND title like #{title_like}
             </if>
-            <if test="businessType != null and businessType != ''">
+            <if test="businessType != null">
                 AND business_type = #{businessType}
             </if>
             <if test="businessTypes != null and businessTypes.length > 0">

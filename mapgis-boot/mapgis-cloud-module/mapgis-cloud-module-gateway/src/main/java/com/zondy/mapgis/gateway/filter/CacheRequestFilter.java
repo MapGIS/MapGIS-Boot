@@ -49,7 +49,7 @@ public class CacheRequestFilter extends AbstractGatewayFilterFactory<CacheReques
         public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
             // GET DELETE 不过滤
             HttpMethod method = exchange.getRequest().getMethod();
-            if (method == null || method.matches("GET") || method.matches("DELETE")) {
+            if (method == null || method == HttpMethod.GET || method == HttpMethod.DELETE) {
                 return chain.filter(exchange);
             }
             return DataBufferUtils.join(exchange.getRequest().getBody()).map(dataBuffer -> {
