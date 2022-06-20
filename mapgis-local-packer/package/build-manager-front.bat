@@ -9,7 +9,7 @@ setlocal
 
 set CURRENT_DIR=%cd%
 set MANAGER_FRONT_DIR=%CURRENT_DIR%/../../mapgis-manager
-set MANAGER_DIST_DIR=%CURRENT_DIR%/../../mapgis-boot/mapgis-server/src/main/resources/static
+set MANAGER_DIST_DIR=%CURRENT_DIR%/../../mapgis-boot/mapgis-module-system/mapgis-module-system-biz/src/main/resources/static
 
 if exist "%MANAGER_DIST_DIR%" rmdir /s/q "%MANAGER_DIST_DIR%"
 

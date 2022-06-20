@@ -10,6 +10,8 @@ spring:
   profiles:
     # 环境配置
     active: dev
+  mvc:
+    static-path-pattern: /xxx/static/**
   cloud:
     nacos:
       discovery:

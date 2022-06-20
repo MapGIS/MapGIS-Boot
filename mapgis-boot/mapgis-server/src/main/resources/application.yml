@@ -46,7 +46,7 @@ spring:
       # 热部署开关
       enabled: true
   mvc:
-    static-path-pattern: /static/**
+    static-path-pattern: /xxx/static/**
   # 缓存配置
   cache:
     type: ehcache

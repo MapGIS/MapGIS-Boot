@@ -1,4 +1,4 @@
-package com.zondy.mapgis.controller;
+package com.zondy.mapgis.system.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,14 +10,14 @@ import org.springframework.web.bind.annotation.GetMapping;
  * @since 2022/6/14 11:31
  */
 @Controller
-public class IndexController {
+public class SysIndexController {
     /**
      * 系统首页
      *
      * @return
      */
-    @GetMapping(value = {"/", "/xxx/**"})
+    @GetMapping(value = {"/", "/xxx/manager/**"})
     public String index() {
-        return "forward:/static/index.html";
+        return "forward:/xxx/static/index.html";
     }
 }
