@@ -1,0 +1,13 @@
+version : '3'
+services:
+  mapgis-server:
+    build:
+      context: ./mapgis/server
+    image: mapgis-server:1.0
+    restart: on-failure
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./mapgis/server/logs:/mapgis/logs
+      - ./mapgis/server/upload:/mapgis/upload
+      - ./mapgis/server/data:/mapgis/data
