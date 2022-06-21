@@ -1,7 +1,7 @@
 #### 镜像上传
 # 仓库私服： 192.168.177.1:5000
 # 第一步：上传镜像到docker仓库
-#docker tag mapgis-server:1.0 192.168.177.1:5000/mapgis-server:1.0
+#docker tag mapgis-server 192.168.177.1:5000/mapgis-server:1.0
 
 #docker push 192.168.177.1:5000/mapgis-server:1.0
 

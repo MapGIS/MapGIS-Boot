@@ -3,7 +3,7 @@ services:
   mapgis-server:
     build:
       context: ./mapgis/server
-    image: mapgis-server:1.0
+    image: mapgis-server
     restart: on-failure
     ports:
       - "8080:8080"

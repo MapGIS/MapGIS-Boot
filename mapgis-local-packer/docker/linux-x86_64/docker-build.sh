@@ -3,7 +3,7 @@
 cd `dirname $0`
 
 # mapgis-server
-IMAGE_NAME=mapgis-server:1.0
+IMAGE_NAME=mapgis-server
 
 cd ./mapgis/server
 

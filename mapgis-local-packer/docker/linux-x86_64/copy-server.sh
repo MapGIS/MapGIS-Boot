@@ -5,6 +5,9 @@ SRC_SERVER_PATH=$1
 # 目标目录
 TARGET_SERVER_PATH=$2
 
+# 拷贝对应平台下的文件
+echo "begin copy mapgis-server"
+
 # 如果存在目标目录先删除
 if [ -d $TARGET_SERVER_PATH ]; then
     rm -rf $TARGET_SERVER_PATH
