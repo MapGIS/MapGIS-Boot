@@ -173,7 +173,7 @@ __  __              _____ _____  _____    _____
 
 创建数据库`mapgis-cloud-xxx`并导入 `cloud-script/sql`下数据脚本`mapgis-cloud-xxx-xxxxxxxx.sql`（必须），`quartz.sql`（可选）
 
-创建数据库`mapgis-cloud-config`并导入数据脚本`mapgis-cloud-config-xxxxxxxx.sql`（必须）
+导入数据脚本`mapgis-cloud-config-xxxxxxxx.sql`（必须，会自动创建数据库`mapgis-cloud-config`）
 
 > 这里 mapgis-cloud-xxx 请与产品标识保持一致
 > 字符集：utf8mb4、排序规则：utf8mb4_general_ci
