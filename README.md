@@ -174,7 +174,7 @@ __  __              _____ _____  _____    _____
 ```
 127.0.0.1 mapgis-mysql
 127.0.0.1 mapgis-redis
-127.0.0.1 mapgis-gateway
+127.0.0.1 mapgis-cloud-module-gateway
 127.0.0.1 mapgis-nacos
 127.0.0.1 mapgis-sentinel
 ```
