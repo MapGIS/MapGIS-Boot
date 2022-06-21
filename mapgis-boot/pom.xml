@@ -491,6 +491,12 @@
             <modules>
                 <module>mapgis-cloud-module</module>
             </modules>
+            <properties>
+                <!--Nacos配置中心地址-->
+                <config.server-addr>mapgis-nacos:8848</config.server-addr>
+                <!--Nacos服务发现地址-->
+                <discovery.server-addr>mapgis-nacos:8848</discovery.server-addr>
+            </properties>
             <dependencies>
                 <!-- bootstrap 启动器 -->
                 <dependency>

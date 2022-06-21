@@ -168,8 +168,18 @@ __  __              _____ _____  _____    _____
 > 后端运行成功后可以继续参考下面步骤部署 mapgis-manager 前端，然后通过前端地址来访问
 
 #### 后端项目启动（微服务模式）
+1、配置本地hosts
+必须配置 hosts ,禁止修改代码中配置成IP  |  梯子、VPN 等软件会导致 hosts 配置失效，请关闭！！
+> 如何快速修改本地hosts，[SwitchHosts](https://github.com/oldj/SwitchHosts)
+```
+127.0.0.1 mapgis-mysql
+127.0.0.1 mapgis-redis
+127.0.0.1 mapgis-gateway
+127.0.0.1 mapgis-nacos
+127.0.0.1 mapgis-sentinel
+```
 
-1、初始化 MySQL 数据库
+2、初始化 MySQL 数据库
 
 创建数据库`mapgis-cloud-xxx`并导入 `cloud-script/sql`下数据脚本`mapgis-cloud-xxx-xxxxxxxx.sql`（必须），`quartz.sql`（可选）
 
@@ -178,7 +188,7 @@ __  __              _____ _____  _____    _____
 > 这里 mapgis-cloud-xxx 请与产品标识保持一致
 > 字符集：utf8mb4、排序规则：utf8mb4_general_ci
 
-2、配置`nacos`持久化，修改`conf/application.properties`文件，增加支持`mysql`数据源配置
+3、配置`nacos`持久化，修改`conf/application.properties`文件，增加支持`mysql`数据源配置
 
 ```properties
 # db mysql
@@ -195,15 +205,15 @@ db.password=123456
 > 需要下载的`nacos-server`必须`>=2.x.x`版本
 > 默认配置单机模式，`nacos`集群/多集群部署模式参考 ([Nacos 支持三种部署模式](https://nacos.io/zh-cn/docs/deployment.html))
 
-3、运行 Nacos 修改项目配置 (数据库、redis 等)
+4、运行 Nacos 修改项目配置 (数据库、redis 等)
 
 访问[http://localhost:8848/nacos](http://localhost:8848/nacos)，修改组为 MAPGIS_GROUP 下的配置文件
 
 > -dev 为开发环境下的配置，-prod 为生产环境下的配置
 
-4、运行 Redis
+5、运行 Redis
 
-5、运行各模块（启动没有先后顺序）
+6、运行各模块（启动没有先后顺序）
 
 - MapGatewayApplication （网关模块 必须）
 - MapAuthApplication （认证模块 必须）
