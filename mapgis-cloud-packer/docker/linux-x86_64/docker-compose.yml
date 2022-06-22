@@ -1,0 +1,124 @@
+version : '3'
+services:
+  mapgis-nacos:
+    container_name: mapgis-nacos
+    image: nacos/nacos-server
+    environment:
+      MODE: standalone
+      SPRING_DATASOURCE_PLATFORM: mysql
+      MYSQL_SERVICE_HOST: mapgis-mysql
+      MYSQL_SERVICE_PORT: 3306
+      MYSQL_SERVICE_DB_NAME: mapgis-cloud-config
+      MYSQL_SERVICE_USER: root
+      MYSQL_SERVICE_PASSWORD: cloud123.mapgis
+    volumes:
+      - ./nacos/logs:/home/nacos/logs
+    ports:
+      - "8848:8848"
+      - "9848:9848"
+      - "9849:9849"
+    depends_on:
+      - mapgis-mysql
+  mapgis-mysql:
+    build:
+      context: ./mysql
+    container_name: mapgis-mysql
+    image: mapgis-mysql
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./mysql/conf:/etc/mysql/conf.d
+      - ./mysql/logs:/logs
+      - ./mysql/data:/var/lib/mysql
+    command: [
+          'mysqld',
+          '--innodb-buffer-pool-size=80M',
+          '--character-set-server=utf8mb4',
+          '--collation-server=utf8mb4_unicode_ci',
+          '--default-time-zone=+8:00',
+          '--lower-case-table-names=1'
+        ]
+    environment:
+      MYSQL_DATABASE: 'mapgis-cloud-xxx'
+      MYSQL_ROOT_PASSWORD: cloud123.mapgis
+  mapgis-redis:
+    container_name: mapgis-redis
+    image: redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - ./redis/data:/data
+    command: redis-server --requirepass cloud123.mapgis
+  mapgis-gateway:
+    build:
+      context: ./mapgis/gateway
+    container_name: mapgis-gateway
+    image: mapgis-gateway
+    restart: on-failure
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./mapgis/gateway/logs:/mapgis/logs
+    depends_on:
+      - mapgis-redis
+      - mapgis-nacos
+  mapgis-monitor:
+    build:
+      context: ./mapgis/monitor
+    image: mapgis-monitor
+    restart: on-failure
+    ports:
+      - "9200:9200"
+    volumes:
+      - ./mapgis/monitor/logs:/mapgis/logs
+    depends_on:
+      - mapgis-nacos
+  mapgis-auth:
+    build:
+      context: ./mapgis/auth
+    image: mapgis-auth
+    restart: on-failure
+    ports:
+      - "10000:10000"
+    volumes:
+      - ./mapgis/auth/logs:/mapgis/logs
+    depends_on:
+      - mapgis-redis
+      - mapgis-nacos
+  mapgis-system:
+    build:
+      context: ./mapgis/system
+    image: mapgis-system
+    restart: on-failure
+    ports:
+      - "11000:11000"
+    volumes:
+      - ./mapgis/system/logs:/mapgis/logs
+    depends_on:
+      - mapgis-redis
+      - mapgis-mysql
+      - mapgis-nacos
+  mapgis-file:
+    build:
+      context: ./mapgis/file
+    image: mapgis-file
+    restart: on-failure
+    ports:
+      - "12000:12000"
+    volumes:
+      - ./mapgis/file/logs:/mapgis/logs
+      - ./mapgis/file/upload:/mapgis/upload
+    depends_on:
+      - mapgis-nacos
+  mapgis-job:
+    build:
+      context: ./mapgis/job
+    image: mapgis-job
+    restart: on-failure
+    ports:
+      - "13000:13000"
+    volumes:
+      - ./mapgis/job/logs:/mapgis/logs
+    depends_on:
+      - mapgis-mysql
+      - mapgis-nacos
