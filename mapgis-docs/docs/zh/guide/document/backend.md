@@ -136,9 +136,9 @@ spring:
         # 主库数据源
         master:
           driver-class-name: com.mysql.cj.jdbc.Driver
-          url: jdbc:mysql://localhost:3306/mapgis-cloud-xxx?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8
+          url: jdbc:mysql://mapgis-mysql:3306/mapgis-cloud-xxx?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8
           username: root
-          password: 123456
+          password: cloud123.mapgis
         # 从库数据源
         # slave:
         # username:
@@ -898,7 +898,7 @@ cas.logout.follow-service-redirects=true
 #
 cas.authn.jdbc.query[0].url=jdbc:mysql://localhost:3306/mapgis-xxx?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8
 cas.authn.jdbc.query[0].user=root
-cas.authn.jdbc.query[0].password=123456
+cas.authn.jdbc.query[0].password=cloud123.mapgis
 cas.authn.jdbc.query[0].sql=select * from sys_user where user_name=?
 cas.authn.jdbc.query[0].fieldPassword=password
 cas.authn.jdbc.query[0].driverClass=com.mysql.cj.jdbc.Driver

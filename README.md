@@ -194,9 +194,9 @@ __  __              _____ _____  _____    _____
 # db mysql
 spring.datasource.platform=mysql
 db.num=1
-db.url.0=jdbc:mysql://localhost:3306/mapgis-cloud-config?characterEncoding=utf8&connectTimeout=1000&socketTimeout=3000&autoReconnect=true&useUnicode=true&useSSL=false&serverTimezone=UTC
+db.url.0=jdbc:mysql://mapgis-mysql:3306/mapgis-cloud-config?characterEncoding=utf8&connectTimeout=1000&socketTimeout=3000&autoReconnect=true&useUnicode=true&useSSL=false&serverTimezone=UTC
 db.user=root
-db.password=123456
+db.password=cloud123.mapgis
 ```
 
 > 提示
@@ -207,7 +207,7 @@ db.password=123456
 
 4、运行 Nacos 修改项目配置 (数据库、redis 等)
 
-访问[http://localhost:8848/nacos](http://localhost:8848/nacos)，修改组为 MAPGIS_GROUP 下的配置文件
+访问[http://localhost:8848/nacos](http://localhost:8848/nacos)，修改跟`mapgis-xxx`相关的配置文件
 
 > -dev 为开发环境下的配置，-prod 为生产环境下的配置
 

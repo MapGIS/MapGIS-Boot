@@ -46,7 +46,7 @@ public class DataSourceConfig {
     @Value("${DB_USER:root}")
     private String dbUser;
 
-    @Value("${DB_PWD:123456}")
+    @Value("${DB_PWD:cloud123.mapgis}")
     private String dbPwd;
 
     @Primary
