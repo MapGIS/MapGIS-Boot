@@ -3,6 +3,7 @@ const sidebar = {
     '/guide/document/introduction',
     '/guide/document/frontend',
     '/guide/document/backend',
+    '/guide/document/deploy',
     '/guide/document/skill'
   ],
   other: ['/guide/other/change-log', '/guide/other/faq']
