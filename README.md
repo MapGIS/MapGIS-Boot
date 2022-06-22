@@ -174,9 +174,9 @@ __  __              _____ _____  _____    _____
 ```
 127.0.0.1 mapgis-mysql
 127.0.0.1 mapgis-redis
-127.0.0.1 mapgis-cloud-module-gateway
 127.0.0.1 mapgis-nacos
 127.0.0.1 mapgis-sentinel
+127.0.0.1 mapgis-gateway
 ```
 
 2、初始化 MySQL 数据库
