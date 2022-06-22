@@ -49,8 +49,8 @@ systemctl restart docker
 提供私有私有镜像仓库的脚本，见[docker-compose-server.yml](http://192.168.200.88/webgis/server/mapgis-boot/blob/master/mapgis-local-packer/docker/linux-x86_64/docker-compose-server.yml)，可基于脚本一键启动MapGIS Boot单体版应用，启动成功后访问：[http://docker-host-ip:8080/xxx/manager](http://docker-host-ip:8080/xxx/manager)
 
 ```shell
-# 进入到存放docker-compose-server.yml目录并执行赋予权限
-chmod -R 777 docker-compose-server.yml .
+# 进入到存放docker-compose-server.yml目录并执行赋予执行权限
+chmod +x docker-compose-server.yml
 # 创建并启动
 docker-compose -f docker-compose-server.yml up -d
 # 查看运行中的容器
@@ -86,8 +86,8 @@ services:
 提供私有私有镜像仓库的脚本，见[docker-compose-server.yml](http://192.168.200.88/webgis/server/mapgis-boot/blob/master/mapgis-cloud-packer/docker/linux-x86_64/docker-compose-server.yml)，可基于脚本一键启动MapGIS Boot微服务版应用，启动成功（因微服务版运行容器较多，大概需等待3分钟，取决于机器性能）后访问：[http://docker-host-ip:8080/xxx/manager](http://docker-host-ip:8080/xxx/manager)
 
 ```shell
-# 进入到存放docker-compose-server.yml目录并执行赋予权限
-chmod -R 777 docker-compose-server.yml .
+# 进入到存放docker-compose-server.yml目录并执行赋予执行权限
+chmod +x docker-compose-server.yml
 # 创建并启动
 docker-compose -f docker-compose-server.yml up -d
 # 查看运行中的容器
