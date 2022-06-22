@@ -282,28 +282,28 @@ com.zondy.mapgis
 │       ├── mapgis-module-auth-cloud-api                // 微服务授权API
 │       ├── mapgis-module-auth-local-api                // 单体授权API
 │   ├── mapgis-module-auth-biz                          // 授权业务
-│   ├── mapgis-module-auth-server                       // 授权服务器 [9200]
+│   ├── mapgis-module-auth-server                       // 授权服务器 [10000]
 ├── mapgis-module-system                                // 系统模块
 │   ├── mapgis-module-system-api                        // 系统API
 │       ├── mapgis-module-system-base-api               // 基础系统API
 │       ├── mapgis-module-system-cloud-api              // 微服务系统API
 │       ├── mapgis-module-system-local-api              // 单体系统API
 │   ├── mapgis-module-system-biz                        // 系统业务
-│   ├── mapgis-module-system-server                     // 系统服务器 [9201]
+│   ├── mapgis-module-system-server                     // 系统服务器 [11000]
 ├── mapgis-module-file                                  // 文件模块
 │   ├── mapgis-module-file-api                          // 文件API
 │       ├── mapgis-module-file-base-api                 // 基础文件API
 │       ├── mapgis-module-file-cloud-api                // 微服务文件API
 │       ├── mapgis-module-file-local-api                // 单体文件API
 │   ├── mapgis-module-file-biz                          // 文件业务
-│   ├── mapgis-module-file-server                       // 文件服务器 [9300]
+│   ├── mapgis-module-file-server                       // 文件服务器 [12000]
 ├── mapgis-module-job                                   // 定时任务模块
 │   ├── mapgis-module-job-biz                           // 定时任务业务
-│   ├── mapgis-module-job-server                        // 定时任务服务器 [9203]
+│   ├── mapgis-module-job-server                        // 定时任务服务器 [13000]
 ├── mapgis-server                                       // 单体服务器 [8080]
 ├── mapgis-cloud-module                                 // 微服务模块
 │   ├── mapgis-cloud-module-gateway                     // 网关模块 [8080]
-│   ├── mapgis-cloud-module-monitor                     // 监控中心 [9100]
+│   ├── mapgis-cloud-module-monitor                     // 监控中心 [9200]
 ├── pom.xml                                             // 公共依赖
 ```
 

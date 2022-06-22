@@ -441,7 +441,7 @@ INSERT INTO `sys_menu`
 VALUES (112, 'Nacos控制台', 2, 4, 'http://localhost:8848/nacos', '', '', 0, 0, 'C', '0', '0', 'monitor:nacos:list',
         'nacos', 'admin', '2022-03-31 15:00:49', '', NULL, '服务治理菜单');
 INSERT INTO `sys_menu`
-VALUES (113, 'Admin控制台', 2, 5, 'http://localhost:9100/login', '', '', 0, 0, 'C', '0', '0', 'monitor:server:list',
+VALUES (113, 'Admin控制台', 2, 5, 'http://localhost:9200/login', '', '', 0, 0, 'C', '0', '0', 'monitor:server:list',
         'server', 'admin', '2022-03-31 15:00:49', '', NULL, '服务监控菜单');
 INSERT INTO `sys_menu`
 VALUES (114, '系统接口', 3, 1, 'swagger', 'tool/swagger/index', '', 1, 0, 'C', '0', '0', 'tool:swagger:list', 'swagger',
