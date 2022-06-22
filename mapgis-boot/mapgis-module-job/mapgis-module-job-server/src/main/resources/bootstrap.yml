@@ -14,10 +14,10 @@ spring:
     nacos:
       discovery:
         # 服务注册地址
-        server-addr: @discovery.server-addr@
+        server-addr: ${NACOS_HOST:mapgis-nacos}:${NACOS_PORT:8848}
       config:
         # 配置中心地址
-        server-addr: @config.server-addr@
+        server-addr: ${spring.cloud.nacos.discovery.server-addr}
         # 配置文件格式
         file-extension: yml
         # 共享配置
