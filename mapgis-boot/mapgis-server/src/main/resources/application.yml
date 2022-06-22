@@ -56,6 +56,7 @@ spring:
   jackson:
     # 日期格式化
     date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
     serialization:
       # 格式化输出
       indent_output: false

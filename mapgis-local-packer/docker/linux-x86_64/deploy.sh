@@ -2,13 +2,18 @@
 
 # 使用说明，用来提示输入参数
 usage() {
-	echo "Usage: sh 执行脚本.sh [modules|stop|rm]"
+	echo "Usage: sh 执行脚本.sh [build|modules|stop|rm]"
 	exit 1
+}
+
+# 构建镜像
+build() {
+	docker-compose build
 }
 
 # 启动程序模块（必须）
 modules(){
-	docker-compose up -d mapgis-server
+	docker-compose up -d
 }
 
 # 关闭所有环境/模块
@@ -23,6 +28,9 @@ rm(){
 
 # 根据输入参数，选择执行对应方法，不输入则执行使用说明
 case "$1" in
+"build")
+	build
+;;
 "modules")
 	modules
 ;;

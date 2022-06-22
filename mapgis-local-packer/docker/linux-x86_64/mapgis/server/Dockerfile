@@ -16,8 +16,11 @@ WORKDIR /mapgis
 # 复制文件到路径
 COPY ./app /mapgis
 
-# 环境变量
-ENV LANG "zh_CN.UTF-8"
+# 支持中文
+ENV LANG=zh_CN.UTF-8
+
+# 设定时区
+ENV TZ=Asia/Shanghai
 
 # 暴露端口
 EXPOSE 8080
