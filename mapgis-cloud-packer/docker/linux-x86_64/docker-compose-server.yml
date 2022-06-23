@@ -47,6 +47,8 @@ services:
       - "9849:9849"
     depends_on:
       - mapgis-mysql
+    links:
+      - mapgis-mysql
   mapgis-mysql:
     container_name: mapgis-mysql
     image: 192.168.177.1:5000/mapgis-mysql:1.0
@@ -83,7 +85,13 @@ services:
       - "8080:8080"
     volumes:
       - ./mapgis/gateway/logs:/mapgis/logs
+    environment:
+      NACOS_HOST: mapgis-nacos
+      NACOS_PORT: 8848
     depends_on:
+      - mapgis-redis
+      - mapgis-nacos
+    links:
       - mapgis-redis
       - mapgis-nacos
   mapgis-monitor:
@@ -93,7 +101,12 @@ services:
       - "9200:9200"
     volumes:
       - ./mapgis/monitor/logs:/mapgis/logs
+    environment:
+      NACOS_HOST: mapgis-nacos
+      NACOS_PORT: 8848
     depends_on:
+      - mapgis-nacos
+    links:
       - mapgis-nacos
   mapgis-auth:
     image: 192.168.177.1:5000/mapgis-auth:1.0
@@ -102,7 +115,13 @@ services:
       - "10000:10000"
     volumes:
       - ./mapgis/auth/logs:/mapgis/logs
+    environment:
+      NACOS_HOST: mapgis-nacos
+      NACOS_PORT: 8848
     depends_on:
+      - mapgis-redis
+      - mapgis-nacos
+    links:
       - mapgis-redis
       - mapgis-nacos
   mapgis-system:
@@ -112,7 +131,14 @@ services:
       - "11000:11000"
     volumes:
       - ./mapgis/system/logs:/mapgis/logs
+    environment:
+      NACOS_HOST: mapgis-nacos
+      NACOS_PORT: 8848
     depends_on:
+      - mapgis-redis
+      - mapgis-mysql
+      - mapgis-nacos
+    links:
       - mapgis-redis
       - mapgis-mysql
       - mapgis-nacos
@@ -124,7 +150,12 @@ services:
     volumes:
       - ./mapgis/file/logs:/mapgis/logs
       - ./mapgis/file/upload:/mapgis/upload
+    environment:
+      NACOS_HOST: mapgis-nacos
+      NACOS_PORT: 8848
     depends_on:
+      - mapgis-nacos
+    links:
       - mapgis-nacos
   mapgis-job:
     image: 192.168.177.1:5000/mapgis-job:1.0
@@ -133,6 +164,12 @@ services:
       - "13000:13000"
     volumes:
       - ./mapgis/job/logs:/mapgis/logs
+    environment:
+      NACOS_HOST: mapgis-nacos
+      NACOS_PORT: 8848
     depends_on:
+      - mapgis-mysql
+      - mapgis-nacos
+    links:
       - mapgis-mysql
       - mapgis-nacos

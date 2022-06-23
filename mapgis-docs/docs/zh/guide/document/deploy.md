@@ -61,14 +61,18 @@ docker-compose -f docker-compose-server.yml down
 
 完整的脚本如下：
 ```yml
-#### 镜像上传
+#### 镜像上传（注意版本号变更）
 # 仓库私服： 192.168.177.1:5000
 # 第一步：上传镜像到docker仓库
 #docker tag mapgis-server 192.168.177.1:5000/mapgis-server:1.0
 
 #docker push 192.168.177.1:5000/mapgis-server:1.0
 
-# 第二步：将此yml文件上传服务器，执行启动命令 docker-compose -f ./docker-compose-server.yml up
+# 第二步：将此yml文件上传服务器，执行启动命令
+# 前台启动
+# docker-compose -f ./docker-compose-server.yml up
+# 后台启动
+# docker-compose -f ./docker-compose-server.yml up -d
 version: '3'
 services:
   mapgis-server:
@@ -98,7 +102,7 @@ docker-compose -f docker-compose-server.yml down
 
 完整的脚本如下：
 ```yml
-#### 镜像上传
+#### 镜像上传（注意版本号变更）
 # 仓库私服： 192.168.177.1:5000
 # 第一步：上传镜像到docker仓库
 #docker tag nacos/nacos-server 192.168.177.1:5000/nacos/nacos-server
@@ -121,7 +125,11 @@ docker-compose -f docker-compose-server.yml down
 #docker push 192.168.177.1:5000/mapgis-file:1.0
 #docker push 192.168.177.1:5000/mapgis-job:1.0
 
-# 第二步：将此yml文件上传服务器，执行启动命令 docker-compose -f ./docker-compose-server.yml up
+# 第二步：将此yml文件上传服务器，执行启动命令
+# 前台启动
+# docker-compose -f ./docker-compose-server.yml up
+# 后台启动
+# docker-compose -f ./docker-compose-server.yml up -d
 version : '3'
 services:
   mapgis-nacos:
@@ -142,6 +150,8 @@ services:
       - "9848:9848"
       - "9849:9849"
     depends_on:
+      - mapgis-mysql
+    links:
       - mapgis-mysql
   mapgis-mysql:
     container_name: mapgis-mysql
@@ -179,7 +189,13 @@ services:
       - "8080:8080"
     volumes:
       - ./mapgis/gateway/logs:/mapgis/logs
+    environment:
+      NACOS_HOST: mapgis-nacos
+      NACOS_PORT: 8848
     depends_on:
+      - mapgis-redis
+      - mapgis-nacos
+    links:
       - mapgis-redis
       - mapgis-nacos
   mapgis-monitor:
@@ -189,7 +205,12 @@ services:
       - "9200:9200"
     volumes:
       - ./mapgis/monitor/logs:/mapgis/logs
+    environment:
+      NACOS_HOST: mapgis-nacos
+      NACOS_PORT: 8848
     depends_on:
+      - mapgis-nacos
+    links:
       - mapgis-nacos
   mapgis-auth:
     image: 192.168.177.1:5000/mapgis-auth:1.0
@@ -198,7 +219,13 @@ services:
       - "10000:10000"
     volumes:
       - ./mapgis/auth/logs:/mapgis/logs
+    environment:
+      NACOS_HOST: mapgis-nacos
+      NACOS_PORT: 8848
     depends_on:
+      - mapgis-redis
+      - mapgis-nacos
+    links:
       - mapgis-redis
       - mapgis-nacos
   mapgis-system:
@@ -208,7 +235,14 @@ services:
       - "11000:11000"
     volumes:
       - ./mapgis/system/logs:/mapgis/logs
+    environment:
+      NACOS_HOST: mapgis-nacos
+      NACOS_PORT: 8848
     depends_on:
+      - mapgis-redis
+      - mapgis-mysql
+      - mapgis-nacos
+    links:
       - mapgis-redis
       - mapgis-mysql
       - mapgis-nacos
@@ -220,7 +254,12 @@ services:
     volumes:
       - ./mapgis/file/logs:/mapgis/logs
       - ./mapgis/file/upload:/mapgis/upload
+    environment:
+      NACOS_HOST: mapgis-nacos
+      NACOS_PORT: 8848
     depends_on:
+      - mapgis-nacos
+    links:
       - mapgis-nacos
   mapgis-job:
     image: 192.168.177.1:5000/mapgis-job:1.0
@@ -229,7 +268,13 @@ services:
       - "13000:13000"
     volumes:
       - ./mapgis/job/logs:/mapgis/logs
+    environment:
+      NACOS_HOST: mapgis-nacos
+      NACOS_PORT: 8848
     depends_on:
+      - mapgis-mysql
+      - mapgis-nacos
+    links:
       - mapgis-mysql
       - mapgis-nacos
 ```
