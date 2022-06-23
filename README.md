@@ -172,11 +172,11 @@ __  __              _____ _____  _____    _____
 必须配置 hosts ,禁止修改代码中配置成IP  |  梯子、VPN 等软件会导致 hosts 配置失效，请关闭！！
 > 如何快速修改本地hosts，[SwitchHosts](https://github.com/oldj/SwitchHosts)
 ```
-127.0.0.1 mapgis-mysql
-127.0.0.1 mapgis-redis
-127.0.0.1 mapgis-nacos
-127.0.0.1 mapgis-sentinel
-127.0.0.1 mapgis-gateway
+127.0.0.1 mapgis-xxx-mysql
+127.0.0.1 mapgis-xxx-redis
+127.0.0.1 mapgis-xxx-nacos
+127.0.0.1 mapgis-xxx-sentinel
+127.0.0.1 mapgis-xxx-gateway
 ```
 
 2、初始化 MySQL 数据库
@@ -194,7 +194,7 @@ __  __              _____ _____  _____    _____
 # db mysql
 spring.datasource.platform=mysql
 db.num=1
-db.url.0=jdbc:mysql://mapgis-mysql:3306/mapgis-cloud-config?characterEncoding=utf8&connectTimeout=1000&socketTimeout=3000&autoReconnect=true&useUnicode=true&useSSL=false&serverTimezone=UTC
+db.url.0=jdbc:mysql://mapgis-xxx-mysql:3306/mapgis-cloud-config?characterEncoding=utf8&connectTimeout=1000&socketTimeout=3000&autoReconnect=true&useUnicode=true&useSSL=false&serverTimezone=UTC
 db.user=root
 db.password=cloud123.mapgis
 ```

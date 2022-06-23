@@ -1,1 +1,0 @@
-存放打包好的应用文件，包括bin、config和lib，用于docker启动应用

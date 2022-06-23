@@ -1,9 +1,9 @@
 version : '3'
 services:
-  mapgis-server:
+  mapgis-xxx:
     build:
       context: ./mapgis/server
-    image: mapgis-server
+    image: mapgis-xxx
     restart: on-failure
     ports:
       - "8080:8080"

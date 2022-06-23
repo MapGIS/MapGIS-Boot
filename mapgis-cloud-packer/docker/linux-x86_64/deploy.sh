@@ -13,7 +13,7 @@ build() {
 
 # 启动基础环境（必须）
 base(){
-	docker-compose up -d mapgis-mysql mapgis-redis mapgis-nacos
+	docker-compose up -d mapgis-xxx-mysql mapgis-xxx-redis mapgis-xxx-nacos
 }
 
 # 启动程序模块（必须）
