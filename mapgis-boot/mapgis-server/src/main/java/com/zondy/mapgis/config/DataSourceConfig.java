@@ -109,10 +109,14 @@ public class DataSourceConfig {
 
         config.setJournalMode(SQLiteConfig.JournalMode.WAL);
         config.setSynchronous(SQLiteConfig.SynchronousMode.FULL);
-        // 超过阻塞时间会报"database is locked"错误，暂时设置阻塞时间为60s
         config.setBusyTimeout(60000);
         config.enforceForeignKeys(true);
 
+        DruidConfig druidConfig = dataSourceProperty.getDruid();
+        //解决sqlite "database is locked"的问题
+        druidConfig.setInitialSize(1);
+        druidConfig.setMaxActive(1);
+        druidConfig.setMinIdle(0);
         dataSourceProperty.getDruid().setConnectionProperties(config.toProperties());
         DataSource dataSource = druidDataSourceCreator.createDataSource(dataSourceProperty);
         dynamicRoutingDataSource.addDataSource("master", dataSource);
