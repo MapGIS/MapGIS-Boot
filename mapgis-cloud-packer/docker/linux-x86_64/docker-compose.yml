@@ -25,7 +25,7 @@ services:
     build:
       context: ./mysql
     container_name: mapgis-xxx-mysql
-    image: mapgis-xxx-mysql
+    image: mapgis/xxx-mysql
     ports:
       - "3306:3306"
     volumes:
@@ -36,7 +36,7 @@ services:
           'mysqld',
           '--innodb-buffer-pool-size=80M',
           '--character-set-server=utf8mb4',
-          '--collation-server=utf8mb4_unicode_ci',
+          '--collation-server=utf8mb4_general_ci',
           '--default-time-zone=+8:00',
           '--lower-case-table-names=1'
         ]
@@ -55,7 +55,7 @@ services:
     build:
       context: ./mapgis/gateway
     container_name: mapgis-xxx-gateway
-    image: mapgis-xxx-gateway
+    image: mapgis/xxx-gateway
     restart: on-failure
     ports:
       - "8080:8080"
@@ -73,7 +73,7 @@ services:
   mapgis-xxx-monitor:
     build:
       context: ./mapgis/monitor
-    image: mapgis-xxx-monitor
+    image: mapgis/xxx-monitor
     restart: on-failure
     ports:
       - "9200:9200"
@@ -89,7 +89,7 @@ services:
   mapgis-xxx-auth:
     build:
       context: ./mapgis/auth
-    image: mapgis-xxx-auth
+    image: mapgis/xxx-auth
     restart: on-failure
     ports:
       - "10000:10000"
@@ -107,7 +107,7 @@ services:
   mapgis-xxx-system:
     build:
       context: ./mapgis/system
-    image: mapgis-xxx-system
+    image: mapgis/xxx-system
     restart: on-failure
     ports:
       - "11000:11000"
@@ -127,7 +127,7 @@ services:
   mapgis-xxx-file:
     build:
       context: ./mapgis/file
-    image: mapgis-xxx-file
+    image: mapgis/xxx-file
     restart: on-failure
     ports:
       - "12000:12000"
@@ -144,7 +144,7 @@ services:
   mapgis-xxx-job:
     build:
       context: ./mapgis/job
-    image: mapgis-xxx-job
+    image: mapgis/xxx-job
     restart: on-failure
     ports:
       - "13000:13000"

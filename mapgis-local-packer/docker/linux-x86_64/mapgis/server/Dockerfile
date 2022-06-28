@@ -1,5 +1,5 @@
 # 基础镜像
-FROM java:8
+FROM 192.168.177.1:5000/mapgis/java:8
 
 # author
 LABEL author="mapgis"
@@ -15,12 +15,6 @@ WORKDIR /mapgis
 
 # 复制文件到路径
 COPY ./app /mapgis
-
-# 支持中文
-ENV LANG=zh_CN.UTF-8
-
-# 设定时区
-ENV TZ=Asia/Shanghai
 
 # 暴露端口
 EXPOSE 8080
