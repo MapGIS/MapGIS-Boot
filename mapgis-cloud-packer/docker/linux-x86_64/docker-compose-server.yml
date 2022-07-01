@@ -31,6 +31,7 @@ services:
   mapgis-xxx-nacos:
     container_name: mapgis-xxx-nacos
     image: 192.168.177.1:5000/nacos/nacos-server
+    restart: on-failure
     environment:
       MODE: standalone
       SPRING_DATASOURCE_PLATFORM: mysql
@@ -52,6 +53,7 @@ services:
   mapgis-xxx-mysql:
     container_name: mapgis-xxx-mysql
     image: 192.168.177.1:5000/mapgis/xxx-mysql:1.0
+    restart: on-failure
     ports:
       - "3306:3306"
     volumes:
@@ -72,6 +74,7 @@ services:
   mapgis-xxx-redis:
     container_name: mapgis-xxx-redis
     image: 192.168.177.1:5000/redis
+    restart: on-failure
     ports:
       - "6379:6379"
     volumes:
