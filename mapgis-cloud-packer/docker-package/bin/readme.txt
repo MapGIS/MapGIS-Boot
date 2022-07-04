@@ -65,5 +65,5 @@
     sudo ./shutdown.sh
 
 5、访问应用
-    http://{DOCKER_HOST_IP}:{MAPGIS_PORT}
-    其中{DOCKER_HOST_IP}为Docker宿主机的IP，{MAPGIS_PORT}为应用端口
+    http://{DOCKER_HOST_IP}:{GATEWAY_PUBLIC_PORT}
+    其中{DOCKER_HOST_IP}为Docker宿主机的IP，{GATEWAY_PUBLIC_PORT}为应用端口
