@@ -13,7 +13,7 @@ echo "开始构建平台${PLATFORM_NAME} Docker镜像"
 cd $DOCKER_BUILD_PATH
 
 # 赋予执行权限
-chmod +x ./copy.sh  ./copy-server.sh ./deploy.sh
+chmod +x ./copy.sh ./copy-server.sh ./deploy.sh
 
 # 准备打包资源
 ./copy.sh
