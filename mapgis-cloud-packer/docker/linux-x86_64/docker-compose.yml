@@ -1,35 +1,33 @@
 version : '3'
 services:
   mapgis-xxx-nacos:
-    container_name: mapgis-xxx-nacos
-    image: nacos/nacos-server
-    restart: on-failure
+    container_name: ${NACOS_HOST}
+    image: ${DOCKER_REGISTRY_URL}nacos/nacos-server
+    restart: always
     environment:
       MODE: standalone
       SPRING_DATASOURCE_PLATFORM: mysql
-      MYSQL_SERVICE_HOST: mapgis-xxx-mysql
-      MYSQL_SERVICE_PORT: 3306
-      MYSQL_SERVICE_DB_NAME: mapgis-cloud-config
-      MYSQL_SERVICE_USER: root
-      MYSQL_SERVICE_PASSWORD: cloud123.mapgis
+      MYSQL_SERVICE_HOST: ${MYSQL_HOST}
+      MYSQL_SERVICE_PORT: ${MYSQL_PORT}
+      MYSQL_SERVICE_DB_NAME: ${MYSQL_CONFIG_DB}
+      MYSQL_SERVICE_USER: ${MYSQL_USER}
+      MYSQL_SERVICE_PASSWORD: ${MYSQL_PWD}
     volumes:
       - ./nacos/logs:/home/nacos/logs
     ports:
-      - "8848:8848"
-      - "9848:9848"
-      - "9849:9849"
+      - "8848"
+      - "9848"
+      - "9849"
     depends_on:
       - mapgis-xxx-mysql
     links:
       - mapgis-xxx-mysql
   mapgis-xxx-mysql:
-    build:
-      context: ./mysql
-    container_name: mapgis-xxx-mysql
-    image: mapgis/xxx-mysql
-    restart: on-failure
+    container_name: ${MYSQL_HOST}
+    image: ${DOCKER_REGISTRY_URL}mapgis/xxx-mysql:1.0
+    restart: always
     ports:
-      - "3306:3306"
+      - "3306"
     volumes:
       - ./mysql/conf:/etc/mysql/conf.d
       - ./mysql/logs:/logs
@@ -43,30 +41,31 @@ services:
           '--lower-case-table-names=1'
         ]
     environment:
-      MYSQL_DATABASE: 'mapgis-cloud-xxx'
-      MYSQL_ROOT_PASSWORD: cloud123.mapgis
+      MYSQL_DATABASE: ${MYSQL_DB}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_PWD}
   mapgis-xxx-redis:
-    container_name: mapgis-xxx-redis
-    image: redis
-    restart: on-failure
+    container_name: ${REDIS_HOST}
+    image: ${DOCKER_REGISTRY_URL}redis
+    restart: always
     ports:
-      - "6379:6379"
+      - "6379"
     volumes:
       - ./redis/data:/data
-    command: redis-server --requirepass cloud123.mapgis
+    command: redis-server --requirepass ${REDIS_PWD}
   mapgis-xxx-gateway:
-    build:
-      context: ./mapgis/gateway
-    container_name: mapgis-xxx-gateway
-    image: mapgis/xxx-gateway
-    restart: on-failure
+    container_name: ${GATEWAY_HOST}
+    image: ${DOCKER_REGISTRY_URL}mapgis/xxx-gateway:1.0
+    restart: always
     ports:
-      - "8080:8080"
+      - "${GATEWAY_PUBLIC_PORT}:8080"
     volumes:
       - ./mapgis/gateway/logs:/mapgis/logs
     environment:
-      NACOS_HOST: mapgis-xxx-nacos
-      NACOS_PORT: 8848
+      NACOS_HOST: ${NACOS_HOST}
+      NACOS_PORT: ${NACOS_PORT}
+      REDIS_HOST: ${REDIS_HOST}
+      REDIS_PORT: ${REDIS_PORT}
+      REDIS_PWD: ${REDIS_PWD}
     depends_on:
       - mapgis-xxx-redis
       - mapgis-xxx-nacos
@@ -74,33 +73,34 @@ services:
       - mapgis-xxx-redis
       - mapgis-xxx-nacos
   mapgis-xxx-monitor:
-    build:
-      context: ./mapgis/monitor
-    image: mapgis/xxx-monitor
-    restart: on-failure
+    image: ${DOCKER_REGISTRY_URL}mapgis/xxx-monitor:1.0
+    restart: always
     ports:
-      - "9200:9200"
+      - "${MONITOR_PUBLIC_PORT}:9200"
     volumes:
       - ./mapgis/monitor/logs:/mapgis/logs
     environment:
-      NACOS_HOST: mapgis-xxx-nacos
-      NACOS_PORT: 8848
+      NACOS_HOST: ${NACOS_HOST}
+      NACOS_PORT: ${NACOS_PORT}
     depends_on:
       - mapgis-xxx-nacos
     links:
       - mapgis-xxx-nacos
   mapgis-xxx-auth:
-    build:
-      context: ./mapgis/auth
-    image: mapgis/xxx-auth
-    restart: on-failure
+    image: ${DOCKER_REGISTRY_URL}mapgis/xxx-auth:1.0
+    restart: always
     ports:
-      - "10000:10000"
+      - "10000"
     volumes:
       - ./mapgis/auth/logs:/mapgis/logs
     environment:
-      NACOS_HOST: mapgis-xxx-nacos
-      NACOS_PORT: 8848
+      NACOS_HOST: ${NACOS_HOST}
+      NACOS_PORT: ${NACOS_PORT}
+      GATEWAY_PUBLIC_HOST: ${GATEWAY_PUBLIC_HOST}
+      GATEWAY_PUBLIC_PORT: ${GATEWAY_PUBLIC_PORT}
+      REDIS_HOST: ${REDIS_HOST}
+      REDIS_PORT: ${REDIS_PORT}
+      REDIS_PWD: ${REDIS_PWD}
     depends_on:
       - mapgis-xxx-redis
       - mapgis-xxx-nacos
@@ -108,17 +108,25 @@ services:
       - mapgis-xxx-redis
       - mapgis-xxx-nacos
   mapgis-xxx-system:
-    build:
-      context: ./mapgis/system
-    image: mapgis/xxx-system
-    restart: on-failure
+    image: ${DOCKER_REGISTRY_URL}mapgis/xxx-system:1.0
+    restart: always
     ports:
-      - "11000:11000"
+      - "11000"
     volumes:
       - ./mapgis/system/logs:/mapgis/logs
     environment:
-      NACOS_HOST: mapgis-xxx-nacos
-      NACOS_PORT: 8848
+      NACOS_HOST: ${NACOS_HOST}
+      NACOS_PORT: ${NACOS_PORT}
+      GATEWAY_PUBLIC_HOST: ${GATEWAY_PUBLIC_HOST}
+      GATEWAY_PUBLIC_PORT: ${GATEWAY_PUBLIC_PORT}
+      REDIS_HOST: ${REDIS_HOST}
+      REDIS_PORT: ${REDIS_PORT}
+      REDIS_PWD: ${REDIS_PWD}
+      MYSQL_HOST: ${MYSQL_HOST}
+      MYSQL_PORT: ${MYSQL_PORT}
+      MYSQL_DB: ${MYSQL_DB}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PWD: ${MYSQL_PWD}
     depends_on:
       - mapgis-xxx-redis
       - mapgis-xxx-mysql
@@ -128,34 +136,42 @@ services:
       - mapgis-xxx-mysql
       - mapgis-xxx-nacos
   mapgis-xxx-file:
-    build:
-      context: ./mapgis/file
-    image: mapgis/xxx-file
-    restart: on-failure
+    image: ${DOCKER_REGISTRY_URL}mapgis/xxx-file:1.0
+    restart: always
     ports:
-      - "12000:12000"
+      - "12000"
     volumes:
       - ./mapgis/file/logs:/mapgis/logs
       - ./mapgis/file/upload:/mapgis/upload
     environment:
-      NACOS_HOST: mapgis-xxx-nacos
-      NACOS_PORT: 8848
+      NACOS_HOST: ${NACOS_HOST}
+      NACOS_PORT: ${NACOS_PORT}
+      GATEWAY_PUBLIC_HOST: ${GATEWAY_PUBLIC_HOST}
+      GATEWAY_PUBLIC_PORT: ${GATEWAY_PUBLIC_PORT}
     depends_on:
       - mapgis-xxx-nacos
     links:
       - mapgis-xxx-nacos
   mapgis-xxx-job:
-    build:
-      context: ./mapgis/job
-    image: mapgis/xxx-job
-    restart: on-failure
+    image: ${DOCKER_REGISTRY_URL}mapgis/xxx-job:1.0
+    restart: always
     ports:
-      - "13000:13000"
+      - "13000"
     volumes:
       - ./mapgis/job/logs:/mapgis/logs
     environment:
-      NACOS_HOST: mapgis-xxx-nacos
-      NACOS_PORT: 8848
+      NACOS_HOST: ${NACOS_HOST}
+      NACOS_PORT: ${NACOS_PORT}
+      GATEWAY_PUBLIC_HOST: ${GATEWAY_PUBLIC_HOST}
+      GATEWAY_PUBLIC_PORT: ${GATEWAY_PUBLIC_PORT}
+      REDIS_HOST: ${REDIS_HOST}
+      REDIS_PORT: ${REDIS_PORT}
+      REDIS_PWD: ${REDIS_PWD}
+      MYSQL_HOST: ${MYSQL_HOST}
+      MYSQL_PORT: ${MYSQL_PORT}
+      MYSQL_DB: ${MYSQL_DB}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PWD: ${MYSQL_PWD}
     depends_on:
       - mapgis-xxx-mysql
       - mapgis-xxx-nacos

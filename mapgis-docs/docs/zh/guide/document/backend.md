@@ -1511,7 +1511,7 @@ public class SecurityUtils {
 ### Docker Compose部署
 #### 1、打包
 可参考[mapgis-local-packer](http://192.168.200.88/webgis/server/mapgis-boot/tree/master/mapgis-local-packer)先完成单体版打包，成果输出到`mapgis-local-packer/release`目录下。
-#### 2、将特定平台的产品包和Docker脚本拷贝到具备联网环境的同平台的Linux环境下
+#### 2、将与Linux服务器架构一致的产品包和Docker脚本拷贝到具备联网环境的该服务器下
 > 比如linux-x86_64的产品包需要到x86_64架构的Linux环境下进行镜像制作（可通过uname -m查询架构）
 
 形成如下的目录结构，确保docker和release在同一目录下：
@@ -1540,13 +1540,11 @@ chmod -R 777 .
 #### 4、镜像上传
 > 先配置私有仓库地址，可参考[配置私有镜像仓库](/zh/guide/document/deploy.html#配置私有镜像仓库)
 ```shell
-# 打标(注意版本号变更)
-docker tag mapgis-xxx 192.168.177.1:5000/mapgis-xxx:1.0
-# 上传
-docker push 192.168.177.1:5000/mapgis-xxx:1.0
+# 更新版本号IMAGE_VERSION
+./deploy.sh publish
 ```
-#### 5、基于私有镜像仓库部署
-在Docker脚本中提供有`docker-compose-server.yml`脚本，较`docker-compose.yml`不同的它不会用于构建镜像，可真正用于生产环境下的容器应用启动，可参考[微服务版部署运行](/zh/guide/document/deploy.html#微服务版)
+#### 5、部署运行
+可参考[单体版](/zh/guide/document/deploy.html#单体)
 
 ## 微服务版核心功能
 
@@ -2523,8 +2521,8 @@ public class SentinelFallbackHandler implements WebExceptionHandler {
 ```
 ### Docker Compose部署
 #### 1、打包
-可参考[mapgis-cloud-packer](http://192.168.200.88/webgis/server/mapgis-boot/tree/master/mapgis-cloud-packer)先完成单体版打包，成果输出到`mapgis-cloud-packer/release`目录下。
-#### 2、将特定平台的产品包和Docker脚本拷贝到具备联网环境的同平台的Linux环境下
+可参考[mapgis-cloud-packer](http://192.168.200.88/webgis/server/mapgis-boot/tree/master/mapgis-cloud-packer)先完成微服务版打包，成果输出到`mapgis-cloud-packer/release`目录下。
+#### 2、将与Linux服务器架构一致的产品包和Docker脚本拷贝到具备联网环境的该服务器下
 > 比如linux-x86_64的产品包需要到x86_64架构的Linux环境下进行镜像制作（可通过uname -m查询架构）
 
 形成如下的目录结构，确保docker和release在同一目录下：
@@ -2553,26 +2551,8 @@ chmod -R 777 .
 #### 4、镜像上传
 > 先配置私有仓库地址，可参考[配置私有镜像仓库](/zh/guide/document/deploy.html#配置私有镜像仓库)
 ```shell
-# 打标(注意版本号变更)
-docker tag nacos/nacos-server 192.168.177.1:5000/nacos/nacos-server
-docker tag redis 192.168.177.1:5000/redis
-docker tag mapgis-xxx-mysql 192.168.177.1:5000/mapgis-xxx-mysql:1.0
-docker tag mapgis-xxx-gateway 192.168.177.1:5000/mapgis-xxx-gateway:1.0
-docker tag mapgis-xxx-monitor 192.168.177.1:5000/mapgis-xxx-monitor:1.0
-docker tag mapgis-xxx-auth 192.168.177.1:5000/mapgis-xxx-auth:1.0
-docker tag mapgis-xxx-system 192.168.177.1:5000/mapgis-xxx-system:1.0
-docker tag mapgis-xxx-file 192.168.177.1:5000/mapgis-xxx-file:1.0
-docker tag mapgis-xxx-job 192.168.177.1:5000/mapgis-xxx-job:1.0
-# 上传
-docker push 192.168.177.1:5000/nacos/nacos-server
-docker push 192.168.177.1:5000/redis
-docker push 192.168.177.1:5000/mapgis-xxx-mysql:1.0
-docker push 192.168.177.1:5000/mapgis-xxx-gateway:1.0
-docker push 192.168.177.1:5000/mapgis-xxx-monitor:1.0
-docker push 192.168.177.1:5000/mapgis-xxx-auth:1.0
-docker push 192.168.177.1:5000/mapgis-xxx-system:1.0
-docker push 192.168.177.1:5000/mapgis-xxx-file:1.0
-docker push 192.168.177.1:5000/mapgis-xxx-job:1.0
+# 更新版本号IMAGE_VERSION
+./deploy.sh publish
 ```
-#### 5、基于私有镜像仓库部署
-在Docker脚本中提供有`docker-compose-server.yml`脚本，较`docker-compose.yml`不同的它不会用于构建镜像，可真正用于生产环境下的容器应用启动，可参考[微服务版部署运行](/zh/guide/document/deploy.html#微服务版)
+#### 5、部署运行
+可参考[微服务版](/zh/guide/document/deploy.html#微服务版)

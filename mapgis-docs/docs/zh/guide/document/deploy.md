@@ -46,235 +46,106 @@ systemctl daemon-reload
 systemctl restart docker
 ```
 ### 单体版
-提供私有私有镜像仓库的脚本，见[docker-compose-server.yml](http://192.168.200.88/webgis/server/mapgis-boot/blob/master/mapgis-local-packer/docker/linux-x86_64/docker-compose-server.yml)，可基于脚本一键启动MapGIS Boot单体版应用，启动成功后访问：[http://docker-host-ip:8080/xxx/manager](http://docker-host-ip:8080/xxx/manager)
+提供部署脚本[docker-compose.yml](http://192.168.200.88/webgis/server/mapgis-boot/blob/master/mapgis-local-packer/docker/linux-x86_64/docker-compose.yml)和环境变量设置脚本[.env](http://192.168.200.88/webgis/server/mapgis-boot/blob/master/mapgis-local-packer/docker/linux-x86_64/.env)，将他们上传到服务器同一目录下
 
+#### 调整`.env`环境变量
+- 如果需要从指定私有仓库或者公网仓库获取镜像，则必须指定DOCKER_REGISTRY_URL，比如`192.168.177.1:5000/`
+```properties
+# 私有镜像仓库地址，注意结尾需含/，默认为空
+DOCKER_REGISTRY_URL=
+
+# 应用端口
+MAPGIS_PORT=8080
+```
+
+#### 启动运行
 ```shell
-# 进入到存放docker-compose-server.yml目录并执行赋予执行权限
-chmod +x docker-compose-server.yml
+# 进入到存放docker-compose.yml目录并执行赋予执行权限
+chmod +x docker-compose.yml
 # 创建并启动
-docker-compose -f docker-compose-server.yml up -d
+docker-compose up -d
 # 查看运行中的容器
 docker ps
 # 停止并删除
-docker-compose -f docker-compose-server.yml down
+docker-compose down
 ```
 
-完整的脚本如下：
-```yml
-#### 镜像上传（注意版本号变更）
-# 仓库私服： 192.168.177.1:5000
-# 第一步：上传镜像到docker仓库
-#docker tag mapgis-xxx 192.168.177.1:5000/mapgis-xxx:1.0
+#### 应用访问
+[http://{DOCKER_HOST_IP}:{MAPGIS_PORT}](http://{DOCKER_HOST_IP}:{MAPGIS_PORT})
 
-#docker push 192.168.177.1:5000/mapgis-xxx:1.0
+{DOCKER_HOST_IP}为Docker宿主机的IP，{MAPGIS_PORT}为应用端口
 
-# 第二步：将此yml文件上传服务器，执行启动命令
-# 前台启动
-# docker-compose -f ./docker-compose-server.yml up
-# 后台启动
-# docker-compose -f ./docker-compose-server.yml up -d
-version: '3'
-services:
-  mapgis-xxx:
-    image: 192.168.177.1:5000/mapgis-xxx:1.0
-    restart: on-failure
-    ports:
-      - "8080:8080"
-    volumes:
-      - ./mapgis/server/logs:/mapgis/logs
-      - ./mapgis/server/upload:/mapgis/upload
-      - ./mapgis/server/data:/mapgis/data
-```
 
 ### 微服务版
-提供私有私有镜像仓库的脚本，见[docker-compose-server.yml](http://192.168.200.88/webgis/server/mapgis-boot/blob/master/mapgis-cloud-packer/docker/linux-x86_64/docker-compose-server.yml)，可基于脚本一键启动MapGIS Boot微服务版应用，启动成功（因微服务版运行容器较多，大概需等待3分钟，取决于机器性能）后访问：[http://docker-host-ip:8080/xxx/manager](http://docker-host-ip:8080/xxx/manager)
+提供部署脚本[docker-compose.yml](http://192.168.200.88/webgis/server/mapgis-boot/blob/master/mapgis-cloud-packer/docker/linux-x86_64/docker-compose.yml)和环境变量设置脚本[.env](http://192.168.200.88/webgis/server/mapgis-boot/blob/master/mapgis-cloud-packer/docker/linux-x86_64/.env)，将他们上传到服务器同一目录下
 
+#### 调整`.env`环境变量
+- 如果需要从指定私有仓库或者公网仓库获取镜像，则必须指定DOCKER_REGISTRY_URL，比如`192.168.177.1:5000/`
+- GATEWAY_PUBLIC_HOST建议填写为Docker宿主机IP
+
+```properties
+# 私有镜像仓库地址，注意结尾需含/，默认为空
+DOCKER_REGISTRY_URL=
+
+# NACOS主机(用于微服务之间通信，一般不需要修改)
+NACOS_HOST=mapgis-xxx-nacos
+
+# NACOS端口(内部端口，用于微服务之间通信，一般不需要修改)
+NACOS_PORT=8848
+
+# 网关主机(用于微服务之间通信，一般不需要修改)
+GATEWAY_HOST=mapgis-xxx-gateway
+
+# 网关主机(外部主机，用于Swagger在线文档，需要外部能访问，如不能访问，请设置成Docker宿主机IP)
+GATEWAY_PUBLIC_HOST=
+
+# 网关端口(外部端口，用于应用入口和Swagger在线文档)
+GATEWAY_PUBLIC_PORT=8080
+
+# Redis主机(用于微服务之间通信，一般不需要修改)
+REDIS_HOST=mapgis-xxx-redis
+
+# Redis端口(内部端口，用于微服务之间通信，一般不需要修改)
+REDIS_PORT=6379
+
+# Redis密码(可修改)
+REDIS_PWD=cloud123.mapgis
+
+# MySQL主机(用于微服务之间通信，一般不需要修改)
+MYSQL_HOST=mapgis-xxx-mysql
+
+# MySQL端口(内部端口，用于微服务之间通信，一般不需要修改)
+MYSQL_PORT=3306
+
+# MySQL数据库名(默认由容器创建，一般不需要修改)
+MYSQL_DB=mapgis-cloud-xxx
+
+# MySQL配置中心数据库名(由配置中心sql脚本自动创建，一般不需要修改)
+MYSQL_CONFIG_DB=mapgis-cloud-config
+
+# MySQL用户名
+MYSQL_USER=root
+
+# MySQL密码(可修改)
+MYSQL_PWD=cloud123.mapgis
+
+# MONITOR端口(外部端口，用于Spring Boot应用监控，需要外部能访问)
+MONITOR_PUBLIC_PORT=9200
+```
+
+#### 启动运行
 ```shell
-# 进入到存放docker-compose-server.yml目录并执行赋予执行权限
-chmod +x docker-compose-server.yml
+# 进入到存放docker-compose.yml目录并执行赋予执行权限
+chmod +x docker-compose.yml
 # 创建并启动
-docker-compose -f docker-compose-server.yml up -d
+docker-compose up -d
 # 查看运行中的容器
 docker ps
 # 停止并删除
-docker-compose -f docker-compose-server.yml down
+docker-compose down
 ```
 
-完整的脚本如下：
-```yml
-#### 镜像上传（注意版本号变更）
-# 仓库私服： 192.168.177.1:5000
-# 第一步：上传镜像到docker仓库
-#docker tag nacos/nacos-server 192.168.177.1:5000/nacos/nacos-server
-#docker tag redis 192.168.177.1:5000/redis
-#docker tag mapgis-xxx-mysql 192.168.177.1:5000/mapgis-xxx-mysql:1.0
-#docker tag mapgis-xxx-gateway 192.168.177.1:5000/mapgis-xxx-gateway:1.0
-#docker tag mapgis-xxx-monitor 192.168.177.1:5000/mapgis-xxx-monitor:1.0
-#docker tag mapgis-xxx-auth 192.168.177.1:5000/mapgis-xxx-auth:1.0
-#docker tag mapgis-xxx-system 192.168.177.1:5000/mapgis-xxx-system:1.0
-#docker tag mapgis-xxx-file 192.168.177.1:5000/mapgis-xxx-file:1.0
-#docker tag mapgis-xxx-job 192.168.177.1:5000/mapgis-xxx-job:1.0
+#### 应用访问
+[http://{DOCKER_HOST_IP}:{GATEWAY_PUBLIC_PORT}](http://{DOCKER_HOST_IP}:{GATEWAY_PUBLIC_PORT})
 
-#docker push 192.168.177.1:5000/nacos/nacos-server
-#docker push 192.168.177.1:5000/redis
-#docker push 192.168.177.1:5000/mapgis-xxx-mysql:1.0
-#docker push 192.168.177.1:5000/mapgis-xxx-gateway:1.0
-#docker push 192.168.177.1:5000/mapgis-xxx-monitor:1.0
-#docker push 192.168.177.1:5000/mapgis-xxx-auth:1.0
-#docker push 192.168.177.1:5000/mapgis-xxx-system:1.0
-#docker push 192.168.177.1:5000/mapgis-xxx-file:1.0
-#docker push 192.168.177.1:5000/mapgis-xxx-job:1.0
-
-# 第二步：将此yml文件上传服务器，执行启动命令
-# 前台启动
-# docker-compose -f ./docker-compose-server.yml up
-# 后台启动
-# docker-compose -f ./docker-compose-server.yml up -d
-version : '3'
-services:
-  mapgis-xxx-nacos:
-    container_name: mapgis-xxx-nacos
-    image: 192.168.177.1:5000/nacos/nacos-server
-    environment:
-      MODE: standalone
-      SPRING_DATASOURCE_PLATFORM: mysql
-      MYSQL_SERVICE_HOST: mapgis-xxx-mysql
-      MYSQL_SERVICE_PORT: 3306
-      MYSQL_SERVICE_DB_NAME: mapgis-cloud-config
-      MYSQL_SERVICE_USER: root
-      MYSQL_SERVICE_PASSWORD: cloud123.mapgis
-    volumes:
-      - ./nacos/logs:/home/nacos/logs
-    ports:
-      - "8848:8848"
-      - "9848:9848"
-      - "9849:9849"
-    depends_on:
-      - mapgis-xxx-mysql
-    links:
-      - mapgis-xxx-mysql
-  mapgis-xxx-mysql:
-    container_name: mapgis-xxx-mysql
-    image: 192.168.177.1:5000/mapgis-xxx-mysql:1.0
-    ports:
-      - "3306:3306"
-    volumes:
-      - ./mysql/conf:/etc/mysql/conf.d
-      - ./mysql/logs:/logs
-      - ./mysql/data:/var/lib/mysql
-    command: [
-          'mysqld',
-          '--innodb-buffer-pool-size=80M',
-          '--character-set-server=utf8mb4',
-          '--collation-server=utf8mb4_unicode_ci',
-          '--default-time-zone=+8:00',
-          '--lower-case-table-names=1'
-        ]
-    environment:
-      MYSQL_DATABASE: 'mapgis-cloud-xxx'
-      MYSQL_ROOT_PASSWORD: cloud123.mapgis
-  mapgis-xxx-redis:
-    container_name: mapgis-xxx-redis
-    image: 192.168.177.1:5000/redis
-    ports:
-      - "6379:6379"
-    volumes:
-      - ./redis/data:/data
-    command: redis-server --requirepass cloud123.mapgis
-  mapgis-xxx-gateway:
-    container_name: mapgis-xxx-gateway
-    image: 192.168.177.1:5000/mapgis-xxx-gateway:1.0
-    restart: on-failure
-    ports:
-      - "8080:8080"
-    volumes:
-      - ./mapgis/gateway/logs:/mapgis/logs
-    environment:
-      NACOS_HOST: mapgis-xxx-nacos
-      NACOS_PORT: 8848
-    depends_on:
-      - mapgis-xxx-redis
-      - mapgis-xxx-nacos
-    links:
-      - mapgis-xxx-redis
-      - mapgis-xxx-nacos
-  mapgis-xxx-monitor:
-    image: 192.168.177.1:5000/mapgis-xxx-monitor:1.0
-    restart: on-failure
-    ports:
-      - "9200:9200"
-    volumes:
-      - ./mapgis/monitor/logs:/mapgis/logs
-    environment:
-      NACOS_HOST: mapgis-xxx-nacos
-      NACOS_PORT: 8848
-    depends_on:
-      - mapgis-xxx-nacos
-    links:
-      - mapgis-xxx-nacos
-  mapgis-xxx-auth:
-    image: 192.168.177.1:5000/mapgis-xxx-auth:1.0
-    restart: on-failure
-    ports:
-      - "10000:10000"
-    volumes:
-      - ./mapgis/auth/logs:/mapgis/logs
-    environment:
-      NACOS_HOST: mapgis-xxx-nacos
-      NACOS_PORT: 8848
-    depends_on:
-      - mapgis-xxx-redis
-      - mapgis-xxx-nacos
-    links:
-      - mapgis-xxx-redis
-      - mapgis-xxx-nacos
-  mapgis-xxx-system:
-    image: 192.168.177.1:5000/mapgis-xxx-system:1.0
-    restart: on-failure
-    ports:
-      - "11000:11000"
-    volumes:
-      - ./mapgis/system/logs:/mapgis/logs
-    environment:
-      NACOS_HOST: mapgis-xxx-nacos
-      NACOS_PORT: 8848
-    depends_on:
-      - mapgis-xxx-redis
-      - mapgis-xxx-mysql
-      - mapgis-xxx-nacos
-    links:
-      - mapgis-xxx-redis
-      - mapgis-xxx-mysql
-      - mapgis-xxx-nacos
-  mapgis-xxx-file:
-    image: 192.168.177.1:5000/mapgis-xxx-file:1.0
-    restart: on-failure
-    ports:
-      - "12000:12000"
-    volumes:
-      - ./mapgis/file/logs:/mapgis/logs
-      - ./mapgis/file/upload:/mapgis/upload
-    environment:
-      NACOS_HOST: mapgis-xxx-nacos
-      NACOS_PORT: 8848
-    depends_on:
-      - mapgis-xxx-nacos
-    links:
-      - mapgis-xxx-nacos
-  mapgis-xxx-job:
-    image: 192.168.177.1:5000/mapgis-xxx-job:1.0
-    restart: on-failure
-    ports:
-      - "13000:13000"
-    volumes:
-      - ./mapgis/job/logs:/mapgis/logs
-    environment:
-      NACOS_HOST: mapgis-xxx-nacos
-      NACOS_PORT: 8848
-    depends_on:
-      - mapgis-xxx-mysql
-      - mapgis-xxx-nacos
-    links:
-      - mapgis-xxx-mysql
-      - mapgis-xxx-nacos
-```
+{DOCKER_HOST_IP}为Docker宿主机的IP，{GATEWAY_PUBLIC_PORT}为应用端口
