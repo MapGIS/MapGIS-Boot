@@ -70,7 +70,7 @@ docker ps
 docker-compose down
 ```
 
-#### 应用访问
+#### 访问应用
 [http://{DOCKER_HOST_IP}:{MAPGIS_PORT}](http://{DOCKER_HOST_IP}:{MAPGIS_PORT})
 
 {DOCKER_HOST_IP}为Docker宿主机的IP，{MAPGIS_PORT}为应用端口
@@ -145,7 +145,7 @@ docker ps
 docker-compose down
 ```
 
-#### 应用访问
+#### 访问应用
 [http://{DOCKER_HOST_IP}:{GATEWAY_PUBLIC_PORT}](http://{DOCKER_HOST_IP}:{GATEWAY_PUBLIC_PORT})
 
 {DOCKER_HOST_IP}为Docker宿主机的IP，{GATEWAY_PUBLIC_PORT}为应用端口
