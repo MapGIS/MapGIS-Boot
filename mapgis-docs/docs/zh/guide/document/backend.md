@@ -1144,6 +1144,37 @@ cas:
     web:
       url: http://localhost:8000
 ```
+### 多终端登录开启和关闭
+系统采用token标识用户身份，默认用户允许在多终端同时登录，提供配置`token.soloLogin`用来限制多终端同时登录
+> 核心思路：将userid和token（一个用户对应一个token，userid唯一）关联起来存储在缓存中，登录时判断用户是否在别的终端在线，存在就清除缓存信息
+
+#### 配置
+```yml
+# token配置
+token:
+  # 是否允许账户多终端同时登录（true允许 false不允许）
+  soloLogin: ${SOLO_LOGIN_ENABLED:true}
+```
+
+```java
+@Component
+public class TokenService {
+    /**
+     * 根据用户Id踢出登录用户，用于不允许多终端登录时，清除用户Id关联的用户信息
+     */
+    public void kickoutLoginUser(Long userId) {
+        if (!soloLogin) {
+            // 如果用户不允许多终端同时登录，清除缓存信息
+            String userIdKey = getUserIdKey(userId);
+            String userKey = cacheService.getCacheObject(userIdKey);
+            if (StringUtils.isNotEmpty(userKey)) {
+                cacheService.deleteObject(userIdKey);
+                cacheService.deleteObject(userKey);
+            }
+        }
+    }
+}
+```
 ## 单体版核心功能
 
 ### 安全配置
