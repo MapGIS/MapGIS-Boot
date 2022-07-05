@@ -133,7 +133,7 @@ security:
   # 访问
   access:
     # 只读开关
-    readonlyEnabled: ${SECURITY_ACCESS_READONLYENABLED:false}
+    readonlyEnabled: ${SECURITY_ACCESS_READONLY_ENABLED:false}
 
 # API前缀
 api:
@@ -144,7 +144,7 @@ api:
 # token配置
 token:
   # 是否允许账户多终端同时登录（true允许 false不允许）
-  soloLogin: true
+  soloLogin: ${SOLO_LOGIN_ENABLED:true}
 
 # 本地文件上传
 file:
