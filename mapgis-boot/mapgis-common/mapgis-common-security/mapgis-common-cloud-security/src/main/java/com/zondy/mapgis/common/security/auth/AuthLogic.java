@@ -3,6 +3,8 @@ package com.zondy.mapgis.common.security.auth;
 import com.zondy.mapgis.common.core.exception.auth.NotLoginException;
 import com.zondy.mapgis.common.core.exception.auth.NotPermissionException;
 import com.zondy.mapgis.common.core.exception.auth.NotRoleException;
+import com.zondy.mapgis.common.core.text.Convert;
+import com.zondy.mapgis.common.core.utils.JwtUtils;
 import com.zondy.mapgis.common.core.utils.StringUtils;
 import com.zondy.mapgis.common.core.utils.spring.SpringUtils;
 import com.zondy.mapgis.common.security.annotation.Logical;
@@ -52,7 +54,7 @@ public class AuthLogic {
      * 会话注销，根据指定Token
      */
     public void logoutByToken(String token) {
-        tokenService.delLoginUser(token);
+        tokenService.delLoginUser(token, Convert.toLong(JwtUtils.getUserId(token), 0L));
     }
 
     /**

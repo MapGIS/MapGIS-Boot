@@ -51,6 +51,8 @@ public class SysLoginService {
             throw new ServiceException("用户不存在/密码错误");
         }
         recordLogininfor(username, Constants.LOGIN_SUCCESS, MessageUtils.message("user.login.success"));
+        // 踢人
+        tokenService.kickoutLoginUser(loginUser.getUser().getUserId());
         // 生成token
         return tokenService.createToken(loginUser);
     }
@@ -61,6 +63,8 @@ public class SysLoginService {
     public String login(String username) {
         LoginUser loginUser = loadUserByUsername(username);
         recordLogininfor(username, Constants.LOGIN_SUCCESS, MessageUtils.message("user.login.success"));
+        // 踢人
+        tokenService.kickoutLoginUser(loginUser.getUser().getUserId());
         // 生成token
         return tokenService.createToken(loginUser);
     }

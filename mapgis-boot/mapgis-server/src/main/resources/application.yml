@@ -141,6 +141,11 @@ api:
     services-prefix: xxx/rest/services
     manager-prefix: xxx/rest/manager
 
+# token配置
+token:
+  # 是否允许账户多终端同时登录（true允许 false不允许）
+  soloLogin: true
+
 # 本地文件上传
 file:
   path: /upload

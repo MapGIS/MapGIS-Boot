@@ -12,6 +12,7 @@ import com.zondy.mapgis.common.security.utils.SecurityUtils;
 import com.zondy.mapgis.system.api.model.LoginUser;
 import eu.bitwalker.useragentutils.UserAgent;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
@@ -27,6 +28,12 @@ import java.util.concurrent.TimeUnit;
  */
 @Component
 public class TokenService {
+    /**
+     * 是否允许账户多终端同时登录（true允许 false不允许）
+     */
+    @Value("${token.soloLogin:true}")
+    private boolean soloLogin;
+
     @Autowired
     private CacheService cacheService;
 
@@ -37,6 +44,8 @@ public class TokenService {
     private final static long expireTime = CacheConstants.EXPIRATION;
 
     private final static String ACCESS_TOKEN = CacheConstants.LOGIN_TOKEN_KEY;
+
+    private final static String USERID_KEY = CacheConstants.LOGIN_USERID_KEY;
 
     private final static Long MILLIS_MINUTE_TEN = CacheConstants.REFRESH_TIME * MILLIS_MINUTE;
 
@@ -90,10 +99,29 @@ public class TokenService {
     /**
      * 删除用户缓存信息
      */
-    public void delLoginUser(String token) {
+    public void delLoginUser(String token, Long userId) {
         if (StringUtils.isNotEmpty(token)) {
             String userkey = JwtUtils.getUserKey(token);
             cacheService.deleteObject(getTokenKey(userkey));
+        }
+        if (!soloLogin && StringUtils.isNotNull(userId)) {
+            String userIdKey = getUserIdKey(userId);
+            cacheService.deleteObject(userIdKey);
+        }
+    }
+
+    /**
+     * 根据用户Id踢出登录用户，用于不允许多终端登录时，清除用户Id关联的用户信息
+     */
+    public void kickoutLoginUser(Long userId) {
+        if (!soloLogin) {
+            // 如果用户不允许多终端同时登录，清除缓存信息
+            String userIdKey = getUserIdKey(userId);
+            String userKey = cacheService.getCacheObject(userIdKey);
+            if (StringUtils.isNotEmpty(userKey)) {
+                cacheService.deleteObject(userIdKey);
+                cacheService.deleteObject(userKey);
+            }
         }
     }
 
@@ -141,6 +169,11 @@ public class TokenService {
         // 根据uuid将loginUser缓存
         String userKey = getTokenKey(loginUser.getToken());
         cacheService.setCacheObject(userKey, loginUser, expireTime, TimeUnit.MINUTES);
+        if (!soloLogin) {
+            // 缓存用户唯一标识，防止同一帐号，同时登录
+            String userIdKey = getUserIdKey(loginUser.getUser().getUserId());
+            cacheService.setCacheObject(userIdKey, userKey, expireTime, TimeUnit.MINUTES);
+        }
     }
 
     /**
@@ -158,5 +191,9 @@ public class TokenService {
 
     private String getTokenKey(String token) {
         return ACCESS_TOKEN + token;
+    }
+
+    private String getUserIdKey(Long userId) {
+        return USERID_KEY + userId;
     }
 }

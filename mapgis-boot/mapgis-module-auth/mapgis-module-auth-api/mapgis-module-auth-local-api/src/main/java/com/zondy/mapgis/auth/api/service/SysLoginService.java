@@ -81,6 +81,8 @@ public class SysLoginService {
         AsyncManager.me().execute(AsyncFactory.recordLogininfor(username, Constants.LOGIN_SUCCESS, MessageUtils.message("user.login.success")));
         LoginUser loginUser = (LoginUser) authentication.getPrincipal();
         recordLoginInfo(loginUser.getUserId());
+        // 踢人
+        tokenService.kickoutLoginUser(loginUser.getUserId());
         // 生成token
         return tokenService.createToken(loginUser);
     }
@@ -104,6 +106,8 @@ public class SysLoginService {
         }
         AsyncManager.me().execute(AsyncFactory.recordLogininfor(username, Constants.LOGIN_SUCCESS, MessageUtils.message("user.login.success")));
         recordLoginInfo(loginUser.getUserId());
+        // 踢人
+        tokenService.kickoutLoginUser(loginUser.getUserId());
         // 生成token
         return tokenService.createToken(loginUser);
     }
