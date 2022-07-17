@@ -4,7 +4,7 @@ import com.google.code.kaptcha.Producer;
 import com.zondy.mapgis.auth.api.config.properties.CaptchaProperties;
 import com.zondy.mapgis.auth.api.service.ValidateCodeService;
 import com.zondy.mapgis.common.cache.service.CacheService;
-import com.zondy.mapgis.common.core.constant.Constants;
+import com.zondy.mapgis.common.core.constant.CacheConstants;
 import com.zondy.mapgis.common.core.exception.user.CaptchaException;
 import com.zondy.mapgis.common.core.exception.user.CaptchaExpireException;
 import com.zondy.mapgis.common.core.utils.StringUtils;
@@ -47,15 +47,15 @@ public class ValidateCodeServiceImpl implements ValidateCodeService {
     @Override
     public AjaxResult createCaptcha() throws IOException, CaptchaException {
         AjaxResult ajax = AjaxResult.success();
-        boolean captchaOnOff = captchaProperties.getEnabled();
-        ajax.put("captchaOnOff", captchaOnOff);
-        if (!captchaOnOff) {
+        boolean captchaEnabled = captchaProperties.getEnabled();
+        ajax.put("captchaEnabled", captchaEnabled);
+        if (!captchaEnabled) {
             return ajax;
         }
 
         // 保存验证码信息
         String uuid = IdUtils.simpleUUID();
-        String verifyKey = Constants.CAPTCHA_CODE_KEY + uuid;
+        String verifyKey = CacheConstants.CAPTCHA_CODE_KEY + uuid;
 
         String capStr = null, code = null;
         BufferedImage image = null;
@@ -72,7 +72,7 @@ public class ValidateCodeServiceImpl implements ValidateCodeService {
             image = captchaProducer.createImage(capStr);
         }
 
-        cacheService.setCacheObject(verifyKey, code, Constants.CAPTCHA_EXPIRATION, TimeUnit.MINUTES);
+        cacheService.setCacheObject(verifyKey, code, CacheConstants.CAPTCHA_EXPIRATION, TimeUnit.MINUTES);
         // 转换流信息写出
         FastByteArrayOutputStream os = new FastByteArrayOutputStream();
         try {
@@ -91,8 +91,13 @@ public class ValidateCodeServiceImpl implements ValidateCodeService {
      */
     @Override
     public void checkCaptcha(String code, String uuid) throws CaptchaException {
-        String verifyKey = Constants.CAPTCHA_CODE_KEY + StringUtils.nvl(uuid, "");
-        ;
+        boolean captchaEnabled = captchaProperties.getEnabled();
+        if (!captchaEnabled) {
+            return;
+        }
+
+        String verifyKey = CacheConstants.CAPTCHA_CODE_KEY + StringUtils.nvl(uuid, "");
+
         String captcha = cacheService.getCacheObject(verifyKey);
         cacheService.deleteObject(verifyKey);
         if (captcha == null) {

@@ -97,6 +97,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 // 对于登录login 注册register 验证码captchaImage 允许匿名访问
                 .antMatchers("/xxx/rest/services/auth/login", "/xxx/rest/services/auth/register", "/xxx/rest/services/auth/captchaImage").anonymous()
                 .antMatchers("/xxx/rest/services/auth/thirdLogin/**").anonymous()
+                // 静态资源，可匿名访问
                 .antMatchers(
                         HttpMethod.GET,
                         "/",
@@ -108,15 +109,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/xxx/static/**",
                         "/xxx/manager/**"
                 ).permitAll()
-                .antMatchers("/swagger-ui.html").anonymous()
-                .antMatchers("/swagger-resources/**").anonymous()
-                .antMatchers("/webjars/**").anonymous()
-                .antMatchers("/**/api-docs/**").anonymous()
-                .antMatchers("/druid/**").anonymous()
+                .antMatchers(
+                        "/swagger-ui.html",
+                        "/swagger-resources/**",
+                        "/webjars/**",
+                        "/**/api-docs/**",
+                        "/druid/**")
+                .permitAll()
                 // 除上面外的所有请求全部需要鉴权认证
                 .anyRequest().authenticated()
                 .and()
                 .headers().frameOptions().disable();
+        // 添加Logout filter
         httpSecurity.logout().logoutUrl("/xxx/rest/services/auth/logout").logoutSuccessHandler(logoutSuccessHandler);
         // 添加JWT filter
         httpSecurity.addFilterBefore(authenticationTokenFilter, UsernamePasswordAuthenticationFilter.class);

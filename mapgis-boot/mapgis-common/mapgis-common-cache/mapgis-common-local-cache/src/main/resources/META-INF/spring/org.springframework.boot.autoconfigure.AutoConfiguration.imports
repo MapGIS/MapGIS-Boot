@@ -1,0 +1,2 @@
+com.zondy.mapgis.common.cache.config.EhcacheConfig
+com.zondy.mapgis.common.cache.service.EhcacheCacheServiceImpl

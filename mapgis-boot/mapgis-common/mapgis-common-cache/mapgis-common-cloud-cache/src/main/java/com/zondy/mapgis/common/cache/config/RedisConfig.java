@@ -1,5 +1,7 @@
 package com.zondy.mapgis.common.cache.config;
 
+import org.springframework.boot.autoconfigure.AutoConfigureBefore;
+import org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration;
 import org.springframework.cache.annotation.CachingConfigurerSupport;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
@@ -17,6 +19,7 @@ import org.springframework.data.redis.serializer.RedisSerializer;
  */
 @Configuration
 @EnableCaching
+@AutoConfigureBefore(RedisAutoConfiguration.class)
 public class RedisConfig extends CachingConfigurerSupport {
     @Bean
     @SuppressWarnings(value = {"unchecked", "rawtypes"})

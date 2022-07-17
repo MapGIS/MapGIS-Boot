@@ -127,6 +127,7 @@ public class CasSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/xxx/rest/services/auth/login", "/xxx/rest/services/auth/register", "/xxx/rest/services/auth/captchaImage").anonymous()
                 .antMatchers("/xxx/rest/services/auth/thirdLogin/**").anonymous()
                 .antMatchers("/xxx/rest/services/auth/casLogin/**").anonymous()
+                // 静态资源，可匿名访问
                 .antMatchers(
                         HttpMethod.GET,
                         "/",
@@ -138,16 +139,18 @@ public class CasSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/xxx/static/**",
                         "/xxx/manager/**"
                 ).permitAll()
-                .antMatchers("/swagger-ui.html").anonymous()
-                .antMatchers("/swagger-resources/**").anonymous()
-                .antMatchers("/webjars/**").anonymous()
-                .antMatchers("/**/api-docs/**").anonymous()
-                .antMatchers("/druid/**").anonymous()
+                .antMatchers(
+                        "/swagger-ui.html",
+                        "/swagger-resources/**",
+                        "/webjars/**",
+                        "/**/api-docs/**",
+                        "/druid/**")
+                .permitAll()
                 // 除上面外的所有请求全部需要鉴权认证
                 .anyRequest().authenticated()
                 .and()
                 .headers().frameOptions().disable();
-        // 登出成功处理类
+        // 添加Logout filter
         httpSecurity.logout().logoutUrl("/xxx/rest/services/auth/logout").logoutSuccessHandler(logoutSuccessHandler);
         // 添加CAS 认证filter
         httpSecurity.addFilter(casAuthenticationFilter());

@@ -226,7 +226,7 @@ public class SysMenuServiceImpl implements ISysMenuService {
     @Override
     public boolean hasChildByMenuId(Long menuId) {
         int result = menuMapper.hasChildByMenuId(menuId);
-        return result > 0 ? true : false;
+        return result > 0;
     }
 
     /**
@@ -238,7 +238,7 @@ public class SysMenuServiceImpl implements ISysMenuService {
     @Override
     public boolean checkMenuExistRole(Long menuId) {
         int result = roleMenuMapper.checkMenuExistRole(menuId);
-        return result > 0 ? true : false;
+        return result > 0;
     }
 
     /**

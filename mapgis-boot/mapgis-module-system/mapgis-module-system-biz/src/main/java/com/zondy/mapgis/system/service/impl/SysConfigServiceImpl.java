@@ -1,7 +1,7 @@
 package com.zondy.mapgis.system.service.impl;
 
 import com.zondy.mapgis.common.cache.service.CacheService;
-import com.zondy.mapgis.common.core.constant.Constants;
+import com.zondy.mapgis.common.core.constant.CacheConstants;
 import com.zondy.mapgis.common.core.constant.UserConstants;
 import com.zondy.mapgis.common.core.exception.ServiceException;
 import com.zondy.mapgis.common.core.text.Convert;
@@ -147,7 +147,7 @@ public class SysConfigServiceImpl implements ISysConfigService {
      */
     @Override
     public void clearConfigCache() {
-        Collection<String> keys = cacheService.keys(Constants.SYS_CONFIG_KEY + "*");
+        Collection<String> keys = cacheService.keys(CacheConstants.SYS_CONFIG_KEY + "*");
         cacheService.deleteObject(keys);
     }
 
@@ -183,6 +183,6 @@ public class SysConfigServiceImpl implements ISysConfigService {
      * @return 缓存键key
      */
     private String getCacheKey(String configKey) {
-        return Constants.SYS_CONFIG_KEY + configKey;
+        return CacheConstants.SYS_CONFIG_KEY + configKey;
     }
 }

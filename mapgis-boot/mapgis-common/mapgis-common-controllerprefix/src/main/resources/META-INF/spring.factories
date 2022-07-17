@@ -1,3 +1,0 @@
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-  com.zondy.mapgis.common.controllerprefix.config.properties.ApiPathProperties,\
-  com.zondy.mapgis.common.controllerprefix.config.ControllerPrefixWebConfiguration

@@ -18,6 +18,11 @@ public class CacheConstants {
     public final static long REFRESH_TIME = 120;
 
     /**
+     * 验证码有效期（分钟）
+     */
+    public static final long CAPTCHA_EXPIRATION = 2;
+
+    /**
      * 登录用户 redis key
      */
     public final static String LOGIN_TOKEN_KEY = "login_tokens:";
@@ -26,4 +31,29 @@ public class CacheConstants {
      * 登录用户编号 redis key
      */
     public static final String LOGIN_USERID_KEY = "login_userid:";
+
+    /**
+     * 验证码 redis key
+     */
+    public static final String CAPTCHA_CODE_KEY = "captcha_codes:";
+
+    /**
+     * 防重提交 redis key
+     */
+    public static final String REPEAT_SUBMIT_KEY = "repeat_submit:";
+
+    /**
+     * 限流 redis key
+     */
+    public static final String RATE_LIMIT_KEY = "rate_limit:";
+
+    /**
+     * 参数管理 cache key
+     */
+    public static final String SYS_CONFIG_KEY = "sys_config:";
+
+    /**
+     * 字典管理 cache key
+     */
+    public static final String SYS_DICT_KEY = "sys_dict:";
 }

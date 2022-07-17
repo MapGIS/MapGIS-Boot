@@ -1,7 +1,7 @@
 package com.zondy.mapgis.common.repeatsubmit.interceptor.impl;
 
 import com.zondy.mapgis.common.cache.service.CacheService;
-import com.zondy.mapgis.common.core.constant.Constants;
+import com.zondy.mapgis.common.core.constant.CacheConstants;
 import com.zondy.mapgis.common.core.constant.TokenConstants;
 import com.zondy.mapgis.common.core.utils.JsonUtils;
 import com.zondy.mapgis.common.core.utils.StringUtils;
@@ -57,7 +57,7 @@ public class SameUrlDataInterceptor extends RepeatSubmitInterceptor {
         String submitKey = StringUtils.trimToEmpty(request.getHeader(TokenConstants.AUTHENTICATION));
 
         // 唯一标识（指定key + url + 消息头）
-        String cacheRepeatKey = Constants.REPEAT_SUBMIT_KEY + url + submitKey;
+        String cacheRepeatKey = CacheConstants.REPEAT_SUBMIT_KEY + url + submitKey;
 
         Object sessionObj = cacheService.getCacheObject(cacheRepeatKey);
         if (sessionObj != null) {

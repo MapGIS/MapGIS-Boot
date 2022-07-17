@@ -1,6 +1,6 @@
 package com.zondy.mapgis.common.ratelimiter.annotation;
 
-import com.zondy.mapgis.common.core.constant.Constants;
+import com.zondy.mapgis.common.core.constant.CacheConstants;
 import com.zondy.mapgis.common.ratelimiter.enums.LimitType;
 
 import java.lang.annotation.*;
@@ -18,7 +18,7 @@ public @interface RateLimiter {
     /**
      * 限流key
      */
-    public String key() default Constants.RATE_LIMIT_KEY;
+    public String key() default CacheConstants.RATE_LIMIT_KEY;
 
     /**
      * 限流时间,单位秒

@@ -1,3 +1,0 @@
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-  com.zondy.mapgis.common.log.service.AsyncLogService,\
-  com.zondy.mapgis.common.log.aspect.LogAspect

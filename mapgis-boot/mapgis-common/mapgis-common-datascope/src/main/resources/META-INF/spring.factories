@@ -1,2 +1,0 @@
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-  com.zondy.mapgis.common.datascope.aspect.DataScopeAspect

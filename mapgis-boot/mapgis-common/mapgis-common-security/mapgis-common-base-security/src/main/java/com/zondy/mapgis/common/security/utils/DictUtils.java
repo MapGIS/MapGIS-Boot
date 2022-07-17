@@ -1,7 +1,7 @@
 package com.zondy.mapgis.common.security.utils;
 
 import com.zondy.mapgis.common.cache.service.CacheService;
-import com.zondy.mapgis.common.core.constant.Constants;
+import com.zondy.mapgis.common.core.constant.CacheConstants;
 import com.zondy.mapgis.common.core.utils.StringUtils;
 import com.zondy.mapgis.common.core.utils.spring.SpringUtils;
 import com.zondy.mapgis.system.api.domain.SysDictData;
@@ -53,7 +53,7 @@ public class DictUtils {
      * 清空字典缓存
      */
     public static void clearDictCache() {
-        Collection<String> keys = SpringUtils.getBean(CacheService.class).keys(Constants.SYS_DICT_KEY + "*");
+        Collection<String> keys = SpringUtils.getBean(CacheService.class).keys(CacheConstants.SYS_DICT_KEY + "*");
         SpringUtils.getBean(CacheService.class).deleteObject(keys);
     }
 
@@ -64,6 +64,6 @@ public class DictUtils {
      * @return 缓存键key
      */
     public static String getCacheKey(String configKey) {
-        return Constants.SYS_DICT_KEY + configKey;
+        return CacheConstants.SYS_DICT_KEY + configKey;
     }
 }

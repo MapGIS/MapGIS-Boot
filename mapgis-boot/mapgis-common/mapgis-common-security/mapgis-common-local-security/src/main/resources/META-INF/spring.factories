@@ -1,9 +1,0 @@
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-  com.zondy.mapgis.common.security.config.SecurityConfig,\
-  com.zondy.mapgis.common.security.service.TokenService,\
-  com.zondy.mapgis.common.security.service.PermissionService,\
-  com.zondy.mapgis.common.security.service.UserDetailsServiceImpl,\
-  com.zondy.mapgis.common.security.filter.JwtAuthenticationTokenFilter,\
-  com.zondy.mapgis.common.security.handler.AuthenticationEntryPointImpl,\
-  com.zondy.mapgis.common.security.handler.LogoutSuccessHandlerImpl,\
-  com.zondy.mapgis.common.security.manager.ShutdownManager

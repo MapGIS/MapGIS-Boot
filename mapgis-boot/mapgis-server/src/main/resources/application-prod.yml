@@ -10,7 +10,7 @@ spring:
       stat-view-servlet:
         enabled: true
         loginUsername: admin
-        loginPassword: sa.mapgis
+        loginPassword: cloud123.mapgis
     dynamic:
       druid:
         initial-size: 5
