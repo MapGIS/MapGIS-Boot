@@ -1,1 +1,1 @@
-com.zondy.mapgis.common.ratelimiter.aspect.LogAspect
+com.zondy.mapgis.common.ratelimiter.aspect.RateLimiterAspect
