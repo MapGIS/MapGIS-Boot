@@ -13,6 +13,9 @@
     # 私有镜像仓库地址，注意结尾需含/，默认为空
     DOCKER_REGISTRY_URL=
 
+    # 镜像标签
+    MAPGIS_IMAGE_TAG=1.0
+
     # NACOS主机(用于微服务之间通信，一般不需要修改)
     NACOS_HOST=mapgis-xxx-nacos
 

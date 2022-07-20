@@ -44,7 +44,7 @@ export default {
   },
   data() {
     return {
-      uploadImgUrl: window._CONFIG['domianURL'] + '/xxx/rest/manager/file/upload',
+      uploadImgUrl: `${window._CONFIG['domianURL']}${window._CONFIG['apiPathManagerPrefix']}/file/upload`,
       headers: {
         Authorization: 'Bearer ' + storage.get(ACCESS_TOKEN),
         Accept: 'application/json, text/plain, */*'

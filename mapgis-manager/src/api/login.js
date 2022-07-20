@@ -1,11 +1,11 @@
 import request from '@/utils/request'
 
 const userApi = {
-  Login: '/xxx/rest/services/auth/login',
-  Logout: '/xxx/rest/services/auth/logout',
-  Register: '/xxx/rest/services/auth/register',
+  Login: `${window._CONFIG['apiPathServicesPrefix']}/auth/login`,
+  Logout: `${window._CONFIG['apiPathServicesPrefix']}/auth/logout`,
+  Register: `${window._CONFIG['apiPathServicesPrefix']}/auth/register`,
   // get my info
-  UserInfo: '/xxx/rest/manager/system/user/getInfo'
+  UserInfo: `${window._CONFIG['apiPathManagerPrefix']}/system/user/getInfo`
 }
 
 /**
@@ -56,7 +56,7 @@ export function logout() {
 // 获取验证码
 export function getCodeImg() {
   return request({
-    url: '/xxx/rest/services/auth/captchaImage',
+    url: `${window._CONFIG['apiPathServicesPrefix']}/auth/captchaImage`,
     method: 'get'
   })
 }
@@ -64,7 +64,7 @@ export function getCodeImg() {
 // 第三方登录
 export function thirdLogin(token, source) {
   return request({
-    url: `/xxx/rest/services/auth/thirdLogin/getLoginUser/${token}/${source}`,
+    url: `${window._CONFIG['apiPathServicesPrefix']}/auth/thirdLogin/getLoginUser/${token}/${source}`,
     method: 'get',
     headers: {
       'Content-Type': 'application/json;charset=UTF-8'
@@ -75,7 +75,7 @@ export function thirdLogin(token, source) {
 // 创建账号并与第三方授权用户绑定
 export function thirdLoginUserCreate(data) {
   return request({
-    url: '/xxx/rest/services/auth/thirdLogin/user/create',
+    url: `${window._CONFIG['apiPathServicesPrefix']}/auth/thirdLogin/user/create`,
     method: 'post',
     data: data
   })
@@ -84,7 +84,7 @@ export function thirdLoginUserCreate(data) {
 // 创建账号并与第三方授权用户绑定
 export function thirdLoginCheckPassword(data) {
   return request({
-    url: '/xxx/rest/services/auth/thirdLogin/user/checkPassword',
+    url: `${window._CONFIG['apiPathServicesPrefix']}/auth/thirdLogin/user/checkPassword`,
     method: 'post',
     data: data
   })
@@ -93,7 +93,7 @@ export function thirdLoginCheckPassword(data) {
 // CAS登录
 export function casLogin(token) {
   return request({
-    url: `/xxx/rest/services/auth/casLogin/getLoginUser/${token}`,
+    url: `${window._CONFIG['apiPathServicesPrefix']}/auth/casLogin/getLoginUser/${token}`,
     method: 'get',
     headers: {
       'Content-Type': 'application/json;charset=UTF-8'

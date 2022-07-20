@@ -2,7 +2,7 @@ package com.zondy.mapgis.common.controllerprefix.config;
 
 import com.zondy.mapgis.common.controllerprefix.annotation.ManagerRestController;
 import com.zondy.mapgis.common.controllerprefix.annotation.ServicesRestController;
-import com.zondy.mapgis.common.controllerprefix.config.properties.ApiPathProperties;
+import com.zondy.mapgis.common.core.config.properties.ApiPathProperties;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.PathMatchConfigurer;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;

@@ -1,4 +1,4 @@
-package com.zondy.mapgis.common.controllerprefix.config.properties;
+package com.zondy.mapgis.common.core.config.properties;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;

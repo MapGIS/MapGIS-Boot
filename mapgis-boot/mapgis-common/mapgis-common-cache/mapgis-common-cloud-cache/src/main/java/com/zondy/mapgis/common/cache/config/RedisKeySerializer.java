@@ -21,7 +21,7 @@ public class RedisKeySerializer implements RedisSerializer<String> {
     /**
      * 产品名称
      */
-    @Value("${mapgis.name:mapgis-xxx}")
+    @Value("${mapgis.product.full-name}")
     public String name;
 
     public RedisKeySerializer() {
@@ -35,7 +35,7 @@ public class RedisKeySerializer implements RedisSerializer<String> {
 
     @Override
     public byte[] serialize(String string) throws SerializationException {
-        // 通过项目名称mapgis.name来定义Redis前缀，用于区分项目缓存
+        // 通过项目名称mapgis.product.full-name来定义Redis前缀，用于区分项目缓存
         if (StringUtils.isNotEmpty(name)) {
             return new StringBuilder(name).append(":").append(string).toString().getBytes(charset);
         }

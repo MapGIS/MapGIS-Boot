@@ -1,5 +1,6 @@
 package com.zondy.mapgis.gateway.config;
 
+import com.zondy.mapgis.common.core.config.properties.ApiPathProperties;
 import com.zondy.mapgis.gateway.handler.ValidateCodeHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -20,11 +21,14 @@ public class RouterFunctionConfiguration {
     @Autowired
     private ValidateCodeHandler validateCodeHandler;
 
+    @Autowired
+    private ApiPathProperties apiPathProperties;
+
     @SuppressWarnings("rawtypes")
     @Bean
     public RouterFunction routerFunction() {
         return RouterFunctions.route(
-                RequestPredicates.GET("/xxx/rest/services/auth/captchaImage").and(RequestPredicates.accept(MediaType.TEXT_PLAIN)),
+                RequestPredicates.GET(apiPathProperties.getServicesPrefix() + "/auth/captchaImage").and(RequestPredicates.accept(MediaType.TEXT_PLAIN)),
                 validateCodeHandler);
     }
 }

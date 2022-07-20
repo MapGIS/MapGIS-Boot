@@ -25,7 +25,7 @@ release/win-x86_64/bin/startup.bat
 
 ## 运行（正式）
 
-> 将与服务器架构一致的 release/xxx 下的目录发布到该服务器下，然后运行启动脚本即可。
+> 将与服务器架构一致的 release/os-arch 下的目录发布到该服务器下，然后运行启动脚本即可。
 
 ## Docker打包
 
@@ -51,7 +51,7 @@ sh package-linux-x86_64.sh
 ```
 
 ## Docker Compose 运行（正式）
-> 将与服务器架构一致的 docker-release/xxx 下的目录发布到该服务器下
+> 将与服务器架构一致的 docker-release/os-arch 下的目录发布到该服务器下
 
 ### 安装
 进入应用根目录
@@ -62,13 +62,6 @@ sudo chmod +x install.sh && sudo ./install.sh
 
 ### 调整参数【必须】
 编辑.env，根据需要修改相关参数，运行`sudo vi .env`
-```properties
-# 私有镜像仓库地址，注意结尾需含/，默认为空
-DOCKER_REGISTRY_URL=
-
-# 应用端口
-MAPGIS_PORT=8080
-```
 
 ### 启动/停止
 ```bash
@@ -79,6 +72,6 @@ sudo ./shutdown.sh
 ```
 
 ### 访问应用
-[http://{DOCKER_HOST_IP}:{MAPGIS_PORT}](http://{DOCKER_HOST_IP}:{MAPGIS_PORT})
+[http://{DOCKER_HOST_IP}:{MAPGIS_APP_PORT}](http://{DOCKER_HOST_IP}:{MAPGIS_APP_PORT})
 
-{DOCKER_HOST_IP}为Docker宿主机的IP，{MAPGIS_PORT}为应用端口
+{DOCKER_HOST_IP}为Docker宿主机的IP，{MAPGIS_APP_PORT}为应用端口

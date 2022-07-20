@@ -3,7 +3,7 @@ import request from '@/utils/request'
 // 查询部门列表
 export function listDept(query) {
   return request({
-    url: '/xxx/rest/manager/system/dept/list',
+    url: `${window._CONFIG['apiPathManagerPrefix']}/system/dept/list`,
     method: 'get',
     params: query
   })
@@ -12,7 +12,7 @@ export function listDept(query) {
 // 查询部门列表（排除节点）
 export function listDeptExcludeChild(deptId) {
   return request({
-    url: '/xxx/rest/manager/system/dept/list/exclude/' + deptId,
+    url: `${window._CONFIG['apiPathManagerPrefix']}/system/dept/list/exclude/` + deptId,
     method: 'get'
   })
 }
@@ -20,7 +20,7 @@ export function listDeptExcludeChild(deptId) {
 // 查询部门详细
 export function getDept(deptId) {
   return request({
-    url: '/xxx/rest/manager/system/dept/' + deptId,
+    url: `${window._CONFIG['apiPathManagerPrefix']}/system/dept/` + deptId,
     method: 'get'
   })
 }
@@ -28,7 +28,7 @@ export function getDept(deptId) {
 // 查询部门下拉树结构
 export function treeselect() {
   return request({
-    url: '/xxx/rest/manager/system/dept/treeselect',
+    url: `${window._CONFIG['apiPathManagerPrefix']}/system/dept/treeselect`,
     method: 'get'
   })
 }
@@ -36,7 +36,7 @@ export function treeselect() {
 // 根据角色ID查询部门树结构
 export function roleDeptTreeselect(roleId) {
   return request({
-    url: '/xxx/rest/manager/system/dept/roleDeptTreeselect/' + roleId,
+    url: `${window._CONFIG['apiPathManagerPrefix']}/system/dept/roleDeptTreeselect/` + roleId,
     method: 'get'
   })
 }
@@ -44,7 +44,7 @@ export function roleDeptTreeselect(roleId) {
 // 新增部门
 export function addDept(data) {
   return request({
-    url: '/xxx/rest/manager/system/dept',
+    url: `${window._CONFIG['apiPathManagerPrefix']}/system/dept`,
     method: 'post',
     data: data
   })
@@ -53,7 +53,7 @@ export function addDept(data) {
 // 修改部门
 export function updateDept(data) {
   return request({
-    url: '/xxx/rest/manager/system/dept',
+    url: `${window._CONFIG['apiPathManagerPrefix']}/system/dept`,
     method: 'put',
     data: data
   })
@@ -62,7 +62,7 @@ export function updateDept(data) {
 // 删除部门
 export function delDept(deptId) {
   return request({
-    url: '/xxx/rest/manager/system/dept/' + deptId,
+    url: `${window._CONFIG['apiPathManagerPrefix']}/system/dept/` + deptId,
     method: 'delete'
   })
 }

@@ -3,6 +3,7 @@ package com.zondy.mapgis.gateway.filter;
 import cn.hutool.core.lang.Dict;
 import com.zondy.mapgis.auth.api.config.properties.CaptchaProperties;
 import com.zondy.mapgis.auth.api.service.ValidateCodeService;
+import com.zondy.mapgis.common.core.config.properties.ApiPathProperties;
 import com.zondy.mapgis.common.core.utils.JsonUtils;
 import com.zondy.mapgis.common.core.utils.StringUtils;
 import com.zondy.mapgis.gateway.utils.WebFluxUtils;
@@ -15,6 +16,7 @@ import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Flux;
 
+import javax.annotation.PostConstruct;
 import java.nio.CharBuffer;
 import java.nio.charset.StandardCharsets;
 import java.util.concurrent.atomic.AtomicReference;
@@ -27,7 +29,7 @@ import java.util.concurrent.atomic.AtomicReference;
  */
 @Component
 public class ValidateCodeFilter extends AbstractGatewayFilterFactory<Object> {
-    private final static String[] VALIDATE_URL = new String[]{"/xxx/rest/services/auth/login", "/xxx/rest/services/auth/register"};
+    private static String[] VALIDATE_URL;
 
     @Autowired
     private ValidateCodeService validateCodeService;
@@ -35,9 +37,19 @@ public class ValidateCodeFilter extends AbstractGatewayFilterFactory<Object> {
     @Autowired
     private CaptchaProperties captchaProperties;
 
+    @Autowired
+    private ApiPathProperties apiPathProperties;
+
     private static final String CODE = "code";
 
     private static final String UUID = "uuid";
+
+    @PostConstruct
+    public void init() {
+        String strManagerPrefix = apiPathProperties.getManagerPrefix();
+
+        VALIDATE_URL = new String[]{strManagerPrefix + "/auth/login", strManagerPrefix + "/auth/register"};
+    }
 
     @Override
     public GatewayFilter apply(Object config) {

@@ -1,7 +1,6 @@
 package com.zondy.mapgis.system.api;
 
 import com.zondy.mapgis.common.core.constant.SecurityConstants;
-import com.zondy.mapgis.common.core.constant.ServiceNameConstants;
 import com.zondy.mapgis.common.core.domain.R;
 import com.zondy.mapgis.system.api.domain.SysAuthUser;
 import com.zondy.mapgis.system.api.domain.SysLogininfor;
@@ -20,7 +19,7 @@ import java.util.List;
  * @author xiongbo
  * @since 2022/3/15 18:00
  */
-@FeignClient(contextId = "remoteSysServiceApi", value = ServiceNameConstants.SYSTEM_SERVICE, fallbackFactory = RemoteSysServiceApiFallbackFactory.class)
+@FeignClient(contextId = "remoteSysServiceApi", value = "${mapgis.product.full-name}-system-server", path = "${api.path.manager-prefix}", fallbackFactory = RemoteSysServiceApiFallbackFactory.class)
 public interface ISysServiceApi {
     /**
      * 通过用户名查询用户信息
@@ -29,7 +28,7 @@ public interface ISysServiceApi {
      * @param source   请求来源
      * @return 结果
      */
-    @GetMapping("/xxx/rest/manager/system/api/user/info/{username}")
+    @GetMapping("/system/api/user/info/{username}")
     public R<LoginUser> getUserInfo(@PathVariable("username") String username, @RequestHeader(SecurityConstants.FROM_SOURCE) String source);
 
     /**
@@ -39,7 +38,7 @@ public interface ISysServiceApi {
      * @param source  请求来源
      * @return 结果
      */
-    @PostMapping("/xxx/rest/manager/system/api/user/register")
+    @PostMapping("/system/api/user/register")
     public R<Boolean> registerUserInfo(@RequestBody SysUser sysUser, @RequestHeader(SecurityConstants.FROM_SOURCE) String source);
 
     /**
@@ -49,7 +48,7 @@ public interface ISysServiceApi {
      * @param source     请求来源
      * @return 结果
      */
-    @PostMapping("/xxx/rest/manager/system/api/operlog")
+    @PostMapping("/system/api/operlog")
     public R<Boolean> saveLog(@RequestBody SysOperLog sysOperLog, @RequestHeader(SecurityConstants.FROM_SOURCE) String source);
 
     /**
@@ -59,7 +58,7 @@ public interface ISysServiceApi {
      * @param source        请求来源
      * @return 结果
      */
-    @PostMapping("/xxx/rest/manager/system/api/logininfor")
+    @PostMapping("/system/api/logininfor")
     public R<Boolean> saveLogininfor(@RequestBody SysLogininfor sysLogininfor, @RequestHeader(SecurityConstants.FROM_SOURCE) String source);
 
     /**
@@ -69,7 +68,7 @@ public interface ISysServiceApi {
      * @param source 请求来源
      * @return 结果
      */
-    @PostMapping("/xxx/rest/manager/system/api/authUser/list")
+    @PostMapping("/system/api/authUser/list")
     public R<List<SysAuthUser>> selectAuthUserList(@RequestBody SysAuthUser user, @RequestHeader(SecurityConstants.FROM_SOURCE) String source);
 
     /**
@@ -79,7 +78,7 @@ public interface ISysServiceApi {
      * @param source 请求来源
      * @return 结果
      */
-    @GetMapping("/xxx/rest/manager/system/api/authUser/user")
+    @GetMapping("/system/api/authUser/user")
     public R<SysUser> selectUserByAuthUuid(@RequestParam("uuid") String uuid, @RequestHeader(SecurityConstants.FROM_SOURCE) String source);
 
     /**
@@ -89,7 +88,7 @@ public interface ISysServiceApi {
      * @param source   请求来源
      * @return 结果
      */
-    @PostMapping("/xxx/rest/manager/system/api/authUser")
+    @PostMapping("/system/api/authUser")
     public R<Boolean> saveAuthUser(@RequestBody SysAuthUser authUser, @RequestHeader(SecurityConstants.FROM_SOURCE) String source);
 
     /**
@@ -99,7 +98,7 @@ public interface ISysServiceApi {
      * @param source   请求来源
      * @return 结果
      */
-    @PutMapping("/xxx/rest/manager/system/api/authUser")
+    @PutMapping("/system/api/authUser")
     public R<Boolean> updateAuthUser(@RequestBody SysAuthUser authUser, @RequestHeader(SecurityConstants.FROM_SOURCE) String source);
 
     /**
@@ -109,6 +108,6 @@ public interface ISysServiceApi {
      * @param source    请求来源
      * @return 结果
      */
-    @GetMapping("/xxx/rest/manager/system/api/config/configKey/{configKey}")
+    @GetMapping("/system/api/config/configKey/{configKey}")
     public R<String> selectConfigByKey(@PathVariable("configKey") String configKey, @RequestHeader(SecurityConstants.FROM_SOURCE) String source);
 }

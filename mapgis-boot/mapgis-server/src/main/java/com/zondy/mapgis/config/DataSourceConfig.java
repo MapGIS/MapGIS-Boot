@@ -41,7 +41,7 @@ public class DataSourceConfig {
     @Value("${DB_PORT:3306}")
     private String dbPort;
 
-    @Value("${DB_NAME:mapgis-xxx}")
+    @Value("${DB_NAME:${mapgis.product.full-name}}")
     private String dbName;
 
     @Value("${DB_USER:root}")
@@ -94,7 +94,7 @@ public class DataSourceConfig {
     }
 
     void addSQLiteDataSource(DynamicRoutingDataSource dynamicRoutingDataSource) {
-        Path dbPath = Paths.get(EnvironmentUtil.getCurrentProjectPath(), "data", "mapgis-xxx" + ".db").toAbsolutePath();
+        Path dbPath = Paths.get(EnvironmentUtil.getCurrentProjectPath(), "data", dbName + ".db").toAbsolutePath();
         File dir = dbPath.toFile().getParentFile();
         if (!dir.exists() && !dir.mkdirs()) {
             log.error("生成data目录失败，无法创建数据库");

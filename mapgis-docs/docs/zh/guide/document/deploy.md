@@ -54,8 +54,11 @@ systemctl restart docker
 # 私有镜像仓库地址，注意结尾需含/，默认为空
 DOCKER_REGISTRY_URL=
 
+# 镜像标签
+MAPGIS_IMAGE_TAG=1.0
+
 # 应用端口
-MAPGIS_PORT=8080
+MAPGIS_APP_PORT=8080
 ```
 
 #### 启动运行
@@ -71,9 +74,9 @@ docker-compose down
 ```
 
 #### 访问应用
-[http://{DOCKER_HOST_IP}:{MAPGIS_PORT}](http://{DOCKER_HOST_IP}:{MAPGIS_PORT})
+[http://{DOCKER_HOST_IP}:{MAPGIS_APP_PORT}](http://{DOCKER_HOST_IP}:{MAPGIS_APP_PORT})
 
-{DOCKER_HOST_IP}为Docker宿主机的IP，{MAPGIS_PORT}为应用端口
+{DOCKER_HOST_IP}为Docker宿主机的IP，{MAPGIS_APP_PORT}为应用端口
 
 
 ### 微服务版
@@ -86,6 +89,9 @@ docker-compose down
 ```properties
 # 私有镜像仓库地址，注意结尾需含/，默认为空
 DOCKER_REGISTRY_URL=
+
+# 镜像标签
+MAPGIS_IMAGE_TAG=1.0
 
 # NACOS主机(用于微服务之间通信，一般不需要修改)
 NACOS_HOST=mapgis-xxx-nacos

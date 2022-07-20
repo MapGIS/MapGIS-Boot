@@ -1,6 +1,5 @@
 package com.zondy.mapgis.file.api;
 
-import com.zondy.mapgis.common.core.constant.ServiceNameConstants;
 import com.zondy.mapgis.common.core.domain.R;
 import com.zondy.mapgis.file.api.domain.FileStorage;
 import com.zondy.mapgis.file.api.factory.RemoteFileServiceApiFallbackFactory;
@@ -16,7 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
  * @author xiongbo
  * @since 2022/3/15 18:00
  */
-@FeignClient(contextId = "remoteFileServiceApi", value = ServiceNameConstants.FILE_SERVICE, fallbackFactory = RemoteFileServiceApiFallbackFactory.class)
+@FeignClient(contextId = "remoteFileServiceApi", value = "${mapgis.product.full-name}-file-server", path = "${api.path.manager-prefix}", fallbackFactory = RemoteFileServiceApiFallbackFactory.class)
 public interface IFileServiceApi {
     /**
      * 上传文件
@@ -24,6 +23,6 @@ public interface IFileServiceApi {
      * @param file 文件信息
      * @return 结果
      */
-    @PostMapping(value = "/xxx/rest/manager/file/api/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PostMapping(value = "/file/api/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public R<FileStorage> upload(@RequestPart(value = "file") MultipartFile file);
 }

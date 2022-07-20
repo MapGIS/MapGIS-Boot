@@ -13,8 +13,11 @@
     # 私有镜像仓库地址，注意结尾需含/，默认为空
     DOCKER_REGISTRY_URL=
 
+    # 镜像标签
+    MAPGIS_IMAGE_TAG=1.0
+
     # 应用端口
-    MAPGIS_PORT=8080
+    MAPGIS_APP_PORT=8080
 
 4、启动/停止
     启动
@@ -23,5 +26,5 @@
     sudo ./shutdown.sh
 
 5、访问应用
-    http://{DOCKER_HOST_IP}:{MAPGIS_PORT}
-    其中{DOCKER_HOST_IP}为Docker宿主机的IP，{MAPGIS_PORT}为应用端口
+    http://{DOCKER_HOST_IP}:{MAPGIS_APP_PORT}
+    其中{DOCKER_HOST_IP}为Docker宿主机的IP，{MAPGIS_APP_PORT}为应用端口

@@ -1,11 +1,13 @@
 package com.zondy.mapgis.modules.tool.config;
 
+import com.zondy.mapgis.common.core.config.properties.ApiPathProperties;
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.security.SecurityRequirement;
 import io.swagger.v3.oas.models.security.SecurityScheme;
 import org.springdoc.core.GroupedOpenApi;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,6 +21,9 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class SwaggerConfig {
     private static final String SECURITY_SCHEME_NAME = "Authorization";
+
+    @Autowired
+    private ApiPathProperties apiPathProperties;
 
     /**
      * 文档标题
@@ -62,7 +67,7 @@ public class SwaggerConfig {
     public GroupedOpenApi managerApi() {
         return GroupedOpenApi.builder()
                 .group("ManagerApi")
-                .pathsToMatch("/xxx/rest/manager/**")
+                .pathsToMatch(apiPathProperties.getManagerPrefix() + "/**")
                 .build();
     }
 
@@ -70,7 +75,7 @@ public class SwaggerConfig {
     public GroupedOpenApi serviceApi() {
         return GroupedOpenApi.builder()
                 .group("ServiceApi")
-                .pathsToMatch("/xxx/rest/services/**")
+                .pathsToMatch(apiPathProperties.getServicesPrefix() + "/**")
                 .build();
     }
 }

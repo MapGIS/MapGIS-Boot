@@ -41,7 +41,7 @@ import java.util.List;
 @Tag(name = "第三方登录管理", description = "第三方登录控制器")
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
 @Controller
-@RequestMapping("/xxx/rest/services/auth/thirdLogin")
+@RequestMapping("${api.path.services-prefix}/auth/thirdLogin")
 public class ThirdLoginController extends BaseController {
 
     private final AuthRequestFactory factory;

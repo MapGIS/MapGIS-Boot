@@ -59,9 +59,9 @@ public class SysAuthUserController extends BaseController {
     }
 
     /**
-     * 绑定授权,传入{ uuid: xxx }
+     * 绑定授权,传入{ uuid: xyz }
      */
-    @Operation(summary = "绑定授权,传入{ uuid: xxx }")
+    @Operation(summary = "绑定授权,传入{ uuid: xyz }")
     @PostMapping("/bind")
     public AjaxResult bindAuth(@RequestBody SysAuthUser authUser) {
         List<SysAuthUser> sysAuthUserList = authUserService.selectAuthUserList(authUser);
@@ -75,9 +75,9 @@ public class SysAuthUserController extends BaseController {
     }
 
     /**
-     * 取消授权,传入{ authId: xxx}
+     * 取消授权,传入{ authId: xyz}
      */
-    @Operation(summary = "取消授权,传入{ authId: xxx}")
+    @Operation(summary = "取消授权,传入{ authId: xyz}")
     @PostMapping("/unbind")
     public AjaxResult unbindAuth(@RequestBody SysAuthUser authUser) {
         return toAjax(authUserService.deleteAuthUser(authUser.getAuthId()));

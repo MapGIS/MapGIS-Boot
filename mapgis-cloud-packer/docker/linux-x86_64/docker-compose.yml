@@ -24,7 +24,7 @@ services:
       - mapgis-xxx-mysql
   mapgis-xxx-mysql:
     container_name: ${MYSQL_HOST}
-    image: ${DOCKER_REGISTRY_URL}mapgis/xxx-mysql:1.0
+    image: ${DOCKER_REGISTRY_URL}mapgis/xxx-mysql:${MAPGIS_IMAGE_TAG}
     restart: always
     ports:
       - "3306"
@@ -54,7 +54,7 @@ services:
     command: redis-server --requirepass ${REDIS_PWD}
   mapgis-xxx-gateway:
     container_name: ${GATEWAY_HOST}
-    image: ${DOCKER_REGISTRY_URL}mapgis/xxx-gateway:1.0
+    image: ${DOCKER_REGISTRY_URL}mapgis/xxx-gateway:${MAPGIS_IMAGE_TAG}
     restart: always
     ports:
       - "${GATEWAY_PUBLIC_PORT}:8080"
@@ -73,7 +73,7 @@ services:
       - mapgis-xxx-redis
       - mapgis-xxx-nacos
   mapgis-xxx-monitor:
-    image: ${DOCKER_REGISTRY_URL}mapgis/xxx-monitor:1.0
+    image: ${DOCKER_REGISTRY_URL}mapgis/xxx-monitor:${MAPGIS_IMAGE_TAG}
     restart: always
     ports:
       - "${MONITOR_PUBLIC_PORT}:9200"
@@ -87,7 +87,7 @@ services:
     links:
       - mapgis-xxx-nacos
   mapgis-xxx-auth:
-    image: ${DOCKER_REGISTRY_URL}mapgis/xxx-auth:1.0
+    image: ${DOCKER_REGISTRY_URL}mapgis/xxx-auth:${MAPGIS_IMAGE_TAG}
     restart: always
     ports:
       - "10000"
@@ -108,7 +108,7 @@ services:
       - mapgis-xxx-redis
       - mapgis-xxx-nacos
   mapgis-xxx-system:
-    image: ${DOCKER_REGISTRY_URL}mapgis/xxx-system:1.0
+    image: ${DOCKER_REGISTRY_URL}mapgis/xxx-system:${MAPGIS_IMAGE_TAG}
     restart: always
     ports:
       - "11000"
@@ -136,7 +136,7 @@ services:
       - mapgis-xxx-mysql
       - mapgis-xxx-nacos
   mapgis-xxx-file:
-    image: ${DOCKER_REGISTRY_URL}mapgis/xxx-file:1.0
+    image: ${DOCKER_REGISTRY_URL}mapgis/xxx-file:${MAPGIS_IMAGE_TAG}
     restart: always
     ports:
       - "12000"
@@ -153,7 +153,7 @@ services:
     links:
       - mapgis-xxx-nacos
   mapgis-xxx-job:
-    image: ${DOCKER_REGISTRY_URL}mapgis/xxx-job:1.0
+    image: ${DOCKER_REGISTRY_URL}mapgis/xxx-job:${MAPGIS_IMAGE_TAG}
     restart: always
     ports:
       - "13000"

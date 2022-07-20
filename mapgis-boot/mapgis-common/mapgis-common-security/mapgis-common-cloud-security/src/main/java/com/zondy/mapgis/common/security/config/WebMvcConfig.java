@@ -1,12 +1,16 @@
 package com.zondy.mapgis.common.security.config;
 
+import com.zondy.mapgis.common.core.config.properties.ApiPathProperties;
 import com.zondy.mapgis.common.security.interceptor.HeaderInterceptor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
+import javax.annotation.PostConstruct;
 
 /**
  * 拦截器配置
@@ -18,7 +22,17 @@ public class WebMvcConfig implements WebMvcConfigurer {
     /**
      * 不需要拦截地址
      */
-    public static final String[] excludeUrls = {"/xxx/rest/services/auth/login", "/xxx/rest/services/auth/logout"};
+    public static String[] excludeUrls;
+
+    @Autowired
+    private ApiPathProperties apiPathProperties;
+
+    @PostConstruct
+    public void init() {
+        String strServicesPrefix = apiPathProperties.getServicesPrefix();
+
+        excludeUrls = new String[]{strServicesPrefix + "/auth/login", strServicesPrefix + "/auth/logout"};
+    }
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {

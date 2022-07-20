@@ -3,6 +3,8 @@ package com.zondy.mapgis.auth.cas.config;
 import com.zondy.mapgis.auth.cas.config.properties.CasProperties;
 import com.zondy.mapgis.auth.cas.handler.CasAuthenticationSuccessHandlerImpl;
 import com.zondy.mapgis.auth.cas.service.CasUserDetailsServiceImpl;
+import com.zondy.mapgis.common.core.config.ProductConfig;
+import com.zondy.mapgis.common.core.config.properties.ApiPathProperties;
 import com.zondy.mapgis.common.security.filter.JwtAuthenticationTokenFilter;
 import com.zondy.mapgis.common.security.handler.AuthenticationEntryPointImpl;
 import com.zondy.mapgis.common.security.handler.LogoutSuccessHandlerImpl;
@@ -68,6 +70,18 @@ public class CasSecurityConfig extends WebSecurityConfigurerAdapter {
     private CorsFilter corsFilter;
 
     /**
+     * 产品配置
+     */
+    @Autowired
+    private ProductConfig productConfig;
+
+    /**
+     * ApiPath属性
+     */
+    @Autowired
+    private ApiPathProperties apiPathProperties;
+
+    /**
      * CAS配置
      */
     @Autowired
@@ -114,6 +128,9 @@ public class CasSecurityConfig extends WebSecurityConfigurerAdapter {
      */
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
+        String strProductName = productConfig.getName();
+        String strServicesPrefix = apiPathProperties.getServicesPrefix();
+
         httpSecurity
                 // CSRF禁用，因为不使用session
                 .csrf().disable()
@@ -124,9 +141,9 @@ public class CasSecurityConfig extends WebSecurityConfigurerAdapter {
                 // 过滤请求
                 .authorizeRequests()
                 // 对于登录login 注册register 验证码captchaImage 允许匿名访问
-                .antMatchers("/xxx/rest/services/auth/login", "/xxx/rest/services/auth/register", "/xxx/rest/services/auth/captchaImage").anonymous()
-                .antMatchers("/xxx/rest/services/auth/thirdLogin/**").anonymous()
-                .antMatchers("/xxx/rest/services/auth/casLogin/**").anonymous()
+                .antMatchers(strServicesPrefix + "/auth/login", strServicesPrefix + "/auth/register", strServicesPrefix + "/auth/captchaImage").anonymous()
+                .antMatchers(strServicesPrefix + "/auth/thirdLogin/**").anonymous()
+                .antMatchers(strServicesPrefix + "/auth/casLogin/**").anonymous()
                 // 静态资源，可匿名访问
                 .antMatchers(
                         HttpMethod.GET,
@@ -136,8 +153,8 @@ public class CasSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/**/*.css",
                         "/**/*.js",
                         filePrefix + "/**",
-                        "/xxx/static/**",
-                        "/xxx/manager/**"
+                        "/" + strProductName + "/static/**",
+                        "/" + strProductName + "/manager/**"
                 ).permitAll()
                 .antMatchers(
                         "/swagger-ui.html",
@@ -151,7 +168,7 @@ public class CasSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .headers().frameOptions().disable();
         // 添加Logout filter
-        httpSecurity.logout().logoutUrl("/xxx/rest/services/auth/logout").logoutSuccessHandler(logoutSuccessHandler);
+        httpSecurity.logout().logoutUrl(strServicesPrefix + "/auth/logout").logoutSuccessHandler(logoutSuccessHandler);
         // 添加CAS 认证filter
         httpSecurity.addFilter(casAuthenticationFilter());
         // 添加JWT filter

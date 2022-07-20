@@ -62,7 +62,7 @@ export default {
     /** 下载模板操作 */
     importTemplate() {
       this.download(
-        '/xxx/rest/manager/system/user/importTemplate',
+        `${window._CONFIG['apiPathManagerPrefix']}/system/user/importTemplate`,
         {
           ...this.queryParams
         },

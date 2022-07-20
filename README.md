@@ -114,10 +114,6 @@ sentinel >= 1.6.0
 
 ## 运行系统
 
-### 修改产品标识
-
-全项目搜索 `xxx`，替换成产品小写标识，如：`igs、datastore、igs-x、igs-s、workspace、psmap、portal、manager`
-
 ### 后端运行
 
 #### 后端项目导入
@@ -169,7 +165,6 @@ __  __              _____ _____  _____    _____
 
 #### 后端项目启动（微服务模式）
 1、配置本地hosts
-必须配置 hosts ,禁止修改代码中配置成IP  |  梯子、VPN 等软件会导致 hosts 配置失效，请关闭！！
 > 如何快速修改本地hosts，[SwitchHosts](https://github.com/oldj/SwitchHosts)
 ```
 127.0.0.1 mapgis-xxx-mysql

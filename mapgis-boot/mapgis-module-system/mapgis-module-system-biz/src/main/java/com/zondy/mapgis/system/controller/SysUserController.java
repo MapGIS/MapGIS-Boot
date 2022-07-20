@@ -214,7 +214,7 @@ public class SysUserController extends BaseController {
     }
 
     /**
-     * 验证密码,传入{ password: xxx }
+     * 验证密码,传入{ password: xyz }
      */
     @Operation(summary = "验证密码")
     @PostMapping("/checkPassword")

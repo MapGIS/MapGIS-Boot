@@ -312,7 +312,7 @@ export default {
         content: '此操作将导出当前条件下所有数据而非选中数据',
         onOk() {
           that.download(
-            '/xxx/rest/manager/monitor/jobLog/export',
+            `${window._CONFIG['apiPathManagerPrefix']}/monitor/jobLog/export`,
             {
               ...that.queryParam
             },

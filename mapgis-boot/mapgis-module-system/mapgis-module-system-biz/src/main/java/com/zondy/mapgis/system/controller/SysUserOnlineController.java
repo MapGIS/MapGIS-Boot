@@ -46,7 +46,7 @@ public class SysUserOnlineController extends BaseController {
     /**
      * 产品名称
      */
-    @Value("${mapgis.name:mapgis-xxx}")
+    @Value("${mapgis.product.full-name}")
     public String name;
 
     @Operation(summary = "在线用户列表")

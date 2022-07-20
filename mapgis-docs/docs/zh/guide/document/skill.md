@@ -1,5 +1,35 @@
 # 实战技巧
 
+## 项目扩展
+
+### 如何扩展
+
+#### 克隆本项目，并移除`mapgis-docs`目录
+> `mapgis-docs`为`mapgis-boot`的开发手册，用于扩展项目参考，建议在扩展项目中移除
+#### 修改产品标识
+
+全项目搜索 `xxx`，替换成产品小写标识，如：`igs、datastore、igs-x、igs-s、workspace、psmap、portal、manager`
+
+#### 推送到新的项目
+推送现有的Git仓库到一个新的项目仓库
+```
+cd existing_repo
+git remote rename origin old-origin
+git remote add origin git@192.168.200.88:xyz/xyz.git
+git push -u origin --all
+git push -u origin --tags
+```
+
+### 如何升级
+`MapGIS Boot`属于平台级产品，每次升级改动内容较多，目前做不到平滑升级，这里给用户的升级建议是这样的：
+- 通过cherry-pick进行仓库之间的同步，参考：[五、转移到另一个代码库](https://www.ruanyifeng.com/blog/2020/04/git-cherry-pick.html)
+  >  对于sql脚本、docker脚本的同步需要仔细对比代码
+```shell
+git remote add boot git@192.168.200.88:webgis/server/mapgis-boot.git
+git fetch boot
+git log boot/master
+git cherry-pick <commitHash>
+```
 ## 新建子模块
 
 ### 新建单体和微服务共用模块

@@ -1,5 +1,7 @@
 package com.zondy.mapgis.common.security.config;
 
+import com.zondy.mapgis.common.core.config.ProductConfig;
+import com.zondy.mapgis.common.core.config.properties.ApiPathProperties;
 import com.zondy.mapgis.common.security.filter.JwtAuthenticationTokenFilter;
 import com.zondy.mapgis.common.security.handler.AuthenticationEntryPointImpl;
 import com.zondy.mapgis.common.security.handler.LogoutSuccessHandlerImpl;
@@ -66,6 +68,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private CorsFilter corsFilter;
 
     /**
+     * 产品配置
+     */
+    @Autowired
+    private ProductConfig productConfig;
+
+    /**
+     * ApiPath属性
+     */
+    @Autowired
+    private ApiPathProperties apiPathProperties;
+
+    /**
      * 解决 无法直接注入 AuthenticationManager
      *
      * @return
@@ -94,6 +108,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
      */
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
+        String strProductName = productConfig.getName();
+        String strServicesPrefix = apiPathProperties.getServicesPrefix();
+
         httpSecurity
                 // CSRF禁用，因为不使用session
                 .csrf().disable()
@@ -104,8 +121,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 // 过滤请求
                 .authorizeRequests()
                 // 对于登录login 注册register 验证码captchaImage 允许匿名访问
-                .antMatchers("/xxx/rest/services/auth/login", "/xxx/rest/services/auth/register", "/xxx/rest/services/auth/captchaImage").anonymous()
-                .antMatchers("/xxx/rest/services/auth/thirdLogin/**").anonymous()
+                .antMatchers(strServicesPrefix + "/auth/login", strServicesPrefix + "/auth/register", strServicesPrefix + "/auth/captchaImage").anonymous()
+                .antMatchers(strServicesPrefix + "/auth/thirdLogin/**").anonymous()
                 // 静态资源，可匿名访问
                 .antMatchers(
                         HttpMethod.GET,
@@ -115,8 +132,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/**/*.css",
                         "/**/*.js",
                         filePrefix + "/**",
-                        "/xxx/static/**",
-                        "/xxx/manager/**"
+                        "/" + strProductName + "/static/**",
+                        "/" + strProductName + "/manager/**"
                 ).permitAll()
                 .antMatchers(
                         "/swagger-ui.html",
@@ -130,7 +147,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .headers().frameOptions().disable();
         // 添加Logout filter
-        httpSecurity.logout().logoutUrl("/xxx/rest/services/auth/logout").logoutSuccessHandler(logoutSuccessHandler);
+        httpSecurity.logout().logoutUrl(strServicesPrefix + "/auth/logout").logoutSuccessHandler(logoutSuccessHandler);
         // 添加JWT filter
         httpSecurity.addFilterBefore(authenticationTokenFilter, UsernamePasswordAuthenticationFilter.class);
         // 添加CORS filter

@@ -25,7 +25,7 @@ logging:
 spring:
   # 应用名称
   application:
-    name: ${APP_NAME:mapgis-xxx-server}
+    name: ${APP_NAME:${mapgis.product.full-name}-server}
   profiles:
     # 环境配置
     active: dev
@@ -46,7 +46,7 @@ spring:
       # 热部署开关
       enabled: true
   mvc:
-    static-path-pattern: /xxx/static/**
+    static-path-pattern: /${mapgis.product.name}/static/**
   # 缓存配置
   cache:
     type: ehcache
@@ -115,6 +115,12 @@ springdoc:
     enabled: ${swagger.enabled}
     path: /webjars/swagger-ui.html
 
+# API前缀
+api:
+  path:
+    services-prefix: /${mapgis.product.name}/rest/services
+    manager-prefix: /${mapgis.product.name}/rest/manager
+
 # 安全配置
 security:
   # 验证码
@@ -127,19 +133,13 @@ security:
     # 过滤开关
     enabled: true
     # 排除链接（多个用逗号分隔）
-    excludes: /xxx/rest/manager/system/notice
+    excludes: ${api.path.manager-prefix}/system/notice
     # 匹配链接（多个用逗号分隔）
-    urlPatterns: /xxx/rest/manager/system/*,/xxx/rest/manager/monitor/*,/xxx/rest/manager/tool/*
+    urlPatterns: ${api.path.manager-prefix}/system/*,${api.path.manager-prefix}/monitor/*,${api.path.manager-prefix}/tool/*
   # 访问
   access:
     # 只读开关
     readonlyEnabled: ${SECURITY_ACCESS_READONLY_ENABLED:false}
-
-# API前缀
-api:
-  path:
-    services-prefix: xxx/rest/services
-    manager-prefix: xxx/rest/manager
 
 # token配置
 token:
@@ -172,11 +172,11 @@ justauth:
     GITHUB:
       client-id: ${JUSTAUTH_GITHUB_CLIENT_ID}
       client-secret: ${JUSTAUTH_GITHUB_CLIENT_SECRET}
-      redirect-uri: ${JUSTAUTH_GITHUB_REDIRECT_URI:http://127.0.0.1:8080/xxx/rest/services/auth/thirdLogin/callback/github}
+      redirect-uri: ${JUSTAUTH_GITHUB_REDIRECT_URI:http://127.0.0.1:${server.port}/${api.path.services-prefix}/auth/thirdLogin/callback/github}
     GITEE:
       client-id: ${JUSTAUTH_GITEE_CLIENT_ID}
       client-secret: ${JUSTAUTH_GITEE_CLIENT_SECRET}
-      redirect-uri: ${JUSTAUTH_GITEE_REDIRECT_URI:http://127.0.0.1:8080/xxx/rest/services/auth/thirdLogin/callback/gitee}
+      redirect-uri: ${JUSTAUTH_GITEE_REDIRECT_URI:http://127.0.0.1:${server.port}/${api.path.services-prefix}/auth/thirdLogin/callback/gitee}
   cache:
     type: default
   extend:
@@ -189,7 +189,7 @@ justauth:
         request-class: ${JUSTAUTH_CUSTOM_REQUEST_CLASS:com.zondy.mapgis.auth.justauth.request.AuthCustomRequest}
         client-id: ${JUSTAUTH_CUSTOM_CLIENT_ID}
         client-secret: ${JUSTAUTH_CUSTOM_CLIENT_SECRET}
-        redirect-uri: ${JUSTAUTH_CUSTOM_REDIRECT_URI:http://127.0.0.1:8080/xxx/rest/services/auth/thirdLogin/callback/custom}
+        redirect-uri: ${JUSTAUTH_CUSTOM_REDIRECT_URI:http://127.0.0.1:${server.port}/${api.path.services-prefix}/auth/thirdLogin/callback/custom}
         scopes: ${JUSTAUTH_CUSTOM_SCOPES}
 
 # cas配置

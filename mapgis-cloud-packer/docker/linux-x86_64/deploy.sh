@@ -1,10 +1,16 @@
 #!/bin/sh
 
+# 产品名称
+MAPGIS_PRODUCT_NAME=xxx
+
+# 产品完整名称
+MAPGIS_PRODUCT_FULL_NAME=mapgis-xxx
+
 # 私有镜像仓库地址，注意结尾需含/
 DOCKER_REGISTRY_URL=192.168.177.1:5000/
 
-# 镜像版本
-IMAGE_VERSION=1.0
+# 镜像标签
+MAPGIS_IMAGE_TAG=1.0
 
 # 使用说明，用来提示输入参数
 usage() {
@@ -19,7 +25,7 @@ build() {
 
 # 启动基础环境（必须）
 base(){
-	docker-compose -f docker-compose-local.yml up -d mapgis-xxx-mysql mapgis-xxx-redis mapgis-xxx-nacos
+	docker-compose -f docker-compose-local.yml up -d ${MAPGIS_PRODUCT_FULL_NAME}-mysql ${MAPGIS_PRODUCT_FULL_NAME}-redis ${MAPGIS_PRODUCT_FULL_NAME}-nacos
 }
 
 # 启动程序模块（必须）
@@ -46,23 +52,23 @@ down() {
 publish() {
 	docker tag nacos/nacos-server ${DOCKER_REGISTRY_URL}nacos/nacos-server
 	docker tag redis ${DOCKER_REGISTRY_URL}redis
-	docker tag mapgis/xxx-mysql ${DOCKER_REGISTRY_URL}mapgis/xxx-mysql:${IMAGE_VERSION}
-	docker tag mapgis/xxx-gateway ${DOCKER_REGISTRY_URL}mapgis/xxx-gateway:${IMAGE_VERSION}
-	docker tag mapgis/xxx-monitor ${DOCKER_REGISTRY_URL}mapgis/xxx-monitor:${IMAGE_VERSION}
-	docker tag mapgis/xxx-auth ${DOCKER_REGISTRY_URL}mapgis/xxx-auth:${IMAGE_VERSION}
-	docker tag mapgis/xxx-system ${DOCKER_REGISTRY_URL}mapgis/xxx-system:${IMAGE_VERSION}
-	docker tag mapgis/xxx-file ${DOCKER_REGISTRY_URL}mapgis/xxx-file:${IMAGE_VERSION}
-	docker tag mapgis/xxx-job ${DOCKER_REGISTRY_URL}mapgis/xxx-job:${IMAGE_VERSION}
+	docker tag mapgis/${MAPGIS_PRODUCT_NAME}-mysql ${DOCKER_REGISTRY_URL}mapgis/${MAPGIS_PRODUCT_NAME}-mysql:${MAPGIS_IMAGE_TAG}
+	docker tag mapgis/${MAPGIS_PRODUCT_NAME}-gateway ${DOCKER_REGISTRY_URL}mapgis/${MAPGIS_PRODUCT_NAME}-gateway:${MAPGIS_IMAGE_TAG}
+	docker tag mapgis/${MAPGIS_PRODUCT_NAME}-monitor ${DOCKER_REGISTRY_URL}mapgis/${MAPGIS_PRODUCT_NAME}-monitor:${MAPGIS_IMAGE_TAG}
+	docker tag mapgis/${MAPGIS_PRODUCT_NAME}-auth ${DOCKER_REGISTRY_URL}mapgis/${MAPGIS_PRODUCT_NAME}-auth:${MAPGIS_IMAGE_TAG}
+	docker tag mapgis/${MAPGIS_PRODUCT_NAME}-system ${DOCKER_REGISTRY_URL}mapgis/${MAPGIS_PRODUCT_NAME}-system:${MAPGIS_IMAGE_TAG}
+	docker tag mapgis/${MAPGIS_PRODUCT_NAME}-file ${DOCKER_REGISTRY_URL}mapgis/${MAPGIS_PRODUCT_NAME}-file:${MAPGIS_IMAGE_TAG}
+	docker tag mapgis/${MAPGIS_PRODUCT_NAME}-job ${DOCKER_REGISTRY_URL}mapgis/${MAPGIS_PRODUCT_NAME}-job:${MAPGIS_IMAGE_TAG}
 
 	docker push ${DOCKER_REGISTRY_URL}nacos/nacos-server
 	docker push ${DOCKER_REGISTRY_URL}redis
-	docker push ${DOCKER_REGISTRY_URL}mapgis/xxx-mysql:${IMAGE_VERSION}
-	docker push ${DOCKER_REGISTRY_URL}mapgis/xxx-gateway:${IMAGE_VERSION}
-	docker push ${DOCKER_REGISTRY_URL}mapgis/xxx-monitor:${IMAGE_VERSION}
-	docker push ${DOCKER_REGISTRY_URL}mapgis/xxx-auth:${IMAGE_VERSION}
-	docker push ${DOCKER_REGISTRY_URL}mapgis/xxx-system:${IMAGE_VERSION}
-	docker push ${DOCKER_REGISTRY_URL}mapgis/xxx-file:${IMAGE_VERSION}
-	docker push ${DOCKER_REGISTRY_URL}mapgis/xxx-job:${IMAGE_VERSION}
+	docker push ${DOCKER_REGISTRY_URL}mapgis/${MAPGIS_PRODUCT_NAME}-mysql:${MAPGIS_IMAGE_TAG}
+	docker push ${DOCKER_REGISTRY_URL}mapgis/${MAPGIS_PRODUCT_NAME}-gateway:${MAPGIS_IMAGE_TAG}
+	docker push ${DOCKER_REGISTRY_URL}mapgis/${MAPGIS_PRODUCT_NAME}-monitor:${MAPGIS_IMAGE_TAG}
+	docker push ${DOCKER_REGISTRY_URL}mapgis/${MAPGIS_PRODUCT_NAME}-auth:${MAPGIS_IMAGE_TAG}
+	docker push ${DOCKER_REGISTRY_URL}mapgis/${MAPGIS_PRODUCT_NAME}-system:${MAPGIS_IMAGE_TAG}
+	docker push ${DOCKER_REGISTRY_URL}mapgis/${MAPGIS_PRODUCT_NAME}-file:${MAPGIS_IMAGE_TAG}
+	docker push ${DOCKER_REGISTRY_URL}mapgis/${MAPGIS_PRODUCT_NAME}-job:${MAPGIS_IMAGE_TAG}
 }
 
 # 根据输入参数，选择执行对应方法，不输入则执行使用说明

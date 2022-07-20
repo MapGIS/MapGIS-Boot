@@ -89,7 +89,7 @@ export default {
       })
     },
     bind(item) {
-      const loginUrl = window._CONFIG['domianURL'] + `/xxx/rest/services/auth/thirdLogin/render/${item.type.source}`
+      const loginUrl = `${window._CONFIG['domianURL']}${window._CONFIG['apiPathServicesPrefix']}/auth/thirdLogin/render/${item.type.source}`
       const that = this
       window.open(
         loginUrl,

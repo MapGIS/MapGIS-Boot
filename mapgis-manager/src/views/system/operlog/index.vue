@@ -333,7 +333,7 @@ export default {
         content: '此操作将导出当前条件下所有数据而非选中数据',
         onOk() {
           that.download(
-            '/xxx/rest/manager/system/operlog/export',
+            `${window._CONFIG['apiPathManagerPrefix']}/system/operlog/export`,
             {
               ...that.queryParam
             },

@@ -41,7 +41,7 @@ public final class HTMLFilter {
     private static final Pattern P_RIGHT_ARROW = Pattern.compile(">");
     private static final Pattern P_BOTH_ARROWS = Pattern.compile("<>");
 
-    // @xxx could grow large... maybe use sesat's ReferenceMap
+    // @xyz could grow large... maybe use sesat's ReferenceMap
     private static final ConcurrentMap<String, Pattern> P_REMOVE_PAIR_BLANKS = new ConcurrentHashMap<>();
     private static final ConcurrentMap<String, Pattern> P_REMOVE_SELF_BLANKS = new ConcurrentHashMap<>();
 

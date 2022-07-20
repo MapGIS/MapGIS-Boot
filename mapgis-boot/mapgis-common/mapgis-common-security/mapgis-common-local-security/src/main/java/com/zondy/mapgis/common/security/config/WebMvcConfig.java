@@ -1,5 +1,6 @@
 package com.zondy.mapgis.common.security.config;
 
+import com.zondy.mapgis.common.core.config.ProductConfig;
 import com.zondy.mapgis.common.repeatsubmit.interceptor.RepeatSubmitInterceptor;
 import com.zondy.mapgis.file.api.config.properties.FileProperties;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +29,9 @@ public class WebMvcConfig implements WebMvcConfigurer {
     @Autowired
     private RepeatSubmitInterceptor repeatSubmitInterceptor;
 
+    @Autowired
+    private ProductConfig productConfig;
+
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         /** 本地文件上传路径 */
@@ -35,7 +39,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
                 .addResourceLocations("file:" + fileProperties.getFullPath() + File.separator);
 
         /** 前端静态资源配置 */
-        registry.addResourceHandler("/xxx/static/**").addResourceLocations("classpath:/static/");
+        registry.addResourceHandler("/" + productConfig.getName() + "/static/**").addResourceLocations("classpath:/static/");
     }
 
     /**

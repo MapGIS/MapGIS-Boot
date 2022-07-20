@@ -3,7 +3,7 @@ import request from '@/utils/request'
 // 查询用户授权信息
 export function getAuthInfo() {
   return request({
-    url: '/xxx/rest/manager/system/authUser/info',
+    url: `${window._CONFIG['apiPathManagerPrefix']}/system/authUser/info`,
     method: 'get'
   })
 }
@@ -11,7 +11,7 @@ export function getAuthInfo() {
 // 检查是否授权
 export function checkAuthUser(data) {
   return request({
-    url: '/xxx/rest/manager/system/authUser/check',
+    url: `${window._CONFIG['apiPathManagerPrefix']}/system/authUser/check`,
     method: 'post',
     data: data
   })
@@ -20,7 +20,7 @@ export function checkAuthUser(data) {
 // 绑定授权
 export function bindAuth(data) {
   return request({
-    url: '/xxx/rest/manager/system/authUser/bind',
+    url: `${window._CONFIG['apiPathManagerPrefix']}/system/authUser/bind`,
     method: 'post',
     data: data
   })
@@ -29,7 +29,7 @@ export function bindAuth(data) {
 // 取消授权
 export function unbindAuth(data) {
   return request({
-    url: '/xxx/rest/manager/system/authUser/unbind',
+    url: `${window._CONFIG['apiPathManagerPrefix']}/system/authUser/unbind`,
     method: 'post',
     data: data
   })
