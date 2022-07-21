@@ -75,6 +75,16 @@
         <dependency>
             <groupId>com.zondy.mapgis</groupId>
             <artifactId>mapgis-module-file-biz</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.github.tobato</groupId>
+                    <artifactId>fastdfs-client</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>io.minio</groupId>
+                    <artifactId>minio</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <!-- 文件服务API -->

@@ -6,7 +6,6 @@ import com.zondy.mapgis.file.service.IFileStorageService;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
@@ -15,7 +14,6 @@ import org.springframework.web.multipart.MultipartFile;
  * @author xiongbo
  * @since 2022/3/15 18:00
  */
-@Service
 public class FastDfsSysFileServiceImpl implements IFileStorageService {
     /**
      * 域名或本机访问地址

@@ -4,8 +4,6 @@ import com.zondy.mapgis.common.core.utils.file.FileUploadUtils;
 import com.zondy.mapgis.file.api.config.properties.FileProperties;
 import com.zondy.mapgis.file.service.IFileStorageService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Primary;
-import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
@@ -14,8 +12,6 @@ import org.springframework.web.multipart.MultipartFile;
  * @author xiongbo
  * @since 2022/3/15 18:00
  */
-@Primary
-@Service
 public class LocalSysFileServiceImpl implements IFileStorageService {
     @Autowired
     private FileProperties fileProperties;
