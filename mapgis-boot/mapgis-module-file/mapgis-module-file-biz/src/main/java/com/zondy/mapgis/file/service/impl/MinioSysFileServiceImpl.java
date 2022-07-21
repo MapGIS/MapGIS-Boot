@@ -6,7 +6,6 @@ import com.zondy.mapgis.file.service.IFileStorageService;
 import io.minio.MinioClient;
 import io.minio.PutObjectArgs;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
@@ -15,7 +14,6 @@ import org.springframework.web.multipart.MultipartFile;
  * @author xiongbo
  * @since 2022/3/15 18:00
  */
-@Service
 public class MinioSysFileServiceImpl implements IFileStorageService {
     @Autowired
     private MinioConfig minioConfig;

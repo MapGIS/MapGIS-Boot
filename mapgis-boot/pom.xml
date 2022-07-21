@@ -102,6 +102,13 @@
                 <version>${tobato.version}</version>
             </dependency>
 
+            <!-- Minio -->
+            <dependency>
+                <groupId>io.minio</groupId>
+                <artifactId>minio</artifactId>
+                <version>${minio.version}</version>
+            </dependency>
+
             <!-- Mybatis 依赖配置 -->
             <dependency>
                 <groupId>org.mybatis.spring.boot</groupId>

@@ -33,7 +33,6 @@
         <dependency>
             <groupId>io.minio</groupId>
             <artifactId>minio</artifactId>
-            <version>${minio.version}</version>
         </dependency>
 
         <!-- 全局前缀模块 -->
