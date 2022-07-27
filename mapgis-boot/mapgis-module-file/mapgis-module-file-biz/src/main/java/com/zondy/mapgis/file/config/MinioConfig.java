@@ -2,6 +2,7 @@ package com.zondy.mapgis.file.config;
 
 import io.minio.MinioClient;
 import lombok.Data;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,6 +16,7 @@ import org.springframework.context.annotation.Configuration;
 @Data
 @Configuration
 @ConfigurationProperties(prefix = "minio")
+@ConditionalOnProperty(name = "mapgis.file.store", havingValue = "minio")
 public class MinioConfig {
     /**
      * 服务地址
