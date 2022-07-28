@@ -118,9 +118,11 @@ sentinel >= 1.6.0
 
 #### 后端项目导入
 
-后端工程`mapgis-boot`，将其导入到`IDEA`，通过右侧 maven 窗口下载依赖
+后端工程`mapgis-boot`，将其导入到`IDEA`，通过右侧 maven 窗口下载依赖，单体模式下选择`Maven Profiles`为`local`，微服务模式下选择`Maven Profile`为`cloud`
 
 #### 后端项目启动（单体模式）
+
+> 请确保`Maven Profiles`为`local`
 
 1、初始化 MySQL 数据库（采用本地数据库 Sqlite 可跳过此步骤）
 
@@ -164,6 +166,9 @@ __  __              _____ _____  _____    _____
 > 后端运行成功后可以继续参考下面步骤部署 mapgis-manager 前端，然后通过前端地址来访问
 
 #### 后端项目启动（微服务模式）
+
+> 请确保`Maven Profiles`为`cloud`
+
 1、配置本地hosts
 > 如何快速修改本地hosts，[SwitchHosts](https://github.com/oldj/SwitchHosts)
 ```
