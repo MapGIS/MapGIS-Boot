@@ -1,0 +1,56 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    {{- include "mapgis.kindLabel" . | nindent 4 }}
+  name: {{ include "mapgis.fullname" . }}-nfs-client-provisioner
+  annotations:
+    scale: unscalable
+    console: noconsole
+    description: mapgis-xxx_nfs_client_provisioner_description
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ include "mapgis.fullname" . }}-nfs-client-provisioner
+  template:
+    metadata:
+      labels:
+        app: {{ include "mapgis.fullname" . }}-nfs-client-provisioner
+    spec:
+      serviceAccount: nfs-client-provisioner
+      {{ include "mapgis.imagePullSecret" . }}
+      containers:
+        - name: {{ include "mapgis.fullname" . }}-nfs-client-provisioner
+          image: registry.cn-hangzhou.aliyuncs.com/lfy_k8s_images/nfs-subdir-external-provisioner:v4.0.2
+          imagePullPolicy: {{ include "mapgis.imagePullPolicy" . }}
+          resources:
+            requests:
+              cpu: 50m
+              memory: 100Mi
+            limits:
+              cpu: 1
+              memory: 1Gi
+          volumeMounts:
+            - name: nfs-client-root
+              mountPath: /persistentvolumes
+          env:
+            - name: PROVISIONER_NAME
+              value: {{ include "mapgis.fullname" . }}-nfs-client-provisioner
+            - name: NFS_SERVER
+              value: {{ include "mapgis.nfsServer" . }}
+            - name: NFS_PATH
+              value: {{ include "mapgis.nfsPath" . }}
+      volumes:
+        - name: nfs-client-root
+          nfs:
+            server: {{ include "mapgis.nfsServer" . }}
+            path: {{ include "mapgis.nfsPath" . }}
+---
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  labels:
+    {{- include "mapgis.kindLabel" . | nindent 4 }}
+  name: {{ template "mapgis.nfsStorageClassName" . }}
+provisioner: {{ include "mapgis.fullname" . }}-nfs-client-provisioner

@@ -1,0 +1,24 @@
+# Default values for mapgis.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+nameOverride: xxx
+fullnameOverride: mapgis-xxx
+
+appPort: 32000
+
+namespace: mapgis
+
+imageRegistry: 192.168.177.1:5000
+imageNamespace: mapgis
+imageRepository: xxx
+imageTag: "1.0"
+imagePullPolicy: IfNotPresent
+imagePullSecret: 
+
+nfsServer: 192.168.129.10
+nfsPath: /nfs/data
+nfsStorageClassName: 
+
+resourceCpuLimit: 2
+resourceMemoryLimit: 4Gi

@@ -1,0 +1,126 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "mapgis.fullname" . }}
+  labels:
+    {{- include "mapgis.labels" . | nindent 4 }}
+    {{- include "mapgis.kindLabel" . | nindent 4 }}
+spec:
+  selector:
+    matchLabels:
+      {{- include "mapgis.selectorLabels" . | nindent 6 }}
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        {{- include "mapgis.selectorLabels" . | nindent 8 }}
+    spec:
+      {{ include "mapgis.imagePullSecret" . }}
+      containers:
+      - name: {{ include "mapgis.fullname" . }}
+        image: {{ include "mapgis.imageRegistry" . }}/{{ include "mapgis.imageNamespace" . }}/{{ include "mapgis.imageRepository" . }}:{{ include "mapgis.imageTag" . }}
+        imagePullPolicy: {{ include "mapgis.imagePullPolicy" . }}
+        resources:
+          limits:
+            cpu: {{ include "mapgis.resourceCpuLimit" . }}
+            memory: {{ include "mapgis.resourceMemoryLimit" . }}
+          requests:
+            cpu: 1
+            memory: 2Gi
+        livenessProbe:
+          httpGet:
+            port: 8080
+          initialDelaySeconds: 20
+          timeoutSeconds: 20
+          successThreshold: 1
+          failureThreshold: 5
+          periodSeconds: 30
+        readinessProbe:
+          httpGet:
+            port: 8080
+          initialDelaySeconds: 20
+          timeoutSeconds: 20
+          successThreshold: 1
+          failureThreshold: 5
+          periodSeconds: 30
+        ports:
+        - containerPort: 8080
+          name: http
+        volumeMounts:
+          - name: {{ include "mapgis.fullname" . }}-logs
+            mountPath: /mapgis/logs
+          - name: {{ include "mapgis.fullname" . }}-upload
+            mountPath: /mapgis/upload
+          - name: {{ include "mapgis.fullname" . }}-data
+            mountPath: /mapgis/data
+      restartPolicy: Always
+      volumes:
+        - name: {{ include "mapgis.fullname" . }}-logs
+          persistentVolumeClaim:
+            claimName: pvc-{{ include "mapgis.fullname" . }}-logs
+        - name: {{ include "mapgis.fullname" . }}-upload
+          persistentVolumeClaim:
+            claimName: pvc-{{ include "mapgis.fullname" . }}-upload
+        - name: {{ include "mapgis.fullname" . }}-data
+          persistentVolumeClaim:
+            claimName: pvc-{{ include "mapgis.fullname" . }}-data
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "mapgis.fullname" . }}
+  labels:
+    {{- include "mapgis.labels" . | nindent 4 }}
+spec:
+  selector:
+    {{- include "mapgis.selectorLabels" . | nindent 4 }}
+  type: NodePort
+  ports:
+  - name: http
+    protocol: TCP
+    port: 8080
+    targetPort: 8080
+    nodePort: {{ include "mapgis.appPort" . }}
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: pvc-{{ include "mapgis.fullname" . }}-data
+  labels:
+    {{- include "mapgis.kindLabel" . | nindent 4 }}
+spec:
+  storageClassName: {{ template "mapgis.nfsStorageClassName" . }}
+  accessModes:
+  - ReadWriteMany
+  resources:
+    requests:
+      storage: 2Gi
+---
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: pvc-{{ include "mapgis.fullname" . }}-logs
+  labels:
+    {{- include "mapgis.kindLabel" . | nindent 4 }}
+spec:
+  storageClassName: {{ template "mapgis.nfsStorageClassName" . }}
+  accessModes:
+  - ReadWriteMany
+  resources:
+    requests:
+      storage: 500Mi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: pvc-{{ include "mapgis.fullname" . }}-upload
+  labels:
+    {{- include "mapgis.kindLabel" . | nindent 4 }}
+spec:
+  storageClassName: {{ template "mapgis.nfsStorageClassName" . }}
+  accessModes:
+  - ReadWriteMany
+  resources:
+    requests:
+      storage: 2Gi
