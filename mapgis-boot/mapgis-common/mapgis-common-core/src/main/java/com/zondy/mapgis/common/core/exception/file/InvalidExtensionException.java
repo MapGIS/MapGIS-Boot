@@ -1,7 +1,5 @@
 package com.zondy.mapgis.common.core.exception.file;
 
-import org.apache.commons.fileupload.FileUploadException;
-
 import java.util.Arrays;
 
 /**

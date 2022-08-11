@@ -17,6 +17,10 @@
     </properties>
 
     <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-validation</artifactId>
+        </dependency>
         <!-- 数据范围模块 -->
         <dependency>
             <groupId>com.zondy.mapgis</groupId>
@@ -33,6 +37,17 @@
         <dependency>
             <groupId>com.zondy.mapgis</groupId>
             <artifactId>mapgis-common-controllerprefix</artifactId>
+        </dependency>
+
+        <!-- mybatis分页需要 -->
+        <dependency>
+            <groupId>com.github.pagehelper</groupId>
+            <artifactId>pagehelper-spring-boot-starter</artifactId>
+        </dependency>
+        <!-- excel需要 -->
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi-ooxml</artifactId>
         </dependency>
     </dependencies>
 

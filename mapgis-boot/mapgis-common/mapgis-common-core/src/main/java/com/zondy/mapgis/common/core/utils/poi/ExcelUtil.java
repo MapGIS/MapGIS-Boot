@@ -481,7 +481,7 @@ public class ExcelUtil<T> {
             if (!styles.containsKey(key)) {
                 CellStyle style = wb.createCellStyle();
                 style = wb.createCellStyle();
-                style.setAlignment(excel.align());
+                style.setAlignment(org.apache.poi.ss.usermodel.HorizontalAlignment.forInt(excel.align().getCode()));
                 style.setVerticalAlignment(VerticalAlignment.CENTER);
                 style.setBorderRight(BorderStyle.THIN);
                 style.setRightBorderColor(IndexedColors.GREY_50_PERCENT.getIndex());

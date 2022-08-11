@@ -22,5 +22,9 @@
             <groupId>com.zondy.mapgis</groupId>
             <artifactId>mapgis-common-core</artifactId>
         </dependency>
+        <dependency>
+            <groupId>io.swagger.core.v3</groupId>
+            <artifactId>swagger-annotations</artifactId>
+        </dependency>
     </dependencies>
 </project>

@@ -35,16 +35,18 @@
             <artifactId>transmittable-thread-local</artifactId>
         </dependency>
 
-        <!-- Pagehelper -->
+        <!-- Pagehelper 按需引入 -->
         <dependency>
             <groupId>com.github.pagehelper</groupId>
             <artifactId>pagehelper-spring-boot-starter</artifactId>
+            <optional>true</optional>
         </dependency>
 
         <!-- Hibernate Validator -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-validation</artifactId>
+            <optional>true</optional>
         </dependency>
 
         <!-- JSON工具类 -->
@@ -57,6 +59,7 @@
         <dependency>
             <groupId>io.jsonwebtoken</groupId>
             <artifactId>jjwt</artifactId>
+            <optional>true</optional>
         </dependency>
 
         <!-- io常用工具类 -->
@@ -71,22 +74,18 @@
             <artifactId>commons-lang3</artifactId>
         </dependency>
 
-        <!-- 文件上传工具类 -->
-        <dependency>
-            <groupId>commons-fileupload</groupId>
-            <artifactId>commons-fileupload</artifactId>
-        </dependency>
-
-        <!-- excel工具 -->
+        <!-- excel工具，按需引入 -->
         <dependency>
             <groupId>org.apache.poi</groupId>
             <artifactId>poi-ooxml</artifactId>
+            <optional>true</optional>
         </dependency>
 
         <!-- Java Servlet -->
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>javax.servlet-api</artifactId>
+            <optional>true</optional>
         </dependency>
 
         <!-- hutool -->
@@ -95,28 +94,18 @@
             <artifactId>hutool-core</artifactId>
         </dependency>
 
-        <!-- lombok -->
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-        </dependency>
-
         <!-- swagger annotations-->
         <dependency>
             <groupId>io.swagger.core.v3</groupId>
             <artifactId>swagger-annotations</artifactId>
+            <optional>true</optional>
         </dependency>
 
-        <!-- 验证码 -->
+        <!-- 生成config元数据，仅编译时需要-->
         <dependency>
-            <groupId>com.github.penggle</groupId>
-            <artifactId>kaptcha</artifactId>
-            <exclusions>
-                <exclusion>
-                    <artifactId>javax.servlet-api</artifactId>
-                    <groupId>javax.servlet</groupId>
-                </exclusion>
-            </exclusions>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+            <optional>true</optional>
         </dependency>
     </dependencies>
 </project>
