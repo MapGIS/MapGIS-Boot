@@ -40,6 +40,7 @@ release/win-x86_64/bin/startup.bat
 ├─docker-package
 ├─release
 │  ├─linux-x86_64
+├─docker-package(打包后自动生成)
 ```
 
 ```bash
@@ -75,3 +76,58 @@ sudo ./shutdown.sh
 [http://{DOCKER_HOST_IP}:{GATEWAY_PUBLIC_PORT}](http://{DOCKER_HOST_IP}:{GATEWAY_PUBLIC_PORT})
 
 {DOCKER_HOST_IP}为Docker宿主机的IP，{GATEWAY_PUBLIC_PORT}为应用端口
+
+## Kubernetes打包
+
+将`k8s-package`拷贝到linux服务器下，然后将需要的依赖放置到`support`目录内，形成如下目录：
+
+> 需要的依赖可以从\\192.168.17.59\06-K8S-Support获取，账号为 support/support
+
+```
+├─k8s-package
+│  ├─support(将依赖拷贝到该处)
+│  │  ├─linux-x86-64
+│  │  ├─linux-arm64
+├─k8s-release(打包后自动生成)
+```
+
+```
+# 进入到k8s-package目录
+cd k8s-package
+
+# 执行打包(根据服务器架构选择相应的打包脚本，比如当前是x86_64就选择package-linux-x86_64.sh脚本)
+sh package-linux-x86_64.sh
+```
+
+## Kubernetes 运行（正式）
+
+> 将与服务器架构一致的 k8s-release/os-arch 下的目录发布到该服务器下
+
+### 安装
+
+进入应用根目录
+执行以下命令，进行安装
+
+```bash
+sudo chmod +x install.sh && sudo ./install.sh
+```
+
+### 调整参数【必须】
+
+编辑values.yaml，根据需要修改相关参数，运行`sudo vi values.yaml`
+
+### 启动/停止
+
+```bash
+# 启动
+sudo ./startup.sh
+# 停止
+sudo ./shutdown.sh
+```
+
+### 访问应用
+
+[http://{ip}:{appPort}}](http://{ip}:{appPort})
+
+{ip}为外部访问k8s的IP，{appPort}为应用端口
+
