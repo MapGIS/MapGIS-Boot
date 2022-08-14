@@ -5,15 +5,24 @@
 nameOverride: xxx
 fullnameOverride: mapgis-xxx
 
+k8sPublicIp: 
+
 appPort: 32000
 
-namespace: mapgis-xxx
+namespace: mapgis-cloud-xxx
 
 imageRegistry: 
 imageNamespace: mapgis
 imageNfsClientProvisioner: sig-storage/nfs-subdir-external-provisioner:v4.0.2
-imageRepository: xxx
-imageTag: "1.0"
+imageNacos: nacos/nacos-server
+imageRedis: redis
+imageMySQL: xxx-mysql:1.0
+imageGateway: xxx-gateway:1.0
+imageMonitor: xxx-monitor:1.0 
+imageAuth: xxx-auth:1.0
+imageSystem: xxx-system:1.0
+imageFile: xxx-file:1.0
+imageJob: xxx-job:1.0
 imagePullPolicy: IfNotPresent
 imagePullSecret: 
 
@@ -23,3 +32,6 @@ nfsStorageClassName:
 
 resourceCpuLimit: 2
 resourceMemoryLimit: 4Gi
+
+dbName: mapgis-cloud-xxx
+configDbName: mapgis-cloud-config

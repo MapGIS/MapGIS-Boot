@@ -1,0 +1,121 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "mapgis.fullname" . }}-nacos
+  labels:
+    {{- include "mapgis.labels" . | nindent 4 }}-nacos
+    {{- include "mapgis.kindLabel" . | nindent 4 }}
+spec:
+  selector:
+    matchLabels:
+      {{- include "mapgis.selectorLabels" . | nindent 6 }}-nacos
+  replicas: 1
+  strategy: 
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        {{- include "mapgis.selectorLabels" . | nindent 8 }}-nacos
+    spec:
+      containers:
+      - name: {{ include "mapgis.fullname" . }}-nacos
+        image: {{ include "mapgis.imageRegistry" . }}/{{ include "mapgis.imageNacos" . }}
+        imagePullPolicy: IfNotPresent
+        resources:
+          requests:
+            cpu: 200m
+            memory: 500Mi
+          limits:
+            cpu: 500m
+            memory: 1Gi
+        readinessProbe:
+          httpGet:
+            path: /nacos/v1/ns/instance/list?serviceName=nacos
+            port: 8848
+            scheme: HTTP
+          initialDelaySeconds: 30
+          timeoutSeconds: 20
+          successThreshold: 1
+          failureThreshold: 5
+          periodSeconds: 30
+        livenessProbe:
+          httpGet:
+            path: /nacos/v1/ns/instance/list?serviceName=nacos
+            port: 8848
+            scheme: HTTP
+          initialDelaySeconds: 30
+          timeoutSeconds: 20
+          successThreshold: 1
+          failureThreshold: 5
+          periodSeconds: 30
+        ports:
+        - containerPort: 8848
+          name: http
+        - containerPort: 9848
+          name: client-rpc
+        - containerPort: 9849
+          name: raft-rpc
+        env:
+        - name: MODE
+          value: standalone
+        - name: SPRING_DATASOURCE_PLATFORM
+          value: mysql
+        - name: MYSQL_SERVICE_HOST
+          value: {{ include "mapgis.fullname" . }}-mysql
+        - name: MYSQL_SERVICE_PORT
+          value: '3306'
+        - name: MYSQL_SERVICE_DB_NAME
+          value: {{ include "mapgis.configDbName" . }}
+        - name: MYSQL_SERVICE_USER
+          value: root
+        - name: MYSQL_SERVICE_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: {{ include "mapgis.fullname" . }}-secret
+              key: mapgis.mysql.root.password
+        volumeMounts:
+        - name: {{ include "mapgis.fullname" . }}-nacos-logs
+          mountPath: /home/nacos/logs
+      restartPolicy: Always
+      volumes:
+      - name: {{ include "mapgis.fullname" . }}-nacos-logs
+        persistentVolumeClaim: 
+          claimName: pvc-{{ include "mapgis.fullname" . }}-nacos-logs
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "mapgis.fullname" . }}-nacos
+  labels:
+    {{- include "mapgis.kindLabel" . | nindent 4 }}
+spec:
+  selector:
+    {{- include "mapgis.selectorLabels" . | nindent 4 }}-nacos
+  type: NodePort
+  ports:
+  - name: http
+    protocol: TCP
+    port: 8848
+    targetPort: 8848
+  - name: client-rpc
+    protocol: TCP
+    port: 9848
+    targetPort: 9848
+  - name: raft-rpc
+    protocol: TCP
+    port: 9849
+    targetPort: 9849
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: pvc-{{ include "mapgis.fullname" . }}-nacos-logs
+  labels:
+    {{- include "mapgis.kindLabel" . | nindent 4 }}
+spec:
+  storageClassName: {{ include "mapgis.nfsStorageClassName" . }}
+  accessModes:
+  - ReadWriteMany
+  resources:
+    requests:
+      storage: 500Mi

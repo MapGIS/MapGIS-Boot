@@ -21,12 +21,12 @@ spec:
         image: {{ include "mapgis.imageRegistry" . }}/{{ include "mapgis.imageNamespace" . }}/{{ include "mapgis.imageRepository" . }}:{{ include "mapgis.imageTag" . }}
         imagePullPolicy: {{ include "mapgis.imagePullPolicy" . }}
         resources:
-          limits:
-            cpu: {{ include "mapgis.resourceCpuLimit" . }}
-            memory: {{ include "mapgis.resourceMemoryLimit" . }}
           requests:
             cpu: 1
             memory: 2Gi
+          limits:
+            cpu: {{ include "mapgis.resourceCpuLimit" . }}
+            memory: {{ include "mapgis.resourceMemoryLimit" . }}
         livenessProbe:
           httpGet:
             port: 8080
@@ -89,13 +89,12 @@ metadata:
   labels:
     {{- include "mapgis.kindLabel" . | nindent 4 }}
 spec:
-  storageClassName: {{ template "mapgis.nfsStorageClassName" . }}
+  storageClassName: {{ include "mapgis.nfsStorageClassName" . }}
   accessModes:
   - ReadWriteMany
   resources:
     requests:
       storage: 2Gi
----
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -104,7 +103,7 @@ metadata:
   labels:
     {{- include "mapgis.kindLabel" . | nindent 4 }}
 spec:
-  storageClassName: {{ template "mapgis.nfsStorageClassName" . }}
+  storageClassName: {{ include "mapgis.nfsStorageClassName" . }}
   accessModes:
   - ReadWriteMany
   resources:
@@ -118,7 +117,7 @@ metadata:
   labels:
     {{- include "mapgis.kindLabel" . | nindent 4 }}
 spec:
-  storageClassName: {{ template "mapgis.nfsStorageClassName" . }}
+  storageClassName: {{ include "mapgis.nfsStorageClassName" . }}
   accessModes:
   - ReadWriteMany
   resources:

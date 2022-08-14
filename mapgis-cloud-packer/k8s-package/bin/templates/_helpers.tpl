@@ -63,12 +63,68 @@ Image
   {{ .Values.imageNfsClientProvisioner | default "sig-storage/nfs-subdir-external-provisioner:v4.0.2" }}
 {{- end -}}
 
-{{- define "mapgis.imageRepository" -}}
-  {{ .Values.imageRepository | default ( include "mapgis.name" . ) }}
+{{- define "mapgis.imageNacos" -}}
+  {{ .Values.imageNacos | default "nacos/nacos-server" }}
 {{- end -}}
 
-{{- define "mapgis.imageTag" -}}
-  {{ .Values.imageTag | default "1.0" }}
+{{- define "mapgis.imageRedis" -}}
+  {{ .Values.imageRedis | default "redis" }}
+{{- end -}}
+
+{{- define "mapgis.imageMySQL" -}}
+  {{- if .Values.imageMySQL -}}
+    {{ .Values.imageMySQL }}
+  {{- else -}}
+    {{ include "mapgis.name" . }}-mysql:1.0
+  {{- end -}}
+{{- end -}}
+
+{{- define "mapgis.imageGateway" -}}
+  {{- if .Values.imageGateway -}}
+    {{ .Values.imageGateway }}
+  {{- else -}}
+    {{ include "mapgis.name" . }}-gateway:1.0
+  {{- end -}}
+{{- end -}}
+
+{{- define "mapgis.imageMonitor" -}}
+  {{- if .Values.imageMonitor -}}
+    {{ .Values.imageMonitor }}
+  {{- else -}}
+    {{ include "mapgis.name" . }}-monitor:1.0
+  {{- end -}}
+{{- end -}}
+
+{{- define "mapgis.imageAuth" -}}
+  {{- if .Values.imageAuth -}}
+    {{ .Values.imageAuth }}
+  {{- else -}}
+    {{ include "mapgis.name" . }}-auth:1.0
+  {{- end -}}
+{{- end -}}
+
+{{- define "mapgis.imageSystem" -}}
+  {{- if .Values.imageSystem -}}
+    {{ .Values.imageSystem }}
+  {{- else -}}
+    {{ include "mapgis.name" . }}-system:1.0
+  {{- end -}}
+{{- end -}}
+
+{{- define "mapgis.imageFile" -}}
+  {{- if .Values.imageFile -}}
+    {{ .Values.imageFile }}
+  {{- else -}}
+    {{ include "mapgis.name" . }}-file:1.0
+  {{- end -}}
+{{- end -}}
+
+{{- define "mapgis.imageJob" -}}
+  {{- if .Values.imageJob -}}
+    {{ .Values.imageJob }}
+  {{- else -}}
+    {{ include "mapgis.name" . }}-job:1.0
+  {{- end -}}
 {{- end -}}
 
 {{- define "mapgis.imagePullPolicy" -}}
@@ -110,4 +166,19 @@ Resources
 
 {{- define "mapgis.resourceMemoryLimit" -}}
   {{ .Values.resourceMemoryLimit | default "4Gi" }}
+{{- end -}}
+
+{{/*
+Database Name
+*/}}
+{{- define "mapgis.dbName" -}}
+  {{- if .Values.dbName -}}
+    {{ .Values.dbName }}
+  {{- else -}}
+    mapgis-cloud-{{ include "mapgis.name" . }}
+  {{- end -}}
+{{- end -}}
+
+{{- define "mapgis.configDbName" -}}
+  {{ .Values.configDbName | default "mapgis-cloud-config" }}
 {{- end -}}

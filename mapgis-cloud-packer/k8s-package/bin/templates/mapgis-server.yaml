@@ -1,0 +1,650 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "mapgis.fullname" . }}-gateway
+  labels:
+    {{- include "mapgis.labels" . | nindent 4 }}-gateway
+    {{- include "mapgis.kindLabel" . | nindent 4 }}
+spec:
+  selector:
+    matchLabels:
+      {{- include "mapgis.selectorLabels" . | nindent 6 }}-gateway
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        {{- include "mapgis.selectorLabels" . | nindent 8 }}-gateway
+    spec:
+      {{ include "mapgis.imagePullSecret" . }}
+      containers:
+      - name: {{ include "mapgis.fullname" . }}-gateway
+        image: {{ include "mapgis.imageRegistry" . }}/{{ include "mapgis.imageNamespace" . }}/{{ include "mapgis.imageGateway" . }}
+        imagePullPolicy: {{ include "mapgis.imagePullPolicy" . }}
+        resources:
+          requests:
+            cpu: 500m
+            memory: 500Mi
+          limits:
+            cpu: {{ include "mapgis.resourceCpuLimit" . }}
+            memory: {{ include "mapgis.resourceMemoryLimit" . }}
+        readinessProbe:
+          httpGet:
+            path: /actuator/health
+            port: 8080
+            scheme: HTTP
+          initialDelaySeconds: 20
+          timeoutSeconds: 20
+          successThreshold: 1
+          failureThreshold: 5
+          periodSeconds: 30
+        livenessProbe:
+          httpGet:
+            path: /actuator/health
+            port: 8080
+            scheme: HTTP
+          initialDelaySeconds: 20
+          timeoutSeconds: 20
+          successThreshold: 1
+          failureThreshold: 5
+          periodSeconds: 30
+        ports:
+        - containerPort: 8080
+          name: http
+        env:
+        - name: NACOS_HOST
+          value: {{ include "mapgis.fullname" . }}-nacos
+        - name: NACOS_PORT
+          value: '8848'
+        - name: REDIS_HOST
+          value: {{ include "mapgis.fullname" . }}-redis
+        - name: REDIS_PORT
+          value: '6379'
+        - name: REDIS_PWD
+          valueFrom:
+            secretKeyRef:
+              name: {{ include "mapgis.fullname" . }}-secret
+              key: mapgis.redis.password
+        volumeMounts:
+        - name: {{ include "mapgis.fullname" . }}-gateway-logs
+          mountPath: /mapgis/logs
+      restartPolicy: Always
+      volumes:
+      - name: {{ include "mapgis.fullname" . }}-gateway-logs
+        persistentVolumeClaim: 
+          claimName: pvc-{{ include "mapgis.fullname" . }}-gateway-logs
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "mapgis.fullname" . }}-monitor
+  labels:
+    {{- include "mapgis.labels" . | nindent 4 }}-monitor
+    {{- include "mapgis.kindLabel" . | nindent 4 }}
+spec:
+  selector:
+    matchLabels:
+      {{- include "mapgis.selectorLabels" . | nindent 6 }}-monitor
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        {{- include "mapgis.selectorLabels" . | nindent 8 }}-monitor
+    spec:
+      {{ include "mapgis.imagePullSecret" . }}
+      containers:
+      - name: {{ include "mapgis.fullname" . }}-monitor
+        image: {{ include "mapgis.imageRegistry" . }}/{{ include "mapgis.imageNamespace" . }}/{{ include "mapgis.imageMonitor" . }}
+        imagePullPolicy: {{ include "mapgis.imagePullPolicy" . }}
+        resources:
+          requests:
+            cpu: 100m
+            memory: 200Mi
+          limits:
+            cpu: {{ include "mapgis.resourceCpuLimit" . }}
+            memory: {{ include "mapgis.resourceMemoryLimit" . }}
+        readinessProbe:
+          httpGet:
+            path: /actuator/health
+            port: 9200
+            scheme: HTTP
+          initialDelaySeconds: 20
+          timeoutSeconds: 20
+          successThreshold: 1
+          failureThreshold: 5
+          periodSeconds: 30
+        livenessProbe:
+          httpGet:
+            path: /actuator/health
+            port: 9200
+            scheme: HTTP
+          initialDelaySeconds: 20
+          timeoutSeconds: 20
+          successThreshold: 1
+          failureThreshold: 5
+          periodSeconds: 30
+        ports:
+        - containerPort: 9200
+          name: http
+        env:
+        - name: NACOS_HOST
+          value: {{ include "mapgis.fullname" . }}-nacos
+        - name: NACOS_PORT
+          value: '8848'
+        volumeMounts:
+        - name: {{ include "mapgis.fullname" . }}-monitor-logs
+          mountPath: /mapgis/logs
+      restartPolicy: Always
+      volumes:
+      - name: {{ include "mapgis.fullname" . }}-monitor-logs
+        persistentVolumeClaim: 
+          claimName: pvc-{{ include "mapgis.fullname" . }}-monitor-logs
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "mapgis.fullname" . }}-auth
+  labels:
+    {{- include "mapgis.labels" . | nindent 4 }}-auth
+    {{- include "mapgis.kindLabel" . | nindent 4 }}
+spec:
+  selector:
+    matchLabels:
+      {{- include "mapgis.selectorLabels" . | nindent 6 }}-auth
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        {{- include "mapgis.selectorLabels" . | nindent 8 }}-auth
+    spec:
+      {{ include "mapgis.imagePullSecret" . }}
+      containers:
+      - name: {{ include "mapgis.fullname" . }}-auth
+        image: {{ include "mapgis.imageRegistry" . }}/{{ include "mapgis.imageNamespace" . }}/{{ include "mapgis.imageAuth" . }}
+        imagePullPolicy: {{ include "mapgis.imagePullPolicy" . }}
+        resources:
+          requests:
+            cpu: 100m
+            memory: 200Mi
+          limits:
+            cpu: {{ include "mapgis.resourceCpuLimit" . }}
+            memory: {{ include "mapgis.resourceMemoryLimit" . }}
+        readinessProbe:
+          httpGet:
+            path: /actuator/health
+            port: 10000
+            scheme: HTTP
+          initialDelaySeconds: 20
+          timeoutSeconds: 20
+          successThreshold: 1
+          failureThreshold: 5
+          periodSeconds: 30
+        livenessProbe:
+          httpGet:
+            path: /actuator/health
+            port: 10000
+            scheme: HTTP
+          initialDelaySeconds: 20
+          timeoutSeconds: 20
+          successThreshold: 1
+          failureThreshold: 5
+          periodSeconds: 30
+        ports:
+        - containerPort: 10000
+          name: http
+        env:
+        - name: NACOS_HOST
+          value: {{ include "mapgis.fullname" . }}-nacos
+        - name: NACOS_PORT
+          value: '8848'
+        - name: GATEWAY_PUBLIC_HOST
+          value: {{ .Values.k8sPublicIp }}
+        - name: GATEWAY_PUBLIC_PORT
+          value: '32000'
+        - name: REDIS_HOST
+          value: {{ include "mapgis.fullname" . }}-redis
+        - name: REDIS_PORT
+          value: '6379'
+        - name: REDIS_PWD
+          valueFrom:
+            secretKeyRef:
+              name: {{ include "mapgis.fullname" . }}-secret
+              key: mapgis.redis.password
+        volumeMounts:
+        - name: {{ include "mapgis.fullname" . }}-auth-logs
+          mountPath: /mapgis/logs
+      restartPolicy: Always
+      volumes:
+      - name: {{ include "mapgis.fullname" . }}-auth-logs
+        persistentVolumeClaim: 
+          claimName: pvc-{{ include "mapgis.fullname" . }}-auth-logs
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "mapgis.fullname" . }}-system
+  labels:
+    {{- include "mapgis.labels" . | nindent 4 }}-system
+    {{- include "mapgis.kindLabel" . | nindent 4 }}
+spec:
+  selector:
+    matchLabels:
+      {{- include "mapgis.selectorLabels" . | nindent 6 }}-system
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        {{- include "mapgis.selectorLabels" . | nindent 8 }}-system
+    spec:
+      {{ include "mapgis.imagePullSecret" . }}
+      containers:
+      - name: {{ include "mapgis.fullname" . }}-system
+        image: {{ include "mapgis.imageRegistry" . }}/{{ include "mapgis.imageNamespace" . }}/{{ include "mapgis.imageSystem" . }}
+        imagePullPolicy: {{ include "mapgis.imagePullPolicy" . }}
+        resources:
+          requests:
+            cpu: 100m
+            memory: 500Mi
+          limits:
+            cpu: {{ include "mapgis.resourceCpuLimit" . }}
+            memory: {{ include "mapgis.resourceMemoryLimit" . }}
+        readinessProbe:
+          httpGet:
+            path: /actuator/health
+            port: 11000
+            scheme: HTTP
+          initialDelaySeconds: 20
+          timeoutSeconds: 20
+          successThreshold: 1
+          failureThreshold: 5
+          periodSeconds: 30
+        livenessProbe:
+          httpGet:
+            path: /actuator/health
+            port: 11000
+            scheme: HTTP
+          initialDelaySeconds: 20
+          timeoutSeconds: 20
+          successThreshold: 1
+          failureThreshold: 5
+          periodSeconds: 30
+        ports:
+        - containerPort: 11000
+          name: http
+        env:
+        - name: NACOS_HOST
+          value: {{ include "mapgis.fullname" . }}-nacos
+        - name: NACOS_PORT
+          value: '8848'
+        - name: GATEWAY_PUBLIC_HOST
+          value: {{ .Values.k8sPublicIp }}
+        - name: GATEWAY_PUBLIC_PORT
+          value: '32000'
+        - name: REDIS_HOST
+          value: {{ include "mapgis.fullname" . }}-redis
+        - name: REDIS_PORT
+          value: '6379'
+        - name: REDIS_PWD
+          valueFrom:
+            secretKeyRef:
+              name: {{ include "mapgis.fullname" . }}-secret
+              key: mapgis.redis.password
+        - name: MYSQL_HOST
+          value: {{ include "mapgis.fullname" . }}-mysql
+        - name: MYSQL_PORT
+          value: '3306'
+        - name: MYSQL_DB
+          value: {{ include "mapgis.dbName" . }}
+        - name: MYSQL_USER
+          value: root
+        - name: MYSQL_PWD
+          valueFrom:
+            secretKeyRef:
+              name: {{ include "mapgis.fullname" . }}-secret
+              key: mapgis.mysql.root.password
+        volumeMounts:
+        - name: {{ include "mapgis.fullname" . }}-system-logs
+          mountPath: /mapgis/logs
+      restartPolicy: Always
+      volumes:
+      - name: {{ include "mapgis.fullname" . }}-system-logs
+        persistentVolumeClaim: 
+          claimName: pvc-{{ include "mapgis.fullname" . }}-system-logs
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "mapgis.fullname" . }}-file
+  labels:
+    {{- include "mapgis.labels" . | nindent 4 }}-file
+    {{- include "mapgis.kindLabel" . | nindent 4 }}
+spec:
+  selector:
+    matchLabels:
+      {{- include "mapgis.selectorLabels" . | nindent 6 }}-file
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        {{- include "mapgis.selectorLabels" . | nindent 8 }}-file
+    spec:
+      {{ include "mapgis.imagePullSecret" . }}
+      containers:
+      - name: {{ include "mapgis.fullname" . }}-file
+        image: {{ include "mapgis.imageRegistry" . }}/{{ include "mapgis.imageNamespace" . }}/{{ include "mapgis.imageFile" . }}
+        imagePullPolicy: {{ include "mapgis.imagePullPolicy" . }}
+        resources:
+          requests:
+            cpu: 100m
+            memory: 200Mi
+          limits:
+            cpu: {{ include "mapgis.resourceCpuLimit" . }}
+            memory: {{ include "mapgis.resourceMemoryLimit" . }}
+        readinessProbe:
+          httpGet:
+            path: /actuator/health
+            port: 12000
+            scheme: HTTP
+          initialDelaySeconds: 20
+          timeoutSeconds: 20
+          successThreshold: 1
+          failureThreshold: 5
+          periodSeconds: 30
+        livenessProbe:
+          httpGet:
+            path: /actuator/health
+            port: 12000
+            scheme: HTTP
+          initialDelaySeconds: 20
+          timeoutSeconds: 20
+          successThreshold: 1
+          failureThreshold: 5
+          periodSeconds: 30
+        ports:
+        - containerPort: 12000
+          name: http
+        env:
+        - name: NACOS_HOST
+          value: {{ include "mapgis.fullname" . }}-nacos
+        - name: NACOS_PORT
+          value: '8848'
+        - name: GATEWAY_PUBLIC_HOST
+          value: {{ .Values.k8sPublicIp }}
+        - name: GATEWAY_PUBLIC_PORT
+          value: '32000'
+        volumeMounts:
+        - name: {{ include "mapgis.fullname" . }}-file-logs
+          mountPath: /mapgis/logs
+      restartPolicy: Always
+      volumes:
+      - name: {{ include "mapgis.fullname" . }}-file-logs
+        persistentVolumeClaim: 
+          claimName: pvc-{{ include "mapgis.fullname" . }}-file-logs
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "mapgis.fullname" . }}-job
+  labels:
+    {{- include "mapgis.labels" . | nindent 4 }}-job
+    {{- include "mapgis.kindLabel" . | nindent 4 }}
+spec:
+  selector:
+    matchLabels:
+      {{- include "mapgis.selectorLabels" . | nindent 6 }}-job
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        {{- include "mapgis.selectorLabels" . | nindent 8 }}-job
+    spec:
+      {{ include "mapgis.imagePullSecret" . }}
+      containers:
+      - name: {{ include "mapgis.fullname" . }}-job
+        image: {{ include "mapgis.imageRegistry" . }}/{{ include "mapgis.imageNamespace" . }}/{{ include "mapgis.imageJob" . }}
+        imagePullPolicy: {{ include "mapgis.imagePullPolicy" . }}
+        resources:
+          requests:
+            cpu: 100m
+            memory: 500Mi
+          limits:
+            cpu: {{ include "mapgis.resourceCpuLimit" . }}
+            memory: {{ include "mapgis.resourceMemoryLimit" . }}
+        readinessProbe:
+          httpGet:
+            path: /actuator/health
+            port: 13000
+            scheme: HTTP
+          initialDelaySeconds: 20
+          timeoutSeconds: 20
+          successThreshold: 1
+          failureThreshold: 5
+          periodSeconds: 30
+        livenessProbe:
+          httpGet:
+            path: /actuator/health
+            port: 13000
+            scheme: HTTP
+          initialDelaySeconds: 20
+          timeoutSeconds: 20
+          successThreshold: 1
+          failureThreshold: 5
+          periodSeconds: 30
+        ports:
+        - containerPort: 13000
+          name: http
+        env:
+        - name: NACOS_HOST
+          value: {{ include "mapgis.fullname" . }}-nacos
+        - name: NACOS_PORT
+          value: '8848'
+        - name: GATEWAY_PUBLIC_HOST
+          value: {{ .Values.k8sPublicIp }}
+        - name: GATEWAY_PUBLIC_PORT
+          value: '32000'
+        - name: REDIS_HOST
+          value: {{ include "mapgis.fullname" . }}-redis
+        - name: REDIS_PORT
+          value: '6379'
+        - name: REDIS_PWD
+          valueFrom:
+            secretKeyRef:
+              name: {{ include "mapgis.fullname" . }}-secret
+              key: mapgis.redis.password
+        - name: MYSQL_HOST
+          value: {{ include "mapgis.fullname" . }}-mysql
+        - name: MYSQL_PORT
+          value: '3306'
+        - name: MYSQL_DB
+          value: {{ include "mapgis.dbName" . }}
+        - name: MYSQL_USER
+          value: root
+        - name: MYSQL_PWD
+          valueFrom:
+            secretKeyRef:
+              name: {{ include "mapgis.fullname" . }}-secret
+              key: mapgis.mysql.root.password
+        volumeMounts:
+        - name: {{ include "mapgis.fullname" . }}-job-logs
+          mountPath: /mapgis/logs
+      restartPolicy: Always
+      volumes:
+      - name: {{ include "mapgis.fullname" . }}-job-logs
+        persistentVolumeClaim: 
+          claimName: pvc-{{ include "mapgis.fullname" . }}-job-logs
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "mapgis.fullname" . }}-gateway
+  labels:
+    {{- include "mapgis.kindLabel" . | nindent 4 }}
+spec:
+  selector:
+    {{- include "mapgis.selectorLabels" . | nindent 4 }}-gateway
+  type: NodePort
+  ports:
+  - name: http
+    protocol: TCP
+    port: 8080
+    targetPort: 8080
+    nodePort: {{ include "mapgis.appPort" . }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "mapgis.fullname" . }}-monitor
+  labels:
+    {{- include "mapgis.kindLabel" . | nindent 4 }}
+spec:
+  selector:
+    {{- include "mapgis.selectorLabels" . | nindent 4 }}-monitor
+  type: NodePort
+  ports:
+  - name: http
+    protocol: TCP
+    port: 9200
+    targetPort: 9200
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "mapgis.fullname" . }}-auth
+  labels:
+    {{- include "mapgis.kindLabel" . | nindent 4 }}
+spec:
+  selector:
+    {{- include "mapgis.selectorLabels" . | nindent 4 }}-auth
+  ports:
+  - name: http
+    protocol: TCP
+    port: 10000
+    targetPort: 10000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "mapgis.fullname" . }}-system
+  labels:
+    {{- include "mapgis.kindLabel" . | nindent 4 }}
+spec:
+  selector:
+    {{- include "mapgis.selectorLabels" . | nindent 4 }}-system
+  ports:
+  - name: http
+    protocol: TCP
+    port: 11000
+    targetPort: 11000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "mapgis.fullname" . }}-file
+  labels:
+    {{- include "mapgis.kindLabel" . | nindent 4 }}
+spec:
+  selector:
+    {{- include "mapgis.selectorLabels" . | nindent 4 }}-file
+  ports:
+  - name: http
+    protocol: TCP
+    port: 12000
+    targetPort: 12000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "mapgis.fullname" . }}-job
+  labels:
+    {{- include "mapgis.kindLabel" . | nindent 4 }}
+spec:
+  selector:
+    {{- include "mapgis.selectorLabels" . | nindent 4 }}-job
+  ports:
+  - name: http
+    protocol: TCP
+    port: 13000
+    targetPort: 13000
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: pvc-{{ include "mapgis.fullname" . }}-gateway-logs
+  labels:
+    {{- include "mapgis.kindLabel" . | nindent 4 }}
+spec:
+  storageClassName: {{ include "mapgis.nfsStorageClassName" . }}
+  accessModes:
+  - ReadWriteMany
+  resources:
+    requests:
+      storage: 500Mi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: pvc-{{ include "mapgis.fullname" . }}-monitor-logs
+  labels:
+    {{- include "mapgis.kindLabel" . | nindent 4 }}
+spec:
+  storageClassName: {{ include "mapgis.nfsStorageClassName" . }}
+  accessModes:
+  - ReadWriteMany
+  resources:
+    requests:
+      storage: 500Mi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: pvc-{{ include "mapgis.fullname" . }}-auth-logs
+  labels:
+    {{- include "mapgis.kindLabel" . | nindent 4 }}
+spec:
+  storageClassName: {{ include "mapgis.nfsStorageClassName" . }}
+  accessModes:
+  - ReadWriteMany
+  resources:
+    requests:
+      storage: 500Mi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: pvc-{{ include "mapgis.fullname" . }}-system-logs
+  labels:
+    {{- include "mapgis.kindLabel" . | nindent 4 }}
+spec:
+  storageClassName: {{ include "mapgis.nfsStorageClassName" . }}
+  accessModes:
+  - ReadWriteMany
+  resources:
+    requests:
+      storage: 500Mi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: pvc-{{ include "mapgis.fullname" . }}-file-logs
+  labels:
+    {{- include "mapgis.kindLabel" . | nindent 4 }}
+spec:
+  storageClassName: {{ include "mapgis.nfsStorageClassName" . }}
+  accessModes:
+  - ReadWriteMany
+  resources:
+    requests:
+      storage: 500Mi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: pvc-{{ include "mapgis.fullname" . }}-job-logs
+  labels:
+    {{- include "mapgis.kindLabel" . | nindent 4 }}
+spec:
+  storageClassName: {{ include "mapgis.nfsStorageClassName" . }}
+  accessModes:
+  - ReadWriteMany
+  resources:
+    requests:
+      storage: 500Mi
