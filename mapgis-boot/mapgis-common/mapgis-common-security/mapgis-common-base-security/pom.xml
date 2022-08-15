@@ -17,6 +17,12 @@
     </properties>
 
     <dependencies>
+        <!-- Java Servlet -->
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+        </dependency>
+
         <!-- MapGIS System Base Api -->
         <dependency>
             <groupId>com.zondy.mapgis</groupId>
@@ -27,11 +33,6 @@
         <dependency>
             <groupId>com.zondy.mapgis</groupId>
             <artifactId>mapgis-common-base-cache</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>javax.servlet-api</artifactId>
         </dependency>
     </dependencies>
 </project>

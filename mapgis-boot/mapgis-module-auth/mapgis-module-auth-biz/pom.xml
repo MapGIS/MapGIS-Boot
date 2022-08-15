@@ -17,10 +17,12 @@
     </properties>
 
     <dependencies>
+        <!-- Hibernate Validator -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-validation</artifactId>
         </dependency>
+
         <!-- freemarker -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -45,17 +47,17 @@
             <artifactId>spring-security-cas</artifactId>
         </dependency>
 
-        <!-- 全局前缀模块 -->
-        <dependency>
-            <groupId>com.zondy.mapgis</groupId>
-            <artifactId>mapgis-common-controllerprefix</artifactId>
-        </dependency>
-
-        <!-- 生成config元数据，仅编译时需要-->
+        <!-- 生成config元数据，仅编译时需要 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-configuration-processor</artifactId>
             <optional>true</optional>
+        </dependency>
+
+        <!-- 全局前缀模块 -->
+        <dependency>
+            <groupId>com.zondy.mapgis</groupId>
+            <artifactId>mapgis-common-controllerprefix</artifactId>
         </dependency>
     </dependencies>
 

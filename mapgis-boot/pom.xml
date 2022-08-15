@@ -450,7 +450,8 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
-        <!--编译需要，运行不需要-->
+
+        <!-- lombok 编译需要，运行不需要 -->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>

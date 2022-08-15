@@ -55,7 +55,7 @@
             <artifactId>jackson-databind</artifactId>
         </dependency>
 
-        <!-- Jwt -->
+        <!-- JWT -->
         <dependency>
             <groupId>io.jsonwebtoken</groupId>
             <artifactId>jjwt</artifactId>
@@ -101,7 +101,7 @@
             <optional>true</optional>
         </dependency>
 
-        <!-- 生成config元数据，仅编译时需要-->
+        <!-- 生成config元数据，仅编译时需要 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-configuration-processor</artifactId>

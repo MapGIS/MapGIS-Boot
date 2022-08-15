@@ -17,18 +17,22 @@
     </properties>
 
     <dependencies>
-        <!-- 核心模块 -->
-        <dependency>
-            <groupId>com.zondy.mapgis</groupId>
-            <artifactId>mapgis-common-core</artifactId>
-        </dependency>
+        <!-- swagger annotations-->
         <dependency>
             <groupId>io.swagger.core.v3</groupId>
             <artifactId>swagger-annotations</artifactId>
         </dependency>
+
+        <!-- 数据校验 -->
         <dependency>
             <groupId>jakarta.validation</groupId>
             <artifactId>jakarta.validation-api</artifactId>
+        </dependency>
+
+        <!-- 核心模块 -->
+        <dependency>
+            <groupId>com.zondy.mapgis</groupId>
+            <artifactId>mapgis-common-core</artifactId>
         </dependency>
     </dependencies>
 </project>

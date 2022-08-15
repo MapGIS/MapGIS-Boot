@@ -17,12 +17,6 @@
     </properties>
 
     <dependencies>
-        <!-- MapGIS Common Base Cache -->
-        <dependency>
-            <groupId>com.zondy.mapgis</groupId>
-            <artifactId>mapgis-common-base-cache</artifactId>
-        </dependency>
-
         <!-- 验证码 -->
         <dependency>
             <groupId>com.github.penggle</groupId>
@@ -34,16 +28,24 @@
                 </exclusion>
             </exclusions>
         </dependency>
+
+        <!-- swagger annotations-->
         <dependency>
             <groupId>io.swagger.core.v3</groupId>
             <artifactId>swagger-annotations</artifactId>
         </dependency>
 
-        <!-- 生成config元数据，仅编译时需要-->
+        <!-- 生成config元数据，仅编译时需要 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-configuration-processor</artifactId>
             <optional>true</optional>
+        </dependency>
+
+        <!-- MapGIS Common Base Cache -->
+        <dependency>
+            <groupId>com.zondy.mapgis</groupId>
+            <artifactId>mapgis-common-base-cache</artifactId>
         </dependency>
     </dependencies>
 </project>
