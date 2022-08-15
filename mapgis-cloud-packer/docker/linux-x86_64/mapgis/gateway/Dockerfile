@@ -1,5 +1,5 @@
 # 基础镜像
-FROM 192.168.177.1:5000/mapgis/java:8
+FROM 192.168.177.1:5000/mapgis/openjdk:8u342-jre
 
 # author
 LABEL author="mapgis"
