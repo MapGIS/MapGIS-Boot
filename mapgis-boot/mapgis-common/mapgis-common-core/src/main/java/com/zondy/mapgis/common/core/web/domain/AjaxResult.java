@@ -5,6 +5,7 @@ import com.zondy.mapgis.common.core.utils.StringUtils;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 import java.util.HashMap;
+import java.util.Objects;
 
 /**
  * 操作消息提醒
@@ -64,19 +65,6 @@ public class AjaxResult extends HashMap<String, Object> {
         if (StringUtils.isNotNull(data)) {
             super.put(DATA_TAG, data);
         }
-    }
-
-    /**
-     * 方便链式调用
-     *
-     * @param key
-     * @param value
-     * @return
-     */
-    @Override
-    public AjaxResult put(String key, Object value) {
-        super.put(key, value);
-        return this;
     }
 
     /**
@@ -157,5 +145,36 @@ public class AjaxResult extends HashMap<String, Object> {
      */
     public static AjaxResult error(int code, String msg) {
         return new AjaxResult(code, msg, null);
+    }
+
+    /**
+     * 是否为成功消息
+     *
+     * @return 结果
+     */
+    public boolean isSuccess() {
+        return !isError();
+    }
+
+    /**
+     * 是否为错误消息
+     *
+     * @return 结果
+     */
+    public boolean isError() {
+        return Objects.equals(HttpStatus.SUCCESS, this.get(CODE_TAG));
+    }
+
+    /**
+     * 方便链式调用
+     *
+     * @param key
+     * @param value
+     * @return
+     */
+    @Override
+    public AjaxResult put(String key, Object value) {
+        super.put(key, value);
+        return this;
     }
 }

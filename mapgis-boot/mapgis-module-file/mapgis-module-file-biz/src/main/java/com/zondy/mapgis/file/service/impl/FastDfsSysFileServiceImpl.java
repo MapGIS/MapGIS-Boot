@@ -2,8 +2,8 @@ package com.zondy.mapgis.file.service.impl;
 
 import com.github.tobato.fastdfs.domain.fdfs.StorePath;
 import com.github.tobato.fastdfs.service.FastFileStorageClient;
+import com.zondy.mapgis.common.core.utils.file.FileTypeUtils;
 import com.zondy.mapgis.file.service.IFileStorageService;
-import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.multipart.MultipartFile;
@@ -34,7 +34,7 @@ public class FastDfsSysFileServiceImpl implements IFileStorageService {
     @Override
     public String uploadFile(MultipartFile file) throws Exception {
         StorePath storePath = storageClient.uploadFile(file.getInputStream(), file.getSize(),
-                FilenameUtils.getExtension(file.getOriginalFilename()), null);
+                FileTypeUtils.getExtension(file), null);
         return domain + "/" + storePath.getFullPath();
     }
 }

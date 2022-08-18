@@ -61,6 +61,9 @@
         <a-button type="danger" @click="handleClean" v-hasPermi="['system:logininfor:remove']">
           <a-icon type="delete" />清空
         </a-button>
+        <a-button type="primary" @click="handleUnlock" v-hasPermi="['system:logininfor:unlock']" :disabled="single">
+          <a-icon type="delete" />解锁
+        </a-button>
         <a-button type="primary" @click="handleExport" v-hasPermi="['system:logininfor:export']">
           <a-icon type="download" />导出
         </a-button>
@@ -108,7 +111,7 @@
 </template>
 
 <script>
-import { list, delLogininfor, cleanLogininfor } from '@/api/system/logininfor'
+import { list, delLogininfor, cleanLogininfor, unlockLogininfor } from '@/api/system/logininfor'
 import { tableMixin } from '@/store/table-mixin'
 
 export default {
@@ -123,8 +126,12 @@ export default {
       // 高级搜索 展开/关闭
       advanced: false,
       loading: false,
+      // 非单个禁用
+      single: true,
       // 非多个禁用
       multiple: true,
+      // 选择用户名
+      selectName: '',
       ids: [],
       total: 0,
       // 状态数据字典
@@ -249,6 +256,8 @@ export default {
       this.selectedRows = selectedRows
       this.ids = this.selectedRows.map(item => item.infoId)
       this.multiple = !selectedRowKeys.length
+      this.single = selectedRowKeys.length !== 1
+      this.selectName = selectedRows.map(item => item.userName)
     },
     toggleAdvanced() {
       this.advanced = !this.advanced
@@ -282,6 +291,22 @@ export default {
             that.getList()
             that.$message.success('清空成功', 3)
           })
+        },
+        onCancel() {}
+      })
+    },
+    /** 解锁按钮操作 */
+    handleUnlock() {
+      var that = this
+      const username = this.selectName
+      this.$confirm({
+        title: '是否确认解锁用户"' + username + '"数据项?',
+        onOk() {
+          return unlockLogininfor(username)
+            .then(() => {
+              that.$message.success('用户' + username + '解锁成功', 3)
+            })
+            .catch(() => {})
         },
         onCancel() {}
       })

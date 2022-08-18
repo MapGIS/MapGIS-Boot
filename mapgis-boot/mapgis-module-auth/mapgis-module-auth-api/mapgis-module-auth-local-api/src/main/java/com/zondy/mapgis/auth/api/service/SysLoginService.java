@@ -14,6 +14,7 @@ import com.zondy.mapgis.common.core.utils.ServletUtils;
 import com.zondy.mapgis.common.core.utils.StringUtils;
 import com.zondy.mapgis.common.core.utils.ip.IpUtils;
 import com.zondy.mapgis.common.core.utils.spring.SpringUtils;
+import com.zondy.mapgis.common.security.context.AuthenticationContextHolder;
 import com.zondy.mapgis.common.security.manager.AsyncManager;
 import com.zondy.mapgis.common.security.manager.factory.AsyncFactory;
 import com.zondy.mapgis.common.security.service.TokenService;
@@ -66,9 +67,11 @@ public class SysLoginService {
         // 用户验证
         Authentication authentication = null;
         try {
+            UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(username, password);
+            AuthenticationContextHolder.setContext(authenticationToken);
             // 该方法会去调用UserDetailsServiceImpl.loadUserByUsername
             authentication = SpringUtils.getBean(AuthenticationManager.class)
-                    .authenticate(new UsernamePasswordAuthenticationToken(username, password));
+                    .authenticate(authenticationToken);
         } catch (Exception e) {
             if (e instanceof BadCredentialsException) {
                 AsyncManager.me().execute(AsyncFactory.recordLogininfor(username, Constants.LOGIN_FAIL, MessageUtils.message("user.password.not.match")));

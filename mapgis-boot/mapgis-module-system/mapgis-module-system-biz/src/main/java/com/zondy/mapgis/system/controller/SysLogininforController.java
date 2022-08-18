@@ -1,6 +1,8 @@
 package com.zondy.mapgis.system.controller;
 
+import com.zondy.mapgis.common.cache.service.CacheService;
 import com.zondy.mapgis.common.controllerprefix.annotation.ManagerRestController;
+import com.zondy.mapgis.common.core.constant.CacheConstants;
 import com.zondy.mapgis.common.core.utils.poi.ExcelUtil;
 import com.zondy.mapgis.common.core.web.controller.BaseController;
 import com.zondy.mapgis.common.core.web.domain.AjaxResult;
@@ -35,6 +37,8 @@ import java.util.List;
 public class SysLogininforController extends BaseController {
 
     private final ISysLogininforService logininforService;
+
+    private final CacheService cacheService;
 
     @Operation(summary = "查询系统访问记录列表")
     @PreAuthorize("@ss.hasPermi('system:logininfor:list')")
@@ -74,6 +78,16 @@ public class SysLogininforController extends BaseController {
     public AjaxResult clean() {
         logininforService.cleanLogininfor();
         return AjaxResult.success();
+    }
+
+    @Operation(summary = "账号解锁")
+    @PreAuthorize("@ss.hasPermi('system:logininfor:unlock')")
+    @RequiresPermissions("system:logininfor:unlock")
+    @Log(title = "账号解锁", businessType = BusinessType.OTHER)
+    @GetMapping("/unlock/{userName}")
+    public AjaxResult unlock(@PathVariable("userName") String userName) {
+        cacheService.deleteObject(CacheConstants.PWD_ERR_CNT_KEY + userName);
+        return success();
     }
 }
 

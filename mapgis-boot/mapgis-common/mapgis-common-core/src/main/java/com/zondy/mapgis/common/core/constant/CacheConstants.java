@@ -56,4 +56,9 @@ public class CacheConstants {
      * 字典管理 cache key
      */
     public static final String SYS_DICT_KEY = "sys_dict:";
+
+    /**
+     * 登录账号密码错误次数 redis key
+     */
+    public static final String PWD_ERR_CNT_KEY = "pwd_err_cnt:";
 }
