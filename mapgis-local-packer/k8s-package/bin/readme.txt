@@ -31,7 +31,7 @@
     nfsPath: /
 
     # 选填，用于存储应用数据，它跟NFS Server都用于存储数据，如果和NFS Server同时存在，优先使用NFS Server存储应用数据
-    nfsStorageClassName=
+    nfsStorageClassName: 
 
 4、启动/停止
     启动
