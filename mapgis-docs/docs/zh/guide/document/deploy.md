@@ -46,10 +46,18 @@ systemctl daemon-reload
 systemctl restart docker
 ```
 ### 单体版
-提供部署脚本[docker-compose.yml](http://192.168.200.88/webgis/server/mapgis-boot/blob/master/mapgis-local-packer/docker/linux-x86_64/docker-compose.yml)和环境变量设置脚本[.env](http://192.168.200.88/webgis/server/mapgis-boot/blob/master/mapgis-local-packer/docker/linux-x86_64/.env)，将他们上传到服务器同一目录下
+#### 安装
 
-#### 调整`.env`环境变量
-- 如果需要从指定私有仓库或者公网仓库获取镜像，则必须指定DOCKER_REGISTRY_URL，比如`192.168.177.1:5000/`
+将Docker版的包放到linux服务器的某一目录，如：`/opt`，进入应用根目录，执行以下命令，进行安装：
+
+```shell
+sudo chmod +x install.sh && sudo ./install.sh
+```
+
+#### 调整参数
+
+编辑`.env`，根据需要修改相关参数，运行`sudo vi .env`
+
 ```properties
 # 私有镜像仓库地址，注意结尾需含/，默认为空
 DOCKER_REGISTRY_URL=
@@ -63,14 +71,10 @@ MAPGIS_APP_PORT=8080
 
 #### 启动运行
 ```shell
-# 进入到存放docker-compose.yml目录并执行赋予执行权限
-chmod +x docker-compose.yml
-# 创建并启动
-docker-compose up -d
-# 查看运行中的容器
-docker ps
-# 停止并删除
-docker-compose down
+# 启动
+sudo ./startup.sh
+# 停止
+sudo ./shutdown.sh
 ```
 
 #### 访问应用
@@ -80,11 +84,17 @@ docker-compose down
 
 
 ### 微服务版
-提供部署脚本[docker-compose.yml](http://192.168.200.88/webgis/server/mapgis-boot/blob/master/mapgis-cloud-packer/docker/linux-x86_64/docker-compose.yml)和环境变量设置脚本[.env](http://192.168.200.88/webgis/server/mapgis-boot/blob/master/mapgis-cloud-packer/docker/linux-x86_64/.env)，将他们上传到服务器同一目录下
+#### 安装
 
-#### 调整`.env`环境变量
-- 如果需要从指定私有仓库或者公网仓库获取镜像，则必须指定DOCKER_REGISTRY_URL，比如`192.168.177.1:5000/`
-- GATEWAY_PUBLIC_HOST建议填写为Docker宿主机IP
+将Docker版的包放到linux服务器的某一目录，如：`/opt`，进入应用根目录，执行以下命令，进行安装：
+
+```shell
+sudo chmod +x install.sh && sudo ./install.sh
+```
+
+#### 调整参数
+
+编辑`.env`，根据需要修改相关参数，运行`sudo vi .env`
 
 ```properties
 # 私有镜像仓库地址，注意结尾需含/，默认为空
@@ -141,17 +151,114 @@ MONITOR_PUBLIC_PORT=9200
 
 #### 启动运行
 ```shell
-# 进入到存放docker-compose.yml目录并执行赋予执行权限
-chmod +x docker-compose.yml
-# 创建并启动
-docker-compose up -d
-# 查看运行中的容器
-docker ps
-# 停止并删除
-docker-compose down
+# 启动
+sudo ./startup.sh
+# 停止
+sudo ./shutdown.sh
 ```
 
 #### 访问应用
 [http://{DOCKER_HOST_IP}:{GATEWAY_PUBLIC_PORT}](http://{DOCKER_HOST_IP}:{GATEWAY_PUBLIC_PORT})
 
 {DOCKER_HOST_IP}为Docker宿主机的IP，{GATEWAY_PUBLIC_PORT}为应用端口
+
+## Kubernetes
+
+### 安装前提
+
+- Kubernetes 1.9及以上
+
+- 所需硬件资源
+
+  - CPU：4核
+
+  - 内存：16GB+
+
+  - 硬盘：200GB+
+  
+- NFS Server
+
+- 私有镜像仓库（如果可以访问阿里云镜像仓库，则不需要搭建）
+
+  > 搭建时可参考[配置私有镜像仓库](/zh/guide/document/deploy.html#配置私有镜像仓库)
+
+### 单体版
+
+#### 调整参数
+
+编辑`values.yaml`，根据需要修改相关参数，运行`sudo vi values.yaml`
+
+```shell
+# 选填，应用端口，自定义范围30000-32767，默认为32000
+appPort: 32000
+
+# 必填，镜像仓库地址，默认为阿里云镜像仓库（外网推荐使用）：registry.cn-beijing.aliyuncs.com
+# 内网私有镜像仓库：<ip>:5000，<ip>为镜像仓库所在的机器IP，例如：192.168.177.1:5000
+imageRegistry: 
+
+# 必填，NFS Server的地址，用于持久化存储应用数据，例如：192.168.130.10
+nfsServer: 
+
+# 必填，NFS Server提供的挂载路径，默认是根路径: /，请根据实际情况填写，例如：/nfs/data
+nfsPath: /
+
+# 选填，用于存储应用数据，它跟NFS Server都用于存储数据，如果和NFS Server同时存在，优先使用NFS Server存储应用数据
+nfsStorageClassName=
+```
+
+#### 启动运行
+
+```shell
+# 启动
+sudo ./startup.sh
+# 停止
+sudo ./shutdown.sh
+```
+
+#### 访问应用
+
+[http://{ip}:{appPort}}](http://{ip}:{appPort})
+
+{ip}为外部访问k8s的IP，{appPort}为应用端口
+
+### 微服务版
+
+#### 调整参数
+
+编辑`values.yaml`，根据需要修改相关参数，运行`sudo vi values.yaml`
+
+```shell
+# 必填，外部访问k8s的IP，可以是k8s集群内任意一台外部可访问的机器IP，如：192.168.130.10
+k8sPublicIp: 
+
+# 选填，应用端口，自定义范围30000-32767，默认为32000
+appPort: 32000
+
+# 必填，镜像仓库地址，默认为阿里云镜像仓库（外网推荐使用）：registry.cn-beijing.aliyuncs.com
+# 内网私有镜像仓库：<ip>:5000，<ip>为镜像仓库所在的机器IP，例如：192.168.177.1:5000
+imageRegistry: 
+
+# 必填，NFS Server的地址，用于持久化存储应用数据，例如：192.168.130.10
+nfsServer: 
+
+# 必填，NFS Server提供的挂载路径，默认是根路径: /，请根据实际情况填写，例如：/nfs/data
+nfsPath: /
+
+# 选填，用于存储应用数据，它跟NFS Server都用于存储数据，如果和NFS Server同时存在，优先使用NFS Server存储应用数据
+nfsStorageClassName=
+```
+
+#### 启动运行
+
+```shell
+# 启动
+sudo ./startup.sh
+# 停止
+sudo ./shutdown.sh
+```
+
+#### 访问应用
+
+[http://{ip}:{appPort}}](http://{ip}:{appPort})
+
+{ip}为外部访问k8s的IP，{appPort}为应用端口

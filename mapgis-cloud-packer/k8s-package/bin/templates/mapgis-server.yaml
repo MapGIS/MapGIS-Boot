@@ -199,7 +199,7 @@ spec:
         - name: GATEWAY_PUBLIC_HOST
           value: {{ .Values.k8sPublicIp }}
         - name: GATEWAY_PUBLIC_PORT
-          value: '32000'
+          value: '{{ include "mapgis.appPort" . }}'
         - name: REDIS_HOST
           value: {{ include "mapgis.fullname" . }}-redis
         - name: REDIS_PORT
@@ -278,7 +278,7 @@ spec:
         - name: GATEWAY_PUBLIC_HOST
           value: {{ .Values.k8sPublicIp }}
         - name: GATEWAY_PUBLIC_PORT
-          value: '32000'
+          value: '{{ include "mapgis.appPort" . }}'
         - name: REDIS_HOST
           value: {{ include "mapgis.fullname" . }}-redis
         - name: REDIS_PORT
@@ -370,7 +370,7 @@ spec:
         - name: GATEWAY_PUBLIC_HOST
           value: {{ .Values.k8sPublicIp }}
         - name: GATEWAY_PUBLIC_PORT
-          value: '32000'
+          value: '{{ include "mapgis.appPort" . }}'
         volumeMounts:
         - name: {{ include "mapgis.fullname" . }}-file-logs
           mountPath: /mapgis/logs
@@ -440,7 +440,7 @@ spec:
         - name: GATEWAY_PUBLIC_HOST
           value: {{ .Values.k8sPublicIp }}
         - name: GATEWAY_PUBLIC_PORT
-          value: '32000'
+          value: '{{ include "mapgis.appPort" . }}'
         - name: REDIS_HOST
           value: {{ include "mapgis.fullname" . }}-redis
         - name: REDIS_PORT
