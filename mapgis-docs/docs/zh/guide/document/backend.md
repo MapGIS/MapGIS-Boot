@@ -1175,6 +1175,119 @@ public class TokenService {
     }
 }
 ```
+### 配置密码最大错误次数/锁定时间
+
+通过控制用户登录最大错误次数来锁定用户，可以在需要的时候防止暴力破解
+
+> 核心思路：将密码错误登录次数记录到日志和缓存中，每次验证登录信息时判断错误次数是否达到最大次数，达到即提示已经用户已锁定，要解除锁定时，从缓存中清除即可。
+
+#### 配置
+
+```yml
+# 安全配置
+security:
+  # 用户配置
+  user:
+    # 密码
+    password:
+      # 是否开启锁定
+      lock-enabled: true
+      # 最大错误次数
+      max-retry-count: 5
+      # 锁定时间（默认10分钟）
+      lock-time: 10
+```
+
+下面用于登录时验证
+
+```java
+@Component
+public class SysPasswordService {
+    @Autowired
+    private CacheService cacheService;
+
+    @Value(value = "${security.user.password.lock-enabled:false}")
+    private boolean lockEnabled;
+
+    @Value(value = "${security.user.password.max-retry-count:5}")
+    private int maxRetryCount;
+
+    @Value(value = "${security.user.password.lock-time:10}")
+    private int lockTime;
+
+    /**
+     * 登录账号密码错误次数缓存键名
+     *
+     * @param username 用户名
+     * @return 缓存键key
+     */
+    private String getCacheKey(String username) {
+        return CacheConstants.PWD_ERR_CNT_KEY + username;
+    }
+
+    public void validate(SysUser user) {
+        if (!lockEnabled) {
+            return;
+        }
+
+        Authentication usernamePasswordAuthenticationToken = AuthenticationContextHolder.getContext();
+
+        if (usernamePasswordAuthenticationToken == null) {
+            return;
+        }
+
+        String username = usernamePasswordAuthenticationToken.getName();
+        String password = usernamePasswordAuthenticationToken.getCredentials().toString();
+
+        Integer retryCount = cacheService.getCacheObject(getCacheKey(username));
+
+        if (retryCount == null) {
+            retryCount = 0;
+        }
+
+        if (retryCount >= Integer.valueOf(maxRetryCount).intValue()) {
+            throw new UserPasswordRetryLimitExceedException(maxRetryCount, lockTime);
+        }
+
+        if (!matches(user, password)) {
+            retryCount = retryCount + 1;
+            cacheService.setCacheObject(getCacheKey(username), retryCount, (long) lockTime, TimeUnit.MINUTES);
+            throw new UserPasswordNotMatchException();
+        } else {
+            clearLoginRecordCache(username);
+        }
+    }
+
+    public boolean matches(SysUser user, String rawPassword) {
+        return SecurityUtils.matchesPassword(rawPassword, user.getPassword());
+    }
+
+    public void clearLoginRecordCache(String loginName) {
+        if (cacheService.hasKey(getCacheKey(loginName))) {
+            cacheService.deleteObject(getCacheKey(loginName));
+        }
+    }
+}
+```
+
+解锁用户
+
+```java
+public class SysLogininforController extends BaseController {
+    private final CacheService cacheService;
+    
+    @Operation(summary = "账号解锁")
+    @PreAuthorize("@ss.hasPermi('system:logininfor:unlock')")
+    @RequiresPermissions("system:logininfor:unlock")
+    @Log(title = "账号解锁", businessType = BusinessType.OTHER)
+    @GetMapping("/unlock/{userName}")
+    public AjaxResult unlock(@PathVariable("userName") String userName) {
+        cacheService.deleteObject(CacheConstants.PWD_ERR_CNT_KEY + userName);
+        return success();
+    }
+}
+```
+
 ## 单体版核心功能
 
 ### 安全配置
