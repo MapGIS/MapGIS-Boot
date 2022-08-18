@@ -62,7 +62,7 @@
           <a-icon type="delete" />清空
         </a-button>
         <a-button type="primary" @click="handleUnlock" v-hasPermi="['system:logininfor:unlock']" :disabled="single">
-          <a-icon type="delete" />解锁
+          <a-icon type="unlock" />解锁
         </a-button>
         <a-button type="primary" @click="handleExport" v-hasPermi="['system:logininfor:export']">
           <a-icon type="download" />导出
