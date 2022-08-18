@@ -1,6 +1,81 @@
 # 部署运行
 
-## Docker Compose
+## 传统部署
+
+### 单体版
+
+#### 安装
+
+将与服务器架构一致的单体版包放到服务器的某一目录。
+
+#### 调整参数
+
+复制 config/application.example.properties 文件并命名为 application.properties，修改里面的服务端口和数据源等信息。
+
+> 如果某项配置为中文，可额外通过application.yml文件进行补充配置
+
+#### 启动运行
+
+```shell
+# win-x86_64启动
+bin/startup.bat
+# linx-x86_64启动
+bin/startup.sh
+# linx-x86_64停止
+bin/shutdown.sh
+```
+
+#### 访问应用
+
+[http://{HOST_IP}:{APP_PORT}](http://{HOST_IP}:{APP_PORT})
+
+{HOST_IP}为应用所在主机的IP，{APP_PORT}为应用端口
+
+### 微服务版
+
+> 因微服务版涉及到服务较多，不推荐采用传统方式进行部署，建议采用容器部署方式（Docker Compose或Kubernetes）
+
+#### 安装前提
+
+- redis【必须】
+- mysql【必须】
+- nacos【必须】
+- sentinel【可选】
+
+#### 安装
+
+将与服务器架构一致的微服务版包放到服务器的某一目录，并配置微服务版应用所在主机本地hosts：
+
+```shell
+127.0.0.1 mapgis-xxx-mysql
+127.0.0.1 mapgis-xxx-redis
+127.0.0.1 mapgis-xxx-nacos
+127.0.0.1 mapgis-xxx-sentinel
+127.0.0.1 mapgis-xxx-gateway
+```
+
+#### 调整参数
+
+微服务版配置在配置中心nacos中，需要进入到nacos中进行调整，比如：redis密码、mysql数据源信息等
+
+#### 启动运行
+
+```shell
+# win-x86_64启动
+bin/startup.bat
+# linx-x86_64启动
+bin/startup.sh
+# linx-x86_64停止
+bin/shutdown.sh
+```
+
+#### 访问应用
+
+[http://{HOST_IP}:{GATEWAY_PUBLIC_PORT}](http://{HOST_IP}:{GATEWAY_PUBLIC_PORT})
+
+{HOST_IP}为应用所在主机的IP，{GATEWAY_PUBLIC_PORT}为应用端口
+
+## Docker Compose部署
 
 ### 安装Docker和Docker Compose
 
@@ -30,6 +105,7 @@ chmod +x /usr/local/bin/docker-compose
 ```
 
 ### 配置私有镜像仓库
+
 目前MapGIS Boot已上传到私有镜像仓库192.168.177.1:5000，需要配置Docker
 ```shell
 # 编辑
@@ -162,7 +238,7 @@ sudo ./shutdown.sh
 
 {DOCKER_HOST_IP}为Docker宿主机的IP，{GATEWAY_PUBLIC_PORT}为应用端口
 
-## Kubernetes
+## Kubernetes部署
 
 ### 安装前提
 

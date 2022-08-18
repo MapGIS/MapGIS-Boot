@@ -1539,44 +1539,6 @@ public class SecurityUtils {
 
 有需要可以通过 SecurityUtils 获取用户 ID、用户名称、用户 Key、登录用户信息等。
 
-### Docker Compose部署
-#### 1、打包
-可参考[mapgis-local-packer](http://192.168.200.88/webgis/server/mapgis-boot/tree/master/mapgis-local-packer)先完成单体版打包，成果输出到`mapgis-local-packer/release`目录下。
-#### 2、将与Linux服务器架构一致的产品包和Docker脚本拷贝到具备联网环境的该服务器下
-> 比如linux-x86_64的产品包需要到x86_64架构的Linux环境下进行镜像制作（可通过uname -m查询架构）
-
-形成如下的目录结构，确保docker和release在同一目录下：
-
-```text
-├─docker
-│  ├─linux-x86_64
-├─release
-│  ├─linux-x86_64
-```
-#### 3、镜像制作
-> 先配置Docker环境，可参考[安装Docker和Docker Compose](/zh/guide/document/deploy.html#安装docker和docker-compose)
-```shell
-# 进入到docker脚本目录
-cd docker/linux-x86_64
-# 赋予权限
-chmod -R 777 .
-# 拷贝../../release/linux-x86_64下的包文件
-./copy.sh 
-# 制作镜像
-./deploy.sh build
-# 启动验证
-./deploy.sh modules
-```
-访问[http://docker-host-ip:8080/xxx/manager](http://docker-host-ip:8080/xxx/manager)确认启动成功
-#### 4、镜像上传
-> 先配置私有仓库地址，可参考[配置私有镜像仓库](/zh/guide/document/deploy.html#配置私有镜像仓库)
-```shell
-# 更新版本号IMAGE_VERSION
-./deploy.sh publish
-```
-#### 5、部署运行
-可参考[单体版](/zh/guide/document/deploy.html#单体)
-
 ## 微服务版核心功能
 
 ### Nacos 持久化
@@ -2550,40 +2512,3 @@ public class SentinelFallbackHandler implements WebExceptionHandler {
     }
 }
 ```
-### Docker Compose部署
-#### 1、打包
-可参考[mapgis-cloud-packer](http://192.168.200.88/webgis/server/mapgis-boot/tree/master/mapgis-cloud-packer)先完成微服务版打包，成果输出到`mapgis-cloud-packer/release`目录下。
-#### 2、将与Linux服务器架构一致的产品包和Docker脚本拷贝到具备联网环境的该服务器下
-> 比如linux-x86_64的产品包需要到x86_64架构的Linux环境下进行镜像制作（可通过uname -m查询架构）
-
-形成如下的目录结构，确保docker和release在同一目录下：
-
-```text
-├─docker
-│  ├─linux-x86_64
-├─release
-│  ├─linux-x86_64
-```
-#### 3、镜像制作
-> 先配置Docker环境，可参考[安装Docker和Docker Compose](/zh/guide/document/deploy.html#安装docker和docker-compose)
-```shell
-# 进入到docker脚本目录
-cd docker/linux-x86_64
-# 赋予权限
-chmod -R 777 .
-# 拷贝../../release/linux-x86_64下的包文件
-./copy.sh 
-# 制作镜像
-./deploy.sh build
-# 启动验证
-./deploy.sh modules
-```
-访问[http://docker-host-ip:8080/xxx/manager](http://docker-host-ip:8080/xxx/manager)确认启动成功
-#### 4、镜像上传
-> 先配置私有仓库地址，可参考[配置私有镜像仓库](/zh/guide/document/deploy.html#配置私有镜像仓库)
-```shell
-# 更新版本号IMAGE_VERSION
-./deploy.sh publish
-```
-#### 5、部署运行
-可参考[微服务版](/zh/guide/document/deploy.html#微服务版)

@@ -3,6 +3,7 @@ const sidebar = {
     '/guide/document/introduction',
     '/guide/document/frontend',
     '/guide/document/backend',
+    '/guide/document/packer',
     '/guide/document/deploy',
     '/guide/document/skill'
   ],

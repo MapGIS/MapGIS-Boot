@@ -133,7 +133,7 @@ Image
 
 {{- define "mapgis.imagePullSecret" -}}
   {{ if .Values.imagePullSecret -}}
-    imagePullSecrets:
+      imagePullSecrets:
       - name: {{ .Values.imagePullSecret }}
   {{- end }}
 {{- end -}}
