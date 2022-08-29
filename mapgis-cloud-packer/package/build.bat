@@ -44,7 +44,8 @@ com.zondy.mapgis:mapgis-cloud-module-monitor,^
 com.zondy.mapgis:mapgis-module-auth-server,^
 com.zondy.mapgis:mapgis-module-system-server,^
 com.zondy.mapgis:mapgis-module-job-server,^
-com.zondy.mapgis:mapgis-module-file-server^
+com.zondy.mapgis:mapgis-module-file-server,^
+com.zondy.mapgis:mapgis-module-gen-server^
  -am -Dmaven.test.skip=true -P %MVN_PROFILE%
 
 mkdir "%OUT_DIR%"
@@ -58,6 +59,7 @@ xcopy /y "%BOOT_DIR%\mapgis-module-auth\mapgis-module-auth-server\target\mapgis-
 xcopy /y "%BOOT_DIR%\mapgis-module-system\mapgis-module-system-server\target\mapgis-module-system-server-*.jar" "%OUT_DIR%\lib\"
 xcopy /y "%BOOT_DIR%\mapgis-module-job\mapgis-module-job-server\target\mapgis-module-job-server-*.jar" "%OUT_DIR%\lib\"
 xcopy /y "%BOOT_DIR%\mapgis-module-file\mapgis-module-file-server\target\mapgis-module-file-server-*.jar" "%OUT_DIR%\lib\"
+xcopy /y "%BOOT_DIR%\mapgis-module-gen\mapgis-module-gen-server\target\mapgis-module-gen-server-*.jar" "%OUT_DIR%\lib\"
 xcopy /y /e "%BOOT_DIR%\cloud-script\sql" "%OUT_DIR%\sql\"
 xcopy /y /e "%CURRENT_DIR%\package\bin" "%OUT_DIR%\bin\"
 

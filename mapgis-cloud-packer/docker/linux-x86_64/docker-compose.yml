@@ -178,3 +178,31 @@ services:
     links:
       - mapgis-xxx-mysql
       - mapgis-xxx-nacos
+  mapgis-xxx-gen:
+    image: ${DOCKER_REGISTRY_URL}mapgis/xxx-gen:${MAPGIS_IMAGE_TAG}
+    restart: always
+    ports:
+      - "14000"
+    volumes:
+      - ./mapgis/gen/logs:/mapgis/logs
+    environment:
+      NACOS_HOST: ${NACOS_HOST}
+      NACOS_PORT: ${NACOS_PORT}
+      GATEWAY_PUBLIC_HOST: ${GATEWAY_PUBLIC_HOST}
+      GATEWAY_PUBLIC_PORT: ${GATEWAY_PUBLIC_PORT}
+      REDIS_HOST: ${REDIS_HOST}
+      REDIS_PORT: ${REDIS_PORT}
+      REDIS_PWD: ${REDIS_PWD}
+      MYSQL_HOST: ${MYSQL_HOST}
+      MYSQL_PORT: ${MYSQL_PORT}
+      MYSQL_DB: ${MYSQL_DB}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PWD: ${MYSQL_PWD}
+    depends_on:
+      - mapgis-xxx-redis
+      - mapgis-xxx-mysql
+      - mapgis-xxx-nacos
+    links:
+      - mapgis-xxx-redis
+      - mapgis-xxx-mysql
+      - mapgis-xxx-nacos

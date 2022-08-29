@@ -127,6 +127,14 @@ Image
   {{- end -}}
 {{- end -}}
 
+{{- define "mapgis.imageGen" -}}
+  {{- if .Values.imageGen -}}
+    {{ .Values.imageGen }}
+  {{- else -}}
+    {{ include "mapgis.name" . }}-gen:1.0
+  {{- end -}}
+{{- end -}}
+
 {{- define "mapgis.imagePullPolicy" -}}
   {{ .Values.imagePullPolicy | default "IfNotPresent" }}
 {{- end -}}

@@ -31,6 +31,9 @@ bash ./copy-server.sh $SRC_SERVER_PATH "./mapgis/file/app" "mapgis-module-file-s
 # 调用copy-server.sh脚本进行拷贝mapgis-module-job-server
 bash ./copy-server.sh $SRC_SERVER_PATH "./mapgis/job/app" "mapgis-module-job-server"
 
+# 调用copy-server.sh脚本进行拷贝mapgis-module-gen-server
+bash ./copy-server.sh $SRC_SERVER_PATH "./mapgis/gen/app" "mapgis-module-gen-server"
+
 # 调用copy-server.sh脚本进行拷贝mapgis-cloud-module-gateway
 bash ./copy-server.sh $SRC_SERVER_PATH "./mapgis/gateway/app" "mapgis-cloud-module-gateway"
 

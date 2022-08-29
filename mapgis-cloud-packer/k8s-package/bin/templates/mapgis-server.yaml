@@ -472,6 +472,98 @@ spec:
         persistentVolumeClaim: 
           claimName: pvc-{{ include "mapgis.fullname" . }}-job-logs
 ---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "mapgis.fullname" . }}-gen
+  labels:
+    {{- include "mapgis.labels" . | nindent 4 }}-gen
+    {{- include "mapgis.kindLabel" . | nindent 4 }}
+spec:
+  selector:
+    matchLabels:
+      {{- include "mapgis.selectorLabels" . | nindent 6 }}-gen
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        {{- include "mapgis.selectorLabels" . | nindent 8 }}-gen
+    spec:
+      {{ include "mapgis.imagePullSecret" . }}
+      containers:
+      - name: {{ include "mapgis.fullname" . }}-gen
+        image: {{ include "mapgis.imageRegistry" . }}/{{ include "mapgis.imageNamespace" . }}/{{ include "mapgis.imageGen" . }}
+        imagePullPolicy: {{ include "mapgis.imagePullPolicy" . }}
+        resources:
+          requests:
+            cpu: 100m
+            memory: 500Mi
+          limits:
+            cpu: {{ include "mapgis.resourceCpuLimit" . }}
+            memory: {{ include "mapgis.resourceMemoryLimit" . }}
+        readinessProbe:
+          httpGet:
+            path: /actuator/health
+            port: 14000
+            scheme: HTTP
+          initialDelaySeconds: 20
+          timeoutSeconds: 20
+          successThreshold: 1
+          failureThreshold: 5
+          periodSeconds: 30
+        livenessProbe:
+          httpGet:
+            path: /actuator/health
+            port: 14000
+            scheme: HTTP
+          initialDelaySeconds: 20
+          timeoutSeconds: 20
+          successThreshold: 1
+          failureThreshold: 5
+          periodSeconds: 30
+        ports:
+        - containerPort: 14000
+          name: http
+        env:
+        - name: NACOS_HOST
+          value: {{ include "mapgis.fullname" . }}-nacos
+        - name: NACOS_PORT
+          value: '8848'
+        - name: GATEWAY_PUBLIC_HOST
+          value: {{ .Values.k8sPublicIp }}
+        - name: GATEWAY_PUBLIC_PORT
+          value: '{{ include "mapgis.appPort" . }}'
+        - name: REDIS_HOST
+          value: {{ include "mapgis.fullname" . }}-redis
+        - name: REDIS_PORT
+          value: '6379'
+        - name: REDIS_PWD
+          valueFrom:
+            secretKeyRef:
+              name: {{ include "mapgis.fullname" . }}-secret
+              key: mapgis.redis.password
+        - name: MYSQL_HOST
+          value: {{ include "mapgis.fullname" . }}-mysql
+        - name: MYSQL_PORT
+          value: '3306'
+        - name: MYSQL_DB
+          value: {{ include "mapgis.dbName" . }}
+        - name: MYSQL_USER
+          value: root
+        - name: MYSQL_PWD
+          valueFrom:
+            secretKeyRef:
+              name: {{ include "mapgis.fullname" . }}-secret
+              key: mapgis.mysql.root.password
+        volumeMounts:
+        - name: {{ include "mapgis.fullname" . }}-gen-logs
+          mountPath: /mapgis/logs
+      restartPolicy: Always
+      volumes:
+      - name: {{ include "mapgis.fullname" . }}-gen-logs
+        persistentVolumeClaim: 
+          claimName: pvc-{{ include "mapgis.fullname" . }}-gen-logs
+---
 apiVersion: v1
 kind: Service
 metadata:
@@ -566,6 +658,21 @@ spec:
     targetPort: 13000
 ---
 apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "mapgis.fullname" . }}-gen
+  labels:
+    {{- include "mapgis.kindLabel" . | nindent 4 }}
+spec:
+  selector:
+    {{- include "mapgis.selectorLabels" . | nindent 4 }}-gen
+  ports:
+  - name: http
+    protocol: TCP
+    port: 14000
+    targetPort: 14000
+---
+apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: pvc-{{ include "mapgis.fullname" . }}-gateway-logs
@@ -639,6 +746,20 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: pvc-{{ include "mapgis.fullname" . }}-job-logs
+  labels:
+    {{- include "mapgis.kindLabel" . | nindent 4 }}
+spec:
+  storageClassName: {{ include "mapgis.nfsStorageClassName" . }}
+  accessModes:
+  - ReadWriteMany
+  resources:
+    requests:
+      storage: 500Mi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: pvc-{{ include "mapgis.fullname" . }}-gen-logs
   labels:
     {{- include "mapgis.kindLabel" . | nindent 4 }}
 spec:

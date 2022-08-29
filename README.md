@@ -3,7 +3,7 @@
 <h2 align="center">MapGIS Boot</h2>
 <h5 align="center">基于Spring Boot、Spring Cloud & Alibaba的前后端分离微服务极速后台开发框架。</h3>
 
-MapGIS Boot 是一个 Java EE 企业级快速开发平台，基于经典技术组合（Spring Boot、Spring Cloud & Alibaba、Ant Design Vue），内置模块如：部门管理、角色用户、菜单及按钮授权、数据权限、系统参数、日志管理、在线定时任务等。
+MapGIS Boot 是一个 Java EE 企业级快速开发平台，基于经典技术组合（Spring Boot、Spring Cloud & Alibaba、Ant Design Vue），内置模块如：部门管理、角色用户、菜单及按钮授权、数据权限、系统参数、日志管理、代码生成、在线定时任务等。
 
 **系统需求**
 
@@ -95,6 +95,8 @@ MapGIS Boot 是一款基于 Spring Boot、Spring Cloud & Alibaba、MyBatis、Jwt
 │  ├─Nacos控制台（微服务）
 │  ├─Admin控制台（微服务）
 ├─系统工具
+│  ├─表单构建
+│  ├─代码生成
 │  ├─系统接口
 ```
 
@@ -221,6 +223,7 @@ db.password=cloud123.mapgis
 - MapMonitorApplication （监控中心 可选）
 - MapJobApplication （定时任务 可选）
 - MapFileApplication （文件服务 可选）
+- MapGenApplication （代码生成 可选）
 
 > 提示
 >
@@ -300,6 +303,9 @@ com.zondy.mapgis
 ├── mapgis-module-job                                   // 定时任务模块
 │   ├── mapgis-module-job-biz                           // 定时任务业务
 │   ├── mapgis-module-job-server                        // 定时任务服务器 [13000]
+├── mapgis-module-gen                                   // 代码生成模块
+│   ├── mapgis-module-gen-biz                           // 代码生成业务
+│   ├── mapgis-module-gen-server                        // 代码生成服务器 [14000]
 ├── mapgis-server                                       // 单体服务器 [8080]
 ├── mapgis-cloud-module                                 // 微服务模块
 │   ├── mapgis-cloud-module-gateway                     // 网关模块 [8080]

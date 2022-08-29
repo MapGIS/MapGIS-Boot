@@ -2,7 +2,7 @@
 cd `dirname $0`
 cd ../
 
-LIBS="mapgis-cloud-module-gateway mapgis-cloud-module-monitor mapgis-module-auth-server mapgis-module-file-server mapgis-module-job-server mapgis-module-system-server"  
+LIBS="mapgis-cloud-module-gateway mapgis-cloud-module-monitor mapgis-module-auth-server mapgis-module-file-server mapgis-module-job-server mapgis-module-gen-server mapgis-module-system-server"  
 for lib in LIBS
 do
   MAPGIS_SERVER_JAR_NAME=$(ls -r lib | grep '^'${lib}'-[0-9\.]*\.jar$' | head -n 1)

@@ -14,6 +14,72 @@
 */
 
 -- ----------------------------
+-- Table structure for gen_table
+-- ----------------------------
+DROP TABLE IF EXISTS "gen_table";
+CREATE TABLE "gen_table"
+(
+    "table_id"          integer NOT NULL PRIMARY KEY AUTOINCREMENT,
+    "table_name"        text(200)  DEFAULT '',
+    "table_comment"     text(500)  DEFAULT '',
+    "sub_table_name"    text(64)   DEFAULT '/',
+    "sub_table_fk_name" text(64)   DEFAULT NULL,
+    "class_name"        text(100)  DEFAULT '',
+    "tpl_category"      text(200)  DEFAULT 'crud',
+    "package_name"      text(100)  DEFAULT NULL,
+    "module_name"       text(30)   DEFAULT NULL,
+    "business_name"     text(30)   DEFAULT NULL,
+    "function_name"     text(50)   DEFAULT NULL,
+    "function_author"   text(50)   DEFAULT NULL,
+    "gen_type"          text(1)    DEFAULT '0',
+    "gen_path"          text(200)  DEFAULT '/',
+    "options"           text(1000) DEFAULT NULL,
+    "create_by"         text(64)   DEFAULT '',
+    "create_time"       text       DEFAULT NULL,
+    "update_by"         text(64)   DEFAULT '',
+    "update_time"       text       DEFAULT NULL,
+    "remark"            text(500)  DEFAULT NULL
+);
+
+-- ----------------------------
+-- Records of gen_table
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for gen_table_column
+-- ----------------------------
+DROP TABLE IF EXISTS "gen_table_column";
+CREATE TABLE "gen_table_column"
+(
+    "column_id"      integer NOT NULL PRIMARY KEY AUTOINCREMENT,
+    "table_id"       text(64)    DEFAULT NULL,
+    "column_name"    text(200)   DEFAULT NULL,
+    "column_comment" text(500)   DEFAULT NULL,
+    "column_type"    text(100)   DEFAULT NULL,
+    "java_type"      text(500)   DEFAULT NULL,
+    "java_field"     text(200)   DEFAULT NULL,
+    "is_pk"          text(1)     DEFAULT NULL,
+    "is_increment"   text(1)     DEFAULT NULL,
+    "is_required"    text(1)     DEFAULT NULL,
+    "is_insert"      text(1)     DEFAULT NULL,
+    "is_edit"        text(1)     DEFAULT NULL,
+    "is_list"        text(1)     DEFAULT NULL,
+    "is_query"       text(1)     DEFAULT NULL,
+    "query_type"     text(200)   DEFAULT 'EQ',
+    "html_type"      text(200)   DEFAULT NULL,
+    "dict_type"      text(200)   DEFAULT '',
+    "sort"           integer(11) DEFAULT NULL,
+    "create_by"      text(64)    DEFAULT '',
+    "create_time"    text        DEFAULT NULL,
+    "update_by"      text(64)    DEFAULT '',
+    "update_time"    text        DEFAULT NULL
+);
+
+-- ----------------------------
+-- Records of gen_table_column
+-- ----------------------------
+
+-- ----------------------------
 -- Table structure for sys_auth_user
 -- ----------------------------
 DROP TABLE IF EXISTS "sys_auth_user";
@@ -383,7 +449,13 @@ INSERT INTO "sys_menu"
 VALUES (112, '服务监控', 2, 4, 'server', 'monitor/server/index', NULL, 1, 1, 'C', 0, 0, 'monitor:server:list', 'server',
         'admin', '2022-03-23 22:12:32', '', NULL, '服务监控菜单');
 INSERT INTO "sys_menu"
-VALUES (113, '系统接口', 3, 1, 'swagger', 'tool/swagger/index', NULL, 1, 0, 'C', 0, 0, 'tool:swagger:list', 'swagger',
+VALUES (113, '表单构建', 3, 1, 'build', 'tool/build/index', NULL, 1, 0, 'C', 0, 0, 'tool:build:list', 'build',
+        'admin', '2022-03-23 22:12:32', '', NULL, '表单构建菜单');
+INSERT INTO "sys_menu"
+VALUES (114, '代码生成', 3, 2, 'gen', 'tool/gen/index', NULL, 1, 0, 'C', 0, 0, 'tool:gen:list', 'code',
+        'admin', '2022-03-23 22:12:32', '', NULL, '代码生成菜单');
+INSERT INTO "sys_menu"
+VALUES (115, '系统接口', 3, 3, 'swagger', 'tool/swagger/index', NULL, 1, 0, 'C', 0, 0, 'tool:swagger:list', 'swagger',
         'admin', '2022-03-23 22:12:32', '', NULL, '系统接口菜单');
 INSERT INTO "sys_menu"
 VALUES (500, '操作日志', 108, 1, 'operlog', 'system/operlog/index', NULL, 1, 1, 'C', 0, 0, 'monitor:operlog:list', 'form',
@@ -556,6 +628,24 @@ VALUES (1053, '状态修改', 110, 5, '#', '', NULL, 1, 0, 'F', 0, 0, 'monitor:j
 INSERT INTO "sys_menu"
 VALUES (1054, '任务导出', 110, 7, '#', '', NULL, 1, 0, 'F', 0, 0, 'monitor:job:export', '#', 'admin', '2022-03-23 22:12:32',
         '', NULL, '');
+INSERT INTO "sys_menu"
+VALUES (1055, '生成查询', 114, 1, '#', '', NULL, 1, 0, 'F', 0, 0, 'tool:gen:query', '#', 'admin',
+        '2022-03-23 22:12:32', '', NULL, '');
+INSERT INTO "sys_menu"
+VALUES (1056, '生成修改', 114, 2, '#', '', NULL, 1, 0, 'F', 0, 0, 'tool:gen:edit', '#', 'admin',
+        '2022-03-23 22:12:32', '', NULL, '');
+INSERT INTO "sys_menu"
+VALUES (1057, '生成删除', 114, 3, '#', '', NULL, 1, 0, 'F', 0, 0, 'tool:gen:remove', '#', 'admin',
+        '2022-03-23 22:12:32', '', NULL, '');
+INSERT INTO "sys_menu"
+VALUES (1058, '导入代码', 114, 4, '#', '', NULL, 1, 0, 'F', 0, 0, 'tool:gen:import', '#', 'admin',
+        '2022-03-23 22:12:32', '', NULL, '');
+INSERT INTO "sys_menu"
+VALUES (1059, '预览代码', 114, 5, '#', '', NULL, 1, 0, 'F', 0, 0, 'tool:gen:preview', '#', 'admin',
+        '2022-03-23 22:12:32', '', NULL, '');
+INSERT INTO "sys_menu"
+VALUES (1060, '生成代码', 114, 6, '#', '', NULL, 1, 0, 'F', 0, 0, 'tool:gen:code', '#', 'admin',
+        '2022-03-23 22:12:32', '', NULL, '');
 
 -- ----------------------------
 -- Table structure for sys_notice
@@ -736,6 +826,10 @@ VALUES (2, 112);
 INSERT INTO "sys_role_menu"
 VALUES (2, 113);
 INSERT INTO "sys_role_menu"
+VALUES (2, 114);
+INSERT INTO "sys_role_menu"
+VALUES (2, 115);
+INSERT INTO "sys_role_menu"
 VALUES (2, 500);
 INSERT INTO "sys_role_menu"
 VALUES (2, 501);
@@ -849,6 +943,18 @@ INSERT INTO "sys_role_menu"
 VALUES (2, 1053);
 INSERT INTO "sys_role_menu"
 VALUES (2, 1054);
+INSERT INTO "sys_role_menu"
+VALUES (2, 1055);
+INSERT INTO "sys_role_menu"
+VALUES (2, 1056);
+INSERT INTO "sys_role_menu"
+VALUES (2, 1057);
+INSERT INTO "sys_role_menu"
+VALUES (2, 1058);
+INSERT INTO "sys_role_menu"
+VALUES (2, 1059);
+INSERT INTO "sys_role_menu"
+VALUES (2, 1060);
 
 -- ----------------------------
 -- Table structure for sys_user

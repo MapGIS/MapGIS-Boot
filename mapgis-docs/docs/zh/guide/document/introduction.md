@@ -1,6 +1,6 @@
 # 项目介绍
 
-MapGIS Boot 是一个 Java EE 企业级快速开发平台，基于经典技术组合（Spring Boot、Spring Cloud & Alibaba、Ant Design Vue），内置模块如：部门管理、角色用户、菜单及按钮授权、数据权限、系统参数、日志管理、在线定时任务等。
+MapGIS Boot 是一个 Java EE 企业级快速开发平台，基于经典技术组合（Spring Boot、Spring Cloud & Alibaba、Ant Design Vue），内置模块如：部门管理、角色用户、菜单及按钮授权、数据权限、系统参数、日志管理、代码生成、在线定时任务等。
 
 :::tip
 本项目默认你有一定的 SpringBoot 基础和 Vue 使用经验,如果你对这些还不熟悉，我们建议你先查阅相关文档[Spring Boot](https://spring.io/projects/spring-boot)、[Spring Cloud Alibaba](https://github.com/alibaba/spring-cloud-alibaba/blob/2.2.x/README-zh.md)、[Vue](https://cn.vuejs.org/)、[Ant Design Vue](https://antdv.com/)
@@ -85,6 +85,8 @@ MapGIS Boot 是一个 Java EE 企业级快速开发平台，基于经典技术�
 │  ├─Nacos控制台（微服务）
 │  ├─Admin控制台（微服务）
 ├─系统工具
+│  ├─表单构建
+│  ├─代码生成
 │  ├─系统接口
 ```
 

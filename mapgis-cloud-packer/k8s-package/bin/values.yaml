@@ -23,6 +23,7 @@ imageAuth: xxx-auth:1.0
 imageSystem: xxx-system:1.0
 imageFile: xxx-file:1.0
 imageJob: xxx-job:1.0
+imageGen: xxx-gen:1.0
 imagePullPolicy: IfNotPresent
 imagePullSecret: 
 

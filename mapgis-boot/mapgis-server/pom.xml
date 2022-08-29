@@ -116,6 +116,12 @@
             <groupId>com.zondy.mapgis</groupId>
             <artifactId>mapgis-common-local-log</artifactId>
         </dependency>
+
+        <!--代码生成模块 -->
+        <dependency>
+            <groupId>com.zondy.mapgis</groupId>
+            <artifactId>mapgis-module-gen-biz</artifactId>
+        </dependency>
     </dependencies>
 
     <build>

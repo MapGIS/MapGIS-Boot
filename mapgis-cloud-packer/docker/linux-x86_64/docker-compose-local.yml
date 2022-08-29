@@ -162,3 +162,23 @@ services:
     links:
       - mapgis-xxx-mysql
       - mapgis-xxx-nacos
+  mapgis-xxx-gen:
+    build:
+      context: ./mapgis/gen
+    image: mapgis/xxx-gen
+    restart: always
+    ports:
+      - "14000"
+    volumes:
+      - ./mapgis/gen/logs:/mapgis/logs
+    environment:
+      NACOS_HOST: mapgis-xxx-nacos
+      NACOS_PORT: 8848
+    depends_on:
+      - mapgis-xxx-redis
+      - mapgis-xxx-mysql
+      - mapgis-xxx-nacos
+    links:
+      - mapgis-xxx-redis
+      - mapgis-xxx-mysql
+      - mapgis-xxx-nacos

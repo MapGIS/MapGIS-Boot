@@ -7,7 +7,7 @@ const mimeMap = {
   zip: 'application/zip'
 }
 
-const baseUrl = window._CONFIG['domianURL']
+const baseUrl = `${window._CONFIG['domianURL']}${window._CONFIG['apiPathManagerPrefix']}`
 export function downLoadZip(str, filename) {
   var url = baseUrl + str
   axios({

@@ -59,6 +59,7 @@ publish() {
 	docker tag mapgis/${MAPGIS_PRODUCT_NAME}-system ${DOCKER_REGISTRY_URL}mapgis/${MAPGIS_PRODUCT_NAME}-system:${MAPGIS_IMAGE_TAG}
 	docker tag mapgis/${MAPGIS_PRODUCT_NAME}-file ${DOCKER_REGISTRY_URL}mapgis/${MAPGIS_PRODUCT_NAME}-file:${MAPGIS_IMAGE_TAG}
 	docker tag mapgis/${MAPGIS_PRODUCT_NAME}-job ${DOCKER_REGISTRY_URL}mapgis/${MAPGIS_PRODUCT_NAME}-job:${MAPGIS_IMAGE_TAG}
+  docker tag mapgis/${MAPGIS_PRODUCT_NAME}-gen ${DOCKER_REGISTRY_URL}mapgis/${MAPGIS_PRODUCT_NAME}-gen:${MAPGIS_IMAGE_TAG}
 
 	docker push ${DOCKER_REGISTRY_URL}nacos/nacos-server
 	docker push ${DOCKER_REGISTRY_URL}redis
@@ -69,6 +70,7 @@ publish() {
 	docker push ${DOCKER_REGISTRY_URL}mapgis/${MAPGIS_PRODUCT_NAME}-system:${MAPGIS_IMAGE_TAG}
 	docker push ${DOCKER_REGISTRY_URL}mapgis/${MAPGIS_PRODUCT_NAME}-file:${MAPGIS_IMAGE_TAG}
 	docker push ${DOCKER_REGISTRY_URL}mapgis/${MAPGIS_PRODUCT_NAME}-job:${MAPGIS_IMAGE_TAG}
+	docker push ${DOCKER_REGISTRY_URL}mapgis/${MAPGIS_PRODUCT_NAME}-gen:${MAPGIS_IMAGE_TAG}
 }
 
 # 根据输入参数，选择执行对应方法，不输入则执行使用说明

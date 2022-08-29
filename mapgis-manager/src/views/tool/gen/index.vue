@@ -337,7 +337,7 @@ export default {
           this.msgSuccess('成功生成到自定义路径：' + row.genPath)
         })
       } else {
-        downLoadZip('/tool/gen/batchGenCode?tables=' + tableNames, 'mapgis')
+        downLoadZip('/gen/batchGenCode?tables=' + tableNames, 'mapgis')
       }
     },
     handleOk() {
