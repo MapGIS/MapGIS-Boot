@@ -346,3 +346,10 @@ com.zondy.mapgis
 ├── package.json               // package.json
 ├── vue.config.js              // vue.config.js
 ```
+
+# 特别鸣谢
+
+- 感谢 [y_project](https://gitee.com/y_project) 提供的权限管理系统
+- 感谢 [fuzui](https://gitee.com/fuzui) 提供的基于[Ant Design Vue](https://github.com/vueComponent/ant-design-vue/)的前端版本
+- 感谢 [iczer](https://github.com/iczer) 提供的主题切换功能
+- 感谢 [vueComponent](https://github.com/vueComponent) 提供的前端框架
