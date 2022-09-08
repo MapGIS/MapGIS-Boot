@@ -8,11 +8,18 @@
 
 <script>
 import { domTitle, setDocumentTitle } from '@/utils/domUtil'
+import Watermark from '@/utils/wartermark'
 import { i18nRender } from '@/locales'
 
 export default {
   data() {
     return {}
+  },
+  mounted() {
+    Watermark.set('MapGIS Boot')
+  },
+  destroyed() {
+    Watermark.remove()
   },
   computed: {
     locale() {
