@@ -6,8 +6,8 @@
           <div class="setting-drawer-index-blockChecbox">
             <a-tooltip>
               <template slot="title"> 暗色菜单风格 </template>
-              <div class="setting-drawer-index-blockChecbox-item" @click="handleChange('theme', 'dark')">
-                <img src="https://gw.alipayobjects.com/zos/rmsportal/LCkqqYNmvBEbokSDscrm.svg" alt="dark" />
+              <div class="setting-drawer-index-item" @click="handleChange('theme', 'dark')">
+                <div class="setting-drawer-index-item-side setting-drawer-index-item-com-style" />
                 <div class="setting-drawer-index-selectIcon" v-if="navTheme === 'dark'">
                   <a-icon type="check" />
                 </div>
@@ -16,8 +16,8 @@
 
             <a-tooltip>
               <template slot="title"> 亮色菜单风格 </template>
-              <div class="setting-drawer-index-blockChecbox-item" @click="handleChange('theme', 'light')">
-                <img src="https://gw.alipayobjects.com/zos/rmsportal/jpRkZQMyYRryryPNtyIC.svg" alt="light" />
+              <div class="setting-drawer-index-item" @click="handleChange('theme', 'light')">
+                <div class="setting-drawer-index-item-light setting-drawer-index-item-com-style" />
                 <div class="setting-drawer-index-selectIcon" v-if="navTheme === 'light'">
                   <a-icon type="check" />
                 </div>
@@ -26,8 +26,8 @@
 
             <a-tooltip>
               <template slot="title"> 暗黑模式 </template>
-              <div class="setting-drawer-index-blockChecbox-item" @click="handleChange('theme', 'night')">
-                <img src="https://gw.alipayobjects.com/zos/antfincdn/hmKaLQvmY2/LCkqqYNmvBEbokSDscrm.svg" alt="night" />
+              <div class="setting-drawer-index-item" @click="handleChange('theme', 'night')">
+                <div class="setting-drawer-index-item-night setting-drawer-index-item-com-style" />
                 <div class="setting-drawer-index-selectIcon" v-if="navTheme === 'night'">
                   <a-icon type="check" />
                 </div>
@@ -53,8 +53,8 @@
           <div class="setting-drawer-index-blockChecbox">
             <a-tooltip>
               <template slot="title"> 侧边栏导航 </template>
-              <div class="setting-drawer-index-blockChecbox-item" @click="handleChange('layout', 'sidemenu')">
-                <img src="https://gw.alipayobjects.com/zos/rmsportal/JopDzEhOqwOjeNTXkoje.svg" alt="sidemenu" />
+              <div class="setting-drawer-index-item" @click="handleChange('layout', 'sidemenu')">
+                <div class="setting-drawer-index-item-side setting-drawer-index-item-com-style" />
                 <div class="setting-drawer-index-selectIcon" v-if="layout === 'sidemenu'">
                   <a-icon type="check" />
                 </div>
@@ -63,8 +63,8 @@
 
             <a-tooltip>
               <template slot="title"> 顶部栏导航 </template>
-              <div class="setting-drawer-index-blockChecbox-item" @click="handleChange('layout', 'topmenu')">
-                <img src="https://gw.alipayobjects.com/zos/rmsportal/KDNDBbriJhLwuqMoxcAr.svg" alt="topmenu" />
+              <div class="setting-drawer-index-item" @click="handleChange('layout', 'topmenu')">
+                <div class="setting-drawer-index-item-top setting-drawer-index-item-com-style" />
                 <div class="setting-drawer-index-selectIcon" v-if="layout === 'topmenu'">
                   <a-icon type="check" />
                 </div>
@@ -267,7 +267,7 @@ export default {
   .setting-drawer-index-blockChecbox {
     display: flex;
 
-    .setting-drawer-index-blockChecbox-item {
+    .setting-drawer-index-item {
       margin-right: 16px;
       position: relative;
       border-radius: 4px;
@@ -307,6 +307,71 @@ export default {
     i {
       font-size: 14px;
     }
+  }
+  .setting-drawer-index-item-com-style {
+    position: relative;
+    width: 44px;
+    height: 36px;
+    margin-right: 16px;
+    overflow: hidden;
+    background-color: #f0f2f5;
+    border-radius: 4px;
+    box-shadow: 1px 2px 3px #d2d2d2;
+    cursor: pointer;
+  }
+  .setting-drawer-index-item-com-style:before {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 33%;
+    height: 100%;
+    background-color: #fff;
+    content: '';
+  }
+  .setting-drawer-index-item-com-style:after {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 25%;
+    background-color: #fff;
+    content: '';
+  }
+  .setting-drawer-index-item-top:before {
+    background-color: #f0f2f5;
+    content: '';
+  }
+  .setting-drawer-index-item-top:after {
+    background-color: #001529;
+    content: '';
+  }
+  .setting-drawer-index-item-side:before {
+    background-color: #001529;
+    content: '';
+    z-index: 1;
+  }
+  .setting-drawer-index-item-side:after {
+    background-color: #fff;
+    content: '';
+  }
+  .setting-drawer-index-item-light:after {
+    background-color: #fff;
+    content: '';
+  }
+  .setting-drawer-index-item-light:before {
+    background-color: #fff;
+    content: '';
+  }
+  .setting-drawer-index-item-night {
+    background-color: #001529;
+  }
+  .setting-drawer-index-item-night:after {
+    background-color: #001529;
+    content: '';
+  }
+  .setting-drawer-index-item-night:before {
+    background-color: #001529;
+    content: '';
   }
 }
 
