@@ -170,6 +170,7 @@ export const generator = (routerMap, parent) => {
     if (item.children && item.children.length > 0) {
       // Recursion
       currentRouter.children = generator(item.children, currentRouter)
+      currentRouter.redirect = currentRouter.children[0].path
     }
     return currentRouter
   })
