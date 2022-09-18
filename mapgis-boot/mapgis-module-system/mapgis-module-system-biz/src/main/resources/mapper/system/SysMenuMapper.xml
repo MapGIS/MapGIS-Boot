@@ -236,7 +236,7 @@
         <if test="orderNum != null">#{orderNum},</if>
         <if test="path != null and path != ''">#{path},</if>
         <if test="component != null and component != ''">#{component},</if>
-        <if test="query != null and query != ''">#{query},</if>
+        <if test="queryString != null and queryString != ''">#{query_string},</if>
         <if test="isFrame != null and isFrame != ''">#{isFrame},</if>
         <if test="isCache != null and isCache != ''">#{isCache},</if>
         <if test="menuType != null and menuType != ''">#{menuType},</if>
