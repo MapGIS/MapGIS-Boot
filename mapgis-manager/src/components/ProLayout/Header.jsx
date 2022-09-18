@@ -27,7 +27,7 @@ export const HeaderViewProps = {
 }
 
 const renderContent = (h, props) => {
-  const isTop = props.layout === 'topmenu'
+  const isTop = props.layout === 'topmenu' || props.layout === 'mixmenu'
   const maxWidth = 1200 - 280 - 120
   const contentWidth = props.contentWidth === 'Fixed'
   const baseCls = 'ant-pro-top-nav-header'
@@ -66,10 +66,30 @@ const renderContent = (h, props) => {
 const HeaderView = {
   name: 'HeaderView',
   props: HeaderViewProps,
+  computed: {
+    currentMenus() {
+      if (this.layout !== 'mixmenu') {
+        return this.menus
+      }
+
+      const firstMenus = []
+
+      this.menus.forEach(item => {
+        firstMenus.push({ ...item, children: null })
+      })
+      return firstMenus
+    }
+  },
   render(h) {
-    const { visible, isMobile, layout, collapsed, siderWidth, fixedHeader, hasSiderMenu } = this.$props
+    const { visible, isMobile, layout, collapsed, siderWidth, hasSiderMenu } = this.$props
     const props = this.$props
-    const isTop = layout === 'topmenu'
+    const isTop = layout === 'topmenu' || layout === 'mixmenu'
+
+    let { fixedHeader } = this.$props
+
+    if (layout === 'mixmenu') {
+      fixedHeader = true
+    }
 
     const needSettingWidth = fixedHeader && hasSiderMenu && !isTop && !isMobile
 
@@ -86,12 +106,12 @@ const HeaderView = {
           style={{
             padding: 0,
             width: needSettingWidth ? `calc(100% - ${collapsed ? 80 : siderWidth}px)` : '100%',
-            zIndex: 9,
+            zIndex: 10,
             right: fixedHeader ? 0 : undefined
           }}
           class={className}
         >
-          {renderContent(h, props)}
+          {renderContent(h, { ...props, menus: this.currentMenus, isFirstMenus: true })}
         </Header>
       </VueFragment>
     ) : null

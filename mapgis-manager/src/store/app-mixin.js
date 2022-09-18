@@ -17,7 +17,7 @@ const baseMixin = {
       hideFooter: state => state.app.hideFooter
     }),
     isTopMenu() {
-      return this.layout === 'topmenu'
+      return this.layout === 'topmenu' || this.layout === 'mixmenu'
     }
   },
   methods: {

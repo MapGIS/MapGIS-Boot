@@ -12,7 +12,8 @@ export const RouteMenuProps = {
   theme: PropTypes.string.def('dark'),
   mode: PropTypes.string.def('inline'),
   collapsed: PropTypes.bool.def(false),
-  i18nRender: PropTypes.oneOfType([PropTypes.func, PropTypes.bool]).def(false)
+  i18nRender: PropTypes.oneOfType([PropTypes.func, PropTypes.bool]).def(false),
+  isFirstMenus: PropTypes.bool.def(false)
 }
 
 const httpReg = /(http|https|ftp):\/\/([\w.]+\/?)\S*/
@@ -136,11 +137,15 @@ const RouteMenu = {
     updateMenu() {
       const routes = this.$route.matched.concat()
       const { hidden } = this.$route.meta
-      if (routes.length >= 3 && hidden) {
-        routes.pop()
-        this.selectedKeys = [routes[routes.length - 1].name]
+      if (this.isFirstMenus) {
+        this.selectedKeys = [routes[1].name]
       } else {
-        this.selectedKeys = [routes.pop().name]
+        if (routes.length >= 3 && hidden) {
+          routes.pop()
+          this.selectedKeys = [routes[routes.length - 1].name]
+        } else {
+          this.selectedKeys = [routes.pop().name]
+        }
       }
       const openKeys = []
       if (this.mode === 'inline') {

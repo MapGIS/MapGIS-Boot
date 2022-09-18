@@ -9,7 +9,8 @@ const ADMIN = {
   },
   layout: {
     SIDE: 'sidemenu',
-    HEAD: 'topmenu'
+    HEAD: 'topmenu',
+    MIX: 'mixmenu'
   }
 }
 

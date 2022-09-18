@@ -70,6 +70,16 @@
                 </div>
               </div>
             </a-tooltip>
+
+            <a-tooltip>
+              <template slot="title"> 混和导航 </template>
+              <div class="setting-drawer-index-item" @click="handleChange('layout', 'mixmenu')">
+                <div class="setting-drawer-index-item-mix setting-drawer-index-item-com-style" />
+                <div class="setting-drawer-index-selectIcon" v-if="layout === 'mixmenu'">
+                  <a-icon type="check" />
+                </div>
+              </div>
+            </a-tooltip>
           </div>
           <div>
             <a-list :split="false">
@@ -93,6 +103,7 @@
                 <a-switch
                   slot="actions"
                   size="small"
+                  :disabled="layout === 'mixmenu'"
                   :checked="fixedHeader"
                   @change="checked => handleChange('fixedHeader', checked)"
                 />
@@ -352,6 +363,14 @@ export default {
   }
   .setting-drawer-index-item-side:after {
     background-color: #fff;
+    content: '';
+  }
+  .setting-drawer-index-item-mix:before {
+    background-color: #fff;
+    content: '';
+  }
+  .setting-drawer-index-item-mix:after {
+    background-color: #001529;
     content: '';
   }
   .setting-drawer-index-item-light:after {

@@ -70,7 +70,34 @@ const SiderMenu = {
   props: SiderMenuProps,
   computed: {
     menuTheme() {
+      if (this.layout === 'mixmenu' && this.theme === 'dark') {
+        return 'light'
+      }
+
       return this.theme === 'light' ? this.theme : 'dark'
+    },
+    currentCollapsed() {
+      if (this.layout === 'mixmenu') {
+        return false
+      }
+      return this.collapsed
+    },
+    currentMenus() {
+      if (this.layout !== 'mixmenu') {
+        return this.menus
+      }
+
+      const pathName = this.$route.matched[1].name
+      let secondMenus = []
+      this.menus.forEach(item => {
+        if (pathName) {
+          !item.hidden && item.name === pathName && (secondMenus = item.children)
+        } else {
+          !item.hidden && (secondMenus = item.children)
+        }
+      })
+
+      return secondMenus
     }
   },
   render(h) {
@@ -81,13 +108,14 @@ const SiderMenu = {
       fixSiderbar,
       mode,
       menuTheme,
-      menus,
       logo,
       title,
       onMenuHeaderClick = () => null,
       i18nRender,
       menuHeaderRender,
-      menuRender
+      menuRender,
+      layout,
+      isMobile
     } = this
     const siderCls = ['ant-pro-sider-menu-sider']
     if (fixSiderbar) siderCls.push('fix-sider-bar')
@@ -97,32 +125,44 @@ const SiderMenu = {
     //   this.$emit('collapse', collapsed)
     // }
 
-    const headerDom = defaultRenderLogoAntTitle(h, {
+    let headerDom = defaultRenderLogoAntTitle(h, {
       logo,
       title,
       menuHeaderRender,
       collapsed
     })
 
+    if (layout === 'mixmenu' && !isMobile) {
+      siderCls.push('mix')
+      headerDom = null
+    }
     return (
-      <Sider
-        class={siderCls}
-        breakpoint={'lg'}
-        trigger={null}
-        width={siderWidth}
-        theme={menuTheme}
-        collapsible={collapsible}
-        collapsed={collapsed}
-      >
-        {headerDom && (
-          <div class="ant-pro-sider-menu-logo" onClick={onMenuHeaderClick} id="logo">
-            <router-link to={{ path: '/' }}>{headerDom}</router-link>
-          </div>
-        )}
-        {(menuRender && ((isFun(menuRender) && menuRender(h, this.$props)) || menuRender)) || (
-          <BaseMenu collapsed={collapsed} menus={menus} mode={mode} theme={menuTheme} i18nRender={i18nRender} />
-        )}
-      </Sider>
+      this.currentMenus && (
+        <Sider
+          class={siderCls}
+          breakpoint={'lg'}
+          trigger={null}
+          width={siderWidth}
+          theme={menuTheme}
+          collapsible={collapsible}
+          collapsed={this.currentCollapsed}
+        >
+          {headerDom && (
+            <div class="ant-pro-sider-menu-logo" onClick={onMenuHeaderClick} id="logo">
+              <router-link to={{ path: '/' }}>{headerDom}</router-link>
+            </div>
+          )}
+          {(menuRender && ((isFun(menuRender) && menuRender(h, this.$props)) || menuRender)) || (
+            <BaseMenu
+              collapsed={collapsed}
+              menus={this.currentMenus}
+              mode={mode}
+              theme={menuTheme}
+              i18nRender={i18nRender}
+            />
+          )}
+        </Sider>
+      )
     )
   }
 }

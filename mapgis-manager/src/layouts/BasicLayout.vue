@@ -34,7 +34,11 @@
 
     <setting-drawer v-if="isProPreviewSite" :settings="settings" @change="handleSettingChange" />
     <template v-slot:rightContentRender>
-      <right-content :top-menu="settings.layout === 'topmenu'" :is-mobile="isMobile" :theme="settings.theme" />
+      <right-content
+        :top-menu="settings.layout === 'topmenu' || settings.layout === 'mixmenu'"
+        :is-mobile="isMobile"
+        :theme="settings.theme"
+      />
     </template>
     <template v-slot:footerRender v-if="!hideFooter">
       <global-footer />
@@ -96,7 +100,7 @@ export default {
       title: defaultSettings.title,
       settings: {
         // 布局类型
-        layout: defaultSettings.layout, // 'sidemenu', 'topmenu'
+        layout: defaultSettings.layout, // 'sidemenu', 'topmenu', 'mixmenu'
         // CONTENT_WIDTH_TYPE
         contentWidth: defaultSettings.layout === 'sidemenu' ? CONTENT_WIDTH_TYPE.Fluid : defaultSettings.contentWidth,
         // 主题 'dark' | 'light' | 'night'
@@ -210,9 +214,13 @@ export default {
           break
         case 'layout':
           this.$store.commit(TOGGLE_LAYOUT, value)
-          if (value === 'sidemenu') {
+          if (value !== 'topmenu') {
             this.settings.contentWidth = CONTENT_WIDTH_TYPE.Fluid
             this.$store.commit(TOGGLE_CONTENT_WIDTH, CONTENT_WIDTH_TYPE.Fluid)
+            if (value === 'mixmenu') {
+              this.settings.fixedHeader = true
+              this.$store.commit(TOGGLE_FIXED_HEADER, true)
+            }
           } else {
             this.settings.fixSiderbar = false
             this.$store.commit(TOGGLE_FIXED_SIDEBAR, false)
