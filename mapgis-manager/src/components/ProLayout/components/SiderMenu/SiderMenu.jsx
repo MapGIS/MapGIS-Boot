@@ -143,6 +143,7 @@ const SiderMenu = {
           breakpoint={'lg'}
           trigger={null}
           width={siderWidth}
+          collapsedWidth={48}
           theme={menuTheme}
           collapsible={collapsible}
           collapsed={this.currentCollapsed}

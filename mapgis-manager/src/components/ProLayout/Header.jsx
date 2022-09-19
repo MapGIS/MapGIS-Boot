@@ -105,7 +105,7 @@ const HeaderView = {
         <Header
           style={{
             padding: 0,
-            width: needSettingWidth ? `calc(100% - ${collapsed ? 80 : siderWidth}px)` : '100%',
+            width: needSettingWidth ? `calc(100% - ${collapsed ? 48 : siderWidth}px)` : '100%',
             zIndex: 10,
             right: fixedHeader ? 0 : undefined
           }}

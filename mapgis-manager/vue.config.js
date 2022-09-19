@@ -83,7 +83,12 @@ const vueConfig = {
     loaderOptions: {
       less: {
         lessOptions: {
-          modifyVars: modifyVars(),
+          modifyVars: {
+            ...modifyVars(),
+            'border-radius-base': '2px',
+            'layout-header-height': '48px',
+            'menu-collapsed-width': '48px'
+          },
           javascriptEnabled: true
         }
       }

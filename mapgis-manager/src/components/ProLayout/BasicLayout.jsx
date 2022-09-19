@@ -54,7 +54,7 @@ const MediaQueryEnum = {
 
 const getPaddingLeft = (hasLeftPadding, collapsed = undefined, siderWidth) => {
   if (hasLeftPadding) {
-    return collapsed ? 80 : siderWidth
+    return collapsed ? 48 : siderWidth
   }
   return 0
 }

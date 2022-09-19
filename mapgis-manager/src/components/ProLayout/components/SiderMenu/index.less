@@ -1,13 +1,14 @@
 @import '~ant-design-vue/es/style/themes/default.less';
 
+@basicLayout-prefix-cls: ~'@{ant-prefix}-pro-basicLayout';
 @sider-menu-prefix-cls: ~'@{ant-prefix}-pro-sider-menu';
 
 @nav-header-height: @layout-header-height;
 .@{sider-menu-prefix-cls} {
   &-logo {
     position: relative;
-    height: 64px;
-    padding-left: 24px;
+    height: 48px;
+    padding-left: 16px;
     overflow: hidden;
     transition: all 0.3s;
     line-height: @nav-header-height;
@@ -84,7 +85,7 @@
     }
 
     &.mix {
-      padding-top: 64px;
+      padding-top: 48px;
     }
   }
 
@@ -120,5 +121,15 @@
 
   .ant-drawer-body {
     padding: 0;
+  }
+}
+
+.@{basicLayout-prefix-cls} {
+  .ant-layout-sider.ant-layout-sider-collapsed {
+    .@{sider-menu-prefix-cls} {
+      &-logo {
+        padding-left: 8px;
+      }
+    }
   }
 }
