@@ -12,7 +12,7 @@
       </div>
       <router-view />
       <div class="footer">
-        <div class="copyright">Copyright &copy; 2022 武汉中地数码科技有限公司 Version 10.5.8.10</div>
+        <div class="copyright">Copyright &copy; 2022 武汉中地数码科技有限公司 Version 10.6.0.10</div>
       </div>
     </div>
   </div>
