@@ -63,7 +63,7 @@
             </if>
 #elseif($queryType == "LIKE")
             <if test="$javaField != null #if($javaType == 'String' ) and $javaField.trim() != ''#end">
-                <bind name="${columnName}_like" value="'%' + ${columnName} + '%'"/>
+                <bind name="${columnName}_like" value="'%' + ${javaField} + '%'"/>
                 and $columnName like #{${columnName}_like}
             </if>
 #elseif($queryType == "BETWEEN")
