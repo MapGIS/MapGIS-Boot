@@ -1,5 +1,7 @@
 package com.zondy.mapgis.common.cache.config;
 
+import com.zondy.mapgis.common.cache.receiver.RedisReceiver;
+import com.zondy.mapgis.common.core.constant.Constants;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration;
 import org.springframework.cache.annotation.CachingConfigurerSupport;
@@ -9,7 +11,13 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.script.DefaultRedisScript;
+import org.springframework.data.redis.listener.PatternTopic;
+import org.springframework.data.redis.listener.RedisMessageListenerContainer;
+import org.springframework.data.redis.listener.adapter.MessageListenerAdapter;
 import org.springframework.data.redis.serializer.RedisSerializer;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * redis配置
@@ -63,6 +71,40 @@ public class RedisConfig extends CachingConfigurerSupport {
                 "    redis.call('expire', key, time)\n" +
                 "end\n" +
                 "return tonumber(current);";
+    }
+
+    /**
+     * 初始化监听器
+     *
+     * @param connectionFactory
+     * @param listenerAdapter
+     * @return
+     */
+    @Bean
+    public RedisMessageListenerContainer redisContainer(RedisConnectionFactory connectionFactory, MessageListenerAdapter listenerAdapter) {
+        RedisMessageListenerContainer container = new RedisMessageListenerContainer();
+        container.setConnectionFactory(connectionFactory);
+
+        List<PatternTopic> topicList = new ArrayList<>();
+        PatternTopic topic = new PatternTopic(Constants.REDIS_TOPIC_NAME);
+        topicList.add(topic);
+        container.addMessageListener(listenerAdapter, topicList);
+        return container;
+    }
+
+    /**
+     * 绑定消息监听者和接收监听的方法
+     *
+     * @param redisReceiver
+     * @return
+     */
+    @Bean
+    MessageListenerAdapter listenerAdapter(RedisReceiver redisReceiver) {
+        // redisReceiver 消息接收者
+        // receiveMessage 消息接收后的方法
+        MessageListenerAdapter messageListenerAdapter = new MessageListenerAdapter(redisReceiver, "receiveMessage");
+        messageListenerAdapter.setSerializer(RedisSerializer.json());
+        return messageListenerAdapter;
     }
 }
 

@@ -11,7 +11,7 @@
  Target Server Version : 50736
  File Encoding         : 65001
 
- Date: 29/08/2022 11:19:50
+ Date: 22/09/2022 17:50:40
 */
 
 SET NAMES utf8mb4;
@@ -48,7 +48,7 @@ CREATE TABLE `gen_table`
   AUTO_INCREMENT = 1
   CHARACTER SET = utf8mb4
   COLLATE = utf8mb4_general_ci COMMENT = '代码生成业务表'
-  ROW_FORMAT = Dynamic;
+  ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of gen_table
@@ -87,7 +87,7 @@ CREATE TABLE `gen_table_column`
   AUTO_INCREMENT = 1
   CHARACTER SET = utf8mb4
   COLLATE = utf8mb4_general_ci COMMENT = '代码生成业务表字段'
-  ROW_FORMAT = Dynamic;
+  ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of gen_table_column
@@ -356,6 +356,55 @@ INSERT INTO `sys_dict_type`
 VALUES (10, '系统状态', 'sys_common_status', '0', 'admin', '2022-03-23 22:12:32', '', NULL, '登录状态列表');
 
 -- ----------------------------
+-- Table structure for sys_gateway_route
+-- ----------------------------
+DROP TABLE IF EXISTS `sys_gateway_route`;
+CREATE TABLE `sys_gateway_route`
+(
+    `gateway_route_id` bigint(20)                                                    NOT NULL AUTO_INCREMENT COMMENT '路由编号',
+    `route_id`         varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '路由ID',
+    `uri`              varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '服务地址',
+    `predicates`       text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci         NULL COMMENT '断言',
+    `filters`          text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci         NULL COMMENT '过滤器',
+    `order_num`        int(4)                                                        NULL DEFAULT 0 COMMENT '顺序',
+    `status`           char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci      NULL DEFAULT '0' COMMENT '路由状态（0正常 1停用）',
+    `create_by`        varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci  NULL DEFAULT '' COMMENT '创建者',
+    `create_time`      datetime                                                      NULL DEFAULT NULL COMMENT '创建时间',
+    `update_by`        varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci  NULL DEFAULT '' COMMENT '更新者',
+    `update_time`      datetime                                                      NULL DEFAULT NULL COMMENT '更新时间',
+    PRIMARY KEY (`gateway_route_id`) USING BTREE
+) ENGINE = InnoDB
+  AUTO_INCREMENT = 14
+  CHARACTER SET = utf8
+  COLLATE = utf8_general_ci COMMENT = '网关路由表'
+  ROW_FORMAT = COMPACT;
+
+-- ----------------------------
+-- Records of sys_gateway_route
+-- ----------------------------
+INSERT INTO `sys_gateway_route`
+VALUES (1, '${mapgis.product.full-name}-auth-server', 'lb://${mapgis.product.full-name}-auth-server',
+        '[{\"name\":\"Path\",\"args\":[\"${api.path.services-prefix}/auth/**\",\"/login/cas\",\"/logout/cas\"]}]',
+        '[{\"name\":\"CacheRequestFilter\",\"args\":[]},{\"name\":\"ValidateCodeFilter\",\"args\":[]}]', 0, '0',
+        'admin', '2022-09-20 14:12:32', '', NULL);
+INSERT INTO `sys_gateway_route`
+VALUES (2, '${mapgis.product.full-name}-job-server', 'lb://${mapgis.product.full-name}-job-server',
+        '[{\"name\":\"Path\",\"args\":[\"${api.path.manager-prefix}/schedule/**\"]}]', '[]', 0, '0', 'admin',
+        '2022-09-20 14:12:32', '', NULL);
+INSERT INTO `sys_gateway_route`
+VALUES (3, '${mapgis.product.full-name}-system-server', 'lb://${mapgis.product.full-name}-system-server',
+        '[{\"name\":\"Path\",\"args\":[\"${api.path.manager-prefix}/system/**\",\"/${mapgis.product.name}/manager/**\",\"/${mapgis.product.name}/static/**\",\"/\"]}]',
+        '[]', 0, '0', 'admin', '2022-09-20 14:12:32', '', NULL);
+INSERT INTO `sys_gateway_route`
+VALUES (4, '${mapgis.product.full-name}-file-server', 'lb://${mapgis.product.full-name}-file-server',
+        '[{\"name\":\"Path\",\"args\":[\"${api.path.manager-prefix}/file/**\"]}]', '[]', 0, '0', 'admin',
+        '2022-09-20 14:12:32', '', NULL);
+INSERT INTO `sys_gateway_route`
+VALUES (5, '${mapgis.product.full-name}-gen-server', 'lb://${mapgis.product.full-name}-gen-server',
+        '[{\"name\":\"Path\",\"args\":[\"${api.path.manager-prefix}/gen/**\"]}]', '[]', 0, '0', 'admin',
+        '2022-09-20 14:12:32', '', NULL);
+
+-- ----------------------------
 -- Table structure for sys_job
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_job`;
@@ -522,13 +571,16 @@ INSERT INTO `sys_menu`
 VALUES (113, 'Admin控制台', 2, 5, 'http://localhost:9200/login', '', '', 0, 0, 'C', '0', '0', 'monitor:server:list',
         'server', 'admin', '2022-03-31 15:00:49', '', NULL, '服务监控菜单');
 INSERT INTO `sys_menu`
-VALUES (114, '表单构建', 3, 1, 'build', 'tool/build/index', '', 1, 0, 'C', '0', '0', 'tool:build:list', 'build',
+VALUES (114, '网关路由', 2, 6, 'route', 'system/route/index', NULL, 1, 0, 'C', '0', '0', 'system:route:list', 'route',
+        'admin', '2022-09-21 22:08:36', '', NULL, '网关路由菜单');
+INSERT INTO `sys_menu`
+VALUES (115, '表单构建', 3, 1, 'build', 'tool/build/index', '', 1, 0, 'C', '0', '0', 'tool:build:list', 'build',
         'admin', '2022-03-23 22:12:32', '', NULL, '表单构建菜单');
 INSERT INTO `sys_menu`
-VALUES (115, '代码生成', 3, 2, 'gen', 'tool/gen/index', '', 1, 0, 'C', '0', '0', 'tool:gen:list', 'code',
+VALUES (116, '代码生成', 3, 2, 'gen', 'tool/gen/index', '', 1, 0, 'C', '0', '0', 'tool:gen:list', 'code',
         'admin', '2022-03-23 22:12:32', '', NULL, '代码生成菜单');
 INSERT INTO `sys_menu`
-VALUES (116, '系统接口', 3, 3, 'swagger', 'tool/swagger/index', '', 1, 0, 'C', '0', '0', 'tool:swagger:list', 'swagger',
+VALUES (117, '系统接口', 3, 3, 'swagger', 'tool/swagger/index', '', 1, 0, 'C', '0', '0', 'tool:swagger:list', 'swagger',
         'admin', '2022-03-23 22:12:32', '', NULL, '系统接口菜单');
 INSERT INTO `sys_menu`
 VALUES (500, '操作日志', 108, 1, 'operlog', 'system/operlog/index', '', 1, 0, 'C', '0', '0', 'system:operlog:list', 'form',
@@ -702,23 +754,38 @@ INSERT INTO `sys_menu`
 VALUES (1054, '任务导出', 110, 7, '#', '', '', 1, 0, 'F', '0', '0', 'monitor:job:export', '#', 'admin',
         '2022-03-23 22:12:32', '', NULL, '');
 INSERT INTO `sys_menu`
-VALUES (1055, '生成查询', 115, 1, '#', '', '', 1, 0, 'F', '0', '0', 'tool:gen:query', '#', 'admin',
+VALUES (1055, '生成查询', 116, 1, '#', '', '', 1, 0, 'F', '0', '0', 'tool:gen:query', '#', 'admin',
         '2022-03-23 22:12:32', '', NULL, '');
 INSERT INTO `sys_menu`
-VALUES (1056, '生成修改', 115, 2, '#', '', '', 1, 0, 'F', '0', '0', 'tool:gen:edit', '#', 'admin',
+VALUES (1056, '生成修改', 116, 2, '#', '', '', 1, 0, 'F', '0', '0', 'tool:gen:edit', '#', 'admin',
         '2022-03-23 22:12:32', '', NULL, '');
 INSERT INTO `sys_menu`
-VALUES (1057, '生成删除', 115, 3, '#', '', '', 1, 0, 'F', '0', '0', 'tool:gen:remove', '#', 'admin',
+VALUES (1057, '生成删除', 116, 3, '#', '', '', 1, 0, 'F', '0', '0', 'tool:gen:remove', '#', 'admin',
         '2022-03-23 22:12:32', '', NULL, '');
 INSERT INTO `sys_menu`
-VALUES (1058, '导入代码', 115, 4, '#', '', '', 1, 0, 'F', '0', '0', 'tool:gen:import', '#', 'admin',
+VALUES (1058, '导入代码', 116, 4, '#', '', '', 1, 0, 'F', '0', '0', 'tool:gen:import', '#', 'admin',
         '2022-03-23 22:12:32', '', NULL, '');
 INSERT INTO `sys_menu`
-VALUES (1059, '预览代码', 115, 5, '#', '', '', 1, 0, 'F', '0', '0', 'tool:gen:preview', '#', 'admin',
+VALUES (1059, '预览代码', 116, 5, '#', '', '', 1, 0, 'F', '0', '0', 'tool:gen:preview', '#', 'admin',
         '2022-03-23 22:12:32', '', NULL, '');
 INSERT INTO `sys_menu`
-VALUES (1060, '生成代码', 115, 6, '#', '', '', 1, 0, 'F', '0', '0', 'tool:gen:code', '#', 'admin',
+VALUES (1060, '生成代码', 116, 6, '#', '', '', 1, 0, 'F', '0', '0', 'tool:gen:code', '#', 'admin',
         '2022-03-23 22:12:32', '', NULL, '');
+INSERT INTO `sys_menu`
+VALUES (1061, '网关路由查询', 114, 1, '#', '', NULL, 1, 0, 'F', '0', '0', 'system:route:query', '#', 'admin',
+        '2022-09-21 22:08:36', '', NULL, '');
+INSERT INTO `sys_menu`
+VALUES (1062, '网关路由新增', 114, 2, '#', '', NULL, 1, 0, 'F', '0', '0', 'system:route:add', '#', 'admin',
+        '2022-09-21 22:08:36', '', NULL, '');
+INSERT INTO `sys_menu`
+VALUES (1063, '网关路由修改', 114, 3, '#', '', NULL, 1, 0, 'F', '0', '0', 'system:route:edit', '#', 'admin',
+        '2022-09-21 22:08:36', '', NULL, '');
+INSERT INTO `sys_menu`
+VALUES (1064, '网关路由删除', 114, 4, '#', '', NULL, 1, 0, 'F', '0', '0', 'system:route:remove', '#', 'admin',
+        '2022-09-21 22:08:36', '', NULL, '');
+INSERT INTO `sys_menu`
+VALUES (1065, '网关路由导出', 114, 5, '#', '', NULL, 1, 0, 'F', '0', '0', 'system:route:export', '#', 'admin',
+        '2022-09-21 22:08:36', '', NULL, '');
 
 -- ----------------------------
 -- Table structure for sys_notice
@@ -930,6 +997,8 @@ INSERT INTO `sys_role_menu`
 VALUES (2, 115);
 INSERT INTO `sys_role_menu`
 VALUES (2, 116);
+INSERT INTO `sys_role_menu`
+VALUES (2, 117);
 INSERT INTO `sys_role_menu`
 VALUES (2, 500);
 INSERT INTO `sys_role_menu`

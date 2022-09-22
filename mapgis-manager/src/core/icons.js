@@ -66,6 +66,7 @@ import sentinelIcon from '@/assets/icons/sentinel.svg?inline'
 import nacosIcon from '@/assets/icons/nacos.svg?inline'
 import giteeIcon from '@/assets/icons/gitee.svg?inline'
 import oauthIcon from '@/assets/icons/oauth.svg?inline'
+import routeIcon from '@/assets/icons/route.svg?inline'
 
 const allIcon = {
   bugIcon,
@@ -126,7 +127,8 @@ const allIcon = {
   sentinelIcon,
   nacosIcon,
   giteeIcon,
-  oauthIcon
+  oauthIcon,
+  routeIcon
 }
 
 export default allIcon

@@ -83,4 +83,19 @@ public class Constants {
      */
     public static final String[] JOB_ERROR_STR = {"java.net.URL", "javax.naming.InitialContext", "org.yaml.snakeyaml",
             "org.springframework", "org.apache", "com.zondy.mapgis.common.core.utils.file"};
+
+    /**
+     * Redis通道名称
+     */
+    public static final String REDIS_TOPIC_NAME = "redis_topic";
+
+    /**
+     * Redis Listener监听器名称key
+     */
+    public static final String REDIS_LISTENER_NAME = "listenerName";
+
+    /**
+     * 刷新网关路由表的监听器名称
+     */
+    public static final String REFRESH_ROUTES_LISTENER = "refreshRoutesListener";
 }

@@ -163,4 +163,12 @@ public interface CacheService {
      * @return 对象列表
      */
     public Collection<String> keys(final String pattern);
+
+    /**
+     * 发布信息到队列
+     *
+     * @param channel 队列名
+     * @param message 信息
+     */
+    public void convertAndSend(String channel, Object message);
 }

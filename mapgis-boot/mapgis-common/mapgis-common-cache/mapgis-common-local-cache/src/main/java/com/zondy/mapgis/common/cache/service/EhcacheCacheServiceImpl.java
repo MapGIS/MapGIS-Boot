@@ -259,4 +259,14 @@ public class EhcacheCacheServiceImpl implements CacheService {
                 filter(k -> k.indexOf(query) == 0).
                 collect(Collectors.toList());
     }
+
+    /**
+     * 发布信息到队列
+     *
+     * @param channel 队列名
+     * @param message 信息
+     */
+    @Override
+    public void convertAndSend(String channel, Object message) {
+    }
 }

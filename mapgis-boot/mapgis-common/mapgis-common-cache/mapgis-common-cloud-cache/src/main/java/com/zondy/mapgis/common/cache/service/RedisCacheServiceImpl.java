@@ -233,4 +233,15 @@ public class RedisCacheServiceImpl implements CacheService {
     public Collection<String> keys(final String pattern) {
         return redisTemplate.keys(pattern);
     }
+
+    /**
+     * 发布信息到队列
+     *
+     * @param channel 队列名
+     * @param message 信息
+     */
+    @Override
+    public void convertAndSend(String channel, Object message) {
+        redisTemplate.convertAndSend(channel, message);
+    }
 }
