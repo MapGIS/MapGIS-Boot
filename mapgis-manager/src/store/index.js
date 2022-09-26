@@ -11,6 +11,9 @@ import permission from './modules/async-router'
 
 // dynamic router permission control (Experimental)
 // import permission from './modules/async-router'
+
+import microApps from './modules/micro-app'
+
 import getters from './getters'
 
 Vue.use(Vuex)
@@ -20,7 +23,8 @@ export default new Vuex.Store({
     app,
     user,
     tagsView,
-    permission
+    permission,
+    microApps
   },
   state: {},
   mutations: {},

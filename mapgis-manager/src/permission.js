@@ -29,7 +29,9 @@ router.beforeEach((to, from, next) => {
         // request login userInfo
         store
           .dispatch('GetInfo')
-          .then(res => {
+          .then(async res => {
+            // generate micro apps
+            await store.dispatch('GenerateMicroApps')
             // const roles = res.result && res.result.role
             const roles = res.roles
             // generate dynamic router

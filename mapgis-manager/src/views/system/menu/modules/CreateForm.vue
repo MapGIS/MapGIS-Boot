@@ -75,9 +75,14 @@
         <span slot="label">
           组件路径
           <a-tooltip>
-            <template slot="title"> 访问的组件路径，如：`system/user/index`，默认在`views`目录下 </template>
+            <template slot="title">
+              访问的组件路径，如：`system/user/index`，默认在`views`目录下，如果是微应用，请使用微应用组件</template
+            >
             <a-icon type="question-circle-o" />
           </a-tooltip>
+          <a-button type="dashed" size="small" style="margin: 0 8px" @click="useMicroPageCompoment">
+            使用微应用组件
+          </a-button>
         </span>
         <a-input v-model="form.component" placeholder="请输入" />
       </a-form-model-item>
@@ -306,6 +311,9 @@ export default {
     },
     cancelSelectIcon() {
       this.iconVisible = false
+    },
+    useMicroPageCompoment() {
+      this.$set(this.form, 'component', 'system/microPage/index')
     }
   }
 }

@@ -46,6 +46,9 @@
     <keep-alive>
       <router-view />
     </keep-alive>
+    <page-header-wrapper v-show="mounting">
+      <div id="micro-page" class="micro-page-view-box"></div>
+    </page-header-wrapper>
   </pro-layout>
 </template>
 
@@ -125,7 +128,8 @@ export default {
   computed: {
     ...mapState({
       // 动态主路由
-      mainMenu: state => state.permission.addRouters
+      mainMenu: state => state.permission.addRouters,
+      mounting: state => state.microApps.mounting
     })
   },
   created() {

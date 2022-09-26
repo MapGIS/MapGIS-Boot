@@ -12,7 +12,9 @@ const getters = {
   userInfo: state => state.user.info,
   addRouters: state => state.permission.addRouters,
   multiTab: state => state.app.multiTab,
-  cachedViews: state => state.tagsView.cachedViews
+  cachedViews: state => state.tagsView.cachedViews,
+  microApps: state => state.microApps.apps,
+  mounting: state => state.microApps.mounting
 }
 
 export default getters

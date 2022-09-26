@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zondy.mapgis.system.mapper.SysMicroAppMapper">
+
+    <resultMap type="SysMicroApp" id="SysMicroAppResult">
+        <result property="microAppId" column="micro_app_id"/>
+        <result property="name" column="name"/>
+        <result property="entry" column="entry"/>
+        <result property="activeRule" column="active_rule"/>
+        <result property="createBy" column="create_by"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateBy" column="update_by"/>
+        <result property="updateTime" column="update_time"/>
+    </resultMap>
+
+    <sql id="selectSysMicroAppVo">
+        select micro_app_id,
+               name,
+               entry,
+               active_rule,
+               create_by,
+               create_time,
+               update_by,
+               update_time
+        from sys_micro_app
+    </sql>
+
+    <select id="selectSysMicroAppList" parameterType="SysMicroApp" resultMap="SysMicroAppResult">
+        <include refid="selectSysMicroAppVo"/>
+        <where>
+            <if test="name != null  and name != ''">
+                <bind name="name_like" value="'%' + name + '%'"/>
+                and name like #{name_like}
+            </if>
+            <if test="entry != null  and entry != ''">
+                <bind name="entry_like" value="'%' + entry + '%'"/>
+                and entry like #{entry_like}
+            </if>
+            <if test="activeRule != null  and activeRule != ''">
+                <bind name="active_rule_like" value="'%' + activeRule + '%'"/>
+                and active_rule like #{active_rule_like}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectSysMicroAppByMicroAppId" parameterType="Long"
+            resultMap="SysMicroAppResult">
+        <include refid="selectSysMicroAppVo"/>
+        where micro_app_id = #{microAppId}
+    </select>
+
+    <insert id="insertSysMicroApp" parameterType="SysMicroApp" useGeneratedKeys="true" keyProperty="microAppId">
+        insert into sys_micro_app
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="name != null and name != ''">name,</if>
+            <if test="entry != null and entry != ''">entry,</if>
+            <if test="activeRule != null and activeRule != ''">active_rule,</if>
+            <if test="createBy != null">create_by,</if>
+            create_time
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="name != null and name != ''">#{name},</if>
+            <if test="entry != null and entry != ''">#{entry},</if>
+            <if test="activeRule != null and activeRule != ''">#{activeRule},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <choose>
+                <when test="_databaseId == 'sqlite'">
+                    (datetime(CURRENT_TIMESTAMP,'localtime')),
+                </when>
+                <otherwise>
+                    sysdate(),
+                </otherwise>
+            </choose>
+        </trim>
+    </insert>
+
+    <update id="updateSysMicroApp" parameterType="SysMicroApp">
+        update sys_micro_app
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="name != null and name != ''">name = #{name},</if>
+            <if test="entry != null and entry != ''">entry = #{entry},</if>
+            <if test="activeRule != null and activeRule != ''">active_rule = #{activeRule},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <choose>
+                <when test="_databaseId == 'sqlite'">
+                    update_time = datetime(CURRENT_TIMESTAMP,'localtime')
+                </when>
+                <otherwise>
+                    update_time = sysdate()
+                </otherwise>
+            </choose>
+        </trim>
+        where micro_app_id = #{microAppId}
+    </update>
+
+    <delete id="deleteSysMicroAppByMicroAppId" parameterType="Long">
+        delete
+        from sys_micro_app
+        where micro_app_id = #{microAppId}
+    </delete>
+
+    <delete id="deleteSysMicroAppByMicroAppIds" parameterType="String">
+        delete from sys_micro_app where micro_app_id in
+        <foreach item="microAppId" collection="array" open="(" separator="," close=")">
+            #{microAppId}
+        </foreach>
+    </delete>
+</mapper>

@@ -11,7 +11,7 @@
  Target Server Version : 50736
  File Encoding         : 65001
 
- Date: 26/05/2022 11:19:50
+ Date: 26/09/2022 14:09:58
 */
 
 SET NAMES utf8mb4;
@@ -48,7 +48,7 @@ CREATE TABLE `gen_table`
   AUTO_INCREMENT = 1
   CHARACTER SET = utf8mb4
   COLLATE = utf8mb4_general_ci COMMENT = '代码生成业务表'
-  ROW_FORMAT = Dynamic;
+  ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of gen_table
@@ -87,7 +87,7 @@ CREATE TABLE `gen_table_column`
   AUTO_INCREMENT = 1
   CHARACTER SET = utf8mb4
   COLLATE = utf8mb4_general_ci COMMENT = '代码生成业务表字段'
-  ROW_FORMAT = Dynamic;
+  ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of gen_table_column
@@ -519,13 +519,16 @@ INSERT INTO `sys_menu`
 VALUES (112, '服务监控', 2, 4, 'server', 'monitor/server/index', '', 1, 1, 'C', '0', '0', 'monitor:server:list', 'server',
         'admin', '2022-03-23 22:12:32', '', NULL, '服务监控菜单');
 INSERT INTO `sys_menu`
-VALUES (113, '表单构建', 3, 1, 'build', 'tool/build/index', '', 1, 0, 'C', '0', '0', 'tool:build:list', 'build',
+VALUES (113, '微应用路由', 2, 5, 'microApp', 'system/microApp/index', '', 1, 0, 'C', '0', '0', 'system:microApp:list',
+        'deployment-unit', 'admin', '2022-09-26 13:54:31', '', NULL, '微应用路由菜单');
+INSERT INTO `sys_menu`
+VALUES (114, '表单构建', 3, 1, 'build', 'tool/build/index', '', 1, 0, 'C', '0', '0', 'tool:build:list', 'build',
         'admin', '2022-03-23 22:12:32', '', NULL, '表单构建菜单');
 INSERT INTO `sys_menu`
-VALUES (114, '代码生成', 3, 2, 'gen', 'tool/gen/index', '', 1, 0, 'C', '0', '0', 'tool:gen:list', 'code',
+VALUES (115, '代码生成', 3, 2, 'gen', 'tool/gen/index', '', 1, 0, 'C', '0', '0', 'tool:gen:list', 'code',
         'admin', '2022-03-23 22:12:32', '', NULL, '代码生成菜单');
 INSERT INTO `sys_menu`
-VALUES (115, '系统接口', 3, 3, 'swagger', 'tool/swagger/index', '', 1, 0, 'C', '0', '0', 'tool:swagger:list', 'swagger',
+VALUES (116, '系统接口', 3, 3, 'swagger', 'tool/swagger/index', '', 1, 0, 'C', '0', '0', 'tool:swagger:list', 'swagger',
         'admin', '2022-03-23 22:12:32', '', NULL, '系统接口菜单');
 INSERT INTO `sys_menu`
 VALUES (500, '操作日志', 108, 1, 'operlog', 'system/operlog/index', '', 1, 1, 'C', '0', '0', 'system:operlog:list', 'form',
@@ -699,23 +702,63 @@ INSERT INTO `sys_menu`
 VALUES (1054, '任务导出', 110, 7, '#', '', '', 1, 0, 'F', '0', '0', 'monitor:job:export', '#', 'admin',
         '2022-03-23 22:12:32', '', NULL, '');
 INSERT INTO `sys_menu`
-VALUES (1055, '生成查询', 114, 1, '#', '', '', 1, 0, 'F', '0', '0', 'tool:gen:query', '#', 'admin',
+VALUES (1055, '生成查询', 115, 1, '#', '', '', 1, 0, 'F', '0', '0', 'tool:gen:query', '#', 'admin',
         '2022-03-23 22:12:32', '', NULL, '');
 INSERT INTO `sys_menu`
-VALUES (1056, '生成修改', 114, 2, '#', '', '', 1, 0, 'F', '0', '0', 'tool:gen:edit', '#', 'admin',
+VALUES (1056, '生成修改', 115, 2, '#', '', '', 1, 0, 'F', '0', '0', 'tool:gen:edit', '#', 'admin',
         '2022-03-23 22:12:32', '', NULL, '');
 INSERT INTO `sys_menu`
-VALUES (1057, '生成删除', 114, 3, '#', '', '', 1, 0, 'F', '0', '0', 'tool:gen:remove', '#', 'admin',
+VALUES (1057, '生成删除', 115, 3, '#', '', '', 1, 0, 'F', '0', '0', 'tool:gen:remove', '#', 'admin',
         '2022-03-23 22:12:32', '', NULL, '');
 INSERT INTO `sys_menu`
-VALUES (1058, '导入代码', 114, 4, '#', '', '', 1, 0, 'F', '0', '0', 'tool:gen:import', '#', 'admin',
+VALUES (1058, '导入代码', 115, 4, '#', '', '', 1, 0, 'F', '0', '0', 'tool:gen:import', '#', 'admin',
         '2022-03-23 22:12:32', '', NULL, '');
 INSERT INTO `sys_menu`
-VALUES (1059, '预览代码', 114, 5, '#', '', '', 1, 0, 'F', '0', '0', 'tool:gen:preview', '#', 'admin',
+VALUES (1059, '预览代码', 115, 5, '#', '', '', 1, 0, 'F', '0', '0', 'tool:gen:preview', '#', 'admin',
         '2022-03-23 22:12:32', '', NULL, '');
 INSERT INTO `sys_menu`
-VALUES (1060, '生成代码', 114, 6, '#', '', '', 1, 0, 'F', '0', '0', 'tool:gen:code', '#', 'admin',
-        '2022-03-23 22:12:32', '', NULL, '');
+VALUES (1060, '生成代码', 115, 6, '#', '', '', 1, 0, 'F', '0', '0', 'tool:gen:code', '#', 'admin', '2022-03-23 22:12:32',
+        '', NULL, '');
+INSERT INTO `sys_menu`
+VALUES (1061, '微应用路由查询', 113, 1, '#', '', NULL, 1, 0, 'F', '0', '0', 'system:microApp:query', '#', 'admin',
+        '2022-09-26 13:54:31', '', NULL, '');
+INSERT INTO `sys_menu`
+VALUES (1062, '微应用路由新增', 113, 2, '#', '', NULL, 1, 0, 'F', '0', '0', 'system:microApp:add', '#', 'admin',
+        '2022-09-26 13:54:31', '', NULL, '');
+INSERT INTO `sys_menu`
+VALUES (1063, '微应用路由修改', 113, 3, '#', '', NULL, 1, 0, 'F', '0', '0', 'system:microApp:edit', '#', 'admin',
+        '2022-09-26 13:54:31', '', NULL, '');
+INSERT INTO `sys_menu`
+VALUES (1064, '微应用路由删除', 113, 4, '#', '', NULL, 1, 0, 'F', '0', '0', 'system:microApp:remove', '#', 'admin',
+        '2022-09-26 13:54:31', '', NULL, '');
+INSERT INTO `sys_menu`
+VALUES (1065, '微应用路由导出', 113, 5, '#', '', NULL, 1, 0, 'F', '0', '0', 'system:microApp:export', '#', 'admin',
+        '2022-09-26 13:54:31', '', NULL, '');
+
+-- ----------------------------
+-- Table structure for sys_micro_app
+-- ----------------------------
+DROP TABLE IF EXISTS `sys_micro_app`;
+CREATE TABLE `sys_micro_app`
+(
+    `micro_app_id` bigint(20)                                                    NOT NULL AUTO_INCREMENT COMMENT '微应用',
+    `name`         varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+    `entry`        varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+    `active_rule`  varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+    `create_by`    varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci  NULL DEFAULT '' COMMENT '创建者',
+    `create_time`  datetime                                                      NULL DEFAULT NULL COMMENT '创建时间',
+    `update_by`    varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci  NULL DEFAULT '' COMMENT '更新者',
+    `update_time`  datetime                                                      NULL DEFAULT NULL COMMENT '更新时间',
+    PRIMARY KEY (`micro_app_id`) USING BTREE
+) ENGINE = InnoDB
+  AUTO_INCREMENT = 1
+  CHARACTER SET = utf8mb4
+  COLLATE = utf8mb4_general_ci COMMENT = '微应用路由表'
+  ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Records of sys_micro_app
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for sys_notice
@@ -926,6 +969,8 @@ VALUES (2, 114);
 INSERT INTO `sys_role_menu`
 VALUES (2, 115);
 INSERT INTO `sys_role_menu`
+VALUES (2, 116);
+INSERT INTO `sys_role_menu`
 VALUES (2, 500);
 INSERT INTO `sys_role_menu`
 VALUES (2, 501);
@@ -1051,6 +1096,16 @@ INSERT INTO `sys_role_menu`
 VALUES (2, 1059);
 INSERT INTO `sys_role_menu`
 VALUES (2, 1060);
+INSERT INTO `sys_role_menu`
+VALUES (2, 1061);
+INSERT INTO `sys_role_menu`
+VALUES (2, 1062);
+INSERT INTO `sys_role_menu`
+VALUES (2, 1063);
+INSERT INTO `sys_role_menu`
+VALUES (2, 1064);
+INSERT INTO `sys_role_menu`
+VALUES (2, 1065);
 
 -- ----------------------------
 -- Table structure for sys_user

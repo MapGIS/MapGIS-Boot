@@ -47,7 +47,7 @@ const renderMenuItem = (h, item, i18nRender) => {
   const target = meta.target || null
   const hasRemoteUrl = httpReg.test(item.path)
   const CustomTag = (target && 'a') || 'router-link'
-  const props = { to: { name: item.name } }
+  const props = { to: { path: item.path } }
   const attrs = hasRemoteUrl || target ? { href: item.path, target: target } : {}
   if (item.children && item.hideChildrenInMenu) {
     // 把有子菜单的 并且 父菜单是要隐藏子菜单的
