@@ -13,6 +13,6 @@ git init
 git add -A
 git commit -m 'deploy'
 
-git push -f git@github.com:MapGIS/MapGIS-Boot-Docs.git master:gh-pages
+git push -f git@github.com:MapGIS/MapGIS-Boot.git master:gh-pages
 
 cd -

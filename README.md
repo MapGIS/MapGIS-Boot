@@ -1,9 +1,10 @@
 # 介绍
 
 <h2 align="center">MapGIS Boot</h2>
-<h5 align="center">基于Spring Boot、Spring Cloud & Alibaba的前后端分离微服务极速后台开发框架。</h3>
+<h5 align="center">基于Spring Boot、Spring Cloud & Alibaba的前后端分离微服务极速后台开发框架</h3>
 
-MapGIS Boot 是一个 Java EE 企业级快速开发平台，基于经典技术组合（Spring Boot、Spring Cloud & Alibaba、Ant Design Vue），内置模块如：部门管理、角色用户、菜单及按钮授权、数据权限、系统参数、日志管理、代码生成、在线定时任务等。
+
+MapGIS Boot 是一个 Java EE 企业级快速开发平台，基于经典技术组合（Spring Boot、Spring Cloud & Alibaba、Ant Design Vue），内置模块如：部门管理、角色用户、菜单及按钮授权、数据权限、系统参数、日志管理、代码生成、在线定时任务、路由监控等。
 
 **系统需求**
 
@@ -23,9 +24,12 @@ MapGIS Boot 是一款基于 Spring Boot、Spring Cloud & Alibaba、MyBatis、Jwt
 - 支持单体和微服务自由切换
 - 支持按钮及数据权限，可自定义部门数据权限
 - 支持菜单动态路由
+- 支持多主题动态切换
 - 完善的 XSS 防范及脚本过滤，彻底杜绝 XSS 攻击
 - Maven 多项目依赖，模块及插件分项目，尽量松耦合，方便模块升级、增减模块
 - 完善的日志记录体系简单注解即可实现
+- 强大的一键生成功能（包括控制器、模型、视图、菜单等）
+- 支持后端微服务路由和前端微应用路由配置
 
 ## 技术选型
 
@@ -94,11 +98,40 @@ MapGIS Boot 是一款基于 Spring Boot、Spring Cloud & Alibaba、MyBatis、Jwt
 │  ├─Sentinel控制台（微服务）
 │  ├─Nacos控制台（微服务）
 │  ├─Admin控制台（微服务）
+│  ├─网关路由（微服务）
+│  ├─微应用路由
 ├─系统工具
 │  ├─表单构建
 │  ├─代码生成
 │  ├─系统接口
 ```
+## 在线体验
+文档地址：[https://mapgis.github.io/mapgis-boot-docs/](https://mapgis.github.io/mapgis-boot-docs/)
+
+## 演示图
+
+<table>
+    <tr>
+        <td><img src="./mapgis-docs/docs/.vuepress/public/images/mapgis-boot-login.png"/></td>
+        <td><img src="./mapgis-docs/docs/.vuepress/public/images/mapgis-boot-dashboard.png"/></td>
+    </tr>
+    <tr>
+        <td><img src="./mapgis-docs/docs/.vuepress/public/images/mapgis-boot-system.png"/></td>
+        <td><img src="./mapgis-docs/docs/.vuepress/public/images/mapgis-boot-server.png"/></td>
+    </tr>
+    <tr>
+        <td><img src="./mapgis-docs/docs/.vuepress/public/images/mapgis-boot-job.png"/></td>
+        <td><img src="./mapgis-docs/docs/.vuepress/public/images/mapgis-boot-gateway-route.png"/></td>
+    </tr>
+    <tr>
+        <td><img src="./mapgis-docs/docs/.vuepress/public/images/mapgis-boot-micro-app-route.png"/></td>
+        <td><img src="./mapgis-docs/docs/.vuepress/public/images/mapgis-boot-from.png"/></td>
+    </tr>
+    <tr>
+        <td><img src="./mapgis-docs/docs/.vuepress/public/images/mapgis-boot-code.png"/></td>
+        <td><img src="./mapgis-docs/docs/.vuepress/public/images/mapgis-boot-api.png"/></td>
+    </tr>
+</table>
 
 # 环境部署
 
@@ -327,6 +360,7 @@ com.zondy.mapgis
 │   ├── components             // 全局公用组件
 │   ├── directive              // 全局指令
 │   ├── layout                 // 布局
+│   ├── qiankun                // 微应用注册
 │   ├── router                 // 路由
 │   ├── store                  // 全局 store管理
 │   ├── utils                  // 全局公用方法

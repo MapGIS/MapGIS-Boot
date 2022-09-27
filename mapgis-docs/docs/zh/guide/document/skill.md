@@ -15,7 +15,7 @@
 ```
 cd existing_repo
 git remote rename origin old-origin
-git remote add origin git@192.168.200.88:xyz/xyz.git
+git remote add origin git@github.com:xyz/xyz.git
 git push -u origin --all
 git push -u origin --tags
 ```
@@ -25,7 +25,7 @@ git push -u origin --tags
 - 通过cherry-pick进行仓库之间的同步，参考：[五、转移到另一个代码库](https://www.ruanyifeng.com/blog/2020/04/git-cherry-pick.html)
   >  对于sql脚本、docker脚本的同步需要仔细对比代码
 ```shell
-git remote add boot git@192.168.200.88:webgis/server/mapgis-boot.git
+git remote add boot git@github.com:MapGIS/MapGIS-Boot.git
 git fetch boot
 git log boot/master
 git cherry-pick <commitHash>

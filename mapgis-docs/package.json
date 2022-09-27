@@ -17,7 +17,7 @@
     "vuepress-plugin-viewer": "^1.0.0"
   },
   "bugs": {
-    "url": "https://github.com/mapgis/mapgis-boot-docs/issues"
+    "url": "https://github.com/MapGIS/MapGIS-Boot/issues"
   },
   "gitHooks": {
     "pre-commit": "lint-staged"
@@ -39,6 +39,6 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/mapgis/mapgis-boot-docs.git"
+    "url": "git+https://github.com/MapGIS/MapGIS-Boot.git"
   }
 }

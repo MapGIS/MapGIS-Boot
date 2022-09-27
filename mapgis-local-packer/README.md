@@ -10,6 +10,10 @@
 add-support.bat
 ```
 
+:::tip
+外部用户请访问[链接：https://pan.baidu.com/s/10kjngShwtrpdDnb7Mu4-lg 提取码：toub](https://pan.baidu.com/s/10kjngShwtrpdDnb7Mu4-lg)，获取`03-Support`支持环境内容添加到release目录内
+:::
+
 ## 打包
 
 ```bash
@@ -82,6 +86,10 @@ sudo ./shutdown.sh
 将`k8s-package`拷贝到linux服务器下，然后将需要的依赖放置到`support`目录内，形成如下目录：
 
 > 需要的依赖可以从\\192.168.17.59\06-K8S-Support获取，账号为 support/support
+
+:::tip
+外部用户请访问[链接：https://pan.baidu.com/s/10kjngShwtrpdDnb7Mu4-lg 提取码：toub](https://pan.baidu.com/s/10kjngShwtrpdDnb7Mu4-lg)，获取`06-K8S-Support`支持环境内容添加到release目录内
+:::
 
 ```
 ├─k8s-package

@@ -1,8 +1,8 @@
 # 项目打包
 
-**单体版打包可参考**[mapgis-local-packer](http://192.168.200.88/webgis/server/mapgis-boot/tree/master/mapgis-local-packer)
+**单体版打包可参考**[mapgis-local-packer](https://github.com/MapGIS/MapGIS-Boot/blob/master/mapgis-local-packer)
 
-**微服务版打包可参考**[mapgis-cloud-packer](http://192.168.200.88/webgis/server/mapgis-boot/tree/master/mapgis-cloud-packer)
+**微服务版打包可参考**[mapgis-cloud-packer](https://github.com/MapGIS/MapGIS-Boot/blob/master/mapgis-cloud-packer)
 
 ## 传统打包
 
@@ -18,6 +18,10 @@
 # 依赖支持环境
 add-support.bat
 ```
+
+:::tip
+外部用户请访问[链接：https://pan.baidu.com/s/10kjngShwtrpdDnb7Mu4-lg 提取码：toub](https://pan.baidu.com/s/10kjngShwtrpdDnb7Mu4-lg)，获取`03-Support`支持环境内容添加到release目录内
+:::
 
 #### 打包
 
@@ -50,6 +54,11 @@ package.bat
 # 依赖支持环境
 add-support.bat
 ```
+
+:::tip
+外部用户请访问[链接：https://pan.baidu.com/s/10kjngShwtrpdDnb7Mu4-lg 提取码：toub](https://pan.baidu.com/s/10kjngShwtrpdDnb7Mu4-lg)，获取`03-Support`支持环境内容添加到release目录内
+:::
+
 
 #### 打包
 

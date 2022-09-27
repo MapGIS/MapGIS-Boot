@@ -50,7 +50,7 @@
           <a-card style="width: 100%" title="MapGIS Boot 简介">
             <p>
               <b>
-                <a href="http://192.168.200.88/webgis/server/mapgis-boot" target="_blank">
+                <a href="https://github.com/MapGIS/MapGIS-Boot" target="_blank">
                   基于Spring Boot、Spring Cloud & Alibaba的前后端分离微服务极速后台开发框架。
                 </a>
               </b>

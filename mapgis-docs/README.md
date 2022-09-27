@@ -1,21 +1,22 @@
 # MapGIS-Boot-Docs
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
-
 📝 The documentation source for MapGIS-Boot project
 
-## Online demo
+## 在线文档
 
-[demo](https://mapgis.github.io/mapgis-boot-docs)
+[https://mapgis.github.io/mapgis-boot-docs](https://mapgis.github.io/mapgis-boot-docs)
 
-## Getting Started
+## 开始
 
 ```bash
 # clone the project
-git clone https://github.com/MapGIS/MapGIS-Boot-Docs.git
+git clone https://github.com/MapGIS/MapGIS-Boot.git
 
 # enter the project directory
-cd MapGIS-Boot-Docs
+cd MapGIS-Boot
+
+# enter doc directory
+cd mapgis-docs
 
 # install dependency
 npm install # Or yarn
@@ -26,4 +27,4 @@ npm run docs:dev # OR yarn docs:dev
 
 ## License
 
-[MIT License](https://github.com/MapGIS/MapGIS-Boot-Docs/blob/master/LICENSE)
+[Apache-2.0 License](https://github.com/MapGIS/MapGIS-Boot/blob/master/LICENSE)

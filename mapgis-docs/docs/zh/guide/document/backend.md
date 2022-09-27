@@ -791,359 +791,6 @@ security:
 
 前端目前验证码是否开启是固定的，因为后端没有提供获取是否验证码开启和关闭的接口。
 
-### 基于OAuth2的第三方用户登录
-第三方平台在互联网行业多用户社交
-> 核心思路：借助JustAuth实现了对第三方平台的OAuth2登录，目前默认集成了对GitHub、Gitee和Gitlab的支持
-
-通过sys_auth_user的user_id字段建立起与sys_user的联系，当第三方平台初次登录后，会检测本平台内部是否有同名账号，存在同名时，则提示用户直接可以绑定或创建新账号，不存在同名时，直接提示创建新创号，同时，平台已有用户也可以后台设置页面手动进行绑定和解绑。
-
-核心流程：
-- 已绑定第三方平台用户：请求第三方平台登录->第三方平台登录回调结果->响应token到前端->获取第三方登录用户信息
-- 未绑定第三方平台用户：请求第三方平台登录->第三方平台登录回调结果->响应绑定前的第三方登录用户信息到前端->提示绑定或创建新账户->响应token到前端->获取绑定后的第三方登录用户信息
-
-详见[thirdLoginMixin.js](http://192.168.200.88/webgis/server/mapgis-boot/blob/master/mapgis-manager/src/views/user/third/thirdLoginMixin.js)和[ThirdLoginController.java](http://192.168.200.88/webgis/server/mapgis-boot/blob/master/mapgis-boot/mapgis-module-auth/mapgis-module-auth-biz/src/main/java/com/zondy/mapgis/auth/controller/ThirdLoginController.java)
-
-目前后端支持开启和关闭，单体版在`mapgis-server`模块的配置文件`application.yml`中：
-
-```yml
-# 第三方登录
-justauth:
-  enabled: true
-  type:
-    GITHUB:
-      client-id: ${JUSTAUTH_GITHUB_CLIENT_ID}
-      client-secret: ${JUSTAUTH_GITHUB_CLIENT_SECRET}
-      redirect-uri: ${JUSTAUTH_GITHUB_REDIRECT_URI:http://127.0.0.1:8080/xxx/rest/services/auth/thirdLogin/callback/github}
-    GITEE:
-      client-id: ${JUSTAUTH_GITEE_CLIENT_ID}
-      client-secret: ${JUSTAUTH_GITEE_CLIENT_SECRET}
-      redirect-uri: ${JUSTAUTH_GITEE_REDIRECT_URI:http://127.0.0.1:8080/xxx/rest/services/auth/thirdLogin/callback/gitee}
-  cache:
-    type: default
-  extend:
-    enum-class: ${JUSTAUTH_CUSTOM_ENUM_CLASS:com.zondy.mapgis.auth.justauth.source.AuthCustomSource}
-    authorize: ${JUSTAUTH_CUSTOM_AUTHORIZE_URL}
-    access-token: ${JUSTAUTH_CUSTOM_ACCESS_TOKEN_URL}
-    user-info: ${JUSTAUTH_CUSTOM_USER_INFO_URL}
-    config:
-      CUSTOM:
-        request-class: ${JUSTAUTH_CUSTOM_REQUEST_CLASS:com.zondy.mapgis.auth.justauth.request.AuthCustomRequest}
-        client-id: ${JUSTAUTH_CUSTOM_CLIENT_ID}
-        client-secret: ${JUSTAUTH_CUSTOM_CLIENT_SECRET}
-        redirect-uri: ${JUSTAUTH_CUSTOM_REDIRECT_URI:http://127.0.0.1:8080/xxx/rest/services/auth/thirdLogin/callback/custom}
-        scopes: ${JUSTAUTH_CUSTOM_SCOPES}
-```
-
-微服务版在网关模块的配置文件`mapgis-xxx-auth-server-xxx.yml`中（位于 nacos）:
-
-```yml
-# 第三方登录
-justauth:
-  enabled: true
-  type:
-    GITHUB:
-      client-id: f770f675866957c53ce6
-      client-secret: 79fdc00cb1fc6b4b4bf9bfc5738b56b14529ca7b
-      redirect-uri: http://127.0.0.1:8080/xxx/rest/services/auth/thirdLogin/callback/github
-    GITEE:
-      client-id: a3641bbe80e305d7810d1e848e4e1a9b338066ec16de19792fba1d1a304c8a2f
-      client-secret: f4123a258799dc60284e1e30241ba7276d141aaddea777716f7e675f167d2e4b
-      redirect-uri: http://127.0.0.1:8080/xxx/rest/services/auth/thirdLogin/callback/gitee
-  cache:
-    type: default
-  extend:
-    enum-class: com.zondy.mapgis.auth.justauth.source.AuthCustomSource
-    authorize: http://192.168.200.88/oauth/authorize
-    access-token: http://192.168.200.88/oauth/token
-    user-info: http://192.168.200.88/api/v4/user
-    config:
-      CUSTOM:
-        request-class: com.zondy.mapgis.auth.justauth.request.AuthCustomRequest
-        client-id: dcaf95ad5e5cc3d7f5ff8ef06960c3d57a7b18582b5d12b2367388cbf7cd7db5
-        client-secret: 83dc146f7bbca52e14b5eaa6f1963739035c0f625e9cc9c99b43ee846dd90c5b
-        redirect-uri: http://127.0.0.1:8080/xxx/rest/services/auth/thirdLogin/callback/custom
-        scopes: read_user openid
-```
-
-### CAS单点登录
-单点登录SSO(Single Sign-On) 是一种统一认证和授权机制，指访问同一服务器不同应用中的受保护资源的同一用户，只需要登录一次，即通过一个应用中的安全验证后，再访问其他应用中的受保护资源时，不再需要重新登录验证。
-
-#### CAS单点登录服务端准备
-需要搭建单独的服务端应用，可参考官网地址[https://github.com/apereo/cas-overlay-template](https://github.com/apereo/cas-overlay-template)
-> 一般情况下需要基于JDBC提供对动态用户的支持
-
-配置application.properties参考：
-```properties
-# http端口
-server.port=8888
-# https
-server.ssl.enabled=false
-# 证书路径
-server.ssl.key-store=config/ldkeystore.p12
-# 别名密码
-server.ssl.key-store-password=123456
-server.ssl.key-password=123456
-# 证书类型
-server.ssl.key-store-type=PKCS12
-# 别名
-server.ssl.key-alias=undertow
-# 设置安全为false
-cas.tgc.secure=false
-# 开启识别json文件，默认false
-cas.serviceRegistry.initFromJson=true
-cas.logout.follow-service-redirects=true
-
-##
-# CAS Authentication Credentials
-#
-cas.authn.jdbc.query[0].url=jdbc:mysql://localhost:3306/mapgis-xxx?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8
-cas.authn.jdbc.query[0].user=root
-cas.authn.jdbc.query[0].password=cloud123.mapgis
-cas.authn.jdbc.query[0].sql=select * from sys_user where user_name=?
-cas.authn.jdbc.query[0].fieldPassword=password
-cas.authn.jdbc.query[0].driverClass=com.mysql.cj.jdbc.Driver
-#开启自定义密码验证
-cas.authn.jdbc.query[0].passwordEncoder.type=com.cas.password.MyPasswordEncoder
-cas.authn.jdbc.query[0].fieldDisabled=status
-```
-
-启动脚本startup.bat参考：
-```shell
-@echo off
-cd /d %~dp0
-cd ..
-@echo on
-java.exe -jar lib/cas.war --cas.standalone.configuration-directory=config
-pause
-```
-
-#### 单点登录流程
-在本平台前后端分离模式下，单点登录中service采用的是后端接口，而非前端，当后端验证通过后，会携带token重定向到前端，前端基于token校验用户信息再跳转到去除token参数的前端页面
-> 核心思想：基于spring-security-cas，在单体版和微服务版中均提供了对cas的对接支持
-
-后端关键代码[CasSecurityConfig.java](http://192.168.200.88/webgis/server/mapgis-boot/blob/master/mapgis-boot/mapgis-module-auth/mapgis-module-auth-biz/src/main/java/com/zondy/mapgis/auth/cas/config/CasSecurityConfig.java)
-```java
-@EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
-@ConditionalOnProperty(prefix = "cas", name = "enabled", havingValue = "true")
-public class CasSecurityConfig extends WebSecurityConfigurerAdapter {
-    @Override
-    protected void configure(HttpSecurity httpSecurity) throws Exception {
-        // ...
-        // 添加CAS 认证filter
-        httpSecurity.addFilter(casAuthenticationFilter());
-        // 添加JWT filter
-        httpSecurity.addFilterBefore(authenticationTokenFilter, CasAuthenticationFilter.class);
-        httpSecurity.addFilterBefore(casLogoutFilter(), LogoutFilter.class);
-        httpSecurity.addFilterBefore(singleSignOutFilter(), CasAuthenticationFilter.class);
-
-        // 添加CORS filter
-        httpSecurity.addFilterBefore(corsFilter, JwtAuthenticationTokenFilter.class);
-        httpSecurity.addFilterBefore(corsFilter, LogoutFilter.class);
-        // ...
-    }
-
-    /**
-     * 身份认证接口
-     */
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        super.configure(auth);
-        auth.authenticationProvider(casAuthenticationProvider());
-    }
-
-    /**
-     * 指定service相关信息
-     */
-    @Bean
-    public ServiceProperties serviceProperties() {
-        ServiceProperties serviceProperties = new ServiceProperties();
-        // 设置cas客户端登录完整的url
-        serviceProperties.setService(casProperties.getCasServiceUrl() + casProperties.getCasServiceLoginUrl());
-        serviceProperties.setAuthenticateAllArtifacts(true);
-        return serviceProperties;
-    }
-
-    /**
-     * CAS认证过滤器
-     */
-    @Bean
-    public CasAuthenticationFilter casAuthenticationFilter() throws Exception {
-        CasAuthenticationFilter casAuthenticationFilter = new CasAuthenticationFilter();
-        casAuthenticationFilter.setAuthenticationManager(authenticationManager());
-        casAuthenticationFilter.setFilterProcessesUrl(casProperties.getCasServiceLoginUrl());
-        casAuthenticationFilter.setAuthenticationSuccessHandler(casAuthenticationSuccessHandler);
-        return casAuthenticationFilter;
-    }
-
-    /**
-     * CAS认证Provider
-     */
-    @Bean
-    public CasAuthenticationProvider casAuthenticationProvider() {
-        CasAuthenticationProvider casAuthenticationProvider = new CasAuthenticationProvider();
-        casAuthenticationProvider.setAuthenticationUserDetailsService(casUserDetailsService);
-        casAuthenticationProvider.setServiceProperties(serviceProperties());
-        casAuthenticationProvider.setTicketValidator(cas20ServiceTicketValidator());
-        casAuthenticationProvider.setKey("casAuthenticationProviderKey");
-        return casAuthenticationProvider;
-    }
-
-    /**
-     * CAS票证验证器
-     */
-    @Bean
-    public Cas20ServiceTicketValidator cas20ServiceTicketValidator() {
-        return new Cas20ServiceTicketValidator(casProperties.getCasServerUrl());
-    }
-
-    /**
-     * 单点注销过滤器
-     * 用于接收cas服务端的注销请求
-     */
-    @Bean
-    public SingleSignOutFilter singleSignOutFilter() {
-        SingleSignOutFilter singleSignOutFilter = new SingleSignOutFilter();
-        singleSignOutFilter.setIgnoreInitConfiguration(true);
-        return singleSignOutFilter;
-    }
-
-    /**
-     * 单点退出过滤器
-     * 用于跳转到cas服务端
-     */
-    @Bean
-    public LogoutFilter casLogoutFilter() {
-        LogoutFilter logoutFilter = new LogoutFilter(casProperties.getCasServerLogoutUrl(), new SecurityContextLogoutHandler());
-        logoutFilter.setFilterProcessesUrl(casProperties.getCasServiceLogoutUrl());
-        return logoutFilter;
-    }
-
-    @Bean
-    public ServletListenerRegistrationBean<SingleSignOutHttpSessionListener> singleSignOutHttpSessionListener() {
-        ServletListenerRegistrationBean<SingleSignOutHttpSessionListener> servletListenerRegistrationBean = new ServletListenerRegistrationBean<>();
-        servletListenerRegistrationBean.setListener(new SingleSignOutHttpSessionListener());
-        return servletListenerRegistrationBean;
-    }
-}
-```
-前端关键代码[permission.js](http://192.168.200.88/webgis/server/mapgis-boot/blob/master/mapgis-manager/src/permission.js)
-```js
-router.beforeEach((to, from, next) => {
-  NProgress.start() // start progress bar
-  to.meta && typeof to.meta.title !== 'undefined' && setDocumentTitle(`${i18nRender(to.meta.title)} - ${domTitle}`)
-  /* has token */
-  if (storage.get(ACCESS_TOKEN)) {
-    // ...
-  } else {
-    if (allowList.includes(to.name)) {
-      // 在免登录名单，直接进入
-      next()
-    } else {
-      if (window._CONFIG['enableSSO']) {
-        const queryParams = qs.parse(document.location.toString().split('?')[1])
-        const token = queryParams.token
-
-        // 判断来源是不是cas的地址
-        if (
-          token &&
-          (window._CONFIG['casLoginUrl'].includes(document.referrer) ||
-            document.referrer.includes(document.location.host))
-        ) {
-          validateToken(token, to, from, next)
-        } else {
-          window.location.href = window._CONFIG['casLoginUrl']
-        }
-      } else {
-        next({ path: loginRoutePath, query: { redirect: to.fullPath } })
-      }
-      NProgress.done() // if current page is login will not trigger afterEach hook, so manually handle it
-    }
-  }
-})
-
-function validateToken(token, to, from, next) {
-  store
-    .dispatch('ValidateLogin', token)
-    .then(res => {
-      const url = document.location.toString().split('?')[0]
-      window.location.href = url
-    })
-    .catch(() => {
-      window.location.href = window._CONFIG['casLoginUrl']
-    })
-}
-```
-#### 前后端配置
-**前端配置**
-
-`public/static/config.js`
-> 注意：service后面url，单体版为单体服务的主机端口，微服务版为授权服务的主机端口
-```js
-/**
- * 存放配置常量
- */
-window._CONFIG = {
-  // 单点登录地址
-  VUE_APP_CAS_LOGIN_URL: 'http://localhost:8888/cas/login?service=http://localhost:8080/login/cas',
-  // 单点登出地址
-  VUE_APP_CAS_LOGOUT_URL: 'http://localhost:8888/cas/logout?service=http://localhost:8080/login/cas',
-  // 开启单点登录
-  VUE_APP_SSO: false
-}
-```
-
-**后端配置**
-
-单体版在`mapgis-server`模块的配置文件`application.yml`中：
-```yml
-# cas配置
-cas:
-  enabled: ${CAS_ENABLED:false}
-  server:
-    host:
-      # cas服务端地址
-      url: ${CAS_SERVER_HOST_URL:http://localhost:8888/cas}
-      #cas服务端登录地址
-      login_url: ${cas.server.host.url}/login
-      #cas服务端登出地址 service参数后面跟就是需要跳转的页面/接口 这里指定的是cas客户端登录接口
-      logout_url: ${cas.server.host.url}/logout?service=${cas.service.host.url}${cas.service.host.login_url}
-  service:
-    host:
-      # cas客户端地址
-      url: ${CAS_SERVICE_HOST_URL:http://localhost:${server.port}}
-      # cas客户端地址登录地址
-      login_url: ${CAS_SERVICE_LOGIN_URL:/login/cas}
-      # cas客户端地址登出地址
-      logout_url: ${CAS_SERVICE_LOGOUT_URL:/logout/cas}
-    web:
-      url: ${CAS_SERVICE_WEB_RUL:http://localhost:8000}
-```
-
-微服务版在网关模块的配置文件`mapgis-xxx-auth-server-xxx.yml`中（位于 nacos）:
-
-```yml
-# cas配置
-cas:
-  enabled: true
-  server:
-    host:
-      # cas服务端地址
-      url: http://localhost:8888/cas
-      #cas服务端登录地址
-      login_url: /login
-      #cas服务端登出地址 service参数后面跟就是需要跳转的页面/接口 这里指定的是cas客户端登录接口
-      logout_url: /logout?service=${cas.service.host.url}${cas.service.host.login_url}
-  service:
-    host:
-      # cas客户端地址
-      url: http://localhost:${server.port}
-      # cas客户端地址登录地址
-      login_url: /login/cas
-      # cas客户端地址登出地址
-      logout_url: /logout/cas
-    web:
-      url: http://localhost:8000
-```
 ### 多终端登录开启和关闭
 系统采用token标识用户身份，默认用户允许在多终端同时登录，提供配置`token.soloLogin`用来限制多终端同时登录
 > 核心思路：将userid和token（一个用户对应一个token，userid唯一）关联起来存储在缓存中，登录时判断用户是否在别的终端在线，存在就清除缓存信息
@@ -1287,6 +934,485 @@ public class SysLogininforController extends BaseController {
     }
 }
 ```
+### 代码生成
+通过代码生成可以快速生成通用的增删改查的功能，极大地提高我们的开发效率，目前支持基于MySQL数据库中生成兼容MySQL和SQLite的代码
+
+> 核心思路：将数据库表的基本信息保存到gen_table表中，而该表的列保存在gen_table_column表中，通过模板引擎velocity生成java、sql等代码
+
+#### 默认配置
+```yml
+# 代码生成
+gen:
+  # 作者
+  author: mapgis
+  # 默认生成包路径 system 需改成自己的模块名称 如 system monitor tool
+  packageName: com.zondy.mapgis.system
+  # 自动去除表前缀，默认是false
+  autoRemovePre: false
+  # 表前缀（生成类名不会包含表前缀，多个用逗号分隔）
+  tablePrefix: sys_
+```
+
+#### 支持表结构
+- 单表
+- 树表
+- 主子表
+
+#### 使用
+1. 准备表
+2. 进入系统工具-代码生成页面，导入对应表，做相应编辑配置后，生成代码
+3. 将生成的代码应用到项目
+    - 将生成代码中的main目录直接拷贝到后端相应模块的src目录下
+    - 将生成代码中的vue目录直接拷贝到前端src目录下
+    - 在数据库下执行sql代码，用于创建菜单和按钮权限
+
+#### 代码生成器原理
+##### Velocity
+Velocity是一个基于Java的模板引擎，其提供了一个Context容器，在java代码里面我们可以往容器中存值，然后在vm文件中使用特定的语法获取，这是velocity基本的用法，其与jsp、freemarker并称为三大视图展现技术。作为一个模块引擎，除了作为前后端分离的MVC展现层，Velocity还有一些其他用途，比如源代码生成。
+
+在MapGIS Boot系统中，正是使用了Velocity技术实现的源代码生成。大体上，源代码生成只需三步走：
+
+1. 创建模板文件
+2. 准备上下文（变量值）
+3. 替换模板文件中的变量
+
+三步走完之后源代码就生成了，说起来是很简单的，但是实际上做起来会比较麻烦，特别是第一步创建模板文件是最复杂的，以下为index.vue.vm模板文件部分源代码：
+```vue
+#foreach($column in $columns)
+#if($column.insert)
+#set($isInsert=1)
+#end
+#if($column.edit)
+#set($isEdit=1)
+#end
+#if($column.query)
+#set($queryCount=$queryCount+1)
+#set($dictType=$column.dictType)
+#set($AttrName=$column.javaField.substring(0,1).toUpperCase() + ${column.javaField.substring(1)})
+#set($parentheseIndex=$column.columnComment.indexOf("（"))
+#if($parentheseIndex != -1)
+#set($comment=$column.columnComment.substring(0, $parentheseIndex))
+#else
+#set($comment=$column.columnComment)
+#end
+...
+```
+可以看到，该vue模板文件中充斥着大量Velocity的if-else语法，嵌套在一起更是显得无比复杂。
+
+##### information_schema 数据库
+mysql数据库中有一个information_schema数据库，它是mysql的系统数据库之一，它里面存储着两个表TABLES以及COLUMNS，这两个表分别存储着所有的表信息以及所有表中的列信息，代码生成器正是以两张表的信息为核心实现的。
+
+##### 代码生成器源码分析
+首先看`com.zondy.mapgis.gen.controller.GenController#importTableSave` 接口，它做了以下这些事情：
+
+1. 从information_schema数据库的tables表中查询目标表的表明、标注释、创建时间和更新时间，但是忽略掉定时任务的表和已经生成过的表。
+2. 初始化表数据并将数据插入数据库的gen_table表
+3. 从information_schema数据库的columns表中查询目标表的列信息，包含字段名、字段注释、字段类型、是否允许为null等详细信息
+4. 初始化列信息并将数据插入数据库的gen_table_column表
+
+接下来看下 `com.zondy.mapgis.gen.controller.GenController#batchGenCode` 接口，它做了以下这些事情
+1. 从数据库的gen_table、gen_table_column表查询出生成代码需要的表和列信息。
+2. 初始化Velocity
+3. 准备Velocity上下文信息（变量值信息）
+4. 读取模板、渲染模板，然后将渲染后的模板内容添加进如压缩流，之后前端就可以下载zip压缩文件了
+
+## 高级功能
+### 基于OAuth2的第三方用户登录
+第三方平台在互联网行业多用户社交
+> 核心思路：借助JustAuth实现了对第三方平台的OAuth2登录，目前默认集成了对GitHub、Gitee和Gitlab的支持
+
+通过sys_auth_user的user_id字段建立起与sys_user的联系，当第三方平台初次登录后，会检测本平台内部是否有同名账号，存在同名时，则提示用户直接可以绑定或创建新账号，不存在同名时，直接提示创建新创号，同时，平台已有用户也可以后台设置页面手动进行绑定和解绑。
+
+核心流程：
+- 已绑定第三方平台用户：请求第三方平台登录->第三方平台登录回调结果->响应token到前端->获取第三方登录用户信息
+- 未绑定第三方平台用户：请求第三方平台登录->第三方平台登录回调结果->响应绑定前的第三方登录用户信息到前端->提示绑定或创建新账户->响应token到前端->获取绑定后的第三方登录用户信息
+
+详见[thirdLoginMixin.js](https://github.com/MapGIS/MapGIS-Boot/blob/master/mapgis-manager/src/views/user/third/thirdLoginMixin.js)和[ThirdLoginController.java](https://github.com/MapGIS/MapGIS-Boot/blob/master/mapgis-boot/mapgis-module-auth/mapgis-module-auth-biz/src/main/java/com/zondy/mapgis/auth/controller/ThirdLoginController.java)
+
+目前后端支持开启和关闭，单体版在`mapgis-server`模块的配置文件`application.yml`中：
+
+```yml
+# 第三方登录
+justauth:
+  enabled: true
+  type:
+    GITHUB:
+      client-id: ${JUSTAUTH_GITHUB_CLIENT_ID}
+      client-secret: ${JUSTAUTH_GITHUB_CLIENT_SECRET}
+      redirect-uri: ${JUSTAUTH_GITHUB_REDIRECT_URI:http://127.0.0.1:8080/xxx/rest/services/auth/thirdLogin/callback/github}
+    GITEE:
+      client-id: ${JUSTAUTH_GITEE_CLIENT_ID}
+      client-secret: ${JUSTAUTH_GITEE_CLIENT_SECRET}
+      redirect-uri: ${JUSTAUTH_GITEE_REDIRECT_URI:http://127.0.0.1:8080/xxx/rest/services/auth/thirdLogin/callback/gitee}
+  cache:
+    type: default
+  extend:
+    enum-class: ${JUSTAUTH_CUSTOM_ENUM_CLASS:com.zondy.mapgis.auth.justauth.source.AuthCustomSource}
+    authorize: ${JUSTAUTH_CUSTOM_AUTHORIZE_URL}
+    access-token: ${JUSTAUTH_CUSTOM_ACCESS_TOKEN_URL}
+    user-info: ${JUSTAUTH_CUSTOM_USER_INFO_URL}
+    config:
+      CUSTOM:
+        request-class: ${JUSTAUTH_CUSTOM_REQUEST_CLASS:com.zondy.mapgis.auth.justauth.request.AuthCustomRequest}
+        client-id: ${JUSTAUTH_CUSTOM_CLIENT_ID}
+        client-secret: ${JUSTAUTH_CUSTOM_CLIENT_SECRET}
+        redirect-uri: ${JUSTAUTH_CUSTOM_REDIRECT_URI:http://127.0.0.1:8080/xxx/rest/services/auth/thirdLogin/callback/custom}
+        scopes: ${JUSTAUTH_CUSTOM_SCOPES}
+```
+
+微服务版在网关模块的配置文件`mapgis-xxx-auth-server-xxx.yml`中（位于 nacos）:
+
+```yml
+# 第三方登录
+justauth:
+  enabled: true
+  type:
+    GITHUB:
+      client-id: f770f675866957c53ce6
+      client-secret: 79fdc00cb1fc6b4b4bf9bfc5738b56b14529ca7b
+      redirect-uri: http://127.0.0.1:8080/xxx/rest/services/auth/thirdLogin/callback/github
+    GITEE:
+      client-id: a3641bbe80e305d7810d1e848e4e1a9b338066ec16de19792fba1d1a304c8a2f
+      client-secret: f4123a258799dc60284e1e30241ba7276d141aaddea777716f7e675f167d2e4b
+      redirect-uri: http://127.0.0.1:8080/xxx/rest/services/auth/thirdLogin/callback/gitee
+  cache:
+    type: default
+  extend:
+    enum-class: com.zondy.mapgis.auth.justauth.source.AuthCustomSource
+    authorize: http://192.168.200.88/oauth/authorize
+    access-token: http://192.168.200.88/oauth/token
+    user-info: http://192.168.200.88/api/v4/user
+    config:
+      CUSTOM:
+        request-class: com.zondy.mapgis.auth.justauth.request.AuthCustomRequest
+        client-id: dcaf95ad5e5cc3d7f5ff8ef06960c3d57a7b18582b5d12b2367388cbf7cd7db5
+        client-secret: 83dc146f7bbca52e14b5eaa6f1963739035c0f625e9cc9c99b43ee846dd90c5b
+        redirect-uri: http://127.0.0.1:8080/xxx/rest/services/auth/thirdLogin/callback/custom
+        scopes: read_user openid
+```
+
+### CAS单点登录
+单点登录SSO(Single Sign-On) 是一种统一认证和授权机制，指访问同一服务器不同应用中的受保护资源的同一用户，只需要登录一次，即通过一个应用中的安全验证后，再访问其他应用中的受保护资源时，不再需要重新登录验证。
+
+#### CAS单点登录服务端准备
+需要搭建单独的服务端应用，可参考官网地址[https://github.com/apereo/cas-overlay-template](https://github.com/apereo/cas-overlay-template)
+> 一般情况下需要基于JDBC提供对动态用户的支持
+
+配置application.properties参考：
+```properties
+# http端口
+server.port=8888
+# https
+server.ssl.enabled=false
+# 证书路径
+server.ssl.key-store=config/ldkeystore.p12
+# 别名密码
+server.ssl.key-store-password=123456
+server.ssl.key-password=123456
+# 证书类型
+server.ssl.key-store-type=PKCS12
+# 别名
+server.ssl.key-alias=undertow
+# 设置安全为false
+cas.tgc.secure=false
+# 开启识别json文件，默认false
+cas.serviceRegistry.initFromJson=true
+cas.logout.follow-service-redirects=true
+
+##
+# CAS Authentication Credentials
+#
+cas.authn.jdbc.query[0].url=jdbc:mysql://localhost:3306/mapgis-xxx?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8
+cas.authn.jdbc.query[0].user=root
+cas.authn.jdbc.query[0].password=cloud123.mapgis
+cas.authn.jdbc.query[0].sql=select * from sys_user where user_name=?
+cas.authn.jdbc.query[0].fieldPassword=password
+cas.authn.jdbc.query[0].driverClass=com.mysql.cj.jdbc.Driver
+#开启自定义密码验证
+cas.authn.jdbc.query[0].passwordEncoder.type=com.cas.password.MyPasswordEncoder
+cas.authn.jdbc.query[0].fieldDisabled=status
+```
+
+启动脚本startup.bat参考：
+```shell
+@echo off
+cd /d %~dp0
+cd ..
+@echo on
+java.exe -jar lib/cas.war --cas.standalone.configuration-directory=config
+pause
+```
+
+#### 单点登录流程
+在本平台前后端分离模式下，单点登录中service采用的是后端接口，而非前端，当后端验证通过后，会携带token重定向到前端，前端基于token校验用户信息再跳转到去除token参数的前端页面
+> 核心思想：基于spring-security-cas，在单体版和微服务版中均提供了对cas的对接支持
+
+后端关键代码[CasSecurityConfig.java](https://github.com/MapGIS/MapGIS-Boot/blob/master/mapgis-boot/mapgis-module-auth/mapgis-module-auth-biz/src/main/java/com/zondy/mapgis/auth/cas/config/CasSecurityConfig.java)
+```java
+@EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
+@ConditionalOnProperty(prefix = "cas", name = "enabled", havingValue = "true")
+public class CasSecurityConfig extends WebSecurityConfigurerAdapter {
+    @Override
+    protected void configure(HttpSecurity httpSecurity) throws Exception {
+        // ...
+        // 添加CAS 认证filter
+        httpSecurity.addFilter(casAuthenticationFilter());
+        // 添加JWT filter
+        httpSecurity.addFilterBefore(authenticationTokenFilter, CasAuthenticationFilter.class);
+        httpSecurity.addFilterBefore(casLogoutFilter(), LogoutFilter.class);
+        httpSecurity.addFilterBefore(singleSignOutFilter(), CasAuthenticationFilter.class);
+
+        // 添加CORS filter
+        httpSecurity.addFilterBefore(corsFilter, JwtAuthenticationTokenFilter.class);
+        httpSecurity.addFilterBefore(corsFilter, LogoutFilter.class);
+        // ...
+    }
+
+    /**
+     * 身份认证接口
+     */
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        super.configure(auth);
+        auth.authenticationProvider(casAuthenticationProvider());
+    }
+
+    /**
+     * 指定service相关信息
+     */
+    @Bean
+    public ServiceProperties serviceProperties() {
+        ServiceProperties serviceProperties = new ServiceProperties();
+        // 设置cas客户端登录完整的url
+        serviceProperties.setService(casProperties.getCasServiceUrl() + casProperties.getCasServiceLoginUrl());
+        serviceProperties.setAuthenticateAllArtifacts(true);
+        return serviceProperties;
+    }
+
+    /**
+     * CAS认证过滤器
+     */
+    @Bean
+    public CasAuthenticationFilter casAuthenticationFilter() throws Exception {
+        CasAuthenticationFilter casAuthenticationFilter = new CasAuthenticationFilter();
+        casAuthenticationFilter.setAuthenticationManager(authenticationManager());
+        casAuthenticationFilter.setFilterProcessesUrl(casProperties.getCasServiceLoginUrl());
+        casAuthenticationFilter.setAuthenticationSuccessHandler(casAuthenticationSuccessHandler);
+        return casAuthenticationFilter;
+    }
+
+    /**
+     * CAS认证Provider
+     */
+    @Bean
+    public CasAuthenticationProvider casAuthenticationProvider() {
+        CasAuthenticationProvider casAuthenticationProvider = new CasAuthenticationProvider();
+        casAuthenticationProvider.setAuthenticationUserDetailsService(casUserDetailsService);
+        casAuthenticationProvider.setServiceProperties(serviceProperties());
+        casAuthenticationProvider.setTicketValidator(cas20ServiceTicketValidator());
+        casAuthenticationProvider.setKey("casAuthenticationProviderKey");
+        return casAuthenticationProvider;
+    }
+
+    /**
+     * CAS票证验证器
+     */
+    @Bean
+    public Cas20ServiceTicketValidator cas20ServiceTicketValidator() {
+        return new Cas20ServiceTicketValidator(casProperties.getCasServerUrl());
+    }
+
+    /**
+     * 单点注销过滤器
+     * 用于接收cas服务端的注销请求
+     */
+    @Bean
+    public SingleSignOutFilter singleSignOutFilter() {
+        SingleSignOutFilter singleSignOutFilter = new SingleSignOutFilter();
+        singleSignOutFilter.setIgnoreInitConfiguration(true);
+        return singleSignOutFilter;
+    }
+
+    /**
+     * 单点退出过滤器
+     * 用于跳转到cas服务端
+     */
+    @Bean
+    public LogoutFilter casLogoutFilter() {
+        LogoutFilter logoutFilter = new LogoutFilter(casProperties.getCasServerLogoutUrl(), new SecurityContextLogoutHandler());
+        logoutFilter.setFilterProcessesUrl(casProperties.getCasServiceLogoutUrl());
+        return logoutFilter;
+    }
+
+    @Bean
+    public ServletListenerRegistrationBean<SingleSignOutHttpSessionListener> singleSignOutHttpSessionListener() {
+        ServletListenerRegistrationBean<SingleSignOutHttpSessionListener> servletListenerRegistrationBean = new ServletListenerRegistrationBean<>();
+        servletListenerRegistrationBean.setListener(new SingleSignOutHttpSessionListener());
+        return servletListenerRegistrationBean;
+    }
+}
+```
+前端关键代码[permission.js](https://github.com/MapGIS/MapGIS-Boot/blob/master/mapgis-manager/src/permission.js)
+```js
+router.beforeEach((to, from, next) => {
+  NProgress.start() // start progress bar
+  to.meta && typeof to.meta.title !== 'undefined' && setDocumentTitle(`${i18nRender(to.meta.title)} - ${domTitle}`)
+  /* has token */
+  if (storage.get(ACCESS_TOKEN)) {
+    // ...
+  } else {
+    if (allowList.includes(to.name)) {
+      // 在免登录名单，直接进入
+      next()
+    } else {
+      if (window._CONFIG['enableSSO']) {
+        const queryParams = qs.parse(document.location.toString().split('?')[1])
+        const token = queryParams.token
+
+        // 判断来源是不是cas的地址
+        if (
+          token &&
+          (window._CONFIG['casLoginUrl'].includes(document.referrer) ||
+            document.referrer.includes(document.location.host))
+        ) {
+          validateToken(token, to, from, next)
+        } else {
+          window.location.href = window._CONFIG['casLoginUrl']
+        }
+      } else {
+        next({ path: loginRoutePath, query: { redirect: to.fullPath } })
+      }
+      NProgress.done() // if current page is login will not trigger afterEach hook, so manually handle it
+    }
+  }
+})
+
+function validateToken(token, to, from, next) {
+  store
+    .dispatch('ValidateLogin', token)
+    .then(res => {
+      const url = document.location.toString().split('?')[0]
+      window.location.href = url
+    })
+    .catch(() => {
+      window.location.href = window._CONFIG['casLoginUrl']
+    })
+}
+```
+#### 前后端配置
+**前端配置**
+
+`public/static/config.js`
+> 注意：service后面url，单体版为单体服务的主机端口，微服务版为授权服务的主机端口
+```js
+/**
+ * 存放配置常量
+ */
+window._CONFIG = {
+  // 单点登录地址
+  VUE_APP_CAS_LOGIN_URL: 'http://localhost:8888/cas/login?service=http://localhost:8080/login/cas',
+  // 单点登出地址
+  VUE_APP_CAS_LOGOUT_URL: 'http://localhost:8888/cas/logout?service=http://localhost:8080/login/cas',
+  // 开启单点登录
+  VUE_APP_SSO: false
+}
+```
+
+**后端配置**
+
+单体版在`mapgis-server`模块的配置文件`application.yml`中：
+```yml
+# cas配置
+cas:
+  enabled: ${CAS_ENABLED:false}
+  server:
+    host:
+      # cas服务端地址
+      url: ${CAS_SERVER_HOST_URL:http://localhost:8888/cas}
+      #cas服务端登录地址
+      login_url: ${cas.server.host.url}/login
+      #cas服务端登出地址 service参数后面跟就是需要跳转的页面/接口 这里指定的是cas客户端登录接口
+      logout_url: ${cas.server.host.url}/logout?service=${cas.service.host.url}${cas.service.host.login_url}
+  service:
+    host:
+      # cas客户端地址
+      url: ${CAS_SERVICE_HOST_URL:http://localhost:${server.port}}
+      # cas客户端地址登录地址
+      login_url: ${CAS_SERVICE_LOGIN_URL:/login/cas}
+      # cas客户端地址登出地址
+      logout_url: ${CAS_SERVICE_LOGOUT_URL:/logout/cas}
+    web:
+      url: ${CAS_SERVICE_WEB_RUL:http://localhost:8000}
+```
+
+微服务版在网关模块的配置文件`mapgis-xxx-auth-server-xxx.yml`中（位于 nacos）:
+
+```yml
+# cas配置
+cas:
+  enabled: true
+  server:
+    host:
+      # cas服务端地址
+      url: http://localhost:8888/cas
+      #cas服务端登录地址
+      login_url: /login
+      #cas服务端登出地址 service参数后面跟就是需要跳转的页面/接口 这里指定的是cas客户端登录接口
+      logout_url: /logout?service=${cas.service.host.url}${cas.service.host.login_url}
+  service:
+    host:
+      # cas客户端地址
+      url: http://localhost:${server.port}
+      # cas客户端地址登录地址
+      login_url: /login/cas
+      # cas客户端地址登出地址
+      logout_url: /logout/cas
+    web:
+      url: http://localhost:8000
+```
+### 微应用路由管理
+#### 什么是微前端
+微前端是一种多个团队通过独立发布功能的方式来共同构建现代化 web 应用的技术手段及方法策略。
+
+微前端架构旨在解决单体应用在一个相对长的时间跨度下，由于参与的人员、团队的增多、变迁，从一个普通应用演变成一个巨石应用(Frontend Monolith)后，随之而来的应用不可维护的问题。这类问题在企业级 Web 应用中尤其常见。
+
+#### qiankun
+qiankun 是蚂蚁金服开源的一款框架，它是基于 single-spa 的。他在 single-spa 的基础上，实现了开箱即用，除一些必要的修改外，子项目只需要做很少的改动，就能很容易的接入。如果说 single-spa 是自行车的话，qiankun 就是个汽车。
+
+##### 为什么不是 iframe
+看这里 [Why Not Iframe](https://www.yuque.com/kuitos/gky7yw/gesexv)
+
+#### 微应用改造
+微前端分为主应用和微应用，MapGIS Boot默认已经集成了qiankun，并传递了相关数据给微应用，更多配置请参考[微前端配置](/zh/guide/document/frontend.html#微前端配置)
+
+
+微应用改造请参考[微应用](https://qiankun.umijs.org/zh/guide/tutorial#%E5%BE%AE%E5%BA%94%E7%94%A8)
+
+:::tip
+默认主应用路由base为`/xxx/manager/`，在微应用内部设置路由base的时候，需要添加该前缀，比如下面的完整base是`/xxx/manager/app-vue`，那么注册微应用时activeRule就为`/xxx/manager/app-vue`
+:::
+
+```js
+router = new VueRouter({
+  base: window.__POWERED_BY_QIANKUN__ ? '/xxx/manager/app-vue/' : '/',
+  mode: 'history',
+  routes,
+});
+
+```
+#### 微应用注册
+支持前端微应用路由的动态注册，同[registerMicroApps](https://qiankun.umijs.org/zh/api#registermicroappsapps-lifecycles)的RegistrableApp类型一样，配置微应用名称`name`、微应用入口`entry`和微应用路由`activeRule`即可，默认container为`#micro-page`
+
+#### 通过菜单加载微应用
+支持通过菜单绑定微应用路由地址，实现微应用的加载，配置微应用页面菜单时，在组件路径上需要`使用微应用组件`，可结合菜单目录实现微应用嵌套路由的跳转。
+
+<br>
+<img :src="$withBase('/images/menu-micro-app-create.png')" alt="使用微应用组件">
+
+一个包含Vue微应用和React微应用的菜单配置如下：
+
+<br>
+<img :src="$withBase('/images/menu-micro-app-show.png')" alt="使用微应用组件">
 
 ## 单体版核心功能
 
@@ -2625,3 +2751,13 @@ public class SentinelFallbackHandler implements WebExceptionHandler {
     }
 }
 ```
+### 网关路由管理
+网关路由支持从数据库中加载，可动态配置微服务路由，用于后端微服务扩展，控制微服务发布和下线。
+
+#### 微服务断言信息配置
+<br>
+<img :src="$withBase('/images/gateway-route-predicate.png')" alt="微服务断言信息配置">
+
+#### 微服务过滤器信息配置
+<br>
+<img :src="$withBase('/images/gateway-route-filter.png')" alt="微服务过滤器信息配置">
