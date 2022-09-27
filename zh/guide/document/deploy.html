@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>部署运行 | MapGIS Boot</title>
+    <meta name="generator" content="VuePress 1.8.2">
+    <link rel="icon" href="/mapgis-boot-docs/favicon.ico">
+    <meta name="description" content="基于Spring Boot、Spring Cloud & Alibaba的前后端分离微服务极速后台开发框架">
+    <meta name="keywords" content="mapgis,开源,免费,mapgis boot,MapGIS-Boot">
+    
+    <link rel="preload" href="/mapgis-boot-docs/assets/css/0.styles.1ee03f85.css" as="style"><link rel="preload" href="/mapgis-boot-docs/assets/js/app.b0e7f9db.js" as="script"><link rel="preload" href="/mapgis-boot-docs/assets/js/2.ac73687b.js" as="script"><link rel="preload" href="/mapgis-boot-docs/assets/js/10.4df172ac.js" as="script"><link rel="prefetch" href="/mapgis-boot-docs/assets/js/11.14242ab8.js"><link rel="prefetch" href="/mapgis-boot-docs/assets/js/12.b43688b1.js"><link rel="prefetch" href="/mapgis-boot-docs/assets/js/13.f0b71d75.js"><link rel="prefetch" href="/mapgis-boot-docs/assets/js/14.f2272700.js"><link rel="prefetch" href="/mapgis-boot-docs/assets/js/15.acb833f2.js"><link rel="prefetch" href="/mapgis-boot-docs/assets/js/16.5ef8daf8.js"><link rel="prefetch" href="/mapgis-boot-docs/assets/js/3.7af3625a.js"><link rel="prefetch" href="/mapgis-boot-docs/assets/js/4.eb9b5ec8.js"><link rel="prefetch" href="/mapgis-boot-docs/assets/js/5.d810003a.js"><link rel="prefetch" href="/mapgis-boot-docs/assets/js/6.9d290eb7.js"><link rel="prefetch" href="/mapgis-boot-docs/assets/js/7.16c6aa10.js"><link rel="prefetch" href="/mapgis-boot-docs/assets/js/8.796e2370.js"><link rel="prefetch" href="/mapgis-boot-docs/assets/js/9.52885868.js">
+    <link rel="stylesheet" href="/mapgis-boot-docs/assets/css/0.styles.1ee03f85.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/mapgis-boot-docs/zh/" class="home-link router-link-active"><img src="/mapgis-boot-docs/logo.png" alt="MapGIS Boot" class="logo"> <span class="site-name can-hide">MapGIS Boot</span></a> <div class="links"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <nav class="nav-links can-hide"><div class="nav-item"><a href="/mapgis-boot-docs/zh/guide/document/introduction.html" class="nav-link">
+  指南
+</a></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="Select language" class="dropdown-title"><span class="title">选择语言</span> <span class="arrow down"></span></button> <button type="button" aria-label="Select language" class="mobile-dropdown-title"><span class="title">选择语言</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/mapgis-boot-docs/" class="nav-link">
+  English
+</a></li><li class="dropdown-item"><!----> <a href="/mapgis-boot-docs/zh/guide/document/deploy.html" aria-current="page" class="nav-link router-link-exact-active router-link-active">
+  简体中文
+</a></li></ul></div></div> <a href="https://github.com/mapgis/mapgis-boot" target="_blank" rel="noopener noreferrer" class="repo-link">
+    GitHub
+    <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></nav></div></header> <div class="sidebar-mask"></div> <aside class="sidebar"><nav class="nav-links"><div class="nav-item"><a href="/mapgis-boot-docs/zh/guide/document/introduction.html" class="nav-link">
+  指南
+</a></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="Select language" class="dropdown-title"><span class="title">选择语言</span> <span class="arrow down"></span></button> <button type="button" aria-label="Select language" class="mobile-dropdown-title"><span class="title">选择语言</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/mapgis-boot-docs/" class="nav-link">
+  English
+</a></li><li class="dropdown-item"><!----> <a href="/mapgis-boot-docs/zh/guide/document/deploy.html" aria-current="page" class="nav-link router-link-exact-active router-link-active">
+  简体中文
+</a></li></ul></div></div> <a href="https://github.com/mapgis/mapgis-boot" target="_blank" rel="noopener noreferrer" class="repo-link">
+    GitHub
+    <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></nav>  <ul class="sidebar-links"><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading open"><span>文档</span> <span class="arrow down"></span></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/mapgis-boot-docs/zh/guide/document/introduction.html" class="sidebar-link">项目介绍</a></li><li><a href="/mapgis-boot-docs/zh/guide/document/frontend.html" class="sidebar-link">前端手册</a></li><li><a href="/mapgis-boot-docs/zh/guide/document/backend.html" class="sidebar-link">后端手册</a></li><li><a href="/mapgis-boot-docs/zh/guide/document/packer.html" class="sidebar-link">项目打包</a></li><li><a href="/mapgis-boot-docs/zh/guide/document/deploy.html" aria-current="page" class="active sidebar-link">部署运行</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header"><a href="/mapgis-boot-docs/zh/guide/document/deploy.html#传统部署" class="sidebar-link">传统部署</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header"><a href="/mapgis-boot-docs/zh/guide/document/deploy.html#单体版" class="sidebar-link">单体版</a></li><li class="sidebar-sub-header"><a href="/mapgis-boot-docs/zh/guide/document/deploy.html#微服务版" class="sidebar-link">微服务版</a></li></ul></li><li class="sidebar-sub-header"><a href="/mapgis-boot-docs/zh/guide/document/deploy.html#docker-compose部署" class="sidebar-link">Docker Compose部署</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header"><a href="/mapgis-boot-docs/zh/guide/document/deploy.html#安装docker和docker-compose" class="sidebar-link">安装Docker和Docker Compose</a></li><li class="sidebar-sub-header"><a href="/mapgis-boot-docs/zh/guide/document/deploy.html#配置私有镜像仓库" class="sidebar-link">配置私有镜像仓库</a></li><li class="sidebar-sub-header"><a href="/mapgis-boot-docs/zh/guide/document/deploy.html#单体版-2" class="sidebar-link">单体版</a></li><li class="sidebar-sub-header"><a href="/mapgis-boot-docs/zh/guide/document/deploy.html#微服务版-2" class="sidebar-link">微服务版</a></li></ul></li><li class="sidebar-sub-header"><a href="/mapgis-boot-docs/zh/guide/document/deploy.html#kubernetes部署" class="sidebar-link">Kubernetes部署</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header"><a href="/mapgis-boot-docs/zh/guide/document/deploy.html#安装前提-2" class="sidebar-link">安装前提</a></li><li class="sidebar-sub-header"><a href="/mapgis-boot-docs/zh/guide/document/deploy.html#单体版-3" class="sidebar-link">单体版</a></li><li class="sidebar-sub-header"><a href="/mapgis-boot-docs/zh/guide/document/deploy.html#微服务版-3" class="sidebar-link">微服务版</a></li></ul></li></ul></li><li><a href="/mapgis-boot-docs/zh/guide/document/skill.html" class="sidebar-link">实战技巧</a></li></ul></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>其它</span> <span class="arrow right"></span></p> <!----></section></li></ul> </aside> <main class="page"> <div class="theme-default-content content__default"><h1 id="部署运行"><a href="#部署运行" class="header-anchor">#</a> 部署运行</h1> <h2 id="传统部署"><a href="#传统部署" class="header-anchor">#</a> 传统部署</h2> <h3 id="单体版"><a href="#单体版" class="header-anchor">#</a> 单体版</h3> <h4 id="安装"><a href="#安装" class="header-anchor">#</a> 安装</h4> <p>将与服务器架构一致的单体版包放到服务器的某一目录。</p> <h4 id="调整参数"><a href="#调整参数" class="header-anchor">#</a> 调整参数</h4> <p>复制 config/application.example.properties 文件并命名为 application.properties，修改里面的服务端口和数据源等信息。</p> <blockquote><p>如果某项配置为中文，可额外通过application.yml文件进行补充配置</p></blockquote> <h4 id="启动运行"><a href="#启动运行" class="header-anchor">#</a> 启动运行</h4> <div class="language-shell extra-class"><pre class="language-shell"><code><span class="token comment"># win-x86_64启动</span>
+bin/startup.bat
+<span class="token comment"># linx-x86_64启动</span>
+bin/startup.sh
+<span class="token comment"># linx-x86_64停止</span>
+bin/shutdown.sh
+</code></pre></div><h4 id="访问应用"><a href="#访问应用" class="header-anchor">#</a> 访问应用</h4> <p><a href="http://%7BHOST_IP%7D:%7BAPP_PORT%7D" target="_blank" rel="noopener noreferrer">http://{HOST_IP}:{APP_PORT}<span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></p> <p>{HOST_IP}为应用所在主机的IP，{APP_PORT}为应用端口</p> <h3 id="微服务版"><a href="#微服务版" class="header-anchor">#</a> 微服务版</h3> <blockquote><p>因微服务版涉及到服务较多，不推荐采用传统方式进行部署，建议采用容器部署方式（Docker Compose或Kubernetes）</p></blockquote> <h4 id="安装前提"><a href="#安装前提" class="header-anchor">#</a> 安装前提</h4> <ul><li>redis【必须】</li> <li>mysql【必须】</li> <li>nacos【必须】</li> <li>sentinel【可选】</li></ul> <h4 id="安装-2"><a href="#安装-2" class="header-anchor">#</a> 安装</h4> <p>将与服务器架构一致的微服务版包放到服务器的某一目录，并配置微服务版应用所在主机本地hosts：</p> <div class="language-shell extra-class"><pre class="language-shell"><code><span class="token number">127.0</span>.0.1 mapgis-xxx-mysql
+<span class="token number">127.0</span>.0.1 mapgis-xxx-redis
+<span class="token number">127.0</span>.0.1 mapgis-xxx-nacos
+<span class="token number">127.0</span>.0.1 mapgis-xxx-sentinel
+<span class="token number">127.0</span>.0.1 mapgis-xxx-gateway
+</code></pre></div><h4 id="调整参数-2"><a href="#调整参数-2" class="header-anchor">#</a> 调整参数</h4> <p>微服务版配置在配置中心nacos中，需要进入到nacos中进行调整，比如：redis密码、mysql数据源信息等</p> <h4 id="启动运行-2"><a href="#启动运行-2" class="header-anchor">#</a> 启动运行</h4> <div class="language-shell extra-class"><pre class="language-shell"><code><span class="token comment"># win-x86_64启动</span>
+bin/startup.bat
+<span class="token comment"># linx-x86_64启动</span>
+bin/startup.sh
+<span class="token comment"># linx-x86_64停止</span>
+bin/shutdown.sh
+</code></pre></div><h4 id="访问应用-2"><a href="#访问应用-2" class="header-anchor">#</a> 访问应用</h4> <p><a href="http://%7BHOST_IP%7D:%7BGATEWAY_PUBLIC_PORT%7D" target="_blank" rel="noopener noreferrer">http://{HOST_IP}:{GATEWAY_PUBLIC_PORT}<span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></p> <p>{HOST_IP}为应用所在主机的IP，{GATEWAY_PUBLIC_PORT}为应用端口</p> <h2 id="docker-compose部署"><a href="#docker-compose部署" class="header-anchor">#</a> Docker Compose部署</h2> <h3 id="安装docker和docker-compose"><a href="#安装docker和docker-compose" class="header-anchor">#</a> 安装Docker和Docker Compose</h3> <p>安装Docker</p> <div class="language-shell extra-class"><pre class="language-shell"><code><span class="token comment"># 使用daocloud 的一键安装脚本</span>
+<span class="token function">curl</span> -sSL https://get.daocloud.io/docker <span class="token operator">|</span> <span class="token function">sh</span>
+
+<span class="token comment"># 安装 daocloud 加速器，避免dockerhub 网络问题</span>
+<span class="token function">curl</span> -sSL https://get.daocloud.io/daotools/set_mirror.sh <span class="token operator">|</span> <span class="token function">sh</span> -s http://f1361db2.m.daocloud.io
+
+<span class="token comment"># 启动docker服务</span>
+systemctl start docker
+
+<span class="token comment"># 测试运行 hello-world,由于本地没有hello-world这个镜像，所以会下载一个hello-world的镜像，并在容器内运行。</span>
+docker run hello-world
+
+<span class="token comment"># 查看Docker版本</span>
+docker --version
+</code></pre></div><p>安装Docker Compose</p> <div class="language-shell extra-class"><pre class="language-shell"><code><span class="token function">curl</span> -L https://get.daocloud.io/docker/compose/releases/download/1.29.2/docker-compose-<span class="token variable"><span class="token variable">`</span><span class="token function">uname</span> -s<span class="token variable">`</span></span>-<span class="token variable"><span class="token variable">`</span><span class="token function">uname</span> -m<span class="token variable">`</span></span> <span class="token operator">&gt;</span> /usr/local/bin/docker-compose
+<span class="token function">chmod</span> +x /usr/local/bin/docker-compose
+</code></pre></div><h3 id="配置私有镜像仓库"><a href="#配置私有镜像仓库" class="header-anchor">#</a> 配置私有镜像仓库</h3> <p>目前MapGIS Boot已上传到私有镜像仓库192.168.177.1:5000，需要配置Docker</p> <div class="language-shell extra-class"><pre class="language-shell"><code><span class="token comment"># 编辑</span>
+<span class="token function">vi</span> /etc/docker/daemon.json
+
+<span class="token comment"># 添加私有仓库地址</span>
+<span class="token punctuation">{</span>
+  <span class="token string">&quot;registry-mirrors&quot;</span><span class="token builtin class-name">:</span> <span class="token punctuation">[</span><span class="token string">&quot;加速地址&quot;</span><span class="token punctuation">]</span>,
+  <span class="token string">&quot;insecure-registries&quot;</span><span class="token builtin class-name">:</span> <span class="token punctuation">[</span><span class="token string">&quot;192.168.177.1:5000&quot;</span><span class="token punctuation">]</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment"># 生效</span>
+systemctl daemon-reload
+systemctl restart docker
+</code></pre></div><h3 id="单体版-2"><a href="#单体版-2" class="header-anchor">#</a> 单体版</h3> <h4 id="安装-3"><a href="#安装-3" class="header-anchor">#</a> 安装</h4> <p>将Docker版的包放到linux服务器的某一目录，如：<code>/opt</code>，进入应用根目录，执行以下命令，进行安装：</p> <div class="language-shell extra-class"><pre class="language-shell"><code><span class="token function">sudo</span> <span class="token function">chmod</span> +x install.sh <span class="token operator">&amp;&amp;</span> <span class="token function">sudo</span> ./install.sh
+</code></pre></div><h4 id="调整参数-3"><a href="#调整参数-3" class="header-anchor">#</a> 调整参数</h4> <p>编辑<code>.env</code>，根据需要修改相关参数，运行<code>sudo vi .env</code></p> <div class="language-properties extra-class"><pre class="language-properties"><code><span class="token comment"># 私有镜像仓库地址，注意结尾需含/，默认为空</span>
+<span class="token attr-name">DOCKER_REGISTRY_URL</span><span class="token punctuation">=</span>
+
+<span class="token comment"># 镜像标签</span>
+<span class="token attr-name">MAPGIS_IMAGE_TAG</span><span class="token punctuation">=</span><span class="token attr-value">10.6.0.10</span>
+
+<span class="token comment"># 应用端口</span>
+<span class="token attr-name">MAPGIS_APP_PORT</span><span class="token punctuation">=</span><span class="token attr-value">8080</span>
+</code></pre></div><h4 id="启动运行-3"><a href="#启动运行-3" class="header-anchor">#</a> 启动运行</h4> <div class="language-shell extra-class"><pre class="language-shell"><code><span class="token comment"># 启动</span>
+<span class="token function">sudo</span> ./startup.sh
+<span class="token comment"># 停止</span>
+<span class="token function">sudo</span> ./shutdown.sh
+</code></pre></div><h4 id="访问应用-3"><a href="#访问应用-3" class="header-anchor">#</a> 访问应用</h4> <p><a href="http://%7BDOCKER_HOST_IP%7D:%7BMAPGIS_APP_PORT%7D" target="_blank" rel="noopener noreferrer">http://{DOCKER_HOST_IP}:{MAPGIS_APP_PORT}<span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></p> <p>{DOCKER_HOST_IP}为Docker宿主机的IP，{MAPGIS_APP_PORT}为应用端口</p> <h3 id="微服务版-2"><a href="#微服务版-2" class="header-anchor">#</a> 微服务版</h3> <h4 id="安装-4"><a href="#安装-4" class="header-anchor">#</a> 安装</h4> <p>将Docker版的包放到linux服务器的某一目录，如：<code>/opt</code>，进入应用根目录，执行以下命令，进行安装：</p> <div class="language-shell extra-class"><pre class="language-shell"><code><span class="token function">sudo</span> <span class="token function">chmod</span> +x install.sh <span class="token operator">&amp;&amp;</span> <span class="token function">sudo</span> ./install.sh
+</code></pre></div><h4 id="调整参数-4"><a href="#调整参数-4" class="header-anchor">#</a> 调整参数</h4> <p>编辑<code>.env</code>，根据需要修改相关参数，运行<code>sudo vi .env</code></p> <div class="language-properties extra-class"><pre class="language-properties"><code><span class="token comment"># 私有镜像仓库地址，注意结尾需含/，默认为空</span>
+<span class="token attr-name">DOCKER_REGISTRY_URL</span><span class="token punctuation">=</span>
+
+<span class="token comment"># 镜像标签</span>
+<span class="token attr-name">MAPGIS_IMAGE_TAG</span><span class="token punctuation">=</span><span class="token attr-value">10.6.0.10</span>
+
+<span class="token comment"># NACOS主机(用于微服务之间通信，一般不需要修改)</span>
+<span class="token attr-name">NACOS_HOST</span><span class="token punctuation">=</span><span class="token attr-value">mapgis-xxx-nacos</span>
+
+<span class="token comment"># NACOS端口(内部端口，用于微服务之间通信，一般不需要修改)</span>
+<span class="token attr-name">NACOS_PORT</span><span class="token punctuation">=</span><span class="token attr-value">8848</span>
+
+<span class="token comment"># 网关主机(用于微服务之间通信，一般不需要修改)</span>
+<span class="token attr-name">GATEWAY_HOST</span><span class="token punctuation">=</span><span class="token attr-value">mapgis-xxx-gateway</span>
+
+<span class="token comment"># 网关主机(外部主机，用于Swagger在线文档，需要外部能访问，如不能访问，请设置成Docker宿主机IP)</span>
+<span class="token attr-name">GATEWAY_PUBLIC_HOST</span><span class="token punctuation">=</span>
+
+<span class="token comment"># 网关端口(外部端口，用于应用入口和Swagger在线文档)</span>
+<span class="token attr-name">GATEWAY_PUBLIC_PORT</span><span class="token punctuation">=</span><span class="token attr-value">8080</span>
+
+<span class="token comment"># Redis主机(用于微服务之间通信，一般不需要修改)</span>
+<span class="token attr-name">REDIS_HOST</span><span class="token punctuation">=</span><span class="token attr-value">mapgis-xxx-redis</span>
+
+<span class="token comment"># Redis端口(内部端口，用于微服务之间通信，一般不需要修改)</span>
+<span class="token attr-name">REDIS_PORT</span><span class="token punctuation">=</span><span class="token attr-value">6379</span>
+
+<span class="token comment"># Redis密码(可修改)</span>
+<span class="token attr-name">REDIS_PWD</span><span class="token punctuation">=</span><span class="token attr-value">cloud123.mapgis</span>
+
+<span class="token comment"># MySQL主机(用于微服务之间通信，一般不需要修改)</span>
+<span class="token attr-name">MYSQL_HOST</span><span class="token punctuation">=</span><span class="token attr-value">mapgis-xxx-mysql</span>
+
+<span class="token comment"># MySQL端口(内部端口，用于微服务之间通信，一般不需要修改)</span>
+<span class="token attr-name">MYSQL_PORT</span><span class="token punctuation">=</span><span class="token attr-value">3306</span>
+
+<span class="token comment"># MySQL数据库名(默认由容器创建，一般不需要修改)</span>
+<span class="token attr-name">MYSQL_DB</span><span class="token punctuation">=</span><span class="token attr-value">mapgis-cloud-xxx</span>
+
+<span class="token comment"># MySQL配置中心数据库名(由配置中心sql脚本自动创建，一般不需要修改)</span>
+<span class="token attr-name">MYSQL_CONFIG_DB</span><span class="token punctuation">=</span><span class="token attr-value">mapgis-cloud-config</span>
+
+<span class="token comment"># MySQL用户名</span>
+<span class="token attr-name">MYSQL_USER</span><span class="token punctuation">=</span><span class="token attr-value">root</span>
+
+<span class="token comment"># MySQL密码(可修改)</span>
+<span class="token attr-name">MYSQL_PWD</span><span class="token punctuation">=</span><span class="token attr-value">cloud123.mapgis</span>
+
+<span class="token comment"># MONITOR端口(外部端口，用于Spring Boot应用监控，需要外部能访问)</span>
+<span class="token attr-name">MONITOR_PUBLIC_PORT</span><span class="token punctuation">=</span><span class="token attr-value">9200</span>
+</code></pre></div><h4 id="启动运行-4"><a href="#启动运行-4" class="header-anchor">#</a> 启动运行</h4> <div class="language-shell extra-class"><pre class="language-shell"><code><span class="token comment"># 启动</span>
+<span class="token function">sudo</span> ./startup.sh
+<span class="token comment"># 停止</span>
+<span class="token function">sudo</span> ./shutdown.sh
+</code></pre></div><h4 id="访问应用-4"><a href="#访问应用-4" class="header-anchor">#</a> 访问应用</h4> <p><a href="http://%7BDOCKER_HOST_IP%7D:%7BGATEWAY_PUBLIC_PORT%7D" target="_blank" rel="noopener noreferrer">http://{DOCKER_HOST_IP}:{GATEWAY_PUBLIC_PORT}<span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></p> <p>{DOCKER_HOST_IP}为Docker宿主机的IP，{GATEWAY_PUBLIC_PORT}为应用端口</p> <h2 id="kubernetes部署"><a href="#kubernetes部署" class="header-anchor">#</a> Kubernetes部署</h2> <h3 id="安装前提-2"><a href="#安装前提-2" class="header-anchor">#</a> 安装前提</h3> <ul><li><p>Kubernetes 1.9及以上</p></li> <li><p>所需硬件资源</p> <ul><li><p>CPU：4核</p></li> <li><p>内存：16GB+</p></li> <li><p>硬盘：200GB+</p></li></ul></li> <li><p>NFS Server</p></li> <li><p>私有镜像仓库（如果可以访问阿里云镜像仓库，则不需要搭建）</p> <blockquote><p>搭建时可参考<a href="/mapgis-boot-docs/zh/guide/document/deploy.html#配置私有镜像仓库">配置私有镜像仓库</a></p></blockquote></li></ul> <h3 id="单体版-3"><a href="#单体版-3" class="header-anchor">#</a> 单体版</h3> <h4 id="调整参数-5"><a href="#调整参数-5" class="header-anchor">#</a> 调整参数</h4> <p>编辑<code>values.yaml</code>，根据需要修改相关参数，运行<code>sudo vi values.yaml</code></p> <div class="language-shell extra-class"><pre class="language-shell"><code><span class="token comment"># 选填，应用端口，自定义范围30000-32767，默认为32000</span>
+appPort: <span class="token number">32000</span>
+
+<span class="token comment"># 必填，镜像仓库地址，默认为阿里云镜像仓库（外网推荐使用）：registry.cn-beijing.aliyuncs.com</span>
+<span class="token comment"># 内网私有镜像仓库：&lt;ip&gt;:5000，&lt;ip&gt;为镜像仓库所在的机器IP，例如：192.168.177.1:5000</span>
+imageRegistry: 
+
+<span class="token comment"># 必填，NFS Server的地址，用于持久化存储应用数据，例如：192.168.130.10</span>
+nfsServer: 
+
+<span class="token comment"># 必填，NFS Server提供的挂载路径，默认是根路径: /，请根据实际情况填写，例如：/nfs/data</span>
+nfsPath: /
+
+<span class="token comment"># 选填，用于存储应用数据，它跟NFS Server都用于存储数据，如果和NFS Server同时存在，优先使用NFS Server存储应用数据</span>
+nfsStorageClassName: 
+</code></pre></div><h4 id="启动运行-5"><a href="#启动运行-5" class="header-anchor">#</a> 启动运行</h4> <div class="language-shell extra-class"><pre class="language-shell"><code><span class="token comment"># 启动</span>
+<span class="token function">sudo</span> ./startup.sh
+<span class="token comment"># 停止</span>
+<span class="token function">sudo</span> ./shutdown.sh
+</code></pre></div><h4 id="访问应用-5"><a href="#访问应用-5" class="header-anchor">#</a> 访问应用</h4> <p><a href="http://%7Bip%7D:%7BappPort%7D" target="_blank" rel="noopener noreferrer">http://{ip}:{appPort}}<span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></p> <p>{ip}为外部访问k8s的IP，{appPort}为应用端口</p> <h3 id="微服务版-3"><a href="#微服务版-3" class="header-anchor">#</a> 微服务版</h3> <h4 id="调整参数-6"><a href="#调整参数-6" class="header-anchor">#</a> 调整参数</h4> <p>编辑<code>values.yaml</code>，根据需要修改相关参数，运行<code>sudo vi values.yaml</code></p> <div class="language-shell extra-class"><pre class="language-shell"><code><span class="token comment"># 必填，外部访问k8s的IP，可以是k8s集群内任意一台外部可访问的机器IP，如：192.168.130.10</span>
+k8sPublicIp: 
+
+<span class="token comment"># 选填，应用端口，自定义范围30000-32767，默认为32000</span>
+appPort: <span class="token number">32000</span>
+
+<span class="token comment"># 必填，镜像仓库地址，默认为阿里云镜像仓库（外网推荐使用）：registry.cn-beijing.aliyuncs.com</span>
+<span class="token comment"># 内网私有镜像仓库：&lt;ip&gt;:5000，&lt;ip&gt;为镜像仓库所在的机器IP，例如：192.168.177.1:5000</span>
+imageRegistry: 
+
+<span class="token comment"># 必填，NFS Server的地址，用于持久化存储应用数据，例如：192.168.130.10</span>
+nfsServer: 
+
+<span class="token comment"># 必填，NFS Server提供的挂载路径，默认是根路径: /，请根据实际情况填写，例如：/nfs/data</span>
+nfsPath: /
+
+<span class="token comment"># 选填，用于存储应用数据，它跟NFS Server都用于存储数据，如果和NFS Server同时存在，优先使用NFS Server存储应用数据</span>
+nfsStorageClassName: 
+</code></pre></div><h4 id="启动运行-6"><a href="#启动运行-6" class="header-anchor">#</a> 启动运行</h4> <div class="language-shell extra-class"><pre class="language-shell"><code><span class="token comment"># 启动</span>
+<span class="token function">sudo</span> ./startup.sh
+<span class="token comment"># 停止</span>
+<span class="token function">sudo</span> ./shutdown.sh
+</code></pre></div><h4 id="访问应用-6"><a href="#访问应用-6" class="header-anchor">#</a> 访问应用</h4> <p><a href="http://%7Bip%7D:%7BappPort%7D" target="_blank" rel="noopener noreferrer">http://{ip}:{appPort}}<span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></p> <p>{ip}为外部访问k8s的IP，{appPort}为应用端口</p></div> <footer class="page-edit"><div class="edit-link"><a href="https://github.com/mapgis/mapgis-boot/edit/master/docs/zh/guide/document/deploy.md" target="_blank" rel="noopener noreferrer">在 GitHub 上编辑此页</a> <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></div> <div class="last-updated"><span class="prefix">Last Updated:</span> <span class="time">2022/9/26 18:20:56</span></div></footer> <div class="page-nav"><p class="inner"><span class="prev">
+      ←
+      <a href="/mapgis-boot-docs/zh/guide/document/packer.html" class="prev">
+        项目打包
+      </a></span> <span class="next"><a href="/mapgis-boot-docs/zh/guide/document/skill.html">
+        实战技巧
+      </a>
+      →
+    </span></p></div> </main></div><div class="global-ui"><!----><div class="my-popup" style="display:none;" data-v-3414bdeb><div class="my-popup-container" data-v-3414bdeb><div class="my-popup-exit" data-v-3414bdeb></div> <img src="" alt data-v-3414bdeb></div></div></div></div>
+    <script src="/mapgis-boot-docs/assets/js/app.b0e7f9db.js" defer></script><script src="/mapgis-boot-docs/assets/js/2.ac73687b.js" defer></script><script src="/mapgis-boot-docs/assets/js/10.4df172ac.js" defer></script>
+  </body>
+</html>
