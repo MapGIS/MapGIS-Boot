@@ -97,4 +97,4 @@ MapGIS Boot 是一个 Java EE 企业级快速开发平台，基于经典技术�
 
 ## 更多
 
-更多介绍请参考[项目说明](https://github.com/MapGIS/MapGIS-Boot/blob/master)
+更多介绍请参考[项目说明](https://github.com/MapGIS/MapGIS-Boot)
