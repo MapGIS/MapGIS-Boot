@@ -28,7 +28,7 @@
         <a-badge v-if="form.status === 0" status="processing" text="正常" />
         <a-badge v-if="form.status === 1" status="error" text="失败" />
       </a-descriptions-item>
-      <a-descriptions-item label="操作时间" span="2">
+      <a-descriptions-item label="操作时间">
         {{ parseTime(form.operTime) }}
       </a-descriptions-item>
       <a-descriptions-item label="异常信息" span="3" v-if="form.status === 1">
@@ -64,3 +64,9 @@ export default {
   }
 }
 </script>
+
+<style lang="less" scoped>
+/deep/ .ant-descriptions-item-content {
+  word-break: break-all;
+}
+</style>
