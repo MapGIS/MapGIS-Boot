@@ -1,8 +1,11 @@
 package com.zondy.mapgis.modules.monitor.service.impl;
 
-import cn.hutool.core.date.BetweenFormatter;
 import cn.hutool.core.date.DateUtil;
+import cn.hutool.core.io.FileUtil;
+import cn.hutool.core.util.NumberUtil;
+import com.zondy.mapgis.common.core.utils.DateUtils;
 import com.zondy.mapgis.common.core.utils.ip.IpUtils;
+import com.zondy.mapgis.common.core.utils.network.NetworkUtils;
 import com.zondy.mapgis.modules.monitor.service.ServerService;
 import org.springframework.stereotype.Service;
 import oshi.SystemInfo;
@@ -13,15 +16,13 @@ import oshi.hardware.VirtualMemory;
 import oshi.software.os.FileSystem;
 import oshi.software.os.OSFileStore;
 import oshi.software.os.OperatingSystem;
-import oshi.util.FormatUtil;
 import oshi.util.Util;
 
 import java.lang.management.ManagementFactory;
+import java.math.BigDecimal;
 import java.text.DecimalFormat;
-import java.util.Date;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.concurrent.atomic.AtomicLong;
 
 /**
  * @author xiongbo
@@ -49,6 +50,12 @@ public class ServiceServiceImpl implements ServerService {
             resultMap.put("swap", getSwapInfo(hal.getMemory()));
             // 磁盘
             resultMap.put("disk", getDiskInfo(os));
+            // 网络
+            resultMap.put("network", getNetworkInfo());
+            // JVM
+            resultMap.put("jvm", getJvmInfo());
+            // 文件系统
+            resultMap.put("files", getFilesInfo(os));
             resultMap.put("time", DateUtil.format(new Date(), "HH:mm:ss"));
         } catch (Exception e) {
             e.printStackTrace();
@@ -64,29 +71,24 @@ public class ServiceServiceImpl implements ServerService {
     private Map<String, Object> getDiskInfo(OperatingSystem os) {
         Map<String, Object> diskInfo = new LinkedHashMap<>();
         FileSystem fileSystem = os.getFileSystem();
-        List<OSFileStore> fsArray = fileSystem.getFileStores();
-        String osName = System.getProperty("os.name");
-        long available = 0, total = 0;
-        for (OSFileStore fs : fsArray) {
-            // windows 需要将所有磁盘分区累加，linux 和 mac 直接累加会出现磁盘重复的问题，待修复
-            if (osName.toLowerCase().startsWith("win")) {
-                available += fs.getUsableSpace();
-                total += fs.getTotalSpace();
-            } else {
-                available = fs.getUsableSpace();
-                total = fs.getTotalSpace();
-                break;
-            }
-        }
-        long used = total - available;
-        diskInfo.put("total", total > 0 ? convertFileSize(total) : "?");
-        diskInfo.put("available", convertFileSize(available));
-        diskInfo.put("used", convertFileSize(used));
-        if (total != 0) {
-            diskInfo.put("usageRate", df.format(used / (double) total * 100));
-        } else {
-            diskInfo.put("usageRate", 0);
-        }
+        AtomicLong storageTotal = new AtomicLong();
+        AtomicLong storageUsed = new AtomicLong();
+        AtomicLong storageFree = new AtomicLong();
+        fileSystem.getFileStores().forEach(osFileStore -> {
+            long totalSpace = osFileStore.getTotalSpace();
+            long usableSpace = osFileStore.getUsableSpace();
+            long freeSpace = osFileStore.getFreeSpace();
+            long usedSpace = totalSpace - usableSpace;
+            storageTotal.addAndGet(totalSpace);
+            storageUsed.addAndGet(usedSpace);
+            storageFree.addAndGet(freeSpace);
+        });
+
+        diskInfo.put("total", FileUtil.readableFileSize(storageTotal.get()));
+        diskInfo.put("used", FileUtil.readableFileSize(storageUsed.get()));
+        diskInfo.put("free", FileUtil.readableFileSize(storageFree.get()));
+        diskInfo.put("usage", NumberUtil.mul(NumberUtil.div(storageUsed.doubleValue(), storageTotal.doubleValue(), 4), 100));
+
         return diskInfo;
     }
 
@@ -101,13 +103,13 @@ public class ServiceServiceImpl implements ServerService {
         VirtualMemory virtualMemory = memory.getVirtualMemory();
         long total = virtualMemory.getSwapTotal();
         long used = virtualMemory.getSwapUsed();
-        swapInfo.put("total", FormatUtil.formatBytes(total));
-        swapInfo.put("used", FormatUtil.formatBytes(used));
-        swapInfo.put("available", FormatUtil.formatBytes(total - used));
+        swapInfo.put("total", FileUtil.readableFileSize(total));
+        swapInfo.put("used", FileUtil.readableFileSize(used));
+        swapInfo.put("free", FileUtil.readableFileSize(total - used));
         if (used == 0) {
-            swapInfo.put("usageRate", 0);
+            swapInfo.put("usage", 0);
         } else {
-            swapInfo.put("usageRate", df.format(used / (double) total * 100));
+            swapInfo.put("usage", NumberUtil.mul(NumberUtil.div(used, total, 4), 100));
         }
         return swapInfo;
     }
@@ -120,10 +122,10 @@ public class ServiceServiceImpl implements ServerService {
      */
     private Map<String, Object> getMemoryInfo(GlobalMemory memory) {
         Map<String, Object> memoryInfo = new LinkedHashMap<>();
-        memoryInfo.put("total", FormatUtil.formatBytes(memory.getTotal()));
-        memoryInfo.put("available", FormatUtil.formatBytes(memory.getAvailable()));
-        memoryInfo.put("used", FormatUtil.formatBytes(memory.getTotal() - memory.getAvailable()));
-        memoryInfo.put("usageRate", df.format((memory.getTotal() - memory.getAvailable()) / (double) memory.getTotal() * 100));
+        memoryInfo.put("total", FileUtil.readableFileSize(memory.getTotal()));
+        memoryInfo.put("used", FileUtil.readableFileSize(memory.getTotal() - memory.getAvailable()));
+        memoryInfo.put("free", FileUtil.readableFileSize(memory.getAvailable()));
+        memoryInfo.put("usage", NumberUtil.mul(NumberUtil.div(memory.getTotal() - memory.getAvailable(), memory.getTotal(), 4), 100));
         return memoryInfo;
     }
 
@@ -136,10 +138,9 @@ public class ServiceServiceImpl implements ServerService {
     private Map<String, Object> getCpuInfo(CentralProcessor processor) {
         Map<String, Object> cpuInfo = new LinkedHashMap<>();
         cpuInfo.put("name", processor.getProcessorIdentifier().getName());
-        cpuInfo.put("package", processor.getPhysicalPackageCount() + "个物理CPU");
-        cpuInfo.put("core", processor.getPhysicalProcessorCount() + "个物理核心");
-        cpuInfo.put("coreNumber", processor.getPhysicalProcessorCount());
-        cpuInfo.put("logic", processor.getLogicalProcessorCount() + "个逻辑CPU");
+        cpuInfo.put("package", processor.getPhysicalPackageCount() + "颗物理CPU");
+        cpuInfo.put("physical", processor.getPhysicalProcessorCount() + "个物理核心");
+        cpuInfo.put("logical", processor.getLogicalProcessorCount() + "个逻辑核心");
         // CPU信息
         long[] prevTicks = processor.getSystemCpuLoadTicks();
         // 等待1秒...
@@ -154,51 +155,104 @@ public class ServiceServiceImpl implements ServerService {
         long softirq = ticks[CentralProcessor.TickType.SOFTIRQ.getIndex()] - prevTicks[CentralProcessor.TickType.SOFTIRQ.getIndex()];
         long steal = ticks[CentralProcessor.TickType.STEAL.getIndex()] - prevTicks[CentralProcessor.TickType.STEAL.getIndex()];
         long totalCpu = user + nice + sys + idle + iowait + irq + softirq + steal;
-        cpuInfo.put("used", df.format(100d * user / totalCpu + 100d * sys / totalCpu));
-        cpuInfo.put("idle", df.format(100d * idle / totalCpu));
+        cpuInfo.put("sys", NumberUtil.div(NumberUtil.mul(sys, 100), totalCpu, 2));
+        cpuInfo.put("user", NumberUtil.div(NumberUtil.mul(user, 100), totalCpu, 2));
+        cpuInfo.put("total", NumberUtil.div(NumberUtil.mul(NumberUtil.add(sys, user), 100), totalCpu, 2));
+        cpuInfo.put("wait", NumberUtil.div(NumberUtil.mul(iowait, 100), totalCpu, 2));
+        cpuInfo.put("free", NumberUtil.div(NumberUtil.mul(idle, 100), totalCpu, 2));
+
         return cpuInfo;
     }
 
     /**
-     * 获取系统相关信息,系统、运行天数、系统IP
+     * 获取系统相关信息,系统名称、操作系统、IP、架构、项目路径、系统完整信息
      *
      * @param os /
      * @return /
      */
     private Map<String, Object> getSystemInfo(OperatingSystem os) {
+        Properties props = System.getProperties();
         Map<String, Object> systemInfo = new LinkedHashMap<>();
-        // jvm 运行时间
-        long time = ManagementFactory.getRuntimeMXBean().getStartTime();
-        Date date = new Date(time);
-        // 计算项目运行时间
-        String formatBetween = DateUtil.formatBetween(date, new Date(), BetweenFormatter.Level.HOUR);
+
         // 系统信息
-        systemInfo.put("os", os.toString());
-        systemInfo.put("day", formatBetween);
+        systemInfo.put("name", IpUtils.getHostName());
+        systemInfo.put("os", props.getProperty("os.name"));
         systemInfo.put("ip", IpUtils.getHostIp());
+        systemInfo.put("arch", props.getProperty("os.arch"));
+        systemInfo.put("userDir", props.getProperty("user.dir"));
+        systemInfo.put("osFullInfo", os.toString());
+
         return systemInfo;
     }
 
     /**
-     * 字节转换
+     * 获取网络速率
      *
-     * @param size 字节大小
-     * @return 转换后值
+     * @return
      */
-    public String convertFileSize(long size) {
-        long kb = 1024;
-        long mb = kb * 1024;
-        long gb = mb * 1024;
-        if (size >= gb) {
-            return String.format("%.1f GB", (float) size / gb);
-        } else if (size >= mb) {
-            float f = (float) size / mb;
-            return String.format(f > 100 ? "%.0f MB" : "%.1f MB", f);
-        } else if (size >= kb) {
-            float f = (float) size / kb;
-            return String.format(f > 100 ? "%.0f KB" : "%.1f KB", f);
-        } else {
-            return String.format("%d B", size);
+    private Map<String, Object> getNetworkInfo() {
+        Map<String, Object> networkInfo = new LinkedHashMap<>();
+        Map<String, String> networkUpRate = NetworkUtils.getNetworkUpRate();
+
+        networkInfo.put("uplink", networkUpRate.get("UP"));
+        networkInfo.put("downlink", networkUpRate.get("DOWN"));
+        return networkInfo;
+    }
+
+    /**
+     * 获取JVM信息
+     *
+     * @return
+     */
+    private Map<String, Object> getJvmInfo() {
+        Map<String, Object> jvmInfo = new LinkedHashMap<>();
+
+        Properties props = System.getProperties();
+
+        jvmInfo.put("name", ManagementFactory.getRuntimeMXBean().getVmName());
+        jvmInfo.put("version", ManagementFactory.getRuntimeMXBean().getVmVersion());
+        jvmInfo.put("startTime", DateUtils.parseDateToStr(DateUtils.YYYY_MM_DD_HH_MM_SS, DateUtils.getServerStartDate()));
+        jvmInfo.put("runTime", DateUtils.getDatePoor(DateUtils.getNowDate(), DateUtils.getServerStartDate()));
+        jvmInfo.put("javaVersion", props.getProperty("java.version"));
+        jvmInfo.put("javaPath", props.getProperty("java.home"));
+        jvmInfo.put("inputArgs", ManagementFactory.getRuntimeMXBean().getInputArguments().toString());
+        jvmInfo.put("max", FileUtil.readableFileSize(Runtime.getRuntime().maxMemory()));
+        long totalMemory = Runtime.getRuntime().totalMemory();
+        jvmInfo.put("total", FileUtil.readableFileSize(totalMemory));
+        long jvmMemoryUsed = NumberUtil.sub(new BigDecimal(Runtime.getRuntime().totalMemory()), new BigDecimal(Runtime.getRuntime().freeMemory())).longValue();
+        jvmInfo.put("used", FileUtil.readableFileSize(jvmMemoryUsed));
+        jvmInfo.put("free", FileUtil.readableFileSize(Runtime.getRuntime().freeMemory()));
+        jvmInfo.put("usage", NumberUtil.mul(NumberUtil.div(jvmMemoryUsed, totalMemory, 4), 100));
+        return jvmInfo;
+    }
+
+    /**
+     * 获取磁盘状态
+     */
+    private List<Map<String, Object>> getFilesInfo(OperatingSystem os) {
+        List<Map<String, Object>> filesInfo = new ArrayList<>();
+
+        FileSystem fileSystem = os.getFileSystem();
+        List<OSFileStore> fsArray = fileSystem.getFileStores();
+        for (OSFileStore fs : fsArray) {
+            Map<String, Object> fileInfo = new LinkedHashMap<>();
+
+            long free = fs.getUsableSpace();
+            long total = fs.getTotalSpace();
+            long used = total - free;
+
+            fileInfo.put("dir", fs.getMount());
+            fileInfo.put("type", fs.getType());
+            fileInfo.put("name", fs.getName());
+
+            fileInfo.put("total", FileUtil.readableFileSize(total));
+            fileInfo.put("used", FileUtil.readableFileSize(used));
+            fileInfo.put("free", FileUtil.readableFileSize(free));
+            fileInfo.put("usage", NumberUtil.mul(NumberUtil.div(used, total, 4), 100));
+
+            filesInfo.add(fileInfo);
         }
+
+        return filesInfo;
     }
 }
