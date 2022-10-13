@@ -1,6 +1,6 @@
 <template>
-  <a-modal :title="title" :visible="open" :confirm-loading="submitLoading" @ok="submitForm" @cancel="cancel">
-    <a-form-model ref="form" :model="form" :rules="rules">
+  <div>
+    <a-form-model :label-col="labelCol" :wrapper-col="wrapperCol" ref="form" :model="form" :rules="rules">
       <a-form-model-item has-feedback label="旧密码" prop="oldPassword">
         <a-input-password v-model="form.oldPassword" placeholder="请输入旧密码" :maxLength="20" />
       </a-form-model-item>
@@ -10,14 +10,18 @@
       <a-form-model-item has-feedback label="确认密码" prop="confirmPassword">
         <a-input-password v-model="form.confirmPassword" placeholder="请确认密码" :maxLength="20" />
       </a-form-model-item>
+      <a-form-model-item>
+        <a-button type="primary" :loading="submitLoading" @click="submit">保存</a-button>
+      </a-form-model-item>
     </a-form-model>
-  </a-modal>
+  </div>
 </template>
+
 <script>
 import { updateUserPwd } from '@/api/system/user'
 
 export default {
-  props: {},
+  name: 'SecuritySettings',
   data() {
     const validateNewPass = (rule, value, callback) => {
       if (value === '') {
@@ -41,11 +45,9 @@ export default {
       }
     }
     return {
+      labelCol: { span: 4 },
+      wrapperCol: { span: 12 },
       submitLoading: false,
-      title: '重置密码',
-      open: false,
-      childrenDrawer: false,
-      formLayout: 'horizontal',
       form: {
         oldPassword: undefined,
         newPassword: undefined,
@@ -55,32 +57,12 @@ export default {
         oldPassword: [{ required: true, message: '密码不能为空', trigger: 'blur' }],
         newPassword: [{ required: true, validator: validateNewPass, trigger: 'change' }],
         confirmPassword: [{ required: true, validator: validateConfirmPass, trigger: 'change' }]
-      },
-      layout: {
-        labelCol: { span: 4 },
-        wrapperCol: { span: 14 }
       }
     }
   },
   methods: {
-    // 取消按钮
-    cancel() {
-      this.open = false
-      this.reset()
-    },
-    // 表单重置
-    reset() {
-      this.form = {
-        oldPassword: undefined,
-        newPassword: undefined,
-        confirmPassword: undefined
-      }
-    },
-    handleUpdatePwd() {
-      this.open = true
-    },
     /** 重置密码按钮操作 */
-    submitForm: function () {
+    submit: function () {
       this.$refs.form.validate(valid => {
         if (valid) {
           this.submitLoading = true
@@ -100,3 +82,5 @@ export default {
   }
 }
 </script>
+
+<style scoped></style>

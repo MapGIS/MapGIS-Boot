@@ -18,7 +18,6 @@ const constantRouterComponents = {
   Index: () => import('@/views/index'),
   // account
   AccountCenter: () => import('@/views/account/center'),
-  AccountSettings: () => import('@/views/account/settings'),
   // job log
   JobLog: () => import('@/views/monitor/job/log'),
   // 授权用户
@@ -44,7 +43,7 @@ const rootRouter = {
   component: 'BasicLayout',
   redirect: '/index',
   meta: {
-    title: '首页'
+    title: '总览'
   },
   children: []
 }

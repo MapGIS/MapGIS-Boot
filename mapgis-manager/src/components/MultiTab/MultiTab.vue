@@ -2,12 +2,12 @@
 import events from './events'
 import { i18nRender } from '@/locales'
 
-// 首页
-const homeRoute = {
+// 总览
+const indexRoute = {
   fullPath: '/index',
   path: '/index',
   meta: {
-    title: '首页'
+    title: '总览'
   }
 }
 export default {
@@ -41,8 +41,8 @@ export default {
           this.$forceUpdate()
         } catch (e) {}
       })
-    if (homeRoute.path !== this.$route.path) {
-      this.pages.push(homeRoute)
+    if (indexRoute.path !== this.$route.path) {
+      this.pages.push(indexRoute)
     }
     this.pages.push(this.$route)
     this.selectedLastPath()
@@ -184,7 +184,7 @@ export default {
           style={{ height: 0 }}
           tab={this.renderTabPane(page.meta.customTitle || page.meta.title, page.path, index)}
           key={index}
-          closable={page.path !== homeRoute.path}
+          closable={page.path !== indexRoute.path}
         ></a-tab-pane>
       )
     })

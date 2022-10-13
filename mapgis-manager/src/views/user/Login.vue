@@ -58,7 +58,6 @@
 
 <script>
 import { mapActions } from 'vuex'
-import { timeFix } from '@/utils/util'
 import { getCodeImg } from '@/api/login'
 import { LOGIN_USERNAME, LOGIN_PASSWORD, LOGIN_REMEMBERME } from '@/store/mutation-types'
 import storage from 'store'
@@ -147,13 +146,6 @@ export default {
     },
     loginSuccess(res) {
       this.$router.push({ path: '/' })
-      // 延迟 1 秒显示欢迎信息
-      setTimeout(() => {
-        this.$notification.success({
-          message: '欢迎',
-          description: `${timeFix()}，欢迎回来`
-        })
-      }, 1000)
       this.handleCloseLoginError()
     },
     requestFailed(err) {

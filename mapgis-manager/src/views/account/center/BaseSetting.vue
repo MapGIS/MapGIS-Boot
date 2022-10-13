@@ -2,7 +2,19 @@
   <div class="account-settings-info-view">
     <a-row :gutter="16">
       <a-col :md="24" :lg="16">
-        <a-form-model layout="vertical" :rules="rules" :model="user" ref="form">
+        <a-form-model :label-col="labelCol" :wrapper-col="wrapperCol" :rules="rules" :model="user" ref="form">
+          <a-form-model-item label="用户名" ref="userName" prop="userName">
+            <span>{{ user.userName }}</span>
+          </a-form-model-item>
+          <a-form-model-item label="角色" ref="roleGroup">
+            <span>{{ roleGroup }}</span>
+          </a-form-model-item>
+          <a-form-model-item label="部门" ref="deptName">
+            <span>{{ user.dept && user.dept.deptName }}</span>
+          </a-form-model-item>
+          <a-form-model-item label="岗位" ref="postGroup">
+            <span>{{ postGroup }}</span>
+          </a-form-model-item>
           <a-form-model-item label="昵称" ref="nickName" prop="nickName">
             <a-input v-model="user.nickName" placeholder="给自己起个名字" :maxLength="30" />
           </a-form-model-item>
@@ -17,6 +29,9 @@
               <a-radio :value="sexValue.men">男</a-radio>
               <a-radio :value="sexValue.women">女</a-radio>
             </a-radio-group>
+          </a-form-model-item>
+          <a-form-model-item label="备注" prop="remark">
+            <a-input v-model="user.remark" placeholder="请输入" type="textarea" />
           </a-form-model-item>
           <a-form-model-item>
             <a-button type="primary" :loading="submitLoading" @click="submit">保存</a-button>
@@ -50,6 +65,8 @@ export default {
   },
   data() {
     return {
+      labelCol: { span: 4 },
+      wrapperCol: { span: 16 },
       submitLoading: false,
       // cropper
       sexValue: {
@@ -57,6 +74,8 @@ export default {
         women: '1'
       },
       user: {},
+      roleGroup: {},
+      postGroup: {},
       preview: {},
       option: {
         img: this.avatar,
@@ -76,7 +95,6 @@ export default {
       rules: {
         nickName: [{ required: true, message: '请输入昵称', trigger: 'blur' }],
         email: [
-          { required: true, message: '邮箱不能为空', trigger: 'blur' },
           {
             type: 'email',
             message: '请正确填写邮箱地址',
@@ -84,7 +102,6 @@ export default {
           }
         ],
         phonenumber: [
-          { required: true, message: '手机号不能为空', trigger: 'blur' },
           {
             pattern: /^1[3|4|5|6|7|8|9][0-9]\d{8}$/,
             message: '请正确填写手机号',
