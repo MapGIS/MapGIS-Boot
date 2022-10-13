@@ -147,21 +147,6 @@ public class SysRoleController extends BaseController {
     }
 
     /**
-     * 状态修改
-     */
-    @Operation(summary = "状态修改")
-    @PreAuthorize("@ss.hasPermi('system:role:edit')")
-    @RequiresPermissions("system:role:edit")
-    @Log(title = "角色管理", businessType = BusinessType.UPDATE)
-    @PutMapping("/changeStatus")
-    public AjaxResult changeStatus(@RequestBody SysRole role) {
-        roleService.checkRoleAllowed(role);
-        roleService.checkRoleDataScope(role.getRoleId());
-        role.setUpdateBy(SecurityUtils.getUsername());
-        return toAjax(roleService.updateRoleStatus(role));
-    }
-
-    /**
      * 删除角色
      */
     @Operation(summary = "删除角色")

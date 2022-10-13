@@ -27,22 +27,6 @@
       <a-form-model-item label="排序" prop="orderNum">
         <a-input-number v-model="form.orderNum" :min="0" style="width: 100%" />
       </a-form-model-item>
-      <a-form-model-item label="负责人" prop="leader">
-        <a-input v-model="form.leader" placeholder="请输入" />
-      </a-form-model-item>
-      <a-form-model-item label="联系电话" prop="phone">
-        <a-input v-model="form.phone" placeholder="请输入" />
-      </a-form-model-item>
-      <a-form-model-item label="邮箱" prop="email">
-        <a-input v-model="form.email" placeholder="请输入" />
-      </a-form-model-item>
-      <a-form-model-item label="状态" prop="status">
-        <a-radio-group v-model="form.status" button-style="solid">
-          <a-radio-button v-for="(d, index) in statusOptions" :key="index" :value="d.dictValue">{{
-            d.dictLabel
-          }}</a-radio-button>
-        </a-radio-group>
-      </a-form-model-item>
       <div class="bottom-control">
         <a-space>
           <a-button type="primary" :loading="submitLoading" @click="submitForm"> 保存 </a-button>
@@ -59,10 +43,6 @@ import { getDept, addDept, updateDept } from '@/api/system/dept'
 export default {
   name: 'CreateForm',
   props: {
-    statusOptions: {
-      type: Array,
-      required: true
-    },
     deptOptions: {
       type: Array,
       required: true
@@ -77,31 +57,13 @@ export default {
         deptId: undefined,
         parentId: undefined,
         deptName: undefined,
-        orderNum: 0,
-        leader: undefined,
-        phone: undefined,
-        email: undefined,
-        status: '0'
+        orderNum: 0
       },
       open: false,
       rules: {
         parentId: [{ required: true, message: '上级部门不能为空', trigger: 'blur' }],
         deptName: [{ required: true, message: '部门名称不能为空', trigger: 'blur' }],
-        orderNum: [{ required: true, message: '排序不能为空', trigger: 'blur' }],
-        email: [
-          {
-            type: 'email',
-            message: '请输入正确的邮箱地址',
-            trigger: ['blur', 'change']
-          }
-        ],
-        phone: [
-          {
-            pattern: /^1[3|4|5|6|7|8|9][0-9]\d{8}$/,
-            message: '请输入正确的手机号码',
-            trigger: 'blur'
-          }
-        ]
+        orderNum: [{ required: true, message: '排序不能为空', trigger: 'blur' }]
       }
     }
   },
@@ -124,11 +86,7 @@ export default {
         deptId: undefined,
         parentId: undefined,
         deptName: undefined,
-        orderNum: 0,
-        leader: undefined,
-        phone: undefined,
-        email: undefined,
-        status: '0'
+        orderNum: 0
       }
     },
     /** 新增按钮操作 */

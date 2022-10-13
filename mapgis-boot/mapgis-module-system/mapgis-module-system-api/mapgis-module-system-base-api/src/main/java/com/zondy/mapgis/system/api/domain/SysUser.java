@@ -134,8 +134,7 @@ public class SysUser extends BaseEntity {
      */
     @Schema(description = "部门对象")
     @Excels({
-            @Excel(name = "部门名称", targetAttr = "deptName", type = Type.EXPORT),
-            @Excel(name = "部门负责人", targetAttr = "leader", type = Type.EXPORT)
+            @Excel(name = "部门名称", targetAttr = "deptName", type = Type.EXPORT)
     })
     private com.zondy.mapgis.system.api.domain.SysDept dept;
 

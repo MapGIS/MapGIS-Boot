@@ -15,28 +15,10 @@
                 <a-input v-model="queryParam.postName" placeholder="请输入" allow-clear />
               </a-form-item>
             </a-col>
-            <template v-if="advanced">
-              <a-col :md="8" :sm="24">
-                <a-form-item label="状态">
-                  <a-select placeholder="请选择" v-model="queryParam.status" style="width: 100%" allow-clear>
-                    <a-select-option v-for="(d, index) in statusOptions" :key="index" :value="d.dictValue">{{
-                      d.dictLabel
-                    }}</a-select-option>
-                  </a-select>
-                </a-form-item>
-              </a-col>
-            </template>
-            <a-col :md="(!advanced && 8) || 24" :sm="24">
-              <span
-                class="table-page-search-submitButtons"
-                :style="(advanced && { float: 'right', overflow: 'hidden' }) || {}"
-              >
+            <a-col :md="8" :sm="24">
+              <span class="table-page-search-submitButtons">
                 <a-button type="primary" @click="handleQuery"><a-icon type="search" />查询</a-button>
                 <a-button style="margin-left: 8px" @click="resetQuery"><a-icon type="redo" />重置</a-button>
-                <a @click="toggleAdvanced" style="margin-left: 8px">
-                  {{ advanced ? '收起' : '展开' }}
-                  <a-icon :type="advanced ? 'up' : 'down'" />
-                </a>
               </span>
             </a-col>
           </a-row>
@@ -70,7 +52,7 @@
         />
       </div>
       <!-- 增加修改 -->
-      <create-form ref="createForm" :statusOptions="statusOptions" @ok="getList" />
+      <create-form ref="createForm" @ok="getList" />
       <!-- 数据展示 -->
       <a-table
         :loading="loading"
@@ -85,9 +67,6 @@
         :pagination="false"
         :bordered="tableBordered"
       >
-        <span slot="status" slot-scope="text, record">
-          {{ statusFormat(record) }}
-        </span>
         <span slot="createTime" slot-scope="text, record">
           {{ parseTime(record.createTime) }}
         </span>
@@ -140,14 +119,11 @@ export default {
       ids: [],
       loading: false,
       total: 0,
-      // 状态数据字典
-      statusOptions: [],
       queryParam: {
         pageNum: 1,
         pageSize: 10,
         postCode: undefined,
-        postName: undefined,
-        status: undefined
+        postName: undefined
       },
       columns: [
         {
@@ -173,12 +149,6 @@ export default {
           align: 'center'
         },
         {
-          title: '状态',
-          dataIndex: 'status',
-          scopedSlots: { customRender: 'status' },
-          align: 'center'
-        },
-        {
           title: '创建时间',
           dataIndex: 'createTime',
           ellipsis: true,
@@ -198,9 +168,6 @@ export default {
   filters: {},
   created() {
     this.getList()
-    this.getDicts('sys_normal_disable').then(response => {
-      this.statusOptions = response.data
-    })
   },
   computed: {},
   watch: {},
@@ -214,10 +181,6 @@ export default {
         this.loading = false
       })
     },
-    // 岗位状态字典翻译
-    statusFormat(row) {
-      return this.selectDictLabel(this.statusOptions, row.status)
-    },
     /** 搜索按钮操作 */
     handleQuery() {
       this.queryParam.pageNum = 1
@@ -229,8 +192,7 @@ export default {
         pageNum: 1,
         pageSize: 10,
         postCode: undefined,
-        postName: undefined,
-        status: undefined
+        postName: undefined
       }
       this.handleQuery()
     },

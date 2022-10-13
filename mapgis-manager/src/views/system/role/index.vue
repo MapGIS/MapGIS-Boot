@@ -17,15 +17,6 @@
             </a-col>
             <template v-if="advanced">
               <a-col :md="8" :sm="24">
-                <a-form-item label="状态">
-                  <a-select placeholder="请选择" v-model="queryParam.status" style="width: 100%" allow-clear>
-                    <a-select-option v-for="(d, index) in statusOptions" :key="index" :value="d.dictValue">{{
-                      d.dictLabel
-                    }}</a-select-option>
-                  </a-select>
-                </a-form-item>
-              </a-col>
-              <a-col :md="8" :sm="24">
                 <a-form-item label="创建时间">
                   <a-range-picker
                     style="width: 100%"
@@ -81,7 +72,7 @@
         />
       </div>
       <!-- 增加修改 -->
-      <create-form ref="createForm" :statusOptions="statusOptions" @ok="getList" />
+      <create-form ref="createForm" @ok="getList" />
 
       <!-- 分配角色数据权限对话框 -->
       <create-data-scope-form ref="createDataScopeForm" @ok="getList" />
@@ -99,19 +90,6 @@
         :pagination="false"
         :bordered="tableBordered"
       >
-        <span slot="status" slot-scope="text, record">
-          <a-popconfirm
-            ok-text="是"
-            cancel-text="否"
-            @confirm="confirmHandleStatus(record)"
-            @cancel="cancelHandleStatus(record)"
-          >
-            <span slot="title">
-              确认<b>{{ record.status === '1' ? '启用' : '停用' }} </b>{{ record.roleName }}的角色吗?
-            </span>
-            <a-switch checked-children="开" un-checked-children="关" :checked="record.status == 0" />
-          </a-popconfirm>
-        </span>
         <span slot="createTime" slot-scope="text, record">
           {{ parseTime(record.createTime) }}
         </span>
@@ -165,7 +143,7 @@
 </template>
 
 <script>
-import { listRole, delRole, changeRoleStatus } from '@/api/system/role'
+import { listRole, delRole } from '@/api/system/role'
 import CreateForm from './modules/CreateForm'
 import CreateDataScopeForm from './modules/CreateDataScopeForm'
 import { tableMixin } from '@/store/table-mixin'
@@ -191,16 +169,13 @@ export default {
       ids: [],
       loading: false,
       total: 0,
-      // 状态数据字典
-      statusOptions: [],
       // 日期范围
       dateRange: [],
       queryParam: {
         pageNum: 1,
         pageSize: 10,
         roleName: undefined,
-        roleKey: undefined,
-        status: undefined
+        roleKey: undefined
       },
       columns: [
         {
@@ -226,12 +201,6 @@ export default {
           align: 'center'
         },
         {
-          title: '状态',
-          dataIndex: 'status',
-          scopedSlots: { customRender: 'status' },
-          align: 'center'
-        },
-        {
           title: '创建时间',
           dataIndex: 'createTime',
           scopedSlots: { customRender: 'createTime' },
@@ -250,9 +219,6 @@ export default {
   filters: {},
   created() {
     this.getList()
-    this.getDicts('sys_normal_disable').then(response => {
-      this.statusOptions = response.data
-    })
   },
   computed: {},
   watch: {},
@@ -278,8 +244,7 @@ export default {
         pageNum: 1,
         pageSize: 10,
         roleName: undefined,
-        roleKey: undefined,
-        status: undefined
+        roleKey: undefined
       }
       this.handleQuery()
     },
@@ -302,19 +267,6 @@ export default {
     toggleAdvanced() {
       this.advanced = !this.advanced
     },
-    /* 角色状态修改 */
-    confirmHandleStatus(row) {
-      const text = row.status === '1' ? '启用' : '停用'
-      row.status = row.status === '0' ? '1' : '0'
-      changeRoleStatus(row.roleId, row.status)
-        .then(() => {
-          this.$message.success(text + '成功', 3)
-        })
-        .catch(function () {
-          this.$message.error(text + '异常', 3)
-        })
-    },
-    cancelHandleStatus(row) {},
     /** 删除按钮操作 */
     handleDelete(row) {
       var that = this

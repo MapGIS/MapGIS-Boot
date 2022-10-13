@@ -33,8 +33,6 @@
         <result property="deptName" column="dept_name"/>
         <result property="ancestors" column="ancestors"/>
         <result property="orderNum" column="order_num"/>
-        <result property="leader" column="leader"/>
-        <result property="status" column="dept_status"/>
     </resultMap>
 
     <resultMap id="RoleResult" type="SysRole">
@@ -43,7 +41,6 @@
         <result property="roleKey" column="role_key"/>
         <result property="roleSort" column="role_sort"/>
         <result property="dataScope" column="data_scope"/>
-        <result property="status" column="role_status"/>
     </resultMap>
 
     <sql id="selectUserVo">
@@ -68,14 +65,11 @@
                d.ancestors,
                d.dept_name,
                d.order_num,
-               d.leader,
-               d.status as dept_status,
                r.role_id,
                r.role_name,
                r.role_key,
                r.role_sort,
-               r.data_scope,
-               r.status as role_status
+               r.data_scope
         from sys_user u
                  left join sys_dept d on u.dept_id = d.dept_id
                  left join sys_user_role ur on u.user_id = ur.user_id
@@ -84,7 +78,7 @@
 
     <select id="selectUserList" parameterType="SysUser" resultMap="SysUserResult">
         select u.user_id, u.dept_id, u.nick_name, u.user_name, u.email, u.avatar, u.phonenumber, u.sex,
-        u.status, u.del_flag, u.login_ip, u.login_date, u.create_by, u.create_time, u.remark, d.dept_name, d.leader from
+        u.status, u.del_flag, u.login_ip, u.login_date, u.create_by, u.create_time, u.remark, d.dept_name from
         sys_user u
         left join sys_dept d on u.dept_id = d.dept_id
         where u.del_flag = '0'

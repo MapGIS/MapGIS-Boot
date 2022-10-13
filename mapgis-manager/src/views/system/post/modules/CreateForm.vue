@@ -13,13 +13,6 @@
       <a-form-model-item label="显示顺序" prop="postSort">
         <a-input-number v-model="form.postSort" :min="0" style="width: 100%" />
       </a-form-model-item>
-      <a-form-model-item label="状态" prop="status">
-        <a-select placeholder="请选择" v-model="form.status">
-          <a-select-option v-for="(d, index) in statusOptions" :key="index" :value="d.dictValue">{{
-            d.dictLabel
-          }}</a-select-option>
-        </a-select>
-      </a-form-model-item>
       <a-form-model-item label="备注" prop="remark">
         <a-input v-model="form.remark" placeholder="请输入" type="textarea" allow-clear />
       </a-form-model-item>
@@ -38,12 +31,7 @@ import { getPost, addPost, updatePost } from '@/api/system/post'
 
 export default {
   name: 'CreateForm',
-  props: {
-    statusOptions: {
-      type: Array,
-      required: true
-    }
-  },
+  props: {},
   components: {},
   data() {
     return {
@@ -55,7 +43,6 @@ export default {
         postCode: undefined,
         postName: undefined,
         postSort: 0,
-        status: '0',
         remark: undefined
       },
       open: false,
@@ -86,7 +73,6 @@ export default {
         postCode: undefined,
         postName: undefined,
         postSort: 0,
-        status: '0',
         remark: undefined
       }
     },

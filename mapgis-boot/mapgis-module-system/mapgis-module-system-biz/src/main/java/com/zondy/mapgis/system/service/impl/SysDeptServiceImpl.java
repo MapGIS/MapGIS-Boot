@@ -2,7 +2,6 @@ package com.zondy.mapgis.system.service.impl;
 
 import com.zondy.mapgis.common.core.constant.UserConstants;
 import com.zondy.mapgis.common.core.exception.ServiceException;
-import com.zondy.mapgis.common.core.text.Convert;
 import com.zondy.mapgis.common.core.utils.StringUtils;
 import com.zondy.mapgis.common.core.utils.spring.SpringUtils;
 import com.zondy.mapgis.common.datascope.annotation.DataScope;
@@ -110,17 +109,6 @@ public class SysDeptServiceImpl implements ISysDeptService {
     }
 
     /**
-     * 根据ID查询所有子部门（正常状态）
-     *
-     * @param deptId 部门ID
-     * @return 子部门数
-     */
-    @Override
-    public int selectNormalChildrenDeptById(Long deptId) {
-        return deptMapper.selectNormalChildrenDeptById(deptId);
-    }
-
-    /**
      * 是否存在子节点
      *
      * @param deptId 部门ID
@@ -186,10 +174,6 @@ public class SysDeptServiceImpl implements ISysDeptService {
     @Override
     public int insertDept(SysDept dept) {
         SysDept info = deptMapper.selectDeptById(dept.getParentId());
-        // 如果父节点不为正常状态,则不允许新增子节点
-        if (!UserConstants.DEPT_NORMAL.equals(info.getStatus())) {
-            throw new ServiceException("部门停用，不允许新增");
-        }
         dept.setAncestors(info.getAncestors() + "," + dept.getParentId());
         return deptMapper.insertDept(dept);
     }
@@ -210,24 +194,7 @@ public class SysDeptServiceImpl implements ISysDeptService {
             dept.setAncestors(newAncestors);
             updateDeptChildren(dept.getDeptId(), newAncestors, oldAncestors);
         }
-        int result = deptMapper.updateDept(dept);
-        if (UserConstants.DEPT_NORMAL.equals(dept.getStatus()) && StringUtils.isNotEmpty(dept.getAncestors())
-                && !StringUtils.equals("0", dept.getAncestors())) {
-            // 如果该部门是启用状态，则启用该部门的所有上级部门
-            updateParentDeptStatusNormal(dept);
-        }
-        return result;
-    }
-
-    /**
-     * 修改该部门的父级部门状态
-     *
-     * @param dept 当前部门
-     */
-    private void updateParentDeptStatusNormal(SysDept dept) {
-        String ancestors = dept.getAncestors();
-        Long[] deptIds = Convert.toLongArray(ancestors);
-        deptMapper.updateDeptStatusNormal(deptIds);
+        return deptMapper.updateDept(dept);
     }
 
     /**

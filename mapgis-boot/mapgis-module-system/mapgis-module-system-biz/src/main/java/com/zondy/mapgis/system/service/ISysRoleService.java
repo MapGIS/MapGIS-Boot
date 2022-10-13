@@ -115,14 +115,6 @@ public interface ISysRoleService {
     public int updateRole(SysRole role);
 
     /**
-     * 修改角色状态
-     *
-     * @param role 角色信息
-     * @return 结果
-     */
-    public int updateRoleStatus(SysRole role);
-
-    /**
      * 修改数据权限信息
      *
      * @param role 角色信息

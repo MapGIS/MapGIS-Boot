@@ -11,15 +11,6 @@
               </a-form-item>
             </a-col>
             <a-col :md="8" :sm="24">
-              <a-form-item label="状态">
-                <a-select placeholder="请选择" v-model="queryParam.status" style="width: 100%" allow-clear>
-                  <a-select-option v-for="(d, index) in statusOptions" :key="index" :value="d.dictValue">{{
-                    d.dictLabel
-                  }}</a-select-option>
-                </a-select>
-              </a-form-item>
-            </a-col>
-            <a-col :md="8" :sm="24">
               <span class="table-page-search-submitButtons">
                 <a-button type="primary" @click="handleQuery"><a-icon type="search" />查询</a-button>
                 <a-button style="margin-left: 8px" @click="resetQuery"><a-icon type="redo" />重置</a-button>
@@ -42,13 +33,7 @@
         />
       </div>
       <!-- 增加修改 -->
-      <create-form
-        ref="createForm"
-        :deptOptions="deptOptions"
-        :statusOptions="statusOptions"
-        @ok="getList"
-        @select-tree="getTreeselect"
-      />
+      <create-form ref="createForm" :deptOptions="deptOptions" @ok="getList" @select-tree="getTreeselect" />
       <!-- 数据展示 -->
       <a-table
         :loading="loading"
@@ -59,9 +44,6 @@
         :pagination="false"
         :bordered="tableBordered"
       >
-        <span slot="status" slot-scope="text, record">
-          {{ statusFormat(record) }}
-        </span>
         <span slot="createTime" slot-scope="text, record">
           {{ parseTime(record.createTime) }}
         </span>
@@ -100,11 +82,8 @@ export default {
       // 部门树选项
       deptOptions: [],
       loading: false,
-      // 状态数据字典
-      statusOptions: [],
       queryParam: {
-        deptName: undefined,
-        status: undefined
+        deptName: undefined
       },
       columns: [
         {
@@ -114,12 +93,6 @@ export default {
         {
           title: '排序',
           dataIndex: 'orderNum',
-          align: 'center'
-        },
-        {
-          title: '状态',
-          dataIndex: 'status',
-          scopedSlots: { customRender: 'status' },
           align: 'center'
         },
         {
@@ -142,9 +115,6 @@ export default {
   filters: {},
   created() {
     this.getList()
-    this.getDicts('sys_normal_disable').then(response => {
-      this.statusOptions = response.data
-    })
   },
   computed: {},
   watch: {},
@@ -169,10 +139,6 @@ export default {
         })
       }
     },
-    // 字典状态字典翻译
-    statusFormat(row) {
-      return this.selectDictLabel(this.statusOptions, row.status)
-    },
     /** 搜索按钮操作 */
     handleQuery() {
       this.getList()
@@ -180,8 +146,7 @@ export default {
     /** 重置按钮操作 */
     resetQuery() {
       this.queryParam = {
-        deptName: undefined,
-        status: undefined
+        deptName: undefined
       }
       this.handleQuery()
     },

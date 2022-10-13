@@ -139,10 +139,6 @@ CREATE TABLE "sys_dept"
     "ancestors"   text(50)    DEFAULT '',
     "dept_name"   text(30)    DEFAULT '',
     "order_num"   integer(4)  DEFAULT 0,
-    "leader"      text(20)    DEFAULT NULL,
-    "phone"       text(11)    DEFAULT NULL,
-    "email"       text(50)    DEFAULT NULL,
-    "status"      text(1)     DEFAULT '0',
     "del_flag"    text(1)     DEFAULT '0',
     "create_by"   text(64)    DEFAULT '',
     "create_time" text        DEFAULT NULL,
@@ -154,8 +150,7 @@ CREATE TABLE "sys_dept"
 -- Records of sys_dept
 -- ----------------------------
 INSERT INTO "sys_dept"
-VALUES (100, 0, 0, '内置部门', 0, 'MapGIS', 13888888888, 'mapgis@mapgis.com', 0, 0, 'admin', '2022-03-23 22:12:32', '',
-        NULL);
+VALUES (100, 0, 0, '内置部门', 0, 0, 'admin', '2022-03-23 22:12:32', '', NULL);
 
 -- ----------------------------
 -- Table structure for sys_dict_data
@@ -722,7 +717,6 @@ CREATE TABLE "sys_post"
     "post_code"   text(64)   NOT NULL,
     "post_name"   text(50)   NOT NULL,
     "post_sort"   integer(4) NOT NULL,
-    "status"      text(1)    NOT NULL,
     "create_by"   text(64)  DEFAULT '',
     "create_time" text      DEFAULT NULL,
     "update_by"   text(64)  DEFAULT '',
@@ -733,8 +727,6 @@ CREATE TABLE "sys_post"
 -- ----------------------------
 -- Records of sys_post
 -- ----------------------------
-INSERT INTO "sys_post"
-VALUES (1, 'ceo', '董事长', 1, 0, 'admin', '2022-03-23 22:12:32', '', NULL, '');
 
 -- ----------------------------
 -- Table structure for sys_role
@@ -749,7 +741,6 @@ CREATE TABLE "sys_role"
     "data_scope"          text(1)    DEFAULT '1',
     "menu_check_strictly" integer(1) DEFAULT 1,
     "dept_check_strictly" integer(1) DEFAULT 1,
-    "status"              text(1)    NOT NULL,
     "del_flag"            text(1)    DEFAULT '0',
     "create_by"           text(64)   DEFAULT '',
     "create_time"         text       DEFAULT NULL,
@@ -762,7 +753,7 @@ CREATE TABLE "sys_role"
 -- Records of sys_role
 -- ----------------------------
 INSERT INTO "sys_role"
-VALUES (1, '超级管理员', 'admin', 1, 1, 1, 1, 0, 0, 'admin', '2022-03-23 22:12:32', '', NULL, '超级管理员');
+VALUES (1, '超级管理员', 'admin', 1, 1, 1, 1, 0, 'admin', '2022-03-23 22:12:32', '', NULL, '超级管理员');
 
 -- ----------------------------
 -- Table structure for sys_role_dept
@@ -804,7 +795,6 @@ CREATE TABLE "sys_user"
     "dept_id"     integer(20) DEFAULT NULL,
     "user_name"   text(30) NOT NULL,
     "nick_name"   text(30) NOT NULL,
-    "user_type"   text(2)     DEFAULT '00',
     "email"       text(50)    DEFAULT '',
     "phonenumber" text(11)    DEFAULT '',
     "sex"         text(1)     DEFAULT '0',
@@ -825,9 +815,8 @@ CREATE TABLE "sys_user"
 -- Records of sys_user
 -- ----------------------------
 INSERT INTO "sys_user"
-VALUES (1, 100, 'admin', '超级管理员', '00', 'mapgis@mapgis.com', 13888888888, 0, '',
-        '$2a$10$7JB720yubVSZvUI0rEqK/.VqGOZTH.ulu33dHOiBE8ByOhJIrdAu2', 0, 0, '', NULL, 'admin', '2022-03-23 22:12:32',
-        '', NULL, '超级管理员');
+VALUES (1, 100, 'admin', '超级管理员', '', '', 0, '', '$2a$10$7JB720yubVSZvUI0rEqK/.VqGOZTH.ulu33dHOiBE8ByOhJIrdAu2', 0, 0,
+        '', NULL, 'admin', '2022-03-23 22:12:32', '', NULL, '超级管理员');
 
 -- ----------------------------
 -- Table structure for sys_user_post

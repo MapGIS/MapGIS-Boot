@@ -20,13 +20,6 @@
       <a-form-model-item label="排序" prop="roleSort">
         <a-input-number placeholder="请输入" v-model="form.roleSort" :min="0" style="width: 100%" />
       </a-form-model-item>
-      <a-form-model-item label="状态" prop="status">
-        <a-radio-group v-model="form.status" button-style="solid">
-          <a-radio-button v-for="(d, index) in statusOptions" :key="index" :value="d.dictValue">{{
-            d.dictLabel
-          }}</a-radio-button>
-        </a-radio-group>
-      </a-form-model-item>
       <a-form-model-item label="菜单权限">
         <a-checkbox @change="handleCheckedTreeExpand($event)"> 展开/折叠 </a-checkbox>
         <a-checkbox @change="handleCheckedTreeNodeAll($event)"> 全选/全不选 </a-checkbox>
@@ -62,12 +55,7 @@ import { treeselect as menuTreeselect, roleMenuTreeselect } from '@/api/system/m
 
 export default {
   name: 'CreateForm',
-  props: {
-    statusOptions: {
-      type: Array,
-      required: true
-    }
-  },
+  props: {},
   components: {},
   data() {
     return {
@@ -84,7 +72,6 @@ export default {
         roleName: undefined,
         roleKey: undefined,
         roleSort: 0,
-        status: '0',
         menuIds: [],
         menuCheckStrictly: true,
         remark: undefined
@@ -229,7 +216,6 @@ export default {
         roleName: undefined,
         roleKey: undefined,
         roleSort: 0,
-        status: '0',
         menuIds: [],
         menuCheckStrictly: true,
         remark: undefined

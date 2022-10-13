@@ -46,14 +46,6 @@ public interface SysDeptMapper {
     public List<SysDept> selectChildrenDeptById(Long deptId);
 
     /**
-     * 根据ID查询所有子部门（正常状态）
-     *
-     * @param deptId 部门ID
-     * @return 子部门数
-     */
-    public int selectNormalChildrenDeptById(Long deptId);
-
-    /**
      * 是否存在子节点
      *
      * @param deptId 部门ID
@@ -93,13 +85,6 @@ public interface SysDeptMapper {
      * @return 结果
      */
     public int updateDept(SysDept dept);
-
-    /**
-     * 修改所在部门正常状态
-     *
-     * @param deptIds 部门ID组
-     */
-    public void updateDeptStatusNormal(Long[] deptIds);
 
     /**
      * 修改子元素关系

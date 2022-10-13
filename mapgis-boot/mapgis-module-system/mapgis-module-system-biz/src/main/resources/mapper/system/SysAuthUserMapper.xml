@@ -33,8 +33,6 @@
         <result property="deptName" column="dept_name"/>
         <result property="ancestors" column="ancestors"/>
         <result property="orderNum" column="order_num"/>
-        <result property="leader" column="leader"/>
-        <result property="status" column="dept_status"/>
     </resultMap>
 
     <resultMap id="RoleResult" type="SysRole">
@@ -43,7 +41,6 @@
         <result property="roleKey" column="role_key"/>
         <result property="roleSort" column="role_sort"/>
         <result property="dataScope" column="data_scope"/>
-        <result property="status" column="role_status"/>
     </resultMap>
 
     <resultMap id="SysAuthUserResult" type="SysAuthUser">

@@ -228,17 +228,6 @@ public class SysRoleServiceImpl implements ISysRoleService {
     }
 
     /**
-     * 修改角色状态
-     *
-     * @param role 角色信息
-     * @return 结果
-     */
-    @Override
-    public int updateRoleStatus(SysRole role) {
-        return roleMapper.updateRole(role);
-    }
-
-    /**
      * 修改数据权限信息
      *
      * @param role 角色信息
