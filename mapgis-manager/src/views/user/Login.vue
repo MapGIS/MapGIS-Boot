@@ -16,7 +16,7 @@
         </a-input>
       </a-form-model-item>
       <a-form-model-item prop="password">
-        <a-input-password v-model="form.password" size="large" placeholder="密码: admin123">
+        <a-input-password v-model="form.password" size="large" placeholder="密码: cloud123.mapgis">
           <a-icon slot="prefix" type="lock" :style="{ color: 'rgba(0,0,0,.25)' }" />
         </a-input-password>
       </a-form-model-item>
@@ -74,7 +74,7 @@ export default {
       loginErrorInfo: '',
       form: {
         username: 'admin',
-        password: 'admin123',
+        password: '',
         code: undefined,
         uuid: '',
         rememberMe: false

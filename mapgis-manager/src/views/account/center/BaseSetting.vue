@@ -74,8 +74,8 @@ export default {
         women: '1'
       },
       user: {},
-      roleGroup: {},
-      postGroup: {},
+      roleGroup: '',
+      postGroup: '',
       preview: {},
       option: {
         img: this.avatar,

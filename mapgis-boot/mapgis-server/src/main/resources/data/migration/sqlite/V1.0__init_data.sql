@@ -122,8 +122,8 @@ CREATE TABLE "sys_config"
 -- Records of sys_config
 -- ----------------------------
 INSERT INTO "sys_config"
-VALUES (1, '用户管理-账号初始密码', 'sys.user.initPassword', 123456, 'Y', 'admin', '2022-03-23 22:12:32', '', NULL,
-        '初始化密码 123456');
+VALUES (1, '用户管理-账号初始密码', 'sys.user.initPassword', 'MapGIS123', 'Y', 'admin', '2022-03-23 22:12:32', '', NULL,
+        '初始化密码 MapGIS123');
 INSERT INTO "sys_config"
 VALUES (2, '账号自助-是否开启用户注册功能', 'sys.account.registerUser', 'false', 'Y', 'admin', '2022-03-23 22:12:32', '', NULL,
         '是否开启注册用户功能（true开启，false关闭）');
@@ -815,7 +815,7 @@ CREATE TABLE "sys_user"
 -- Records of sys_user
 -- ----------------------------
 INSERT INTO "sys_user"
-VALUES (1, 100, 'admin', '超级管理员', '', '', 0, '', '$2a$10$7JB720yubVSZvUI0rEqK/.VqGOZTH.ulu33dHOiBE8ByOhJIrdAu2', 0, 0,
+VALUES (1, 100, 'admin', '超级管理员', '', '', 0, '', '$2a$10$W0oZaiVL8yYLG6PQsM2f4uYFI9kkS424BVArwpSHozx7FxdCijOfq', 0, 0,
         '', NULL, 'admin', '2022-03-23 22:12:32', '', NULL, '超级管理员');
 
 -- ----------------------------
