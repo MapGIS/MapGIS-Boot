@@ -170,7 +170,7 @@ export default {
       })
     },
     back() {
-      this.$router.push('/system/notice')
+      this.$router.push('/message/notice')
     },
     onClose() {
       this.open = false
