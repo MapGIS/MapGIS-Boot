@@ -197,7 +197,7 @@ export default {
             type={'editable-card'}
             v-model={this.activeIndex}
             tabBarStyle={{
-              margin: 0,
+              margin: '6px 0',
               paddingLeft: '16px',
               paddingTop: '1px'
             }}
