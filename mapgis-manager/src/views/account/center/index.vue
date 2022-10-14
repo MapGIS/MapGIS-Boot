@@ -6,7 +6,7 @@
           <a-menu
             :mode="isMobile ? 'horizontal' : 'inline'"
             :default-selected-keys="['base']"
-            :style="{ border: '0', width: isMobile ? '560px' : 'auto' }"
+            :style="{ border: '0' }"
             type="inner"
             @openChange="onOpenChange"
           >
@@ -98,7 +98,7 @@ export default {
 
     .account-settings-info-left {
       border-right: unset;
-      border-bottom: 1px solid #e8e8e8;
+      border-bottom: 1px solid @border-color;
       width: 100%;
       height: 50px;
       overflow-x: auto;
@@ -110,7 +110,7 @@ export default {
   }
 
   .account-settings-info-left {
-    border-right: 1px solid #e8e8e8;
+    border-right: 1px solid @border-color;
     width: 224px;
   }
 
