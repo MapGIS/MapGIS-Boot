@@ -42,7 +42,7 @@ public class CasSecurityConfig extends WebSecurityConfigurerAdapter {
     /**
      * 资源映射路径前缀
      */
-    @Value("${file.prefix:/profile}")
+    @Value("${file.prefix:/file}")
     public String filePrefix;
 
     /**

@@ -168,7 +168,7 @@ token:
 # 本地文件上传
 file:
   path: /upload
-  prefix: /profile
+  prefix: /file
 
 # FastDFS配置
 fdfs:

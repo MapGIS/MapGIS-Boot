@@ -117,12 +117,12 @@ VALUES (12, 'mapgis-xxx-job-server-prod.yml', 'DEFAULT_GROUP',
         '', '', '定时任务', 'null', 'null', 'yaml', NULL, '');
 INSERT INTO `config_info`
 VALUES (13, 'mapgis-xxx-file-server-dev.yml', 'DEFAULT_GROUP',
-        '# 本地文件上传\nfile:\n  domain: http://127.0.0.1:12000\n  path: /upload\n  prefix: /prefix\n\n# FastDFS配置\nfdfs:\n  domain: http://127.0.0.1\n  soTimeout: 3000\n  connectTimeout: 2000\n  trackerList: 127.0.0.1:22122\n\n# Minio配置\nminio:\n  url: http://127.0.0.1:9000\n  accessKey: minioadmin\n  secretKey: minioadmin\n  bucketName: test',
+        '# 本地文件上传\nfile:\n  domain: http://127.0.0.1:12000\n  path: /upload\n  prefix: /file\n\n# FastDFS配置\nfdfs:\n  domain: http://127.0.0.1\n  soTimeout: 3000\n  connectTimeout: 2000\n  trackerList: 127.0.0.1:22122\n\n# Minio配置\nminio:\n  url: http://127.0.0.1:9000\n  accessKey: minioadmin\n  secretKey: minioadmin\n  bucketName: test',
         '75448789bd5377a974e02cb4e9e92ece', '2022-03-31 00:00:00', '2022-03-31 12:00:00', 'nacos', '0:0:0:0:0:0:0:1',
         '', '', '文件服务', 'null', 'null', 'yaml', NULL, '');
 INSERT INTO `config_info`
 VALUES (14, 'mapgis-xxx-file-server-prod.yml', 'DEFAULT_GROUP',
-        '# 本地文件上传\nfile:\n  domain: http://127.0.0.1:12000\n  path: /upload\n  prefix: /prefix\n\n# FastDFS配置\nfdfs:\n  domain: http://127.0.0.1\n  soTimeout: 3000\n  connectTimeout: 2000\n  trackerList: 127.0.0.1:22122\n\n# Minio配置\nminio:\n  url: http://127.0.0.1:9000\n  accessKey: minioadmin\n  secretKey: minioadmin\n  bucketName: test',
+        '# 本地文件上传\nfile:\n  domain: http://127.0.0.1:12000\n  path: /upload\n  prefix: /file\n\n# FastDFS配置\nfdfs:\n  domain: http://127.0.0.1\n  soTimeout: 3000\n  connectTimeout: 2000\n  trackerList: 127.0.0.1:22122\n\n# Minio配置\nminio:\n  url: http://127.0.0.1:9000\n  accessKey: minioadmin\n  secretKey: minioadmin\n  bucketName: test',
         '75448789bd5377a974e02cb4e9e92ece', '2022-03-31 00:00:00', '2022-03-31 12:00:00', 'nacos', '0:0:0:0:0:0:0:1',
         '', '', '文件服务', 'null', 'null', 'yaml', NULL, '');
 INSERT INTO `config_info`
