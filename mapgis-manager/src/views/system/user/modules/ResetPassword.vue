@@ -5,10 +5,10 @@
         <a-input v-model="form.userName" :disabled="true" />
       </a-form-model-item>
       <a-form-model-item has-feedback label="新密码" prop="newPassword">
-        <a-input-password v-model="form.newPassword" placeholder="请输入新密码" :maxLength="20" />
+        <a-input-password v-model="form.newPassword" placeholder="请输入新密码" :maxLength="16" />
       </a-form-model-item>
       <a-form-model-item has-feedback label="确认密码" prop="confirmPassword">
-        <a-input-password v-model="form.confirmPassword" placeholder="请确认密码" :maxLength="20" />
+        <a-input-password v-model="form.confirmPassword" placeholder="请确认密码" :maxLength="16" />
       </a-form-model-item>
     </a-form-model>
   </a-modal>

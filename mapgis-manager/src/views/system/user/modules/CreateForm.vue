@@ -30,7 +30,7 @@
         <a-input v-model="form.userName" placeholder="请输入" />
       </a-form-model-item>
       <a-form-model-item label="密码" prop="password" v-if="form.userId == undefined">
-        <a-input-password v-model="form.password" placeholder="请输入" :maxLength="20" />
+        <a-input-password v-model="form.password" placeholder="请输入" :maxLength="16" />
       </a-form-model-item>
       <a-form-model-item label="性别" prop="sex">
         <a-radio-group v-model="form.sex" button-style="solid">

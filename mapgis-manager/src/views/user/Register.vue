@@ -15,7 +15,7 @@
         <a-input v-model="form.username" size="large" autocomplete="off" placeholder="账号" />
       </a-form-model-item>
       <a-form-model-item has-feedback prop="password">
-        <a-input-password v-model="form.password" size="large" autocomplete="off" placeholder="密码" :maxLength="20" />
+        <a-input-password v-model="form.password" size="large" autocomplete="off" placeholder="密码" :maxLength="16" />
       </a-form-model-item>
       <a-form-model-item has-feedback prop="confirmPassword">
         <a-input-password
