@@ -24,6 +24,5 @@ module.exports = {
   tableSize: 'middle',
   tableBordered: false,
   hideFooter: false,
-  title: 'MapGIS Manager',
   production: process.env.NODE_ENV === 'production' && process.env.VUE_APP_PREVIEW !== 'true'
 }

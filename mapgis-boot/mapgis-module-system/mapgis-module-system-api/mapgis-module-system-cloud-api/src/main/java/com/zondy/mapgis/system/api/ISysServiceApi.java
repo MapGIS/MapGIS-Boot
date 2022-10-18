@@ -109,5 +109,5 @@ public interface ISysServiceApi {
      * @return 结果
      */
     @GetMapping("/system/api/config/configKey/{configKey}")
-    public R<String> selectConfigByKey(@PathVariable("configKey") String configKey, @RequestHeader(SecurityConstants.FROM_SOURCE) String source);
+    public R<String> selectConfigValueByKey(@PathVariable("configKey") String configKey, @RequestHeader(SecurityConstants.FROM_SOURCE) String source);
 }

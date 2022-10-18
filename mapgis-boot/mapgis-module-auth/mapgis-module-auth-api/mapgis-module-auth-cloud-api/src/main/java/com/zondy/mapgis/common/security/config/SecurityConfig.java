@@ -101,6 +101,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         String strProductName = productConfig.getName();
         String strServicesPrefix = apiPathProperties.getServicesPrefix();
+        String strManagerPrefix = apiPathProperties.getManagerPrefix();
 
         httpSecurity
                 // CSRF禁用，因为不使用session
@@ -131,7 +132,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/swagger-resources/**",
                         "/webjars/**",
                         "/**/api-docs/**",
-                        "/druid/**")
+                        "/druid/**",
+                        strManagerPrefix + "/system/webConfig/**")
                 .permitAll()
                 // 除上面外的所有请求全部需要鉴权认证
                 .anyRequest().authenticated()

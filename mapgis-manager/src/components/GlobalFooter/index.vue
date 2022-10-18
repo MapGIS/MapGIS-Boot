@@ -1,7 +1,7 @@
 <template>
   <global-footer class="footer custom-render">
     <template v-slot:links> </template>
-    <template v-slot:copyright> Copyright &copy; 2022 武汉中地数码科技有限公司 Version 10.6.0.10 </template>
+    <template v-slot:copyright> {{ copyright }} </template>
   </global-footer>
 </template>
 
@@ -12,6 +12,12 @@ export default {
   name: 'ProGlobalFooter',
   components: {
     GlobalFooter
+  },
+  props: {
+    copyright: {
+      type: String,
+      default: ''
+    }
   }
 }
 </script>

@@ -4,26 +4,7 @@
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width,initial-scale=1.0" />
-    <link rel="icon" href="<%= BASE_URL %>logo.png" />
-    <title>MapGIS Manager</title>
     <style>
-      .first-loading-wrp {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        flex-direction: column;
-        min-height: 420px;
-        height: 100%;
-      }
-      .first-loading-wrp > h1 {
-        font-size: 128px;
-      }
-      .first-loading-wrp .loading-wrp {
-        padding: 98px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-      }
       .dot {
         animation: antRotate 1.2s infinite linear;
         transform: rotate(45deg);
@@ -102,15 +83,7 @@
     <noscript>
       <strong>请启用JavaScript后再使用MapGIS-Antd</strong>
     </noscript>
-    <div id="app">
-      <div class="first-loading-wrp">
-        <h1>MapGIS Manager</h1>
-        <div class="loading-wrp">
-          <span class="dot dot-spin"><i></i><i></i><i></i><i></i></span>
-        </div>
-        <div style="display: flex; justify-content: center; align-items: center">MapGIS Manager</div>
-      </div>
-    </div>
+    <div id="app"></div>
     <!-- require cdn assets js -->
     <% for (var i in htmlWebpackPlugin.options.cdn && htmlWebpackPlugin.options.cdn.js) { %>
     <script type="text/javascript" src="<%= htmlWebpackPlugin.options.cdn.js[i] %>"></script>

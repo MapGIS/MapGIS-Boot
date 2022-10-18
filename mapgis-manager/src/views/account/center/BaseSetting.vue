@@ -2,7 +2,7 @@
   <div class="account-settings-info-view">
     <a-row :gutter="16">
       <a-col :md="24" :lg="16">
-        <a-form-model :label-col="labelCol" :wrapper-col="wrapperCol" :rules="rules" :model="user" ref="form">
+        <a-form-model :label-col="{ span: 4 }" :wrapper-col="{ span: 16 }" :rules="rules" :model="user" ref="form">
           <a-form-model-item label="用户名" ref="userName" prop="userName">
             <span>{{ user.userName }}</span>
           </a-form-model-item>
@@ -33,7 +33,7 @@
           <a-form-model-item label="备注" prop="remark">
             <a-input v-model="user.remark" placeholder="请输入" type="textarea" />
           </a-form-model-item>
-          <a-form-model-item>
+          <a-form-model-item :wrapper-col="{ span: 16, offset: 4 }">
             <a-button type="primary" :loading="submitLoading" @click="submit">保存</a-button>
           </a-form-model-item>
         </a-form-model>
@@ -65,8 +65,6 @@ export default {
   },
   data() {
     return {
-      labelCol: { span: 4 },
-      wrapperCol: { span: 16 },
       submitLoading: false,
       // cropper
       sexValue: {

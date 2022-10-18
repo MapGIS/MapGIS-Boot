@@ -52,13 +52,26 @@ public class SysConfigServiceImpl implements ISysConfigService {
     }
 
     /**
+     * 查询参数配置信息
+     *
+     * @param configKey 参数键名
+     * @return 参数配置信息
+     */
+    @Override
+    public SysConfig selectConfigByKey(String configKey) {
+        SysConfig config = new SysConfig();
+        config.setConfigKey(configKey);
+        return configMapper.selectConfig(config);
+    }
+
+    /**
      * 根据键名查询参数配置信息
      *
      * @param configKey 参数key
      * @return 参数键值
      */
     @Override
-    public String selectConfigByKey(String configKey) {
+    public String selectConfigValueByKey(String configKey) {
         String configValue = Convert.toStr(cacheService.getCacheObject(getCacheKey(configKey)));
         if (StringUtils.isNotEmpty(configValue)) {
             return configValue;

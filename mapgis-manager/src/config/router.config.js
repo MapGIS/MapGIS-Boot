@@ -45,7 +45,7 @@ export const otherRouterMap = [
     hidden: true
   },
   {
-    path: '/system/role/authUser',
+    path: '/security/role/authUser',
     name: 'AuthUser',
     component: 'AuthUser',
     meta: { title: '分配用户', noCache: true },
@@ -53,7 +53,7 @@ export const otherRouterMap = [
     hidden: true
   },
   {
-    path: '/system/notice/form',
+    path: '/message/notice/form',
     name: 'NoticeForm',
     component: 'NoticeForm',
     meta: { title: '公告编辑', noCache: true },
@@ -84,11 +84,13 @@ export const constantRouterMap = [
       {
         path: 'login',
         name: 'login',
+        meta: { title: '登录' },
         component: () => import(/* webpackChunkName: "user" */ '@/views/user/Login')
       },
       {
         path: 'register',
         name: 'register',
+        meta: { title: '注册' },
         component: () => import(/* webpackChunkName: "user" */ '@/views/user/Register')
       }
     ]

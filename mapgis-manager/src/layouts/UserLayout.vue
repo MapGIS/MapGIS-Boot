@@ -1,18 +1,18 @@
 <template>
   <div id="userLayout" :class="['user-layout-wrapper', isMobile && 'mobile']">
-    <div class="container">
+    <div class="container" :style="{ backgroundImage: backgourndImageUrl }">
       <div class="top">
         <div class="header">
           <a href="/">
-            <img src="~@/assets/logo.png" class="logo" alt="logo" />
-            <span class="title">MapGIS Manager</span>
+            <img v-if="logo" :src="logo" class="logo" alt="logo" />
+            <span class="title">{{ title }}</span>
           </a>
         </div>
         <div class="desc"></div>
       </div>
       <router-view />
       <div class="footer">
-        <div class="copyright">Copyright &copy; 2022 武汉中地数码科技有限公司 Version 10.6.0.10</div>
+        <div class="copyright">{{ copyright }}</div>
       </div>
     </div>
   </div>
@@ -20,12 +20,38 @@
 
 <script>
 import { deviceMixin } from '@/store/device-mixin'
+import { getBaseConfig } from '@/api/system/config'
 
 export default {
   name: 'UserLayout',
   mixins: [deviceMixin],
+  data() {
+    return {
+      logo: '',
+      title: '',
+      copyright: ''
+    }
+  },
+  computed: {
+    backgourndImageUrl() {
+      return `url('${process.env.BASE_URL}login-bg.png')`
+    }
+  },
   mounted() {
     document.body.classList.add('userLayout')
+
+    getBaseConfig().then(response => {
+      const configValue = response.data
+      if (configValue) {
+        const {
+          header: { logo, title },
+          footer: { copyright }
+        } = JSON.parse(configValue)
+        this.logo = logo
+        this.title = title
+        this.copyright = copyright
+      }
+    })
   },
   beforeDestroy() {
     document.body.classList.remove('userLayout')
@@ -49,8 +75,9 @@ export default {
   .container {
     width: 100%;
     min-height: 100%;
-    background: #f0f2f5 url(~@/assets/background.svg) no-repeat 50%;
-    background-size: 100%;
+    background-repeat: no-repeat;
+    background-position-x: center;
+    background-size: cover;
     padding: 110px 0 144px;
     position: relative;
 
@@ -84,7 +111,7 @@ export default {
 
         .title {
           font-size: 33px;
-          color: rgba(0, 0, 0, 0.85);
+          color: rgba(255, 255, 255, 0.85);
           font-family: Avenir, 'Helvetica Neue', Arial, Helvetica, sans-serif;
           font-weight: 600;
           position: relative;
@@ -93,7 +120,7 @@ export default {
       }
       .desc {
         font-size: 14px;
-        color: rgba(0, 0, 0, 0.45);
+        color: rgba(255, 255, 255, 0.45);
         margin-top: 12px;
         margin-bottom: 40px;
       }
@@ -117,7 +144,7 @@ export default {
         margin-bottom: 8px;
         font-size: 14px;
         a {
-          color: rgba(0, 0, 0, 0.45);
+          color: rgba(255, 255, 255, 0.45);
           transition: all 0.3s;
           &:not(:last-child) {
             margin-right: 40px;
@@ -125,7 +152,7 @@ export default {
         }
       }
       .copyright {
-        color: rgba(0, 0, 0, 0.45);
+        color: rgba(255, 255, 255, 0.45);
         font-size: 14px;
       }
     }

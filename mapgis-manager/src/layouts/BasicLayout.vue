@@ -27,7 +27,7 @@
     -->
     <template v-slot:menuHeaderRender>
       <div>
-        <img src="~@/assets/logo.png" class="logo" alt="logo" />
+        <img v-if="logo" :src="logo" class="logo" alt="logo" />
         <h1>{{ title }}</h1>
       </div>
     </template>
@@ -41,7 +41,7 @@
       />
     </template>
     <template v-slot:footerRender v-if="!hideFooter">
-      <global-footer />
+      <global-footer :copyright="copyright" />
     </template>
     <keep-alive>
       <router-view />
@@ -80,6 +80,7 @@ import RightContent from '@/components/GlobalHeader/RightContent'
 import GlobalFooter from '@/components/GlobalFooter'
 import Ads from '@/components/Other/CarbonAds'
 import { baseMixin } from '@/store/app-mixin'
+import { getBaseConfig } from '@/api/system/config'
 
 export default {
   name: 'BasicLayout',
@@ -100,7 +101,6 @@ export default {
       menus: [],
       // 侧栏展开状态
       collapsed: false,
-      title: defaultSettings.title,
       settings: {
         // 布局类型
         layout: defaultSettings.layout, // 'sidemenu', 'topmenu', 'mixmenu'
@@ -122,7 +122,10 @@ export default {
         hideFooter: defaultSettings.hideFooter
       },
       // 媒体查询
-      query: {}
+      query: {},
+      logo: '',
+      title: '',
+      copyright: ''
     }
   },
   computed: {
@@ -170,6 +173,19 @@ export default {
     if (process.env.NODE_ENV !== 'production' || process.env.VUE_APP_PREVIEW === 'true') {
       updateTheme(this.navTheme, this.settings.primaryColor)
     }
+
+    getBaseConfig().then(response => {
+      const configValue = response.data
+      if (configValue) {
+        const {
+          header: { logo, title },
+          footer: { copyright }
+        } = JSON.parse(configValue)
+        this.logo = logo
+        this.title = title
+        this.copyright = copyright
+      }
+    })
   },
   methods: {
     i18nRender,

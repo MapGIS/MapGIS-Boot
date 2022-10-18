@@ -7,9 +7,10 @@
 </template>
 
 <script>
-import { domTitle, setDocumentTitle } from '@/utils/domUtil'
+import { setDocumentTitle, setFavicon } from '@/utils/domUtil'
 import Watermark from '@/utils/wartermark'
 import { i18nRender } from '@/locales'
+import { getBaseConfig } from '@/api/system/config'
 
 export default {
   data() {
@@ -17,6 +18,15 @@ export default {
   },
   mounted() {
     Watermark.set('MapGIS Boot')
+    getBaseConfig().then(response => {
+      const configValue = response.data
+      if (configValue) {
+        const {
+          header: { logo }
+        } = JSON.parse(configValue)
+        setFavicon(logo)
+      }
+    })
   },
   destroyed() {
     Watermark.remove()
@@ -25,7 +35,7 @@ export default {
     locale() {
       // 只是为了切换语言时，更新标题
       const { title } = this.$route.meta
-      title && setDocumentTitle(`${i18nRender(title)} - ${domTitle}`)
+      title && setDocumentTitle(`${i18nRender(title)}`)
 
       return this.$i18n.getLocaleMessage(this.$store.getters.lang).antLocale
     }

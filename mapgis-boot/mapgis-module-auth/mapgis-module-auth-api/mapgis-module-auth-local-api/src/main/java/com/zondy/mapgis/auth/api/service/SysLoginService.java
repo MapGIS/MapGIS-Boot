@@ -1,5 +1,6 @@
 package com.zondy.mapgis.auth.api.service;
 
+import cn.hutool.core.lang.Dict;
 import com.zondy.mapgis.auth.api.domain.model.LoginBody;
 import com.zondy.mapgis.auth.api.domain.model.RegisterBody;
 import com.zondy.mapgis.common.core.constant.Constants;
@@ -8,10 +9,7 @@ import com.zondy.mapgis.common.core.constant.UserConstants;
 import com.zondy.mapgis.common.core.domain.R;
 import com.zondy.mapgis.common.core.exception.ServiceException;
 import com.zondy.mapgis.common.core.exception.user.UserPasswordNotMatchException;
-import com.zondy.mapgis.common.core.utils.DateUtils;
-import com.zondy.mapgis.common.core.utils.MessageUtils;
-import com.zondy.mapgis.common.core.utils.ServletUtils;
-import com.zondy.mapgis.common.core.utils.StringUtils;
+import com.zondy.mapgis.common.core.utils.*;
 import com.zondy.mapgis.common.core.utils.ip.IpUtils;
 import com.zondy.mapgis.common.core.utils.spring.SpringUtils;
 import com.zondy.mapgis.common.security.context.AuthenticationContextHolder;
@@ -32,6 +30,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -124,13 +123,26 @@ public class SysLoginService {
         // 校验验证码
         validateCodeService.checkCaptcha(registerBody.getCode(), registerBody.getUuid());
 
-        register(username, password);
+        // 获取注册用户的默认角色
+        R<String> configResult = sysServiceApi.selectConfigValueByKey("security.register", SecurityConstants.INNER);
+
+        if (R.FAIL == configResult.getCode()) {
+            throw new ServiceException(configResult.getMsg());
+        }
+
+        Dict registerUserInfo = JsonUtils.parseMap(configResult.getData());
+        List<Integer> roleIdList = (ArrayList<Integer>) registerUserInfo.get("defaultRoleIds");
+        Long[] roleIds = new Long[roleIdList.size()];
+        for (int i = 0; i < roleIdList.size(); i++) {
+            roleIds[i] = roleIdList.get(i).longValue();
+        }
+        register(username, password, roleIds);
     }
 
     /**
      * 注册
      */
-    public void register(String username, String password) {
+    public void register(String username, String password, Long[] roleIds) {
         // 用户名或密码为空 错误
         if (StringUtils.isAnyBlank(username, password)) {
             throw new ServiceException("用户/密码必须填写");
@@ -149,6 +161,9 @@ public class SysLoginService {
         sysUser.setUserName(username);
         sysUser.setNickName(username);
         sysUser.setPassword(SecurityUtils.encryptPassword(password));
+        if (!StringUtils.isEmpty(roleIds)) {
+            sysUser.setRoleIds(roleIds);
+        }
         R<?> registerResult = sysServiceApi.registerUserInfo(sysUser, SecurityConstants.INNER);
 
         if (R.FAIL == registerResult.getCode()) {

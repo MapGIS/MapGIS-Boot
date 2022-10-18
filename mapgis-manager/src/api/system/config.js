@@ -18,9 +18,17 @@ export function getConfig(configId) {
 }
 
 // 根据参数键名查询参数值
-export function getConfigKey(configKey) {
+export function getConfigValueByKey(configKey) {
   return request({
     url: `${window._CONFIG['apiPathManagerPrefix']}/system/config/configKey/` + configKey,
+    method: 'get'
+  })
+}
+
+// 根据参数键名查询参数详细
+export function getConfigByKey(configKey) {
+  return request({
+    url: `${window._CONFIG['apiPathManagerPrefix']}/system/config/configKey/` + configKey + '/info',
     method: 'get'
   })
 }
@@ -56,5 +64,13 @@ export function refreshCache() {
   return request({
     url: `${window._CONFIG['apiPathManagerPrefix']}/system/config/refreshCache`,
     method: 'delete'
+  })
+}
+
+// 根据基本配置信息
+export function getBaseConfig() {
+  return request({
+    url: `${window._CONFIG['apiPathManagerPrefix']}/system/webConfig/base`,
+    method: 'get'
   })
 }

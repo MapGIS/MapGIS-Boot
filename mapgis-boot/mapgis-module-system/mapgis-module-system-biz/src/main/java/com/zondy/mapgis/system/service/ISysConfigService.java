@@ -20,12 +20,20 @@ public interface ISysConfigService {
     public SysConfig selectConfigById(Long configId);
 
     /**
+     * 查询参数配置信息
+     *
+     * @param configKey 参数键名
+     * @return 参数配置信息
+     */
+    public SysConfig selectConfigByKey(String configKey);
+
+    /**
      * 根据键名查询参数配置信息
      *
      * @param configKey 参数键名
      * @return 参数键值
      */
-    public String selectConfigByKey(String configKey);
+    public String selectConfigValueByKey(String configKey);
 
     /**
      * 查询参数配置列表

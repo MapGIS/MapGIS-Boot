@@ -157,8 +157,8 @@ export default {
   },
   filters: {},
   created() {
-    this.getConfigKey('sys.user.initPassword').then(response => {
-      this.initPassword = response.msg
+    this.getConfigValueByKey('security.initPassword').then(response => {
+      this.initPassword = response.data
     })
   },
   computed: {},

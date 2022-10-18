@@ -3,31 +3,19 @@
     <a-card :bordered="false" :bodyStyle="{ padding: '16px 0', height: '100%' }" :style="{ height: '100%' }">
       <div class="account-settings-info-main" :class="{ mobile: isMobile }">
         <div class="account-settings-info-left">
-          <a-menu
-            :mode="isMobile ? 'horizontal' : 'inline'"
-            :default-selected-keys="['base']"
-            :style="{ border: '0' }"
-            type="inner"
-            @openChange="onOpenChange"
-          >
-            <a-menu-item key="base">
-              <a @click="baseClick">个人信息</a>
-            </a-menu-item>
-            <a-menu-item key="security">
-              <a @click="securityClick">密码设置</a>
-            </a-menu-item>
-            <a-menu-item key="binding">
-              <a @click="bindingClick">账号绑定</a>
+          <a-menu :mode="isMobile ? 'horizontal' : 'inline'" v-model="currentKey" :style="{ border: '0' }" type="inner">
+            <a-menu-item v-for="item in configItems" :key="item.key">
+              {{ item.title }}
             </a-menu-item>
           </a-menu>
         </div>
         <div class="account-settings-info-right">
           <div class="account-settings-info-title">
-            <span>{{ title }}</span>
+            <span>{{ currentTitle }}</span>
           </div>
-          <base-setting ref="baseSetting" v-if="base"></base-setting>
-          <security ref="security" v-if="security"></security>
-          <binding ref="binding" v-if="binding"></binding>
+          <template v-for="item in configItems">
+            <component :is="item.component" :key="item.key" v-if="currentKey.indexOf(item.key) > -1"></component>
+          </template>
         </div>
       </div>
     </a-card>
@@ -50,37 +38,20 @@ export default {
   mixins: [baseMixin],
   data() {
     return {
-      // horizontal  inline
-      mode: 'inline',
-      openKeys: [],
-      title: '个人信息',
-      base: true,
-      security: false,
-      binding: false
+      configItems: [
+        { title: '个人信息', key: 'base', component: 'BaseSetting' },
+        { title: '密码设置', key: 'security', component: 'Security' },
+        { title: '账号绑定', key: 'binding', component: 'Binding' }
+      ],
+      currentKey: ['base']
     }
   },
-  mounted() {},
-  methods: {
-    onOpenChange(openKeys) {
-      this.openKeys = openKeys
-    },
-    baseClick() {
-      this.base = true
-      this.security = false
-      this.binding = false
-      this.title = '个人信息'
-    },
-    securityClick() {
-      this.base = false
-      this.security = true
-      this.binding = false
-      this.title = '密码设置'
-    },
-    bindingClick() {
-      this.base = false
-      this.security = false
-      this.binding = true
-      this.title = '账号绑定'
+  computed: {
+    currentTitle() {
+      const currnetConfig = this.configItems.find(config => {
+        return this.currentKey.indexOf(config.key) > -1
+      })
+      return currnetConfig.title
     }
   }
 }

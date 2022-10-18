@@ -94,5 +94,5 @@ public interface ISysServiceApi {
      * @param configKey 参数键名
      * @return 参数键值
      */
-    public R<String> selectConfigByKey(String configKey, String source);
+    public R<String> selectConfigValueByKey(String configKey, String source);
 }

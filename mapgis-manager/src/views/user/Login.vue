@@ -187,5 +187,10 @@ export default {
     margin-top: 24px;
     line-height: 22px;
   }
+
+  /deep/ .ant-checkbox-wrapper,
+  .register {
+    color: rgba(255, 255, 255, 0.85);
+  }
 }
 </style>

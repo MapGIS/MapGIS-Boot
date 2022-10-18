@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="user-login-other">
-      <span>其他登录方式</span>
+      <span>其他登录方式:</span>
       <a v-for="type in types" :key="type.source" @click="onThirdLogin(type.source)" :title="type.name">
         <a-icon :component="allIcon[type.icon + 'Icon']" class="item-icon"> </a-icon>
       </a>
@@ -86,10 +86,11 @@ export default {
   text-align: left;
   margin-top: 24px;
   line-height: 22px;
+  color: rgba(255, 255, 255, 0.85);
 
   .item-icon {
     font-size: 24px;
-    color: rgba(0, 0, 0, 0.2);
+    color: rgba(255, 255, 255, 0.85);
     margin-left: 16px;
     vertical-align: middle;
     cursor: pointer;

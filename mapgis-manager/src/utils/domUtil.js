@@ -1,5 +1,3 @@
-import config from '@/config/defaultSettings'
-
 export const setDocumentTitle = function (title) {
   document.title = title
   const ua = navigator.userAgent
@@ -18,4 +16,15 @@ export const setDocumentTitle = function (title) {
   }
 }
 
-export const domTitle = config.title
+export const setFavicon = function (icon) {
+  let favicon = document.querySelector('link[rel="icon"]')
+  // console.log('app', favicon)
+  if (favicon !== null) {
+    favicon.href = icon
+  } else {
+    favicon = document.createElement('link')
+    favicon.rel = 'icon'
+    favicon.href = icon
+    document.head.appendChild(favicon)
+  }
+}

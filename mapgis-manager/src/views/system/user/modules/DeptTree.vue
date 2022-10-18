@@ -1,6 +1,6 @@
 <template>
   <div>
-    <a-input-search style="margin-bottom: 8px" placeholder="Search" @change="filterNode" />
+    <a-input-search style="margin-bottom: 8px" placeholder="请输入部门名称" @change="filterNode" />
     <a-tree
       :expanded-keys="expandedKeys"
       :auto-expand-parent="autoExpandParent"

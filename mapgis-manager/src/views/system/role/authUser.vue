@@ -288,7 +288,7 @@ export default {
       })
     },
     back() {
-      this.$router.push({ path: '/system/role' })
+      this.$router.push({ path: '/security/role' })
     }
   }
 }

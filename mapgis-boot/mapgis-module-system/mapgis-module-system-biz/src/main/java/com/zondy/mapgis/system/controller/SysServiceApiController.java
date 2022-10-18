@@ -104,7 +104,7 @@ public class SysServiceApiController extends BaseController {
      */
     @InnerAuth
     @GetMapping("/config/configKey/{configKey}")
-    public R<String> selectConfigByKey(@PathVariable("configKey") String configKey) {
-        return sysServiceApi.selectConfigByKey(configKey, "");
+    public R<String> selectConfigValueByKey(@PathVariable("configKey") String configKey) {
+        return sysServiceApi.selectConfigValueByKey(configKey, "");
     }
 }

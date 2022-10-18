@@ -192,7 +192,7 @@ public class ThirdLoginController extends BaseController {
         String username = sysAuthUser.getLoginName() + sysAuthUser.getSuffix();
 
         // 获取初始密码
-        R<String> configResult = sysServiceApi.selectConfigByKey("sys.user.initPassword", SecurityConstants.INNER);
+        R<String> configResult = sysServiceApi.selectConfigValueByKey("security.initPassword", SecurityConstants.INNER);
 
         if (R.FAIL == configResult.getCode()) {
             throw new ServiceException(configResult.getMsg());
@@ -201,7 +201,7 @@ public class ThirdLoginController extends BaseController {
         String password = configResult.getData();
 
         // 注册账号
-        loginService.register(username, password);
+        loginService.register(username, password, null);
 
         // 根据用户名获取用户id
         R<LoginUser> loginUserResult = sysServiceApi.getUserInfo(username, SecurityConstants.INNER);

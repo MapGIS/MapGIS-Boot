@@ -306,7 +306,7 @@ export default {
     handleAuthUser(row) {
       const roleId = row.roleId
       this.$router.push({
-        path: '/system/role/authUser',
+        path: '/security/role/authUser',
         query: { roleId: roleId }
       })
     }

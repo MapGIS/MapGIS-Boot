@@ -10,7 +10,7 @@
  Target Server Version : 3030001
  File Encoding         : 65001
 
- Date: 12/10/2022 18:36:43
+ Date: 18/10/2022 15:54:28
 */
 
 -- ----------------------------
@@ -109,7 +109,7 @@ CREATE TABLE "sys_config"
     "config_id"    integer NOT NULL PRIMARY KEY AUTOINCREMENT,
     "config_name"  text(100) DEFAULT '',
     "config_key"   text(100) DEFAULT '',
-    "config_value" text(500) DEFAULT '',
+    "config_value" text      DEFAULT '',
     "config_type"  text(1)   DEFAULT 'N',
     "create_by"    text(64)  DEFAULT '',
     "create_time"  text      DEFAULT NULL,
@@ -122,11 +122,15 @@ CREATE TABLE "sys_config"
 -- Records of sys_config
 -- ----------------------------
 INSERT INTO "sys_config"
-VALUES (1, '用户管理-账号初始密码', 'sys.user.initPassword', 'MapGIS123', 'Y', 'admin', '2022-03-23 22:12:32', '', NULL,
-        '初始化密码 MapGIS123');
+VALUES (1, '安全配置-初始密码配置', 'security.initPassword', 'MapGIS123', 'Y', 'admin', '2022-03-23 22:12:32', '', NULL,
+        '用户初始密码');
 INSERT INTO "sys_config"
-VALUES (2, '账号自助-是否开启用户注册功能', 'sys.account.registerUser', 'false', 'Y', 'admin', '2022-03-23 22:12:32', '', NULL,
-        '是否开启注册用户功能（true开启，false关闭）');
+VALUES (2, '安全配置-用户注册配置', 'security.register', '{"enabled":true,"defaultRoleIds":[2]}', 'Y', 'admin',
+        '2022-03-23 22:12:32', '', NULL, '用户注册管理');
+INSERT INTO "sys_config"
+VALUES (3, '系统配置-基本配置', 'system.base',
+        '{"header":{"logo":"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIAAAACACAYAAADDPmHLAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyFpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuNi1jMTQyIDc5LjE2MDkyNCwgMjAxNy8wNy8xMy0wMTowNjozOSAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENDIChXaW5kb3dzKSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDo3OUVGMzk2Q0QxMTQxMUVDOTRDNjk0MDVFQ0Y3NzkzOSIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDo3OUVGMzk2REQxMTQxMUVDOTRDNjk0MDVFQ0Y3NzkzOSI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOjc5RUYzOTZBRDExNDExRUM5NEM2OTQwNUVDRjc3OTM5IiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjc5RUYzOTZCRDExNDExRUM5NEM2OTQwNUVDRjc3OTM5Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+K7qzBwAAEjNJREFUeNrsXQd0FNUavumNFBKCkISWUKTEIAIBDJIICCpNigIHNQqxoKjgsyBPfT4V1OdDVNCnCFI82BApwUKNlABBIiWAQAgJkNBDSO9592Pv6jBsmd2Z2Z1Z7nfOf/bM7uyt39z7///97x23hoYGwnHjwp03AScABycABycABycABycABycABycABycABycABycABycABycABycABycABycAh8vBjTz4A2+FGxieLkFiQmKp9KLSnkoHKm2phFEJouJDpZ7KFSqXqeRROcokk8pOKpWcAPqCH5URTBKpNJUw1TVmEk0lSfAbOj+dyk9UvqZSwKcA7SKOyjNURlEJViH9OiobqHxOZSUbObgSqAHEU1lF5Q8qj6rU+YAHlUFU8FQcoDLBRaZJ3RKgGZWlVHZQGcbme0ehE8s7g0pvTgDH4wkqh9lT6ObEctxKZRubFhpxAqgPaO7fUfmUSoiG2imFym4qXTgB1APMuN+pjNFgWxVSOU5lqCvpBVqqSA8qa6mEa6Q89cw8XE3lFypZVFxuG5VWCABbfo1G5lg4iBZQWUbltKubgVogQCyzuZ3Z+Xiy11F5n8pGK096E6YYwuN4M/uMJAbPoz+rRzWVUipF7PM8lSNU/mSfMGcvcgIQEsMaPNiJZUil8joxuIVNAZ3an8qdxOBBvEWCVeJNJZSJEQNEhNtPZTOVTawNyp1ReWd6An3YHNvNSfnjKZxGJc2McjyQSjJT+gJULksZmwIXUVlPHOiBdKYV8F8ndT6G5KlM6RR3Pobv55i2D8VvrAM6n7A8xrI8j7MyNHJlAtxN5Skn5LudDeFziMHvbwQWl16gcoLKB1RaO/HBaM3KgLK8yMrmUgTwpTLXCUrem8zaOCH6bSxTzt5jCp5WgLK8y8o21pUI8AoxLMk6CogDwDrCa1RqBd+3ovIzMSwBt9SwpdaSlfEXVmZdE6A5lX84MD8Ef9zONH0hJjAtfLCOTPZBrMwT9EwA1ec0ATB0JlA5KJp+4OTBKl+QDv02QazsC1lddEUALOxMclBeWWy+F3rymjKb+1GifzzC6tJUTwQY7yDTJpvKXVTOCb5rw3wOrrSu35vVqY1eCPCIA/K4wEzMM4LvOhLDen4McT3EsLp11DoBoPV3VzmPKmLw2mULvkN0MHz8EcR1EcHq2FbLBBjkgDyep7JLcB3OzLwo4vqIYnUN1yoBklROfzmVeYJrLMassfep0Cnasjr72PInTxcgQI4J6+ITYogkVg2tm/jnJnUK3xwfE7orNiroQERjv4JmwT5n734//ee0wxcSa768z+tcceVN+ZcrIw8XFHfccayw9/Zjl27POl2sZkhZPHsQJmmJAC2Iei5WuHiTicHbZwQcJRPVyKxds0bHLpZUNSmrqgvY+HLf/tFNA3LMNqyHW21kY798SM/oxhkPJ7RaXFff4NF5+oaDR86UdIhpGnD8+PkyNRRT1D2NyldamQLaq5g2InW3Cq5biaYCZR4r+pSvfb7Pvd9M7jm2qLwm5PGkNp9Z6nxz8HB3q5s5pjNc4WTKwJiPN7yUMCCxY3iaCu0yj0h0GzuCAB1UShdBmjNE331GFPTwtQzzP7l8Svzona8n9ronrtlPb6/+cwY68cV7279nb5oju0es6NA88Mi7a4++1LdDk62bp/dNWjOtz9A24QEnFGybINYWmiBApErpYnXvkuB6rJLWxqTE1l9kzRrQZVSPyKsRMycvlbdcuefMiJHdI1dEhfrJihV89q6YD88UVTZfvjt/NK6HdG2WemBm/9jJ/aM/UdjyGqcFAgSqkOYpYtg3YATCtt5VImE/b4+KxY91f3j+o91SAn09S4zfz0/LTalvaHDH0C03j4cSWi4J8vMq/t+mE08Yvwvw8Syb93DXp5Y92WM8yqBQO73D2sbhBEC6CJxEBW9XIf2ZzPFjxNNEgSXdYH+vKxiS0UHi3xZuyX0UU0JC+7BtcvNBZw/v1nzV1iMX+2afK73GVB3Xu8XXKAPKosQsxtrGIQSA/YkNHd8TQxRsJntKlQ77QjTtYsE11hdekJtoWCPvS1tn9OsLhU/8267jhfEFlysjxvSM/F6pStwfH4XdT+SH3QWjTCmdW2bccQfKpEBWLxILazBKEKAt0zrhf0elMK+FqTilQLkRDpGPyDUz/b09yldP7T0stkXQAVO//7in4D58KkmAu7o0XYenfGVmwQhTv9/SInj/qqm9h/t6ecg9vCKMWFiHkUMABHd8SQwbOCcTw+ELagPRsl+Iyj9VbqJfTOw2qU+7sHRzv6/OPDMMT2PP6NAMpSri7elendQxfDNGl/PFVSaXdW9vF7Z9/sRbUxTIbpq5vraHAHAePUsMARfJxLF7CxA/nyu4Rui2rOXQlMTW8zHvmp1vSqqb/Hmm5GZ0lpubslvDBnRuuqGhgbhtO3opwdw9E/q0/Cq5b6tFMrNqTQxL5LIJgOEekbVziHMiar4VXSfLSaxVE/+8ORPinrN0D9y36CQllD8xjGluO3oxwdJ9Hz8YNwUeRZnZJcslwBBi2B7dkzgHGP5Xiky/oXIS/HBC3LOY/y3dY+ycXm1DdypdoS5RQVmwCCyNAFe1XF/P0jkTbnlOZnbov+v2OEjdGfQkiEgMR6g4C7AqbhNcQ3n6kXDYgvtED5Gk+Rsm1nsaKPwm0bWsiF4ofVDErN2HlT08gd3bNP5dSrp784q6Yr1Aqo8ffoDThRVRXVsG7w0J8C6ydG9VTZ3PjuxCOWFtg20lwJMa6XxTBLjT3oQ6RQYd2v5qP6sOqpLK2sCgx1YX94oJ3bn+pYSBUtJOmrV1M0gDZ46U+7G+8M/lh956c3TnV+EStnZ/uxfWHRM7j2zAnbboAEPZsK8FYBuXUAmD2dTO3sQm9mu1QMp98P9fVaHD/XPVqhi8i/jMu1guafUOVouM7NoRUSSxu4Ublzp5zr9mpMQDKbiW5V0c0zNKkkMn90J5a2EnqQEElthCgAfio76VmeVt1gjgRQynYwQT7UDsoesqR/NuEep3Ssq9eZcMnWLsJDUAU1SYl5T7O0YEHpaRZZw1AsCz1p1oC9km/BF2wZYAjLNFlTinkDQL9j2rVsWMaRvzkjSRdwrfJCPLtpYIgPCtVzVovoifQLu9f9C2pd4LJdBoh6tVMVgiXh7uNcUVNZIda7e2CvlDRpbRlggwi2jzMMRzomu74/w7RwYdlHpvcUXt1U4J8PEoU7NySL+4slYyAWJbBB+QkV1zcwTA7pJxRJu4ILoOtTehFmHS5n+gtKr26sMQ7KfI2rxZhPh7FZVV1Uo+iUSqDmMGoeYIMJVo9+jYYtG13TuMwwN9Lki919gpgX6eJWpWDlNMaWVdIzXqYALXRAgZXcHQ+AuIlfAhJwKBpUcF13avytmi0Z+9UtWssqbOF2agu5u0g5uM/7Eln4Kiyojq2npvW/6Te9FgotoJN/EIMFrDnQ+IgyKqCYciMLqCx2i8nOLhEUOyXVFHx/4zqB02bUi5d8js9NS1e8/eu+/t/nGYp6X8x+gKPjF7sGRLJW7Gxn05F8qipf4HI4zfxFX2Bo6WinUAzKd36ISoQgLYp02WVEneQAnzDJ9XymtUdYrBBPR0l0ZK4zQjI7tyMQHiieOObbEXYUoRwOjflzTs+Bjs/5q6ei81K1dT1+AlDEG3hvzLFXL2WhSaIoDWEWrFLJSMfSevxEk2zwIMw/7lshpV4x0Ly6pDbQkDt6UOpgYQMQFu0QEBxHv87d5G9Ude0a2SWRfgXWjsILUqVlVb71NRXednSwj4nhNFt8nI8riYANE6IIBYOcq2N6H1WecHSr03orHv1VfIYU+AWhUruFxxNW1bYv42HjrfX0aW2WICROqAAOINpnvtpv/5spjDBSWSztQx2uUybW5J9rzUJWecLyB16dgM9osJEKIDAsSKrjPlJPbdrtP320IAWxRHmwnAYg6kBp1ILbsF/C4mQKAOCIBRShjJcl7ONLDgt9yJ2OhplQDhAQ4bAaR4AXHAxIItuXIOvzjG2u4vwBWsl/fgjCTXRgFji9hj9iaGUzv8fTytvqQBYeHYnqV2UCjSt7bsXF5V65+Rc1lOWD7a7AkxAYp1MgpgM4pwGxgPC7cdJsPC9UKAwSIC4M0aWKe3+4UO30+JHzO6R+RyS/dM/+7grHdSj7yMM4GkROIYXcENS0ZafdklTMDAlNUlt7UJ2bPjtUSL4d7f7jr9wNh5Gd/IaL8y1mZErAPk64S9eEFTW1GFUuUk+NxX++cYo37Mwbh9KyOnUPEdUZm5Rd3gZbS27QxlnLZs/2yZ2aWyNruOADlEPxAvWi2Skxhcqs8s3feRpXuwgcTdza1++9FLih90YUwzoX0TiwSYsmTfxwr4Iky2FQhwQEcEEEcs4YjUXFmtsjUveen2kw+a+71xgNflzlGBB9P+vJhYW9eg6E7oDQfPDwC5sA3c3D1fpZ+csHhb3sMys8pjbWWSABk6IgD8AT0E1wjSkDs0kpQFmfNxXIu534d0bZ5aWlnbaMuRi4qtmiLaCOlh02mTQG+T7xDEzuSUBX/MVyC7D4iZN5GBAHg1e5WOSPC46BqHVMg6SgXK2PA5O1aZWycwKorfZ5xWLG4ide/ZIVgDGNUjwuTuXHj8hn+wYxXW/mVmhbYxuxPKnSkG23REAJwEKoxshe0se/8iVvygwZvafNmtdUgmNmSs+L1gpBQHkiQLJCN/DA6cGNEtYqX4N9j6CW/9tu1SabUSR+28R0RBIGICAMt1RAAcRvWM6Du8hUz29i0Eftw5a+smU3PuI31bfYmjXDBvy80HjqKf9p29J/Hm8DTxiaNf7zg1Lmnmls0KBaGcJFbe0GYkAPbKVeqIBFPIta5hePReViJhDLnJn+9ZlLIwc77QRHwsqc3nCCWbuz7nabl5wBWN4X/ygL8PhoRO8NTivfPGf7p7WXl1nVLxmdOJlVfSugvmie90RAA4f8THxOKcn1+VyuCLtNxJXaZvyMKwj+vmIb5nsKkUMYIytmcTTCFz1x9/Gqt/xuEf+kDsKxsPfLIxZ7KCbQStf5m1m4TzGbTpBh2RAI0lXtaFn7tYqQywCjjqo50/9Hojbecv+88NnjGsw9v4/p3Uo3aPNst2nBqPBaBXhnWYCSsAesfQ2elrTlwoa6Ng2xQTkc/fHMRHxEAXGKUjEuDt2/1FxIVNv0SNzHBcfFFZTQgihBApbGqbmSVXMKyNDi+uO4L1fBwYjWPjVWqXh4hhe79ViB0bOFXyXqLQO+kcAJzCgeVR4dmBqHg/osI7A46dLf3rUIp73k//aWCXput7RDfeHdcieB+miGYhf+8ixhyPDR9QHA/lF3eCZo/DoIzBHCp2/kKpnW9qBADwitU3dDQKIJoW5wXkiCyF34g+Al6VBI65TbRFoXc3Yzdm6ajS0NTxdgxv4WhLrn+DmKsjm9XZJmvOFAGQwDhr5oPGAOfN+6LvjO8QzL8BOj+f1dXmcHlzXq0sNofqySqAb+BJE08FooBPuXDnn2J1tGu0s+TWRPDBNJ01xhxmFQiB83Sw7HrIBTv/EKub3WcGuUto0H/rqEGgB6wm17+kAk8JVvvSXajz01mdZI1uUhY2XieGUCy9TAdwo66l0kf0PXb54KDEuS7Q+XNZXQrlJiR1ZWuOzhRDLKT8Sq4/GbOK6Qpw7xbpsONR5lGsDoos4duytIkDCntROaiTxsKZAnif7kMmfvuR+Q5+1VHno6yIV1ihZKK2rm0jfAxnCMJRVKGDRoNOsIgY3igmPvUUYVKINB5PFFhKVhEnWRlR1lylE7cnuAF+gn8Rw67iFTrQDeCTh4sbIdGmAiuxioiI45eI4YVUWgHK8jIr29dqZSInuiWbzUc4t3eJDkYErBvsJ6YXu1B2eECjmcKb68Ry5rIyRLORq0Ldp0PaCyOkKl6jmLIIM0zLp45AB0BgR4GFBwPOlWRicK8GqFwehOWtYdMVRqp6RzWEkgQQwpcpjBC8PBrr9jcRw05k+O49NUACxMm9wyycMitmZX8mGEViieCYNTvRwPQpLGdvZOIUC0stArgywpk23p7Nz1jWxe7lMDZSBAieagiireCrP0IMb1rDeYc46/eCFirjyfvTZqDj1hEzGy30Bnfenzc2OAE4ATg4AThuWLg1NDTwVuAjAAcnAAcnAAcnAAcnAAcnAAcnAAcnAAcnAAcnAAcnAAcnAAcnAAcnAIfL4f8CDACryprdhZ9+EgAAAABJRU5ErkJggg==","title":"MapGIS Manager"},"footer":{"copyright":"Copyright © 2022 武汉中地数码科技有限公司 Version 10.6.0.10"}}',
+        'Y', 'admin', '2022-03-23 22:12:32', '', NULL, '系统基本配置');
 
 -- ----------------------------
 -- Table structure for sys_dept
@@ -389,7 +393,7 @@ INSERT INTO "sys_menu"
 VALUES (6, '开发扩展', 0, 6, 'tool', NULL, '', 1, 0, 'M', 0, 0, '', 'tool', 'admin', '2022-03-23 22:12:32', '', NULL,
         '开发扩展目录');
 INSERT INTO "sys_menu"
-VALUES (7, '系统设置', 0, 7, 'setting', NULL, '', 1, 0, 'M', 0, 0, '', 'setting', 'admin', '2022-10-11 18:33:09', '', NULL,
+VALUES (7, '系统配置', 0, 7, 'config', NULL, '', 1, 0, 'M', 0, 0, '', 'setting', 'admin', '2022-10-11 18:33:09', '', NULL,
         '系统设置目录');
 INSERT INTO "sys_menu"
 VALUES (100, '在线用户', 1, 1, 'online', 'monitor/online/index', '', 1, 0, 'C', 0, 0, 'monitor:online:list', 'online',
@@ -404,19 +408,19 @@ INSERT INTO "sys_menu"
 VALUES (103, '操作日志', 2, 2, 'operlog', 'system/operlog/index', '', 1, 1, 'C', 0, 0, 'system:operlog:list', 'form',
         'admin', '2022-03-23 22:12:32', '', NULL, '操作日志菜单');
 INSERT INTO "sys_menu"
-VALUES (104, '用户管理', 3, 1, 'user', 'system/user/index', '', 1, 0, 'C', 0, 0, 'system:user:list', 'user', 'admin',
+VALUES (104, '用户管理', 3, 2, 'user', 'system/user/index', '', 1, 0, 'C', 0, 0, 'system:user:list', 'user', 'admin',
         '2022-03-23 22:12:32', '', NULL, '用户管理菜单');
 INSERT INTO "sys_menu"
-VALUES (105, '角色管理', 3, 2, 'role', 'system/role/index', '', 1, 0, 'C', 0, 0, 'system:role:list', 'peoples', 'admin',
+VALUES (105, '角色管理', 3, 3, 'role', 'system/role/index', '', 1, 0, 'C', 0, 0, 'system:role:list', 'peoples', 'admin',
         '2022-03-23 22:12:32', '', NULL, '角色管理菜单');
 INSERT INTO "sys_menu"
-VALUES (106, '菜单管理', 3, 3, 'menu', 'system/menu/index', '', 1, 0, 'C', 0, 0, 'system:menu:list', 'treeTable', 'admin',
+VALUES (106, '菜单管理', 3, 4, 'menu', 'system/menu/index', '', 1, 0, 'C', 0, 0, 'system:menu:list', 'treeTable', 'admin',
         '2022-03-23 22:12:32', '', NULL, '菜单管理菜单');
 INSERT INTO "sys_menu"
-VALUES (107, '部门管理', 3, 4, 'dept', 'system/dept/index', '', 1, 0, 'C', 0, 0, 'system:dept:list', 'tree', 'admin',
+VALUES (107, '部门管理', 3, 5, 'dept', 'system/dept/index', '', 1, 0, 'C', 0, 0, 'system:dept:list', 'tree', 'admin',
         '2022-03-23 22:12:32', '', NULL, '部门管理菜单');
 INSERT INTO "sys_menu"
-VALUES (108, '岗位管理', 3, 5, 'post', 'system/post/index', '', 1, 0, 'C', 0, 0, 'system:post:list', 'post', 'admin',
+VALUES (108, '岗位管理', 3, 6, 'post', 'system/post/index', '', 1, 0, 'C', 0, 0, 'system:post:list', 'post', 'admin',
         '2022-03-23 22:12:32', '', NULL, '岗位管理菜单');
 INSERT INTO "sys_menu"
 VALUES (109, '定时任务', 4, 1, 'job', 'monitor/job/index', '', 1, 0, 'C', 0, 0, 'monitor:job:list', 'job', 'admin',
@@ -437,8 +441,11 @@ INSERT INTO "sys_menu"
 VALUES (114, '微应用路由配置', 6, 4, 'microApp', 'system/microApp/index', '', 1, 0, 'C', 0, 0, 'system:microApp:list',
         'deployment-unit', 'admin', '2022-09-26 13:54:31', '', NULL, '微应用路由配置菜单');
 INSERT INTO "sys_menu"
-VALUES (115, '参数设置', 7, 1, 'config', 'system/config/index', '', 1, 0, 'C', 0, 0, 'system:config:list', 'edit', 'admin',
-        '2022-03-23 22:12:32', '', NULL, '参数设置菜单');
+VALUES (115, '安全配置', 3, 1, 'config', 'security/config/index', '', 1, 0, 'C', 0, 0, 'system:config:query',
+        'validCode', 'admin', '2022-10-14 17:51:53', '', NULL, '安全配置菜单');
+INSERT INTO "sys_menu"
+VALUES (116, '基本配置', 7, 1, 'base', 'config/base/index', '', 1, 0, 'C', 0, 0, 'system:config:query', 'profile',
+        'admin', '2022-10-15 15:45:11', '', NULL, '基本配置菜单');
 INSERT INTO "sys_menu"
 VALUES (1000, '在线查询', 100, 1, '#', '', '', 1, 0, 'F', 0, 0, 'monitor:online:query', '#', 'admin', '2022-03-23 22:12:32',
         '', NULL, '');
@@ -623,20 +630,11 @@ INSERT INTO "sys_menu"
 VALUES (1060, '微应用路由导出', 114, 5, '#', '', '', 1, 0, 'F', 0, 0, 'system:microApp:export', '#', 'admin',
         '2022-09-26 13:54:31', '', NULL, '');
 INSERT INTO "sys_menu"
-VALUES (1061, '参数查询', 115, 1, '#', '', '', 1, 0, 'F', 0, 0, 'system:config:query', '#', 'admin', '2022-03-23 22:12:32',
-        '', NULL, '');
+VALUES (1061, '配置修改', 115, 1, '', '', '', 1, 0, 'F', 0, 0, 'system:config:edit', '#', 'admin',
+        '2022-10-14 17:54:02', '', NULL, '');
 INSERT INTO "sys_menu"
-VALUES (1062, '参数新增', 115, 2, '#', '', '', 1, 0, 'F', 0, 0, 'system:config:add', '#', 'admin', '2022-03-23 22:12:32',
-        '', NULL, '');
-INSERT INTO "sys_menu"
-VALUES (1063, '参数修改', 115, 3, '#', '', '', 1, 0, 'F', 0, 0, 'system:config:edit', '#', 'admin', '2022-03-23 22:12:32',
-        '', NULL, '');
-INSERT INTO "sys_menu"
-VALUES (1064, '参数删除', 115, 4, '#', '', '', 1, 0, 'F', 0, 0, 'system:config:remove', '#', 'admin', '2022-03-23 22:12:32',
-        '', NULL, '');
-INSERT INTO "sys_menu"
-VALUES (1065, '参数导出', 115, 5, '#', '', '', 1, 0, 'F', 0, 0, 'system:config:export', '#', 'admin', '2022-03-23 22:12:32',
-        '', NULL, '');
+VALUES (1062, '配置修改', 116, 1, '', '', '', 1, 0, 'F', 0, 0, 'system:config:edit', '#', 'admin',
+        '2022-10-15 15:45:38', '', NULL, '');
 
 -- ----------------------------
 -- Table structure for sys_micro_app
@@ -753,7 +751,9 @@ CREATE TABLE "sys_role"
 -- Records of sys_role
 -- ----------------------------
 INSERT INTO "sys_role"
-VALUES (1, '超级管理员', 'admin', 1, 1, 1, 1, 0, 'admin', '2022-03-23 22:12:32', '', NULL, '超级管理员');
+VALUES (1, '超级管理员', 'ADMIN', 1, 1, 1, 1, 0, 'admin', '2022-03-23 22:12:32', '', NULL, '超级管理员');
+INSERT INTO "sys_role"
+VALUES (2, '普通用户', 'COMMON', 2, 5, 1, 1, 0, 'admin', '2022-10-17 15:18:18', '', NULL, '普通用户');
 
 -- ----------------------------
 -- Table structure for sys_role_dept
@@ -784,6 +784,10 @@ CREATE TABLE "sys_role_menu"
 -- ----------------------------
 -- Records of sys_role_menu
 -- ----------------------------
+INSERT INTO "sys_role_menu"
+VALUES (2, 6);
+INSERT INTO "sys_role_menu"
+VALUES (2, 111);
 
 -- ----------------------------
 -- Table structure for sys_user

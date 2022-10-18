@@ -203,6 +203,7 @@ export default {
   & > h3 {
     font-size: 16px;
     margin-bottom: 20px;
+    color: rgba(255, 255, 255, 0.85);
   }
   .getCaptcha {
     display: block;
@@ -215,6 +216,7 @@ export default {
   .login {
     float: right;
     line-height: 40px;
+    color: rgba(255, 255, 255, 0.85);
   }
 }
 </style>

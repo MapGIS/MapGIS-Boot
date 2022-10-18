@@ -69,7 +69,7 @@ public class RemoteSysServiceApiFallbackFactory implements FallbackFactory<ISysS
             }
 
             @Override
-            public R<String> selectConfigByKey(String configKey, String source) {
+            public R<String> selectConfigValueByKey(String configKey, String source) {
                 return R.fail("根据键名查询参数配置信息失败:" + throwable.getMessage());
             }
         };

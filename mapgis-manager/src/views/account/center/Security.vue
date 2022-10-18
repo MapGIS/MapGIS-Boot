@@ -1,6 +1,6 @@
 <template>
   <div>
-    <a-form-model :label-col="labelCol" :wrapper-col="wrapperCol" ref="form" :model="form" :rules="rules">
+    <a-form-model :label-col="{ span: 4 }" :wrapper-col="{ span: 10 }" ref="form" :model="form" :rules="rules">
       <a-form-model-item has-feedback label="旧密码" prop="oldPassword">
         <a-input-password v-model="form.oldPassword" placeholder="请输入旧密码" :maxLength="16" />
       </a-form-model-item>
@@ -10,7 +10,7 @@
       <a-form-model-item has-feedback label="确认密码" prop="confirmPassword">
         <a-input-password v-model="form.confirmPassword" placeholder="请确认密码" :maxLength="16" />
       </a-form-model-item>
-      <a-form-model-item>
+      <a-form-model-item :wrapper-col="{ span: 10, offset: 4 }">
         <a-button type="primary" :loading="submitLoading" @click="submit">保存</a-button>
       </a-form-model-item>
     </a-form-model>
@@ -49,8 +49,6 @@ export default {
       }
     }
     return {
-      labelCol: { span: 4 },
-      wrapperCol: { span: 12 },
       submitLoading: false,
       form: {
         oldPassword: undefined,
