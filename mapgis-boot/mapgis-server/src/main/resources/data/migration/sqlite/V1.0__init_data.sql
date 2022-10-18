@@ -447,34 +447,34 @@ INSERT INTO "sys_menu"
 VALUES (116, '基本配置', 7, 1, 'base', 'config/base/index', '', 1, 0, 'C', 0, 0, 'system:config:query', 'profile',
         'admin', '2022-10-15 15:45:11', '', NULL, '基本配置菜单');
 INSERT INTO "sys_menu"
-VALUES (1000, '在线查询', 100, 1, '#', '', '', 1, 0, 'F', 0, 0, 'monitor:online:query', '#', 'admin', '2022-03-23 22:12:32',
+VALUES (1000, '在线查询', 100, 1, '', '', '', 1, 0, 'F', 0, 0, 'monitor:online:query', '#', 'admin', '2022-03-23 22:12:32',
         '', NULL, '');
 INSERT INTO "sys_menu"
-VALUES (1001, '批量强退', 100, 2, '#', '', '', 1, 0, 'F', 0, 0, 'monitor:online:batchLogout', '#', 'admin',
+VALUES (1001, '批量强退', 100, 2, '', '', '', 1, 0, 'F', 0, 0, 'monitor:online:batchLogout', '#', 'admin',
         '2022-03-23 22:12:32', '', NULL, '');
 INSERT INTO "sys_menu"
-VALUES (1002, '单条强退', 100, 3, '#', '', '', 1, 0, 'F', 0, 0, 'monitor:online:forceLogout', '#', 'admin',
+VALUES (1002, '单条强退', 100, 3, '', '', '', 1, 0, 'F', 0, 0, 'monitor:online:forceLogout', '#', 'admin',
         '2022-03-23 22:12:32', '', NULL, '');
 INSERT INTO "sys_menu"
-VALUES (1003, '登录查询', 102, 1, '#', '', '', 1, 0, 'F', 0, 0, 'system:logininfor:query', '#', 'admin',
+VALUES (1003, '登录查询', 102, 1, '', '', '', 1, 0, 'F', 0, 0, 'system:logininfor:query', '#', 'admin',
         '2022-03-23 22:12:32', '', NULL, '');
 INSERT INTO "sys_menu"
-VALUES (1004, '登录删除', 102, 2, '#', '', '', 1, 0, 'F', 0, 0, 'system:logininfor:remove', '#', 'admin',
+VALUES (1004, '登录删除', 102, 2, '', '', '', 1, 0, 'F', 0, 0, 'system:logininfor:remove', '#', 'admin',
         '2022-03-23 22:12:32', '', NULL, '');
 INSERT INTO "sys_menu"
-VALUES (1005, '日志导出', 102, 3, '#', '', '', 1, 0, 'F', 0, 0, 'system:logininfor:export', '#', 'admin',
+VALUES (1005, '日志导出', 102, 3, '', '', '', 1, 0, 'F', 0, 0, 'system:logininfor:export', '#', 'admin',
         '2022-03-23 22:12:32', '', NULL, '');
 INSERT INTO "sys_menu"
-VALUES (1006, '账号解锁', 102, 4, '#', '', '', 1, 0, 'F', 0, 0, 'system:logininfor:unlock', '#', 'admin',
+VALUES (1006, '账号解锁', 102, 4, '', '', '', 1, 0, 'F', 0, 0, 'system:logininfor:unlock', '#', 'admin',
         '2022-08-15 22:12:32', '', NULL, '');
 INSERT INTO "sys_menu"
-VALUES (1007, '操作查询', 103, 1, '#', '', '', 1, 0, 'F', 0, 0, 'system:operlog:query', '#', 'admin', '2022-03-23 22:12:32',
+VALUES (1007, '操作查询', 103, 1, '', '', '', 1, 0, 'F', 0, 0, 'system:operlog:query', '#', 'admin', '2022-03-23 22:12:32',
         '', NULL, '');
 INSERT INTO "sys_menu"
-VALUES (1008, '操作删除', 103, 2, '#', '', '', 1, 0, 'F', 0, 0, 'system:operlog:remove', '#', 'admin',
+VALUES (1008, '操作删除', 103, 2, '', '', '', 1, 0, 'F', 0, 0, 'system:operlog:remove', '#', 'admin',
         '2022-03-23 22:12:32', '', NULL, '');
 INSERT INTO "sys_menu"
-VALUES (1009, '日志导出', 103, 3, '#', '', '', 1, 0, 'F', 0, 0, 'system:operlog:export', '#', 'admin',
+VALUES (1009, '日志导出', 103, 3, '', '', '', 1, 0, 'F', 0, 0, 'system:operlog:export', '#', 'admin',
         '2022-03-23 22:12:32', '', NULL, '');
 INSERT INTO "sys_menu"
 VALUES (1010, '用户查询', 104, 1, '', '', '', 1, 0, 'F', 0, 0, 'system:user:query', '#', 'admin', '2022-03-23 22:12:32', '',
@@ -552,82 +552,82 @@ INSERT INTO "sys_menu"
 VALUES (1034, '岗位删除', 108, 4, '', '', '', 1, 0, 'F', 0, 0, 'system:post:remove', '#', 'admin', '2022-03-23 22:12:32',
         '', NULL, '');
 INSERT INTO "sys_menu"
-VALUES (1035, '任务查询', 109, 1, '#', '', '', 1, 0, 'F', 0, 0, 'monitor:job:query', '#', 'admin', '2022-03-23 22:12:32',
+VALUES (1035, '任务查询', 109, 1, '', '', '', 1, 0, 'F', 0, 0, 'monitor:job:query', '#', 'admin', '2022-03-23 22:12:32',
         '', NULL, '');
 INSERT INTO "sys_menu"
-VALUES (1036, '任务新增', 109, 2, '#', '', '', 1, 0, 'F', 0, 0, 'monitor:job:add', '#', 'admin', '2022-03-23 22:12:32', '',
+VALUES (1036, '任务新增', 109, 2, '', '', '', 1, 0, 'F', 0, 0, 'monitor:job:add', '#', 'admin', '2022-03-23 22:12:32', '',
         NULL, '');
 INSERT INTO "sys_menu"
-VALUES (1037, '任务修改', 109, 3, '#', '', '', 1, 0, 'F', 0, 0, 'monitor:job:edit', '#', 'admin', '2022-03-23 22:12:32', '',
+VALUES (1037, '任务修改', 109, 3, '', '', '', 1, 0, 'F', 0, 0, 'monitor:job:edit', '#', 'admin', '2022-03-23 22:12:32', '',
         NULL, '');
 INSERT INTO "sys_menu"
-VALUES (1038, '任务删除', 109, 4, '#', '', '', 1, 0, 'F', 0, 0, 'monitor:job:remove', '#', 'admin', '2022-03-23 22:12:32',
+VALUES (1038, '任务删除', 109, 4, '', '', '', 1, 0, 'F', 0, 0, 'monitor:job:remove', '#', 'admin', '2022-03-23 22:12:32',
         '', NULL, '');
 INSERT INTO "sys_menu"
-VALUES (1039, '状态修改', 109, 5, '#', '', '', 1, 0, 'F', 0, 0, 'monitor:job:changeStatus', '#', 'admin',
+VALUES (1039, '状态修改', 109, 5, '', '', '', 1, 0, 'F', 0, 0, 'monitor:job:changeStatus', '#', 'admin',
         '2022-03-23 22:12:32', '', NULL, '');
 INSERT INTO "sys_menu"
-VALUES (1040, '任务导出', 109, 7, '#', '', '', 1, 0, 'F', 0, 0, 'monitor:job:export', '#', 'admin', '2022-03-23 22:12:32',
+VALUES (1040, '任务导出', 109, 7, '', '', '', 1, 0, 'F', 0, 0, 'monitor:job:export', '#', 'admin', '2022-03-23 22:12:32',
         '', NULL, '');
 INSERT INTO "sys_menu"
-VALUES (1041, '公告查询', 110, 1, '#', '', '', 1, 0, 'F', 0, 0, 'system:notice:query', '#', 'admin', '2022-03-23 22:12:32',
+VALUES (1041, '公告查询', 110, 1, '', '', '', 1, 0, 'F', 0, 0, 'system:notice:query', '#', 'admin', '2022-03-23 22:12:32',
         '', NULL, '');
 INSERT INTO "sys_menu"
-VALUES (1042, '公告新增', 110, 2, '#', '', '', 1, 0, 'F', 0, 0, 'system:notice:add', '#', 'admin', '2022-03-23 22:12:32',
+VALUES (1042, '公告新增', 110, 2, '', '', '', 1, 0, 'F', 0, 0, 'system:notice:add', '#', 'admin', '2022-03-23 22:12:32',
         '', NULL, '');
 INSERT INTO "sys_menu"
-VALUES (1043, '公告修改', 110, 3, '#', '', '', 1, 0, 'F', 0, 0, 'system:notice:edit', '#', 'admin', '2022-03-23 22:12:32',
+VALUES (1043, '公告修改', 110, 3, '', '', '', 1, 0, 'F', 0, 0, 'system:notice:edit', '#', 'admin', '2022-03-23 22:12:32',
         '', NULL, '');
 INSERT INTO "sys_menu"
-VALUES (1044, '公告删除', 110, 4, '#', '', '', 1, 0, 'F', 0, 0, 'system:notice:remove', '#', 'admin', '2022-03-23 22:12:32',
+VALUES (1044, '公告删除', 110, 4, '', '', '', 1, 0, 'F', 0, 0, 'system:notice:remove', '#', 'admin', '2022-03-23 22:12:32',
         '', NULL, '');
 INSERT INTO "sys_menu"
-VALUES (1045, '字典查询', 112, 1, '#', '', '', 1, 0, 'F', 0, 0, 'system:dict:query', '#', 'admin', '2022-03-23 22:12:32',
+VALUES (1045, '字典查询', 112, 1, '', '', '', 1, 0, 'F', 0, 0, 'system:dict:query', '#', 'admin', '2022-03-23 22:12:32',
         '', NULL, '');
 INSERT INTO "sys_menu"
-VALUES (1046, '字典新增', 112, 2, '#', '', '', 1, 0, 'F', 0, 0, 'system:dict:add', '#', 'admin', '2022-03-23 22:12:32', '',
+VALUES (1046, '字典新增', 112, 2, '', '', '', 1, 0, 'F', 0, 0, 'system:dict:add', '#', 'admin', '2022-03-23 22:12:32', '',
         NULL, '');
 INSERT INTO "sys_menu"
-VALUES (1047, '字典修改', 112, 3, '#', '', '', 1, 0, 'F', 0, 0, 'system:dict:edit', '#', 'admin', '2022-03-23 22:12:32', '',
+VALUES (1047, '字典修改', 112, 3, '', '', '', 1, 0, 'F', 0, 0, 'system:dict:edit', '#', 'admin', '2022-03-23 22:12:32', '',
         NULL, '');
 INSERT INTO "sys_menu"
-VALUES (1048, '字典删除', 112, 4, '#', '', '', 1, 0, 'F', 0, 0, 'system:dict:remove', '#', 'admin', '2022-03-23 22:12:32',
+VALUES (1048, '字典删除', 112, 4, '', '', '', 1, 0, 'F', 0, 0, 'system:dict:remove', '#', 'admin', '2022-03-23 22:12:32',
         '', NULL, '');
 INSERT INTO "sys_menu"
-VALUES (1049, '字典导出', 112, 5, '#', '', '', 1, 0, 'F', 0, 0, 'system:dict:export', '#', 'admin', '2022-03-23 22:12:32',
+VALUES (1049, '字典导出', 112, 5, '', '', '', 1, 0, 'F', 0, 0, 'system:dict:export', '#', 'admin', '2022-03-23 22:12:32',
         '', NULL, '');
 INSERT INTO "sys_menu"
-VALUES (1050, '生成查询', 113, 1, '#', '', '', 1, 0, 'F', 0, 0, 'tool:gen:query', '#', 'admin', '2022-03-23 22:12:32', '',
+VALUES (1050, '生成查询', 113, 1, '', '', '', 1, 0, 'F', 0, 0, 'tool:gen:query', '#', 'admin', '2022-03-23 22:12:32', '',
         NULL, '');
 INSERT INTO "sys_menu"
-VALUES (1051, '生成修改', 113, 2, '#', '', '', 1, 0, 'F', 0, 0, 'tool:gen:edit', '#', 'admin', '2022-03-23 22:12:32', '',
+VALUES (1051, '生成修改', 113, 2, '', '', '', 1, 0, 'F', 0, 0, 'tool:gen:edit', '#', 'admin', '2022-03-23 22:12:32', '',
         NULL, '');
 INSERT INTO "sys_menu"
-VALUES (1052, '生成删除', 113, 3, '#', '', '', 1, 0, 'F', 0, 0, 'tool:gen:remove', '#', 'admin', '2022-03-23 22:12:32', '',
+VALUES (1052, '生成删除', 113, 3, '', '', '', 1, 0, 'F', 0, 0, 'tool:gen:remove', '#', 'admin', '2022-03-23 22:12:32', '',
         NULL, '');
 INSERT INTO "sys_menu"
-VALUES (1053, '导入代码', 113, 4, '#', '', '', 1, 0, 'F', 0, 0, 'tool:gen:import', '#', 'admin', '2022-03-23 22:12:32', '',
+VALUES (1053, '导入代码', 113, 4, '', '', '', 1, 0, 'F', 0, 0, 'tool:gen:import', '#', 'admin', '2022-03-23 22:12:32', '',
         NULL, '');
 INSERT INTO "sys_menu"
-VALUES (1054, '预览代码', 113, 5, '#', '', '', 1, 0, 'F', 0, 0, 'tool:gen:preview', '#', 'admin', '2022-03-23 22:12:32', '',
+VALUES (1054, '预览代码', 113, 5, '', '', '', 1, 0, 'F', 0, 0, 'tool:gen:preview', '#', 'admin', '2022-03-23 22:12:32', '',
         NULL, '');
 INSERT INTO "sys_menu"
-VALUES (1055, '生成代码', 113, 6, '#', '', '', 1, 0, 'F', 0, 0, 'tool:gen:code', '#', 'admin', '2022-03-23 22:12:32', '',
+VALUES (1055, '生成代码', 113, 6, '', '', '', 1, 0, 'F', 0, 0, 'tool:gen:code', '#', 'admin', '2022-03-23 22:12:32', '',
         NULL, '');
 INSERT INTO "sys_menu"
-VALUES (1056, '微应用路由查询', 114, 1, '#', '', '', 1, 0, 'F', 0, 0, 'system:microApp:query', '#', 'admin',
+VALUES (1056, '微应用路由查询', 114, 1, '', '', '', 1, 0, 'F', 0, 0, 'system:microApp:query', '#', 'admin',
         '2022-09-26 13:54:31', '', NULL, '');
 INSERT INTO "sys_menu"
-VALUES (1057, '微应用路由新增', 114, 2, '#', '', '', 1, 0, 'F', 0, 0, 'system:microApp:add', '#', 'admin',
+VALUES (1057, '微应用路由新增', 114, 2, '', '', '', 1, 0, 'F', 0, 0, 'system:microApp:add', '#', 'admin',
         '2022-09-26 13:54:31', '', NULL, '');
 INSERT INTO "sys_menu"
-VALUES (1058, '微应用路由修改', 114, 3, '#', '', '', 1, 0, 'F', 0, 0, 'system:microApp:edit', '#', 'admin',
+VALUES (1058, '微应用路由修改', 114, 3, '', '', '', 1, 0, 'F', 0, 0, 'system:microApp:edit', '#', 'admin',
         '2022-09-26 13:54:31', '', NULL, '');
 INSERT INTO "sys_menu"
-VALUES (1059, '微应用路由删除', 114, 4, '#', '', '', 1, 0, 'F', 0, 0, 'system:microApp:remove', '#', 'admin',
+VALUES (1059, '微应用路由删除', 114, 4, '', '', '', 1, 0, 'F', 0, 0, 'system:microApp:remove', '#', 'admin',
         '2022-09-26 13:54:31', '', NULL, '');
 INSERT INTO "sys_menu"
-VALUES (1060, '微应用路由导出', 114, 5, '#', '', '', 1, 0, 'F', 0, 0, 'system:microApp:export', '#', 'admin',
+VALUES (1060, '微应用路由导出', 114, 5, '', '', '', 1, 0, 'F', 0, 0, 'system:microApp:export', '#', 'admin',
         '2022-09-26 13:54:31', '', NULL, '');
 INSERT INTO "sys_menu"
 VALUES (1061, '配置修改', 115, 1, '', '', '', 1, 0, 'F', 0, 0, 'system:config:edit', '#', 'admin',
