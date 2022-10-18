@@ -332,7 +332,7 @@ export default {
     },
     /** 关闭按钮 */
     back() {
-      this.$router.push('/tool/gen')
+      this.$router.push('/dev/gen')
     }
   }
 }

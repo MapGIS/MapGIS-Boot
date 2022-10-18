@@ -61,7 +61,7 @@ export const otherRouterMap = [
     hidden: true
   },
   {
-    path: '/gen/edit',
+    path: '/dev/gen/edit',
     name: 'GenEdit',
     component: 'GenEdit',
     meta: { title: '修改生成配置', noCache: true },

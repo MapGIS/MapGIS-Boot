@@ -505,7 +505,7 @@ INSERT INTO `sys_menu`
 VALUES (5, '消息中心', 0, 5, 'message', NULL, '', 1, 0, 'M', '0', '0', '', 'bell', 'admin', '2022-10-12 08:56:41', '', NULL,
         '消息中心目录');
 INSERT INTO `sys_menu`
-VALUES (6, '开发扩展', 0, 6, 'tool', NULL, '', 1, 0, 'M', '0', '0', '', 'tool', 'admin', '2022-03-23 22:12:32', '', NULL,
+VALUES (6, '开发扩展', 0, 6, 'dev', NULL, '', 1, 0, 'M', '0', '0', '', 'tool', 'admin', '2022-03-23 22:12:32', '', NULL,
         '开发扩展目录');
 INSERT INTO `sys_menu`
 VALUES (7, '系统配置', 0, 7, 'config', NULL, '', 1, 0, 'M', '0', '0', '', 'setting', 'admin', '2022-10-11 18:33:09', '',
