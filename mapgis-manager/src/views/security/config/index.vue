@@ -13,9 +13,11 @@
           <div class="security-settings-info-title">
             <span>{{ currentTitle }}</span>
           </div>
-          <template v-for="item in configItems">
-            <component :is="item.component" :key="item.key" v-if="currentKey.indexOf(item.key) > -1"></component>
-          </template>
+          <keep-alive>
+            <template v-for="item in configItems">
+              <component :is="item.component" :key="item.key" v-if="currentKey.indexOf(item.key) > -1"></component>
+            </template>
+          </keep-alive>
         </div>
       </div>
     </a-card>
@@ -26,21 +28,24 @@
 import { baseMixin } from '@/store/app-mixin'
 import InitPasswordConfig from './InitPasswordConfig'
 import RegisterUserConfig from './RegisterUserConfig'
+import PasswordProtectedConfig from './PasswordProtectedConfig'
 
 export default {
   name: 'SecurityConfig',
   components: {
     InitPasswordConfig,
-    RegisterUserConfig
+    RegisterUserConfig,
+    PasswordProtectedConfig
   },
   mixins: [baseMixin],
   data() {
     return {
       configItems: [
+        { title: '密码安全配置', key: 'passwordProtected', component: 'PasswordProtectedConfig' },
         { title: '初始密码配置', key: 'initPassword', component: 'InitPasswordConfig' },
         { title: '用户注册配置', key: 'registerUser', component: 'RegisterUserConfig' }
       ],
-      currentKey: ['initPassword']
+      currentKey: ['passwordProtected']
     }
   },
   computed: {

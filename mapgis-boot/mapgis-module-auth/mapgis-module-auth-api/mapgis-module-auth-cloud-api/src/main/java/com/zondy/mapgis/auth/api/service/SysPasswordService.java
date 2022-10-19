@@ -1,15 +1,21 @@
 package com.zondy.mapgis.auth.api.service;
 
+import cn.hutool.core.lang.Dict;
 import com.zondy.mapgis.common.cache.service.CacheService;
 import com.zondy.mapgis.common.core.constant.CacheConstants;
 import com.zondy.mapgis.common.core.constant.Constants;
+import com.zondy.mapgis.common.core.constant.SecurityConstants;
+import com.zondy.mapgis.common.core.domain.R;
+import com.zondy.mapgis.common.core.exception.ServiceException;
 import com.zondy.mapgis.common.core.exception.user.UserPasswordNotMatchException;
 import com.zondy.mapgis.common.core.exception.user.UserPasswordRetryLimitExceedException;
+import com.zondy.mapgis.common.core.utils.JsonUtils;
 import com.zondy.mapgis.common.core.utils.MessageUtils;
+import com.zondy.mapgis.common.core.utils.StringUtils;
 import com.zondy.mapgis.common.security.utils.SecurityUtils;
+import com.zondy.mapgis.system.api.ISysServiceApi;
 import com.zondy.mapgis.system.api.domain.SysUser;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.util.concurrent.TimeUnit;
@@ -25,17 +31,11 @@ public class SysPasswordService {
     @Autowired
     private CacheService cacheService;
 
-    @Value(value = "${security.user.password.lock-enabled:false}")
-    private boolean lockEnabled;
-
-    @Value(value = "${security.user.password.max-retry-count:5}")
-    private int maxRetryCount;
-
-    @Value(value = "${security.user.password.lock-time:10}")
-    private int lockTime;
-
     @Autowired
     private SysRecordLogService recordLogService;
+
+    @Autowired
+    private ISysServiceApi sysServiceApi;
 
     /**
      * 登录账号密码错误次数缓存键名
@@ -49,6 +49,25 @@ public class SysPasswordService {
 
     public void validate(SysUser user, String password) {
         String username = user.getUserName();
+
+        // 获取密码安全配置
+        R<String> configResult = sysServiceApi.selectConfigValueByKey("security.passwordProtected", SecurityConstants.INNER);
+
+        if (R.FAIL == configResult.getCode()) {
+            throw new ServiceException(configResult.getMsg());
+        }
+
+        Dict passwordProtectedInfo = JsonUtils.parseMap(configResult.getData());
+
+        Boolean lockEnabled = false;
+        Integer maxRetryCount = 5;
+        Integer lockTime = 10;
+
+        if (StringUtils.isNotEmpty(passwordProtectedInfo)) {
+            lockEnabled = passwordProtectedInfo.getBool("enabled");
+            maxRetryCount = passwordProtectedInfo.getInt("maxRetryCount");
+            lockTime = passwordProtectedInfo.getInt("lockTime");
+        }
 
         if (!lockEnabled) {
             if (!matches(user, password)) {
@@ -65,7 +84,7 @@ public class SysPasswordService {
             retryCount = 0;
         }
 
-        if (retryCount >= Integer.valueOf(maxRetryCount).intValue()) {
+        if (retryCount >= maxRetryCount.intValue()) {
             recordLogService.recordLogininfor(username, Constants.LOGIN_FAIL,
                     MessageUtils.message("user.password.retry.limit.exceed", maxRetryCount, lockTime));
             throw new UserPasswordRetryLimitExceedException(maxRetryCount, lockTime);
@@ -75,7 +94,7 @@ public class SysPasswordService {
             retryCount = retryCount + 1;
             recordLogService.recordLogininfor(username, Constants.LOGIN_FAIL,
                     MessageUtils.message("user.password.retry.limit.count", retryCount));
-            cacheService.setCacheObject(getCacheKey(username), retryCount, (long) lockTime, TimeUnit.MINUTES);
+            cacheService.setCacheObject(getCacheKey(username), retryCount, lockTime.longValue(), TimeUnit.MINUTES);
             throw new UserPasswordNotMatchException();
         } else {
             clearLoginRecordCache(username);

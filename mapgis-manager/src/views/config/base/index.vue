@@ -73,7 +73,7 @@ export default {
   mounted() {
     getConfigByKey('system.base').then(response => {
       this.configInfo = response.data
-      const configValue = merge(defaultConfigValue, JSON.parse(this.configInfo.configValue))
+      const configValue = merge(defaultConfigValue, this.configInfo && JSON.parse(this.configInfo.configValue || '{}'))
       const {
         header: { logo }
       } = configValue
