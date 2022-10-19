@@ -22,9 +22,9 @@ import java.util.StringTokenizer;
 @Slf4j
 public class NetworkUtils {
     /**
-     * 网速测速时间2s
+     * 网速测速时间1s
      */
-    private static final int SLEEP_SECONDS = 2;
+    private static final int SLEEP_SECONDS = 1;
 
     /**
      * 获取网络上下行速率，格式{"UP": "123KB/S, "DOWN": "345KB/S"}
