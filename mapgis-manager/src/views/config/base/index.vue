@@ -1,43 +1,45 @@
 <template>
-  <a-card>
-    <a-form-model
-      v-if="configLoaded"
-      :label-col="{ span: 4 }"
-      :wrapper-col="{ span: 12 }"
-      ref="form"
-      :model="form"
-      :rules="rules"
-    >
-      <a-form-model-item label="系统Logo" prop="logo">
-        <a-upload
-          :file-list="form.logo"
-          list-type="picture-card"
-          class="avatar-uploader"
-          :show-upload-list="false"
-          :custom-request="customRequest"
-          @change="handleFileChange"
-          accept="image/png, image/jpeg, image/jpg"
-        >
-          <img v-if="imageUrl" :src="imageUrl" alt="avatar" style="max-height: 100px; max-width: 100px" />
-          <div v-else>
-            <a-icon :type="logoLoading ? 'loading' : 'plus'" />
-            <div class="ant-upload-text">上传</div>
-          </div>
-        </a-upload>
-      </a-form-model-item>
-      <a-form-model-item :wrapper-col="{ span: 8 }" label="系统名称" prop="title">
-        <a-input v-model="form.title" placeholder="请输入系统名称" />
-      </a-form-model-item>
-      <a-form-model-item label="版权信息" prop="copyright">
-        <a-input v-model="form.copyright" placeholder="请输入系统名称" />
-      </a-form-model-item>
-      <a-form-model-item :wrapper-col="{ span: 12, offset: 4 }">
-        <a-button type="primary" :loading="submitLoading" @click="submit" v-hasPermi="['system:config:edit']">
-          保存
-        </a-button>
-      </a-form-model-item>
-    </a-form-model>
-  </a-card>
+  <page-header-wrapper>
+    <a-card>
+      <a-form-model
+        v-if="configLoaded"
+        :label-col="{ span: 4 }"
+        :wrapper-col="{ span: 12 }"
+        ref="form"
+        :model="form"
+        :rules="rules"
+      >
+        <a-form-model-item label="系统Logo" prop="logo">
+          <a-upload
+            :file-list="form.logo"
+            list-type="picture-card"
+            class="avatar-uploader"
+            :show-upload-list="false"
+            :custom-request="customRequest"
+            @change="handleFileChange"
+            accept="image/png, image/jpeg, image/jpg"
+          >
+            <img v-if="imageUrl" :src="imageUrl" alt="avatar" style="max-height: 100px; max-width: 100px" />
+            <div v-else>
+              <a-icon :type="logoLoading ? 'loading' : 'plus'" />
+              <div class="ant-upload-text">上传</div>
+            </div>
+          </a-upload>
+        </a-form-model-item>
+        <a-form-model-item :wrapper-col="{ span: 8 }" label="系统名称" prop="title">
+          <a-input v-model="form.title" placeholder="请输入系统名称" />
+        </a-form-model-item>
+        <a-form-model-item label="版权信息" prop="copyright">
+          <a-input v-model="form.copyright" placeholder="请输入系统名称" />
+        </a-form-model-item>
+        <a-form-model-item :wrapper-col="{ span: 12, offset: 4 }">
+          <a-button type="primary" :loading="submitLoading" @click="submit" v-hasPermi="['system:config:edit']">
+            保存
+          </a-button>
+        </a-form-model-item>
+      </a-form-model>
+    </a-card>
+  </page-header-wrapper>
 </template>
 
 <script>
