@@ -1,23 +1,18 @@
 package com.zondy.mapgis.common.security.service;
 
-import cn.hutool.core.lang.Dict;
 import com.zondy.mapgis.common.cache.service.CacheService;
 import com.zondy.mapgis.common.core.constant.CacheConstants;
-import com.zondy.mapgis.common.core.constant.SecurityConstants;
-import com.zondy.mapgis.common.core.domain.R;
-import com.zondy.mapgis.common.core.exception.ServiceException;
 import com.zondy.mapgis.common.core.exception.user.UserPasswordNotMatchException;
 import com.zondy.mapgis.common.core.exception.user.UserPasswordRetryLimitExceedException;
-import com.zondy.mapgis.common.core.utils.JsonUtils;
-import com.zondy.mapgis.common.core.utils.StringUtils;
 import com.zondy.mapgis.common.security.context.AuthenticationContextHolder;
 import com.zondy.mapgis.common.security.utils.SecurityUtils;
-import com.zondy.mapgis.system.api.ISysServiceApi;
 import com.zondy.mapgis.system.api.domain.SysUser;
+import com.zondy.mapgis.system.api.service.SysServiceProxy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -32,7 +27,7 @@ public class SysPasswordService {
     private CacheService cacheService;
 
     @Autowired
-    private ISysServiceApi sysServiceApi;
+    private SysServiceProxy sysServiceProxy;
 
     /**
      * 登录账号密码错误次数缓存键名
@@ -46,21 +41,11 @@ public class SysPasswordService {
 
     public void validate(SysUser user) {
         // 获取密码安全配置
-        R<String> configResult = sysServiceApi.selectConfigValueByKey("security.passwordProtected", SecurityConstants.INNER);
+        Map<String, Object> passwordProtectedConfig = sysServiceProxy.getPasswordProtectedConfig();
 
-        if (R.FAIL == configResult.getCode()) {
-            throw new ServiceException(configResult.getMsg());
-        }
-
-        Dict passwordProtectedInfo = JsonUtils.parseMap(configResult.getData());
-
-        if (StringUtils.isEmpty(passwordProtectedInfo)) {
-            return;
-        }
-
-        Boolean lockEnabled = passwordProtectedInfo.get("enabled", Boolean.FALSE);
-        Integer maxRetryCount = passwordProtectedInfo.get("maxRetryCount", Integer.valueOf(5));
-        Integer lockTime = passwordProtectedInfo.get("lockTime", Integer.valueOf(10));
+        Boolean lockEnabled = (Boolean) passwordProtectedConfig.get("enabled");
+        Integer maxRetryCount = (Integer) passwordProtectedConfig.get("maxRetryCount");
+        Integer lockTime = (Integer) passwordProtectedConfig.get("lockTime");
 
         if (!lockEnabled) {
             return;

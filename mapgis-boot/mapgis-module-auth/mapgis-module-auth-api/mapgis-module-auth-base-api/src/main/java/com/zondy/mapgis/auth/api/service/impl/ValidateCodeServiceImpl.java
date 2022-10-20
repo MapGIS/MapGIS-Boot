@@ -1,7 +1,6 @@
 package com.zondy.mapgis.auth.api.service.impl;
 
 import com.google.code.kaptcha.Producer;
-import com.zondy.mapgis.auth.api.config.properties.CaptchaProperties;
 import com.zondy.mapgis.auth.api.service.ValidateCodeService;
 import com.zondy.mapgis.common.cache.service.CacheService;
 import com.zondy.mapgis.common.core.constant.CacheConstants;
@@ -38,16 +37,12 @@ public class ValidateCodeServiceImpl implements ValidateCodeService {
     @Autowired
     private CacheService cacheService;
 
-    @Autowired
-    private CaptchaProperties captchaProperties;
-
     /**
      * 生成验证码
      */
     @Override
-    public AjaxResult createCaptcha() throws IOException, CaptchaException {
+    public AjaxResult createCaptcha(boolean captchaEnabled, String captchaType) throws IOException, CaptchaException {
         AjaxResult ajax = AjaxResult.success();
-        boolean captchaEnabled = captchaProperties.getEnabled();
         ajax.put("captchaEnabled", captchaEnabled);
         if (!captchaEnabled) {
             return ajax;
@@ -60,7 +55,6 @@ public class ValidateCodeServiceImpl implements ValidateCodeService {
         String capStr = null, code = null;
         BufferedImage image = null;
 
-        String captchaType = captchaProperties.getType();
         // 生成验证码
         if ("math".equals(captchaType)) {
             String capText = captchaProducerMath.createText();
@@ -91,11 +85,6 @@ public class ValidateCodeServiceImpl implements ValidateCodeService {
      */
     @Override
     public void checkCaptcha(String code, String uuid) throws CaptchaException {
-        boolean captchaEnabled = captchaProperties.getEnabled();
-        if (!captchaEnabled) {
-            return;
-        }
-
         String verifyKey = CacheConstants.CAPTCHA_CODE_KEY + StringUtils.nvl(uuid, "");
 
         String captcha = cacheService.getCacheObject(verifyKey);

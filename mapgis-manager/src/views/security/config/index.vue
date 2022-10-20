@@ -29,13 +29,15 @@ import { baseMixin } from '@/store/app-mixin'
 import InitPasswordConfig from './InitPasswordConfig'
 import RegisterUserConfig from './RegisterUserConfig'
 import PasswordProtectedConfig from './PasswordProtectedConfig'
+import UserLoginConfig from './UserLoginConfig.vue'
 
 export default {
   name: 'SecurityConfig',
   components: {
     InitPasswordConfig,
     RegisterUserConfig,
-    PasswordProtectedConfig
+    PasswordProtectedConfig,
+    UserLoginConfig
   },
   mixins: [baseMixin],
   data() {
@@ -43,7 +45,8 @@ export default {
       configItems: [
         { title: '密码安全配置', key: 'passwordProtected', component: 'PasswordProtectedConfig' },
         { title: '初始密码配置', key: 'initPassword', component: 'InitPasswordConfig' },
-        { title: '用户注册配置', key: 'registerUser', component: 'RegisterUserConfig' }
+        { title: '用户注册配置', key: 'registerUser', component: 'RegisterUserConfig' },
+        { title: '用户登录配置', key: 'userLogin', component: 'UserLoginConfig' }
       ],
       currentKey: ['passwordProtected']
     }

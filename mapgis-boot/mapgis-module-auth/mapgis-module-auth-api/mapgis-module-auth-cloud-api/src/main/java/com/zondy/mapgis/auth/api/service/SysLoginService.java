@@ -1,6 +1,5 @@
 package com.zondy.mapgis.auth.api.service;
 
-import cn.hutool.core.lang.Dict;
 import com.zondy.mapgis.auth.api.domain.model.LoginBody;
 import com.zondy.mapgis.auth.api.domain.model.RegisterBody;
 import com.zondy.mapgis.common.core.constant.Constants;
@@ -9,7 +8,6 @@ import com.zondy.mapgis.common.core.constant.UserConstants;
 import com.zondy.mapgis.common.core.domain.R;
 import com.zondy.mapgis.common.core.enums.UserStatus;
 import com.zondy.mapgis.common.core.exception.ServiceException;
-import com.zondy.mapgis.common.core.utils.JsonUtils;
 import com.zondy.mapgis.common.core.utils.MessageUtils;
 import com.zondy.mapgis.common.core.utils.StringUtils;
 import com.zondy.mapgis.common.security.service.TokenService;
@@ -18,11 +16,12 @@ import com.zondy.mapgis.system.api.ISysServiceApi;
 import com.zondy.mapgis.system.api.domain.SysAuthUser;
 import com.zondy.mapgis.system.api.domain.SysUser;
 import com.zondy.mapgis.system.api.model.LoginUser;
+import com.zondy.mapgis.system.api.service.SysServiceProxy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 登录校验方法
@@ -43,6 +42,9 @@ public class SysLoginService {
 
     @Autowired
     private SysRecordLogService recordLogService;
+
+    @Autowired
+    private SysServiceProxy sysServiceProxy;
 
     /**
      * 登录验证
@@ -81,20 +83,9 @@ public class SysLoginService {
      */
     public void register(RegisterBody registerBody) {
         String username = registerBody.getUsername(), password = registerBody.getPassword();
+        Map<String, Object> registrConfig = sysServiceProxy.getRegisterConfig();
+        Long[] roleIds = (Long[]) registrConfig.get("defaultRoleIds");
 
-        // 获取注册用户的默认角色
-        R<String> configResult = sysServiceApi.selectConfigValueByKey("security.register", SecurityConstants.INNER);
-
-        if (R.FAIL == configResult.getCode()) {
-            throw new ServiceException(configResult.getMsg());
-        }
-
-        Dict registerUserInfo = JsonUtils.parseMap(configResult.getData());
-        List<Integer> roleIdList = (ArrayList<Integer>) registerUserInfo.get("defaultRoleIds");
-        Long[] roleIds = new Long[roleIdList.size()];
-        for (int i = 0; i < roleIdList.size(); i++) {
-            roleIds[i] = roleIdList.get(i).longValue();
-        }
         register(username, password, roleIds);
     }
 

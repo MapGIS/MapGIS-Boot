@@ -1,15 +1,16 @@
 package com.zondy.mapgis.gateway.filter;
 
 import cn.hutool.core.lang.Dict;
-import com.zondy.mapgis.auth.api.config.properties.CaptchaProperties;
 import com.zondy.mapgis.auth.api.service.ValidateCodeService;
 import com.zondy.mapgis.common.core.config.properties.ApiPathProperties;
 import com.zondy.mapgis.common.core.utils.JsonUtils;
 import com.zondy.mapgis.common.core.utils.StringUtils;
 import com.zondy.mapgis.gateway.utils.WebFluxUtils;
+import com.zondy.mapgis.system.api.service.SysServiceProxy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.core.io.buffer.DataBuffer;
 import org.springframework.core.io.buffer.DataBufferUtils;
 import org.springframework.http.server.reactive.ServerHttpRequest;
@@ -19,6 +20,9 @@ import reactor.core.publisher.Flux;
 import javax.annotation.PostConstruct;
 import java.nio.CharBuffer;
 import java.nio.charset.StandardCharsets;
+import java.util.Map;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.atomic.AtomicReference;
 
 /**
@@ -34,8 +38,9 @@ public class ValidateCodeFilter extends AbstractGatewayFilterFactory<Object> {
     @Autowired
     private ValidateCodeService validateCodeService;
 
+    @Lazy
     @Autowired
-    private CaptchaProperties captchaProperties;
+    private SysServiceProxy sysServiceProxy;
 
     @Autowired
     private ApiPathProperties apiPathProperties;
@@ -55,9 +60,17 @@ public class ValidateCodeFilter extends AbstractGatewayFilterFactory<Object> {
     public GatewayFilter apply(Object config) {
         return (exchange, chain) -> {
             ServerHttpRequest request = exchange.getRequest();
+            CompletableFuture<Map<String, Object>> future = CompletableFuture.supplyAsync(() -> sysServiceProxy.getLoginConfig());
+            Map<String, Object> loginConfig = null;
+            try {
+                loginConfig = future.get();
+            } catch (ExecutionException | InterruptedException e) {
+                return WebFluxUtils.webFluxResponseWriter(exchange.getResponse(), e.getMessage());
+            }
+            boolean captchaEnabled = (Boolean) loginConfig.get("captchaEnabled");
 
             // 非登录/注册请求或验证码关闭，不处理
-            if (!StringUtils.containsAnyIgnoreCase(request.getURI().getPath(), VALIDATE_URL) || !captchaProperties.getEnabled()) {
+            if (!StringUtils.containsAnyIgnoreCase(request.getURI().getPath(), VALIDATE_URL) || !captchaEnabled) {
                 return chain.filter(exchange);
             }
 

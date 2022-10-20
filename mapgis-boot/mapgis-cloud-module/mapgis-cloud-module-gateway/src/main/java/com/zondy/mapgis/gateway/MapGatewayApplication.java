@@ -7,6 +7,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
+import org.springframework.cloud.openfeign.EnableFeignClients;
 
 /**
  * 网关启动程序
@@ -14,6 +15,7 @@ import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
  * @author xiongbo
  * @since 2022/3/15 18:00
  */
+@EnableFeignClients(basePackages = {"com.zondy.mapgis"})
 @SpringBootApplication(exclude = {DataSourceAutoConfiguration.class})
 public class MapGatewayApplication implements CommandLineRunner {
     @Autowired

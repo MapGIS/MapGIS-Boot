@@ -134,6 +134,9 @@ VALUES (3, '系统配置-基本配置', 'system.base',
 INSERT INTO "sys_config"
 VALUES (4, '安全配置-密码安全配置', 'security.passwordProtected', '{"enabled":true,"maxRetryCount":5,"lockTime":10}', 'Y',
         'admin', '2022-03-23 22:12:32', '', NULL, '密码安全配置');
+INSERT INTO "sys_config"
+VALUES (5, '安全配置-用户登录配置', 'security.login', '{"soloLoginEnabled":true,"captchaEnabled":true,"captchaType":"math"}', 'Y',
+        'admin', '2022-03-23 22:12:32', '', NULL, '用户登录配置');
 
 -- ----------------------------
 -- Table structure for sys_dept

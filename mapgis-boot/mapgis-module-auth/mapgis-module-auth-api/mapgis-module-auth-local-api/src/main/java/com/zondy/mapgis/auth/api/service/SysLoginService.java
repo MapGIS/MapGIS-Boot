@@ -1,6 +1,5 @@
 package com.zondy.mapgis.auth.api.service;
 
-import cn.hutool.core.lang.Dict;
 import com.zondy.mapgis.auth.api.domain.model.LoginBody;
 import com.zondy.mapgis.auth.api.domain.model.RegisterBody;
 import com.zondy.mapgis.common.core.constant.Constants;
@@ -9,7 +8,10 @@ import com.zondy.mapgis.common.core.constant.UserConstants;
 import com.zondy.mapgis.common.core.domain.R;
 import com.zondy.mapgis.common.core.exception.ServiceException;
 import com.zondy.mapgis.common.core.exception.user.UserPasswordNotMatchException;
-import com.zondy.mapgis.common.core.utils.*;
+import com.zondy.mapgis.common.core.utils.DateUtils;
+import com.zondy.mapgis.common.core.utils.MessageUtils;
+import com.zondy.mapgis.common.core.utils.ServletUtils;
+import com.zondy.mapgis.common.core.utils.StringUtils;
 import com.zondy.mapgis.common.core.utils.ip.IpUtils;
 import com.zondy.mapgis.common.core.utils.spring.SpringUtils;
 import com.zondy.mapgis.common.security.context.AuthenticationContextHolder;
@@ -22,6 +24,7 @@ import com.zondy.mapgis.system.api.domain.SysAuthUser;
 import com.zondy.mapgis.system.api.domain.SysUser;
 import com.zondy.mapgis.system.api.model.LoginUser;
 import com.zondy.mapgis.system.api.service.ISysUserService;
+import com.zondy.mapgis.system.api.service.SysServiceProxy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -30,8 +33,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author xiongbo
@@ -54,14 +57,20 @@ public class SysLoginService {
     @Autowired
     private UserDetailsService userDetailsService;
 
+    @Autowired
+    private SysServiceProxy sysServiceProxy;
+
     /**
      * 登录验证
      */
     public String login(LoginBody loginBody) {
         String username = loginBody.getUsername(), password = loginBody.getPassword();
+        boolean captchaEnabled = (Boolean) sysServiceProxy.getLoginConfig().get("captchaEnabled");
 
         // 校验验证码
-        validateCodeService.checkCaptcha(loginBody.getCode(), loginBody.getUuid());
+        if (captchaEnabled) {
+            validateCodeService.checkCaptcha(loginBody.getCode(), loginBody.getUuid());
+        }
 
         // 用户验证
         Authentication authentication = null;
@@ -119,23 +128,16 @@ public class SysLoginService {
      */
     public void register(RegisterBody registerBody) {
         String username = registerBody.getUsername(), password = registerBody.getPassword();
+        boolean captchaEnabled = (Boolean) sysServiceProxy.getLoginConfig().get("captchaEnabled");
 
         // 校验验证码
-        validateCodeService.checkCaptcha(registerBody.getCode(), registerBody.getUuid());
-
-        // 获取注册用户的默认角色
-        R<String> configResult = sysServiceApi.selectConfigValueByKey("security.register", SecurityConstants.INNER);
-
-        if (R.FAIL == configResult.getCode()) {
-            throw new ServiceException(configResult.getMsg());
+        if (captchaEnabled) {
+            validateCodeService.checkCaptcha(registerBody.getCode(), registerBody.getUuid());
         }
 
-        Dict registerUserInfo = JsonUtils.parseMap(configResult.getData());
-        List<Integer> roleIdList = (ArrayList<Integer>) registerUserInfo.get("defaultRoleIds");
-        Long[] roleIds = new Long[roleIdList.size()];
-        for (int i = 0; i < roleIdList.size(); i++) {
-            roleIds[i] = roleIdList.get(i).longValue();
-        }
+        Map<String, Object> registrConfig = sysServiceProxy.getRegisterConfig();
+        Long[] roleIds = (Long[]) registrConfig.get("defaultRoleIds");
+
         register(username, password, roleIds);
     }
 

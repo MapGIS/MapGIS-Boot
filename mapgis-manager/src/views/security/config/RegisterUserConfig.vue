@@ -26,7 +26,7 @@ import { getConfigByKey, updateConfig } from '@/api/system/config'
 import { getUser } from '@/api/system/user'
 
 const defaultConfigValue = {
-  enabled: false,
+  enabled: true,
   defaultRoleIds: []
 }
 

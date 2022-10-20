@@ -10,9 +10,9 @@ import com.zondy.mapgis.common.core.utils.ip.IpUtils;
 import com.zondy.mapgis.common.core.utils.uuid.IdUtils;
 import com.zondy.mapgis.common.security.utils.SecurityUtils;
 import com.zondy.mapgis.system.api.model.LoginUser;
+import com.zondy.mapgis.system.api.service.SysServiceProxy;
 import eu.bitwalker.useragentutils.UserAgent;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
@@ -28,14 +28,11 @@ import java.util.concurrent.TimeUnit;
  */
 @Component
 public class TokenService {
-    /**
-     * 是否允许账户多终端同时登录（true允许 false不允许）
-     */
-    @Value("${token.soloLogin:true}")
-    private boolean soloLogin;
-
     @Autowired
     private CacheService cacheService;
+
+    @Autowired
+    private SysServiceProxy sysServiceProxy;
 
     protected static final long MILLIS_SECOND = 1000;
 
@@ -100,6 +97,8 @@ public class TokenService {
      * 删除用户缓存信息
      */
     public void delLoginUser(String token, Long userId) {
+        boolean soloLogin = isSoloLoginEnabled();
+
         if (StringUtils.isNotEmpty(token)) {
             String userkey = JwtUtils.getUserKey(token);
             cacheService.deleteObject(getTokenKey(userkey));
@@ -114,6 +113,8 @@ public class TokenService {
      * 根据用户Id踢出登录用户，用于不允许多终端登录时，清除用户Id关联的用户信息
      */
     public void kickoutLoginUser(Long userId) {
+        boolean soloLogin = isSoloLoginEnabled();
+
         if (!soloLogin) {
             // 如果用户不允许多终端同时登录，清除缓存信息
             String userIdKey = getUserIdKey(userId);
@@ -164,6 +165,8 @@ public class TokenService {
      * @param loginUser 登录信息
      */
     public void refreshToken(LoginUser loginUser) {
+        boolean soloLogin = isSoloLoginEnabled();
+
         loginUser.setLoginTime(System.currentTimeMillis());
         loginUser.setExpireTime(loginUser.getLoginTime() + expireTime * MILLIS_MINUTE);
         // 根据uuid将loginUser缓存
@@ -195,5 +198,9 @@ public class TokenService {
 
     private String getUserIdKey(Long userId) {
         return USERID_KEY + userId;
+    }
+
+    private boolean isSoloLoginEnabled() {
+        return (Boolean) sysServiceProxy.getLoginConfig().get("soloLoginEnabled");
     }
 }

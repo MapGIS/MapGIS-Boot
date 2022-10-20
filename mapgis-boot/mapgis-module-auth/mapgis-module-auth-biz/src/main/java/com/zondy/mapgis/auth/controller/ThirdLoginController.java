@@ -17,6 +17,7 @@ import com.zondy.mapgis.system.api.ISysServiceApi;
 import com.zondy.mapgis.system.api.domain.SysAuthUser;
 import com.zondy.mapgis.system.api.domain.SysUser;
 import com.zondy.mapgis.system.api.model.LoginUser;
+import com.zondy.mapgis.system.api.service.SysServiceProxy;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -49,6 +50,8 @@ public class ThirdLoginController extends BaseController {
     private final SysLoginService loginService;
 
     private final ISysServiceApi sysServiceApi;
+
+    private final SysServiceProxy sysServiceProxy;
 
     private final static String LOGIN_ERROR_KEY = "登录用户：";
 
@@ -192,13 +195,7 @@ public class ThirdLoginController extends BaseController {
         String username = sysAuthUser.getLoginName() + sysAuthUser.getSuffix();
 
         // 获取初始密码
-        R<String> configResult = sysServiceApi.selectConfigValueByKey("security.initPassword", SecurityConstants.INNER);
-
-        if (R.FAIL == configResult.getCode()) {
-            throw new ServiceException(configResult.getMsg());
-        }
-
-        String password = configResult.getData();
+        String password = sysServiceProxy.getInitPasswordConfig();
 
         // 注册账号
         loginService.register(username, password, null);
