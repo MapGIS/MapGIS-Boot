@@ -1,9 +1,9 @@
 <template>
   <div>
     <div class="user-login-other">
-      <span>其他登录方式:</span>
+      <span v-if="types.length">其他登录方式:</span>
       <a v-for="type in types" :key="type.source" @click="onThirdLogin(type.source)" :title="type.name">
-        <a-icon :component="allIcon[type.icon + 'Icon']" class="item-icon"> </a-icon>
+        <img :src="type.icon" class="item-icon" />
       </a>
     </div>
     <!-- 第三方登录绑定账号密码输入弹框 -->
@@ -51,54 +51,37 @@
 
 <script>
 import { thirdLoginMixin } from '@/views/user/third/thirdLoginMixin'
-import allIcon from '@/core/icons'
+import { getSystemConfig } from '@/api/system/config'
 
 export default {
   name: 'ThirdLogin',
   mixins: [thirdLoginMixin],
   data() {
     return {
-      allIcon,
-      types: [
-        {
-          name: 'GitHub',
-          source: 'github',
-          icon: 'github'
-        },
-        {
-          name: 'Gitee',
-          source: 'gitee',
-          icon: 'gitee'
-        },
-        {
-          name: '自定义OAuth',
-          source: 'custom',
-          icon: 'oauth'
-        }
-      ]
+      types: []
     }
+  },
+  mounted() {
+    getSystemConfig().then(res => {
+      this.types = res.data.oauthConfig
+    })
   }
 }
 </script>
 
 <style lang="less" scoped>
 .user-login-other {
+  display: flex;
+  align-items: center;
   text-align: left;
   margin-top: 24px;
-  line-height: 22px;
   color: rgba(255, 255, 255, 0.85);
 
   .item-icon {
-    font-size: 24px;
-    color: rgba(255, 255, 255, 0.85);
+    width: 24px;
+    height: 24px;
     margin-left: 16px;
-    vertical-align: middle;
     cursor: pointer;
-    transition: color 0.3s;
-
-    & :hover {
-      color: @primary-color;
-    }
   }
 }
 </style>

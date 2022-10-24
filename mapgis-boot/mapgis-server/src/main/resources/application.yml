@@ -164,33 +164,6 @@ minio:
   secretKey: minioadmin
   bucketName: test
 
-# 第三方登录
-justauth:
-  enabled: true
-  type:
-    GITHUB:
-      client-id: ${JUSTAUTH_GITHUB_CLIENT_ID}
-      client-secret: ${JUSTAUTH_GITHUB_CLIENT_SECRET}
-      redirect-uri: ${JUSTAUTH_GITHUB_REDIRECT_URI:http://127.0.0.1:${server.port}/${api.path.services-prefix}/auth/thirdLogin/callback/github}
-    GITEE:
-      client-id: ${JUSTAUTH_GITEE_CLIENT_ID}
-      client-secret: ${JUSTAUTH_GITEE_CLIENT_SECRET}
-      redirect-uri: ${JUSTAUTH_GITEE_REDIRECT_URI:http://127.0.0.1:${server.port}/${api.path.services-prefix}/auth/thirdLogin/callback/gitee}
-  cache:
-    type: default
-  extend:
-    enum-class: ${JUSTAUTH_CUSTOM_ENUM_CLASS:com.zondy.mapgis.auth.justauth.source.AuthCustomSource}
-    authorize: ${JUSTAUTH_CUSTOM_AUTHORIZE_URL}
-    access-token: ${JUSTAUTH_CUSTOM_ACCESS_TOKEN_URL}
-    user-info: ${JUSTAUTH_CUSTOM_USER_INFO_URL}
-    config:
-      CUSTOM:
-        request-class: ${JUSTAUTH_CUSTOM_REQUEST_CLASS:com.zondy.mapgis.auth.justauth.request.AuthCustomRequest}
-        client-id: ${JUSTAUTH_CUSTOM_CLIENT_ID}
-        client-secret: ${JUSTAUTH_CUSTOM_CLIENT_SECRET}
-        redirect-uri: ${JUSTAUTH_CUSTOM_REDIRECT_URI:http://127.0.0.1:${server.port}/${api.path.services-prefix}/auth/thirdLogin/callback/custom}
-        scopes: ${JUSTAUTH_CUSTOM_SCOPES}
-
 # cas配置
 cas:
   enabled: ${CAS_ENABLED:false}

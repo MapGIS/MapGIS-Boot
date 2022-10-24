@@ -11,7 +11,7 @@
  Target Server Version : 50736
  File Encoding         : 65001
 
- Date: 18/10/2022 12:22:31
+ Date: 24/10/2022 16:31:46
 */
 
 SET NAMES utf8mb4;
@@ -94,6 +94,38 @@ CREATE TABLE `gen_table_column`
 -- ----------------------------
 
 -- ----------------------------
+-- Table structure for sys_auth_config
+-- ----------------------------
+DROP TABLE IF EXISTS `sys_auth_config`;
+CREATE TABLE `sys_auth_config`
+(
+    `config_id`          int(5)                                                        NOT NULL AUTO_INCREMENT COMMENT '配置ID',
+    `type`               varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '登录平台',
+    `name`               varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '登录名称',
+    `icon`               longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci     NULL COMMENT '登录图标',
+    `help`               varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '登录帮助',
+    `client_id`          varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '客户端Id',
+    `client_secret`      varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '客户端秘钥',
+    `redirect_uri`       varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '回调地址',
+    `auth_request_class` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '授权请求类',
+    `status`             char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci      NULL DEFAULT '0' COMMENT '状态（0正常 1停用）',
+    `create_by`          varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci  NULL DEFAULT '' COMMENT '创建者',
+    `create_time`        datetime                                                      NULL DEFAULT NULL COMMENT '创建时间',
+    `update_by`          varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci  NULL DEFAULT '' COMMENT '更新者',
+    `update_time`        datetime                                                      NULL DEFAULT NULL COMMENT '更新时间',
+    `remark`             varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '备注',
+    PRIMARY KEY (`config_id`) USING BTREE
+) ENGINE = InnoDB
+  AUTO_INCREMENT = 107
+  CHARACTER SET = utf8mb4
+  COLLATE = utf8mb4_general_ci COMMENT = '第三方登录配置表'
+  ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Records of sys_auth_config
+-- ----------------------------
+
+-- ----------------------------
 -- Table structure for sys_auth_user
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_auth_user`;
@@ -162,6 +194,9 @@ INSERT INTO `sys_config`
 VALUES (5, '安全配置-登录配置', 'security.login',
         '{\"soloLoginEnabled\":true,\"captchaEnabled\":true,\"captchaType\":\"math\"}', 'Y', 'admin',
         '2022-03-23 22:12:32', '', NULL, '用户登录配置');
+INSERT INTO `sys_config`
+VALUES (6, '安全配置-第三方登录配置', 'security.oauth', '{\"defaultRoleIds\":[3]}', 'Y', 'admin', '2022-03-23 22:12:32', '', NULL,
+        '第三方登录配置');
 
 -- ----------------------------
 -- Table structure for sys_dept
@@ -566,6 +601,9 @@ INSERT INTO `sys_menu`
 VALUES (116, '基本配置', 7, 1, 'base', 'config/base/index', NULL, 1, 0, 'C', '0', '0', 'system:config:query', 'profile',
         'admin', '2022-10-15 15:45:11', '', NULL, '基本配置菜单');
 INSERT INTO `sys_menu`
+VALUES (117, '第三方登录配置', 3, 7, 'third', 'security/authConfig/index', NULL, 1, 0, 'C', '0', '0', 'system:authConfig:list',
+        'team', 'admin', '2022-10-21 16:11:18', '', NULL, '第三方登录配置菜单');
+INSERT INTO `sys_menu`
 VALUES (200, 'Sentinel控制台', 1, 2, 'http://localhost:8718', '', '', 0, 0, 'C', '0', '0', 'monitor:sentinel:list',
         'sentinel', 'admin', '2022-03-31 15:00:49', '', NULL, '流量控制菜单');
 INSERT INTO `sys_menu`
@@ -683,8 +721,8 @@ INSERT INTO `sys_menu`
 VALUES (1034, '岗位删除', 108, 4, '', '', '', 1, 0, 'F', '0', '0', 'system:post:remove', '#', 'admin',
         '2022-03-23 22:12:32', '', NULL, '');
 INSERT INTO `sys_menu`
-VALUES (1035, '任务查询', 109, 1, '', '', '', 1, 0, 'F', '0', '0', 'monitor:job:query', '#', 'admin',
-        '2022-03-23 22:12:32', '', NULL, '');
+VALUES (1035, '任务查询', 109, 1, '', '', '', 1, 0, 'F', '0', '0', 'monitor:job:query', '#', 'admin', '2022-03-23 22:12:32',
+        '', NULL, '');
 INSERT INTO `sys_menu`
 VALUES (1036, '任务新增', 109, 2, '', '', '', 1, 0, 'F', '0', '0', 'monitor:job:add', '#', 'admin', '2022-03-23 22:12:32',
         '', NULL, '');
@@ -704,8 +742,8 @@ INSERT INTO `sys_menu`
 VALUES (1041, '公告查询', 110, 1, '', '', '', 1, 0, 'F', '0', '0', 'system:notice:query', '#', 'admin',
         '2022-03-23 22:12:32', '', NULL, '');
 INSERT INTO `sys_menu`
-VALUES (1042, '公告新增', 110, 2, '', '', '', 1, 0, 'F', '0', '0', 'system:notice:add', '#', 'admin',
-        '2022-03-23 22:12:32', '', NULL, '');
+VALUES (1042, '公告新增', 110, 2, '', '', '', 1, 0, 'F', '0', '0', 'system:notice:add', '#', 'admin', '2022-03-23 22:12:32',
+        '', NULL, '');
 INSERT INTO `sys_menu`
 VALUES (1043, '公告修改', 110, 3, '', '', '', 1, 0, 'F', '0', '0', 'system:notice:edit', '#', 'admin',
         '2022-03-23 22:12:32', '', NULL, '');
@@ -713,8 +751,8 @@ INSERT INTO `sys_menu`
 VALUES (1044, '公告删除', 110, 4, '', '', '', 1, 0, 'F', '0', '0', 'system:notice:remove', '#', 'admin',
         '2022-03-23 22:12:32', '', NULL, '');
 INSERT INTO `sys_menu`
-VALUES (1045, '字典查询', 112, 1, '', '', '', 1, 0, 'F', '0', '0', 'system:dict:query', '#', 'admin',
-        '2022-03-23 22:12:32', '', NULL, '');
+VALUES (1045, '字典查询', 112, 1, '', '', '', 1, 0, 'F', '0', '0', 'system:dict:query', '#', 'admin', '2022-03-23 22:12:32',
+        '', NULL, '');
 INSERT INTO `sys_menu`
 VALUES (1046, '字典新增', 112, 2, '', '', '', 1, 0, 'F', '0', '0', 'system:dict:add', '#', 'admin', '2022-03-23 22:12:32',
         '', NULL, '');
@@ -731,8 +769,8 @@ INSERT INTO `sys_menu`
 VALUES (1050, '生成查询', 113, 1, '', '', '', 1, 0, 'F', '0', '0', 'tool:gen:query', '#', 'admin', '2022-03-23 22:12:32',
         '', NULL, '');
 INSERT INTO `sys_menu`
-VALUES (1051, '生成修改', 113, 2, '', '', '', 1, 0, 'F', '0', '0', 'tool:gen:edit', '#', 'admin', '2022-03-23 22:12:32',
-        '', NULL, '');
+VALUES (1051, '生成修改', 113, 2, '', '', '', 1, 0, 'F', '0', '0', 'tool:gen:edit', '#', 'admin', '2022-03-23 22:12:32', '',
+        NULL, '');
 INSERT INTO `sys_menu`
 VALUES (1052, '生成删除', 113, 3, '', '', '', 1, 0, 'F', '0', '0', 'tool:gen:remove', '#', 'admin', '2022-03-23 22:12:32',
         '', NULL, '');
@@ -743,8 +781,8 @@ INSERT INTO `sys_menu`
 VALUES (1054, '预览代码', 113, 5, '', '', '', 1, 0, 'F', '0', '0', 'tool:gen:preview', '#', 'admin', '2022-03-23 22:12:32',
         '', NULL, '');
 INSERT INTO `sys_menu`
-VALUES (1055, '生成代码', 113, 6, '', '', '', 1, 0, 'F', '0', '0', 'tool:gen:code', '#', 'admin', '2022-03-23 22:12:32',
-        '', NULL, '');
+VALUES (1055, '生成代码', 113, 6, '', '', '', 1, 0, 'F', '0', '0', 'tool:gen:code', '#', 'admin', '2022-03-23 22:12:32', '',
+        NULL, '');
 INSERT INTO `sys_menu`
 VALUES (1056, '微应用路由查询', 114, 1, '', '', '', 1, 0, 'F', '0', '0', 'system:microApp:query', '#', 'admin',
         '2022-09-26 13:54:31', '', NULL, '');
@@ -767,6 +805,24 @@ INSERT INTO `sys_menu`
 VALUES (1062, '配置修改', 116, 1, '', '', '', 1, 0, 'F', '0', '0', 'system:config:edit', '#', 'admin',
         '2022-10-15 15:45:38', '', NULL, '');
 INSERT INTO `sys_menu`
+VALUES (1063, '第三方登录配置查询', 117, 1, '', '', '', 1, 0, 'F', '0', '0', 'system:authConfig:query', '#', 'admin',
+        '2022-10-21 16:11:18', '', NULL, '');
+INSERT INTO `sys_menu`
+VALUES (1064, '第三方登录配置新增', 117, 2, '', '', '', 1, 0, 'F', '0', '0', 'system:authConfig:add', '#', 'admin',
+        '2022-10-21 16:11:18', '', NULL, '');
+INSERT INTO `sys_menu`
+VALUES (1065, '第三方登录配置修改', 117, 3, '', '', '', 1, 0, 'F', '0', '0', 'system:authConfig:edit', '#', 'admin',
+        '2022-10-21 16:11:18', '', NULL, '');
+INSERT INTO `sys_menu`
+VALUES (1066, '第三方登录配置删除', 117, 4, '', '', '', 1, 0, 'F', '0', '0', 'system:authConfig:remove', '#', 'admin',
+        '2022-10-21 16:11:18', '', NULL, '');
+INSERT INTO `sys_menu`
+VALUES (1067, '第三方登录配置导出', 117, 5, '', '', '', 1, 0, 'F', '0', '0', 'system:authConfig:export', '#', 'admin',
+        '2022-10-21 16:11:18', '', NULL, '');
+INSERT INTO `sys_menu`
+VALUES (1070, '网关路由导出', 203, 5, '', '', '', 1, 0, 'F', '0', '0', 'system:route:export', '#', 'admin',
+        '2022-09-21 22:08:36', '', NULL, '');
+INSERT INTO `sys_menu`
 VALUES (1500, '网关路由查询', 203, 1, '', '', '', 1, 0, 'F', '0', '0', 'system:route:query', '#', 'admin',
         '2022-09-21 22:08:36', '', NULL, '');
 INSERT INTO `sys_menu`
@@ -777,9 +833,6 @@ VALUES (1502, '网关路由修改', 203, 3, '', '', '', 1, 0, 'F', '0', '0', 'sy
         '2022-09-21 22:08:36', '', NULL, '');
 INSERT INTO `sys_menu`
 VALUES (1503, '网关路由删除', 203, 4, '', '', '', 1, 0, 'F', '0', '0', 'system:route:remove', '#', 'admin',
-        '2022-09-21 22:08:36', '', NULL, '');
-INSERT INTO `sys_menu`
-VALUES (1070, '网关路由导出', 203, 5, '', '', '', 1, 0, 'F', '0', '0', 'system:route:export', '#', 'admin',
         '2022-09-21 22:08:36', '', NULL, '');
 
 -- ----------------------------
@@ -925,6 +978,8 @@ INSERT INTO `sys_role`
 VALUES (1, '超级管理员', 'ADMIN', 1, '1', 1, 1, '0', 'admin', '2022-03-23 22:12:32', '', NULL, '超级管理员');
 INSERT INTO `sys_role`
 VALUES (2, '普通用户', 'COMMON', 2, '5', 1, 1, '0', 'admin', '2022-10-17 15:18:18', '', NULL, '普通用户');
+INSERT INTO `sys_role`
+VALUES (3, '第三方用户', 'THIRD', 3, '5', 1, 1, '0', 'admin', '2022-10-24 11:44:51', '', NULL, '第三方用户');
 
 -- ----------------------------
 -- Table structure for sys_role_dept
@@ -965,6 +1020,10 @@ INSERT INTO `sys_role_menu`
 VALUES (2, 6);
 INSERT INTO `sys_role_menu`
 VALUES (2, 111);
+INSERT INTO `sys_role_menu`
+VALUES (3, 6);
+INSERT INTO `sys_role_menu`
+VALUES (3, 111);
 
 -- ----------------------------
 -- Table structure for sys_user

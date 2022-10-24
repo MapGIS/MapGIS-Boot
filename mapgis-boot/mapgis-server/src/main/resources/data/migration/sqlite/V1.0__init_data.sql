@@ -10,7 +10,7 @@
  Target Server Version : 3030001
  File Encoding         : 65001
 
- Date: 18/10/2022 15:54:28
+ Date: 24/10/2022 16:21:22
 */
 
 -- ----------------------------
@@ -80,6 +80,33 @@ CREATE TABLE "gen_table_column"
 -- ----------------------------
 
 -- ----------------------------
+-- Table structure for sys_auth_config
+-- ----------------------------
+DROP TABLE IF EXISTS "sys_auth_config";
+CREATE TABLE "sys_auth_config"
+(
+    "config_id"          integer NOT NULL PRIMARY KEY AUTOINCREMENT,
+    "type"               text(255) DEFAULT '',
+    "name"               text(255) DEFAULT '',
+    "icon"               text      DEFAULT '',
+    "help"               text(255) DEFAULT '',
+    "client_id"          text(255) DEFAULT '',
+    "client_secret"      text(255) DEFAULT '',
+    "redirect_uri"       text(255) DEFAULT '',
+    "auth_request_class" text(500) DEFAULT '',
+    "status"             text(1)   DEFAULT '0',
+    "create_by"          text(64)  DEFAULT '',
+    "create_time"        text      DEFAULT NULL,
+    "update_by"          text(64)  DEFAULT '',
+    "update_time"        text      DEFAULT NULL,
+    "remark"             text(500) DEFAULT NULL
+);
+
+-- ----------------------------
+-- Records of sys_auth_config
+-- ----------------------------
+
+-- ----------------------------
 -- Table structure for sys_auth_user
 -- ----------------------------
 DROP TABLE IF EXISTS "sys_auth_user";
@@ -137,6 +164,9 @@ VALUES (4, '安全配置-密码安全配置', 'security.passwordProtected', '{"e
 INSERT INTO "sys_config"
 VALUES (5, '安全配置-用户登录配置', 'security.login', '{"soloLoginEnabled":true,"captchaEnabled":true,"captchaType":"math"}', 'Y',
         'admin', '2022-03-23 22:12:32', '', NULL, '用户登录配置');
+INSERT INTO "sys_config"
+VALUES (6, '安全配置-第三方登录配置', 'security.oauth', '{"defaultRoleIds":[3]}', 'Y', 'admin', '2022-03-23 22:12:32', '', NULL,
+        '第三方登录配置');
 
 -- ----------------------------
 -- Table structure for sys_dept
@@ -447,11 +477,14 @@ INSERT INTO "sys_menu"
 VALUES (114, '微应用路由配置', 6, 4, 'microApp', 'system/microApp/index', '', 1, 0, 'C', 0, 0, 'system:microApp:list',
         'deployment-unit', 'admin', '2022-09-26 13:54:31', '', NULL, '微应用路由配置菜单');
 INSERT INTO "sys_menu"
-VALUES (115, '安全配置', 3, 1, 'config', 'security/config/index', '', 1, 0, 'C', 0, 0, 'system:config:query',
-        'validCode', 'admin', '2022-10-14 17:51:53', '', NULL, '安全配置菜单');
+VALUES (115, '安全配置', 3, 1, 'config', 'security/config/index', '', 1, 0, 'C', 0, 0, 'system:config:query', 'validCode',
+        'admin', '2022-10-14 17:51:53', '', NULL, '安全配置菜单');
 INSERT INTO "sys_menu"
-VALUES (116, '基本配置', 7, 1, 'base', 'config/base/index', '', 1, 0, 'C', 0, 0, 'system:config:query', 'profile',
-        'admin', '2022-10-15 15:45:11', '', NULL, '基本配置菜单');
+VALUES (116, '基本配置', 7, 1, 'base', 'config/base/index', '', 1, 0, 'C', 0, 0, 'system:config:query', 'profile', 'admin',
+        '2022-10-15 15:45:11', '', NULL, '基本配置菜单');
+INSERT INTO "sys_menu"
+VALUES (117, '第三方登录配置', 3, 7, 'third', 'security/authConfig/index', NULL, 1, 0, 'C', 0, 0, 'system:authConfig:list',
+        'team', 'admin', '2022-10-21 16:11:18', '', NULL, '第三方登录配置菜单');
 INSERT INTO "sys_menu"
 VALUES (1000, '在线查询', 100, 1, '', '', '', 1, 0, 'F', 0, 0, 'monitor:online:query', '#', 'admin', '2022-03-23 22:12:32',
         '', NULL, '');
@@ -477,11 +510,11 @@ INSERT INTO "sys_menu"
 VALUES (1007, '操作查询', 103, 1, '', '', '', 1, 0, 'F', 0, 0, 'system:operlog:query', '#', 'admin', '2022-03-23 22:12:32',
         '', NULL, '');
 INSERT INTO "sys_menu"
-VALUES (1008, '操作删除', 103, 2, '', '', '', 1, 0, 'F', 0, 0, 'system:operlog:remove', '#', 'admin',
-        '2022-03-23 22:12:32', '', NULL, '');
+VALUES (1008, '操作删除', 103, 2, '', '', '', 1, 0, 'F', 0, 0, 'system:operlog:remove', '#', 'admin', '2022-03-23 22:12:32',
+        '', NULL, '');
 INSERT INTO "sys_menu"
-VALUES (1009, '日志导出', 103, 3, '', '', '', 1, 0, 'F', 0, 0, 'system:operlog:export', '#', 'admin',
-        '2022-03-23 22:12:32', '', NULL, '');
+VALUES (1009, '日志导出', 103, 3, '', '', '', 1, 0, 'F', 0, 0, 'system:operlog:export', '#', 'admin', '2022-03-23 22:12:32',
+        '', NULL, '');
 INSERT INTO "sys_menu"
 VALUES (1010, '用户查询', 104, 1, '', '', '', 1, 0, 'F', 0, 0, 'system:user:query', '#', 'admin', '2022-03-23 22:12:32', '',
         NULL, '');
@@ -558,8 +591,8 @@ INSERT INTO "sys_menu"
 VALUES (1034, '岗位删除', 108, 4, '', '', '', 1, 0, 'F', 0, 0, 'system:post:remove', '#', 'admin', '2022-03-23 22:12:32',
         '', NULL, '');
 INSERT INTO "sys_menu"
-VALUES (1035, '任务查询', 109, 1, '', '', '', 1, 0, 'F', 0, 0, 'monitor:job:query', '#', 'admin', '2022-03-23 22:12:32',
-        '', NULL, '');
+VALUES (1035, '任务查询', 109, 1, '', '', '', 1, 0, 'F', 0, 0, 'monitor:job:query', '#', 'admin', '2022-03-23 22:12:32', '',
+        NULL, '');
 INSERT INTO "sys_menu"
 VALUES (1036, '任务新增', 109, 2, '', '', '', 1, 0, 'F', 0, 0, 'monitor:job:add', '#', 'admin', '2022-03-23 22:12:32', '',
         NULL, '');
@@ -579,8 +612,8 @@ INSERT INTO "sys_menu"
 VALUES (1041, '公告查询', 110, 1, '', '', '', 1, 0, 'F', 0, 0, 'system:notice:query', '#', 'admin', '2022-03-23 22:12:32',
         '', NULL, '');
 INSERT INTO "sys_menu"
-VALUES (1042, '公告新增', 110, 2, '', '', '', 1, 0, 'F', 0, 0, 'system:notice:add', '#', 'admin', '2022-03-23 22:12:32',
-        '', NULL, '');
+VALUES (1042, '公告新增', 110, 2, '', '', '', 1, 0, 'F', 0, 0, 'system:notice:add', '#', 'admin', '2022-03-23 22:12:32', '',
+        NULL, '');
 INSERT INTO "sys_menu"
 VALUES (1043, '公告修改', 110, 3, '', '', '', 1, 0, 'F', 0, 0, 'system:notice:edit', '#', 'admin', '2022-03-23 22:12:32',
         '', NULL, '');
@@ -588,8 +621,8 @@ INSERT INTO "sys_menu"
 VALUES (1044, '公告删除', 110, 4, '', '', '', 1, 0, 'F', 0, 0, 'system:notice:remove', '#', 'admin', '2022-03-23 22:12:32',
         '', NULL, '');
 INSERT INTO "sys_menu"
-VALUES (1045, '字典查询', 112, 1, '', '', '', 1, 0, 'F', 0, 0, 'system:dict:query', '#', 'admin', '2022-03-23 22:12:32',
-        '', NULL, '');
+VALUES (1045, '字典查询', 112, 1, '', '', '', 1, 0, 'F', 0, 0, 'system:dict:query', '#', 'admin', '2022-03-23 22:12:32', '',
+        NULL, '');
 INSERT INTO "sys_menu"
 VALUES (1046, '字典新增', 112, 2, '', '', '', 1, 0, 'F', 0, 0, 'system:dict:add', '#', 'admin', '2022-03-23 22:12:32', '',
         NULL, '');
@@ -636,11 +669,26 @@ INSERT INTO "sys_menu"
 VALUES (1060, '微应用路由导出', 114, 5, '', '', '', 1, 0, 'F', 0, 0, 'system:microApp:export', '#', 'admin',
         '2022-09-26 13:54:31', '', NULL, '');
 INSERT INTO "sys_menu"
-VALUES (1061, '配置修改', 115, 1, '', '', '', 1, 0, 'F', 0, 0, 'system:config:edit', '#', 'admin',
-        '2022-10-14 17:54:02', '', NULL, '');
+VALUES (1061, '配置修改', 115, 1, '', '', '', 1, 0, 'F', 0, 0, 'system:config:edit', '#', 'admin', '2022-10-14 17:54:02',
+        '', NULL, '');
 INSERT INTO "sys_menu"
-VALUES (1062, '配置修改', 116, 1, '', '', '', 1, 0, 'F', 0, 0, 'system:config:edit', '#', 'admin',
-        '2022-10-15 15:45:38', '', NULL, '');
+VALUES (1062, '配置修改', 116, 1, '', '', '', 1, 0, 'F', 0, 0, 'system:config:edit', '#', 'admin', '2022-10-15 15:45:38',
+        '', NULL, '');
+INSERT INTO "sys_menu"
+VALUES (1063, '第三方登录配置查询', 117, 1, '', '', '', 1, 0, 'F', 0, 0, 'system:authConfig:query', '#', 'admin',
+        '2022-10-21 16:11:18', '', NULL, '');
+INSERT INTO "sys_menu"
+VALUES (1064, '第三方登录配置新增', 117, 2, '', '', '', 1, 0, 'F', 0, 0, 'system:authConfig:add', '#', 'admin',
+        '2022-10-21 16:11:18', '', NULL, '');
+INSERT INTO "sys_menu"
+VALUES (1065, '第三方登录配置修改', 117, 3, '', '', '', 1, 0, 'F', 0, 0, 'system:authConfig:edit', '#', 'admin',
+        '2022-10-21 16:11:18', '', NULL, '');
+INSERT INTO "sys_menu"
+VALUES (1066, '第三方登录配置删除', 117, 4, '', '', '', 1, 0, 'F', 0, 0, 'system:authConfig:remove', '#', 'admin',
+        '2022-10-21 16:11:18', '', NULL, '');
+INSERT INTO "sys_menu"
+VALUES (1067, '第三方登录配置导出', 117, 5, '', '', '', 1, 0, 'F', 0, 0, 'system:authConfig:export', '#', 'admin',
+        '2022-10-21 16:11:18', '', NULL, '');
 
 -- ----------------------------
 -- Table structure for sys_micro_app
@@ -760,6 +808,8 @@ INSERT INTO "sys_role"
 VALUES (1, '超级管理员', 'ADMIN', 1, 1, 1, 1, 0, 'admin', '2022-03-23 22:12:32', '', NULL, '超级管理员');
 INSERT INTO "sys_role"
 VALUES (2, '普通用户', 'COMMON', 2, 5, 1, 1, 0, 'admin', '2022-10-17 15:18:18', '', NULL, '普通用户');
+INSERT INTO "sys_role"
+VALUES (3, '第三方用户', 'THIRD', 3, 5, 1, 1, 0, 'admin', '2022-10-24 11:44:51', '', NULL, '第三方用户');
 
 -- ----------------------------
 -- Table structure for sys_role_dept
@@ -794,6 +844,10 @@ INSERT INTO "sys_role_menu"
 VALUES (2, 6);
 INSERT INTO "sys_role_menu"
 VALUES (2, 111);
+INSERT INTO "sys_role_menu"
+VALUES (3, 6);
+INSERT INTO "sys_role_menu"
+VALUES (3, 111);
 
 -- ----------------------------
 -- Table structure for sys_user

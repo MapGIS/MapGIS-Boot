@@ -1,6 +1,5 @@
 package com.zondy.mapgis.auth.controller;
 
-import com.xkcoding.justauth.AuthRequestFactory;
 import com.zondy.mapgis.auth.api.service.SysLoginService;
 import com.zondy.mapgis.auth.domain.vo.AuthUserCheckPasswordVo;
 import com.zondy.mapgis.common.core.constant.SecurityConstants;
@@ -14,6 +13,7 @@ import com.zondy.mapgis.common.core.web.controller.BaseController;
 import com.zondy.mapgis.common.core.web.domain.AjaxResult;
 import com.zondy.mapgis.common.security.utils.SecurityUtils;
 import com.zondy.mapgis.system.api.ISysServiceApi;
+import com.zondy.mapgis.system.api.domain.SysAuthConfig;
 import com.zondy.mapgis.system.api.domain.SysAuthUser;
 import com.zondy.mapgis.system.api.domain.SysUser;
 import com.zondy.mapgis.system.api.model.LoginUser;
@@ -21,9 +21,12 @@ import com.zondy.mapgis.system.api.service.SysServiceProxy;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import me.zhyd.oauth.AuthRequestBuilder;
+import me.zhyd.oauth.config.AuthConfig;
 import me.zhyd.oauth.model.AuthCallback;
 import me.zhyd.oauth.model.AuthResponse;
 import me.zhyd.oauth.model.AuthUser;
+import me.zhyd.oauth.request.AuthDefaultRequest;
 import me.zhyd.oauth.request.AuthRequest;
 import me.zhyd.oauth.utils.AuthStateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +36,9 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author xionbgo
@@ -44,8 +49,6 @@ import java.util.List;
 @Controller
 @RequestMapping("${api.path.services-prefix}/auth/thirdLogin")
 public class ThirdLoginController extends BaseController {
-
-    private final AuthRequestFactory factory;
 
     private final SysLoginService loginService;
 
@@ -61,9 +64,13 @@ public class ThirdLoginController extends BaseController {
     @Operation(summary = "认证授权")
     @RequestMapping("/render/{source}")
     public void render(@PathVariable("source") String source, HttpServletResponse response) throws IOException {
-        AuthRequest authRequest = factory.get(source);
-        String authorizeUrl = authRequest.authorize(AuthStateUtils.createState());
-        response.sendRedirect(authorizeUrl);
+        AuthRequest authRequest = getAuthRequest(source);
+        if (authRequest != null) {
+            String authorizeUrl = authRequest.authorize(AuthStateUtils.createState());
+            response.sendRedirect(authorizeUrl);
+        } else {
+            response.sendRedirect("authRequest-is-null");
+        }
     }
 
     /**
@@ -72,7 +79,7 @@ public class ThirdLoginController extends BaseController {
     @Operation(summary = "第三方登录回调结果")
     @RequestMapping("/callback/{source}")
     public String callbackAuth(@PathVariable("source") String source, AuthCallback callback, ModelMap modelMap) {
-        AuthRequest authRequest = factory.get(source);
+        AuthRequest authRequest = getAuthRequest(source);
         AuthResponse authResponse = authRequest.login(callback);
         if (authResponse.ok()) {
             AuthUser authUser = (AuthUser) authResponse.getData();
@@ -198,7 +205,9 @@ public class ThirdLoginController extends BaseController {
         String password = sysServiceProxy.getInitPasswordConfig();
 
         // 注册账号
-        loginService.register(username, password, null);
+        Map<String, Object> oauthConfig = sysServiceProxy.getOAuthConfig();
+        Long[] roleIds = (Long[]) oauthConfig.get("defaultRoleIds");
+        loginService.register(username, password, roleIds);
 
         // 根据用户名获取用户id
         R<LoginUser> loginUserResult = sysServiceApi.getUserInfo(username, SecurityConstants.INNER);
@@ -273,5 +282,43 @@ public class ThirdLoginController extends BaseController {
         ajax.put(TokenConstants.TOKEN, token);
 
         return ajax;
+    }
+
+    /**
+     * 创建授权请求
+     *
+     * @param source 授权平台
+     **/
+    private AuthRequest getAuthRequest(String source) {
+        SysAuthConfig sysAuthConfig = sysServiceProxy.getAuthConfigByType(source);
+        String authRequestClassString = sysAuthConfig.getAuthRequestClass();
+        AuthRequest authRequest = null;
+
+        if (StringUtils.isNotEmpty(authRequestClassString)) {
+            try {
+                Class<? extends AuthDefaultRequest> authRequestClass = (Class<? extends AuthDefaultRequest>) Class.forName(authRequestClassString);
+
+                if (authRequestClass != null) {
+                    authRequest = authRequestClass.getDeclaredConstructor(AuthConfig.class).newInstance(AuthConfig.builder()
+                            .clientId(sysAuthConfig.getClientId())
+                            .clientSecret(sysAuthConfig.getClientSecret())
+                            .redirectUri(sysAuthConfig.getRedirectUri())
+                            .build());
+                }
+            } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | NoSuchMethodException | InvocationTargetException e) {
+                e.printStackTrace();
+            }
+
+            return authRequest;
+        } else {
+            return AuthRequestBuilder.builder()
+                    .source(sysAuthConfig.getType())
+                    .authConfig(AuthConfig.builder()
+                            .clientId(sysAuthConfig.getClientId())
+                            .clientSecret(sysAuthConfig.getClientSecret())
+                            .redirectUri(sysAuthConfig.getRedirectUri())
+                            .build())
+                    .build();
+        }
     }
 }

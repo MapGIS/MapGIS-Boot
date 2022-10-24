@@ -2,10 +2,7 @@ package com.zondy.mapgis.system.api;
 
 import com.zondy.mapgis.common.core.constant.SecurityConstants;
 import com.zondy.mapgis.common.core.domain.R;
-import com.zondy.mapgis.system.api.domain.SysAuthUser;
-import com.zondy.mapgis.system.api.domain.SysLogininfor;
-import com.zondy.mapgis.system.api.domain.SysOperLog;
-import com.zondy.mapgis.system.api.domain.SysUser;
+import com.zondy.mapgis.system.api.domain.*;
 import com.zondy.mapgis.system.api.factory.RemoteSysServiceApiFallbackFactory;
 import com.zondy.mapgis.system.api.model.LoginUser;
 import org.springframework.cloud.openfeign.FeignClient;
@@ -110,4 +107,14 @@ public interface ISysServiceApi {
      */
     @GetMapping("/system/api/config/configKey/{configKey}")
     public R<String> selectConfigValueByKey(@PathVariable("configKey") String configKey, @RequestHeader(SecurityConstants.FROM_SOURCE) String source);
+
+    /**
+     * 获取第三方登录配置列表
+     *
+     * @param type   第三方登录平台
+     * @param source 请求来源
+     * @return 结果
+     */
+    @GetMapping("/system/api/authConfig")
+    public R<SysAuthConfig> selectAuthConfigByType(@RequestParam("type") String type, @RequestHeader(SecurityConstants.FROM_SOURCE) String source);
 }

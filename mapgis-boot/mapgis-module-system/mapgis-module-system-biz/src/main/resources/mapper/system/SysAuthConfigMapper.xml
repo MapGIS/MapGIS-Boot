@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zondy.mapgis.system.mapper.SysAuthConfigMapper">
+
+    <resultMap type="SysAuthConfig" id="SysAuthConfigResult">
+        <result property="configId" column="config_id"/>
+        <result property="type" column="type"/>
+        <result property="name" column="name"/>
+        <result property="icon" column="icon"/>
+        <result property="help" column="help"/>
+        <result property="clientId" column="client_id"/>
+        <result property="clientSecret" column="client_secret"/>
+        <result property="redirectUri" column="redirect_uri"/>
+        <result property="authRequestClass" column="auth_request_class"/>
+        <result property="status" column="status"/>
+        <result property="createBy" column="create_by"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateBy" column="update_by"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="remark" column="remark"/>
+    </resultMap>
+
+    <sql id="selectSysAuthConfigVo">
+        select config_id,
+               type,
+               name,
+               icon,
+               help,
+               client_id,
+               client_secret,
+               redirect_uri,
+               auth_request_class,
+               status,
+               create_by,
+               create_time,
+               update_by,
+               update_time,
+               remark
+        from sys_auth_config
+    </sql>
+
+    <select id="selectSysAuthConfigList" parameterType="SysAuthConfig" resultMap="SysAuthConfigResult">
+        <include refid="selectSysAuthConfigVo"/>
+        <where>
+            <if test="type != null  and type != ''">
+                <bind name="type_like" value="'%' + type + '%'"/>
+                and type like #{type_like}
+            </if>
+            <if test="name != null  and name != ''">
+                <bind name="name_like" value="'%' + name + '%'"/>
+                and name like #{name_like}
+            </if>
+            <if test="status != null and status != ''">
+                and status = #{status}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectSysAuthConfigByConfigId" parameterType="Integer"
+            resultMap="SysAuthConfigResult">
+        <include refid="selectSysAuthConfigVo"/>
+        where config_id = #{configId}
+    </select>
+
+    <select id="checkAuthTypeUnique" parameterType="String" resultType="int">
+        select count(1)
+        from sys_auth_config
+        where type = #{type}
+        limit 1
+    </select>
+
+    <select id="selectAuthConfigByType" parameterType="String" resultMap="SysAuthConfigResult">
+        <include refid="selectSysAuthConfigVo"/>
+        where type = #{type}
+    </select>
+
+    <insert id="insertSysAuthConfig" parameterType="SysAuthConfig" useGeneratedKeys="true" keyProperty="configId">
+        insert into sys_auth_config
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="type != null">type,</if>
+            <if test="name != null">name,</if>
+            <if test="icon != null">icon,</if>
+            <if test="help != null">help,</if>
+            <if test="clientId != null">client_id,</if>
+            <if test="clientSecret != null">client_secret,</if>
+            <if test="redirectUri != null">redirect_uri,</if>
+            <if test="authRequestClass != null">auth_request_class,</if>
+            <if test="status != null">status,</if>
+            <if test="createBy != null">create_by,</if>
+            create_time,
+            <if test="remark != null">remark,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="type != null">#{type},</if>
+            <if test="name != null">#{name},</if>
+            <if test="icon != null">#{icon},</if>
+            <if test="help != null">#{help},</if>
+            <if test="clientId != null">#{clientId},</if>
+            <if test="clientSecret != null">#{clientSecret},</if>
+            <if test="redirectUri != null">#{redirectUri},</if>
+            <if test="authRequestClass != null">#{authRequestClass},</if>
+            <if test="status != null">#{status},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <choose>
+                <when test="_databaseId == 'sqlite'">
+                    (datetime(CURRENT_TIMESTAMP,'localtime')),
+                </when>
+                <otherwise>
+                    sysdate(),
+                </otherwise>
+            </choose>
+            <if test="remark != null">#{remark},</if>
+        </trim>
+    </insert>
+
+    <update id="updateSysAuthConfig" parameterType="SysAuthConfig">
+        update sys_auth_config
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="type != null">type = #{type},</if>
+            <if test="name != null">name = #{name},</if>
+            <if test="icon != null">icon = #{icon},</if>
+            <if test="help != null">help = #{help},</if>
+            <if test="clientId != null">client_id = #{clientId},</if>
+            <if test="clientSecret != null">client_secret = #{clientSecret},</if>
+            <if test="redirectUri != null">redirect_uri = #{redirectUri},</if>
+            <if test="authRequestClass != null">auth_request_class = #{authRequestClass},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <choose>
+                <when test="_databaseId == 'sqlite'">
+                    update_time = datetime(CURRENT_TIMESTAMP,'localtime')
+                </when>
+                <otherwise>
+                    update_time = sysdate()
+                </otherwise>
+            </choose>
+            <if test="remark != null">remark = #{remark},</if>
+        </trim>
+        where config_id = #{configId}
+    </update>
+
+    <delete id="deleteSysAuthConfigByConfigId" parameterType="Integer">
+        delete
+        from sys_auth_config
+        where config_id = #{configId}
+    </delete>
+
+    <delete id="deleteSysAuthConfigByConfigIds" parameterType="String">
+        delete from sys_auth_config where config_id in
+        <foreach item="configId" collection="array" open="(" separator="," close=")">
+            #{configId}
+        </foreach>
+    </delete>
+</mapper>

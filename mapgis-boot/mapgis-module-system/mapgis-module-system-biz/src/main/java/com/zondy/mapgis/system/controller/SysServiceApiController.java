@@ -5,10 +5,7 @@ import com.zondy.mapgis.common.core.domain.R;
 import com.zondy.mapgis.common.core.web.controller.BaseController;
 import com.zondy.mapgis.common.security.annotation.InnerAuth;
 import com.zondy.mapgis.system.api.ISysServiceApi;
-import com.zondy.mapgis.system.api.domain.SysAuthUser;
-import com.zondy.mapgis.system.api.domain.SysLogininfor;
-import com.zondy.mapgis.system.api.domain.SysOperLog;
-import com.zondy.mapgis.system.api.domain.SysUser;
+import com.zondy.mapgis.system.api.domain.*;
 import com.zondy.mapgis.system.api.model.LoginUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -106,5 +103,16 @@ public class SysServiceApiController extends BaseController {
     @GetMapping("/config/configKey/{configKey}")
     public R<String> selectConfigValueByKey(@PathVariable("configKey") String configKey) {
         return sysServiceApi.selectConfigValueByKey(configKey, "");
+    }
+
+    /**
+     * 获取第三方登录配置列表
+     *
+     * @param type 第三方登录平台
+     * @return 结果
+     */
+    @GetMapping("/authConfig")
+    public R<SysAuthConfig> selectAuthConfigByType(@RequestParam("type") String type) {
+        return sysServiceApi.selectAuthConfigByType(type, "");
     }
 }

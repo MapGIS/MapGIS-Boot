@@ -2,14 +2,9 @@
   <a-list itemLayout="horizontal" :dataSource="data" :loading="loading">
     <a-list-item slot="renderItem" slot-scope="item, index" :key="index">
       <a-list-item-meta>
-        <a slot="title">{{ item.title }}</a>
-        <a-icon
-          slot="avatar"
-          :component="allIcon[item.type.icon + 'Icon']"
-          :class="item.binded ? 'item-icon-active' : 'item-icon'"
-        >
-        </a-icon>
-        <span slot="description">
+        <a slot="title" :class="item.binded ? 'item-title-active' : ''">{{ item.title }}</a>
+        <img slot="avatar" :src="item.type.icon" style="width: 32px; height: 32px" />
+        <span slot="description" :class="item.binded ? 'item-title-active' : ''">
           {{ item.description }}
         </span>
       </a-list-item-meta>
@@ -32,30 +27,13 @@
 <script>
 import { getAuthInfo, bindAuth, unbindAuth } from '@/api/system/authUser'
 import { checkPassword } from '@/api/system/user'
-import allIcon from '@/core/icons'
+import { getSystemConfig } from '@/api/system/config'
 
 export default {
   data() {
     return {
-      allIcon,
       loading: true,
-      types: [
-        {
-          name: 'GitHub',
-          source: 'github',
-          icon: 'github'
-        },
-        {
-          name: 'Gitee',
-          source: 'gitee',
-          icon: 'gitee'
-        },
-        {
-          name: '自定义OAuth',
-          source: 'custom',
-          icon: 'oauth'
-        }
-      ],
+      types: [],
       data: [],
       // 第三方登录相关信息
       thirdLoginInfo: '',
@@ -64,10 +42,16 @@ export default {
       authItem: undefined
     }
   },
-  mounted() {
+  async mounted() {
+    await this.getAuthConfig()
     this.getAuthInfo()
   },
   methods: {
+    async getAuthConfig() {
+      await getSystemConfig().then(res => {
+        this.types = res.data.oauthConfig
+      })
+    },
     getAuthInfo() {
       getAuthInfo().then(response => {
         this.data = this.types.map(type => {
@@ -78,7 +62,7 @@ export default {
             binded,
             authId: binded ? authUser.authId : '',
             uuid: binded ? authUser.uuid : '',
-            title: `绑定${type.name}`,
+            title: `绑定${type.name}账号`,
             description: binded ? `当前已经绑定${type.name}账号` : `当前未绑定${type.name}账号`,
             actions: {
               title: binded ? '解绑' : '绑定'
@@ -170,12 +154,10 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.item-icon {
-  font-size: 32px;
+.item-title {
 }
 
-.item-icon-active {
-  font-size: 32px;
+.item-title-active {
   color: @primary-color;
 }
 </style>

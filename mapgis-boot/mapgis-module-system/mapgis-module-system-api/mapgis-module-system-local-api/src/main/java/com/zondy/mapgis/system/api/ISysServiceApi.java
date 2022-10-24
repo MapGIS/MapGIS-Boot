@@ -1,10 +1,7 @@
 package com.zondy.mapgis.system.api;
 
 import com.zondy.mapgis.common.core.domain.R;
-import com.zondy.mapgis.system.api.domain.SysAuthUser;
-import com.zondy.mapgis.system.api.domain.SysLogininfor;
-import com.zondy.mapgis.system.api.domain.SysOperLog;
-import com.zondy.mapgis.system.api.domain.SysUser;
+import com.zondy.mapgis.system.api.domain.*;
 import com.zondy.mapgis.system.api.model.LoginUser;
 
 import java.util.List;
@@ -95,4 +92,13 @@ public interface ISysServiceApi {
      * @return 参数键值
      */
     public R<String> selectConfigValueByKey(String configKey, String source);
+
+    /**
+     * 获取第三方登录配置列表
+     *
+     * @param type   第三方登录平台
+     * @param source 请求来源
+     * @return 结果
+     */
+    public R<SysAuthConfig> selectAuthConfigByType(String type, String source);
 }

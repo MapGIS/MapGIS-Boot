@@ -2,10 +2,7 @@ package com.zondy.mapgis.system.api.factory;
 
 import com.zondy.mapgis.common.core.domain.R;
 import com.zondy.mapgis.system.api.ISysServiceApi;
-import com.zondy.mapgis.system.api.domain.SysAuthUser;
-import com.zondy.mapgis.system.api.domain.SysLogininfor;
-import com.zondy.mapgis.system.api.domain.SysOperLog;
-import com.zondy.mapgis.system.api.domain.SysUser;
+import com.zondy.mapgis.system.api.domain.*;
 import com.zondy.mapgis.system.api.model.LoginUser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -71,6 +68,11 @@ public class RemoteSysServiceApiFallbackFactory implements FallbackFactory<ISysS
             @Override
             public R<String> selectConfigValueByKey(String configKey, String source) {
                 return R.fail("根据键名查询参数配置信息失败:" + throwable.getMessage());
+            }
+
+            @Override
+            public R<SysAuthConfig> selectAuthConfigByType(String type, String source) {
+                return R.fail("获取第三方登录配置失败:" + throwable.getMessage());
             }
         };
     }

@@ -7,6 +7,7 @@ import com.zondy.mapgis.common.core.exception.ServiceException;
 import com.zondy.mapgis.common.core.utils.JsonUtils;
 import com.zondy.mapgis.common.core.utils.StringUtils;
 import com.zondy.mapgis.system.api.ISysServiceApi;
+import com.zondy.mapgis.system.api.domain.SysAuthConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -104,6 +105,11 @@ public class SysServiceProxy {
         return config;
     }
 
+    /**
+     * 获取密码安全配置
+     *
+     * @return 密码安全配置
+     */
     public Map<String, Object> getPasswordProtectedConfig() {
         Map<String, Object> config = new LinkedHashMap<>();
         String strConfig = selectConfigValueByKey("security.passwordProtected");
@@ -122,6 +128,43 @@ public class SysServiceProxy {
         config.put("enabled", enabled);
         config.put("maxRetryCount", maxRetryCount);
         config.put("lockTime", lockTime);
+        return config;
+    }
+
+    /**
+     * 根据平台获取第三方登录配置
+     */
+    public SysAuthConfig getAuthConfigByType(String type) {
+        R<SysAuthConfig> sysAuthConfigResult = sysServiceApi.selectAuthConfigByType(type, SecurityConstants.INNER);
+
+        if (R.FAIL == sysAuthConfigResult.getCode()) {
+            throw new ServiceException(sysAuthConfigResult.getMsg());
+        }
+
+        return sysAuthConfigResult.getData();
+    }
+
+    /**
+     * 获取第三方登录配置
+     *
+     * @return 登录配置
+     */
+    public Map<String, Object> getOAuthConfig() {
+        Map<String, Object> config = new LinkedHashMap<>();
+        String strConfig = selectConfigValueByKey("security.oauth");
+
+        Dict thirdUserInfo = JsonUtils.parseMap(strConfig);
+        Long[] roleIds = new Long[0];
+
+        if (StringUtils.isNotEmpty(thirdUserInfo)) {
+            List<Integer> roleIdList = thirdUserInfo.get("defaultRoleIds", new ArrayList<>());
+            roleIds = new Long[roleIdList.size()];
+            for (int i = 0; i < roleIdList.size(); i++) {
+                roleIds[i] = roleIdList.get(i).longValue();
+            }
+        }
+
+        config.put("defaultRoleIds", roleIds);
         return config;
     }
 }

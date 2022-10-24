@@ -6,15 +6,13 @@ import com.zondy.mapgis.common.core.domain.R;
 import com.zondy.mapgis.common.core.utils.JsonUtils;
 import com.zondy.mapgis.common.core.utils.StringUtils;
 import com.zondy.mapgis.system.api.ISysServiceApi;
-import com.zondy.mapgis.system.api.domain.SysAuthUser;
-import com.zondy.mapgis.system.api.domain.SysLogininfor;
-import com.zondy.mapgis.system.api.domain.SysOperLog;
-import com.zondy.mapgis.system.api.domain.SysUser;
+import com.zondy.mapgis.system.api.domain.*;
 import com.zondy.mapgis.system.api.model.LoginUser;
 import com.zondy.mapgis.system.api.service.ISysLogininforService;
 import com.zondy.mapgis.system.api.service.ISysOperLogService;
 import com.zondy.mapgis.system.api.service.ISysPermissionService;
 import com.zondy.mapgis.system.api.service.ISysUserService;
+import com.zondy.mapgis.system.service.ISysAuthConfigService;
 import com.zondy.mapgis.system.service.ISysAuthUserService;
 import com.zondy.mapgis.system.service.ISysConfigService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,6 +45,9 @@ public class SysServiceApiImpl implements ISysServiceApi {
 
     @Autowired
     private ISysOperLogService operLogService;
+
+    @Autowired
+    private ISysAuthConfigService authConfigService;
 
     @Override
     public R<LoginUser> getUserInfo(String username, String source) {
@@ -137,5 +138,12 @@ public class SysServiceApiImpl implements ISysServiceApi {
     @Override
     public R<String> selectConfigValueByKey(String configKey, String source) {
         return R.ok(configService.selectConfigValueByKey(configKey));
+    }
+
+    @Override
+    public R<SysAuthConfig> selectAuthConfigByType(String type, String source) {
+        final SysAuthConfig sysAuthConfig = authConfigService.selectAuthConfigByType(type);
+
+        return R.ok(sysAuthConfig);
     }
 }
