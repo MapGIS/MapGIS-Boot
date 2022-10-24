@@ -118,11 +118,11 @@ export default {
       top: 0;
       right: 0;
       width: 100%;
-      padding-top: 0px;
-      padding-left: 68px;
+      padding-top: 12px;
+      padding-left: 72px;
       height: 100%;
       color: @primary-color;
-      font-size: 18px;
+      font-size: 20px;
       font-weight: 900;
     }
   }
