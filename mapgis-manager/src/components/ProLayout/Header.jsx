@@ -41,11 +41,13 @@ const renderContent = (h, props) => {
           {menuHeaderRender && (
             <div class={`${baseCls}-left`}>
               <div class={`${baseCls}-logo`} key="logo" id="logo">
-                {defaultRenderLogoAntTitle(h, {
-                  logo,
-                  title,
-                  menuHeaderRender
-                })}
+                <router-link to={{ path: '/' }}>
+                  {defaultRenderLogoAntTitle(h, {
+                    logo,
+                    title,
+                    menuHeaderRender
+                  })}
+                </router-link>
               </div>
             </div>
           )}

@@ -59,7 +59,7 @@ const user = {
             if (user.avatar.startsWith('http') || user.avatar.startsWith('https')) {
               avatarUrl = user.avatar
             }
-            const avatar = user.avatar === '' ? require('@/assets/images/profile.jpg') : avatarUrl
+            const avatar = user.avatar === '' ? require('@/assets/images/profile.png') : avatarUrl
             if (res.roles && res.roles.length > 0) {
               // 验证返回的roles是否是一个非空数组
               commit('SET_ROLES', res.roles)
