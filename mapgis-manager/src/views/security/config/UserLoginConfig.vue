@@ -49,8 +49,7 @@ export default {
       configLoaded: false,
       submitLoading: false,
       configInfo: {},
-      form: {},
-      roleOptions: []
+      form: {}
     }
   },
   async mounted() {
