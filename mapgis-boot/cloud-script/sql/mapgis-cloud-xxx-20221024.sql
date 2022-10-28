@@ -820,9 +820,6 @@ INSERT INTO `sys_menu`
 VALUES (1067, '第三方登录配置导出', 117, 5, '', '', '', 1, 0, 'F', '0', '0', 'system:authConfig:export', '#', 'admin',
         '2022-10-21 16:11:18', '', NULL, '');
 INSERT INTO `sys_menu`
-VALUES (1070, '网关路由导出', 203, 5, '', '', '', 1, 0, 'F', '0', '0', 'system:route:export', '#', 'admin',
-        '2022-09-21 22:08:36', '', NULL, '');
-INSERT INTO `sys_menu`
 VALUES (1500, '网关路由查询', 203, 1, '', '', '', 1, 0, 'F', '0', '0', 'system:route:query', '#', 'admin',
         '2022-09-21 22:08:36', '', NULL, '');
 INSERT INTO `sys_menu`
@@ -833,6 +830,9 @@ VALUES (1502, '网关路由修改', 203, 3, '', '', '', 1, 0, 'F', '0', '0', 'sy
         '2022-09-21 22:08:36', '', NULL, '');
 INSERT INTO `sys_menu`
 VALUES (1503, '网关路由删除', 203, 4, '', '', '', 1, 0, 'F', '0', '0', 'system:route:remove', '#', 'admin',
+        '2022-09-21 22:08:36', '', NULL, '');
+INSERT INTO `sys_menu`
+VALUES (1504, '网关路由导出', 203, 5, '', '', '', 1, 0, 'F', '0', '0', 'system:route:export', '#', 'admin',
         '2022-09-21 22:08:36', '', NULL, '');
 
 -- ----------------------------
