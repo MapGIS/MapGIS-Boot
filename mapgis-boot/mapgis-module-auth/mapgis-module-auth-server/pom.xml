@@ -70,6 +70,12 @@
             <groupId>com.zondy.mapgis</groupId>
             <artifactId>mapgis-common-swagger</artifactId>
         </dependency>
+
+        <!-- MapGIS Common Cloud Cache -->
+        <dependency>
+            <groupId>com.zondy.mapgis</groupId>
+            <artifactId>mapgis-common-cloud-cache</artifactId>
+        </dependency>
     </dependencies>
 
     <build>

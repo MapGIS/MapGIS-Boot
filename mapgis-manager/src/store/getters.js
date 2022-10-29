@@ -14,7 +14,8 @@ const getters = {
   multiTab: state => state.app.multiTab,
   cachedViews: state => state.tagsView.cachedViews,
   microApps: state => state.microApps.apps,
-  mounting: state => state.microApps.mounting
+  mounting: state => state.microApps.mounting,
+  casInfo: state => state.cas.info
 }
 
 export default getters

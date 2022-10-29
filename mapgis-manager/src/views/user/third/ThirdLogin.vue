@@ -1,7 +1,7 @@
 <template>
   <div>
-    <div class="user-login-other">
-      <span v-if="types.length">其他登录方式:</span>
+    <div v-if="types.length" class="user-login-other">
+      <span>其他登录方式:</span>
       <a v-for="type in types" :key="type.source" @click="onThirdLogin(type.source)" :title="type.name">
         <img :src="type.icon" class="item-icon" />
       </a>

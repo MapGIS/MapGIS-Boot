@@ -1,6 +1,7 @@
 package com.zondy.mapgis.system.api.service;
 
 import cn.hutool.core.lang.Dict;
+import com.zondy.mapgis.common.core.config.properties.ApiPathProperties;
 import com.zondy.mapgis.common.core.constant.SecurityConstants;
 import com.zondy.mapgis.common.core.domain.R;
 import com.zondy.mapgis.common.core.exception.ServiceException;
@@ -27,6 +28,9 @@ public class SysServiceProxy {
     @Autowired
     private ISysServiceApi sysServiceApi;
 
+    @Autowired
+    private ApiPathProperties apiPathProperties;
+
     /**
      * 获取配置值
      *
@@ -37,7 +41,7 @@ public class SysServiceProxy {
         R<String> configResult = sysServiceApi.selectConfigValueByKey(key, SecurityConstants.INNER);
 
         if (R.FAIL == configResult.getCode()) {
-            throw new ServiceException(configResult.getMsg());
+            return "";
         }
 
         return configResult.getData();
@@ -165,6 +169,39 @@ public class SysServiceProxy {
         }
 
         config.put("defaultRoleIds", roleIds);
+        return config;
+    }
+
+    /**
+     * 获取CAS登录配置
+     *
+     * @return 登录配置
+     */
+    public Map<String, Object> getCasConfig() {
+        Map<String, Object> config = new LinkedHashMap<>();
+        String strConfig = selectConfigValueByKey("security.cas");
+        Dict casConfigInfo = JsonUtils.parseMap(strConfig);
+        Boolean enabled = true;
+        String casServerUrl = "";
+        String casServiceHostUrl = "";
+        String casServiceWebUrl = "";
+
+        if (StringUtils.isNotEmpty(casConfigInfo)) {
+            enabled = casConfigInfo.get("enabled", Boolean.FALSE);
+            casServerUrl = casConfigInfo.get("casServerUrl", "");
+            casServiceHostUrl = casConfigInfo.get("casServiceHostUrl", "");
+            casServiceWebUrl = casConfigInfo.get("casServiceWebUrl", "");
+        }
+
+        String casServiceLoginPath = apiPathProperties.getServicesPrefix() + "/auth/casLogin/login";
+        String casServiceLoginUrl = casServiceHostUrl + casServiceLoginPath;
+
+        config.put("enabled", enabled);
+        config.put("casServerUrl", casServerUrl);
+        config.put("casServerLoginUrl", casServerUrl + "/login");
+        config.put("casServiceLoginPath", casServiceLoginPath);
+        config.put("casServiceLoginUrl", casServiceLoginUrl);
+        config.put("casServiceWebUrl", casServiceWebUrl);
         return config;
     }
 }

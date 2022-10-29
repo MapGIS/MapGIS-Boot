@@ -2,10 +2,13 @@ package com.zondy.mapgis.system.service.impl;
 
 import com.zondy.mapgis.common.cache.service.CacheService;
 import com.zondy.mapgis.common.core.constant.CacheConstants;
+import com.zondy.mapgis.common.core.constant.Constants;
 import com.zondy.mapgis.common.core.constant.UserConstants;
 import com.zondy.mapgis.common.core.exception.ServiceException;
 import com.zondy.mapgis.common.core.text.Convert;
 import com.zondy.mapgis.common.core.utils.StringUtils;
+import com.zondy.mapgis.system.api.event.SysEventConstants;
+import com.zondy.mapgis.system.api.event.SysEventPublisher;
 import com.zondy.mapgis.system.domain.SysConfig;
 import com.zondy.mapgis.system.mapper.SysConfigMapper;
 import com.zondy.mapgis.system.service.ISysConfigService;
@@ -14,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -29,6 +33,9 @@ public class SysConfigServiceImpl implements ISysConfigService {
 
     @Autowired
     private CacheService cacheService;
+
+    @Autowired
+    private SysEventPublisher sysEventPublisher;
 
     /**
      * 项目启动时，初始化参数到缓存
@@ -123,6 +130,17 @@ public class SysConfigServiceImpl implements ISysConfigService {
         int row = configMapper.updateConfig(config);
         if (row > 0) {
             cacheService.setCacheObject(getCacheKey(config.getConfigKey()), config.getConfigValue());
+        }
+
+        if (config.getConfigKey().equals("security.cas")) {
+            // 需要通知CAS配置更新（单体版有效）
+            sysEventPublisher.publishConfigEvent(SysEventConstants.SECURITY_CAS_CONFIG_UPDATE, null);
+
+            // 下面借助Redis的事假机制通知CAS配置更新（微服务版有效）
+            HashMap<String, Object> message = new HashMap<>();
+
+            message.put(Constants.REDIS_LISTENER_NAME, Constants.UPDATE_CAS_CONFIG_LISTENER);
+            cacheService.convertAndSend(Constants.REDIS_TOPIC_NAME, message);
         }
         return row;
     }

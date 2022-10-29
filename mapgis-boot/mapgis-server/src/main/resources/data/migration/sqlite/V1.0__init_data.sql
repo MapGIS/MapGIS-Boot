@@ -10,7 +10,7 @@
  Target Server Version : 3030001
  File Encoding         : 65001
 
- Date: 24/10/2022 16:21:22
+ Date: 29/10/2022 18:27:24
 */
 
 -- ----------------------------
@@ -167,6 +167,9 @@ VALUES (5, '安全配置-用户登录配置', 'security.login', '{"soloLoginEnab
 INSERT INTO "sys_config"
 VALUES (6, '安全配置-第三方登录配置', 'security.oauth', '{"defaultRoleIds":[3]}', 'Y', 'admin', '2022-03-23 22:12:32', '', NULL,
         '第三方登录配置');
+INSERT INTO "sys_config"
+VALUES (7, '安全设置-CAS登录配置', 'security.cas', '{"enabled":false,"isReserveDefaultLogin":false,"casServerUrl":""}', 'Y',
+        'admin', '2022-03-23 22:12:32', '', NULL, '第三方登录配置');
 
 -- ----------------------------
 -- Table structure for sys_dept
@@ -486,6 +489,9 @@ INSERT INTO "sys_menu"
 VALUES (117, '第三方登录配置', 3, 7, 'third', 'security/authConfig/index', NULL, 1, 0, 'C', 0, 0, 'system:authConfig:list',
         'team', 'admin', '2022-10-21 16:11:18', '', NULL, '第三方登录配置菜单');
 INSERT INTO "sys_menu"
+VALUES (118, 'CAS登录配置', 3, 8, 'cas', 'security/casConfig/index', NULL, 1, 0, 'C', 0, 0, 'system:config:query', 'cas',
+        'admin', '2022-10-27 14:55:00', '', NULL, 'CAS登录配置');
+INSERT INTO "sys_menu"
 VALUES (1000, '在线查询', 100, 1, '', '', '', 1, 0, 'F', 0, 0, 'monitor:online:query', '#', 'admin', '2022-03-23 22:12:32',
         '', NULL, '');
 INSERT INTO "sys_menu"
@@ -689,6 +695,9 @@ VALUES (1066, '第三方登录配置删除', 117, 4, '', '', '', 1, 0, 'F', 0, 0
 INSERT INTO "sys_menu"
 VALUES (1067, '第三方登录配置导出', 117, 5, '', '', '', 1, 0, 'F', 0, 0, 'system:authConfig:export', '#', 'admin',
         '2022-10-21 16:11:18', '', NULL, '');
+INSERT INTO "sys_menu"
+VALUES (1068, '配置修改', 118, 1, '', '', '', 1, 0, 'F', 0, 0, 'system:config:edit', '#', 'admin', '2022-10-27 14:55:41',
+        '', NULL, '');
 
 -- ----------------------------
 -- Table structure for sys_micro_app

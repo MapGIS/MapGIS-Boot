@@ -11,7 +11,7 @@
  Target Server Version : 50736
  File Encoding         : 65001
 
- Date: 24/10/2022 16:20:45
+ Date: 29/10/2022 18:03:30
 */
 
 SET NAMES utf8mb4;
@@ -116,7 +116,7 @@ CREATE TABLE `sys_auth_config`
     `remark`             varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '备注',
     PRIMARY KEY (`config_id`) USING BTREE
 ) ENGINE = InnoDB
-  AUTO_INCREMENT = 107
+  AUTO_INCREMENT = 1
   CHARACTER SET = utf8mb4
   COLLATE = utf8mb4_general_ci COMMENT = '第三方登录配置表'
   ROW_FORMAT = DYNAMIC;
@@ -142,7 +142,7 @@ CREATE TABLE `sys_auth_user`
     `create_time` datetime                                                      NULL DEFAULT NULL COMMENT '创建时间',
     PRIMARY KEY (`auth_id`) USING BTREE
 ) ENGINE = InnoDB
-  AUTO_INCREMENT = 110
+  AUTO_INCREMENT = 1
   CHARACTER SET = utf8mb4
   COLLATE = utf8mb4_general_ci COMMENT = '第三方授权表'
   ROW_FORMAT = DYNAMIC;
@@ -197,6 +197,9 @@ VALUES (5, '安全配置-登录配置', 'security.login',
 INSERT INTO `sys_config`
 VALUES (6, '安全配置-第三方登录配置', 'security.oauth', '{\"defaultRoleIds\":[3]}', 'Y', 'admin', '2022-03-23 22:12:32', '', NULL,
         '第三方登录配置');
+INSERT INTO `sys_config`
+VALUES (7, '安全设置-CAS登录配置', 'security.cas', '{\"enabled\":false,\"isReserveDefaultLogin\":false,\"casServerUrl\":\"\"}',
+        'Y', 'admin', '2022-03-23 22:12:32', '', NULL, '第三方登录配置');
 
 -- ----------------------------
 -- Table structure for sys_dept
@@ -558,6 +561,9 @@ INSERT INTO `sys_menu`
 VALUES (117, '第三方登录配置', 3, 7, 'third', 'security/authConfig/index', NULL, 1, 0, 'C', '0', '0', 'system:authConfig:list',
         'team', 'admin', '2022-10-21 16:11:18', '', NULL, '第三方登录配置菜单');
 INSERT INTO `sys_menu`
+VALUES (118, 'CAS登录配置', 3, 8, 'cas', 'security/casConfig/index', NULL, 1, 0, 'C', '0', '0', 'system:config:query',
+        'cas', 'admin', '2022-10-27 14:55:00', '', NULL, 'CAS登录配置');
+INSERT INTO `sys_menu`
 VALUES (1000, '在线查询', 100, 1, '', '', '', 1, 0, 'F', '0', '0', 'monitor:online:query', '#', 'admin',
         '2022-03-23 22:12:32', '', NULL, '');
 INSERT INTO `sys_menu`
@@ -761,6 +767,9 @@ VALUES (1066, '第三方登录配置删除', 117, 4, '', '', '', 1, 0, 'F', '0',
 INSERT INTO `sys_menu`
 VALUES (1067, '第三方登录配置导出', 117, 5, '', '', '', 1, 0, 'F', '0', '0', 'system:authConfig:export', '#', 'admin',
         '2022-10-21 16:11:18', '', NULL, '');
+INSERT INTO `sys_menu`
+VALUES (1068, '配置修改', 118, 1, '', '', '', 1, 0, 'F', '0', '0', 'system:config:edit', '#', 'admin',
+        '2022-10-27 14:55:41', '', NULL, '');
 
 -- ----------------------------
 -- Table structure for sys_micro_app
@@ -805,7 +814,7 @@ CREATE TABLE `sys_notice`
     `remark`         varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '备注',
     PRIMARY KEY (`notice_id`) USING BTREE
 ) ENGINE = InnoDB
-  AUTO_INCREMENT = 10
+  AUTO_INCREMENT = 1
   CHARACTER SET = utf8mb4
   COLLATE = utf8mb4_general_ci COMMENT = '通知公告表'
   ROW_FORMAT = DYNAMIC;
@@ -837,7 +846,7 @@ CREATE TABLE `sys_oper_log`
     `oper_time`      datetime                                                       NULL DEFAULT NULL COMMENT '操作时间',
     PRIMARY KEY (`oper_id`) USING BTREE
 ) ENGINE = InnoDB
-  AUTO_INCREMENT = 100
+  AUTO_INCREMENT = 1
   CHARACTER SET = utf8mb4
   COLLATE = utf8mb4_general_ci COMMENT = '操作日志记录'
   ROW_FORMAT = DYNAMIC;

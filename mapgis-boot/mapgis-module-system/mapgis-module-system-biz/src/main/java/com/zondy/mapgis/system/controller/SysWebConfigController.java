@@ -1,6 +1,10 @@
 package com.zondy.mapgis.system.controller;
 
+import cn.hutool.core.lang.Dict;
 import com.zondy.mapgis.common.controllerprefix.annotation.ManagerRestController;
+import com.zondy.mapgis.common.core.config.properties.ApiPathProperties;
+import com.zondy.mapgis.common.core.utils.JsonUtils;
+import com.zondy.mapgis.common.core.utils.StringUtils;
 import com.zondy.mapgis.common.core.web.domain.AjaxResult;
 import com.zondy.mapgis.system.api.domain.SysAuthConfig;
 import com.zondy.mapgis.system.service.ISysAuthConfigService;
@@ -27,6 +31,8 @@ public class SysWebConfigController {
 
     private final ISysAuthConfigService authConfigService;
 
+    private final ApiPathProperties apiPathProperties;
+
     /**
      * 获取系统配置信息
      */
@@ -40,6 +46,7 @@ public class SysWebConfigController {
         systemConfig.put("osArch", props.getProperty("os.arch"));
         systemConfig.put("javaVersion", props.getProperty("java.version"));
         systemConfig.put("oauthConfig", getAuthConfig());
+        systemConfig.put("casConfig", getCasConfig());
         return AjaxResult.success(systemConfig);
     }
 
@@ -70,5 +77,34 @@ public class SysWebConfigController {
         });
 
         return sysAuthConfigVoList;
+    }
+
+    private Map<String, Object> getCasConfig() {
+        Map<String, Object> casConfig = new LinkedHashMap<>();
+        String strConfig = configService.selectConfigValueByKey("security.cas");
+        Dict casConfigInfo = JsonUtils.parseMap(strConfig);
+        Boolean enabled = true;
+        Boolean isReserveDefaultLogin = false;
+        String casServerUrl = "";
+        String casServiceHostUrl = "";
+        String casServiceWebUrl = "";
+        String casLoginUrl = "", casLogoutUrl = "";
+
+        if (StringUtils.isNotEmpty(casConfigInfo)) {
+            enabled = casConfigInfo.get("enabled", Boolean.FALSE);
+            isReserveDefaultLogin = casConfigInfo.get("isReserveDefaultLogin", Boolean.FALSE);
+            casServerUrl = casConfigInfo.get("casServerUrl", "");
+            casServiceHostUrl = casConfigInfo.get("casServiceHostUrl", "");
+            casServiceWebUrl = casConfigInfo.get("casServiceWebUrl", "");
+        }
+
+        casLoginUrl = casServerUrl + "/login?service=" + casServiceHostUrl + apiPathProperties.getServicesPrefix() + "/auth/casLogin/login";
+        casLogoutUrl = casServerUrl + "/logout?service=" + casServiceWebUrl;
+
+        casConfig.put("enabled", enabled);
+        casConfig.put("isReserveDefaultLogin", isReserveDefaultLogin);
+        casConfig.put("casLoginUrl", casLoginUrl);
+        casConfig.put("casLogoutUrl", casLogoutUrl);
+        return casConfig;
     }
 }

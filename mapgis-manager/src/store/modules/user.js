@@ -78,23 +78,22 @@ const user = {
     },
 
     // 登出
-    Logout({ commit, state }) {
+    Logout({ commit, state, rootState }) {
       return new Promise((resolve, reject) => {
         logout(state.token)
           .then(() => {
-            if (window._CONFIG['enableSSO']) {
-              window.location.href = window._CONFIG['casLogoutUrl']
-            }
-            resolve()
-          })
-          .catch(error => {
-            reject(error)
-          })
-          .finally(() => {
             commit('SET_TOKEN', '')
             commit('SET_ROLES', [])
             commit('SET_PERMISSIONS', [])
             storage.remove(ACCESS_TOKEN)
+            resolve()
+            const casInfo = rootState.cas.info
+            if (casInfo && casInfo.enabled) {
+              window.location.href = casInfo.casLogoutUrl
+            }
+          })
+          .catch(error => {
+            reject(error)
           })
       })
     },

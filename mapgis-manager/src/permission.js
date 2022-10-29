@@ -8,6 +8,7 @@ import { setDocumentTitle } from '@/utils/domUtil'
 import { ACCESS_TOKEN } from '@/store/mutation-types'
 import { i18nRender } from '@/locales'
 import qs from 'qs'
+import { getSystemConfig } from '@/api/system/config'
 
 NProgress.configure({ showSpinner: false }) // NProgress Configuration
 
@@ -32,6 +33,8 @@ router.beforeEach((to, from, next) => {
           .then(async res => {
             // generate micro apps
             await store.dispatch('GenerateMicroApps')
+            // get cas info
+            await store.dispatch('GetCasInfo')
             // const roles = res.result && res.result.role
             const roles = res.roles
             // generate dynamic router
@@ -71,24 +74,28 @@ router.beforeEach((to, from, next) => {
       // 在免登录名单，直接进入
       next()
     } else {
-      if (window._CONFIG['enableSSO']) {
-        const queryParams = qs.parse(document.location.toString().split('?')[1])
-        const token = queryParams.token
+      getSystemConfig().then(res => {
+        const casInfo = res.data.casConfig
 
-        // 判断来源是不是cas的地址
-        if (
-          token &&
-          (window._CONFIG['casLoginUrl'].includes(document.referrer) ||
-            document.referrer.includes(document.location.host))
-        ) {
-          validateToken(token, to, from, next)
+        if (casInfo.enabled) {
+          const queryParams = qs.parse(document.location.toString().split('?')[1])
+          const token = queryParams.token
+
+          // 判断来源是不是cas的地址
+          if (
+            token &&
+            (casInfo.casLoginUrl.includes(document.referrer) || document.referrer.includes(document.location.host))
+          ) {
+            validateToken(casInfo, token, to, from, next)
+          } else {
+            nextToLogin(casInfo, to, from, next)
+          }
         } else {
-          window.location.href = window._CONFIG['casLoginUrl']
+          next({ path: loginRoutePath, query: { redirect: to.fullPath } })
         }
-      } else {
-        next({ path: loginRoutePath, query: { redirect: to.fullPath } })
-      }
-      NProgress.done() // if current page is login will not trigger afterEach hook, so manually handle it
+
+        NProgress.done() // if current page is login will not trigger afterEach hook, so manually handle it
+      })
     }
   }
 })
@@ -97,7 +104,7 @@ router.afterEach(() => {
   NProgress.done() // finish progress bar
 })
 
-function validateToken(token, to, from, next) {
+function validateToken(casInfo, token, to, from, next) {
   store
     .dispatch('ValidateLogin', token)
     .then(res => {
@@ -105,6 +112,14 @@ function validateToken(token, to, from, next) {
       window.location.href = url
     })
     .catch(() => {
-      window.location.href = window._CONFIG['casLoginUrl']
+      nextToLogin(casInfo, to, from, next)
     })
+}
+
+function nextToLogin(casInfo, to, from, next) {
+  if (casInfo.isReserveDefaultLogin) {
+    next({ path: loginRoutePath, query: { redirect: to.fullPath } })
+  } else {
+    window.location.href = casInfo.casLoginUrl
+  }
 }

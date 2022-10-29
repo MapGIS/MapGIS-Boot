@@ -98,4 +98,9 @@ public class Constants {
      * 刷新网关路由表的监听器名称
      */
     public static final String REFRESH_ROUTES_LISTENER = "refreshRoutesListener";
+
+    /**
+     * 更新CAS配置的监听器名称
+     */
+    public static final String UPDATE_CAS_CONFIG_LISTENER = "updateCasConfigListener";
 }

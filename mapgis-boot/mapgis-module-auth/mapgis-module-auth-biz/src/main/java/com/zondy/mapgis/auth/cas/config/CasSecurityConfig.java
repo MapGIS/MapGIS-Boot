@@ -1,6 +1,5 @@
 package com.zondy.mapgis.auth.cas.config;
 
-import com.zondy.mapgis.auth.cas.config.properties.CasProperties;
 import com.zondy.mapgis.auth.cas.handler.CasAuthenticationSuccessHandlerImpl;
 import com.zondy.mapgis.auth.cas.service.CasUserDetailsServiceImpl;
 import com.zondy.mapgis.common.core.config.ProductConfig;
@@ -8,12 +7,12 @@ import com.zondy.mapgis.common.core.config.properties.ApiPathProperties;
 import com.zondy.mapgis.common.security.filter.JwtAuthenticationTokenFilter;
 import com.zondy.mapgis.common.security.handler.AuthenticationEntryPointImpl;
 import com.zondy.mapgis.common.security.handler.LogoutSuccessHandlerImpl;
+import com.zondy.mapgis.system.api.service.SysServiceProxy;
 import org.jasig.cas.client.session.SingleSignOutFilter;
 import org.jasig.cas.client.session.SingleSignOutHttpSessionListener;
 import org.jasig.cas.client.validation.Cas20ServiceTicketValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.web.servlet.ServletListenerRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpMethod;
@@ -26,9 +25,12 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.logout.LogoutFilter;
-import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.web.filter.CorsFilter;
+
+import java.util.Map;
 
 /**
  * spring security cas默认配置
@@ -37,13 +39,18 @@ import org.springframework.web.filter.CorsFilter;
  * @since 2022/6/9 16:18
  */
 @EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
-@ConditionalOnProperty(prefix = "cas", name = "enabled", havingValue = "true")
 public class CasSecurityConfig extends WebSecurityConfigurerAdapter {
     /**
      * 资源映射路径前缀
      */
     @Value("${file.prefix:/file}")
     public String filePrefix;
+
+    /**
+     * 自定义用户认证逻辑
+     */
+    @Autowired
+    private UserDetailsService userDetailsService;
 
     /**
      * 认证失败处理类
@@ -82,12 +89,6 @@ public class CasSecurityConfig extends WebSecurityConfigurerAdapter {
     private ApiPathProperties apiPathProperties;
 
     /**
-     * CAS配置
-     */
-    @Autowired
-    private CasProperties casProperties;
-
-    /**
      * 自定义用户认证逻辑
      */
     @Autowired
@@ -98,6 +99,12 @@ public class CasSecurityConfig extends WebSecurityConfigurerAdapter {
      */
     @Autowired
     private CasAuthenticationSuccessHandlerImpl casAuthenticationSuccessHandler;
+
+    /**
+     * 系统服务代理
+     */
+    @Autowired
+    private SysServiceProxy sysServiceProxy;
 
     /**
      * 解决 无法直接注入 AuthenticationManager
@@ -175,7 +182,6 @@ public class CasSecurityConfig extends WebSecurityConfigurerAdapter {
         httpSecurity.addFilter(casAuthenticationFilter());
         // 添加JWT filter
         httpSecurity.addFilterBefore(authenticationTokenFilter, CasAuthenticationFilter.class);
-        httpSecurity.addFilterBefore(casLogoutFilter(), LogoutFilter.class);
         httpSecurity.addFilterBefore(singleSignOutFilter(), CasAuthenticationFilter.class);
 
         // 添加CORS filter
@@ -184,24 +190,20 @@ public class CasSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     /**
+     * 强散列哈希加密实现
+     */
+    @Bean
+    public BCryptPasswordEncoder bCryptPasswordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
+    /**
      * 身份认证接口
      */
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        super.configure(auth);
+        auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder());
         auth.authenticationProvider(casAuthenticationProvider());
-    }
-
-    /**
-     * 指定service相关信息
-     */
-    @Bean
-    public ServiceProperties serviceProperties() {
-        ServiceProperties serviceProperties = new ServiceProperties();
-        // 设置cas客户端登录完整的url
-        serviceProperties.setService(casProperties.getCasServiceUrl() + casProperties.getCasServiceLoginUrl());
-        serviceProperties.setAuthenticateAllArtifacts(true);
-        return serviceProperties;
     }
 
     /**
@@ -211,8 +213,8 @@ public class CasSecurityConfig extends WebSecurityConfigurerAdapter {
     public CasAuthenticationFilter casAuthenticationFilter() throws Exception {
         CasAuthenticationFilter casAuthenticationFilter = new CasAuthenticationFilter();
         casAuthenticationFilter.setAuthenticationManager(authenticationManager());
-        casAuthenticationFilter.setFilterProcessesUrl(casProperties.getCasServiceLoginUrl());
         casAuthenticationFilter.setAuthenticationSuccessHandler(casAuthenticationSuccessHandler);
+        // casAuthenticationFilter.setFilterProcessesUrl在SysConfigEvent事件响应中动态设置
         return casAuthenticationFilter;
     }
 
@@ -223,18 +225,11 @@ public class CasSecurityConfig extends WebSecurityConfigurerAdapter {
     public CasAuthenticationProvider casAuthenticationProvider() {
         CasAuthenticationProvider casAuthenticationProvider = new CasAuthenticationProvider();
         casAuthenticationProvider.setAuthenticationUserDetailsService(casUserDetailsService);
-        casAuthenticationProvider.setServiceProperties(serviceProperties());
-        casAuthenticationProvider.setTicketValidator(cas20ServiceTicketValidator());
         casAuthenticationProvider.setKey("casAuthenticationProviderKey");
+        casAuthenticationProvider.setTicketValidator(new Cas20ServiceTicketValidator(""));
+        // casAuthenticationFilter.setServiceProperties在SysConfigEvent事件响应中动态设置
+        // casAuthenticationFilter.setTicketValidator在SysConfigEvent事件响应中动态设置
         return casAuthenticationProvider;
-    }
-
-    /**
-     * CAS票证验证器
-     */
-    @Bean
-    public Cas20ServiceTicketValidator cas20ServiceTicketValidator() {
-        return new Cas20ServiceTicketValidator(casProperties.getCasServerUrl());
     }
 
     /**
@@ -248,21 +243,31 @@ public class CasSecurityConfig extends WebSecurityConfigurerAdapter {
         return singleSignOutFilter;
     }
 
-    /**
-     * 单点退出过滤器
-     * 用于跳转到cas服务端
-     */
-    @Bean
-    public LogoutFilter casLogoutFilter() {
-        LogoutFilter logoutFilter = new LogoutFilter(casProperties.getCasServerLogoutUrl(), new SecurityContextLogoutHandler());
-        logoutFilter.setFilterProcessesUrl(casProperties.getCasServiceLogoutUrl());
-        return logoutFilter;
-    }
-
     @Bean
     public ServletListenerRegistrationBean<SingleSignOutHttpSessionListener> singleSignOutHttpSessionListener() {
         ServletListenerRegistrationBean<SingleSignOutHttpSessionListener> servletListenerRegistrationBean = new ServletListenerRegistrationBean<>();
         servletListenerRegistrationBean.setListener(new SingleSignOutHttpSessionListener());
         return servletListenerRegistrationBean;
+    }
+
+    public void updateCasSecurityConfig() {
+        Map<String, Object> casConfig = sysServiceProxy.getCasConfig();
+        ServiceProperties serviceProperties = new ServiceProperties();
+        CasAuthenticationProvider casAuthenticationProvider = casAuthenticationProvider();
+        CasAuthenticationFilter casAuthenticationFilter = null;
+
+        try {
+            casAuthenticationFilter = casAuthenticationFilter();
+        } catch (Exception e) {
+            return;
+        }
+
+        // 设置cas客户端登录完整的url
+        serviceProperties.setService((String) casConfig.get("casServiceLoginUrl"));
+        serviceProperties.setAuthenticateAllArtifacts(true);
+
+        casAuthenticationFilter.setFilterProcessesUrl((String) casConfig.get("casServiceLoginPath"));
+        casAuthenticationProvider.setServiceProperties(serviceProperties);
+        casAuthenticationProvider.setTicketValidator(new Cas20ServiceTicketValidator((String) casConfig.get("casServerUrl")));
     }
 }

@@ -50,6 +50,9 @@
         </a-button>
       </a-form-item>
       <div class="user-login-other">
+        <cas-login></cas-login>
+      </div>
+      <div class="user-login-other">
         <third-login ref="thirdLogin"></third-login>
       </div>
     </a-form-model>
@@ -62,10 +65,12 @@ import { getCodeImg } from '@/api/login'
 import { LOGIN_USERNAME, LOGIN_PASSWORD, LOGIN_REMEMBERME } from '@/store/mutation-types'
 import storage from 'store'
 import ThirdLogin from './third/ThirdLogin'
+import CasLogin from './cas/CasLogin'
 
 export default {
   components: {
-    ThirdLogin
+    ThirdLogin,
+    CasLogin
   },
   data() {
     return {

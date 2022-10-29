@@ -36,5 +36,8 @@ public class MapSystemApplication implements CommandLineRunner {
 
         message.put(Constants.REDIS_LISTENER_NAME, Constants.REFRESH_ROUTES_LISTENER);
         cacheService.convertAndSend(Constants.REDIS_TOPIC_NAME, message);
+
+        message.put(Constants.REDIS_LISTENER_NAME, Constants.UPDATE_CAS_CONFIG_LISTENER);
+        cacheService.convertAndSend(Constants.REDIS_TOPIC_NAME, message);
     }
 }
