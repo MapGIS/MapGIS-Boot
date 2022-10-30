@@ -1,6 +1,12 @@
 <template>
   <div>
-    <a-form-model v-if="configLoaded" :label-col="{ span: 4 }" :wrapper-col="{ span: 12 }" ref="form" :model="form">
+    <a-form-model
+      v-if="configLoaded"
+      :labelCol="{ lg: { span: 7 }, sm: { span: 7 } }"
+      :wrapperCol="{ lg: { span: 10 }, sm: { span: 17 } }"
+      ref="form"
+      :model="form"
+    >
       <a-form-model-item label="是否允许同时登录" prop="soloLoginEnabled">
         <a-checkbox :checked="form.soloLoginEnabled" @change="handleSoloLoginChange" />
       </a-form-model-item>
@@ -23,7 +29,7 @@
           </div>
         </div>
       </a-form-model-item>
-      <a-form-model-item :wrapper-col="{ span: 12, offset: 4 }">
+      <a-form-model-item :wrapper-col="{ lg: { span: 10, offset: 7 }, sm: { span: 17, offset: 7 } }">
         <a-button type="primary" :loading="submitLoading" @click="submit" v-hasPermi="['system:config:edit']">
           保存
         </a-button>

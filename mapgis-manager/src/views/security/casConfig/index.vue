@@ -3,8 +3,8 @@
     <a-card>
       <a-form-model
         v-if="configLoaded"
-        :label-col="{ span: 4 }"
-        :wrapper-col="{ span: 12 }"
+        :labelCol="{ lg: { span: 7 }, sm: { span: 7 } }"
+        :wrapperCol="{ lg: { span: 10 }, sm: { span: 17 } }"
         ref="form"
         :model="form"
         :rules="rules"
@@ -18,7 +18,7 @@
         <a-form-model-item label="CAS服务器访问地址" prop="casServerUrl">
           <a-input v-model="form.casServerUrl" placeholder="http://{host}:{port}/cas" />
         </a-form-model-item>
-        <a-form-model-item :wrapper-col="{ span: 12, offset: 4 }">
+        <a-form-model-item :wrapper-col="{ lg: { span: 10, offset: 7 }, sm: { span: 17, offset: 7 } }">
           <a-button type="primary" :loading="submitLoading" @click="submit" v-hasPermi="['system:config:edit']">
             保存
           </a-button>

@@ -2,7 +2,13 @@
   <div class="account-settings-info-view">
     <a-row :gutter="16">
       <a-col :md="24" :lg="16">
-        <a-form-model :label-col="{ span: 4 }" :wrapper-col="{ span: 16 }" :rules="rules" :model="user" ref="form">
+        <a-form-model
+          :labelCol="{ lg: { span: 7 }, sm: { span: 7 } }"
+          :wrapperCol="{ lg: { span: 10 }, sm: { span: 17 } }"
+          :rules="rules"
+          :model="user"
+          ref="form"
+        >
           <a-form-model-item label="用户名" ref="userName" prop="userName">
             <span>{{ user.userName }}</span>
           </a-form-model-item>
@@ -22,7 +28,7 @@
             <a-input v-model="user.phonenumber" placeholder="请填写手机号" />
           </a-form-model-item>
           <a-form-model-item label="电子邮件" prop="email">
-            <a-input v-model="user.email" placeholder="请填写手机号邮箱" />
+            <a-input v-model="user.email" placeholder="请填写邮箱" />
           </a-form-model-item>
           <a-form-model-item label="性别" prop="sex">
             <a-radio-group v-model="user.sex">
@@ -33,7 +39,7 @@
           <a-form-model-item label="备注" prop="remark">
             <a-input v-model="user.remark" placeholder="请输入" type="textarea" />
           </a-form-model-item>
-          <a-form-model-item :wrapper-col="{ span: 16, offset: 4 }">
+          <a-form-model-item :wrapper-col="{ lg: { span: 10, offset: 7 }, sm: { span: 17, offset: 7 } }">
             <a-button type="primary" :loading="submitLoading" @click="submit">保存</a-button>
           </a-form-model-item>
         </a-form-model>
