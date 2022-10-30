@@ -3,6 +3,7 @@ package com.zondy.mapgis.system.controller;
 import cn.hutool.core.lang.Dict;
 import com.zondy.mapgis.common.controllerprefix.annotation.ManagerRestController;
 import com.zondy.mapgis.common.core.config.properties.ApiPathProperties;
+import com.zondy.mapgis.common.core.constant.ConfigConstants;
 import com.zondy.mapgis.common.core.utils.JsonUtils;
 import com.zondy.mapgis.common.core.utils.StringUtils;
 import com.zondy.mapgis.common.core.web.domain.AjaxResult;
@@ -56,7 +57,7 @@ public class SysWebConfigController {
     @Operation(summary = "获取基本配置信息")
     @GetMapping(value = "/base")
     public AjaxResult getBaseConfig() {
-        return AjaxResult.success().put(AjaxResult.DATA_TAG, configService.selectConfigValueByKey("system.base"));
+        return AjaxResult.success().put(AjaxResult.DATA_TAG, configService.selectConfigValueByKey(ConfigConstants.CONFIG_KEY_SYSTEM_BASE));
     }
 
     private List<Map<String, Object>> getAuthConfig() {
@@ -81,7 +82,7 @@ public class SysWebConfigController {
 
     private Map<String, Object> getCasConfig() {
         Map<String, Object> casConfig = new LinkedHashMap<>();
-        String strConfig = configService.selectConfigValueByKey("security.cas");
+        String strConfig = configService.selectConfigValueByKey(ConfigConstants.CONFIG_KEY_SECURITY_CAS);
         Dict casConfigInfo = JsonUtils.parseMap(strConfig);
         Boolean enabled = true;
         Boolean isReserveDefaultLogin = false;

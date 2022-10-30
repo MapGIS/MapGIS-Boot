@@ -1,5 +1,6 @@
 package com.zondy.mapgis.system.service.impl;
 
+import com.zondy.mapgis.common.core.constant.ConfigConstants;
 import com.zondy.mapgis.common.core.constant.UserConstants;
 import com.zondy.mapgis.common.core.exception.ServiceException;
 import com.zondy.mapgis.common.core.utils.StringUtils;
@@ -444,7 +445,7 @@ public class SysUserServiceImpl implements ISysUserService {
         int failureNum = 0;
         StringBuilder successMsg = new StringBuilder();
         StringBuilder failureMsg = new StringBuilder();
-        String password = configService.selectConfigValueByKey("security.initPassword");
+        String password = configService.selectConfigValueByKey(ConfigConstants.CONFIG_KEY_SECURITY_INIT_PASSWORD);
         for (SysUser user : userList) {
             try {
                 // 验证是否存在这个用户

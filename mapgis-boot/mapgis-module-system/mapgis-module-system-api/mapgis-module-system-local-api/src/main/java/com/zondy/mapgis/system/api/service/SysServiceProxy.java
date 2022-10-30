@@ -2,6 +2,7 @@ package com.zondy.mapgis.system.api.service;
 
 import cn.hutool.core.lang.Dict;
 import com.zondy.mapgis.common.core.config.properties.ApiPathProperties;
+import com.zondy.mapgis.common.core.constant.ConfigConstants;
 import com.zondy.mapgis.common.core.constant.SecurityConstants;
 import com.zondy.mapgis.common.core.domain.R;
 import com.zondy.mapgis.common.core.exception.ServiceException;
@@ -53,7 +54,7 @@ public class SysServiceProxy {
      * @return 用户初始密码
      */
     public String getInitPasswordConfig() {
-        return selectConfigValueByKey("security.initPassword");
+        return selectConfigValueByKey(ConfigConstants.CONFIG_KEY_SECURITY_INIT_PASSWORD);
     }
 
     /**
@@ -63,7 +64,7 @@ public class SysServiceProxy {
      */
     public Map<String, Object> getRegisterConfig() {
         Map<String, Object> config = new LinkedHashMap<>();
-        String strConfig = selectConfigValueByKey("security.register");
+        String strConfig = selectConfigValueByKey(ConfigConstants.CONFIG_KEY_SECURITY_REGISTER);
 
         Dict registerUserInfo = JsonUtils.parseMap(strConfig);
         Boolean enabled = true;
@@ -90,7 +91,7 @@ public class SysServiceProxy {
      */
     public Map<String, Object> getLoginConfig() {
         Map<String, Object> config = new LinkedHashMap<>();
-        String strConfig = selectConfigValueByKey("security.login");
+        String strConfig = selectConfigValueByKey(ConfigConstants.CONFIG_KEY_SECURITY_LOGIN);
 
         Dict loginInfo = JsonUtils.parseMap(strConfig);
         Boolean soloLoginEnabled = true;
@@ -116,7 +117,7 @@ public class SysServiceProxy {
      */
     public Map<String, Object> getPasswordProtectedConfig() {
         Map<String, Object> config = new LinkedHashMap<>();
-        String strConfig = selectConfigValueByKey("security.passwordProtected");
+        String strConfig = selectConfigValueByKey(ConfigConstants.CONFIG_KEY_SECURITY_PASSWORD_PROTECTED);
         Dict passwordProtectedInfo = JsonUtils.parseMap(strConfig);
 
         Boolean enabled = Boolean.FALSE;
@@ -155,7 +156,7 @@ public class SysServiceProxy {
      */
     public Map<String, Object> getOAuthConfig() {
         Map<String, Object> config = new LinkedHashMap<>();
-        String strConfig = selectConfigValueByKey("security.oauth");
+        String strConfig = selectConfigValueByKey(ConfigConstants.CONFIG_KEY_SECURITY_OAUTH);
 
         Dict thirdUserInfo = JsonUtils.parseMap(strConfig);
         Long[] roleIds = new Long[0];
@@ -179,7 +180,7 @@ public class SysServiceProxy {
      */
     public Map<String, Object> getCasConfig() {
         Map<String, Object> config = new LinkedHashMap<>();
-        String strConfig = selectConfigValueByKey("security.cas");
+        String strConfig = selectConfigValueByKey(ConfigConstants.CONFIG_KEY_SECURITY_CAS);
         Dict casConfigInfo = JsonUtils.parseMap(strConfig);
         Boolean enabled = true;
         String casServerUrl = "";

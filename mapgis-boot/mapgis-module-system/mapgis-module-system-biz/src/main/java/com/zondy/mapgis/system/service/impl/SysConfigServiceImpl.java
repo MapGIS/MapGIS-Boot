@@ -2,6 +2,7 @@ package com.zondy.mapgis.system.service.impl;
 
 import com.zondy.mapgis.common.cache.service.CacheService;
 import com.zondy.mapgis.common.core.constant.CacheConstants;
+import com.zondy.mapgis.common.core.constant.ConfigConstants;
 import com.zondy.mapgis.common.core.constant.Constants;
 import com.zondy.mapgis.common.core.constant.UserConstants;
 import com.zondy.mapgis.common.core.exception.ServiceException;
@@ -132,7 +133,7 @@ public class SysConfigServiceImpl implements ISysConfigService {
             cacheService.setCacheObject(getCacheKey(config.getConfigKey()), config.getConfigValue());
         }
 
-        if (config.getConfigKey().equals("security.cas")) {
+        if (config.getConfigKey().equals(ConfigConstants.CONFIG_KEY_SECURITY_CAS)) {
             // 需要通知CAS配置更新（单体版有效）
             sysEventPublisher.publishConfigEvent(SysEventConstants.SECURITY_CAS_CONFIG_UPDATE, null);
 
