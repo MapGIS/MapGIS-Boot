@@ -4,8 +4,8 @@
       <a-form-model-item label="是否启用注册功能" prop="enabled">
         <a-checkbox :checked="form.enabled" @change="handleChange" />
       </a-form-model-item>
-      <a-form-model-item label="注册用户的默认角色" prop="roleIds">
-        <a-select mode="multiple" v-model="form.roleIds" placeholder="请选择">
+      <a-form-model-item label="注册用户的默认角色" prop="defaultRoleIds">
+        <a-select mode="multiple" v-model="form.defaultRoleIds" placeholder="请选择">
           <a-select-option v-for="(d, index) in roleOptions" :key="index" :value="d.roleId">
             {{ d.roleName }}
           </a-select-option>
@@ -48,10 +48,7 @@ export default {
     this.configInfo = configInfoResult.data
     const configValue = merge(defaultConfigValue, this.configInfo && JSON.parse(this.configInfo.configValue || '{}'))
 
-    this.form = Object.assign({}, this.form, {
-      enabled: configValue.enabled,
-      roleIds: configValue.defaultRoleIds
-    })
+    this.form = Object.assign({}, this.form, { ...configValue })
 
     this.configLoaded = true
   },
@@ -63,10 +60,7 @@ export default {
       this.$refs.form.validate(valid => {
         if (valid) {
           this.submitLoading = true
-          this.configInfo.configValue = JSON.stringify({
-            enabled: this.form.enabled,
-            defaultRoleIds: this.form.roleIds
-          })
+          this.configInfo.configValue = JSON.stringify({ ...this.form })
           updateConfig(this.configInfo)
             .then(response => {
               this.$message.success('设置成功', 3)

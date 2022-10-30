@@ -57,11 +57,7 @@ export default {
     this.configInfo = configInfoResult.data
     const configValue = merge(defaultConfigValue, this.configInfo && JSON.parse(this.configInfo.configValue || '{}'))
 
-    this.form = Object.assign({}, this.form, {
-      soloLoginEnabled: configValue.soloLoginEnabled,
-      captchaEnabled: configValue.captchaEnabled,
-      captchaType: configValue.captchaType
-    })
+    this.form = Object.assign({}, this.form, { ...configValue })
 
     this.configLoaded = true
   },
@@ -76,11 +72,7 @@ export default {
       this.$refs.form.validate(valid => {
         if (valid) {
           this.submitLoading = true
-          this.configInfo.configValue = JSON.stringify({
-            soloLoginEnabled: this.form.soloLoginEnabled,
-            captchaEnabled: this.form.captchaEnabled,
-            captchaType: this.form.captchaType
-          })
+          this.configInfo.configValue = JSON.stringify({ ...this.form })
           updateConfig(this.configInfo)
             .then(response => {
               this.$message.success('设置成功', 3)

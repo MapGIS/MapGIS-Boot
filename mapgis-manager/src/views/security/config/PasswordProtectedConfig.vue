@@ -44,11 +44,7 @@ export default {
     this.configInfo = configInfoResult.data
     const configValue = merge(defaultConfigValue, this.configInfo && JSON.parse(this.configInfo.configValue || '{}'))
 
-    this.form = Object.assign({}, this.form, {
-      enabled: configValue.enabled,
-      maxRetryCount: configValue.maxRetryCount,
-      lockTime: configValue.lockTime
-    })
+    this.form = Object.assign({}, this.form, { ...configValue })
 
     this.configLoaded = true
   },
@@ -60,11 +56,7 @@ export default {
       this.$refs.form.validate(valid => {
         if (valid) {
           this.submitLoading = true
-          this.configInfo.configValue = JSON.stringify({
-            enabled: this.form.enabled,
-            maxRetryCount: this.form.maxRetryCount,
-            lockTime: this.form.lockTime
-          })
+          this.configInfo.configValue = JSON.stringify({ ...this.form })
           updateConfig(this.configInfo)
             .then(response => {
               this.$message.success('设置成功', 3)
