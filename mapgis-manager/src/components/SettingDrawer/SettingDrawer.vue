@@ -123,7 +123,7 @@
                 <a-switch
                   slot="actions"
                   size="small"
-                  :defaultChecked="hideFooter"
+                  :checked="hideFooter"
                   @change="checked => handleChange('hideFooter', checked)"
                 />
               </a-list-item>
@@ -132,7 +132,7 @@
                 <a-switch
                   slot="actions"
                   size="small"
-                  :defaultChecked="multiTab"
+                  :checked="multiTab"
                   @change="checked => handleChange('multiTab', checked)"
                 />
               </a-list-item>
@@ -147,7 +147,7 @@
                 <span>表格大小</span>
                 <a-radio-group
                   slot="actions"
-                  :default-value="tableSize"
+                  :value="tableSize"
                   size="small"
                   button-style="solid"
                   @change="e => handleChange('tableSize', e.target.value)"

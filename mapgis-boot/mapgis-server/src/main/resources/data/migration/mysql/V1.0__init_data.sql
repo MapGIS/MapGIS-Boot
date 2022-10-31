@@ -11,7 +11,7 @@
  Target Server Version : 50736
  File Encoding         : 65001
 
- Date: 29/10/2022 18:03:30
+ Date: 31/10/2022 15:51:45
 */
 
 SET NAMES utf8mb4;
@@ -563,6 +563,9 @@ VALUES (117, '第三方登录配置', 3, 7, 'third', 'security/authConfig/index'
 INSERT INTO `sys_menu`
 VALUES (118, 'CAS登录配置', 3, 8, 'cas', 'security/casConfig/index', NULL, 1, 0, 'C', '0', '0', 'system:config:query',
         'cas', 'admin', '2022-10-27 14:55:00', '', NULL, 'CAS登录配置');
+INSERT INTO `sys_menu`
+VALUES (119, '主题配置', 7, 2, 'theme', 'config/theme/index', NULL, 1, 0, 'C', '0', '0', '', 'skin', 'admin',
+        '2022-10-31 11:39:51', '', NULL, '主题配置菜单');
 INSERT INTO `sys_menu`
 VALUES (1000, '在线查询', 100, 1, '', '', '', 1, 0, 'F', '0', '0', 'monitor:online:query', '#', 'admin',
         '2022-03-23 22:12:32', '', NULL, '');

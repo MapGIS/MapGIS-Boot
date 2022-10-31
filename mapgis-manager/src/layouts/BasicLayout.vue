@@ -9,13 +9,6 @@
     :i18nRender="i18nRender"
     v-bind="settings"
   >
-    <!-- Ads begin
-      广告代码 真实项目中请移除
-      production remove this Ads
-    -->
-    <!-- <ads v-if="isProPreviewSite && !collapsed"/> -->
-    <!-- Ads end -->
-
     <!-- layout content -->
     <!-- 2021.01.15 默认固定页头，去掉样式paddingTop: fixedHeader ? '64' : '0'  -->
     <a-layout-content :style="{ height: '100%', margin: '0 0 0px 0' }">
@@ -96,8 +89,6 @@ export default {
     return {
       // preview.pro.antdv.com only use.
       isProPreviewSite: process.env.VUE_APP_PREVIEW === 'true',
-      // end
-      // base
       menus: [],
       // 侧栏展开状态
       collapsed: false,
@@ -135,6 +126,50 @@ export default {
       mounting: state => state.microApps.mounting
     })
   },
+  watch: {
+    navTheme(val) {
+      this.settings.theme = val
+    },
+    primaryColor(val) {
+      this.settings.primaryColor = val
+    },
+    layout(val) {
+      this.settings.layout = val
+      if (val !== 'topmenu') {
+        this.settings.contentWidth = CONTENT_WIDTH_TYPE.Fluid
+        if (val === 'mixmenu') {
+          this.settings.fixedHeader = true
+        }
+      } else {
+        this.settings.fixSiderbar = false
+        this.settings.contentWidth = CONTENT_WIDTH_TYPE.Fixed
+      }
+    },
+    contentWidth(val) {
+      this.settings.contentWidth = val
+    },
+    fixedHeader(val) {
+      this.settings.fixedHeader = val
+    },
+    fixedSidebar(val) {
+      this.settings.fixSiderbar = val
+    },
+    hideFooter(val) {
+      this.settings.hideFooter = val
+    },
+    multiTab(val) {
+      this.settings.multiTab = val
+    },
+    colorWeak(val) {
+      this.settings.colorWeak = val
+    },
+    tableSize(val) {
+      this.settings.tableSize = val
+    },
+    tableBordered(val) {
+      this.settings.tableBordered = val
+    }
+  },
   created() {
     const routes = this.mainMenu.find(item => item.path === '/')
     this.menus = (routes && routes.children) || []
@@ -144,19 +179,18 @@ export default {
     })
   },
   mounted() {
-    if (this.isProPreviewSite) {
-      this.settings.layout = this.layout
-      this.settings.contentWidth = this.contentWidth
-      this.settings.theme = this.navTheme
-      this.settings.primaryColor = this.primaryColor
-      this.settings.fixedHeader = this.fixedHeader
-      this.settings.fixSiderbar = this.fixedSidebar
-      this.settings.multiTab = this.multiTab
-      this.settings.colorWeak = this.colorWeak
-      this.settings.tableSize = this.tableSize
-      this.settings.tableBordered = this.tableBordered
-      this.settings.hideFooter = this.hideFooter
-    }
+    this.settings.layout = this.layout
+    this.settings.contentWidth = this.contentWidth
+    this.settings.theme = this.navTheme
+    this.settings.primaryColor = this.primaryColor
+    this.settings.fixedHeader = this.fixedHeader
+    this.settings.fixSiderbar = this.fixedSidebar
+    this.settings.multiTab = this.multiTab
+    this.settings.colorWeak = this.colorWeak
+    this.settings.tableSize = this.tableSize
+    this.settings.tableBordered = this.tableBordered
+    this.settings.hideFooter = this.hideFooter
+
     this.collapsed = this.sideCollapsed
     const userAgent = navigator.userAgent
     if (userAgent.indexOf('Edge') > -1) {
@@ -168,11 +202,7 @@ export default {
       })
     }
 
-    // first update color
-    // TIPS: THEME COLOR HANDLER!! PLEASE CHECK THAT!!
-    if (process.env.NODE_ENV !== 'production' || process.env.VUE_APP_PREVIEW === 'true') {
-      updateTheme(this.navTheme, this.settings.primaryColor)
-    }
+    updateTheme(this.navTheme, this.settings.primaryColor)
 
     getBaseConfig().then(response => {
       const configValue = response.data
@@ -215,7 +245,6 @@ export default {
           this.$store.commit(TOGGLE_COLOR, value)
           break
         case 'contentWidth':
-          this.settings[type] = value
           this.$store.commit(TOGGLE_CONTENT_WIDTH, value)
           break
         case 'layout':
