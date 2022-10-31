@@ -28,7 +28,6 @@ export const HeaderViewProps = {
 
 const renderContent = (h, props) => {
   const isTop = props.layout === 'topmenu' || props.layout === 'mixmenu'
-  const maxWidth = 1200 - 280 - 120
   const contentWidth = props.contentWidth === 'Fixed'
   const baseCls = 'ant-pro-top-nav-header'
   const { logo, title, theme, isMobile, headerRender, rightContentRender, menuHeaderRender } = props
@@ -51,7 +50,7 @@ const renderContent = (h, props) => {
               </div>
             </div>
           )}
-          <div class={`${baseCls}-menu`} style={{ maxWidth: `${maxWidth}px`, flex: 1 }}>
+          <div class={`${baseCls}-menu`} style={{ flex: 1, overflow: 'auto' }}>
             <BaseMenu {...{ props: props }} />
           </div>
           {(isFun(rightContentRender) && rightContentRender(h, rightContentProps)) || rightContentRender}
