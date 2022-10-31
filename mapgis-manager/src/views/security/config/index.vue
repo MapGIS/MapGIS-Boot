@@ -1,6 +1,6 @@
 <template>
   <page-header-wrapper>
-    <a-card :bordered="false" :bodyStyle="{ padding: '16px 0', height: '100%' }" :style="{ height: '100%' }">
+    <a-card :bordered="false" :bodyStyle="{ height: '100%' }" :style="{ height: '100%' }">
       <div class="security-settings-info-main" :class="{ mobile: isMobile }">
         <div class="security-settings-info-left">
           <a-menu :mode="isMobile ? 'horizontal' : 'inline'" v-model="currentKey" :style="{ border: '0' }" type="inner">
@@ -10,9 +10,6 @@
           </a-menu>
         </div>
         <div class="security-settings-info-right">
-          <div class="security-settings-info-title">
-            <span>{{ currentTitle }}</span>
-          </div>
           <keep-alive>
             <template v-for="item in configItems">
               <component :is="item.component" :key="item.key" v-if="currentKey.indexOf(item.key) > -1"></component>
@@ -94,13 +91,6 @@ export default {
     flex: 1 1;
     padding: 8px 40px;
 
-    .security-settings-info-title {
-      color: rgba(0, 0, 0, 0.85);
-      font-size: 20px;
-      font-weight: 500;
-      line-height: 28px;
-      margin-bottom: 12px;
-    }
     .security-settings-info-view {
       padding-top: 12px;
     }
