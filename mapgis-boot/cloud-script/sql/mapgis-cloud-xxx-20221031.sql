@@ -199,7 +199,7 @@ VALUES (6, '安全配置-第三方登录配置', 'security.oauth', '{\"defaultRo
         '第三方登录配置');
 INSERT INTO `sys_config`
 VALUES (7, '安全配置-CAS登录配置', 'security.cas', '{\"enabled\":false,\"isReserveDefaultLogin\":false,\"casServerUrl\":\"\"}',
-        'Y', 'admin', '2022-03-23 22:12:32', '', NULL, '第三方登录配置');
+        'Y', 'admin', '2022-03-23 22:12:32', '', NULL, 'CAS登录配置');
 
 -- ----------------------------
 -- Table structure for sys_dept
