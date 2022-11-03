@@ -124,7 +124,7 @@ public class SysServiceProxy {
         Integer maxRetryCount = 5;
         Integer lockTime = 10;
 
-        if (StringUtils.isEmpty(passwordProtectedInfo)) {
+        if (StringUtils.isNotEmpty(passwordProtectedInfo)) {
             enabled = passwordProtectedInfo.get("enabled", Boolean.FALSE);
             maxRetryCount = passwordProtectedInfo.get("maxRetryCount", 5);
             lockTime = passwordProtectedInfo.get("lockTime", 10);
