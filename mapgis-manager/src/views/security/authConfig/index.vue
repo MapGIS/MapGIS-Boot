@@ -46,7 +46,7 @@
         <a-button type="primary" @click="handleExport" v-hasPermi="['system:authConfig:export']">
           <a-icon type="download" />导出
         </a-button>
-        <a-button type="primary" @click="thirdUseConfigShow = true" v-hasPermi="['system:authConfig:edit']">
+        <a-button type="primary" @click="thirdUseConfigShow = true" v-hasPermi="['system:config:query']">
           <a-icon type="setting" />第三方登录角色配置
         </a-button>
         <table-setting

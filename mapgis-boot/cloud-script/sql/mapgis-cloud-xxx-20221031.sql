@@ -604,7 +604,7 @@ INSERT INTO `sys_menu`
 VALUES (116, '基本配置', 7, 1, 'base', 'config/base/index', NULL, 1, 0, 'C', '0', '0', 'system:config:query', 'profile',
         'admin', '2022-10-15 15:45:11', '', NULL, '基本配置菜单');
 INSERT INTO `sys_menu`
-VALUES (117, '第三方登录配置', 3, 7, 'third', 'security/authConfig/index', NULL, 1, 0, 'C', '0', '0', 'system:authConfig:list',
+VALUES (117, '第三方登录配置', 3, 7, 'oauth', 'security/authConfig/index', NULL, 1, 0, 'C', '0', '0', 'system:authConfig:list',
         'team', 'admin', '2022-10-21 16:11:18', '', NULL, '第三方登录配置菜单');
 INSERT INTO `sys_menu`
 VALUES (118, 'CAS登录配置', 3, 8, 'cas', 'security/casConfig/index', NULL, 1, 0, 'C', '0', '0', 'system:config:query',
@@ -829,7 +829,13 @@ INSERT INTO `sys_menu`
 VALUES (1067, '第三方登录配置导出', 117, 5, '', '', '', 1, 0, 'F', '0', '0', 'system:authConfig:export', '#', 'admin',
         '2022-10-21 16:11:18', '', NULL, '');
 INSERT INTO `sys_menu`
-VALUES (1068, '配置修改', 118, 1, '', '', '', 1, 0, 'F', '0', '0', 'system:config:edit', '#', 'admin',
+VALUES (1068, '第三方登录角色配置查询', 117, 6, '', '', '', 1, 0, 'F', '0', '0', 'system:config:query', '#', 'admin',
+        '2022-11-03 14:07:26', '', NULL, '');
+INSERT INTO `sys_menu`
+VALUES (1069, '第三方登录角色配置修改', 117, 7, '', '', '', 1, 0, 'F', '0', '0', 'system:config:edit', '#', 'admin',
+        '2022-11-03 14:08:45', '', NULL, '');
+INSERT INTO `sys_menu`
+VALUES (1070, '配置修改', 118, 1, '', '', '', 1, 0, 'F', '0', '0', 'system:config:edit', '#', 'admin',
         '2022-10-27 14:55:41', '', NULL, '');
 INSERT INTO `sys_menu`
 VALUES (1500, '网关路由查询', 203, 1, '', '', '', 1, 0, 'F', '0', '0', 'system:route:query', '#', 'admin',
