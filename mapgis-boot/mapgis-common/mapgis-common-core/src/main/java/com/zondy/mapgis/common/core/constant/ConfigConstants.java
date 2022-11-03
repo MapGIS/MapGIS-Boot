@@ -37,7 +37,7 @@ public class ConfigConstants {
     public final static String CONFIG_KEY_SECURITY_OAUTH = "security.oauth";
 
     /**
-     * 安全设置-CAS登录配置
+     * 安全配置-CAS登录配置
      */
     public final static String CONFIG_KEY_SECURITY_CAS = "security.cas";
 }

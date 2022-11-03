@@ -198,7 +198,7 @@ INSERT INTO `sys_config`
 VALUES (6, '安全配置-第三方登录配置', 'security.oauth', '{\"defaultRoleIds\":[3]}', 'Y', 'admin', '2022-03-23 22:12:32', '', NULL,
         '第三方登录配置');
 INSERT INTO `sys_config`
-VALUES (7, '安全设置-CAS登录配置', 'security.cas', '{\"enabled\":false,\"isReserveDefaultLogin\":false,\"casServerUrl\":\"\"}',
+VALUES (7, '安全配置-CAS登录配置', 'security.cas', '{\"enabled\":false,\"isReserveDefaultLogin\":false,\"casServerUrl\":\"\"}',
         'Y', 'admin', '2022-03-23 22:12:32', '', NULL, '第三方登录配置');
 
 -- ----------------------------
