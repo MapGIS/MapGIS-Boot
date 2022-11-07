@@ -205,4 +205,41 @@ public class SysServiceProxy {
         config.put("casServiceWebUrl", casServiceWebUrl);
         return config;
     }
+
+    /**
+     * 获取LDAP登录配置
+     */
+    public Map<String, Object> getLdapConfig() {
+        Map<String, Object> config = new LinkedHashMap<>();
+        String strConfig = selectConfigValueByKey(ConfigConstants.CONFIG_KEY_SECURITY_LDAP);
+
+        Dict ldapInfo = JsonUtils.parseMap(strConfig);
+        Boolean enabled = true;
+        String url = "";
+        String base = "";
+        String userDn = "";
+        String password = "";
+        Long[] roleIds = new Long[0];
+
+        if (StringUtils.isNotEmpty(ldapInfo)) {
+            enabled = ldapInfo.get("enabled", Boolean.FALSE);
+            url = ldapInfo.get("url", "");
+            base = ldapInfo.get("base", "");
+            userDn = ldapInfo.get("userDn", "");
+            password = ldapInfo.get("password", "");
+            List<Integer> roleIdList = ldapInfo.get("defaultRoleIds", new ArrayList<>());
+            roleIds = new Long[roleIdList.size()];
+            for (int i = 0; i < roleIdList.size(); i++) {
+                roleIds[i] = roleIdList.get(i).longValue();
+            }
+        }
+
+        config.put("enabled", enabled);
+        config.put("url", url);
+        config.put("base", base);
+        config.put("userDn", userDn);
+        config.put("password", password);
+        config.put("defaultRoleIds", roleIds);
+        return config;
+    }
 }

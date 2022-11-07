@@ -40,4 +40,9 @@ public class ConfigConstants {
      * 安全配置-CAS登录配置
      */
     public final static String CONFIG_KEY_SECURITY_CAS = "security.cas";
+
+    /**
+     * 安全配置-LDAP登录配置
+     */
+    public final static String CONFIG_KEY_SECURITY_LDAP = "security.ldap";
 }

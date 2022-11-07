@@ -42,6 +42,12 @@
             <optional>true</optional>
         </dependency>
 
+        <!-- LDAP -->
+        <dependency>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-ldap</artifactId>
+        </dependency>
+
         <!-- MapGIS Common Base Cache -->
         <dependency>
             <groupId>com.zondy.mapgis</groupId>

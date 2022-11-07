@@ -10,7 +10,7 @@
  Target Server Version : 3030001
  File Encoding         : 65001
 
- Date: 31/10/2022 15:59:14
+ Date: 07/11/2022 10:24:30
 */
 
 -- ----------------------------
@@ -170,6 +170,10 @@ VALUES (6, '安全配置-第三方登录配置', 'security.oauth', '{"defaultRol
 INSERT INTO "sys_config"
 VALUES (7, '安全配置-CAS登录配置', 'security.cas', '{"enabled":false,"isReserveDefaultLogin":false,"casServerUrl":""}', 'Y',
         'admin', '2022-03-23 22:12:32', '', NULL, 'CAS登录配置');
+INSERT INTO "sys_config"
+VALUES (8, '安全配置-LDAP登录配置', 'security.ldap',
+        '{"enabled":false,"url":"","base":"","userDn":"","password":"","defaultRoleIds":[3]}', 'Y', 'admin',
+        '2022-03-23 22:12:32', '', NULL, 'LDAP登录配置');
 
 -- ----------------------------
 -- Table structure for sys_dept
@@ -490,10 +494,13 @@ VALUES (117, '第三方登录配置', 3, 7, 'oauth', 'security/authConfig/index'
         'team', 'admin', '2022-10-21 16:11:18', '', NULL, '第三方登录配置菜单');
 INSERT INTO "sys_menu"
 VALUES (118, 'CAS登录配置', 3, 8, 'cas', 'security/casConfig/index', NULL, 1, 0, 'C', 0, 0, 'system:config:query', 'cas',
-        'admin', '2022-10-27 14:55:00', '', NULL, 'CAS登录配置');
+        'admin', '2022-10-27 14:55:00', '', NULL, 'CAS登录配置菜单');
 INSERT INTO "sys_menu"
 VALUES (119, '主题配置', 7, 2, 'theme', 'config/theme/index', NULL, 1, 0, 'C', 0, 0, '', 'skin', 'admin',
         '2022-10-31 11:39:51', '', NULL, '主题配置菜单');
+INSERT INTO "sys_menu"
+VALUES (120, 'LDAP登录配置', 3, 9, 'ldap', 'security/ldapConfig/index', NULL, 1, 0, 'C', 0, 0, 'system:config:query',
+        'ldap', 'admin', '2022-11-03 14:55:44', '', NULL, 'LDAP登录配置菜单');
 INSERT INTO "sys_menu"
 VALUES (1000, '在线查询', 100, 1, '', '', '', 1, 0, 'F', 0, 0, 'monitor:online:query', '#', 'admin', '2022-03-23 22:12:32',
         '', NULL, '');
@@ -706,6 +713,9 @@ VALUES (1069, '第三方登录角色配置修改', 117, 7, '', '', '', 1, 0, 'F'
         '2022-11-03 14:08:45', '', NULL, '');
 INSERT INTO "sys_menu"
 VALUES (1070, '配置修改', 118, 1, '', '', '', 1, 0, 'F', 0, 0, 'system:config:edit', '#', 'admin', '2022-10-27 14:55:41',
+        '', NULL, '');
+INSERT INTO "sys_menu"
+VALUES (1071, '配置修改', 120, 1, '', '', '', 1, 0, 'F', 0, 0, 'system:config:edit', '#', 'admin', '2022-11-03 14:56:11',
         '', NULL, '');
 
 -- ----------------------------

@@ -46,11 +46,28 @@ public class SysLoginService {
     @Autowired
     private SysServiceProxy sysServiceProxy;
 
+    @Autowired
+    private LdapService ldapService;
+
     /**
      * 登录验证
      */
     public String login(LoginBody loginBody) {
         String username = loginBody.getUsername(), password = loginBody.getPassword();
+
+        // 如果启用了LDAP登录
+        Map<String, Object> ldapConfig = sysServiceProxy.getLdapConfig();
+
+        if ((Boolean) ldapConfig.get("enabled")) {
+            if (ldapService.authenticate(ldapConfig, username, password)) {
+                // 登录成功，查看用户在原有列表中是否存在，存在则直接无密码登录，如果不存在，则需要创建
+                // 登录失败，再继续原来的用户验证逻辑
+                checkUserExistOrCreate(username, ldapConfig);
+                return login(username);
+            }
+        }
+
+
         LoginUser loginUser = loadUserByUsername(username);
         SysUser user = loginUser.getUser();
 
@@ -111,7 +128,7 @@ public class SysLoginService {
         sysUser.setUserName(username);
         sysUser.setNickName(username);
         sysUser.setPassword(SecurityUtils.encryptPassword(password));
-        if (StringUtils.isEmpty(roleIds)) {
+        if (!StringUtils.isEmpty(roleIds)) {
             sysUser.setRoleIds(roleIds);
         }
         R<?> registerResult = sysServiceApi.registerUserInfo(sysUser, SecurityConstants.INNER);
@@ -138,7 +155,7 @@ public class SysLoginService {
 
         if (StringUtils.isNull(userResult) || StringUtils.isNull(userResult.getData())) {
             recordLogService.recordLogininfor(username, Constants.LOGIN_FAIL, MessageUtils.message("user.not.exists"));
-            throw new ServiceException("登录用户：" + username + " 不存在");
+            throw new ServiceException(Constants.LOGIN_USER_KEY + username + " 不存在");
         }
         LoginUser loginUser = userResult.getData();
         SysUser user = loginUser.getUser();
@@ -180,5 +197,25 @@ public class SysLoginService {
         }
 
         return sysAuthUserListResult.getData();
+    }
+
+    /**
+     * 查看用户是否存在，不存在就创建用户
+     */
+    public void checkUserExistOrCreate(String username, Map<String, Object> ldapConfig) {
+        R<LoginUser> loginUserResult = sysServiceApi.getUserInfo(username, SecurityConstants.INNER);
+
+        if (R.FAIL == loginUserResult.getCode()) {
+            if (!loginUserResult.getMsg().startsWith(Constants.LOGIN_USER_KEY)) {
+                throw new ServiceException(loginUserResult.getMsg());
+            } else {
+                // 不存在用户
+                String password = sysServiceProxy.getInitPasswordConfig();
+
+                // 注册账号
+                Long[] roleIds = (Long[]) ldapConfig.get("defaultRoleIds");
+                register(username, password, roleIds);
+            }
+        }
     }
 }

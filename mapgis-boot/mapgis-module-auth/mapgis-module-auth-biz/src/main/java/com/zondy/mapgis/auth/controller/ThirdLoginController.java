@@ -2,6 +2,7 @@ package com.zondy.mapgis.auth.controller;
 
 import com.zondy.mapgis.auth.api.service.SysLoginService;
 import com.zondy.mapgis.auth.domain.vo.AuthUserCheckPasswordVo;
+import com.zondy.mapgis.common.core.constant.Constants;
 import com.zondy.mapgis.common.core.constant.SecurityConstants;
 import com.zondy.mapgis.common.core.constant.TokenConstants;
 import com.zondy.mapgis.common.core.domain.R;
@@ -55,8 +56,6 @@ public class ThirdLoginController extends BaseController {
     private final ISysServiceApi sysServiceApi;
 
     private final SysServiceProxy sysServiceProxy;
-
-    private final static String LOGIN_ERROR_KEY = "登录用户：";
 
     /**
      * 第三方登录认证授权
@@ -119,7 +118,7 @@ public class ThirdLoginController extends BaseController {
                 R<LoginUser> loginUserResult = sysServiceApi.getUserInfo(sysAuthUser.getLoginName(), SecurityConstants.INNER);
 
                 if (R.FAIL == loginUserResult.getCode()) {
-                    if (!loginUserResult.getMsg().startsWith(LOGIN_ERROR_KEY)) {
+                    if (!loginUserResult.getMsg().startsWith(Constants.LOGIN_USER_KEY)) {
                         throw new ServiceException(loginUserResult.getMsg());
                     }
                 } else {

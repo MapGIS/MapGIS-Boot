@@ -1,2 +1,3 @@
 com.zondy.mapgis.auth.api.config.CaptchaConfig
 com.zondy.mapgis.auth.api.service.impl.ValidateCodeServiceImpl
+com.zondy.mapgis.auth.api.service.impl.LdapServiceImpl

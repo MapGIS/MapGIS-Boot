@@ -60,6 +60,9 @@ public class SysLoginService {
     @Autowired
     private SysServiceProxy sysServiceProxy;
 
+    @Autowired
+    private LdapService ldapService;
+
     /**
      * 登录验证
      */
@@ -70,6 +73,17 @@ public class SysLoginService {
         // 校验验证码
         if (captchaEnabled) {
             validateCodeService.checkCaptcha(loginBody.getCode(), loginBody.getUuid());
+        }
+        // 如果启用了LDAP登录
+        Map<String, Object> ldapConfig = sysServiceProxy.getLdapConfig();
+
+        if ((Boolean) ldapConfig.get("enabled")) {
+            if (ldapService.authenticate(ldapConfig, username, password)) {
+                // 登录成功，查看用户在原有列表中是否存在，存在则直接无密码登录，如果不存在，则需要创建
+                // 登录失败，再继续原来的用户验证逻辑
+                checkUserExistOrCreate(username, ldapConfig);
+                return login(username);
+            }
         }
 
         // 用户验证
@@ -219,5 +233,25 @@ public class SysLoginService {
         }
 
         return sysAuthUserListResult.getData();
+    }
+
+    /**
+     * 查看用户是否存在，不存在就创建用户
+     */
+    public void checkUserExistOrCreate(String username, Map<String, Object> ldapConfig) {
+        R<LoginUser> loginUserResult = sysServiceApi.getUserInfo(username, SecurityConstants.INNER);
+
+        if (R.FAIL == loginUserResult.getCode()) {
+            if (!loginUserResult.getMsg().startsWith(Constants.LOGIN_USER_KEY)) {
+                throw new ServiceException(loginUserResult.getMsg());
+            } else {
+                // 不存在用户
+                String password = sysServiceProxy.getInitPasswordConfig();
+
+                // 注册账号
+                Long[] roleIds = (Long[]) ldapConfig.get("defaultRoleIds");
+                register(username, password, roleIds);
+            }
+        }
     }
 }
