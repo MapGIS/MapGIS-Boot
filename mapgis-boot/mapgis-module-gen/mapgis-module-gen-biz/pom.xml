@@ -58,6 +58,12 @@
             <groupId>com.zondy.mapgis</groupId>
             <artifactId>mapgis-common-controllerprefix</artifactId>
         </dependency>
+
+        <!-- 日志模块 -->
+        <dependency>
+            <groupId>com.zondy.mapgis</groupId>
+            <artifactId>mapgis-common-cross-log</artifactId>
+        </dependency>
     </dependencies>
 
     <profiles>

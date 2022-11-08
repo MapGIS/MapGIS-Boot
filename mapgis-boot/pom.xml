@@ -360,6 +360,13 @@
                 <version>${mapgis.boot.version}</version>
             </dependency>
 
+            <!-- MapGIS Common Cross Log -->
+            <dependency>
+                <groupId>com.zondy.mapgis</groupId>
+                <artifactId>mapgis-common-cross-log</artifactId>
+                <version>${mapgis.boot.version}</version>
+            </dependency>
+
             <!-- MapGIS Common Base Security -->
             <dependency>
                 <groupId>com.zondy.mapgis</groupId>

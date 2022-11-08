@@ -1,23 +1,22 @@
 package com.zondy.mapgis.common.log.aspect;
 
-import com.zondy.mapgis.common.core.enums.HttpMethod;
 import com.zondy.mapgis.common.core.utils.JsonUtils;
 import com.zondy.mapgis.common.core.utils.ServletUtils;
 import com.zondy.mapgis.common.core.utils.StringUtils;
 import com.zondy.mapgis.common.core.utils.ip.IpUtils;
 import com.zondy.mapgis.common.log.annotation.Log;
 import com.zondy.mapgis.common.log.enums.BusinessStatus;
-import com.zondy.mapgis.common.security.manager.AsyncManager;
-import com.zondy.mapgis.common.security.manager.factory.AsyncFactory;
+import com.zondy.mapgis.common.log.service.AsyncLogService;
 import com.zondy.mapgis.common.security.utils.SecurityUtils;
 import com.zondy.mapgis.system.api.domain.SysOperLog;
-import com.zondy.mapgis.system.api.model.LoginUser;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.AfterThrowing;
 import org.aspectj.lang.annotation.Aspect;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.multipart.MultipartFile;
@@ -29,6 +28,8 @@ import java.util.Collection;
 import java.util.Map;
 
 /**
+ * 操作日志记录处理
+ *
  * @author xiongbo
  * @since 2022/3/15 18:00
  */
@@ -36,6 +37,9 @@ import java.util.Map;
 @Component
 public class LogAspect {
     private static final Logger log = LoggerFactory.getLogger(LogAspect.class);
+
+    @Autowired
+    private AsyncLogService asyncLogService;
 
     /**
      * 处理完请求后执行
@@ -60,9 +64,6 @@ public class LogAspect {
 
     protected void handleLog(final JoinPoint joinPoint, Log controllerLog, final Exception e, Object jsonResult) {
         try {
-            // 获取当前的用户
-            LoginUser loginUser = SecurityUtils.getLoginUser();
-
             // *========数据库日志=========*//
             SysOperLog operLog = new SysOperLog();
             operLog.setStatus(BusinessStatus.SUCCESS.ordinal());
@@ -70,8 +71,9 @@ public class LogAspect {
             String ip = IpUtils.getIpAddr(ServletUtils.getRequest());
             operLog.setOperIp(ip);
             operLog.setOperUrl(ServletUtils.getRequest().getRequestURI());
-            if (loginUser != null) {
-                operLog.setOperName(loginUser.getUsername());
+            String username = SecurityUtils.getUsername();
+            if (StringUtils.isNotBlank(username)) {
+                operLog.setOperName(username);
             }
 
             if (e != null) {
@@ -87,7 +89,7 @@ public class LogAspect {
             // 处理设置注解上的参数
             getControllerMethodDescription(joinPoint, controllerLog, operLog, jsonResult);
             // 保存数据库
-            AsyncManager.me().execute(AsyncFactory.recordOper(operLog));
+            asyncLogService.saveSysLog(operLog);
         } catch (Exception exp) {
             // 记录本地异常日志
             log.error("==前置通知异常==");
