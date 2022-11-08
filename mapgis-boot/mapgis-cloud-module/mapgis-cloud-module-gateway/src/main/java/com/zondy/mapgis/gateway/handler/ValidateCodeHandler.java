@@ -1,6 +1,6 @@
 package com.zondy.mapgis.gateway.handler;
 
-import com.zondy.mapgis.auth.api.service.ValidateCodeService;
+import com.zondy.mapgis.auth.api.service.IValidateCodeService;
 import com.zondy.mapgis.common.core.exception.user.CaptchaException;
 import com.zondy.mapgis.common.core.web.domain.AjaxResult;
 import com.zondy.mapgis.system.api.service.SysServiceProxy;
@@ -28,7 +28,7 @@ import java.util.concurrent.ExecutionException;
 @Component
 public class ValidateCodeHandler implements HandlerFunction<ServerResponse> {
     @Autowired
-    private ValidateCodeService validateCodeService;
+    private IValidateCodeService validateCodeService;
 
     @Lazy
     @Autowired

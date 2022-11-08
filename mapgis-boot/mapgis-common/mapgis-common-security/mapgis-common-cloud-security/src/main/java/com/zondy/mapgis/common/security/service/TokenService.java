@@ -1,6 +1,6 @@
 package com.zondy.mapgis.common.security.service;
 
-import com.zondy.mapgis.common.cache.service.CacheService;
+import com.zondy.mapgis.common.cache.service.ICacheService;
 import com.zondy.mapgis.common.core.constant.CacheConstants;
 import com.zondy.mapgis.common.core.constant.SecurityConstants;
 import com.zondy.mapgis.common.core.utils.JwtUtils;
@@ -28,7 +28,7 @@ import java.util.concurrent.TimeUnit;
 @Component
 public class TokenService {
     @Autowired
-    private CacheService cacheService;
+    private ICacheService cacheService;
 
     @Autowired
     private SysServiceProxy sysServiceProxy;

@@ -1,6 +1,6 @@
 package com.zondy.mapgis.gateway.filter;
 
-import com.zondy.mapgis.common.cache.service.CacheService;
+import com.zondy.mapgis.common.cache.service.ICacheService;
 import com.zondy.mapgis.common.core.constant.CacheConstants;
 import com.zondy.mapgis.common.core.constant.HttpStatus;
 import com.zondy.mapgis.common.core.constant.SecurityConstants;
@@ -37,7 +37,7 @@ public class AuthFilter implements GlobalFilter, Ordered {
     private IgnoreWhiteProperties ignoreWhite;
 
     @Autowired
-    private CacheService cacheService;
+    private ICacheService cacheService;
 
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {

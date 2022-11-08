@@ -18,7 +18,7 @@ import java.util.concurrent.TimeUnit;
  * @since 2022/3/15 18:00
  */
 @Component
-public class RedisCacheServiceImpl implements CacheService {
+public class RedisCacheServiceImpl implements ICacheService {
     @Autowired
     public RedisTemplate redisTemplate;
 

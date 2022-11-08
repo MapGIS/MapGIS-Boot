@@ -1,6 +1,6 @@
 package com.zondy.mapgis.auth.api.service;
 
-import com.zondy.mapgis.common.cache.service.CacheService;
+import com.zondy.mapgis.common.cache.service.ICacheService;
 import com.zondy.mapgis.common.core.constant.CacheConstants;
 import com.zondy.mapgis.common.core.constant.Constants;
 import com.zondy.mapgis.common.core.exception.user.UserPasswordNotMatchException;
@@ -24,7 +24,7 @@ import java.util.concurrent.TimeUnit;
 @Component
 public class SysPasswordService {
     @Autowired
-    private CacheService cacheService;
+    private ICacheService cacheService;
 
     @Autowired
     private SysRecordLogService recordLogService;

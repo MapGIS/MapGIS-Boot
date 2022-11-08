@@ -1,6 +1,6 @@
 package com.zondy.mapgis.common.security.service;
 
-import com.zondy.mapgis.common.cache.service.CacheService;
+import com.zondy.mapgis.common.cache.service.ICacheService;
 import com.zondy.mapgis.common.core.constant.CacheConstants;
 import com.zondy.mapgis.common.core.exception.user.UserPasswordNotMatchException;
 import com.zondy.mapgis.common.core.exception.user.UserPasswordRetryLimitExceedException;
@@ -24,7 +24,7 @@ import java.util.concurrent.TimeUnit;
 @Component
 public class SysPasswordService {
     @Autowired
-    private CacheService cacheService;
+    private ICacheService cacheService;
 
     @Autowired
     private SysServiceProxy sysServiceProxy;

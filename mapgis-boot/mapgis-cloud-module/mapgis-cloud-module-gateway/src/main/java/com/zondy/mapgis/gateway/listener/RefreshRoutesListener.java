@@ -1,6 +1,6 @@
 package com.zondy.mapgis.gateway.listener;
 
-import com.zondy.mapgis.common.cache.listener.RedisListener;
+import com.zondy.mapgis.common.cache.listener.IRedisListener;
 import com.zondy.mapgis.common.core.constant.Constants;
 import com.zondy.mapgis.gateway.config.SwaggerProvider;
 import com.zondy.mapgis.gateway.service.SysGatewayRouteService;
@@ -16,7 +16,7 @@ import java.util.HashMap;
  * @since 2022/9/21 9:17
  */
 @Component(Constants.REFRESH_ROUTES_LISTENER)
-public class RefreshRoutesListener implements RedisListener {
+public class RefreshRoutesListener implements IRedisListener {
     @Autowired
     private SysGatewayRouteService gatewayRouteService;
 

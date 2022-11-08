@@ -1,6 +1,6 @@
 package com.zondy.mapgis.system.controller;
 
-import com.zondy.mapgis.common.cache.service.CacheService;
+import com.zondy.mapgis.common.cache.service.ICacheService;
 import com.zondy.mapgis.common.controllerprefix.annotation.ManagerRestController;
 import com.zondy.mapgis.common.core.constant.CacheConstants;
 import com.zondy.mapgis.common.core.utils.StringUtils;
@@ -41,7 +41,7 @@ public class SysUserOnlineController extends BaseController {
 
     private final ISysUserOnlineService userOnlineService;
 
-    private final CacheService cacheService;
+    private final ICacheService cacheService;
 
     /**
      * 产品名称

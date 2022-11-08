@@ -1,6 +1,6 @@
 package com.zondy.mapgis.common.repeatsubmit.interceptor.impl;
 
-import com.zondy.mapgis.common.cache.service.CacheService;
+import com.zondy.mapgis.common.cache.service.ICacheService;
 import com.zondy.mapgis.common.core.constant.CacheConstants;
 import com.zondy.mapgis.common.core.constant.TokenConstants;
 import com.zondy.mapgis.common.core.utils.JsonUtils;
@@ -31,7 +31,7 @@ public class SameUrlDataInterceptor extends RepeatSubmitInterceptor {
     public final String REPEAT_TIME = "repeatTime";
 
     @Autowired
-    private CacheService cacheService;
+    private ICacheService cacheService;
 
     @SuppressWarnings("unchecked")
     @Override

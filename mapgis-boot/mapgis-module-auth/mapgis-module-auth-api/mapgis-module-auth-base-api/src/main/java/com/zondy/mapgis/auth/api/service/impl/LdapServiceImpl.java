@@ -1,6 +1,6 @@
 package com.zondy.mapgis.auth.api.service.impl;
 
-import com.zondy.mapgis.auth.api.service.LdapService;
+import com.zondy.mapgis.auth.api.service.ILdapService;
 import org.springframework.ldap.NamingException;
 import org.springframework.ldap.core.AttributesMapper;
 import org.springframework.ldap.core.DirContextOperations;
@@ -21,7 +21,7 @@ import static org.springframework.ldap.query.LdapQueryBuilder.query;
  * @since 2022/11/3 17:31
  */
 @Service
-public class LdapServiceImpl implements LdapService {
+public class LdapServiceImpl implements ILdapService {
     @Override
     public boolean authenticate(Map<String, Object> ldapConfig, String username, String password) {
         String userDn = "";

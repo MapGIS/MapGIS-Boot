@@ -47,7 +47,7 @@ public class SysLoginService {
     private SysServiceProxy sysServiceProxy;
 
     @Autowired
-    private LdapService ldapService;
+    private ILdapService ldapService;
 
     /**
      * 登录验证

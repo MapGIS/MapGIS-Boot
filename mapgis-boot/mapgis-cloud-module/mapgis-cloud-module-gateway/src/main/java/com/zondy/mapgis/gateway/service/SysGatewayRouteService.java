@@ -3,7 +3,7 @@ package com.zondy.mapgis.gateway.service;
 import cn.hutool.core.lang.Dict;
 import cn.hutool.core.util.ArrayUtil;
 import com.google.common.collect.Lists;
-import com.zondy.mapgis.common.cache.service.CacheService;
+import com.zondy.mapgis.common.cache.service.ICacheService;
 import com.zondy.mapgis.common.core.constant.CacheConstants;
 import com.zondy.mapgis.common.core.utils.JsonUtils;
 import com.zondy.mapgis.common.core.utils.StringUtils;
@@ -35,7 +35,7 @@ import java.util.*;
 @Component
 public class SysGatewayRouteService implements ApplicationEventPublisherAware {
     @Autowired
-    private CacheService cacheService;
+    private ICacheService cacheService;
     @Autowired
     private Environment env;
     @Autowired

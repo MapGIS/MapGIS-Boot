@@ -2,7 +2,7 @@ package com.zondy.mapgis.modules.monitor.controller;
 
 import com.zondy.mapgis.common.controllerprefix.annotation.ManagerRestController;
 import com.zondy.mapgis.common.core.web.domain.AjaxResult;
-import com.zondy.mapgis.modules.monitor.service.ServerService;
+import com.zondy.mapgis.modules.monitor.service.IServerService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 @ManagerRestController("/monitor/server")
 public class ServerController {
 
-    private final ServerService serverService;
+    private final IServerService serverService;
 
     @Operation(summary = "获取服务器监控详细信息")
     @PreAuthorize("@ss.hasPermi('monitor:server:list')")

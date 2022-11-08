@@ -1,6 +1,6 @@
 package com.zondy.mapgis.modules.auth.controller;
 
-import com.zondy.mapgis.auth.api.service.ValidateCodeService;
+import com.zondy.mapgis.auth.api.service.IValidateCodeService;
 import com.zondy.mapgis.common.controllerprefix.annotation.ServicesRestController;
 import com.zondy.mapgis.common.core.web.domain.AjaxResult;
 import com.zondy.mapgis.system.api.service.SysServiceProxy;
@@ -24,7 +24,7 @@ import java.util.Map;
 @ServicesRestController("/auth")
 public class CaptchaController {
 
-    private final ValidateCodeService validateCodeService;
+    private final IValidateCodeService validateCodeService;
 
     private final SysServiceProxy sysServiceProxy;
 

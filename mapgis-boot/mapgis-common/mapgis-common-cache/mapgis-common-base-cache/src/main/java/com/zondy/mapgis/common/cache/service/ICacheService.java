@@ -11,7 +11,7 @@ import java.util.concurrent.TimeUnit;
  * @author xiongbo
  * @since 2022/3/15 18:00
  */
-public interface CacheService {
+public interface ICacheService {
     /**
      * 缓存基本的对象，Integer、String、实体类等
      *

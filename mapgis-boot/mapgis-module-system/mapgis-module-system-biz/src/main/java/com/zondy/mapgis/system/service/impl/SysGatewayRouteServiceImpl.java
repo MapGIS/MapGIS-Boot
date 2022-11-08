@@ -1,6 +1,6 @@
 package com.zondy.mapgis.system.service.impl;
 
-import com.zondy.mapgis.common.cache.service.CacheService;
+import com.zondy.mapgis.common.cache.service.ICacheService;
 import com.zondy.mapgis.common.core.constant.CacheConstants;
 import com.zondy.mapgis.common.core.constant.Constants;
 import com.zondy.mapgis.common.core.utils.DateUtils;
@@ -27,7 +27,7 @@ public class SysGatewayRouteServiceImpl implements ISysGatewayRouteService {
     private SysGatewayRouteMapper sysGatewayRouteMapper;
 
     @Autowired
-    private CacheService cacheService;
+    private ICacheService cacheService;
 
     /**
      * 查询网关路由

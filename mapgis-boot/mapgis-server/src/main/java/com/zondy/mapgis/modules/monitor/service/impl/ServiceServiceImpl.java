@@ -6,7 +6,7 @@ import cn.hutool.core.util.NumberUtil;
 import com.zondy.mapgis.common.core.utils.DateUtils;
 import com.zondy.mapgis.common.core.utils.ip.IpUtils;
 import com.zondy.mapgis.common.core.utils.network.NetworkUtils;
-import com.zondy.mapgis.modules.monitor.service.ServerService;
+import com.zondy.mapgis.modules.monitor.service.IServerService;
 import org.springframework.stereotype.Service;
 import oshi.SystemInfo;
 import oshi.hardware.CentralProcessor;
@@ -29,7 +29,7 @@ import java.util.concurrent.atomic.AtomicLong;
  * @since 2022/4/24 17:35
  */
 @Service
-public class ServiceServiceImpl implements ServerService {
+public class ServiceServiceImpl implements IServerService {
 
     private final DecimalFormat df = new DecimalFormat("0.00");
 

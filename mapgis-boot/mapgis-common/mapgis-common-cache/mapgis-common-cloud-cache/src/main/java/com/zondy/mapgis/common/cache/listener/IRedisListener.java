@@ -8,7 +8,7 @@ import java.util.HashMap;
  * @author powanjuanshu
  * @since 2022/9/20 17:09
  */
-public interface RedisListener {
+public interface IRedisListener {
     /**
      * 消息响应
      *

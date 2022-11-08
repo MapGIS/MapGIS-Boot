@@ -1,6 +1,6 @@
 package com.zondy.mapgis.system.controller;
 
-import com.zondy.mapgis.common.cache.service.CacheService;
+import com.zondy.mapgis.common.cache.service.ICacheService;
 import com.zondy.mapgis.common.controllerprefix.annotation.ManagerRestController;
 import com.zondy.mapgis.common.core.constant.CacheConstants;
 import com.zondy.mapgis.common.core.utils.poi.ExcelUtil;
@@ -38,7 +38,7 @@ public class SysLogininforController extends BaseController {
 
     private final ISysLogininforService logininforService;
 
-    private final CacheService cacheService;
+    private final ICacheService cacheService;
 
     @Operation(summary = "查询系统访问记录列表")
     @PreAuthorize("@ss.hasPermi('system:logininfor:list')")

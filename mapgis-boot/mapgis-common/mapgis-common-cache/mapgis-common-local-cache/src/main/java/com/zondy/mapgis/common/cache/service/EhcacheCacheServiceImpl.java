@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
  * @since 2022/3/15 18:00
  */
 @Component
-public class EhcacheCacheServiceImpl implements CacheService {
+public class EhcacheCacheServiceImpl implements ICacheService {
     @Resource
     private CacheManager cacheManager;
 

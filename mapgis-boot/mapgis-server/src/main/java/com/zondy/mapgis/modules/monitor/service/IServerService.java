@@ -6,7 +6,7 @@ import java.util.Map;
  * @author xiongbo
  * @since 2022/4/24 17:35
  */
-public interface ServerService {
+public interface IServerService {
     /**
      * 查询数据分页
      *

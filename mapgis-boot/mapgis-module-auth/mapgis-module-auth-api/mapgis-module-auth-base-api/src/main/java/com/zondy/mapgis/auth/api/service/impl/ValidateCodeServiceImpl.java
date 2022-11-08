@@ -1,8 +1,8 @@
 package com.zondy.mapgis.auth.api.service.impl;
 
 import com.google.code.kaptcha.Producer;
-import com.zondy.mapgis.auth.api.service.ValidateCodeService;
-import com.zondy.mapgis.common.cache.service.CacheService;
+import com.zondy.mapgis.auth.api.service.IValidateCodeService;
+import com.zondy.mapgis.common.cache.service.ICacheService;
 import com.zondy.mapgis.common.core.constant.CacheConstants;
 import com.zondy.mapgis.common.core.exception.user.CaptchaException;
 import com.zondy.mapgis.common.core.exception.user.CaptchaExpireException;
@@ -27,7 +27,7 @@ import java.util.concurrent.TimeUnit;
  * @since 2022/3/15 18:00
  */
 @Service
-public class ValidateCodeServiceImpl implements ValidateCodeService {
+public class ValidateCodeServiceImpl implements IValidateCodeService {
     @Resource(name = "captchaProducer")
     private Producer captchaProducer;
 
@@ -35,7 +35,7 @@ public class ValidateCodeServiceImpl implements ValidateCodeService {
     private Producer captchaProducerMath;
 
     @Autowired
-    private CacheService cacheService;
+    private ICacheService cacheService;
 
     /**
      * 生成验证码

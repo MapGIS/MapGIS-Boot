@@ -1,6 +1,6 @@
 package com.zondy.mapgis.system.service.impl;
 
-import com.zondy.mapgis.common.cache.service.CacheService;
+import com.zondy.mapgis.common.cache.service.ICacheService;
 import com.zondy.mapgis.common.core.constant.CacheConstants;
 import com.zondy.mapgis.common.core.constant.ConfigConstants;
 import com.zondy.mapgis.common.core.constant.Constants;
@@ -33,7 +33,7 @@ public class SysConfigServiceImpl implements ISysConfigService {
     private SysConfigMapper configMapper;
 
     @Autowired
-    private CacheService cacheService;
+    private ICacheService cacheService;
 
     @Autowired
     private SysEventPublisher sysEventPublisher;

@@ -1,6 +1,6 @@
 package com.zondy.mapgis.system;
 
-import com.zondy.mapgis.common.cache.service.CacheService;
+import com.zondy.mapgis.common.cache.service.ICacheService;
 import com.zondy.mapgis.common.core.constant.Constants;
 import com.zondy.mapgis.common.security.annotation.EnableMapConfig;
 import com.zondy.mapgis.common.security.annotation.EnableMapFeignClients;
@@ -24,7 +24,7 @@ import java.util.HashMap;
 @SpringBootApplication
 public class MapSystemApplication implements CommandLineRunner {
     @Autowired
-    private CacheService cacheService;
+    private ICacheService cacheService;
 
     public static void main(String[] args) {
         SpringApplication.run(MapSystemApplication.class, args);

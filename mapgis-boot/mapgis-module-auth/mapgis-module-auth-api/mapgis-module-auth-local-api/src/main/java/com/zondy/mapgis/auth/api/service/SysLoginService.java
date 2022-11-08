@@ -52,7 +52,7 @@ public class SysLoginService {
     private ISysUserService userService;
 
     @Autowired
-    private ValidateCodeService validateCodeService;
+    private IValidateCodeService validateCodeService;
 
     @Autowired
     private UserDetailsService userDetailsService;
@@ -61,7 +61,7 @@ public class SysLoginService {
     private SysServiceProxy sysServiceProxy;
 
     @Autowired
-    private LdapService ldapService;
+    private ILdapService ldapService;
 
     /**
      * 登录验证

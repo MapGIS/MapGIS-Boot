@@ -9,7 +9,7 @@ import java.util.Map;
  * @author powanjuanshu
  * @since 2022/11/3 17:25
  */
-public interface LdapService {
+public interface ILdapService {
 
     /**
      * 认证

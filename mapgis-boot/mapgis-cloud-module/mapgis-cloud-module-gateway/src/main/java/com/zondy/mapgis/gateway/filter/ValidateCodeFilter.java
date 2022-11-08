@@ -1,7 +1,7 @@
 package com.zondy.mapgis.gateway.filter;
 
 import cn.hutool.core.lang.Dict;
-import com.zondy.mapgis.auth.api.service.ValidateCodeService;
+import com.zondy.mapgis.auth.api.service.IValidateCodeService;
 import com.zondy.mapgis.common.core.config.properties.ApiPathProperties;
 import com.zondy.mapgis.common.core.utils.JsonUtils;
 import com.zondy.mapgis.common.core.utils.StringUtils;
@@ -36,7 +36,7 @@ public class ValidateCodeFilter extends AbstractGatewayFilterFactory<Object> {
     private static String[] VALIDATE_URL;
 
     @Autowired
-    private ValidateCodeService validateCodeService;
+    private IValidateCodeService validateCodeService;
 
     @Lazy
     @Autowired
