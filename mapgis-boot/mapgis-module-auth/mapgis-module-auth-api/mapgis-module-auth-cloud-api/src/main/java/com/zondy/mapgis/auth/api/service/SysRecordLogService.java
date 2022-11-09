@@ -7,6 +7,7 @@ import com.zondy.mapgis.common.core.utils.StringUtils;
 import com.zondy.mapgis.common.core.utils.ip.IpUtils;
 import com.zondy.mapgis.system.api.ISysServiceApi;
 import com.zondy.mapgis.system.api.domain.SysLogininfor;
+import eu.bitwalker.useragentutils.UserAgent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -29,9 +30,17 @@ public class SysRecordLogService {
      * @param message  消息内容
      */
     public void recordLogininfor(String username, String status, String message) {
+        final UserAgent userAgent = UserAgent.parseUserAgentString(ServletUtils.getRequest().getHeader("User-Agent"));
+        final String ip = IpUtils.getIpAddr(ServletUtils.getRequest());
+        // 获取客户端操作系统
+        String os = userAgent.getOperatingSystem().getName();
+        // 获取客户端浏览器
+        String browser = userAgent.getBrowser().getName();
         SysLogininfor logininfor = new SysLogininfor();
         logininfor.setUserName(username);
-        logininfor.setIpaddr(IpUtils.getIpAddr(ServletUtils.getRequest()));
+        logininfor.setIpaddr(ip);
+        logininfor.setBrowser(browser);
+        logininfor.setOs(os);
         logininfor.setMsg(message);
         // 日志状态
         if (StringUtils.equalsAny(status, Constants.LOGIN_SUCCESS, Constants.LOGOUT, Constants.REGISTER)) {

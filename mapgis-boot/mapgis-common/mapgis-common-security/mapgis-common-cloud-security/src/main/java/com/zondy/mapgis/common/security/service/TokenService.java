@@ -11,6 +11,7 @@ import com.zondy.mapgis.common.core.utils.uuid.IdUtils;
 import com.zondy.mapgis.common.security.utils.SecurityUtils;
 import com.zondy.mapgis.system.api.model.LoginUser;
 import com.zondy.mapgis.system.api.service.SysServiceProxy;
+import eu.bitwalker.useragentutils.UserAgent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -136,9 +137,7 @@ public class TokenService {
         Long userId = loginUser.getUser().getUserId();
         String userName = loginUser.getUser().getUserName();
         loginUser.setToken(token);
-        loginUser.setUserId(userId);
-        loginUser.setUsername(userName);
-        loginUser.setIpaddr(IpUtils.getIpAddr(ServletUtils.getRequest()));
+        setUserAgent(loginUser);
         refreshToken(loginUser);
 
         // Jwt存储信息
@@ -182,6 +181,19 @@ public class TokenService {
             String userIdKey = getUserIdKey(loginUser.getUser().getUserId());
             cacheService.setCacheObject(userIdKey, userKey, expireTime, TimeUnit.MINUTES);
         }
+    }
+
+    /**
+     * 设置用户代理信息
+     *
+     * @param loginUser 登录信息
+     */
+    public void setUserAgent(LoginUser loginUser) {
+        UserAgent userAgent = UserAgent.parseUserAgentString(ServletUtils.getRequest().getHeader("User-Agent"));
+        String ip = IpUtils.getIpAddr(ServletUtils.getRequest());
+        loginUser.setIpaddr(ip);
+        loginUser.setBrowser(userAgent.getBrowser().getName());
+        loginUser.setOs(userAgent.getOperatingSystem().getName());
     }
 
     private String getTokenKey(String token) {

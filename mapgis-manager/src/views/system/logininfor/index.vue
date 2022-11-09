@@ -162,11 +162,6 @@ export default {
           align: 'center'
         },
         {
-          title: '登录地点',
-          dataIndex: 'loginLocation',
-          align: 'center'
-        },
-        {
           title: '浏览器',
           dataIndex: 'browser',
           align: 'center'

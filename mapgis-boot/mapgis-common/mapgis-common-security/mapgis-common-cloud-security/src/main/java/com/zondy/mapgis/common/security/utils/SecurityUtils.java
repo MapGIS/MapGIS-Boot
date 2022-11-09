@@ -25,7 +25,7 @@ public class SecurityUtils {
     }
 
     /**
-     * 获取用户名称
+     * 获取用户账号
      */
     public static String getUsername() {
         return SecurityContextHolder.getUserName();
@@ -39,7 +39,7 @@ public class SecurityUtils {
     }
 
     /**
-     * 获取登录用户信息
+     * 获取用户
      */
     public static LoginUser getLoginUser() {
         return SecurityContextHolder.get(SecurityConstants.LOGIN_USER, LoginUser.class);

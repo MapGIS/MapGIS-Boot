@@ -416,6 +416,13 @@
                 <version>${mapgis.boot.version}</version>
             </dependency>
 
+            <!-- MapGIS System Cross Api -->
+            <dependency>
+                <groupId>com.zondy.mapgis</groupId>
+                <artifactId>mapgis-module-system-cross-api</artifactId>
+                <version>${mapgis.boot.version}</version>
+            </dependency>
+
             <!-- MapGIS File Base Api -->
             <dependency>
                 <groupId>com.zondy.mapgis</groupId>

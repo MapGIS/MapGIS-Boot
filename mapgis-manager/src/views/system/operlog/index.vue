@@ -195,11 +195,6 @@ export default {
           align: 'center'
         },
         {
-          title: '操作地点',
-          dataIndex: 'operLocation',
-          align: 'center'
-        },
-        {
           title: '登录状态',
           dataIndex: 'status',
           scopedSlots: { customRender: 'status' },

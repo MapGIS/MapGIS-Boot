@@ -62,6 +62,8 @@ public class SysServiceApiImpl implements ISysServiceApi {
         // 权限集合
         Set<String> permissions = permissionService.getMenuPermission(sysUser.getUserId());
         LoginUser sysUserVo = new LoginUser();
+        sysUserVo.setUserId(sysUser.getUserId());
+        sysUserVo.setUsername(sysUser.getUserName());
         sysUserVo.setUser(sysUser);
         sysUserVo.setRoles(roles);
         sysUserVo.setPermissions(permissions);

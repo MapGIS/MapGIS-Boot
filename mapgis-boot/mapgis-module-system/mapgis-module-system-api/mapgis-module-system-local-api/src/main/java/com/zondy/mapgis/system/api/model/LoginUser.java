@@ -103,6 +103,10 @@ public class LoginUser implements UserDetails {
         return user.getUserName();
     }
 
+    public void setUsername(String username) {
+        user.setUserName(username);
+    }
+
     /**
      * 账号是否未过期,过期无法验证
      */

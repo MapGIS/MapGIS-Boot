@@ -134,6 +134,8 @@ public class TokenService {
      */
     public String createToken(LoginUser loginUser) {
         String token = IdUtils.fastUUID();
+        Long userId = loginUser.getUser().getUserId();
+        String userName = loginUser.getUser().getUserName();
         loginUser.setToken(token);
         setUserAgent(loginUser);
         refreshToken(loginUser);
@@ -141,6 +143,8 @@ public class TokenService {
         // Jwt存储信息
         Map<String, Object> claimsMap = new HashMap<String, Object>();
         claimsMap.put(SecurityConstants.USER_KEY, token);
+        claimsMap.put(SecurityConstants.DETAILS_USER_ID, userId);
+        claimsMap.put(SecurityConstants.DETAILS_USERNAME, userName);
 
         // 生成token
         return JwtUtils.createToken(claimsMap);
