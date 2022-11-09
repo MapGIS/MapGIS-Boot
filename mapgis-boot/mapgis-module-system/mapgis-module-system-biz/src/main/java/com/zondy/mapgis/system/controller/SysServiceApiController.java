@@ -43,6 +43,15 @@ public class SysServiceApiController extends BaseController {
     }
 
     /**
+     * 修改用户信息
+     */
+    @InnerAuth
+    @PostMapping("/user/profile")
+    public R<Boolean> updateUserProfile(@RequestBody SysUser sysUser) {
+        return sysServiceApi.updateUserProfile(sysUser, "");
+    }
+
+    /**
      * 添加访问日志
      */
     @InnerAuth

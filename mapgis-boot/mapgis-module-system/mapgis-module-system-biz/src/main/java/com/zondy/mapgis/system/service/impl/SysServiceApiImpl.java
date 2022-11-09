@@ -90,6 +90,14 @@ public class SysServiceApiImpl implements ISysServiceApi {
     }
 
     @Override
+    public R<Boolean> updateUserProfile(SysUser user, String source) {
+        if (userService.updateUserProfile(user) > 0) {
+            return R.ok();
+        }
+        return R.fail("修改个人信息异常，请联系管理员");
+    }
+
+    @Override
     public R<Boolean> saveLog(SysOperLog sysOperLog, String source) {
         if (operLogService.insertOperlog(sysOperLog) > 0) {
             return R.ok(true);

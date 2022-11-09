@@ -1,3 +1,4 @@
 com.zondy.mapgis.common.security.config.WebMvcConfig
 com.zondy.mapgis.common.security.aspect.PreAuthorizeAspect
 com.zondy.mapgis.common.security.aspect.InnerAuthAspect
+com.zondy.mapgis.common.security.service.SysRecordLogService

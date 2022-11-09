@@ -8,8 +8,11 @@ import com.zondy.mapgis.common.core.constant.UserConstants;
 import com.zondy.mapgis.common.core.domain.R;
 import com.zondy.mapgis.common.core.enums.UserStatus;
 import com.zondy.mapgis.common.core.exception.ServiceException;
+import com.zondy.mapgis.common.core.utils.DateUtils;
 import com.zondy.mapgis.common.core.utils.MessageUtils;
+import com.zondy.mapgis.common.core.utils.ServletUtils;
 import com.zondy.mapgis.common.core.utils.StringUtils;
+import com.zondy.mapgis.common.core.utils.ip.IpUtils;
 import com.zondy.mapgis.common.security.service.SysRecordLogService;
 import com.zondy.mapgis.common.security.service.TokenService;
 import com.zondy.mapgis.common.security.utils.SecurityUtils;
@@ -68,14 +71,14 @@ public class SysLoginService {
             }
         }
 
-
         LoginUser loginUser = loadUserByUsername(username);
         SysUser user = loginUser.getUser();
 
         passwordService.validate(user, password);
         recordLogService.recordLogininfor(username, Constants.LOGIN_SUCCESS, MessageUtils.message("user.login.success"));
+        recordLoginInfo(loginUser.getUserId());
         // 踢人
-        tokenService.kickoutLoginUser(loginUser.getUser().getUserId());
+        tokenService.kickoutLoginUser(loginUser.getUserId());
         // 生成token
         return tokenService.createToken(loginUser);
     }
@@ -86,8 +89,9 @@ public class SysLoginService {
     public String login(String username) {
         LoginUser loginUser = loadUserByUsername(username);
         recordLogService.recordLogininfor(username, Constants.LOGIN_SUCCESS, MessageUtils.message("user.login.success"));
+        recordLoginInfo(loginUser.getUserId());
         // 踢人
-        tokenService.kickoutLoginUser(loginUser.getUser().getUserId());
+        tokenService.kickoutLoginUser(loginUser.getUserId());
         // 生成token
         return tokenService.createToken(loginUser);
     }
@@ -134,6 +138,19 @@ public class SysLoginService {
             throw new ServiceException(registerResult.getMsg());
         }
         recordLogService.recordLogininfor(username, Constants.REGISTER, MessageUtils.message("user.register.success"));
+    }
+
+    /**
+     * 记录登录信息
+     *
+     * @param userId 用户ID
+     */
+    public void recordLoginInfo(Long userId) {
+        SysUser sysUser = new SysUser();
+        sysUser.setUserId(userId);
+        sysUser.setLoginIp(IpUtils.getIpAddr(ServletUtils.getRequest()));
+        sysUser.setLoginDate(DateUtils.getNowDate());
+        sysServiceApi.updateUserProfile(sysUser, SecurityConstants.INNER);
     }
 
     public LoginUser loadUserByUsername(String username) {

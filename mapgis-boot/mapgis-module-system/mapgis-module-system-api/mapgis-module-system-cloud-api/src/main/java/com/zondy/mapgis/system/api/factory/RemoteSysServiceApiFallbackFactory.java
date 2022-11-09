@@ -36,6 +36,11 @@ public class RemoteSysServiceApiFallbackFactory implements FallbackFactory<ISysS
             }
 
             @Override
+            public R<Boolean> updateUserProfile(SysUser sysUser, String source) {
+                return R.fail("更新用户失败:" + throwable.getMessage());
+            }
+
+            @Override
             public R<Boolean> saveLog(SysOperLog sysOperLog, String source) {
                 return R.fail("添加操作日志失败:" + throwable.getMessage());
             }

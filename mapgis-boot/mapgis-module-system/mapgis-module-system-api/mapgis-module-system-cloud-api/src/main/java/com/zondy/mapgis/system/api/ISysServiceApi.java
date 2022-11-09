@@ -39,6 +39,16 @@ public interface ISysServiceApi {
     public R<Boolean> registerUserInfo(@RequestBody SysUser sysUser, @RequestHeader(SecurityConstants.FROM_SOURCE) String source);
 
     /**
+     * 修改用户信息
+     *
+     * @param sysUser 用户信息
+     * @param source  请求来源
+     * @return 结果
+     */
+    @PostMapping("/system/api/user/profile")
+    public R<Boolean> updateUserProfile(@RequestBody SysUser sysUser, @RequestHeader(SecurityConstants.FROM_SOURCE) String source);
+
+    /**
      * 保存系统日志
      *
      * @param sysOperLog 日志实体

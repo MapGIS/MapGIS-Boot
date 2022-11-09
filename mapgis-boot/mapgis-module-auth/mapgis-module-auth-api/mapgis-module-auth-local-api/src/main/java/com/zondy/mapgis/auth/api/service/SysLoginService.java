@@ -17,6 +17,7 @@ import com.zondy.mapgis.common.core.utils.spring.SpringUtils;
 import com.zondy.mapgis.common.security.context.AuthenticationContextHolder;
 import com.zondy.mapgis.common.security.manager.AsyncManager;
 import com.zondy.mapgis.common.security.manager.factory.AsyncFactory;
+import com.zondy.mapgis.common.security.service.SysRecordLogService;
 import com.zondy.mapgis.common.security.service.TokenService;
 import com.zondy.mapgis.common.security.utils.SecurityUtils;
 import com.zondy.mapgis.system.api.ISysServiceApi;
@@ -43,10 +44,10 @@ import java.util.Map;
 @Component
 public class SysLoginService {
     @Autowired
-    private TokenService tokenService;
+    private ISysServiceApi sysServiceApi;
 
     @Autowired
-    private ISysServiceApi sysServiceApi;
+    private TokenService tokenService;
 
     @Autowired
     private ISysUserService userService;
@@ -56,6 +57,9 @@ public class SysLoginService {
 
     @Autowired
     private UserDetailsService userDetailsService;
+
+    @Autowired
+    private SysRecordLogService recordLogService;
 
     @Autowired
     private SysServiceProxy sysServiceProxy;
@@ -96,14 +100,14 @@ public class SysLoginService {
                     .authenticate(authenticationToken);
         } catch (Exception e) {
             if (e instanceof BadCredentialsException) {
-                AsyncManager.me().execute(AsyncFactory.recordLogininfor(username, Constants.LOGIN_FAIL, MessageUtils.message("user.password.not.match")));
+                recordLogService.recordLogininfor(username, Constants.LOGIN_FAIL, MessageUtils.message("user.password.not.match"));
                 throw new UserPasswordNotMatchException();
             } else {
                 AsyncManager.me().execute(AsyncFactory.recordLogininfor(username, Constants.LOGIN_FAIL, e.getMessage()));
                 throw new ServiceException(e.getMessage());
             }
         }
-        AsyncManager.me().execute(AsyncFactory.recordLogininfor(username, Constants.LOGIN_SUCCESS, MessageUtils.message("user.login.success")));
+        recordLogService.recordLogininfor(username, Constants.LOGIN_SUCCESS, MessageUtils.message("user.login.success"));
         LoginUser loginUser = (LoginUser) authentication.getPrincipal();
         recordLoginInfo(loginUser.getUserId());
         // 踢人
@@ -122,14 +126,14 @@ public class SysLoginService {
             loginUser = loadUserByUsername(username);
         } catch (Exception e) {
             if (e instanceof BadCredentialsException) {
-                AsyncManager.me().execute(AsyncFactory.recordLogininfor(username, Constants.LOGIN_FAIL, MessageUtils.message("user.password.not.match")));
+                recordLogService.recordLogininfor(username, Constants.LOGIN_FAIL, MessageUtils.message("user.password.not.match"));
                 throw new UserPasswordNotMatchException();
             } else {
-                AsyncManager.me().execute(AsyncFactory.recordLogininfor(username, Constants.LOGIN_FAIL, e.getMessage()));
+                recordLogService.recordLogininfor(username, Constants.LOGIN_FAIL, e.getMessage());
                 throw new ServiceException(e.getMessage());
             }
         }
-        AsyncManager.me().execute(AsyncFactory.recordLogininfor(username, Constants.LOGIN_SUCCESS, MessageUtils.message("user.login.success")));
+        recordLogService.recordLogininfor(username, Constants.LOGIN_SUCCESS, MessageUtils.message("user.login.success"));
         recordLoginInfo(loginUser.getUserId());
         // 踢人
         tokenService.kickoutLoginUser(loginUser.getUserId());
@@ -185,9 +189,7 @@ public class SysLoginService {
         if (R.FAIL == registerResult.getCode()) {
             throw new ServiceException(registerResult.getMsg());
         }
-
-        AsyncManager.me().execute(AsyncFactory.recordLogininfor(username, Constants.REGISTER,
-                MessageUtils.message("user.register.success")));
+        recordLogService.recordLogininfor(username, Constants.REGISTER, MessageUtils.message("user.register.success"));
     }
 
     /**
