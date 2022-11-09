@@ -23,10 +23,28 @@
             <artifactId>javax.servlet-api</artifactId>
         </dependency>
 
+        <!-- 解析客户端操作系统、浏览器等 -->
+        <dependency>
+            <groupId>eu.bitwalker</groupId>
+            <artifactId>UserAgentUtils</artifactId>
+        </dependency>
+
+        <!-- JWT -->
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt</artifactId>
+        </dependency>
+
         <!-- MapGIS System Base Api -->
         <dependency>
             <groupId>com.zondy.mapgis</groupId>
             <artifactId>mapgis-module-system-base-api</artifactId>
+        </dependency>
+
+        <!-- MapGIS System Cross Api -->
+        <dependency>
+            <groupId>com.zondy.mapgis</groupId>
+            <artifactId>mapgis-module-system-cross-api</artifactId>
         </dependency>
 
         <!-- MapGIS Common Base Cache -->
@@ -35,4 +53,27 @@
             <artifactId>mapgis-common-base-cache</artifactId>
         </dependency>
     </dependencies>
+
+    <profiles>
+        <profile>
+            <id>local</id>
+            <dependencies>
+                <!-- MapGIS System Local Api -->
+                <dependency>
+                    <groupId>com.zondy.mapgis</groupId>
+                    <artifactId>mapgis-module-system-local-api</artifactId>
+                </dependency>
+            </dependencies>
+        </profile>
+        <profile>
+            <id>cloud</id>
+            <dependencies>
+                <!-- MapGIS System Cloud Api -->
+                <dependency>
+                    <groupId>com.zondy.mapgis</groupId>
+                    <artifactId>mapgis-module-system-cloud-api</artifactId>
+                </dependency>
+            </dependencies>
+        </profile>
+    </profiles>
 </project>

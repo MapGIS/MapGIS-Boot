@@ -29,22 +29,10 @@
             <artifactId>druid-spring-boot-starter</artifactId>
         </dependency>
 
-        <!-- 解析客户端操作系统、浏览器等 -->
-        <dependency>
-            <groupId>eu.bitwalker</groupId>
-            <artifactId>UserAgentUtils</artifactId>
-        </dependency>
-
         <!-- Mybatis 依赖配置 -->
         <dependency>
             <groupId>org.mybatis.spring.boot</groupId>
             <artifactId>mybatis-spring-boot-starter</artifactId>
-        </dependency>
-
-        <!-- JWT -->
-        <dependency>
-            <groupId>io.jsonwebtoken</groupId>
-            <artifactId>jjwt</artifactId>
         </dependency>
 
         <!-- MapGIS System Local API -->

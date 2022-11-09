@@ -8,7 +8,7 @@ import com.zondy.mapgis.common.core.utils.ServletUtils;
 import com.zondy.mapgis.common.core.utils.StringUtils;
 import com.zondy.mapgis.common.core.utils.ip.IpUtils;
 import com.zondy.mapgis.common.core.utils.uuid.IdUtils;
-import com.zondy.mapgis.common.security.utils.SecurityUtils;
+import com.zondy.mapgis.common.security.utils.BaseSecurityUtils;
 import com.zondy.mapgis.system.api.model.LoginUser;
 import com.zondy.mapgis.system.api.service.SysServiceProxy;
 import eu.bitwalker.useragentutils.UserAgent;
@@ -62,7 +62,7 @@ public class TokenService {
      */
     public LoginUser getLoginUser(HttpServletRequest request) {
         // 获取请求携带的令牌
-        String token = SecurityUtils.getToken(request);
+        String token = BaseSecurityUtils.getToken(request);
         return getLoginUser(token);
     }
 
