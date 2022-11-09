@@ -1,4 +1,4 @@
-package com.zondy.mapgis.auth.api.service;
+package com.zondy.mapgis.common.security.service;
 
 import com.zondy.mapgis.common.core.constant.Constants;
 import com.zondy.mapgis.common.core.constant.SecurityConstants;

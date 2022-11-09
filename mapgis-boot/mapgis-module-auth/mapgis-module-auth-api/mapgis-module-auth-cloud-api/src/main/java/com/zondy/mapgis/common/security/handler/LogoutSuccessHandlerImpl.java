@@ -1,12 +1,12 @@
 package com.zondy.mapgis.common.security.handler;
 
-import com.zondy.mapgis.auth.api.service.SysLoginService;
+import com.zondy.mapgis.common.core.constant.Constants;
 import com.zondy.mapgis.common.core.constant.HttpStatus;
 import com.zondy.mapgis.common.core.utils.JsonUtils;
 import com.zondy.mapgis.common.core.utils.ServletUtils;
 import com.zondy.mapgis.common.core.utils.StringUtils;
 import com.zondy.mapgis.common.core.web.domain.AjaxResult;
-import com.zondy.mapgis.common.security.auth.AuthUtil;
+import com.zondy.mapgis.common.security.service.SysRecordLogService;
 import com.zondy.mapgis.common.security.service.TokenService;
 import com.zondy.mapgis.common.security.utils.SecurityUtils;
 import com.zondy.mapgis.system.api.model.LoginUser;
@@ -29,9 +29,8 @@ import java.io.IOException;
  */
 @Configuration
 public class LogoutSuccessHandlerImpl implements LogoutSuccessHandler {
-
     @Autowired
-    private SysLoginService loginService;
+    private SysRecordLogService recordLogService;
 
     @Autowired
     private TokenService tokenService;
@@ -48,9 +47,9 @@ public class LogoutSuccessHandlerImpl implements LogoutSuccessHandler {
         if (StringUtils.isNotNull(loginUser)) {
             String userName = loginUser.getUsername();
             // 删除用户缓存记录
-            AuthUtil.logoutByToken(SecurityUtils.getToken(request));
+            tokenService.delLoginUser(SecurityUtils.getToken(), loginUser.getUser().getUserId());
             // 记录用户退出日志
-            loginService.logout(userName);
+            recordLogService.recordLogininfor(userName, Constants.LOGOUT, "退出成功");
             ServletUtils.renderString(response, JsonUtils.toJsonString(AjaxResult.error(HttpStatus.SUCCESS, "退出成功")));
             return;
         }

@@ -10,6 +10,7 @@ import com.zondy.mapgis.common.core.enums.UserStatus;
 import com.zondy.mapgis.common.core.exception.ServiceException;
 import com.zondy.mapgis.common.core.utils.MessageUtils;
 import com.zondy.mapgis.common.core.utils.StringUtils;
+import com.zondy.mapgis.common.security.service.SysRecordLogService;
 import com.zondy.mapgis.common.security.service.TokenService;
 import com.zondy.mapgis.common.security.utils.SecurityUtils;
 import com.zondy.mapgis.system.api.ISysServiceApi;
@@ -89,10 +90,6 @@ public class SysLoginService {
         tokenService.kickoutLoginUser(loginUser.getUser().getUserId());
         // 生成token
         return tokenService.createToken(loginUser);
-    }
-
-    public void logout(String loginName) {
-        recordLogService.recordLogininfor(loginName, Constants.LOGOUT, MessageUtils.message("user.logout.success"));
     }
 
     /**
