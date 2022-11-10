@@ -3,6 +3,7 @@ package com.zondy.mapgis.common.security.handler;
 import com.zondy.mapgis.common.core.constant.Constants;
 import com.zondy.mapgis.common.core.constant.HttpStatus;
 import com.zondy.mapgis.common.core.utils.JsonUtils;
+import com.zondy.mapgis.common.core.utils.MessageUtils;
 import com.zondy.mapgis.common.core.utils.ServletUtils;
 import com.zondy.mapgis.common.core.utils.StringUtils;
 import com.zondy.mapgis.common.core.web.domain.AjaxResult;
@@ -48,10 +49,10 @@ public class LogoutSuccessHandlerImpl implements LogoutSuccessHandler {
             // 删除用户缓存记录
             tokenService.delLoginUser(SecurityUtils.getToken(), loginUser.getUser().getUserId());
             // 记录用户退出日志
-            recordLogService.recordLogininfor(userName, Constants.LOGOUT, "退出成功");
-            ServletUtils.renderString(response, JsonUtils.toJsonString(AjaxResult.error(HttpStatus.SUCCESS, "退出成功")));
+            recordLogService.recordLogininfor(userName, Constants.LOGOUT, MessageUtils.message("user.logout.success"));
+            ServletUtils.renderString(response, JsonUtils.toJsonString(AjaxResult.error(HttpStatus.SUCCESS, MessageUtils.message("user.logout.success"))));
             return;
         }
-        ServletUtils.renderString(response, JsonUtils.toJsonString(AjaxResult.error(HttpStatus.SUCCESS, "用户不存在")));
+        ServletUtils.renderString(response, JsonUtils.toJsonString(AjaxResult.error(HttpStatus.SUCCESS, MessageUtils.message("user.not.exists"))));
     }
 }

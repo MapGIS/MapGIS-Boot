@@ -2,7 +2,6 @@ package com.zondy.mapgis.system.service.impl;
 
 import cn.hutool.core.lang.Dict;
 import com.zondy.mapgis.common.core.constant.ConfigConstants;
-import com.zondy.mapgis.common.core.constant.Constants;
 import com.zondy.mapgis.common.core.constant.UserConstants;
 import com.zondy.mapgis.common.core.domain.R;
 import com.zondy.mapgis.common.core.utils.JsonUtils;
@@ -55,7 +54,7 @@ public class SysServiceApiImpl implements ISysServiceApi {
     public R<LoginUser> getUserInfo(String username, String source) {
         SysUser sysUser = userService.selectUserByUserName(username);
         if (StringUtils.isNull(sysUser)) {
-            return R.fail(Constants.LOGIN_USER_KEY + username + " 不存在");
+            return R.ok();
         }
         // 角色集合
         Set<String> roles = permissionService.getRolePermission(sysUser.getUserId());

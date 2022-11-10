@@ -107,7 +107,7 @@ public class EhcacheCacheServiceImpl implements ICacheService {
      */
     @Override
     public Boolean hasKey(String key) {
-        return false;
+        return cache.isKeyInCache(key);
     }
 
     /**

@@ -104,7 +104,9 @@ public class LoginUser implements UserDetails {
     }
 
     public void setUsername(String username) {
-        user.setUserName(username);
+        if (user != null) {
+            user.setUserName(username);
+        }
     }
 
     /**

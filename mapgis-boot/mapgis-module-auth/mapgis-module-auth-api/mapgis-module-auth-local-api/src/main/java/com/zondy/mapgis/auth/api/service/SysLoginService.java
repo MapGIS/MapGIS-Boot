@@ -7,7 +7,6 @@ import com.zondy.mapgis.common.core.constant.SecurityConstants;
 import com.zondy.mapgis.common.core.constant.UserConstants;
 import com.zondy.mapgis.common.core.domain.R;
 import com.zondy.mapgis.common.core.exception.ServiceException;
-import com.zondy.mapgis.common.core.exception.user.UserPasswordNotMatchException;
 import com.zondy.mapgis.common.core.utils.DateUtils;
 import com.zondy.mapgis.common.core.utils.MessageUtils;
 import com.zondy.mapgis.common.core.utils.ServletUtils;
@@ -15,8 +14,6 @@ import com.zondy.mapgis.common.core.utils.StringUtils;
 import com.zondy.mapgis.common.core.utils.ip.IpUtils;
 import com.zondy.mapgis.common.core.utils.spring.SpringUtils;
 import com.zondy.mapgis.common.security.context.AuthenticationContextHolder;
-import com.zondy.mapgis.common.security.manager.AsyncManager;
-import com.zondy.mapgis.common.security.manager.factory.AsyncFactory;
 import com.zondy.mapgis.common.security.service.SysRecordLogService;
 import com.zondy.mapgis.common.security.service.TokenService;
 import com.zondy.mapgis.common.security.utils.SecurityUtils;
@@ -24,11 +21,9 @@ import com.zondy.mapgis.system.api.ISysServiceApi;
 import com.zondy.mapgis.system.api.domain.SysAuthUser;
 import com.zondy.mapgis.system.api.domain.SysUser;
 import com.zondy.mapgis.system.api.model.LoginUser;
-import com.zondy.mapgis.system.api.service.ISysUserService;
 import com.zondy.mapgis.system.api.service.SysServiceProxy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -38,6 +33,8 @@ import java.util.List;
 import java.util.Map;
 
 /**
+ * 登录校验方法
+ *
  * @author xiongbo
  * @since 2022/3/15 18:00
  */
@@ -48,9 +45,6 @@ public class SysLoginService {
 
     @Autowired
     private TokenService tokenService;
-
-    @Autowired
-    private ISysUserService userService;
 
     @Autowired
     private IValidateCodeService validateCodeService;
@@ -71,13 +65,15 @@ public class SysLoginService {
      * 登录验证
      */
     public String login(LoginBody loginBody) {
-        String username = loginBody.getUsername(), password = loginBody.getPassword();
         boolean captchaEnabled = (Boolean) sysServiceProxy.getLoginConfig().get("captchaEnabled");
 
         // 校验验证码
         if (captchaEnabled) {
             validateCodeService.checkCaptcha(loginBody.getCode(), loginBody.getUuid());
         }
+
+        String username = loginBody.getUsername(), password = loginBody.getPassword();
+
         // 如果启用了LDAP登录
         Map<String, Object> ldapConfig = sysServiceProxy.getLdapConfig();
 
@@ -91,27 +87,19 @@ public class SysLoginService {
         }
 
         // 用户验证
-        Authentication authentication = null;
+        LoginUser loginUser = null;
         try {
             UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(username, password);
             AuthenticationContextHolder.setContext(authenticationToken);
             // 该方法会去调用UserDetailsServiceImpl.loadUserByUsername
-            authentication = SpringUtils.getBean(AuthenticationManager.class)
+            Authentication authentication = SpringUtils.getBean(AuthenticationManager.class)
                     .authenticate(authenticationToken);
+            loginUser = (LoginUser) authentication.getPrincipal();
         } catch (Exception e) {
-            if (e instanceof BadCredentialsException) {
-                recordLogService.recordLogininfor(username, Constants.LOGIN_FAIL, MessageUtils.message("user.password.not.match"));
-                throw new UserPasswordNotMatchException();
-            } else {
-                AsyncManager.me().execute(AsyncFactory.recordLogininfor(username, Constants.LOGIN_FAIL, e.getMessage()));
-                throw new ServiceException(e.getMessage());
-            }
+            throw new ServiceException(e.getMessage());
         }
-        recordLogService.recordLogininfor(username, Constants.LOGIN_SUCCESS, MessageUtils.message("user.login.success"));
-        LoginUser loginUser = (LoginUser) authentication.getPrincipal();
-        recordLoginInfo(loginUser.getUserId());
-        // 踢人
-        tokenService.kickoutLoginUser(loginUser.getUserId());
+        // 成功登录之后操作
+        afterSuccessLogin(loginUser, username);
         // 生成token
         return tokenService.createToken(loginUser);
     }
@@ -121,22 +109,13 @@ public class SysLoginService {
      */
     public String login(String username) {
         LoginUser loginUser = null;
-
         try {
-            loginUser = loadUserByUsername(username);
+            loginUser = loadUserByUsername(username, null);
         } catch (Exception e) {
-            if (e instanceof BadCredentialsException) {
-                recordLogService.recordLogininfor(username, Constants.LOGIN_FAIL, MessageUtils.message("user.password.not.match"));
-                throw new UserPasswordNotMatchException();
-            } else {
-                recordLogService.recordLogininfor(username, Constants.LOGIN_FAIL, e.getMessage());
-                throw new ServiceException(e.getMessage());
-            }
+            throw new ServiceException(e.getMessage());
         }
-        recordLogService.recordLogininfor(username, Constants.LOGIN_SUCCESS, MessageUtils.message("user.login.success"));
-        recordLoginInfo(loginUser.getUserId());
-        // 踢人
-        tokenService.kickoutLoginUser(loginUser.getUserId());
+        // 成功登录之后操作
+        afterSuccessLogin(loginUser, username);
         // 生成token
         return tokenService.createToken(loginUser);
     }
@@ -145,7 +124,6 @@ public class SysLoginService {
      * 注册
      */
     public void register(RegisterBody registerBody) {
-        String username = registerBody.getUsername(), password = registerBody.getPassword();
         boolean captchaEnabled = (Boolean) sysServiceProxy.getLoginConfig().get("captchaEnabled");
 
         // 校验验证码
@@ -153,6 +131,7 @@ public class SysLoginService {
             validateCodeService.checkCaptcha(registerBody.getCode(), registerBody.getUuid());
         }
 
+        String username = registerBody.getUsername(), password = registerBody.getPassword();
         Map<String, Object> registrConfig = sysServiceProxy.getRegisterConfig();
         Long[] roleIds = (Long[]) registrConfig.get("defaultRoleIds");
 
@@ -165,15 +144,15 @@ public class SysLoginService {
     public void register(String username, String password, Long[] roleIds) {
         // 用户名或密码为空 错误
         if (StringUtils.isAnyBlank(username, password)) {
-            throw new ServiceException("用户/密码必须填写");
+            throw new ServiceException(MessageUtils.message("user.not.null"));
         }
         if (username.length() < UserConstants.USERNAME_MIN_LENGTH
                 || username.length() > UserConstants.USERNAME_MAX_LENGTH) {
-            throw new ServiceException("账号长度必须在2到20个字符之间");
+            throw new ServiceException(MessageUtils.message("user.username.not.valid"));
         }
         if (password.length() < UserConstants.PASSWORD_MIN_LENGTH
                 || password.length() > UserConstants.PASSWORD_MAX_LENGTH) {
-            throw new ServiceException("密码长度必须在8到16个字符之间");
+            throw new ServiceException(MessageUtils.message("user.password.not.valid"));
         }
 
         // 注册用户信息
@@ -202,10 +181,17 @@ public class SysLoginService {
         sysUser.setUserId(userId);
         sysUser.setLoginIp(IpUtils.getIpAddr(ServletUtils.getRequest()));
         sysUser.setLoginDate(DateUtils.getNowDate());
-        userService.updateUserProfile(sysUser);
+        sysServiceApi.updateUserProfile(sysUser, SecurityConstants.INNER);
     }
 
-    public LoginUser loadUserByUsername(String username) {
+    /**
+     * 验证登录用户
+     *
+     * @param username 用户名
+     * @param password 密码
+     * @return 登录用户
+     */
+    public LoginUser loadUserByUsername(String username, String password) {
         return (LoginUser) userDetailsService.loadUserByUsername(username);
     }
 
@@ -227,6 +213,27 @@ public class SysLoginService {
         tokenService.refreshToken(loginUser);
     }
 
+    /**
+     * 成功登录之后操作
+     *
+     * @param loginUser 登录用户
+     * @param username  用户名
+     */
+    public void afterSuccessLogin(LoginUser loginUser, String username) {
+        // 记录成功登录日志
+        recordLogService.recordLogininfor(username, Constants.LOGIN_SUCCESS, MessageUtils.message("user.login.success"));
+        // 记录用户登录信息
+        recordLoginInfo(loginUser.getUserId());
+        // 踢人
+        tokenService.kickoutLoginUser(loginUser.getUserId());
+    }
+
+    /**
+     * 查询第三方登录授权用户列表
+     *
+     * @param user 查询条件
+     * @return 第三方登录授权用户列表
+     */
     public List<SysAuthUser> selectAuthUserList(SysAuthUser user) {
         R<List<SysAuthUser>> sysAuthUserListResult = sysServiceApi.selectAuthUserList(user, SecurityConstants.INNER);
 
@@ -244,16 +251,17 @@ public class SysLoginService {
         R<LoginUser> loginUserResult = sysServiceApi.getUserInfo(username, SecurityConstants.INNER);
 
         if (R.FAIL == loginUserResult.getCode()) {
-            if (!loginUserResult.getMsg().startsWith(Constants.LOGIN_USER_KEY)) {
-                throw new ServiceException(loginUserResult.getMsg());
-            } else {
-                // 不存在用户
-                String password = sysServiceProxy.getInitPasswordConfig();
+            throw new ServiceException(loginUserResult.getMsg());
+        }
 
-                // 注册账号
-                Long[] roleIds = (Long[]) ldapConfig.get("defaultRoleIds");
-                register(username, password, roleIds);
-            }
+        LoginUser loginUser = loginUserResult.getData();
+        if (StringUtils.isNull(loginUser) || StringUtils.isNull(loginUser.getUser())) {
+            // 不存在用户
+            String password = sysServiceProxy.getInitPasswordConfig();
+
+            // 注册账号
+            Long[] roleIds = (Long[]) ldapConfig.get("defaultRoleIds");
+            register(username, password, roleIds);
         }
     }
 }

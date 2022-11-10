@@ -2,14 +2,15 @@ package com.zondy.mapgis.common.security.service;
 
 import com.zondy.mapgis.common.cache.service.ICacheService;
 import com.zondy.mapgis.common.core.constant.CacheConstants;
+import com.zondy.mapgis.common.core.constant.Constants;
 import com.zondy.mapgis.common.core.exception.user.UserPasswordNotMatchException;
 import com.zondy.mapgis.common.core.exception.user.UserPasswordRetryLimitExceedException;
-import com.zondy.mapgis.common.security.context.AuthenticationContextHolder;
+import com.zondy.mapgis.common.core.utils.MessageUtils;
+import com.zondy.mapgis.common.core.utils.StringUtils;
 import com.zondy.mapgis.common.security.utils.SecurityUtils;
 import com.zondy.mapgis.system.api.domain.SysUser;
 import com.zondy.mapgis.system.api.service.SysServiceProxy;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
 import java.util.Map;
@@ -18,13 +19,16 @@ import java.util.concurrent.TimeUnit;
 /**
  * 登录密码方法
  *
- * @author powanjuanshu
+ * @author xiongbo
  * @since 2022/8/16 16:50
  */
 @Component
 public class SysPasswordService {
     @Autowired
     private ICacheService cacheService;
+
+    @Autowired
+    private SysRecordLogService recordLogService;
 
     @Autowired
     private SysServiceProxy sysServiceProxy;
@@ -39,7 +43,12 @@ public class SysPasswordService {
         return CacheConstants.PWD_ERR_CNT_KEY + username;
     }
 
-    public void validate(SysUser user) {
+    public void validate(SysUser user, String password) {
+        if (StringUtils.isEmpty(password)) {
+            return;
+        }
+
+        String username = user.getUserName();
         // 获取密码安全配置
         Map<String, Object> passwordProtectedConfig = sysServiceProxy.getPasswordProtectedConfig();
 
@@ -48,17 +57,13 @@ public class SysPasswordService {
         Integer lockTime = (Integer) passwordProtectedConfig.get("lockTime");
 
         if (!lockEnabled) {
+            if (!matches(user, password)) {
+                recordLogService.recordLogininfor(username, Constants.LOGIN_FAIL,
+                        MessageUtils.message("user.password.not.match"));
+                throw new UserPasswordNotMatchException();
+            }
             return;
         }
-
-        Authentication usernamePasswordAuthenticationToken = AuthenticationContextHolder.getContext();
-
-        if (usernamePasswordAuthenticationToken == null) {
-            return;
-        }
-
-        String username = usernamePasswordAuthenticationToken.getName();
-        String password = usernamePasswordAuthenticationToken.getCredentials().toString();
 
         Integer retryCount = cacheService.getCacheObject(getCacheKey(username));
 
@@ -67,11 +72,15 @@ public class SysPasswordService {
         }
 
         if (retryCount >= maxRetryCount.intValue()) {
+            recordLogService.recordLogininfor(username, Constants.LOGIN_FAIL,
+                    MessageUtils.message("user.password.retry.limit.exceed", maxRetryCount, lockTime));
             throw new UserPasswordRetryLimitExceedException(maxRetryCount, lockTime);
         }
 
         if (!matches(user, password)) {
             retryCount = retryCount + 1;
+            recordLogService.recordLogininfor(username, Constants.LOGIN_FAIL,
+                    MessageUtils.message("user.password.retry.limit.count", retryCount));
             cacheService.setCacheObject(getCacheKey(username), retryCount, lockTime.longValue(), TimeUnit.MINUTES);
             throw new UserPasswordNotMatchException();
         } else {

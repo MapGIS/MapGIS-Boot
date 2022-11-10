@@ -1,32 +1,28 @@
 package com.zondy.mapgis.common.security.service;
 
 import com.zondy.mapgis.common.core.constant.Constants;
+import com.zondy.mapgis.common.core.constant.SecurityConstants;
+import com.zondy.mapgis.common.core.domain.R;
 import com.zondy.mapgis.common.core.enums.UserStatus;
 import com.zondy.mapgis.common.core.exception.ServiceException;
 import com.zondy.mapgis.common.core.utils.MessageUtils;
 import com.zondy.mapgis.common.core.utils.StringUtils;
-import com.zondy.mapgis.common.security.context.AuthenticationContextHolder;
+import com.zondy.mapgis.system.api.ISysServiceApi;
 import com.zondy.mapgis.system.api.domain.SysUser;
 import com.zondy.mapgis.system.api.model.LoginUser;
-import com.zondy.mapgis.system.api.service.ISysPermissionService;
-import com.zondy.mapgis.system.api.service.ISysUserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 /**
  * 用户验证处理
  *
  * @author xiongbo
- * @since 2022/3/15 18:00
+ * @since 2022/11/10 9:56
  */
 @Service
-public class UserDetailsServiceImpl implements UserDetailsService {
+public class UserDetailsService {
     @Autowired
-    private ISysUserService userService;
+    private ISysServiceApi sysServiceApi;
 
     @Autowired
     private SysPasswordService passwordService;
@@ -34,17 +30,28 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Autowired
     private SysRecordLogService recordLogService;
 
-    @Autowired
-    private ISysPermissionService permissionService;
-
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    /**
+     * 验证登录用户
+     *
+     * @param username 用户名
+     * @param password 密码
+     * @return 登录用户
+     */
+    public LoginUser loadUserByUsername(String username, String password) {
         // 查询用户信息
-        SysUser user = userService.selectUserByUserName(username);
-        if (StringUtils.isNull(user)) {
+        R<LoginUser> userResult = sysServiceApi.getUserInfo(username, SecurityConstants.INNER);
+
+        if (R.FAIL == userResult.getCode()) {
+            throw new ServiceException(userResult.getMsg());
+        }
+
+        LoginUser loginUser = userResult.getData();
+        if (StringUtils.isNull(loginUser) || StringUtils.isNull(loginUser.getUser())) {
             recordLogService.recordLogininfor(username, Constants.LOGIN_FAIL, MessageUtils.message("user.not.exists"));
             throw new ServiceException("登录用户：" + username + " 不存在");
-        } else if (UserStatus.DELETED.getCode().equals(user.getDelFlag())) {
+        }
+        SysUser user = loginUser.getUser();
+        if (UserStatus.DELETED.getCode().equals(user.getDelFlag())) {
             recordLogService.recordLogininfor(username, Constants.LOGIN_FAIL, MessageUtils.message("user.password.delete"));
             throw new ServiceException("对不起，您的账号：" + username + " 已被删除");
         } else if (UserStatus.DISABLE.getCode().equals(user.getStatus())) {
@@ -52,18 +59,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
             throw new ServiceException("对不起，您的账号：" + username + " 已停用");
         }
 
-        Authentication usernamePasswordAuthenticationToken = AuthenticationContextHolder.getContext();
+        passwordService.validate(user, password);
 
-        if (usernamePasswordAuthenticationToken != null) {
-            String password = usernamePasswordAuthenticationToken.getCredentials().toString();
-
-            passwordService.validate(user, password);
-        }
-
-        return createLoginUser(user);
-    }
-
-    public UserDetails createLoginUser(SysUser user) {
-        return new LoginUser(user.getUserId(), user.getDeptId(), user, permissionService.getMenuPermission(user.getUserId()));
+        return loginUser;
     }
 }

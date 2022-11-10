@@ -6,7 +6,6 @@ import com.zondy.mapgis.common.core.constant.Constants;
 import com.zondy.mapgis.common.core.constant.SecurityConstants;
 import com.zondy.mapgis.common.core.constant.UserConstants;
 import com.zondy.mapgis.common.core.domain.R;
-import com.zondy.mapgis.common.core.enums.UserStatus;
 import com.zondy.mapgis.common.core.exception.ServiceException;
 import com.zondy.mapgis.common.core.utils.DateUtils;
 import com.zondy.mapgis.common.core.utils.MessageUtils;
@@ -15,6 +14,7 @@ import com.zondy.mapgis.common.core.utils.StringUtils;
 import com.zondy.mapgis.common.core.utils.ip.IpUtils;
 import com.zondy.mapgis.common.security.service.SysRecordLogService;
 import com.zondy.mapgis.common.security.service.TokenService;
+import com.zondy.mapgis.common.security.service.UserDetailsService;
 import com.zondy.mapgis.common.security.utils.SecurityUtils;
 import com.zondy.mapgis.system.api.ISysServiceApi;
 import com.zondy.mapgis.system.api.domain.SysAuthUser;
@@ -42,7 +42,7 @@ public class SysLoginService {
     private TokenService tokenService;
 
     @Autowired
-    private SysPasswordService passwordService;
+    private UserDetailsService userDetailsService;
 
     @Autowired
     private SysRecordLogService recordLogService;
@@ -71,14 +71,15 @@ public class SysLoginService {
             }
         }
 
-        LoginUser loginUser = loadUserByUsername(username);
-        SysUser user = loginUser.getUser();
-
-        passwordService.validate(user, password);
-        recordLogService.recordLogininfor(username, Constants.LOGIN_SUCCESS, MessageUtils.message("user.login.success"));
-        recordLoginInfo(loginUser.getUserId());
-        // 踢人
-        tokenService.kickoutLoginUser(loginUser.getUserId());
+        // 用户验证
+        LoginUser loginUser = null;
+        try {
+            loginUser = loadUserByUsername(username, password);
+        } catch (Exception e) {
+            throw new ServiceException(e.getMessage());
+        }
+        // 成功登录之后操作
+        afterSuccessLogin(loginUser, username);
         // 生成token
         return tokenService.createToken(loginUser);
     }
@@ -87,11 +88,14 @@ public class SysLoginService {
      * 无密码登录验证
      */
     public String login(String username) {
-        LoginUser loginUser = loadUserByUsername(username);
-        recordLogService.recordLogininfor(username, Constants.LOGIN_SUCCESS, MessageUtils.message("user.login.success"));
-        recordLoginInfo(loginUser.getUserId());
-        // 踢人
-        tokenService.kickoutLoginUser(loginUser.getUserId());
+        LoginUser loginUser = null;
+        try {
+            loginUser = loadUserByUsername(username, null);
+        } catch (Exception e) {
+            throw new ServiceException(e.getMessage());
+        }
+        // 成功登录之后操作
+        afterSuccessLogin(loginUser, username);
         // 生成token
         return tokenService.createToken(loginUser);
     }
@@ -113,15 +117,15 @@ public class SysLoginService {
     public void register(String username, String password, Long[] roleIds) {
         // 用户名或密码为空 错误
         if (StringUtils.isAnyBlank(username, password)) {
-            throw new ServiceException("用户/密码必须填写");
+            throw new ServiceException(MessageUtils.message("user.not.null"));
         }
         if (username.length() < UserConstants.USERNAME_MIN_LENGTH
                 || username.length() > UserConstants.USERNAME_MAX_LENGTH) {
-            throw new ServiceException("账号长度必须在2到20个字符之间");
+            throw new ServiceException(MessageUtils.message("user.username.not.valid"));
         }
         if (password.length() < UserConstants.PASSWORD_MIN_LENGTH
                 || password.length() > UserConstants.PASSWORD_MAX_LENGTH) {
-            throw new ServiceException("密码长度必须在8到16个字符之间");
+            throw new ServiceException(MessageUtils.message("user.password.not.valid"));
         }
 
         // 注册用户信息
@@ -153,36 +157,15 @@ public class SysLoginService {
         sysServiceApi.updateUserProfile(sysUser, SecurityConstants.INNER);
     }
 
-    public LoginUser loadUserByUsername(String username) {
-        // 用户名不在指定范围内 错误
-        if (username.length() < UserConstants.USERNAME_MIN_LENGTH
-                || username.length() > UserConstants.USERNAME_MAX_LENGTH) {
-            recordLogService.recordLogininfor(username, Constants.LOGIN_FAIL, "用户名不在指定范围");
-            throw new ServiceException("用户名不在指定范围");
-        }
-        // 查询用户信息
-        R<LoginUser> userResult = sysServiceApi.getUserInfo(username, SecurityConstants.INNER);
-
-        if (R.FAIL == userResult.getCode()) {
-            throw new ServiceException(userResult.getMsg());
-        }
-
-        if (StringUtils.isNull(userResult) || StringUtils.isNull(userResult.getData())) {
-            recordLogService.recordLogininfor(username, Constants.LOGIN_FAIL, MessageUtils.message("user.not.exists"));
-            throw new ServiceException(Constants.LOGIN_USER_KEY + username + " 不存在");
-        }
-        LoginUser loginUser = userResult.getData();
-        SysUser user = loginUser.getUser();
-        if (UserStatus.DELETED.getCode().equals(user.getDelFlag())) {
-            recordLogService.recordLogininfor(username, Constants.LOGIN_FAIL, MessageUtils.message("user.password.delete"));
-            throw new ServiceException("对不起，您的账号：" + username + " 已被删除");
-        }
-        if (UserStatus.DISABLE.getCode().equals(user.getStatus())) {
-            recordLogService.recordLogininfor(username, Constants.LOGIN_FAIL, MessageUtils.message("user.blocked"));
-            throw new ServiceException("对不起，您的账号：" + username + " 已停用");
-        }
-
-        return loginUser;
+    /**
+     * 验证登录用户
+     *
+     * @param username 用户名
+     * @param password 密码
+     * @return 登录用户
+     */
+    public LoginUser loadUserByUsername(String username, String password) {
+        return userDetailsService.loadUserByUsername(username, password);
     }
 
     /**
@@ -203,6 +186,27 @@ public class SysLoginService {
         tokenService.refreshToken(loginUser);
     }
 
+    /**
+     * 成功登录之后操作
+     *
+     * @param loginUser 登录用户
+     * @param username  用户名
+     */
+    public void afterSuccessLogin(LoginUser loginUser, String username) {
+        // 记录成功登录日志
+        recordLogService.recordLogininfor(username, Constants.LOGIN_SUCCESS, MessageUtils.message("user.login.success"));
+        // 记录用户登录信息
+        recordLoginInfo(loginUser.getUserId());
+        // 踢人
+        tokenService.kickoutLoginUser(loginUser.getUserId());
+    }
+
+    /**
+     * 查询第三方登录授权用户列表
+     *
+     * @param user 查询条件
+     * @return 第三方登录授权用户列表
+     */
     public List<SysAuthUser> selectAuthUserList(SysAuthUser user) {
         R<List<SysAuthUser>> sysAuthUserListResult = sysServiceApi.selectAuthUserList(user, SecurityConstants.INNER);
 
@@ -220,16 +224,17 @@ public class SysLoginService {
         R<LoginUser> loginUserResult = sysServiceApi.getUserInfo(username, SecurityConstants.INNER);
 
         if (R.FAIL == loginUserResult.getCode()) {
-            if (!loginUserResult.getMsg().startsWith(Constants.LOGIN_USER_KEY)) {
-                throw new ServiceException(loginUserResult.getMsg());
-            } else {
-                // 不存在用户
-                String password = sysServiceProxy.getInitPasswordConfig();
+            throw new ServiceException(loginUserResult.getMsg());
+        }
 
-                // 注册账号
-                Long[] roleIds = (Long[]) ldapConfig.get("defaultRoleIds");
-                register(username, password, roleIds);
-            }
+        LoginUser loginUser = loginUserResult.getData();
+        if (StringUtils.isNull(loginUser) || StringUtils.isNull(loginUser.getUser())) {
+            // 不存在用户
+            String password = sysServiceProxy.getInitPasswordConfig();
+
+            // 注册账号
+            Long[] roleIds = (Long[]) ldapConfig.get("defaultRoleIds");
+            register(username, password, roleIds);
         }
     }
 }

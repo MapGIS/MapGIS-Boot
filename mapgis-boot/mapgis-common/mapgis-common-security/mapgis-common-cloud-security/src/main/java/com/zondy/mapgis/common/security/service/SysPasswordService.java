@@ -1,4 +1,4 @@
-package com.zondy.mapgis.auth.api.service;
+package com.zondy.mapgis.common.security.service;
 
 import com.zondy.mapgis.common.cache.service.ICacheService;
 import com.zondy.mapgis.common.core.constant.CacheConstants;
@@ -6,7 +6,7 @@ import com.zondy.mapgis.common.core.constant.Constants;
 import com.zondy.mapgis.common.core.exception.user.UserPasswordNotMatchException;
 import com.zondy.mapgis.common.core.exception.user.UserPasswordRetryLimitExceedException;
 import com.zondy.mapgis.common.core.utils.MessageUtils;
-import com.zondy.mapgis.common.security.service.SysRecordLogService;
+import com.zondy.mapgis.common.core.utils.StringUtils;
 import com.zondy.mapgis.common.security.utils.SecurityUtils;
 import com.zondy.mapgis.system.api.domain.SysUser;
 import com.zondy.mapgis.system.api.service.SysServiceProxy;
@@ -19,8 +19,8 @@ import java.util.concurrent.TimeUnit;
 /**
  * 登录密码方法
  *
- * @author powanjuanshu
- * @since 2022/8/16 17:11
+ * @author xiongbo
+ * @since 2022/8/16 16:50
  */
 @Component
 public class SysPasswordService {
@@ -44,8 +44,11 @@ public class SysPasswordService {
     }
 
     public void validate(SysUser user, String password) {
-        String username = user.getUserName();
+        if (StringUtils.isEmpty(password)) {
+            return;
+        }
 
+        String username = user.getUserName();
         // 获取密码安全配置
         Map<String, Object> passwordProtectedConfig = sysServiceProxy.getPasswordProtectedConfig();
 

@@ -27,7 +27,10 @@ public class CasUserDetailsServiceImpl implements AuthenticationUserDetailsServi
     public UserDetails loadUserDetails(CasAssertionAuthenticationToken token) throws UsernameNotFoundException {
         String username = token.getName();
         try {
-            LoginUser loginUser = loginService.loadUserByUsername(username);
+            LoginUser loginUser = loginService.loadUserByUsername(username, null);
+
+            loginService.afterSuccessLogin(loginUser, username);
+
             CasLoginUser casLoginUser = new CasLoginUser();
 
             casLoginUser.setLoginUser(loginUser);

@@ -2,7 +2,6 @@ package com.zondy.mapgis.auth.controller;
 
 import com.zondy.mapgis.auth.api.service.SysLoginService;
 import com.zondy.mapgis.auth.domain.vo.AuthUserCheckPasswordVo;
-import com.zondy.mapgis.common.core.constant.Constants;
 import com.zondy.mapgis.common.core.constant.SecurityConstants;
 import com.zondy.mapgis.common.core.constant.TokenConstants;
 import com.zondy.mapgis.common.core.domain.R;
@@ -118,12 +117,13 @@ public class ThirdLoginController extends BaseController {
                 R<LoginUser> loginUserResult = sysServiceApi.getUserInfo(sysAuthUser.getLoginName(), SecurityConstants.INNER);
 
                 if (R.FAIL == loginUserResult.getCode()) {
-                    if (!loginUserResult.getMsg().startsWith(Constants.LOGIN_USER_KEY)) {
-                        throw new ServiceException(loginUserResult.getMsg());
-                    }
-                } else {
+                    throw new ServiceException(loginUserResult.getMsg());
+                }
+
+                LoginUser loginUser = loginUserResult.getData();
+                if (!StringUtils.isNull(loginUser) && StringUtils.isNull(loginUser.getUser())) {
                     // 存在同名用户，将该用户ID跟第三方授权用户关联，前端提示用户绑定
-                    SysUser sysUser = loginUserResult.getData().getUser();
+                    SysUser sysUser = loginUser.getUser();
                     // 如果该用户没有被删除且没有被禁用才可以绑定
                     if (!UserStatus.DELETED.getCode().equals(sysUser.getDelFlag()) && !UserStatus.DISABLE.getCode().equals(sysUser.getStatus())) {
                         sysAuthUser.setUserId(sysUser.getUserId());
