@@ -4,7 +4,6 @@ import com.zondy.mapgis.auth.api.service.SysLoginService;
 import com.zondy.mapgis.auth.domain.vo.AuthUserCheckPasswordVo;
 import com.zondy.mapgis.common.core.constant.SecurityConstants;
 import com.zondy.mapgis.common.core.constant.TokenConstants;
-import com.zondy.mapgis.common.core.domain.R;
 import com.zondy.mapgis.common.core.enums.UserStatus;
 import com.zondy.mapgis.common.core.exception.ServiceException;
 import com.zondy.mapgis.common.core.utils.JsonUtils;
@@ -88,7 +87,7 @@ public class ThirdLoginController extends BaseController {
 
             querySysAuthUser.setUuid(uuid);
 
-            List<SysAuthUser> sysAuthUserList = loginService.selectAuthUserList(querySysAuthUser);
+            List<SysAuthUser> sysAuthUserList = sysServiceProxy.selectAuthUserList(querySysAuthUser);
 
             if (sysAuthUserList.size() == 0) {
                 //否则直接创建新账号
@@ -103,7 +102,7 @@ public class ThirdLoginController extends BaseController {
                 sysServiceApi.saveAuthUser(newSysAuthUser, SecurityConstants.INNER);
 
                 // 再根据uuid获取授权用户，为了拿到authId
-                sysAuthUserList = loginService.selectAuthUserList(querySysAuthUser);
+                sysAuthUserList = sysServiceProxy.selectAuthUserList(querySysAuthUser);
 
                 if (sysAuthUserList.size() == 0) {
                     throw new ServiceException("授权账号添加失败");
@@ -114,13 +113,8 @@ public class ThirdLoginController extends BaseController {
 
             if (StringUtils.isNull(sysAuthUser.getUserId())) {
                 // 没有绑定用户，通过授权loginName去查找同名id
-                R<LoginUser> loginUserResult = sysServiceApi.getUserInfo(sysAuthUser.getLoginName(), SecurityConstants.INNER);
+                LoginUser loginUser = sysServiceProxy.getUserInfo(sysAuthUser.getLoginName());
 
-                if (R.FAIL == loginUserResult.getCode()) {
-                    throw new ServiceException(loginUserResult.getMsg());
-                }
-
-                LoginUser loginUser = loginUserResult.getData();
                 if (!StringUtils.isNull(loginUser) && StringUtils.isNull(loginUser.getUser())) {
                     // 存在同名用户，将该用户ID跟第三方授权用户关联，前端提示用户绑定
                     SysUser sysUser = loginUser.getUser();
@@ -133,13 +127,7 @@ public class ThirdLoginController extends BaseController {
                 modelMap.addAttribute("thirdLoginModel", JsonUtils.toJsonString(sysAuthUser));
             } else {
                 // 直接进行无密码登录
-                R<SysUser> userResult = sysServiceApi.selectUserByAuthUuid(uuid, SecurityConstants.INNER);
-
-                if (R.FAIL == userResult.getCode()) {
-                    throw new ServiceException(userResult.getMsg());
-                }
-
-                SysUser sysUser = userResult.getData();
+                SysUser sysUser = sysServiceProxy.selectUserByAuthUuid(uuid);
 
                 String token = loginService.login(sysUser.getUserName());
                 modelMap.addAttribute(TokenConstants.TOKEN, token);
@@ -167,7 +155,7 @@ public class ThirdLoginController extends BaseController {
         querySysAuthUser.setSource(source);
         querySysAuthUser.setUserId(sysUser.getUserId());
 
-        List<SysAuthUser> sysAuthUserList = loginService.selectAuthUserList(querySysAuthUser);
+        List<SysAuthUser> sysAuthUserList = sysServiceProxy.selectAuthUserList(querySysAuthUser);
 
         if (sysAuthUserList.size() == 0) {
             throw new ServiceException("授权账号获取失败");
@@ -209,22 +197,14 @@ public class ThirdLoginController extends BaseController {
         loginService.register(username, password, roleIds);
 
         // 根据用户名获取用户id
-        R<LoginUser> loginUserResult = sysServiceApi.getUserInfo(username, SecurityConstants.INNER);
+        LoginUser loginUser = sysServiceProxy.getUserInfo(username);
+        SysUser sysUser = loginUser.getUser();
 
-        if (R.FAIL == loginUserResult.getCode()) {
-            throw new ServiceException(loginUserResult.getMsg());
-        }
-
-        SysUser sysUser = loginUserResult.getData().getUser();
         // 设置用户id到第三方授权用户上
         sysAuthUser.setUserId(sysUser.getUserId());
 
         // 更新到授权表
-        R<Boolean> updateResult = sysServiceApi.updateAuthUser(sysAuthUser, SecurityConstants.INNER);
-
-        if (R.FAIL == updateResult.getCode()) {
-            throw new ServiceException(updateResult.getMsg());
-        }
+        sysServiceProxy.updateAuthUser(sysAuthUser);
 
         // 进行无密码登录，返回token
         String token = loginService.login(username);
@@ -242,13 +222,8 @@ public class ThirdLoginController extends BaseController {
     @ResponseBody
     public AjaxResult checkPwd(@RequestBody AuthUserCheckPasswordVo authUserCheckPasswordVo) {
         // 根据用户名获取用户id
-        R<LoginUser> loginUserResult = sysServiceApi.getUserInfo(authUserCheckPasswordVo.getLoginName(), SecurityConstants.INNER);
-
-        if (R.FAIL == loginUserResult.getCode()) {
-            throw new ServiceException(loginUserResult.getMsg());
-        }
-
-        SysUser sysUser = loginUserResult.getData().getUser();
+        LoginUser loginUser = sysServiceProxy.getUserInfo(authUserCheckPasswordVo.getLoginName());
+        SysUser sysUser = loginUser.getUser();
 
         String correctPassword = sysUser.getPassword();
         if (!SecurityUtils.matchesPassword(authUserCheckPasswordVo.getPassword(), correctPassword)) {
@@ -262,18 +237,14 @@ public class ThirdLoginController extends BaseController {
         querySysAuthUser.setSource(authUserCheckPasswordVo.getSource());
         querySysAuthUser.setUserId(authUserCheckPasswordVo.getUserId());
 
-        List<SysAuthUser> sysAuthUserList = loginService.selectAuthUserList(querySysAuthUser);
+        List<SysAuthUser> sysAuthUserList = sysServiceProxy.selectAuthUserList(querySysAuthUser);
 
         if (sysAuthUserList.size() != 0) {
             throw new ServiceException("该账号已经被其他第三方账号绑定");
         }
 
         // 更新到授权表
-        R<Boolean> updateResult = sysServiceApi.updateAuthUser(authUserCheckPasswordVo, SecurityConstants.INNER);
-
-        if (R.FAIL == updateResult.getCode()) {
-            throw new ServiceException(updateResult.getMsg());
-        }
+        sysServiceProxy.updateAuthUser(authUserCheckPasswordVo);
 
         // 进行无密码登录，返回token
         String token = loginService.login(authUserCheckPasswordVo.getLoginName());

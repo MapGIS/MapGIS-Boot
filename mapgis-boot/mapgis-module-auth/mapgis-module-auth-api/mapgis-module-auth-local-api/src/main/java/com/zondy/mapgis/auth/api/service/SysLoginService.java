@@ -5,7 +5,6 @@ import com.zondy.mapgis.auth.api.domain.model.RegisterBody;
 import com.zondy.mapgis.common.core.constant.Constants;
 import com.zondy.mapgis.common.core.constant.SecurityConstants;
 import com.zondy.mapgis.common.core.constant.UserConstants;
-import com.zondy.mapgis.common.core.domain.R;
 import com.zondy.mapgis.common.core.exception.ServiceException;
 import com.zondy.mapgis.common.core.utils.DateUtils;
 import com.zondy.mapgis.common.core.utils.MessageUtils;
@@ -18,7 +17,6 @@ import com.zondy.mapgis.common.security.service.SysRecordLogService;
 import com.zondy.mapgis.common.security.service.TokenService;
 import com.zondy.mapgis.common.security.utils.SecurityUtils;
 import com.zondy.mapgis.system.api.ISysServiceApi;
-import com.zondy.mapgis.system.api.domain.SysAuthUser;
 import com.zondy.mapgis.system.api.domain.SysUser;
 import com.zondy.mapgis.system.api.model.LoginUser;
 import com.zondy.mapgis.system.api.service.SysServiceProxy;
@@ -29,7 +27,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -163,11 +160,8 @@ public class SysLoginService {
         if (!StringUtils.isEmpty(roleIds)) {
             sysUser.setRoleIds(roleIds);
         }
-        R<?> registerResult = sysServiceApi.registerUserInfo(sysUser, SecurityConstants.INNER);
 
-        if (R.FAIL == registerResult.getCode()) {
-            throw new ServiceException(registerResult.getMsg());
-        }
+        sysServiceProxy.registerUserInfo(sysUser);
         recordLogService.recordLogininfor(username, Constants.REGISTER, MessageUtils.message("user.register.success"));
     }
 
@@ -229,32 +223,12 @@ public class SysLoginService {
     }
 
     /**
-     * 查询第三方登录授权用户列表
-     *
-     * @param user 查询条件
-     * @return 第三方登录授权用户列表
-     */
-    public List<SysAuthUser> selectAuthUserList(SysAuthUser user) {
-        R<List<SysAuthUser>> sysAuthUserListResult = sysServiceApi.selectAuthUserList(user, SecurityConstants.INNER);
-
-        if (R.FAIL == sysAuthUserListResult.getCode()) {
-            throw new ServiceException(sysAuthUserListResult.getMsg());
-        }
-
-        return sysAuthUserListResult.getData();
-    }
-
-    /**
      * 查看用户是否存在，不存在就创建用户
      */
     public void checkUserExistOrCreate(String username, Map<String, Object> ldapConfig) {
-        R<LoginUser> loginUserResult = sysServiceApi.getUserInfo(username, SecurityConstants.INNER);
+        // 查询用户信息
+        LoginUser loginUser = sysServiceProxy.getUserInfo(username);
 
-        if (R.FAIL == loginUserResult.getCode()) {
-            throw new ServiceException(loginUserResult.getMsg());
-        }
-
-        LoginUser loginUser = loginUserResult.getData();
         if (StringUtils.isNull(loginUser) || StringUtils.isNull(loginUser.getUser())) {
             // 不存在用户
             String password = sysServiceProxy.getInitPasswordConfig();

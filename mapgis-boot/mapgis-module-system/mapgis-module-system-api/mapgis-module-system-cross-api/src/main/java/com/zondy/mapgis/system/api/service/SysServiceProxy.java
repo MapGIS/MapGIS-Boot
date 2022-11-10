@@ -10,6 +10,9 @@ import com.zondy.mapgis.common.core.utils.JsonUtils;
 import com.zondy.mapgis.common.core.utils.StringUtils;
 import com.zondy.mapgis.system.api.ISysServiceApi;
 import com.zondy.mapgis.system.api.domain.SysAuthConfig;
+import com.zondy.mapgis.system.api.domain.SysAuthUser;
+import com.zondy.mapgis.system.api.domain.SysUser;
+import com.zondy.mapgis.system.api.model.LoginUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -31,6 +34,80 @@ public class SysServiceProxy {
 
     @Autowired
     private ApiPathProperties apiPathProperties;
+
+    /**
+     * 获取登录用户信息
+     *
+     * @param username 用户名
+     * @return 登录用户
+     */
+    public LoginUser getUserInfo(String username) {
+        R<LoginUser> loginUserResult = sysServiceApi.getUserInfo(username, SecurityConstants.INNER);
+
+        if (R.FAIL == loginUserResult.getCode()) {
+            throw new ServiceException(loginUserResult.getMsg());
+        }
+
+        return loginUserResult.getData();
+    }
+
+    public boolean registerUserInfo(SysUser sysUser) {
+        R<?> registerResult = sysServiceApi.registerUserInfo(sysUser, SecurityConstants.INNER);
+
+        if (R.FAIL == registerResult.getCode()) {
+            throw new ServiceException(registerResult.getMsg());
+        }
+
+        return true;
+    }
+
+    /**
+     * 查询第三方登录授权用户列表
+     *
+     * @param user 查询条件
+     * @return 第三方登录授权用户列表
+     */
+    public List<SysAuthUser> selectAuthUserList(SysAuthUser user) {
+        R<List<SysAuthUser>> sysAuthUserListResult = sysServiceApi.selectAuthUserList(user, SecurityConstants.INNER);
+
+        if (R.FAIL == sysAuthUserListResult.getCode()) {
+            throw new ServiceException(sysAuthUserListResult.getMsg());
+        }
+
+        return sysAuthUserListResult.getData();
+    }
+
+    /**
+     * 更新第三方登录授权用户
+     *
+     * @param user 第三方登录授权用户
+     * @return 更新结果
+     */
+    public boolean updateAuthUser(SysAuthUser user) {
+        R<Boolean> updateResult = sysServiceApi.updateAuthUser(user, SecurityConstants.INNER);
+
+        if (R.FAIL == updateResult.getCode()) {
+            throw new ServiceException(updateResult.getMsg());
+        }
+
+        return updateResult.getData();
+    }
+
+    /**
+     * 根据第三方登录授权用户UUID查询系统用户
+     *
+     * @param uuid 第三方登录授权用户UUID
+     * @return 系统用户
+     */
+    public SysUser selectUserByAuthUuid(String uuid) {
+        R<SysUser> userResult = sysServiceApi.selectUserByAuthUuid(uuid, SecurityConstants.INNER);
+
+        if (R.FAIL == userResult.getCode()) {
+            throw new ServiceException(userResult.getMsg());
+        }
+
+        return userResult.getData();
+    }
 
     /**
      * 获取配置值
