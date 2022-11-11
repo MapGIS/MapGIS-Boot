@@ -7,6 +7,7 @@ import com.zondy.mapgis.common.core.config.properties.ApiPathProperties;
 import com.zondy.mapgis.common.security.filter.JwtAuthenticationTokenFilter;
 import com.zondy.mapgis.common.security.handler.AuthenticationEntryPointImpl;
 import com.zondy.mapgis.common.security.handler.LogoutSuccessHandlerImpl;
+import com.zondy.mapgis.system.api.domain.SysCasConfig;
 import com.zondy.mapgis.system.api.service.SysServiceProxy;
 import org.jasig.cas.client.session.SingleSignOutFilter;
 import org.jasig.cas.client.session.SingleSignOutHttpSessionListener;
@@ -29,8 +30,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.logout.LogoutFilter;
 import org.springframework.web.filter.CorsFilter;
-
-import java.util.Map;
 
 /**
  * spring security cas默认配置
@@ -251,7 +250,7 @@ public class CasSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     public void updateCasSecurityConfig() {
-        Map<String, Object> casConfig = sysServiceProxy.getCasConfig();
+        SysCasConfig sysCasConfig = sysServiceProxy.getCasConfig();
         ServiceProperties serviceProperties = new ServiceProperties();
         CasAuthenticationProvider casAuthenticationProvider = casAuthenticationProvider();
         CasAuthenticationFilter casAuthenticationFilter = null;
@@ -263,11 +262,11 @@ public class CasSecurityConfig extends WebSecurityConfigurerAdapter {
         }
 
         // 设置cas客户端登录完整的url
-        serviceProperties.setService((String) casConfig.get("casServiceLoginUrl"));
+        serviceProperties.setService(sysCasConfig.getCasServiceLoginUrl());
         serviceProperties.setAuthenticateAllArtifacts(true);
 
-        casAuthenticationFilter.setFilterProcessesUrl((String) casConfig.get("casServiceLoginPath"));
+        casAuthenticationFilter.setFilterProcessesUrl(sysCasConfig.getCasServiceLoginPath());
         casAuthenticationProvider.setServiceProperties(serviceProperties);
-        casAuthenticationProvider.setTicketValidator(new Cas20ServiceTicketValidator((String) casConfig.get("casServerUrl")));
+        casAuthenticationProvider.setTicketValidator(new Cas20ServiceTicketValidator(sysCasConfig.getCasServerUrl()));
     }
 }

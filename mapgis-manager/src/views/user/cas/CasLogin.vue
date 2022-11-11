@@ -1,25 +1,15 @@
 <template>
-  <div v-if="configLoaded && casInfo && casInfo.enabled && casInfo.isReserveDefaultLogin" class="user-login-other">
-    <a :href="casInfo.casLoginUrl">CAS登录</a>
-  </div>
+  <a v-if="config.enabled && config.isReserveDefaultLogin" :href="config.casLoginUrl">CAS登录</a>
 </template>
 
 <script>
-import { getSystemConfig } from '@/api/system/config'
-
 export default {
   name: 'CasLogin',
-  data() {
-    return {
-      configLoaded: false,
-      casInfo: null
+  props: {
+    config: {
+      type: Object,
+      required: true
     }
-  },
-  async mounted() {
-    const systemInfoResult = await getSystemConfig()
-
-    this.casInfo = systemInfoResult.data.casConfig
-    this.configLoaded = true
   }
 }
 </script>
@@ -27,6 +17,7 @@ export default {
 <style lang="less" scoped>
 .user-login-other {
   a {
+    margin-left: 16px;
     color: rgba(255, 255, 255, 0.85);
   }
 }

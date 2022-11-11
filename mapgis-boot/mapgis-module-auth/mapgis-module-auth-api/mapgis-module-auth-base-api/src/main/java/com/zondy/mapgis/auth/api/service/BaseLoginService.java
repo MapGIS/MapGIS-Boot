@@ -7,12 +7,12 @@ import com.zondy.mapgis.common.core.exception.ServiceException;
 import com.zondy.mapgis.common.core.utils.DateUtils;
 import com.zondy.mapgis.common.core.utils.MessageUtils;
 import com.zondy.mapgis.common.core.utils.StringUtils;
+import com.zondy.mapgis.system.api.domain.SysLdapConfig;
+import com.zondy.mapgis.system.api.domain.SysRegisterConfig;
 import com.zondy.mapgis.system.api.domain.SysUser;
 import com.zondy.mapgis.system.api.model.LoginUser;
 import com.zondy.mapgis.system.api.service.SysServiceProxy;
 import org.springframework.beans.factory.annotation.Autowired;
-
-import java.util.Map;
 
 /**
  * 基础登录服务
@@ -44,9 +44,9 @@ public abstract class BaseLoginService {
         String username = loginBody.getUsername(), password = loginBody.getPassword();
 
         // 如果启用了LDAP登录
-        Map<String, Object> ldapConfig = sysServiceProxy.getLdapConfig();
+        SysLdapConfig ldapConfig = sysServiceProxy.getLdapConfig();
 
-        if ((Boolean) ldapConfig.get("enabled")) {
+        if (ldapConfig.getEnabled()) {
             if (ldapService.authenticate(ldapConfig, username, password)) {
                 // 登录成功，查看用户在原有列表中是否存在，存在则直接无密码登录，如果不存在，则需要创建
                 // 登录失败，再继续原来的用户验证逻辑
@@ -138,8 +138,8 @@ public abstract class BaseLoginService {
 
         // 用户名和密码
         String username = registerBody.getUsername(), password = registerBody.getPassword();
-        Map<String, Object> registrConfig = sysServiceProxy.getRegisterConfig();
-        Long[] roleIds = (Long[]) registrConfig.get("defaultRoleIds");
+        SysRegisterConfig sysRegisterConfig = sysServiceProxy.getRegisterConfig();
+        Long[] roleIds = sysRegisterConfig.getDefaultRoleIds();
 
         // 注册
         register(username, password, roleIds);
@@ -201,7 +201,7 @@ public abstract class BaseLoginService {
      * @param uuid 生成验证码的UUID
      */
     public void checkCaptcha(String code, String uuid) {
-        boolean captchaEnabled = (Boolean) sysServiceProxy.getLoginConfig().get("captchaEnabled");
+        boolean captchaEnabled = sysServiceProxy.getLoginConfig().getCaptchaEnabled();
 
         // 校验验证码
         if (captchaEnabled) {
@@ -226,7 +226,7 @@ public abstract class BaseLoginService {
     /**
      * 查看用户是否存在，不存在就创建用户
      */
-    public void checkUserExistOrCreate(String username, Map<String, Object> ldapConfig) {
+    public void checkUserExistOrCreate(String username, SysLdapConfig ldapConfig) {
         // 查询用户信息
         LoginUser loginUser = sysServiceProxy.getUserInfo(username);
 
@@ -235,7 +235,7 @@ public abstract class BaseLoginService {
             String password = sysServiceProxy.getInitPasswordConfig();
 
             // 注册账号
-            Long[] roleIds = (Long[]) ldapConfig.get("defaultRoleIds");
+            Long[] roleIds = ldapConfig.getDefaultRoleIds();
             register(username, password, roleIds);
         }
     }

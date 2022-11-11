@@ -1,6 +1,7 @@
 package com.zondy.mapgis.auth.api.service.impl;
 
 import com.zondy.mapgis.auth.api.service.ILdapService;
+import com.zondy.mapgis.system.api.domain.SysLdapConfig;
 import org.springframework.ldap.NamingException;
 import org.springframework.ldap.core.AttributesMapper;
 import org.springframework.ldap.core.DirContextOperations;
@@ -12,7 +13,6 @@ import org.springframework.stereotype.Service;
 
 import javax.naming.directory.DirContext;
 import java.util.List;
-import java.util.Map;
 
 import static org.springframework.ldap.query.LdapQueryBuilder.query;
 
@@ -23,7 +23,7 @@ import static org.springframework.ldap.query.LdapQueryBuilder.query;
 @Service
 public class LdapServiceImpl implements ILdapService {
     @Override
-    public boolean authenticate(Map<String, Object> ldapConfig, String username, String password) {
+    public boolean authenticate(SysLdapConfig ldapConfig, String username, String password) {
         String userDn = "";
         DirContext ctx = null;
         LdapTemplate ldapTemplate = getLdapTemplate(ldapConfig);
@@ -40,7 +40,7 @@ public class LdapServiceImpl implements ILdapService {
     }
 
     @Override
-    public List<String> getUserGroups(Map<String, Object> ldapConfig, String username) {
+    public List<String> getUserGroups(SysLdapConfig ldapConfig, String username) {
         LdapTemplate ldapTemplate = getLdapTemplate(ldapConfig);
         String filter = "(|(&(objectClass=groupOfNames)(member=" + username + "*))(&(objectClass=groupOfUniqueNames)(uniqueMember=" + username + "*))(&(objectClass=posixGroup)(memberUid=*" + username + "*)))";
 
@@ -48,20 +48,20 @@ public class LdapServiceImpl implements ILdapService {
     }
 
     @Override
-    public List<String> getAllGroups(Map<String, Object> ldapConfig) {
+    public List<String> getAllGroups(SysLdapConfig ldapConfig) {
         LdapTemplate ldapTemplate = getLdapTemplate(ldapConfig);
         String str = "(|(objectClass=groupOfNames)(objectClass=groupOfUniqueNames)(objectClass=posixGroup))";
 
         return ldapTemplate.search("", str, (AttributesMapper<String>) attrs -> (String) attrs.get("cn").get());
     }
 
-    private LdapTemplate getLdapTemplate(Map<String, Object> ldapConfig) {
+    private LdapTemplate getLdapTemplate(SysLdapConfig ldapConfig) {
         LdapContextSource ldapContextSource = new LdapContextSource();
 
-        ldapContextSource.setUrl((String) ldapConfig.get("url"));
-        ldapContextSource.setBase((String) ldapConfig.get("base"));
-        ldapContextSource.setUserDn((String) ldapConfig.get("userDn"));
-        ldapContextSource.setPassword((String) ldapConfig.get("password"));
+        ldapContextSource.setUrl(ldapConfig.getUrl());
+        ldapContextSource.setBase(ldapConfig.getBase());
+        ldapContextSource.setUserDn(ldapConfig.getUserDn());
+        ldapContextSource.setPassword(ldapConfig.getPassword());
         ldapContextSource.afterPropertiesSet();
 
         return new LdapTemplate(ldapContextSource);

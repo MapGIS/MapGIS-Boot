@@ -1,7 +1,8 @@
 package com.zondy.mapgis.auth.api.service;
 
+import com.zondy.mapgis.system.api.domain.SysLdapConfig;
+
 import java.util.List;
-import java.util.Map;
 
 /**
  * LDAP 服务
@@ -18,7 +19,7 @@ public interface ILdapService {
      * @param password
      * @return
      */
-    public boolean authenticate(Map<String, Object> ldapConfig, String username, String password);
+    public boolean authenticate(SysLdapConfig ldapConfig, String username, String password);
 
     /**
      * 获取LDAP用户所属组
@@ -26,10 +27,10 @@ public interface ILdapService {
      * @param userName
      * @return
      */
-    public List<String> getUserGroups(Map<String, Object> ldapConfig, String username);
+    public List<String> getUserGroups(SysLdapConfig ldapConfig, String username);
 
     /**
      * 获取LDAP所有组
      */
-    public List<String> getAllGroups(Map<String, Object> ldapConfig);
+    public List<String> getAllGroups(SysLdapConfig ldapConfig);
 }

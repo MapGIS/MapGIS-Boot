@@ -1,6 +1,5 @@
 package com.zondy.mapgis.system.controller;
 
-import cn.hutool.core.lang.Dict;
 import com.zondy.mapgis.common.controllerprefix.annotation.ManagerRestController;
 import com.zondy.mapgis.common.core.config.properties.ApiPathProperties;
 import com.zondy.mapgis.common.core.constant.ConfigConstants;
@@ -8,6 +7,8 @@ import com.zondy.mapgis.common.core.utils.JsonUtils;
 import com.zondy.mapgis.common.core.utils.StringUtils;
 import com.zondy.mapgis.common.core.web.domain.AjaxResult;
 import com.zondy.mapgis.system.api.domain.SysAuthConfig;
+import com.zondy.mapgis.system.api.domain.SysCasConfig;
+import com.zondy.mapgis.system.api.domain.SysRegisterConfig;
 import com.zondy.mapgis.system.service.ISysAuthConfigService;
 import com.zondy.mapgis.system.service.ISysConfigService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -46,6 +47,7 @@ public class SysWebConfigController {
         systemConfig.put("osName", props.getProperty("os.name"));
         systemConfig.put("osArch", props.getProperty("os.arch"));
         systemConfig.put("javaVersion", props.getProperty("java.version"));
+        systemConfig.put("registerConfig", getRegisterConfig());
         systemConfig.put("oauthConfig", getAuthConfig());
         systemConfig.put("casConfig", getCasConfig());
         return AjaxResult.success(systemConfig);
@@ -58,6 +60,18 @@ public class SysWebConfigController {
     @GetMapping(value = "/base")
     public AjaxResult getBaseConfig() {
         return AjaxResult.success().put(AjaxResult.DATA_TAG, configService.selectConfigValueByKey(ConfigConstants.CONFIG_KEY_SYSTEM_BASE));
+    }
+
+    private Map<String, Object> getRegisterConfig() {
+        Map<String, Object> registerConfig = new LinkedHashMap<>();
+        String strConfig = configService.selectConfigValueByKey(ConfigConstants.CONFIG_KEY_SECURITY_REGISTER);
+        SysRegisterConfig sysRegisterConfig = JsonUtils.parseObject(strConfig, SysRegisterConfig.class);
+
+        if (StringUtils.isNotNull(sysRegisterConfig)) {
+            registerConfig.put("enabled", sysRegisterConfig.getEnabled());
+        }
+
+        return registerConfig;
     }
 
     private List<Map<String, Object>> getAuthConfig() {
@@ -83,29 +97,16 @@ public class SysWebConfigController {
     private Map<String, Object> getCasConfig() {
         Map<String, Object> casConfig = new LinkedHashMap<>();
         String strConfig = configService.selectConfigValueByKey(ConfigConstants.CONFIG_KEY_SECURITY_CAS);
-        Dict casConfigInfo = JsonUtils.parseMap(strConfig);
-        Boolean enabled = true;
-        Boolean isReserveDefaultLogin = false;
-        String casServerUrl = "";
-        String casServiceHostUrl = "";
-        String casServiceWebUrl = "";
-        String casLoginUrl = "", casLogoutUrl = "";
+        SysCasConfig sysCasConfig = JsonUtils.parseObject(strConfig, SysCasConfig.class);
 
-        if (StringUtils.isNotEmpty(casConfigInfo)) {
-            enabled = casConfigInfo.get("enabled", Boolean.FALSE);
-            isReserveDefaultLogin = casConfigInfo.get("isReserveDefaultLogin", Boolean.FALSE);
-            casServerUrl = casConfigInfo.get("casServerUrl", "");
-            casServiceHostUrl = casConfigInfo.get("casServiceHostUrl", "");
-            casServiceWebUrl = casConfigInfo.get("casServiceWebUrl", "");
+        if (StringUtils.isNotNull(sysCasConfig)) {
+            sysCasConfig.setServicesPrefix(apiPathProperties.getServicesPrefix());
+            casConfig.put("enabled", sysCasConfig.getEnabled());
+            casConfig.put("isReserveDefaultLogin", sysCasConfig.getIsReserveDefaultLogin());
+            casConfig.put("casLoginUrl", sysCasConfig.getCasLoginUrl());
+            casConfig.put("casLogoutUrl", sysCasConfig.getCasLogoutUrl());
         }
 
-        casLoginUrl = casServerUrl + "/login?service=" + casServiceHostUrl + apiPathProperties.getServicesPrefix() + "/auth/casLogin/login";
-        casLogoutUrl = casServerUrl + "/logout?service=" + casServiceWebUrl;
-
-        casConfig.put("enabled", enabled);
-        casConfig.put("isReserveDefaultLogin", isReserveDefaultLogin);
-        casConfig.put("casLoginUrl", casLoginUrl);
-        casConfig.put("casLogoutUrl", casLogoutUrl);
         return casConfig;
     }
 }

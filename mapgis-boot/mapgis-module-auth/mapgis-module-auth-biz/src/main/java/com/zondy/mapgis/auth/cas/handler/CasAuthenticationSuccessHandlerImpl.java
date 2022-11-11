@@ -3,6 +3,7 @@ package com.zondy.mapgis.auth.cas.handler;
 import com.zondy.mapgis.auth.cas.model.CasLoginUser;
 import com.zondy.mapgis.common.core.utils.StringUtils;
 import com.zondy.mapgis.common.security.service.TokenService;
+import com.zondy.mapgis.system.api.domain.SysCasConfig;
 import com.zondy.mapgis.system.api.service.SysServiceProxy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -15,7 +16,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Map;
 
 /**
  * CAS认证成功处理类
@@ -49,8 +49,8 @@ public class CasAuthenticationSuccessHandlerImpl extends SavedRequestAwareAuthen
         String token = tokenService.createToken(casLoginUser.getLoginUser());
 
         // 登录成功后跳转到前端登录页面
-        Map<String, Object> casConfig = sysServiceProxy.getCasConfig();
+        SysCasConfig casConfig = sysServiceProxy.getCasConfig();
 
-        getRedirectStrategy().sendRedirect(request, response, casConfig.get("casServiceWebUrl") + "?token=" + token + "&");
+        getRedirectStrategy().sendRedirect(request, response, casConfig.getCasServiceWebUrl() + "?token=" + token + "&");
     }
 }

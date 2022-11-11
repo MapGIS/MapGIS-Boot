@@ -13,6 +13,7 @@ import com.zondy.mapgis.common.core.web.domain.AjaxResult;
 import com.zondy.mapgis.common.security.utils.SecurityUtils;
 import com.zondy.mapgis.system.api.ISysServiceApi;
 import com.zondy.mapgis.system.api.domain.SysAuthConfig;
+import com.zondy.mapgis.system.api.domain.SysAuthExtraConfig;
 import com.zondy.mapgis.system.api.domain.SysAuthUser;
 import com.zondy.mapgis.system.api.domain.SysUser;
 import com.zondy.mapgis.system.api.model.LoginUser;
@@ -37,7 +38,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
-import java.util.Map;
 
 /**
  * @author xionbgo
@@ -198,8 +198,8 @@ public class ThirdLoginController extends BaseController {
         String password = sysServiceProxy.getInitPasswordConfig();
 
         // 注册账号
-        Map<String, Object> oauthConfig = sysServiceProxy.getOAuthConfig();
-        Long[] roleIds = (Long[]) oauthConfig.get("defaultRoleIds");
+        SysAuthExtraConfig oauthConfig = sysServiceProxy.getOAuthConfig();
+        Long[] roleIds = oauthConfig.getDefaultRoleIds();
         loginService.register(username, password, roleIds);
 
         // 根据用户名获取用户id

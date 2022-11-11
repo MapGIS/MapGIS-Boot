@@ -205,6 +205,6 @@ public class TokenService {
     }
 
     private boolean isSoloLoginEnabled() {
-        return (Boolean) sysServiceProxy.getLoginConfig().get("soloLoginEnabled");
+        return sysServiceProxy.getLoginConfig().getSoloLoginEnabled();
     }
 }

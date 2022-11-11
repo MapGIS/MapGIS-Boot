@@ -34,7 +34,9 @@
       </a-row>
       <a-form-model-item prop="rememberMe">
         <a-checkbox :checked="form.rememberMe" @change="rememberMe">记住密码</a-checkbox>
-        <router-link class="register" :to="{ name: 'register' }" style="float: right">注册账号</router-link>
+        <router-link v-if="registerConfig.enabled" class="register" :to="{ name: 'register' }" style="float: right">
+          注册账号
+        </router-link>
       </a-form-model-item>
       <a-form-item style="margin-top: 24px">
         <a-button
@@ -49,11 +51,10 @@
           确定
         </a-button>
       </a-form-item>
-      <div class="user-login-other">
-        <cas-login></cas-login>
-      </div>
-      <div class="user-login-other">
-        <third-login ref="thirdLogin"></third-login>
+      <div v-if="otherLoginValid" class="user-login-other">
+        <span>其他登录方式:</span>
+        <cas-login :config="casConfig"></cas-login>
+        <third-login :config="oauthConfig" ref="thirdLogin"></third-login>
       </div>
     </a-form-model>
   </div>
@@ -62,6 +63,7 @@
 <script>
 import { mapActions } from 'vuex'
 import { getCodeImg } from '@/api/login'
+import { getSystemConfig } from '@/api/system/config'
 import { LOGIN_USERNAME, LOGIN_PASSWORD, LOGIN_REMEMBERME } from '@/store/mutation-types'
 import storage from 'store'
 import ThirdLogin from './third/ThirdLogin'
@@ -90,12 +92,30 @@ export default {
         code: [{ required: true, message: '请输入验证码', trigger: 'blur' }]
       },
       logining: false,
-      captchaEnabled: true
+      captchaEnabled: true,
+      registerConfig: {
+        enabled: false
+      },
+      casConfig: {},
+      oauthConfig: {}
+    }
+  },
+  computed: {
+    otherLoginValid() {
+      return (this.casConfig.enabled && this.casConfig.isReserveDefaultLogin) || this.oauthConfig.length
     }
   },
   created() {
     this.getStorage()
     this.getCode()
+  },
+  async mounted() {
+    const systemConfigResult = await getSystemConfig()
+    const systemConfig = systemConfigResult.data
+
+    this.casConfig = systemConfig.casConfig
+    this.oauthConfig = systemConfig.oauthConfig
+    this.registerConfig = systemConfig.registerConfig
   },
   methods: {
     getCode() {
@@ -188,9 +208,11 @@ export default {
     width: 100%;
   }
   .user-login-other {
+    display: flex;
+    align-items: center;
     text-align: left;
     margin-top: 24px;
-    line-height: 22px;
+    color: rgba(255, 255, 255, 0.85);
   }
 
   /deep/ .ant-checkbox-wrapper,

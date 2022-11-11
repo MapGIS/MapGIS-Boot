@@ -1,11 +1,8 @@
 <template>
   <div>
-    <div v-if="types.length" class="user-login-other">
-      <span>其他登录方式:</span>
-      <a v-for="type in types" :key="type.source" @click="onThirdLogin(type.source)" :title="type.name">
-        <img :src="type.icon" class="item-icon" />
-      </a>
-    </div>
+    <a v-for="type in config" :key="type.source" @click="onThirdLogin(type.source)" :title="type.name">
+      <img :src="type.icon" class="item-icon" />
+    </a>
     <!-- 第三方登录绑定账号密码输入弹框 -->
     <a-modal
       title="请输入密码"
@@ -51,32 +48,21 @@
 
 <script>
 import { thirdLoginMixin } from '@/views/user/third/thirdLoginMixin'
-import { getSystemConfig } from '@/api/system/config'
 
 export default {
   name: 'ThirdLogin',
   mixins: [thirdLoginMixin],
-  data() {
-    return {
-      types: []
+  props: {
+    config: {
+      type: Array,
+      required: true
     }
-  },
-  mounted() {
-    getSystemConfig().then(res => {
-      this.types = res.data.oauthConfig
-    })
   }
 }
 </script>
 
 <style lang="less" scoped>
 .user-login-other {
-  display: flex;
-  align-items: center;
-  text-align: left;
-  margin-top: 24px;
-  color: rgba(255, 255, 255, 0.85);
-
   .item-icon {
     width: 24px;
     height: 24px;

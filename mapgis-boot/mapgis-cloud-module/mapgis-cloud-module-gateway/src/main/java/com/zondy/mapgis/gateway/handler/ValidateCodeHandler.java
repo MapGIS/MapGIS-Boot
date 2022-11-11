@@ -3,6 +3,7 @@ package com.zondy.mapgis.gateway.handler;
 import com.zondy.mapgis.auth.api.service.IValidateCodeService;
 import com.zondy.mapgis.common.core.exception.user.CaptchaException;
 import com.zondy.mapgis.common.core.web.domain.AjaxResult;
+import com.zondy.mapgis.system.api.domain.SysLoginConfig;
 import com.zondy.mapgis.system.api.service.SysServiceProxy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
@@ -15,7 +16,6 @@ import org.springframework.web.reactive.function.server.ServerResponse;
 import reactor.core.publisher.Mono;
 
 import java.io.IOException;
-import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
@@ -38,10 +38,10 @@ public class ValidateCodeHandler implements HandlerFunction<ServerResponse> {
     public Mono<ServerResponse> handle(ServerRequest serverRequest) {
         AjaxResult ajax;
         try {
-            CompletableFuture<Map<String, Object>> future = CompletableFuture.supplyAsync(() -> sysServiceProxy.getLoginConfig());
-            Map<String, Object> loginConfig = future.get();
-            boolean captchaEnabled = (Boolean) loginConfig.get("captchaEnabled");
-            String captchaType = (String) loginConfig.get("captchaType");
+            CompletableFuture<SysLoginConfig> future = CompletableFuture.supplyAsync(() -> sysServiceProxy.getLoginConfig());
+            SysLoginConfig sysLoginConfig = future.get();
+            boolean captchaEnabled = sysLoginConfig.getCaptchaEnabled();
+            String captchaType = sysLoginConfig.getCaptchaType();
 
             ajax = validateCodeService.createCaptcha(captchaEnabled, captchaType);
         } catch (CaptchaException | IOException | ExecutionException | InterruptedException e) {

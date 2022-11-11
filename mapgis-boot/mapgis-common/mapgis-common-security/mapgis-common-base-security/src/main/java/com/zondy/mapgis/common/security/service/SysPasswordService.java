@@ -9,12 +9,12 @@ import com.zondy.mapgis.common.core.utils.MessageUtils;
 import com.zondy.mapgis.common.core.utils.StringUtils;
 import com.zondy.mapgis.common.core.utils.spring.SpringUtils;
 import com.zondy.mapgis.common.security.utils.BaseSecurityUtils;
+import com.zondy.mapgis.system.api.domain.SysPasswordProtectedConfig;
 import com.zondy.mapgis.system.api.domain.SysUser;
 import com.zondy.mapgis.system.api.service.SysServiceProxy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -48,11 +48,11 @@ public class SysPasswordService {
 
         String username = user.getUserName();
         // 获取密码安全配置
-        Map<String, Object> passwordProtectedConfig = sysServiceProxy.getPasswordProtectedConfig();
+        SysPasswordProtectedConfig sysPasswordProtectedConfig = sysServiceProxy.getPasswordProtectedConfig();
 
-        Boolean lockEnabled = (Boolean) passwordProtectedConfig.get("enabled");
-        Integer maxRetryCount = (Integer) passwordProtectedConfig.get("maxRetryCount");
-        Integer lockTime = (Integer) passwordProtectedConfig.get("lockTime");
+        Boolean lockEnabled = sysPasswordProtectedConfig.getEnabled();
+        Integer maxRetryCount = sysPasswordProtectedConfig.getMaxRetryCount();
+        Integer lockTime = sysPasswordProtectedConfig.getLockTime();
 
         if (!lockEnabled) {
             if (!matches(user, password)) {
