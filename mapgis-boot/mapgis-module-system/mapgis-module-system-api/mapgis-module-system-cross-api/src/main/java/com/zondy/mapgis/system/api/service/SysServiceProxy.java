@@ -131,7 +131,8 @@ public class SysServiceProxy {
     /**
      * 获取配置值
      *
-     * @param key 配置key
+     * @param key          配置key
+     * @param defaultValue 默认值
      * @return 配置值
      */
     public String selectConfigValueByKey(String key, String defaultValue) {
@@ -142,6 +143,19 @@ public class SysServiceProxy {
         }
 
         return configResult.getData();
+    }
+
+    /**
+     * 获取配置
+     *
+     * @param key   配置key
+     * @param clazz 对象
+     * @return 配置
+     */
+    public <T> T parseConfigObject(String key, Class<T> clazz) {
+        String strConfig = selectConfigValueByKey(key, "{}");
+
+        return JsonUtils.parseObject(strConfig, clazz);
     }
 
     /**
@@ -159,9 +173,7 @@ public class SysServiceProxy {
      * @return 注册配置
      */
     public SysRegisterConfig getRegisterConfig() {
-        String strConfig = selectConfigValueByKey(ConfigConstants.CONFIG_KEY_SECURITY_REGISTER);
-
-        return JsonUtils.parseObject(strConfig, SysRegisterConfig.class);
+        return parseConfigObject(ConfigConstants.CONFIG_KEY_SECURITY_REGISTER, SysRegisterConfig.class);
     }
 
     /**
@@ -170,9 +182,7 @@ public class SysServiceProxy {
      * @return 登录配置
      */
     public SysLoginConfig getLoginConfig() {
-        String strConfig = selectConfigValueByKey(ConfigConstants.CONFIG_KEY_SECURITY_LOGIN);
-
-        return JsonUtils.parseObject(strConfig, SysLoginConfig.class);
+        return parseConfigObject(ConfigConstants.CONFIG_KEY_SECURITY_LOGIN, SysLoginConfig.class);
     }
 
     /**
@@ -181,9 +191,7 @@ public class SysServiceProxy {
      * @return 密码安全配置
      */
     public SysPasswordProtectedConfig getPasswordProtectedConfig() {
-        String strConfig = selectConfigValueByKey(ConfigConstants.CONFIG_KEY_SECURITY_PASSWORD_PROTECTED);
-
-        return JsonUtils.parseObject(strConfig, SysPasswordProtectedConfig.class);
+        return parseConfigObject(ConfigConstants.CONFIG_KEY_SECURITY_PASSWORD_PROTECTED, SysPasswordProtectedConfig.class);
     }
 
     /**
@@ -205,9 +213,7 @@ public class SysServiceProxy {
      * @return 登录配置
      */
     public SysAuthExtraConfig getOAuthConfig() {
-        String strConfig = selectConfigValueByKey(ConfigConstants.CONFIG_KEY_SECURITY_OAUTH);
-
-        return JsonUtils.parseObject(strConfig, SysAuthExtraConfig.class);
+        return parseConfigObject(ConfigConstants.CONFIG_KEY_SECURITY_OAUTH, SysAuthExtraConfig.class);
     }
 
     /**
@@ -216,8 +222,7 @@ public class SysServiceProxy {
      * @return 登录配置
      */
     public SysCasConfig getCasConfig() {
-        String strConfig = selectConfigValueByKey(ConfigConstants.CONFIG_KEY_SECURITY_CAS, "{}");
-        SysCasConfig sysCasConfig = JsonUtils.parseObject(strConfig, SysCasConfig.class);
+        SysCasConfig sysCasConfig = parseConfigObject(ConfigConstants.CONFIG_KEY_SECURITY_CAS, SysCasConfig.class);
 
         sysCasConfig.setServicesPrefix(apiPathProperties.getServicesPrefix());
         return sysCasConfig;
@@ -227,8 +232,6 @@ public class SysServiceProxy {
      * 获取LDAP登录配置
      */
     public SysLdapConfig getLdapConfig() {
-        String strConfig = selectConfigValueByKey(ConfigConstants.CONFIG_KEY_SECURITY_LDAP);
-
-        return JsonUtils.parseObject(strConfig, SysLdapConfig.class);
+        return parseConfigObject(ConfigConstants.CONFIG_KEY_SECURITY_LDAP, SysLdapConfig.class);
     }
 }
