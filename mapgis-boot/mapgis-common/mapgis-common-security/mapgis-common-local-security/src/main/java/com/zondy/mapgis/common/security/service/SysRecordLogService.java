@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
  * @since 2022/11/9 16:59
  */
 @Component
-public class SysRecordLogService {
+public class SysRecordLogService implements ISysRecordLogService {
     /**
      * 记录登录信息
      *
@@ -19,6 +19,7 @@ public class SysRecordLogService {
      * @param status   状态
      * @param message  消息内容
      */
+    @Override
     public void recordLogininfor(String username, String status, String message) {
         AsyncManager.me().execute(AsyncFactory.recordLogininfor(username, status, message));
     }

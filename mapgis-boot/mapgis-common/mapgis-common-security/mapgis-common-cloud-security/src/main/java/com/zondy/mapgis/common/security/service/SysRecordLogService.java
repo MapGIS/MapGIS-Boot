@@ -18,7 +18,7 @@ import org.springframework.stereotype.Component;
  * @since 2022/8/16 17:16
  */
 @Component
-public class SysRecordLogService {
+public class SysRecordLogService implements ISysRecordLogService {
     @Autowired
     private ISysServiceApi sysServiceApi;
 
@@ -29,6 +29,7 @@ public class SysRecordLogService {
      * @param status   状态
      * @param message  消息内容
      */
+    @Override
     public void recordLogininfor(String username, String status, String message) {
         final UserAgent userAgent = UserAgent.parseUserAgentString(ServletUtils.getRequest().getHeader("User-Agent"));
         final String ip = IpUtils.getIpAddr(ServletUtils.getRequest());

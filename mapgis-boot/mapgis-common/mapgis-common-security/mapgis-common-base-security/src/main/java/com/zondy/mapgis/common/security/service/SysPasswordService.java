@@ -7,7 +7,8 @@ import com.zondy.mapgis.common.core.exception.user.UserPasswordNotMatchException
 import com.zondy.mapgis.common.core.exception.user.UserPasswordRetryLimitExceedException;
 import com.zondy.mapgis.common.core.utils.MessageUtils;
 import com.zondy.mapgis.common.core.utils.StringUtils;
-import com.zondy.mapgis.common.security.utils.SecurityUtils;
+import com.zondy.mapgis.common.core.utils.spring.SpringUtils;
+import com.zondy.mapgis.common.security.utils.BaseSecurityUtils;
 import com.zondy.mapgis.system.api.domain.SysUser;
 import com.zondy.mapgis.system.api.service.SysServiceProxy;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,9 +27,6 @@ import java.util.concurrent.TimeUnit;
 public class SysPasswordService {
     @Autowired
     private ICacheService cacheService;
-
-    @Autowired
-    private SysRecordLogService recordLogService;
 
     @Autowired
     private SysServiceProxy sysServiceProxy;
@@ -58,7 +56,7 @@ public class SysPasswordService {
 
         if (!lockEnabled) {
             if (!matches(user, password)) {
-                recordLogService.recordLogininfor(username, Constants.LOGIN_FAIL,
+                SpringUtils.getBean(ISysRecordLogService.class).recordLogininfor(username, Constants.LOGIN_FAIL,
                         MessageUtils.message("user.password.not.match"));
                 throw new UserPasswordNotMatchException();
             }
@@ -72,14 +70,14 @@ public class SysPasswordService {
         }
 
         if (retryCount >= maxRetryCount.intValue()) {
-            recordLogService.recordLogininfor(username, Constants.LOGIN_FAIL,
+            SpringUtils.getBean(ISysRecordLogService.class).recordLogininfor(username, Constants.LOGIN_FAIL,
                     MessageUtils.message("user.password.retry.limit.exceed", maxRetryCount, lockTime));
             throw new UserPasswordRetryLimitExceedException(maxRetryCount, lockTime);
         }
 
         if (!matches(user, password)) {
             retryCount = retryCount + 1;
-            recordLogService.recordLogininfor(username, Constants.LOGIN_FAIL,
+            SpringUtils.getBean(ISysRecordLogService.class).recordLogininfor(username, Constants.LOGIN_FAIL,
                     MessageUtils.message("user.password.retry.limit.count", retryCount));
             cacheService.setCacheObject(getCacheKey(username), retryCount, lockTime.longValue(), TimeUnit.MINUTES);
             throw new UserPasswordNotMatchException();
@@ -89,7 +87,7 @@ public class SysPasswordService {
     }
 
     public boolean matches(SysUser user, String rawPassword) {
-        return SecurityUtils.matchesPassword(rawPassword, user.getPassword());
+        return BaseSecurityUtils.matchesPassword(rawPassword, user.getPassword());
     }
 
     public void clearLoginRecordCache(String loginName) {
