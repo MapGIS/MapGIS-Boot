@@ -129,8 +129,14 @@ public class ThirdLoginController extends BaseController {
                 // 直接进行无密码登录
                 SysUser sysUser = sysServiceProxy.selectUserByAuthUuid(uuid);
 
-                String token = loginService.login(sysUser.getUserName());
-                modelMap.addAttribute(TokenConstants.TOKEN, token);
+                if (StringUtils.isNull(sysUser)) {
+                    // 如果用户不存在，比如原先被绑定，但是后来被删除，需要重新绑定
+                    sysAuthUser.setUserId(null);
+                    modelMap.addAttribute("thirdLoginModel", JsonUtils.toJsonString(sysAuthUser));
+                } else {
+                    String token = loginService.login(sysUser.getUserName());
+                    modelMap.addAttribute(TokenConstants.TOKEN, token);
+                }
             }
         } else {
             modelMap.addAttribute(TokenConstants.TOKEN, "登录失败");

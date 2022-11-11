@@ -52,10 +52,20 @@ public class SysServiceProxy {
     }
 
     public boolean registerUserInfo(SysUser sysUser) {
-        R<?> registerResult = sysServiceApi.registerUserInfo(sysUser, SecurityConstants.INNER);
+        R<Boolean> registerResult = sysServiceApi.registerUserInfo(sysUser, SecurityConstants.INNER);
 
         if (R.FAIL == registerResult.getCode()) {
             throw new ServiceException(registerResult.getMsg());
+        }
+
+        return true;
+    }
+
+    public boolean updateUserProfile(SysUser sysUser) {
+        R<Boolean> updateResult = sysServiceApi.updateUserProfile(sysUser, SecurityConstants.INNER);
+
+        if (R.FAIL == updateResult.getCode()) {
+            throw new ServiceException(updateResult.getMsg());
         }
 
         return true;
