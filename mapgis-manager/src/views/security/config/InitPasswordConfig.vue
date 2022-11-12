@@ -1,22 +1,20 @@
 <template>
-  <div>
-    <a-form-model
-      :labelCol="{ lg: { span: 7 }, sm: { span: 7 } }"
-      :wrapperCol="{ lg: { span: 10 }, sm: { span: 17 } }"
-      ref="form"
-      :model="form"
-      :rules="rules"
-    >
-      <a-form-model-item label="初始密码" prop="configValue">
-        <a-input-password v-model="form.configValue" placeholder="请确认密码" :maxLength="16" />
-      </a-form-model-item>
-      <a-form-model-item :wrapper-col="{ lg: { span: 10, offset: 7 }, sm: { span: 17, offset: 7 } }">
-        <a-button type="primary" :loading="submitLoading" @click="submit" v-hasPermi="['system:config:edit']">
-          保存
-        </a-button>
-      </a-form-model-item>
-    </a-form-model>
-  </div>
+  <a-form-model
+    :labelCol="{ lg: { span: 7 }, sm: { span: 7 } }"
+    :wrapperCol="{ lg: { span: 10 }, sm: { span: 17 } }"
+    ref="form"
+    :model="form"
+    :rules="rules"
+  >
+    <a-form-model-item label="初始密码" prop="configValue">
+      <a-input-password v-model="form.configValue" placeholder="请确认密码" :maxLength="16" />
+    </a-form-model-item>
+    <a-form-model-item :wrapper-col="{ lg: { span: 10, offset: 7 }, sm: { span: 17, offset: 7 } }">
+      <a-button type="primary" :loading="submitLoading" @click="submit" v-hasPermi="['system:config:edit']">
+        保存
+      </a-button>
+    </a-form-model-item>
+  </a-form-model>
 </template>
 
 <script>

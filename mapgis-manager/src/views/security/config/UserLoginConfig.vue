@@ -1,41 +1,39 @@
 <template>
-  <div>
-    <a-form-model
-      v-if="configLoaded"
-      :labelCol="{ lg: { span: 7 }, sm: { span: 7 } }"
-      :wrapperCol="{ lg: { span: 10 }, sm: { span: 17 } }"
-      ref="form"
-      :model="form"
-    >
-      <a-form-model-item label="是否允许同时登录" prop="soloLoginEnabled">
-        <a-checkbox :checked="form.soloLoginEnabled" @change="handleSoloLoginChange" />
-      </a-form-model-item>
-      <a-form-model-item label="是否启用验证码" prop="captchaEnabled">
-        <a-checkbox v-model="form.captchaEnabled" @change="handleCaptchaChange" />
-      </a-form-model-item>
-      <a-form-model-item label="验证码类型" prop="captchaType">
-        <div class="login-config-captcha">
-          <div class="captcha-type-item" @click="form.captchaType = 'math'">
-            <img :src="require('@/assets/images/captcha-math.png')" alt="math" />
-            <div class="captcha-type-selectIcon" v-if="form.captchaType === 'math'">
-              <a-icon type="check" />
-            </div>
-          </div>
-          <div class="captcha-type-item" @click="form.captchaType = 'char'">
-            <img :src="require('@/assets/images/captcha-char.png')" alt="char" />
-            <div class="captcha-type-selectIcon" v-if="form.captchaType === 'char'">
-              <a-icon type="check" />
-            </div>
+  <a-form-model
+    v-if="configLoaded"
+    :labelCol="{ lg: { span: 7 }, sm: { span: 7 } }"
+    :wrapperCol="{ lg: { span: 10 }, sm: { span: 17 } }"
+    ref="form"
+    :model="form"
+  >
+    <a-form-model-item label="是否允许同时登录" prop="soloLoginEnabled">
+      <a-checkbox :checked="form.soloLoginEnabled" @change="handleSoloLoginChange" />
+    </a-form-model-item>
+    <a-form-model-item label="是否启用验证码" prop="captchaEnabled">
+      <a-checkbox v-model="form.captchaEnabled" @change="handleCaptchaChange" />
+    </a-form-model-item>
+    <a-form-model-item label="验证码类型" prop="captchaType">
+      <div class="login-config-captcha">
+        <div class="captcha-type-item" @click="form.captchaType = 'math'">
+          <img :src="require('@/assets/images/captcha-math.png')" alt="math" />
+          <div class="captcha-type-selectIcon" v-if="form.captchaType === 'math'">
+            <a-icon type="check" />
           </div>
         </div>
-      </a-form-model-item>
-      <a-form-model-item :wrapper-col="{ lg: { span: 10, offset: 7 }, sm: { span: 17, offset: 7 } }">
-        <a-button type="primary" :loading="submitLoading" @click="submit" v-hasPermi="['system:config:edit']">
-          保存
-        </a-button>
-      </a-form-model-item>
-    </a-form-model>
-  </div>
+        <div class="captcha-type-item" @click="form.captchaType = 'char'">
+          <img :src="require('@/assets/images/captcha-char.png')" alt="char" />
+          <div class="captcha-type-selectIcon" v-if="form.captchaType === 'char'">
+            <a-icon type="check" />
+          </div>
+        </div>
+      </div>
+    </a-form-model-item>
+    <a-form-model-item :wrapper-col="{ lg: { span: 10, offset: 7 }, sm: { span: 17, offset: 7 } }">
+      <a-button type="primary" :loading="submitLoading" @click="submit" v-hasPermi="['system:config:edit']">
+        保存
+      </a-button>
+    </a-form-model-item>
+  </a-form-model>
 </template>
 
 <script>

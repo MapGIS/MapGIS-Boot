@@ -54,7 +54,6 @@
         </div>
       </a-col>
     </a-row>
-
     <avatar-modal ref="modal" @ok="setavatar" />
   </div>
 </template>
