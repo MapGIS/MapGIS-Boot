@@ -101,7 +101,7 @@ public class DataScopeAspect {
                 sqlString.append(StringUtils.format(" OR {}.dept_id = {} ", deptAlias, user.getDeptId()));
             } else if (DATA_SCOPE_DEPT_AND_CHILD.equals(dataScope)) {
                 sqlString.append(StringUtils.format(
-                        " OR {}.dept_id IN ( SELECT dept_id FROM sys_dept WHERE dept_id = {} or ancestors like {} OR ancestors like {}} OR ancestors like {} )",
+                        " OR {}.dept_id IN ( SELECT dept_id FROM sys_dept WHERE dept_id = {} or ancestors like '{}' OR ancestors like '{}' OR ancestors like '{}' )",
                         deptAlias, user.getDeptId(), "," + user.getDeptId() + ",", "," + user.getDeptId(), user.getDeptId() + ","));
             } else if (DATA_SCOPE_SELF.equals(dataScope)) {
                 if (StringUtils.isNotBlank(userAlias)) {
