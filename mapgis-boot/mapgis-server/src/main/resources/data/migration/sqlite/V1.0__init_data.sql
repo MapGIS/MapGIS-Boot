@@ -10,7 +10,7 @@
  Target Server Version : 3030001
  File Encoding         : 65001
 
- Date: 07/11/2022 10:24:30
+ Date: 14/11/2022 14:13:28
 */
 
 -- ----------------------------
@@ -172,8 +172,8 @@ VALUES (7, '安全配置-CAS登录配置', 'security.cas', '{"enabled":false,"is
         'admin', '2022-03-23 22:12:32', '', NULL, 'CAS登录配置');
 INSERT INTO "sys_config"
 VALUES (8, '安全配置-LDAP登录配置', 'security.ldap',
-        '{"enabled":false,"url":"","base":"","userDn":"","password":"","defaultRoleIds":[3]}', 'Y', 'admin',
-        '2022-03-23 22:12:32', '', NULL, 'LDAP登录配置');
+        '{"enabled":false,"url":"","base":"","userDn":"","password":"","defaultRoleIds":[3],"roleMapping":[]}', 'Y',
+        'admin', '2022-03-23 22:12:32', '', NULL, 'LDAP登录配置');
 
 -- ----------------------------
 -- Table structure for sys_dept

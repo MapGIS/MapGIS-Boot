@@ -4,6 +4,9 @@
       <b>{{ formTitle }}</b>
     </a-divider>
     <a-form-model ref="form" :model="form" :rules="rules">
+      <a-form-model-item v-if="isAdd && ldapErrorMsg">
+        <a-alert type="error" :message="ldapErrorMsg" banner />
+      </a-form-model-item>
       <a-form-model-item label="LDAP群组" prop="externalRole">
         <a-select v-model="form.externalRole" placeholder="请选择" :disabled="!isAdd">
           <a-select-option v-for="(role, index) in validLdapRoles" :key="index" :value="role">
@@ -60,7 +63,8 @@ export default {
         systemRoleIds: [{ required: true, message: '选中的角色不能为空', trigger: 'blur' }]
       },
       isAdd: true,
-      targetKeys: []
+      targetKeys: [],
+      ldapErrorMsg: ''
     }
   },
   computed: {
@@ -73,6 +77,9 @@ export default {
   mounted() {
     ldapRoles().then(response => {
       this.ldapRoles = response.data
+      if (this.ldapRoles.length === 0) {
+        this.ldapErrorMsg = '请确保LDAP登录配置可用!'
+      }
     })
   },
   methods: {

@@ -13,6 +13,7 @@ import org.springframework.ldap.support.LdapUtils;
 import org.springframework.stereotype.Service;
 
 import javax.naming.directory.DirContext;
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.springframework.ldap.query.LdapQueryBuilder.query;
@@ -60,7 +61,7 @@ public class LdapServiceImpl implements ILdapService {
         try {
             return ldapTemplate.search("", str, (AttributesMapper<String>) attrs -> (String) attrs.get("cn").get());
         } catch (Exception e) {
-            throw new ServiceException("获取LDAP群组失败");
+            return new ArrayList<>();
         }
     }
 

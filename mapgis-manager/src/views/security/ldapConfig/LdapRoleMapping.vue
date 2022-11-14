@@ -147,13 +147,13 @@ export default {
       var that = this
       const externalRoles = row.externalRole ? [row.externalRole] : this.externalRoles
       const roleMapping = this.list.filter(item => {
-        return externalRoles.includes(item)
+        return !externalRoles.includes(item.externalRole)
       })
-      this.configInfo.configValue = JSON.stringify({ ...this.configValue, roleMapping })
       this.$confirm({
         title: '确认删除所选中数据?',
         content: '当前选中LDAP群组为' + externalRoles + '的数据',
         onOk() {
+          that.configInfo.configValue = JSON.stringify({ ...that.configValue, roleMapping })
           return updateConfig(that.configInfo).then(() => {
             that.onSelectChange([], [])
             that.getList()

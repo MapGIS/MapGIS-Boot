@@ -43,6 +43,7 @@
 
 <script>
 import merge from 'lodash/merge'
+import cloneDeep from 'lodash.clonedeep'
 import { getConfigByKey, updateConfig } from '@/api/system/config'
 import { getUser } from '@/api/system/user'
 
@@ -76,7 +77,11 @@ export default {
     this.roleOptions = userInfoResult.roles
     const configInfoResult = await getConfigByKey('security.ldap')
     this.configInfo = configInfoResult.data
-    const configValue = merge(defaultConfigValue, this.configInfo && JSON.parse(this.configInfo.configValue || '{}'))
+    const tempDefaultConfigValue = cloneDeep(defaultConfigValue)
+    const configValue = merge(
+      tempDefaultConfigValue,
+      this.configInfo && JSON.parse(this.configInfo.configValue || '{}')
+    )
 
     this.form = Object.assign({}, this.form, { ...configValue })
 
