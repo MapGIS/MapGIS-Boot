@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 /**
  * 系统模块初始化监听器
  *
- * @author powanjuanshu
+ * @author xiongbo
  * @since 2022/9/20 17:53
  */
 @Component

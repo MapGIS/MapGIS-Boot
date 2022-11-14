@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * 业务字段 服务层
  *
- * @author powanjuanshu
+ * @author xiongbo
  * @since 2022/8/21 15:49
  */
 public interface IGenTableColumnService {

@@ -3,7 +3,7 @@ package com.zondy.mapgis.common.core.constant;
 /**
  * 代码生成通用常量
  *
- * @author powanjuanshu
+ * @author xiongbo
  * @since 2022/8/21 15:36
  */
 public class GenConstants {

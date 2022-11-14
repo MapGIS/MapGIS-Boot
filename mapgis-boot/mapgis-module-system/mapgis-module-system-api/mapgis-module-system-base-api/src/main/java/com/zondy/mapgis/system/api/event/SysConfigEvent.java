@@ -7,7 +7,7 @@ import org.springframework.context.ApplicationEvent;
 /**
  * 系统配置事件
  *
- * @author powanjuanshu
+ * @author xiongbo
  * @since 2022/10/29 13:16
  */
 @Setter

@@ -12,7 +12,7 @@ import java.util.HashMap;
 /**
  * Redis消息接收器
  *
- * @author powanjuanshu
+ * @author xiongbo
  * @since 2022/9/20 16:50
  */
 @Component

@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 /**
  * 系统事件发布者
  *
- * @author powanjuanshu
+ * @author xiongbo
  * @since 2022/10/29 13:34
  */
 @Component

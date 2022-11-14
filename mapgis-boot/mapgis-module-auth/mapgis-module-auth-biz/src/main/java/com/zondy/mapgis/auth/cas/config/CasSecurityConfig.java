@@ -34,7 +34,7 @@ import org.springframework.web.filter.CorsFilter;
 /**
  * spring security cas默认配置
  *
- * @author powanjuanshu
+ * @author xiongbo
  * @since 2022/6/9 16:18
  */
 @EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)

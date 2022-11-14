@@ -16,7 +16,7 @@ import java.util.*;
 /**
  * 模板处理工具类
  *
- * @author powanjuanshu
+ * @author xiongbo
  * @since 2022/8/21 15:28
  */
 public class VelocityUtils {

@@ -12,7 +12,7 @@ import java.util.Arrays;
 /**
  * 代码生成器 工具类
  *
- * @author powanjuanshu
+ * @author xiongbo
  * @since 2022/8/21 15:27
  */
 public class GenUtils {

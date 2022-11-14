@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
 /**
  * 记录日志方法
  *
- * @author powanjuanshu
+ * @author xiongbo
  * @since 2022/8/16 17:16
  */
 @Component

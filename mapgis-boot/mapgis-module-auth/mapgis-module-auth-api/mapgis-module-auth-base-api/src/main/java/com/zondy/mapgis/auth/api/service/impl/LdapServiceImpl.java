@@ -19,7 +19,7 @@ import java.util.List;
 import static org.springframework.ldap.query.LdapQueryBuilder.query;
 
 /**
- * @author powanjuanshu
+ * @author xiongbo
  * @since 2022/11/3 17:31
  */
 @Service

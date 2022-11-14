@@ -11,7 +11,7 @@ import java.util.HashMap;
 /**
  * 更新CAS配置的监听器（用于微服务版监听）
  *
- * @author powanjuanshu
+ * @author xiongbo
  * @since 2022/10/29 16:37
  */
 @Component(Constants.UPDATE_CAS_CONFIG_LISTENER)

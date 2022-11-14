@@ -3,7 +3,7 @@ package com.zondy.mapgis.system.api.event;
 /**
  * 系统事件常量
  *
- * @author powanjuanshu
+ * @author xiongbo
  * @since 2022/10/29 13:49
  */
 public class SysEventConstants {

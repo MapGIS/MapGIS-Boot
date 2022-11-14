@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * LDAP 服务
  *
- * @author powanjuanshu
+ * @author xiongbo
  * @since 2022/11/3 17:25
  */
 public interface ILdapService {

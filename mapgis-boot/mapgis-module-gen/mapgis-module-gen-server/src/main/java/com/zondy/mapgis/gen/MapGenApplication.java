@@ -9,7 +9,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 /**
  * 代码生成
  *
- * @author powanjuanshu
+ * @author xiongbo
  * @since 2022/8/29 11:57
  */
 @EnableMapConfig

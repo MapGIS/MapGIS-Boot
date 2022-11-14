@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * 业务 数据层
  *
- * @author powanjuanshu
+ * @author xiongbo
  * @since 2022/8/21 15:52
  */
 public interface GenTableMapper {

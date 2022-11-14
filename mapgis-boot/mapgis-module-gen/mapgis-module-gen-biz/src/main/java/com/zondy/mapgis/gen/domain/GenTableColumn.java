@@ -12,7 +12,7 @@ import javax.validation.constraints.NotBlank;
 /**
  * 代码生成业务字段表 gen_table_column
  *
- * @author powanjuanshu
+ * @author xiongbo
  * @since 2022/8/21 15:31
  */
 @Data

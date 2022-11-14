@@ -22,7 +22,7 @@ import java.util.*;
 /**
  * 参数配置 信息操作处理
  *
- * @author powanjuanshu
+ * @author xiongbo
  * @since 2022/10/17 11:44
  */
 @Tag(name = "参数配置管理", description = "参数配置控制器")

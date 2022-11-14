@@ -20,7 +20,7 @@ import java.io.IOException;
 /**
  * CAS认证成功处理类
  *
- * @author powanjuanshu
+ * @author xiongbo
  * @since 2022/6/7 8:54
  */
 @Service

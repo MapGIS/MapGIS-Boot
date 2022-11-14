@@ -5,7 +5,7 @@ import java.util.HashMap;
 /**
  * Redis监听器
  *
- * @author powanjuanshu
+ * @author xiongbo
  * @since 2022/9/20 17:09
  */
 public interface IRedisListener {

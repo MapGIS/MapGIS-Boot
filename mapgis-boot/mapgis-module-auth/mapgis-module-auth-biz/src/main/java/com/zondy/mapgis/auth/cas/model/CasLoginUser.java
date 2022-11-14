@@ -13,7 +13,7 @@ import java.util.HashSet;
 /**
  * CasLoginUser用户统一单体和微服务版的LoginUser
  *
- * @author powanjuanshu
+ * @author xiongbo
  * @since 2022/6/10 12:47
  */
 @Data

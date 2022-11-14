@@ -3,7 +3,7 @@ package com.zondy.mapgis.common.core.constant;
 /**
  * 配置常量
  *
- * @author powanjuanshu
+ * @author xiongbo
  * @since 2022/10/30 16:11
  */
 public class ConfigConstants {

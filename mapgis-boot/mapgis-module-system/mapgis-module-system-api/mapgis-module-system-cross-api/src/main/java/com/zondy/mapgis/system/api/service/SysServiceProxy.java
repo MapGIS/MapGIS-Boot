@@ -17,7 +17,7 @@ import java.util.List;
 /**
  * 服务代理
  *
- * @author powanjuanshu
+ * @author xiongbo
  * @since 2022/10/19 18:05
  */
 @Component

@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 /**
  * CAS配置更新监听器（用于单体版监听）
  *
- * @author powanjuanshu
+ * @author xiongbo
  * @since 2022/10/29 13:55
  */
 @Component

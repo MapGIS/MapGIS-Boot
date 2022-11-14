@@ -13,7 +13,7 @@ import java.io.IOException;
  * token过滤器 验证token有效性
  * 跟common-local-security中同名，为了使CasSecurityConfig在微服务中编译通过，后面微服务全面切换到spring security后，可以被common-local-security中替换
  *
- * @author powanjuanshu
+ * @author xiongbo
  * @since 2022/6/10 13:47
  */
 @Component

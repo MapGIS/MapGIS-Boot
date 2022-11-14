@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 /**
  * 读取产品相关配置
  *
- * @author powanjuanshu
+ * @author xiongbo
  * @since 2022/7/17 15:58
  */
 @Data

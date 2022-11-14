@@ -16,7 +16,7 @@ import java.util.List;
 /**
  * 业务表 gen_table
  *
- * @author powanjuanshu
+ * @author xiongbo
  * @since 2022/8/21 15:29
  */
 @Data

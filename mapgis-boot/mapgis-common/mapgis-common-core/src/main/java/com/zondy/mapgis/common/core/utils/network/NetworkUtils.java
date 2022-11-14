@@ -16,7 +16,7 @@ import java.util.StringTokenizer;
 /**
  * 通用获取当前网速工具类
  *
- * @author powanjuanshu
+ * @author xiongbo
  * @since 2022/10/9 15:14
  */
 @Slf4j

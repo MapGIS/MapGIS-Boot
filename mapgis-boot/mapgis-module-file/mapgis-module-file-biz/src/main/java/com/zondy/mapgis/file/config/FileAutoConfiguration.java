@@ -12,7 +12,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 
 /**
- * @author powanjuanshu
+ * @author xiongbo
  * @since 2022/7/21 18:37
  */
 @Configuration

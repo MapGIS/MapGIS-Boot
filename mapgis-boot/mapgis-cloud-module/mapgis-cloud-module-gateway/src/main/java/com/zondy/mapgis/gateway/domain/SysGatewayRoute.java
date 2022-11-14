@@ -7,7 +7,7 @@ import org.springframework.cloud.gateway.route.RouteDefinition;
 /**
  * 网关路由对象
  *
- * @author powanjuanshu
+ * @author xiongbo
  * @since 2022/9/21 13:49
  */
 @Setter

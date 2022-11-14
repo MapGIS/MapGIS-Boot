@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 /**
  * 用于加载用户信息,实现AuthenticationUserDetailsService接口
  *
- * @author powanjuanshu
+ * @author xiongbo
  * @since 2022/6/7 8:44
  */
 @Service
