@@ -35,6 +35,12 @@
             <artifactId>poi-ooxml</artifactId>
         </dependency>
 
+        <!-- LDAP -->
+        <dependency>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-ldap</artifactId>
+        </dependency>
+
         <!-- 数据范围模块 -->
         <dependency>
             <groupId>com.zondy.mapgis</groupId>

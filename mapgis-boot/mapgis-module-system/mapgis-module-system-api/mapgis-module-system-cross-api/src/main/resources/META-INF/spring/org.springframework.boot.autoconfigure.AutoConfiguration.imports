@@ -1,1 +1,2 @@
 com.zondy.mapgis.system.api.service.SysServiceProxy
+com.zondy.mapgis.system.api.service.LdapService

@@ -11,6 +11,7 @@ import com.zondy.mapgis.system.api.domain.SysLdapConfig;
 import com.zondy.mapgis.system.api.domain.SysRegisterConfig;
 import com.zondy.mapgis.system.api.domain.SysUser;
 import com.zondy.mapgis.system.api.model.LoginUser;
+import com.zondy.mapgis.system.api.service.LdapService;
 import com.zondy.mapgis.system.api.service.SysServiceProxy;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -30,7 +31,7 @@ public abstract class BaseLoginService {
     private IValidateCodeService validateCodeService;
 
     @Autowired
-    private ILdapService ldapService;
+    private LdapService ldapService;
 
     /**
      * 登录验证

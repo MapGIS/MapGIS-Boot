@@ -34,7 +34,7 @@
 </template>
 
 <script>
-import { ldapRoles } from '@/api/login'
+import { ldapRoles } from '@/api/system/security'
 
 export default {
   name: 'CreateForm',
