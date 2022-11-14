@@ -10,19 +10,17 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 /**
  * CAS授权
  *
- * @author powanjuanshu
+ * @author xiongbo
  * @since 2022/6/9 17:49
  */
-@Tag(name = "CAS登录管理", description = "CAS登录登录控制器")
+@Tag(name = "CAS登录管理", description = "CAS登录控制器")
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
-@Controller
 @ServicesRestController("/auth/casLogin")
 public class CasLoginController {
 

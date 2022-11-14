@@ -100,3 +100,11 @@ export function casLogin(token) {
     }
   })
 }
+
+// LDAP角色群组
+export function ldapRoles() {
+  return request({
+    url: `${window._CONFIG['apiPathServicesPrefix']}/auth/ldapLogin/ldapRoles`,
+    method: 'get'
+  })
+}

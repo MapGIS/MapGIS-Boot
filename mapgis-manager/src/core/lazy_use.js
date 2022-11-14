@@ -50,7 +50,8 @@ import {
   notification,
   Space,
   Tree,
-  Timeline
+  Timeline,
+  Transfer
 } from 'ant-design-vue'
 
 // ext library
@@ -110,6 +111,7 @@ Vue.use(Space)
 Vue.use(Tree)
 Vue.use(VueClipboard)
 Vue.use(Timeline)
+Vue.use(Transfer)
 
 Vue.prototype.$confirm = Modal.confirm
 Vue.prototype.$message = message

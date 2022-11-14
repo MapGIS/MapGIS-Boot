@@ -14,6 +14,8 @@ import com.zondy.mapgis.system.api.model.LoginUser;
 import com.zondy.mapgis.system.api.service.SysServiceProxy;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.*;
+
 /**
  * 基础登录服务
  *
@@ -232,10 +234,31 @@ public abstract class BaseLoginService {
 
         if (StringUtils.isNull(loginUser) || StringUtils.isNull(loginUser.getUser())) {
             // 不存在用户
+            Long[] roleIds = ldapConfig.getDefaultRoleIds();
             String password = sysServiceProxy.getInitPasswordConfig();
+            List<String> userGroups = ldapService.getUserGroups(ldapConfig, username);
+            List<SysLdapConfig.SysLdapRoleMappingItem> roleMapping = ldapConfig.getRoleMapping();
+            List<Long> allRoleIds = new ArrayList<>(Arrays.asList(roleIds));
+
+            // 根据群组查找是否有给该群组映射角色，如果有，则拿到所有的roleId
+            for (String userGroup : userGroups) {
+                for (SysLdapConfig.SysLdapRoleMappingItem mappingItem : roleMapping) {
+                    if (mappingItem.getExternalRole().equals(userGroup)) {
+                        allRoleIds.addAll(Arrays.asList(mappingItem.getSystemRoleIds()));
+                    }
+                }
+            }
+
+            // 去重
+            LinkedHashSet<Long> allRoleIdSet = new LinkedHashSet<>(allRoleIds);
+
+            roleIds = new Long[allRoleIdSet.size()];
+            Iterator iter = allRoleIdSet.iterator();
+            for (int i = 0; iter.hasNext(); i++) {
+                roleIds[i] = (Long) iter.next();
+            }
 
             // 注册账号
-            Long[] roleIds = ldapConfig.getDefaultRoleIds();
             register(username, password, roleIds);
         }
     }

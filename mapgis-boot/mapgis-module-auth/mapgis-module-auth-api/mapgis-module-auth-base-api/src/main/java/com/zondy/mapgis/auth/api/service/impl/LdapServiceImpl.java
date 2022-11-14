@@ -1,6 +1,7 @@
 package com.zondy.mapgis.auth.api.service.impl;
 
 import com.zondy.mapgis.auth.api.service.ILdapService;
+import com.zondy.mapgis.common.core.exception.ServiceException;
 import com.zondy.mapgis.system.api.domain.SysLdapConfig;
 import org.springframework.ldap.NamingException;
 import org.springframework.ldap.core.AttributesMapper;
@@ -44,7 +45,11 @@ public class LdapServiceImpl implements ILdapService {
         LdapTemplate ldapTemplate = getLdapTemplate(ldapConfig);
         String filter = "(|(&(objectClass=groupOfNames)(member=" + username + "*))(&(objectClass=groupOfUniqueNames)(uniqueMember=" + username + "*))(&(objectClass=posixGroup)(memberUid=*" + username + "*)))";
 
-        return ldapTemplate.search("", filter, (AttributesMapper<String>) attrs -> (String) attrs.get("cn").get());
+        try {
+            return ldapTemplate.search("", filter, (AttributesMapper<String>) attrs -> (String) attrs.get("cn").get());
+        } catch (Exception e) {
+            throw new ServiceException("获取LDAP用户所属群组失败");
+        }
     }
 
     @Override
@@ -52,7 +57,11 @@ public class LdapServiceImpl implements ILdapService {
         LdapTemplate ldapTemplate = getLdapTemplate(ldapConfig);
         String str = "(|(objectClass=groupOfNames)(objectClass=groupOfUniqueNames)(objectClass=posixGroup))";
 
-        return ldapTemplate.search("", str, (AttributesMapper<String>) attrs -> (String) attrs.get("cn").get());
+        try {
+            return ldapTemplate.search("", str, (AttributesMapper<String>) attrs -> (String) attrs.get("cn").get());
+        } catch (Exception e) {
+            throw new ServiceException("获取LDAP群组失败");
+        }
     }
 
     private LdapTemplate getLdapTemplate(SysLdapConfig ldapConfig) {

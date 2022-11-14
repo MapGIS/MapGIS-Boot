@@ -2,6 +2,9 @@ package com.zondy.mapgis.system.api.domain;
 
 import lombok.Data;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * LDAP配置对象
  *
@@ -40,6 +43,11 @@ public class SysLdapConfig {
      */
     Long[] defaultRoleIds;
 
+    /**
+     * 角色映射
+     */
+    List<SysLdapRoleMappingItem> roleMapping;
+
     public SysLdapConfig() {
         enabled = false;
         url = "";
@@ -47,5 +55,24 @@ public class SysLdapConfig {
         userDn = "";
         password = "";
         defaultRoleIds = new Long[0];
+        roleMapping = new ArrayList<>();
+    }
+
+    @Data
+    public static class SysLdapRoleMappingItem {
+        /**
+         * LDAP群组
+         */
+        String externalRole;
+
+        /**
+         * 映射角色
+         */
+        Long[] systemRoleIds;
+
+        public SysLdapRoleMappingItem() {
+            externalRole = "";
+            systemRoleIds = new Long[0];
+        }
     }
 }

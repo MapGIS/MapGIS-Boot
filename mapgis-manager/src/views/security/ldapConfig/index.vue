@@ -1,113 +1,91 @@
 <template>
   <page-header-wrapper>
-    <a-card>
-      <a-form-model
-        v-if="configLoaded"
-        :labelCol="{ lg: { span: 7 }, sm: { span: 7 } }"
-        :wrapperCol="{ lg: { span: 10 }, sm: { span: 17 } }"
-        ref="form"
-        :model="form"
-        :rules="rules"
-      >
-        <a-form-model-item label="是否启用" prop="enabled">
-          <a-checkbox :checked="form.enabled" @change="handleChange" />
-        </a-form-model-item>
-        <a-form-model-item label="LDAP服务器地址" prop="url">
-          <a-input v-model="form.url" placeholder="ldap(s)://{host}:{port}">
-            <a-tooltip slot="suffix" title="LDAP默认端口为389，LDAPS默认端口为636">
-              <a-icon type="info-circle" />
-            </a-tooltip>
-          </a-input>
-        </a-form-model-item>
-        <a-form-model-item label="根条目位置" prop="base">
-          <a-input v-model="form.base" />
-        </a-form-model-item>
-        <a-form-model-item label="LDAP管理员名称" prop="userDn">
-          <a-input v-model="form.userDn" />
-        </a-form-model-item>
-        <a-form-model-item label="LDAP管理员密码" prop="password">
-          <a-input-password v-model="form.password" :visibilityToggle="false" />
-        </a-form-model-item>
-        <a-form-model-item label="创建用户的默认角色" prop="defaultRoleIds">
-          <a-select mode="multiple" v-model="form.defaultRoleIds" placeholder="请选择">
-            <a-select-option v-for="(d, index) in roleOptions" :key="index" :value="d.roleId">
-              {{ d.roleName }}
-            </a-select-option>
-          </a-select>
-        </a-form-model-item>
-        <a-form-model-item :wrapper-col="{ lg: { span: 10, offset: 7 }, sm: { span: 17, offset: 7 } }">
-          <a-button type="primary" :loading="submitLoading" @click="submit" v-hasPermi="['system:config:edit']">
-            保存
-          </a-button>
-        </a-form-model-item>
-      </a-form-model>
+    <a-card :bordered="false" :bodyStyle="{ height: '100%' }" :style="{ height: '100%' }">
+      <div class="ldap-settings-info-main" :class="{ mobile: isMobile }">
+        <div class="ldap-settings-info-left">
+          <a-menu :mode="isMobile ? 'horizontal' : 'inline'" v-model="currentKey" :style="{ border: '0' }" type="inner">
+            <a-menu-item v-for="item in configItems" :key="item.key">
+              {{ item.title }}
+            </a-menu-item>
+          </a-menu>
+        </div>
+        <div class="ldap-settings-info-right">
+          <template v-for="item in configItems">
+            <component :is="item.component" :key="item.key" v-if="currentKey.indexOf(item.key) > -1"></component>
+          </template>
+        </div>
+      </div>
     </a-card>
   </page-header-wrapper>
 </template>
 
 <script>
-import merge from 'lodash/merge'
-import { getConfigByKey, updateConfig } from '@/api/system/config'
-import { getUser } from '@/api/system/user'
-
-const defaultConfigValue = {
-  enabled: false,
-  url: '',
-  base: '',
-  userDn: '',
-  password: '',
-  defaultRoleIds: []
-}
+import { baseMixin } from '@/store/app-mixin'
+import LdapBaseConfig from './LdapBaseConfig'
+import LdapRoleMapping from './LdapRoleMapping'
 
 export default {
   name: 'LdapConfig',
+  components: {
+    LdapBaseConfig,
+    LdapRoleMapping
+  },
+  mixins: [baseMixin],
   data() {
     return {
-      configLoaded: false,
-      submitLoading: false,
-      configInfo: {},
-      form: {},
-      rules: {
-        url: [{ required: true, message: '请输入LDAP服务器地址', trigger: 'blur' }],
-        base: [{ required: true, message: '请输入根条目位置', trigger: 'blur' }],
-        userDn: [{ required: true, message: '请输入LDAP管理员名称', trigger: 'blur' }]
-      }
+      configItems: [
+        { title: 'LDAP登录配置', key: 'baseConfig', component: 'LdapBaseConfig' },
+        { title: '角色映射配置', key: 'roleMapping', component: 'LdapRoleMapping' }
+      ],
+      currentKey: ['baseConfig']
     }
   },
-  async mounted() {
-    const userInfoResult = await getUser()
-    this.roleOptions = userInfoResult.roles
-    const configInfoResult = await getConfigByKey('security.ldap')
-    this.configInfo = configInfoResult.data
-    const configValue = merge(defaultConfigValue, this.configInfo && JSON.parse(this.configInfo.configValue || '{}'))
-
-    this.form = Object.assign({}, this.form, { ...configValue })
-
-    this.configLoaded = true
-  },
-  methods: {
-    handleChange(e) {
-      this.$set(this.form, 'enabled', e.target.checked)
-    },
-    submit() {
-      this.$refs.form.validate(valid => {
-        if (valid) {
-          this.submitLoading = true
-          this.configInfo.configValue = JSON.stringify({ ...this.form })
-          updateConfig(this.configInfo)
-            .then(response => {
-              this.$message.success('设置成功', 3)
-            })
-            .finally(() => {
-              this.submitLoading = false
-            })
-        } else {
-          return false
-        }
+  computed: {
+    currentTitle() {
+      const currnetConfig = this.configItems.find(config => {
+        return this.currentKey.indexOf(config.key) > -1
       })
+      return currnetConfig.title
     }
   }
 }
 </script>
 
-<style></style>
+<style lang="less" scoped>
+.ldap-settings-info-main {
+  width: 100%;
+  display: flex;
+  height: 100%;
+  overflow: auto;
+
+  &.mobile {
+    display: block;
+
+    .ldap-settings-info-left {
+      border-right: unset;
+      border-bottom: 1px solid @border-color;
+      width: 100%;
+      height: 50px;
+      overflow-x: auto;
+      overflow-y: scroll;
+    }
+    .security-settings-info-right {
+      padding: 20px 40px;
+    }
+  }
+
+  .ldap-settings-info-left {
+    border-right: 1px solid @border-color;
+    width: 224px;
+  }
+
+  .ldap-settings-info-right {
+    flex: 1 1;
+    padding: 8px 40px;
+
+    .ldap-settings-info-view {
+      padding-top: 12px;
+    }
+  }
+}
+</style>

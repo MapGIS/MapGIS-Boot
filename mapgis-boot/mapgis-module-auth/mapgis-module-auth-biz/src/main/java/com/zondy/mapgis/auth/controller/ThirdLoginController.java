@@ -40,6 +40,8 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
 /**
+ * 第三方用户登录授权
+ *
  * @author xionbgo
  * @since 2022/5/23 14:56
  */
