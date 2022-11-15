@@ -1,10 +1,7 @@
 package com.zondy.mapgis.system.service.impl;
 
-import cn.hutool.core.lang.Dict;
-import com.zondy.mapgis.common.core.constant.ConfigConstants;
 import com.zondy.mapgis.common.core.constant.UserConstants;
 import com.zondy.mapgis.common.core.domain.R;
-import com.zondy.mapgis.common.core.utils.JsonUtils;
 import com.zondy.mapgis.common.core.utils.StringUtils;
 import com.zondy.mapgis.system.api.ISysServiceApi;
 import com.zondy.mapgis.system.api.domain.*;
@@ -72,11 +69,7 @@ public class SysServiceApiImpl implements ISysServiceApi {
     @Override
     public R<Boolean> registerUserInfo(SysUser sysUser, String source) {
         String username = sysUser.getUserName();
-        String registerUserString = configService.selectConfigValueByKey(ConfigConstants.CONFIG_KEY_SECURITY_REGISTER);
-        Dict registerUserInfo = JsonUtils.parseMap(registerUserString);
-        if (StringUtils.isEmpty(registerUserInfo) || !(Boolean) registerUserInfo.get("enabled")) {
-            return R.fail("当前系统没有开启注册功能！");
-        }
+
         if (UserConstants.NOT_UNIQUE.equals(userService.checkUserNameUnique(username))) {
             return R.fail("保存用户'" + username + "'失败，注册账号已存在");
         }

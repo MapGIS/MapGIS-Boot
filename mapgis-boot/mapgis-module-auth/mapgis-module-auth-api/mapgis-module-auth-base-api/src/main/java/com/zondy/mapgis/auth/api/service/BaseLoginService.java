@@ -142,6 +142,11 @@ public abstract class BaseLoginService {
         SysRegisterConfig sysRegisterConfig = sysServiceProxy.getRegisterConfig();
         Long[] roleIds = sysRegisterConfig.getDefaultRoleIds();
 
+        // 检测是否开启注册功能
+        if (!sysRegisterConfig.getEnabled()) {
+            throw new ServiceException(MessageUtils.message("user.register.disabled"));
+        }
+
         // 注册
         register(username, password, roleIds);
 
