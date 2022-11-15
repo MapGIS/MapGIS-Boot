@@ -96,10 +96,10 @@
             <optional>true</optional>
         </dependency>
 
-        <!-- MapGIS Auth Base Api -->
+        <!-- MapGIS Common Captcha -->
         <dependency>
             <groupId>com.zondy.mapgis</groupId>
-            <artifactId>mapgis-module-auth-base-api</artifactId>
+            <artifactId>mapgis-common-captcha</artifactId>
         </dependency>
 
         <!-- MapGIS Common Cloud Cache -->

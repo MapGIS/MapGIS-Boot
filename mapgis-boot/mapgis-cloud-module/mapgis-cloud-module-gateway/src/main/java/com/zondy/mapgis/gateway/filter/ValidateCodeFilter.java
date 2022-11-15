@@ -1,7 +1,7 @@
 package com.zondy.mapgis.gateway.filter;
 
 import cn.hutool.core.lang.Dict;
-import com.zondy.mapgis.auth.api.service.IValidateCodeService;
+import com.zondy.mapgis.common.captcha.service.IValidateCodeService;
 import com.zondy.mapgis.common.core.config.properties.ApiPathProperties;
 import com.zondy.mapgis.common.core.utils.JsonUtils;
 import com.zondy.mapgis.common.core.utils.StringUtils;

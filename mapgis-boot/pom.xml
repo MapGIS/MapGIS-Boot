@@ -283,6 +283,20 @@
                 <version>${mapgis.boot.version}</version>
             </dependency>
 
+            <!-- MapGIS Common LDAP -->
+            <dependency>
+                <groupId>com.zondy.mapgis</groupId>
+                <artifactId>mapgis-common-ldap</artifactId>
+                <version>${mapgis.boot.version}</version>
+            </dependency>
+
+            <!-- MapGIS Common Captcha -->
+            <dependency>
+                <groupId>com.zondy.mapgis</groupId>
+                <artifactId>mapgis-common-captcha</artifactId>
+                <version>${mapgis.boot.version}</version>
+            </dependency>
+
             <!-- 系统模块 -->
             <dependency>
                 <groupId>com.zondy.mapgis</groupId>

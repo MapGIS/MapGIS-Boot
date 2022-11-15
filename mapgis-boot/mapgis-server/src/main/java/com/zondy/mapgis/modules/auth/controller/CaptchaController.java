@@ -1,6 +1,6 @@
 package com.zondy.mapgis.modules.auth.controller;
 
-import com.zondy.mapgis.auth.api.service.IValidateCodeService;
+import com.zondy.mapgis.common.captcha.service.IValidateCodeService;
 import com.zondy.mapgis.common.controllerprefix.annotation.ServicesRestController;
 import com.zondy.mapgis.common.core.web.domain.AjaxResult;
 import com.zondy.mapgis.system.api.domain.SysLoginConfig;

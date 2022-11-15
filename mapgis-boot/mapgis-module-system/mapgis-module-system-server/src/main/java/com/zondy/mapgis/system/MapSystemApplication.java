@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.ldap.LdapAutoConfiguration;
 
 import java.util.HashMap;
 
@@ -21,7 +22,7 @@ import java.util.HashMap;
 @EnableMapConfig
 @EnableCustomSwagger3
 @EnableMapFeignClients
-@SpringBootApplication
+@SpringBootApplication(exclude = {LdapAutoConfiguration.class})
 public class MapSystemApplication implements CommandLineRunner {
     @Autowired
     private ICacheService cacheService;

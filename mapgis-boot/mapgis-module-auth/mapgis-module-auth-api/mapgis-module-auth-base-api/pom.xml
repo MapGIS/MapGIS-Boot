@@ -17,18 +17,6 @@
     </properties>
 
     <dependencies>
-        <!-- 验证码 -->
-        <dependency>
-            <groupId>com.github.penggle</groupId>
-            <artifactId>kaptcha</artifactId>
-            <exclusions>
-                <exclusion>
-                    <artifactId>javax.servlet-api</artifactId>
-                    <groupId>javax.servlet</groupId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-
         <!-- swagger annotations-->
         <dependency>
             <groupId>io.swagger.core.v3</groupId>
@@ -40,12 +28,6 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-configuration-processor</artifactId>
             <optional>true</optional>
-        </dependency>
-
-        <!-- LDAP -->
-        <dependency>
-            <groupId>org.springframework.data</groupId>
-            <artifactId>spring-data-ldap</artifactId>
         </dependency>
 
         <!-- MapGIS System Base Api -->
@@ -60,10 +42,16 @@
             <artifactId>mapgis-module-system-cross-api</artifactId>
         </dependency>
 
-        <!-- MapGIS Common Base Cache -->
+        <!-- MapGIS Common LDAP -->
         <dependency>
             <groupId>com.zondy.mapgis</groupId>
-            <artifactId>mapgis-common-base-cache</artifactId>
+            <artifactId>mapgis-common-ldap</artifactId>
+        </dependency>
+
+        <!-- MapGIS Common Captcha -->
+        <dependency>
+            <groupId>com.zondy.mapgis</groupId>
+            <artifactId>mapgis-common-captcha</artifactId>
         </dependency>
     </dependencies>
 

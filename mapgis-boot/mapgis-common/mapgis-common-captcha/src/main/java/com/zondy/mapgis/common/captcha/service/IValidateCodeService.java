@@ -1,4 +1,4 @@
-package com.zondy.mapgis.auth.api.service;
+package com.zondy.mapgis.common.captcha.service;
 
 import com.zondy.mapgis.common.core.exception.user.CaptchaException;
 import com.zondy.mapgis.common.core.web.domain.AjaxResult;

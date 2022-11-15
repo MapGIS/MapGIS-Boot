@@ -18,6 +18,8 @@
         <module>mapgis-common-security</module>
         <module>mapgis-common-log</module>
         <module>mapgis-common-controllerprefix</module>
+        <module>mapgis-common-ldap</module>
+        <module>mapgis-common-captcha</module>
     </modules>
 
     <artifactId>mapgis-common</artifactId>

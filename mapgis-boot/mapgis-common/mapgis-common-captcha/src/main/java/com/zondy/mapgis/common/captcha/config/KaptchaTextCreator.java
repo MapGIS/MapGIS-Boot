@@ -1,4 +1,4 @@
-package com.zondy.mapgis.auth.api.config;
+package com.zondy.mapgis.common.captcha.config;
 
 import com.google.code.kaptcha.text.impl.DefaultTextCreator;
 

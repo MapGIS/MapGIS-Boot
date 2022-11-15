@@ -16,15 +16,6 @@
         <maven.compiler.target>8</maven.compiler.target>
     </properties>
 
-    <dependencies>
-        <!-- LDAP -->
-        <dependency>
-            <groupId>org.springframework.data</groupId>
-            <artifactId>spring-data-ldap</artifactId>
-            <optional>true</optional>
-        </dependency>
-    </dependencies>
-
     <profiles>
         <profile>
             <id>local</id>

@@ -1,8 +1,8 @@
-package com.zondy.mapgis.auth.api.service.impl;
+package com.zondy.mapgis.common.captcha.service.impl;
 
 import com.google.code.kaptcha.Producer;
-import com.zondy.mapgis.auth.api.service.IValidateCodeService;
 import com.zondy.mapgis.common.cache.service.ICacheService;
+import com.zondy.mapgis.common.captcha.service.IValidateCodeService;
 import com.zondy.mapgis.common.core.constant.CacheConstants;
 import com.zondy.mapgis.common.core.exception.user.CaptchaException;
 import com.zondy.mapgis.common.core.exception.user.CaptchaExpireException;

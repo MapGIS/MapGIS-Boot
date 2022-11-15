@@ -35,12 +35,6 @@
             <artifactId>poi-ooxml</artifactId>
         </dependency>
 
-        <!-- LDAP -->
-        <dependency>
-            <groupId>org.springframework.data</groupId>
-            <artifactId>spring-data-ldap</artifactId>
-        </dependency>
-
         <!-- 数据范围模块 -->
         <dependency>
             <groupId>com.zondy.mapgis</groupId>
@@ -63,6 +57,12 @@
         <dependency>
             <groupId>com.zondy.mapgis</groupId>
             <artifactId>mapgis-common-cross-log</artifactId>
+        </dependency>
+
+        <!-- MapGIS Common LDAP -->
+        <dependency>
+            <groupId>com.zondy.mapgis</groupId>
+            <artifactId>mapgis-common-ldap</artifactId>
         </dependency>
     </dependencies>
 

@@ -2,8 +2,9 @@ package com.zondy.mapgis.system.controller;
 
 import com.zondy.mapgis.common.controllerprefix.annotation.ManagerRestController;
 import com.zondy.mapgis.common.core.web.domain.AjaxResult;
+import com.zondy.mapgis.common.ldap.utils.LdapUtils;
+import com.zondy.mapgis.system.api.domain.SysLdapConfig;
 import com.zondy.mapgis.system.api.service.SysServiceProxy;
-import com.zondy.mapgis.system.api.service.utils.LdapUtils;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -25,6 +26,8 @@ public class SysSecurityController {
     @Operation(summary = "获取LDAP角色群组")
     @GetMapping("/ldap/roles")
     public AjaxResult getLdapRoles() {
-        return AjaxResult.success(LdapUtils.getAllGroups(sysServiceProxy.getLdapConfig()));
+        SysLdapConfig ldapConfig = sysServiceProxy.getLdapConfig();
+
+        return AjaxResult.success(LdapUtils.getAllGroups(new LdapUtils.LdapConfig(ldapConfig.getUrl(), ldapConfig.getBase(), ldapConfig.getUserDn(), ldapConfig.getPassword())));
     }
 }

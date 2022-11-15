@@ -1,7 +1,8 @@
-package com.zondy.mapgis.system.api.service.utils;
+package com.zondy.mapgis.common.ldap.utils;
 
 import com.zondy.mapgis.common.core.exception.ServiceException;
-import com.zondy.mapgis.system.api.domain.SysLdapConfig;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 import org.springframework.ldap.NamingException;
 import org.springframework.ldap.core.AttributesMapper;
 import org.springframework.ldap.core.DirContextOperations;
@@ -21,7 +22,16 @@ import java.util.List;
  * @since 2022/11/3 17:31
  */
 public class LdapUtils {
-    public static boolean authenticate(SysLdapConfig ldapConfig, String username, String password) {
+    @Data
+    @AllArgsConstructor
+    public static class LdapConfig {
+        String url;
+        String base;
+        String userDn;
+        String password;
+    }
+
+    public static boolean authenticate(LdapConfig ldapConfig, String username, String password) {
         String userDn = "";
         DirContext ctx = null;
         LdapTemplate ldapTemplate = getLdapTemplate(ldapConfig);
@@ -37,7 +47,7 @@ public class LdapUtils {
         }
     }
 
-    public static List<String> getUserGroups(SysLdapConfig ldapConfig, String username) {
+    public static List<String> getUserGroups(LdapConfig ldapConfig, String username) {
         LdapTemplate ldapTemplate = getLdapTemplate(ldapConfig);
         String filter = "(|(&(objectClass=groupOfNames)(member=" + username + "*))(&(objectClass=groupOfUniqueNames)(uniqueMember=" + username + "*))(&(objectClass=posixGroup)(memberUid=*" + username + "*)))";
 
@@ -48,7 +58,7 @@ public class LdapUtils {
         }
     }
 
-    public static List<String> getAllGroups(SysLdapConfig ldapConfig) {
+    public static List<String> getAllGroups(LdapConfig ldapConfig) {
         LdapTemplate ldapTemplate = getLdapTemplate(ldapConfig);
         String str = "(|(objectClass=groupOfNames)(objectClass=groupOfUniqueNames)(objectClass=posixGroup))";
 
@@ -59,7 +69,7 @@ public class LdapUtils {
         }
     }
 
-    private static LdapTemplate getLdapTemplate(SysLdapConfig ldapConfig) {
+    private static LdapTemplate getLdapTemplate(LdapConfig ldapConfig) {
         LdapContextSource ldapContextSource = new LdapContextSource();
 
         ldapContextSource.setUrl(ldapConfig.getUrl());

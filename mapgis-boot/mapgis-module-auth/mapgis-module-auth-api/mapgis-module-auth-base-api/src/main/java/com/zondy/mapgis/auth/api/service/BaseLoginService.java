@@ -2,17 +2,18 @@ package com.zondy.mapgis.auth.api.service;
 
 import com.zondy.mapgis.auth.api.domain.model.LoginBody;
 import com.zondy.mapgis.auth.api.domain.model.RegisterBody;
+import com.zondy.mapgis.common.captcha.service.IValidateCodeService;
 import com.zondy.mapgis.common.core.constant.UserConstants;
 import com.zondy.mapgis.common.core.exception.ServiceException;
 import com.zondy.mapgis.common.core.utils.DateUtils;
 import com.zondy.mapgis.common.core.utils.MessageUtils;
 import com.zondy.mapgis.common.core.utils.StringUtils;
+import com.zondy.mapgis.common.ldap.utils.LdapUtils;
 import com.zondy.mapgis.system.api.domain.SysLdapConfig;
 import com.zondy.mapgis.system.api.domain.SysRegisterConfig;
 import com.zondy.mapgis.system.api.domain.SysUser;
 import com.zondy.mapgis.system.api.model.LoginUser;
 import com.zondy.mapgis.system.api.service.SysServiceProxy;
-import com.zondy.mapgis.system.api.service.utils.LdapUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.*;
@@ -47,7 +48,7 @@ public abstract class BaseLoginService {
         SysLdapConfig ldapConfig = sysServiceProxy.getLdapConfig();
 
         if (ldapConfig.getEnabled()) {
-            if (LdapUtils.authenticate(ldapConfig, username, password)) {
+            if (LdapUtils.authenticate(new LdapUtils.LdapConfig(ldapConfig.getUrl(), ldapConfig.getBase(), ldapConfig.getUserDn(), ldapConfig.getPassword()), username, password)) {
                 // 登录成功，查看用户在原有列表中是否存在，存在则直接无密码登录，如果不存在，则需要创建
                 // 登录失败，再继续原来的用户验证逻辑
                 checkUserExistOrCreate(username, ldapConfig);
@@ -234,7 +235,7 @@ public abstract class BaseLoginService {
             // 不存在用户
             Long[] roleIds = ldapConfig.getDefaultRoleIds();
             String password = sysServiceProxy.getInitPasswordConfig();
-            List<String> userGroups = LdapUtils.getUserGroups(ldapConfig, username);
+            List<String> userGroups = LdapUtils.getUserGroups(new LdapUtils.LdapConfig(ldapConfig.getUrl(), ldapConfig.getBase(), ldapConfig.getUserDn(), ldapConfig.getPassword()), username);
             List<SysLdapConfig.SysLdapRoleMappingItem> roleMapping = ldapConfig.getRoleMapping();
             List<Long> allRoleIds = new ArrayList<>(Arrays.asList(roleIds));
 
