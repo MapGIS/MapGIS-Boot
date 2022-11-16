@@ -105,8 +105,11 @@ export default {
       )
       column.width2 = column.width
       column.ellipsis2 = column.ellipsis
-      if (column.width !== 0 || !column.ellipsis) {
+      if (column.visible === undefined || column.visible) {
         this.checkedKeys.push(column.dataIndex)
+      } else {
+        this.$set(column, 'width', 0)
+        this.$set(column, 'ellipsis', true)
       }
       column.switcherIcon = <a-icon type="pic-left" />
     })

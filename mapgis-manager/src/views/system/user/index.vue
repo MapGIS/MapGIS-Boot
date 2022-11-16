@@ -17,14 +17,18 @@
                   </a-form-item>
                 </a-col>
                 <a-col :md="8" :sm="24">
-                  <a-form-item label="手机号">
-                    <a-input v-model="queryParam.phonenumber" placeholder="请输入" allow-clear />
+                  <a-form-item label="角色">
+                    <a-select placeholder="请选择角色" v-model="queryParam.roleId" style="width: 100%" allow-clear>
+                      <a-select-option v-for="(r, index) in roleOptions" :key="index" :value="r.roleId">{{
+                        r.roleName
+                      }}</a-select-option>
+                    </a-select>
                   </a-form-item>
                 </a-col>
                 <template v-if="advanced">
                   <a-col :md="8" :sm="24">
                     <a-form-item label="状态" prop="status">
-                      <a-select placeholder="请选择状态" style="width: 100%" allow-clear>
+                      <a-select placeholder="请选择状态" v-model="queryParam.status" style="width: 100%" allow-clear>
                         <a-select-option v-for="(d, index) in statusOptions" :key="index" :value="d.dictValue">{{
                           d.dictLabel
                         }}</a-select-option>
@@ -106,7 +110,7 @@
           <!-- 修改密码抽屉 -->
           <reset-password ref="resetPassword" />
           <!-- 分配角色模态框 -->
-          <auth-role ref="authRole" />
+          <auth-role ref="authRole" @ok="getList" />
           <!-- 上传文件 -->
           <import-excel ref="importExcel" @ok="getList" />
           <!-- 数据展示 -->
@@ -123,6 +127,9 @@
             :pagination="false"
             :bordered="tableBordered"
           >
+            <span slot="roleNames" slot-scope="text, record">
+              {{ parseRoles(record.roles) }}
+            </span>
             <span slot="status" slot-scope="text, record">
               <a-popconfirm
                 ok-text="是"
@@ -133,7 +140,12 @@
                 <span slot="title">
                   确认<b>{{ record.status === '1' ? '启用' : '停用' }} </b>{{ record.nickName }}的用户吗?
                 </span>
-                <a-switch checked-children="开" un-checked-children="关" :checked="record.status == 0" />
+                <a-switch
+                  checked-children="开"
+                  un-checked-children="关"
+                  :checked="record.status == 0"
+                  :disabled="record.userId === 1"
+                />
               </a-popconfirm>
             </span>
             <span slot="createTime" slot-scope="text, record">
@@ -159,7 +171,7 @@
                   <a-menu-item v-hasPermi="['system:user:resetPwd']">
                     <a @click="$refs.resetPassword.handleResetPwd(record)">
                       <a-icon type="key" />
-                      重置密码
+                      修改密码
                     </a>
                   </a-menu-item>
                   <a-menu-item v-hasPermi="['system:user:edit']">
@@ -191,7 +203,7 @@
 </template>
 
 <script>
-import { listUser, delUser, changeUserStatus } from '@/api/system/user'
+import { listUser, delUser, changeUserStatus, getUser } from '@/api/system/user'
 import { treeselect } from '@/api/system/dept'
 import AuthRole from './modules/AuthRole'
 import ResetPassword from './modules/ResetPassword'
@@ -224,6 +236,8 @@ export default {
       ids: [],
       loading: false,
       total: 0,
+      // 角色选项
+      roleOptions: [],
       // 状态数据字典
       statusOptions: [],
       sexOptions: [],
@@ -249,7 +263,9 @@ export default {
         {
           title: '用户编号',
           dataIndex: 'userId',
-          align: 'center'
+          width: '8%',
+          align: 'center',
+          visible: false
         },
         {
           title: '用户名',
@@ -268,19 +284,52 @@ export default {
           align: 'center'
         },
         {
-          title: '状态',
-          dataIndex: 'status',
-          scopedSlots: { customRender: 'status' },
+          title: '角色',
+          dataIndex: 'roles',
+          scopedSlots: { customRender: 'roleNames' },
           align: 'center'
         },
         {
           title: '创建时间',
           dataIndex: 'createTime',
+          align: 'center',
+          visible: false
+        },
+        {
+          title: '修改时间',
+          dataIndex: 'updateTime',
+          align: 'center',
+          visible: false
+        },
+        {
+          title: '上次登录地址',
+          dataIndex: 'loginIp',
+          align: 'center',
+          visible: false
+        },
+        {
+          title: '上次登录时间',
+          dataIndex: 'loginDate',
+          align: 'center',
+          visible: false
+        },
+        {
+          title: '用户信息',
+          dataIndex: 'remark',
+          align: 'center',
+          visible: false
+        },
+        {
+          title: '状态',
+          dataIndex: 'status',
+          scopedSlots: { customRender: 'status' },
+          width: '6%',
           align: 'center'
         },
         {
           title: '操作',
           dataIndex: 'operation',
+          width: '21%',
           scopedSlots: { customRender: 'operation' },
           align: 'center'
         }
@@ -296,6 +345,9 @@ export default {
     })
     this.getDicts('sys_user_sex').then(response => {
       this.sexOptions = response.data
+    })
+    getUser().then(response => {
+      this.roleOptions = response.roles
     })
   },
   computed: {},
@@ -404,6 +456,13 @@ export default {
         },
         onCancel() {}
       })
+    },
+    parseRoles(roles) {
+      return roles
+        .map(role => {
+          return role.roleName
+        })
+        .join(',')
     }
   }
 }
