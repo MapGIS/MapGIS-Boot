@@ -5,7 +5,7 @@
     </a-divider>
     <a-form-model ref="form" :model="form" :rules="rules">
       <a-form-model-item label="角色名称" prop="roleName">
-        <a-input v-model="form.roleName" placeholder="请输入" />
+        <a-input v-model="form.roleName" placeholder="请输入" :disabled="updateDisable" />
       </a-form-model-item>
       <a-form-model-item prop="roleKey">
         <span slot="label">
@@ -15,15 +15,30 @@
             <a-icon type="question-circle-o" />
           </a-tooltip>
         </span>
-        <a-input v-model="form.roleKey" placeholder="请输入" />
+        <a-input v-model="form.roleKey" placeholder="请输入" :disabled="updateDisable" />
       </a-form-model-item>
       <a-form-model-item label="排序" prop="roleSort">
-        <a-input-number placeholder="请输入" v-model="form.roleSort" :min="0" style="width: 100%" />
+        <a-input-number
+          placeholder="请输入"
+          v-model="form.roleSort"
+          :min="0"
+          style="width: 100%"
+          :disabled="updateDisable"
+        />
+      </a-form-model-item>
+      <a-form-model-item label="角色描述" prop="remark">
+        <a-input v-model="form.remark" placeholder="请输入" type="textarea" allow-clear :disabled="updateDisable" />
       </a-form-model-item>
       <a-form-model-item label="菜单权限">
-        <a-checkbox @change="handleCheckedTreeExpand($event)"> 展开/折叠 </a-checkbox>
-        <a-checkbox @change="handleCheckedTreeNodeAll($event)"> 全选/全不选 </a-checkbox>
-        <a-checkbox @change="handleCheckedTreeConnect($event)" :checked="form.menuCheckStrictly"> 父子联动 </a-checkbox>
+        <a-checkbox @change="handleCheckedTreeExpand($event)" :disabled="updateDisable"> 展开/折叠 </a-checkbox>
+        <a-checkbox @change="handleCheckedTreeNodeAll($event)" :disabled="updateDisable"> 全选/全不选 </a-checkbox>
+        <a-checkbox
+          @change="handleCheckedTreeConnect($event)"
+          :checked="form.menuCheckStrictly"
+          :disabled="updateDisable"
+        >
+          父子联动
+        </a-checkbox>
         <a-tree
           v-model="menuCheckedKeys"
           checkable
@@ -34,14 +49,14 @@
           @check="onCheck"
           @expand="onExpandMenu"
           :replaceFields="defaultProps"
+          :disabled="updateDisable"
         />
-      </a-form-model-item>
-      <a-form-model-item label="备注" prop="remark">
-        <a-input v-model="form.remark" placeholder="请输入" type="textarea" allow-clear />
       </a-form-model-item>
       <div class="bottom-control">
         <a-space>
-          <a-button type="primary" :loading="submitLoading" @click="submitForm"> 保存 </a-button>
+          <a-button type="primary" :loading="submitLoading" @click="submitForm" :disabled="updateDisable">
+            保存
+          </a-button>
           <a-button type="dashed" @click="cancel"> 取消 </a-button>
         </a-space>
       </div>
@@ -93,7 +108,11 @@ export default {
   },
   filters: {},
   created() {},
-  computed: {},
+  computed: {
+    updateDisable() {
+      return this.form.isSys !== undefined && this.form.isSys === 1
+    }
+  },
   watch: {},
   methods: {
     onExpandMenu(expandedKeys) {

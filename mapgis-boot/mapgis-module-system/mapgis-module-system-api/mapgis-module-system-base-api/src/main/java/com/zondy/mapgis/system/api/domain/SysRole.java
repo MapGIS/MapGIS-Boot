@@ -80,6 +80,13 @@ public class SysRole extends BaseEntity {
     private boolean deptCheckStrictly;
 
     /**
+     * 是否是默认角色（0否 1是）
+     */
+    @Schema(description = "是否是默认角色（0否 1是）")
+    @Excel(name = "是否是默认角色", readConverterExp = "0=否,1=是")
+    private Integer isSys;
+
+    /**
      * 删除标志（0代表存在 2代表删除）
      */
     @Schema(description = "删除标志（0代表存在 2代表删除）")

@@ -12,6 +12,7 @@
         <result property="dataScope" column="data_scope"/>
         <result property="menuCheckStrictly" column="menu_check_strictly"/>
         <result property="deptCheckStrictly" column="dept_check_strictly"/>
+        <result property="isSys" column="is_sys"/>
         <result property="delFlag" column="del_flag"/>
         <result property="createBy" column="create_by"/>
         <result property="createTime" column="create_time"/>
@@ -28,6 +29,7 @@
                         r.data_scope,
                         r.menu_check_strictly,
                         r.dept_check_strictly,
+                        r.is_sys,
                         r.del_flag,
                         r.create_time,
                         r.remark

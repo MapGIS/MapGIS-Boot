@@ -334,6 +334,7 @@ public class SysRoleServiceImpl implements ISysRoleService {
      */
     @Override
     public int deleteAuthUser(SysUserRole userRole) {
+        checkUserAllowed(userRole.getUserId());
         return userRoleMapper.deleteUserRoleInfo(userRole);
     }
 
@@ -346,6 +347,9 @@ public class SysRoleServiceImpl implements ISysRoleService {
      */
     @Override
     public int deleteAuthUsers(Long roleId, Long[] userIds) {
+        for (Long userId : userIds) {
+            checkUserAllowed(userId);
+        }
         return userRoleMapper.deleteUserRoleInfos(roleId, userIds);
     }
 
@@ -367,5 +371,16 @@ public class SysRoleServiceImpl implements ISysRoleService {
             list.add(ur);
         }
         return userRoleMapper.batchUserRole(list);
+    }
+
+    /**
+     * 校验用户是否允许操作
+     *
+     * @param userId 用户ID
+     */
+    public void checkUserAllowed(Long userId) {
+        if (userId != null && 1L == userId) {
+            throw new ServiceException("不允许操作超级管理员用户");
+        }
     }
 }

@@ -95,11 +95,19 @@
         </span>
         <span slot="operation" slot-scope="text, record">
           <a @click="$refs.createForm.handleUpdate(record, undefined)" v-hasPermi="['system:role:edit']">
-            <a-icon type="edit" />
-            修改
+            <template v-if="record.isSys == 0">
+              <a-icon type="edit" />
+              修改
+            </template>
+            <template v-else>
+              <a-icon type="search" />
+              查看
+            </template>
           </a>
-          <a-divider type="vertical" v-hasPermi="['system:role:remove']" />
-          <a @click="handleDelete(record)" v-hasPermi="['system:role:remove']">
+          <template v-if="record.isSys == 0">
+            <a-divider type="vertical" v-hasPermi="['system:role:remove']" />
+          </template>
+          <a @click="handleDelete(record)" v-hasPermi="['system:role:remove']" v-if="record.isSys == 0">
             <a-icon type="delete" />
             删除
           </a>
@@ -181,35 +189,45 @@ export default {
         {
           title: '角色编号',
           dataIndex: 'roleId',
-          align: 'center'
+          align: 'center',
+          visible: false
         },
         {
           title: '角色名',
           dataIndex: 'roleName',
+          width: '18%',
           ellipsis: true,
           align: 'center'
         },
         {
           title: '权限标识',
           dataIndex: 'roleKey',
+          width: '12%',
           ellipsis: true,
           align: 'center'
         },
         {
           title: '排序',
           dataIndex: 'roleSort',
+          width: '5%',
           align: 'center'
+        },
+        {
+          title: '角色描述',
+          dataIndex: 'remark',
+          align: 'left'
         },
         {
           title: '创建时间',
           dataIndex: 'createTime',
           scopedSlots: { customRender: 'createTime' },
-          align: 'center'
+          align: 'center',
+          visible: false
         },
         {
           title: '操作',
           dataIndex: 'operation',
-          width: '20%',
+          width: '18%',
           scopedSlots: { customRender: 'operation' },
           align: 'center'
         }

@@ -11,11 +11,6 @@
               </a-form-item>
             </a-col>
             <a-col :md="8" :sm="24">
-              <a-form-item label="手机号码">
-                <a-input v-model="queryParam.phonenumber" placeholder="请输入" allow-clear />
-              </a-form-item>
-            </a-col>
-            <a-col :md="8" :sm="24">
               <span class="table-page-search-submitButtons">
                 <a-button type="primary" @click="handleQuery"><a-icon type="search" />查询</a-button>
                 <a-button style="margin-left: 8px" @click="resetQuery"><a-icon type="redo" />重置</a-button>
@@ -73,7 +68,7 @@
         <span slot="createTime" slot-scope="text, record">
           {{ parseTime(record.createTime) }}
         </span>
-        <span slot="operation" slot-scope="text, record">
+        <span slot="operation" slot-scope="text, record" v-if="record.userId !== 1">
           <a @click="cancelAuthUser(record)" v-hasPermi="['system:role:remove']">
             <a-icon type="edit" />
             取消授权
@@ -145,17 +140,6 @@ export default {
           title: '用户昵称',
           dataIndex: 'nickName',
           ellipsis: true,
-          align: 'center'
-        },
-        {
-          title: '邮箱',
-          dataIndex: 'email',
-          ellipsis: true,
-          align: 'center'
-        },
-        {
-          title: '手机',
-          dataIndex: 'phonenumber',
           align: 'center'
         },
         {
@@ -281,7 +265,7 @@ export default {
               that.$message.success('取消授权成功', 3)
             })
             .finally(() => {
-              this.authing = false
+              that.authing = false
             })
         },
         onCancel() {}

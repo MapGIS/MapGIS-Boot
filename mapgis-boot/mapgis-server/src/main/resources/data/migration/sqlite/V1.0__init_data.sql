@@ -10,7 +10,7 @@
  Target Server Version : 3030001
  File Encoding         : 65001
 
- Date: 14/11/2022 14:13:28
+ Date: 16/11/2022 22:55:21
 */
 
 -- ----------------------------
@@ -152,7 +152,7 @@ INSERT INTO "sys_config"
 VALUES (1, '安全配置-初始密码配置', 'security.initPassword', 'MapGIS123', 'Y', 'admin', '2022-03-23 22:12:32', '', NULL,
         '用户初始密码');
 INSERT INTO "sys_config"
-VALUES (2, '安全配置-用户注册配置', 'security.register', '{"enabled":true,"defaultRoleIds":[2]}', 'Y', 'admin',
+VALUES (2, '安全配置-用户注册配置', 'security.register', '{"enabled":true,"defaultRoleIds":[3]}', 'Y', 'admin',
         '2022-03-23 22:12:32', '', NULL, '用户注册管理');
 INSERT INTO "sys_config"
 VALUES (3, '系统配置-基本配置', 'system.base',
@@ -165,14 +165,14 @@ INSERT INTO "sys_config"
 VALUES (5, '安全配置-用户登录配置', 'security.login', '{"soloLoginEnabled":true,"captchaEnabled":true,"captchaType":"math"}', 'Y',
         'admin', '2022-03-23 22:12:32', '', NULL, '用户登录配置');
 INSERT INTO "sys_config"
-VALUES (6, '安全配置-第三方登录配置', 'security.oauth', '{"defaultRoleIds":[3]}', 'Y', 'admin', '2022-03-23 22:12:32', '', NULL,
+VALUES (6, '安全配置-第三方登录配置', 'security.oauth', '{"defaultRoleIds":[2]}', 'Y', 'admin', '2022-03-23 22:12:32', '', NULL,
         '第三方登录配置');
 INSERT INTO "sys_config"
 VALUES (7, '安全配置-CAS登录配置', 'security.cas', '{"enabled":false,"isReserveDefaultLogin":false,"casServerUrl":""}', 'Y',
         'admin', '2022-03-23 22:12:32', '', NULL, 'CAS登录配置');
 INSERT INTO "sys_config"
 VALUES (8, '安全配置-LDAP登录配置', 'security.ldap',
-        '{"enabled":false,"url":"","base":"","userDn":"","password":"","defaultRoleIds":[3],"roleMapping":[]}', 'Y',
+        '{"enabled":false,"url":"","base":"","userDn":"","password":"","defaultRoleIds":[2],"roleMapping":[]}', 'Y',
         'admin', '2022-03-23 22:12:32', '', NULL, 'LDAP登录配置');
 
 -- ----------------------------
@@ -821,6 +821,7 @@ CREATE TABLE "sys_role"
     "data_scope"          text(1)    DEFAULT '1',
     "menu_check_strictly" integer(1) DEFAULT 1,
     "dept_check_strictly" integer(1) DEFAULT 1,
+    "is_sys"              integer(1) DEFAULT 0,
     "del_flag"            text(1)    DEFAULT '0',
     "create_by"           text(64)   DEFAULT '',
     "create_time"         text       DEFAULT NULL,
@@ -833,11 +834,11 @@ CREATE TABLE "sys_role"
 -- Records of sys_role
 -- ----------------------------
 INSERT INTO "sys_role"
-VALUES (1, '超级管理员', 'ADMIN', 1, 1, 1, 1, 0, 'admin', '2022-03-23 22:12:32', '', NULL, '超级管理员');
+VALUES (1, '系统管理员', 'admin', 1, 1, 1, 1, 1, 0, 'admin', '2022-03-23 22:12:32', '', NULL, '内置的系统管理员角色，拥有整个服务器的管理权限');
 INSERT INTO "sys_role"
-VALUES (2, '普通用户', 'COMMON', 2, 5, 1, 1, 0, 'admin', '2022-10-17 15:18:18', '', NULL, '普通用户');
+VALUES (2, '第三方用户', 'third', 2, 5, 1, 1, 1, 0, 'admin', '2022-10-24 11:44:51', '', NULL, '内置的第三方用户角色，表示用户是使用第三方登录');
 INSERT INTO "sys_role"
-VALUES (3, '第三方用户', 'THIRD', 3, 5, 1, 1, 0, 'admin', '2022-10-24 11:44:51', '', NULL, '第三方用户');
+VALUES (3, '普通用户', 'user', 3, 1, 1, 1, 1, 0, 'admin', '2022-10-17 15:18:18', '', NULL, '内置的普通用户角色');
 
 -- ----------------------------
 -- Table structure for sys_role_dept
@@ -907,8 +908,8 @@ CREATE TABLE "sys_user"
 -- Records of sys_user
 -- ----------------------------
 INSERT INTO "sys_user"
-VALUES (1, 100, 'admin', '超级管理员', '', '', 0, '', '$2a$10$W0oZaiVL8yYLG6PQsM2f4uYFI9kkS424BVArwpSHozx7FxdCijOfq', 0, 0,
-        '', NULL, 'admin', '2022-03-23 22:12:32', '', NULL, '超级管理员');
+VALUES (1, 100, 'admin', '系统管理员', '', '', 0, '', '$2a$10$W0oZaiVL8yYLG6PQsM2f4uYFI9kkS424BVArwpSHozx7FxdCijOfq', 0, 0,
+        '', NULL, 'admin', '2022-03-23 22:12:32', '', NULL, '系统管理员');
 
 -- ----------------------------
 -- Table structure for sys_user_post

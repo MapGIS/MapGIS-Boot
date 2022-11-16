@@ -20,11 +20,6 @@
                 </a-form-item>
               </a-col>
               <a-col :md="8" :sm="24">
-                <a-form-item label="手机号码">
-                  <a-input v-model="queryParam.phonenumber" placeholder="请输入" allow-clear />
-                </a-form-item>
-              </a-col>
-              <a-col :md="8" :sm="24">
                 <span class="table-page-search-submitButtons">
                   <a-button type="primary" @click="handleQuery"><a-icon type="search" />查询</a-button>
                   <a-button style="margin-left: 8px" @click="resetQuery"><a-icon type="redo" />重置</a-button>
@@ -123,18 +118,6 @@ export default {
           align: 'center'
         },
         {
-          title: '邮箱',
-          dataIndex: 'email',
-          ellipsis: true,
-          align: 'center'
-        },
-        {
-          title: '手机',
-          dataIndex: 'phonenumber',
-          ellipsis: true,
-          align: 'center'
-        },
-        {
           title: '状态',
           dataIndex: 'status',
           scopedSlots: { customRender: 'status' },
@@ -157,6 +140,10 @@ export default {
       this.loading = true
       unallocatedUserList(this.queryParam).then(response => {
         this.list = response.rows
+        // 过滤掉userId = 1的用户
+        this.list = this.list.filter(user => {
+          return user.userId !== 1
+        })
         this.total = response.total
         this.loading = false
       })
