@@ -190,12 +190,12 @@ export default {
           sorter: true
         },
         {
-          title: '主机',
+          title: '操作地址',
           dataIndex: 'operIp',
           align: 'center'
         },
         {
-          title: '登录状态',
+          title: '操作状态',
           dataIndex: 'status',
           scopedSlots: { customRender: 'status' },
           align: 'center'

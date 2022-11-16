@@ -116,7 +116,7 @@ export default {
           align: 'center'
         },
         {
-          title: '主机',
+          title: '登录地址',
           dataIndex: 'ipaddr',
           ellipsis: true,
           align: 'center'
