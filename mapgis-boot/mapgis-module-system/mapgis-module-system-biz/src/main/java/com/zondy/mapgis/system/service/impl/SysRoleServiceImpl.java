@@ -8,14 +8,14 @@ import com.zondy.mapgis.common.datascope.annotation.DataScope;
 import com.zondy.mapgis.common.security.utils.SecurityUtils;
 import com.zondy.mapgis.system.api.domain.SysRole;
 import com.zondy.mapgis.system.api.domain.SysUser;
+import com.zondy.mapgis.system.api.domain.SysUserRole;
+import com.zondy.mapgis.system.api.service.ISysRoleService;
 import com.zondy.mapgis.system.domain.SysRoleDept;
 import com.zondy.mapgis.system.domain.SysRoleMenu;
-import com.zondy.mapgis.system.domain.SysUserRole;
 import com.zondy.mapgis.system.mapper.SysRoleDeptMapper;
 import com.zondy.mapgis.system.mapper.SysRoleMapper;
 import com.zondy.mapgis.system.mapper.SysRoleMenuMapper;
 import com.zondy.mapgis.system.mapper.SysUserRoleMapper;
-import com.zondy.mapgis.system.service.ISysRoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -49,7 +49,7 @@ public class SysRoleServiceImpl implements ISysRoleService {
      * @return 角色数据集合信息
      */
     @Override
-    @DataScope(deptAlias = "d")
+    @DataScope(deptAlias = "d", userAlias = "u")
     public List<SysRole> selectRoleList(SysRole role) {
         return roleMapper.selectRoleList(role);
     }

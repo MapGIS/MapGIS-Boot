@@ -1,7 +1,7 @@
-package com.zondy.mapgis.system.service;
+package com.zondy.mapgis.system.api.service;
 
 import com.zondy.mapgis.system.api.domain.SysRole;
-import com.zondy.mapgis.system.domain.SysUserRole;
+import com.zondy.mapgis.system.api.domain.SysUserRole;
 
 import java.util.List;
 import java.util.Set;

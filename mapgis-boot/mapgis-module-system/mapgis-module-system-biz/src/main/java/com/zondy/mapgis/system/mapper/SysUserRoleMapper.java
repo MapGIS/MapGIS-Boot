@@ -1,6 +1,6 @@
 package com.zondy.mapgis.system.mapper;
 
-import com.zondy.mapgis.system.domain.SysUserRole;
+import com.zondy.mapgis.system.api.domain.SysUserRole;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;

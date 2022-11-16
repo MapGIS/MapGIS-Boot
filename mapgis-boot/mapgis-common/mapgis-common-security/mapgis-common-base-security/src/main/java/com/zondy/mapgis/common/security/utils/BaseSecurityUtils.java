@@ -3,6 +3,7 @@ package com.zondy.mapgis.common.security.utils;
 import com.zondy.mapgis.common.core.constant.TokenConstants;
 import com.zondy.mapgis.common.core.utils.ServletUtils;
 import com.zondy.mapgis.common.core.utils.StringUtils;
+import com.zondy.mapgis.system.api.domain.SysUser;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import javax.servlet.http.HttpServletRequest;
@@ -48,7 +49,7 @@ public class BaseSecurityUtils {
      * @return 结果
      */
     public static boolean isAdmin(Long userId) {
-        return userId != null && 1L == userId;
+        return SysUser.isAdmin(userId);
     }
 
     /**

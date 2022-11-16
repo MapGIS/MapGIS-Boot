@@ -14,9 +14,9 @@ import com.zondy.mapgis.common.security.utils.SecurityUtils;
 import com.zondy.mapgis.system.api.domain.SysRole;
 import com.zondy.mapgis.system.api.domain.SysUser;
 import com.zondy.mapgis.system.api.service.ISysPermissionService;
+import com.zondy.mapgis.system.api.service.ISysRoleService;
 import com.zondy.mapgis.system.api.service.ISysUserService;
 import com.zondy.mapgis.system.service.ISysPostService;
-import com.zondy.mapgis.system.service.ISysRoleService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -126,7 +126,7 @@ public class SysUserController extends BaseController {
         userService.checkUserDataScope(userId);
         AjaxResult ajax = AjaxResult.success();
         List<SysRole> roles = roleService.selectRoleAll();
-        ajax.put("roles", SysUser.isAdmin(userId) ? roles : roles.stream().filter(r -> !r.isAdmin()).collect(Collectors.toList()));
+        ajax.put("roles", roles);
         ajax.put("posts", postService.selectPostAll());
         if (StringUtils.isNotNull(userId)) {
             SysUser sysUser = userService.selectUserById(userId);
@@ -254,7 +254,7 @@ public class SysUserController extends BaseController {
         SysUser user = userService.selectUserById(userId);
         List<SysRole> roles = roleService.selectRolesByUserId(userId);
         ajax.put("user", user);
-        ajax.put("roles", SysUser.isAdmin(userId) ? roles : roles.stream().filter(r -> !r.isAdmin()).collect(Collectors.toList()));
+        ajax.put("roles", roles);
         return ajax;
     }
 

@@ -136,6 +136,7 @@
                 cancel-text="否"
                 @confirm="confirmHandleStatus(record)"
                 @cancel="cancelHandleStatus(record)"
+                :disabled="record.userId === 1"
               >
                 <span slot="title">
                   确认<b>{{ record.status === '1' ? '启用' : '停用' }} </b>{{ record.nickName }}的用户吗?

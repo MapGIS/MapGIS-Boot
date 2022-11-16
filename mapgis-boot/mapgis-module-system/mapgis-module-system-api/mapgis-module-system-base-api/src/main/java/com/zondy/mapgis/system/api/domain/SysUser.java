@@ -5,8 +5,11 @@ import com.zondy.mapgis.common.core.annotation.Excel;
 import com.zondy.mapgis.common.core.annotation.Excel.ColumnType;
 import com.zondy.mapgis.common.core.annotation.Excel.Type;
 import com.zondy.mapgis.common.core.annotation.Excels;
+import com.zondy.mapgis.common.core.utils.StringUtils;
+import com.zondy.mapgis.common.core.utils.spring.SpringUtils;
 import com.zondy.mapgis.common.core.web.domain.BaseEntity;
 import com.zondy.mapgis.common.core.xss.Xss;
+import com.zondy.mapgis.system.api.service.ISysRoleService;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -169,10 +172,20 @@ public class SysUser extends BaseEntity {
     @JsonIgnore
     @Schema(description = "是否管理员")
     public boolean isAdmin() {
-        return isAdmin(this.userId);
+        return roles != null && roles.stream().anyMatch(r -> r.isAdmin());
     }
 
     public static boolean isAdmin(Long userId) {
+        ISysRoleService roleService = SpringUtils.getBean(ISysRoleService.class);
+
+        if (StringUtils.isNotNull(roleService)) {
+            List<Long> roleIds = roleService.selectRoleListByUserId(userId);
+
+            if (StringUtils.isNotNull(roleIds)) {
+                return roleIds.stream().anyMatch(id -> SysRole.isAdmin(id));
+            }
+        }
+
         return userId != null && 1L == userId;
     }
 }

@@ -2,8 +2,8 @@ package com.zondy.mapgis.system.service.impl;
 
 import com.zondy.mapgis.system.api.domain.SysUser;
 import com.zondy.mapgis.system.api.service.ISysPermissionService;
+import com.zondy.mapgis.system.api.service.ISysRoleService;
 import com.zondy.mapgis.system.service.ISysMenuService;
-import com.zondy.mapgis.system.service.ISysRoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

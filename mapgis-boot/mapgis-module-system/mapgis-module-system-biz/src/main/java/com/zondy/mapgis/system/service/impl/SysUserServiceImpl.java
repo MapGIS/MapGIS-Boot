@@ -10,10 +10,10 @@ import com.zondy.mapgis.common.datascope.annotation.DataScope;
 import com.zondy.mapgis.common.security.utils.SecurityUtils;
 import com.zondy.mapgis.system.api.domain.SysRole;
 import com.zondy.mapgis.system.api.domain.SysUser;
+import com.zondy.mapgis.system.api.domain.SysUserRole;
 import com.zondy.mapgis.system.api.service.ISysUserService;
 import com.zondy.mapgis.system.domain.SysPost;
 import com.zondy.mapgis.system.domain.SysUserPost;
-import com.zondy.mapgis.system.domain.SysUserRole;
 import com.zondy.mapgis.system.mapper.*;
 import com.zondy.mapgis.system.service.ISysConfigService;
 import org.slf4j.Logger;
@@ -201,7 +201,7 @@ public class SysUserServiceImpl implements ISysUserService {
      */
     @Override
     public void checkUserAllowed(SysUser user) {
-        if (StringUtils.isNotNull(user.getUserId()) && user.isAdmin()) {
+        if (StringUtils.isNotNull(user.getUserId()) && 1L == user.getUserId()) {
             throw new ServiceException("不允许操作超级管理员用户");
         }
     }
