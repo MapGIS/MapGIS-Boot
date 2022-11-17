@@ -872,11 +872,19 @@ CREATE TABLE "sys_role_menu"
 INSERT INTO "sys_role_menu"
 VALUES (2, 6);
 INSERT INTO "sys_role_menu"
+VALUES (2, 7);
+INSERT INTO "sys_role_menu"
 VALUES (2, 111);
+INSERT INTO "sys_role_menu"
+VALUES (2, 119);
 INSERT INTO "sys_role_menu"
 VALUES (3, 6);
 INSERT INTO "sys_role_menu"
+VALUES (3, 7);
+INSERT INTO "sys_role_menu"
 VALUES (3, 111);
+INSERT INTO "sys_role_menu"
+VALUES (3, 119);
 
 -- ----------------------------
 -- Table structure for sys_user
