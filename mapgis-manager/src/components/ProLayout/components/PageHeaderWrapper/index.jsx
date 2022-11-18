@@ -132,7 +132,7 @@ const defaultPageHeaderRender = (h, props, pageMeta, i18nRender) => {
 const PageHeaderWrapper = {
   name: 'PageHeaderWrapper',
   props: PageHeaderWrapperProps,
-  inject: ['locale', 'contentWidth', 'breadcrumbRender'],
+  inject: ['locale', 'contentWidth', 'breadcrumbRender', 'hideBreadcrumb'],
   render(h) {
     const { $route, $listeners } = this
     const children = this.$slots.default
@@ -164,7 +164,7 @@ const PageHeaderWrapper = {
     }
 
     let breadcrumb = {}
-    const propsBreadcrumb = this.$props.breadcrumb
+    const propsBreadcrumb = this.hideBreadcrumb() !== undefined ? !this.hideBreadcrumb() : this.$props.breadcrumb
     if (propsBreadcrumb === true) {
       let routes = $route.matched.concat().filter(route => route && route.meta && route.meta.title)
       routes = routes.map(route => {

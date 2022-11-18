@@ -13,7 +13,8 @@ import {
   APP_LANGUAGE,
   TABLE_SIZE,
   TABLE_BORDERED,
-  HIDE_FOOTER
+  HIDE_FOOTER,
+  HIDE_BREADCRUMB
 } from '@/store/mutation-types'
 import { loadLanguageAsync } from '@/locales'
 
@@ -33,7 +34,8 @@ const app = {
     _antLocale: {},
     tableSize: 'default',
     tableBordered: false,
-    hideFooter: false
+    hideFooter: false,
+    hideBreadcrumb: false
   },
   mutations: {
     [SIDE_COLLAPSED]: (state, type) => {
@@ -91,6 +93,10 @@ const app = {
     [HIDE_FOOTER]: (state, hideFooter) => {
       state.hideFooter = hideFooter
       storage.set(HIDE_FOOTER, hideFooter)
+    },
+    [HIDE_BREADCRUMB]: (state, hideBreadcrumb) => {
+      state.hideBreadcrumb = hideBreadcrumb
+      storage.set(HIDE_BREADCRUMB, hideBreadcrumb)
     }
   },
   actions: {

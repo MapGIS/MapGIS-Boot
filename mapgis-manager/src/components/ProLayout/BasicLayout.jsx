@@ -24,7 +24,8 @@ export const BasicLayoutProps = {
   disableMobile: PropTypes.bool.def(false),
   mediaQuery: PropTypes.object.def({}),
   handleMediaQuery: PropTypes.func,
-  footerRender: PropTypes.oneOfType([PropTypes.func, PropTypes.bool]).def(undefined)
+  footerRender: PropTypes.oneOfType([PropTypes.func, PropTypes.bool]).def(undefined),
+  hideBreadcrumb: PropTypes.bool
 }
 
 const MediaQueryEnum = {
@@ -94,6 +95,7 @@ const BasicLayout = {
     const breadcrumbRender = getComponentFromProp(content, 'breadcrumbRender')
     const headerContentRender = getComponentFromProp(content, 'headerContentRender')
     const menuRender = getComponentFromProp(content, 'menuRender')
+    const hideBreadcrumb = getComponentFromProp(content, 'hideBreadcrumb')
 
     const isTopMenu = layout === 'topmenu'
     const hasSiderMenu = !isTopMenu
@@ -113,7 +115,12 @@ const BasicLayout = {
     }
 
     return (
-      <ConfigProvider i18nRender={i18nRender} contentWidth={props.contentWidth} breadcrumbRender={breadcrumbRender}>
+      <ConfigProvider
+        i18nRender={i18nRender}
+        contentWidth={props.contentWidth}
+        breadcrumbRender={breadcrumbRender}
+        hideBreadcrumb={hideBreadcrumb}
+      >
         <ContainerQuery query={MediaQueryEnum} onChange={handleMediaQuery}>
           <Layout
             class={{

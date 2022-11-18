@@ -65,7 +65,8 @@ import {
   TOGGLE_MULTI_TAB,
   TABLE_SIZE,
   TABLE_BORDERED,
-  HIDE_FOOTER
+  HIDE_FOOTER,
+  HIDE_BREADCRUMB
 } from '@/store/mutation-types'
 
 import defaultSettings from '@/config/defaultSettings'
@@ -110,7 +111,8 @@ export default {
         hideCopyButton: false,
         tableSize: defaultSettings.tableSize,
         tableBordered: defaultSettings.tableBordered,
-        hideFooter: defaultSettings.hideFooter
+        hideFooter: defaultSettings.hideFooter,
+        hideBreadcrumb: defaultSettings.hideBreadcrumb
       },
       // 媒体查询
       query: {},
@@ -157,6 +159,9 @@ export default {
     hideFooter(val) {
       this.settings.hideFooter = val
     },
+    hideBreadcrumb(val) {
+      this.settings.hideBreadcrumb = val
+    },
     multiTab(val) {
       this.settings.multiTab = val
     },
@@ -190,6 +195,7 @@ export default {
     this.settings.tableSize = this.tableSize
     this.settings.tableBordered = this.tableBordered
     this.settings.hideFooter = this.hideFooter
+    this.settings.hideBreadcrumb = this.hideBreadcrumb
 
     this.collapsed = this.sideCollapsed
     const userAgent = navigator.userAgent
@@ -283,6 +289,9 @@ export default {
           break
         case 'hideFooter':
           this.$store.commit(HIDE_FOOTER, value)
+          break
+        case 'hideBreadcrumb':
+          this.$store.commit(HIDE_BREADCRUMB, value)
           break
       }
     }

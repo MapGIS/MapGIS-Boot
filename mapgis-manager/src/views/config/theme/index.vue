@@ -105,6 +105,9 @@
         <a-form-model-item label="隐藏 Footer">
           <a-switch :checked="hideFooter" @change="checked => handleChange('hideFooter', checked)" />
         </a-form-model-item>
+        <a-form-model-item label="隐藏面包屑">
+          <a-switch :checked="hideBreadcrumb" @change="checked => handleChange('hideBreadcrumb', checked)" />
+        </a-form-model-item>
         <a-form-model-item label="多页签模式">
           <a-switch :checked="multiTab" @change="checked => handleChange('multiTab', checked)" />
         </a-form-model-item>
@@ -147,7 +150,8 @@ import {
   TOGGLE_MULTI_TAB,
   TABLE_SIZE,
   TABLE_BORDERED,
-  HIDE_FOOTER
+  HIDE_FOOTER,
+  HIDE_BREADCRUMB
 } from '@/store/mutation-types'
 import { baseMixin } from '@/store/app-mixin'
 import { tableMixin } from '@/store/table-mixin'
@@ -175,7 +179,8 @@ export default {
 
         tableSize: defaultSettings.tableSize,
         tableBordered: defaultSettings.tableBordered,
-        hideFooter: defaultSettings.hideFooter
+        hideFooter: defaultSettings.hideFooter,
+        hideBreadcrumb: defaultSettings.hideBreadcrumb
       }
     }
   },
@@ -239,6 +244,9 @@ export default {
         case 'hideFooter':
           this.$store.commit(HIDE_FOOTER, value)
           break
+        case 'hideBreadcrumb':
+          this.$store.commit(HIDE_BREADCRUMB, value)
+          break
       }
     },
     reset() {
@@ -253,6 +261,7 @@ export default {
       this.handleChange('tableSize', this.settings.tableSize)
       this.handleChange('tableBordered', this.settings.tableBordered)
       this.handleChange('hideFooter', this.settings.hideFooter)
+      this.handleChange('hideBreadcrumb', this.settings.hideBreadcrumb)
     }
   }
 }

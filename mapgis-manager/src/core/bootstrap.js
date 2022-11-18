@@ -14,7 +14,8 @@ import {
   TOGGLE_MULTI_TAB,
   TABLE_SIZE,
   TABLE_BORDERED,
-  HIDE_FOOTER
+  HIDE_FOOTER,
+  HIDE_BREADCRUMB
 } from '@/store/mutation-types'
 import defaultSettings from '@/config/defaultSettings'
 
@@ -35,5 +36,6 @@ export default function Initializer() {
   store.commit(TABLE_SIZE, storage.get(TABLE_SIZE, defaultSettings.tableSize))
   store.commit(TABLE_BORDERED, storage.get(TABLE_BORDERED, defaultSettings.tableBordered))
   store.commit(HIDE_FOOTER, storage.get(HIDE_FOOTER, defaultSettings.hideFooter))
+  store.commit(HIDE_BREADCRUMB, storage.get(HIDE_BREADCRUMB, defaultSettings.hideBreadcrumb))
   // last step
 }

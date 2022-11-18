@@ -128,6 +128,15 @@
                 />
               </a-list-item>
               <a-list-item>
+                <span>隐藏面包屑</span>
+                <a-switch
+                  slot="actions"
+                  size="small"
+                  :checked="hideBreadcrumb"
+                  @change="checked => handleChange('hideBreadcrumb', checked)"
+                />
+              </a-list-item>
+              <a-list-item>
                 <span>多页签模式</span>
                 <a-switch
                   slot="actions"
