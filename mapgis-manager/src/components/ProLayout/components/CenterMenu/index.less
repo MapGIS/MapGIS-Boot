@@ -1,0 +1,49 @@
+@import '~ant-design-vue/es/style/themes/default.less';
+
+@mix-menu-center-prefix-cls: ~'@{ant-prefix}-pro-mix-menu-center';
+
+.@{mix-menu-center-prefix-cls} {
+  & + .@{ant-prefix}-layout-content {
+    .@{ant-prefix}-pro-multi-tab {
+      margin: 0 0 24px 0;
+    }
+
+    & ~ .@{ant-prefix}-pro-page-header-wrap {
+      margin: 0;
+
+      .@{ant-prefix}-pro-page-header-wrap-page-header-warp {
+        .@{ant-prefix}-pro-grid-content {
+          .@{ant-prefix}-page-header {
+            margin-bottom: 24px;
+          }
+        }
+      }
+
+      .@{ant-prefix}-pro-grid-content {
+        .@{ant-prefix}-pro-page-header-wrap-children-content {
+          margin: 0;
+        }
+      }
+    }
+
+    &.has-multi-tab {
+      & ~ .@{ant-prefix}-pro-page-header-wrap {
+        margin: 0;
+
+        .@{ant-prefix}-pro-page-header-wrap-page-header-warp {
+          .@{ant-prefix}-pro-grid-content {
+            .@{ant-prefix}-page-header {
+              margin: -24px 0 24px 0;
+            }
+          }
+        }
+
+        .@{ant-prefix}-pro-grid-content {
+          .@{ant-prefix}-pro-page-header-wrap-children-content {
+            margin: 0;
+          }
+        }
+      }
+    }
+  }
+}

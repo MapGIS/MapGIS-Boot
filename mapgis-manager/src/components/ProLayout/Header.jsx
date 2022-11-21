@@ -27,7 +27,7 @@ export const HeaderViewProps = {
 }
 
 const renderContent = (h, props) => {
-  const isTop = props.layout === 'topmenu' || props.layout === 'mixmenu'
+  const isTop = props.layout === 'topmenu' || props.layout === 'mixmenu' || props.layout === 'mixmenu-center'
   const contentWidth = props.contentWidth === 'Fixed'
   const baseCls = 'ant-pro-top-nav-header'
   const { logo, title, theme, isMobile, headerRender, rightContentRender, menuHeaderRender } = props
@@ -50,7 +50,7 @@ const renderContent = (h, props) => {
               </div>
             </div>
           )}
-          <div class={`${baseCls}-menu`} style={{ flex: 1, overflow: 'auto' }}>
+          <div class={`${baseCls}-menu`} style={{ flex: 1, overflowX: 'auto', overflowY: 'hidden' }}>
             <BaseMenu {...{ props: props }} />
           </div>
           {(isFun(rightContentRender) && rightContentRender(h, rightContentProps)) || rightContentRender}
@@ -69,7 +69,7 @@ const HeaderView = {
   props: HeaderViewProps,
   computed: {
     currentMenus() {
-      if (this.layout !== 'mixmenu') {
+      if (this.layout !== 'mixmenu' && this.layout !== 'mixmenu-center') {
         return this.menus
       }
 
@@ -84,7 +84,7 @@ const HeaderView = {
   render(h) {
     const { visible, isMobile, layout, collapsed, siderWidth, hasSiderMenu } = this.$props
     const props = this.$props
-    const isTop = layout === 'topmenu' || layout === 'mixmenu'
+    const isTop = layout === 'topmenu' || layout === 'mixmenu' || layout === 'mixmenu-center'
 
     let { fixedHeader } = this.$props
 

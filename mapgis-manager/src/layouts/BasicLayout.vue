@@ -11,7 +11,10 @@
   >
     <!-- layout content -->
     <!-- 2021.01.15 默认固定页头，去掉样式paddingTop: fixedHeader ? '64' : '0'  -->
-    <a-layout-content :style="{ height: '100%', margin: '0 0 0px 0' }">
+    <a-layout-content
+      :style="{ height: '100%', margin: '0 0 0px 0' }"
+      :class="settings.multiTab ? 'has-multi-tab' : ''"
+    >
       <multi-tab v-if="settings.multiTab"></multi-tab>
       <transition name="page-transition"> </transition>
     </a-layout-content>
@@ -28,7 +31,9 @@
     <setting-drawer v-if="isProPreviewSite" :settings="settings" @change="handleSettingChange" />
     <template v-slot:rightContentRender>
       <right-content
-        :top-menu="settings.layout === 'topmenu' || settings.layout === 'mixmenu'"
+        :top-menu="
+          settings.layout === 'topmenu' || settings.layout === 'mixmenu' || settings.layout === 'mixmenu-center'
+        "
         :is-mobile="isMobile"
         :theme="settings.theme"
       />
@@ -95,7 +100,7 @@ export default {
       collapsed: false,
       settings: {
         // 布局类型
-        layout: defaultSettings.layout, // 'sidemenu', 'topmenu', 'mixmenu'
+        layout: defaultSettings.layout, // 'sidemenu', 'topmenu', 'mixmenu', 'mixmenu-center'
         // CONTENT_WIDTH_TYPE
         contentWidth: defaultSettings.layout === 'sidemenu' ? CONTENT_WIDTH_TYPE.Fluid : defaultSettings.contentWidth,
         // 主题 'dark' | 'light' | 'night'
@@ -137,7 +142,7 @@ export default {
     },
     layout(val) {
       this.settings.layout = val
-      if (val !== 'topmenu') {
+      if (val !== 'topmenu' && val !== 'mixmenu-center') {
         this.settings.contentWidth = CONTENT_WIDTH_TYPE.Fluid
         if (val === 'mixmenu') {
           this.settings.fixedHeader = true
@@ -255,7 +260,7 @@ export default {
           break
         case 'layout':
           this.$store.commit(TOGGLE_LAYOUT, value)
-          if (value !== 'topmenu') {
+          if (value !== 'topmenu' && value !== 'mixmenu-center') {
             this.settings.contentWidth = CONTENT_WIDTH_TYPE.Fluid
             this.$store.commit(TOGGLE_CONTENT_WIDTH, CONTENT_WIDTH_TYPE.Fluid)
             if (value === 'mixmenu') {

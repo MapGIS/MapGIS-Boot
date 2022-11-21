@@ -80,20 +80,32 @@
                 </div>
               </div>
             </a-tooltip>
+
+            <a-tooltip>
+              <template slot="title"> 混和居中导航 </template>
+              <div class="setting-drawer-index-item" @click="handleChange('layout', 'mixmenu-center')">
+                <div class="setting-drawer-index-item-mix-center setting-drawer-index-item-com-style" />
+                <div class="setting-drawer-index-selectIcon" v-if="layout === 'mixmenu-center'">
+                  <a-icon type="check" />
+                </div>
+              </div>
+            </a-tooltip>
           </div>
           <div>
             <a-list :split="false">
               <a-list-item>
                 <span>内容区域宽度</span>
                 <a-tooltip slot="actions">
-                  <template slot="title"> 该设定仅 [顶部栏导航] 时有效 </template>
+                  <template slot="title"> 该设定仅 [顶部栏导航和混合居中导航] 时有效 </template>
                   <a-select
                     size="small"
                     style="width: 80px"
                     :value="contentWidth"
                     @change="value => handleChange('contentWidth', value)"
                   >
-                    <a-select-option value="Fixed" v-if="layout === 'topmenu'">固定</a-select-option>
+                    <a-select-option value="Fixed" v-if="layout === 'topmenu' || layout === 'mixmenu-center'">
+                      固定
+                    </a-select-option>
                     <a-select-option value="Fluid">流式</a-select-option>
                   </a-select>
                 </a-tooltip>
@@ -332,7 +344,7 @@ export default {
     position: relative;
     width: 44px;
     height: 36px;
-    margin-right: 16px;
+    margin-right: 8px;
     overflow: hidden;
     background-color: #f0f2f5;
     border-radius: 4px;
@@ -398,6 +410,18 @@ export default {
     content: '';
   }
   .setting-drawer-index-item-night:before {
+    background-color: #001529;
+    content: '';
+  }
+  .setting-drawer-index-item-mix-center:before {
+    background-color: #fff;
+    content: '';
+    width: 80%;
+    height: 20%;
+    top: 26%;
+    left: 10%;
+  }
+  .setting-drawer-index-item-mix-center:after {
     background-color: #001529;
     content: '';
   }

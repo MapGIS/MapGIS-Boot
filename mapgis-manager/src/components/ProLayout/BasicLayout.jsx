@@ -13,6 +13,7 @@ import HeaderView, { HeaderViewProps } from './Header'
 import WrapContent from './WrapContent'
 import ConfigProvider from './components/ConfigProvider'
 import PageHeaderWrapper from './components/PageHeaderWrapper'
+import CenterMenu from './components/CenterMenu'
 
 export const BasicLayoutProps = {
   ...SiderMenuProps,
@@ -97,7 +98,7 @@ const BasicLayout = {
     const menuRender = getComponentFromProp(content, 'menuRender')
     const hideBreadcrumb = getComponentFromProp(content, 'hideBreadcrumb')
 
-    const isTopMenu = layout === 'topmenu'
+    const isTopMenu = layout === 'topmenu' || layout === 'mixmenu-center'
     const hasSiderMenu = !isTopMenu
     // If it is a fix menu, calculate padding
     // don't need padding in phone mode
@@ -129,7 +130,10 @@ const BasicLayout = {
               ...mediaQuery
             }}
           >
-            <SiderMenuWrapper {...{ props: cdProps }} collapsed={collapsed} onCollapse={handleCollapse} />
+            {layout !== 'mixmenu-center' && (
+              <SiderMenuWrapper {...{ props: cdProps }} collapsed={collapsed} onCollapse={handleCollapse} />
+            )}
+
             <Layout
               class={[layout]}
               style={{
@@ -142,6 +146,7 @@ const BasicLayout = {
                 mode: 'horizontal'
               })}
               <WrapContent class="ant-pro-basicLayout-content" contentWidth={props.contentWidth}>
+                {layout === 'mixmenu-center' && <CenterMenu {...{ props: props }} />}
                 {children}
               </WrapContent>
               {(footerRender !== false && (

@@ -18,7 +18,7 @@ const baseMixin = {
       hideBreadcrumb: state => state.app.hideBreadcrumb
     }),
     isTopMenu() {
-      return this.layout === 'topmenu' || this.layout === 'mixmenu'
+      return this.layout === 'topmenu' || this.layout === 'mixmenu' || this.layout === 'mixmenu-center'
     }
   },
   methods: {
