@@ -34,7 +34,9 @@ const CenterMenu = {
 
     return currentMenus ? (
       <div class={`${baseCls}-mix-menu-center`}>
-        <BaseMenu menus={currentMenus} mode="horizontal" theme={this.menuTheme} i18nRender={this.i18nRender} />
+        <div class={`${baseCls}-mix-menu-center-body`}>
+          <BaseMenu menus={currentMenus} mode="horizontal" theme={this.menuTheme} i18nRender={this.i18nRender} />
+        </div>
       </div>
     ) : null
   }

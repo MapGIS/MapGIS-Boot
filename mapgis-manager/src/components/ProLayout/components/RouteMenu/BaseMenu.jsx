@@ -68,7 +68,7 @@ const renderMenuItem = (h, item, i18nRender) => {
 }
 
 const renderIcon = (h, icon) => {
-  if (icon === undefined || icon === 'none' || icon === null) {
+  if (icon === undefined || icon === 'none' || icon === null || icon === '' || icon === '#') {
     return null
   }
   const props = {}

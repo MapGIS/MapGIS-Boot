@@ -33,6 +33,7 @@
           <a-icon :component="allIcon[form.icon + 'Icon']" v-if="form.icon && allIcon[form.icon + 'Icon']" />
           <a-icon :type="form.icon" v-if="form.icon && !allIcon[form.icon + 'Icon']" />
           <a-button type="dashed" @click="selectIcon"> 选择图标 </a-button>
+          <a-button type="dashed" @click="removeIcon"> 移除图标 </a-button>
           <a @click="cancelSelectIcon" v-if="iconVisible" style="margin-left: 8px">
             收起
             <a-icon type="up" />
@@ -308,6 +309,9 @@ export default {
     },
     selectIcon() {
       this.iconVisible = !this.iconVisible
+    },
+    removeIcon() {
+      this.form.icon = '#'
     },
     cancelSelectIcon() {
       this.iconVisible = false

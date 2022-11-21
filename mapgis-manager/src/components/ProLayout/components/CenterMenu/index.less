@@ -3,6 +3,11 @@
 @mix-menu-center-prefix-cls: ~'@{ant-prefix}-pro-mix-menu-center';
 
 .@{mix-menu-center-prefix-cls} {
+  background: @base-bg-color;
+  .@{mix-menu-center-prefix-cls}-body {
+    padding: 0 24px;
+  }
+
   & + .@{ant-prefix}-layout-content {
     .@{ant-prefix}-pro-multi-tab {
       margin: 0 0 24px 0;
