@@ -70,7 +70,7 @@ const SiderMenu = {
   props: SiderMenuProps,
   computed: {
     menuTheme() {
-      if (this.layout === 'mixmenu' && this.theme === 'dark') {
+      if (this.layout === 'mixmenu' && this.theme === 'dark' && !this.isMobile) {
         return 'light'
       }
 
@@ -83,7 +83,15 @@ const SiderMenu = {
       return this.collapsed
     },
     currentMenus() {
-      if (this.layout !== 'mixmenu') {
+      if (this.layout !== 'mixmenu' || this.isMobile) {
+        if (this.layout === 'mixmenu-center') {
+          const firstMenus = []
+
+          this.menus.forEach(item => {
+            firstMenus.push({ ...item, children: null })
+          })
+          return firstMenus
+        }
         return this.menus
       }
 

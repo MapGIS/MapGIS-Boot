@@ -130,7 +130,7 @@ const BasicLayout = {
               ...mediaQuery
             }}
           >
-            {layout !== 'mixmenu-center' && (
+            {(layout !== 'mixmenu-center' || isMobile) && (
               <SiderMenuWrapper {...{ props: cdProps }} collapsed={collapsed} onCollapse={handleCollapse} />
             )}
 
