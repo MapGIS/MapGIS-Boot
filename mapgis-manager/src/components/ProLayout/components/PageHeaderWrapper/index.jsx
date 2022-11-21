@@ -121,6 +121,19 @@ const defaultPageHeaderRender = (h, props, pageMeta, i18nRender) => {
     tabProps.backIcon = false
   }
 
+  if (
+    !content &&
+    !extraContent &&
+    !breadcrumb &&
+    !extra &&
+    !tags &&
+    !title &&
+    !handleBack &&
+    (!restProps.tabList || restProps.tabList.length === 0)
+  ) {
+    return null
+  }
+
   return (
     <PageHeader {...{ props: tabProps }} onBack={handleBack || noop}>
       {renderPageHeader(h, content, extraContent)}
@@ -212,7 +225,9 @@ const PageHeaderWrapper = {
         </div>
         {children ? (
           <GridContent contentWidth={contentWidth}>
-            <div class={`${prefixedClassName}-children-content`}>{children}</div>
+            <div style="overflow: hidden;">
+              <div class={`${prefixedClassName}-children-content`}>{children}</div>
+            </div>
           </GridContent>
         ) : null}
       </div>
