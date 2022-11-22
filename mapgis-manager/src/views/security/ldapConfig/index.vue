@@ -66,8 +66,6 @@ export default {
       border-bottom: 1px solid @border-color;
       width: 100%;
       height: 50px;
-      overflow-x: auto;
-      overflow-y: scroll;
     }
     .security-settings-info-right {
       padding: 20px 40px;

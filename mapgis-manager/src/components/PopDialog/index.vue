@@ -1,5 +1,5 @@
 <template>
-  <a-drawer v-if="isDrawerMode" :width="width" :visible="visible" @close="$emit('cancel')">
+  <a-drawer v-if="isDrawerMode" :width="realWidth" :visible="visible" @close="$emit('cancel')">
     <a-divider orientation="left">
       <b>{{ title }}</b>
     </a-divider>
@@ -8,7 +8,7 @@
   <a-modal
     v-else
     :title="title"
-    :width="width"
+    :width="realWidth"
     :visible="visible"
     :confirm-loading="loading"
     @ok="$emit('ok')"
@@ -20,9 +20,11 @@
 
 <script>
 import { FORM_MODE_TYPE } from '@/store/mutation-types'
+import { baseMixin } from '@/store/app-mixin'
 
 export default {
   name: 'PopDialog',
+  mixins: [baseMixin],
   props: {
     mode: {
       type: String,
@@ -51,6 +53,9 @@ export default {
   computed: {
     isDrawerMode() {
       return this.mode === FORM_MODE_TYPE.DRAWER
+    },
+    realWidth() {
+      return this.isMobile ? '98%' : this.width
     }
   }
 }

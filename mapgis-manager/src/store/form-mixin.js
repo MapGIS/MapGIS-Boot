@@ -4,8 +4,8 @@ const formMixin = {
   data() {
     return {
       formMode1: '',
-      labelCol: 8,
-      wrapperCol: 16
+      labelCol: { lg: { span: 7 }, sm: { span: 7 } },
+      wrapperCol: { lg: { span: 13 }, sm: { span: 17 } }
     }
   },
   computed: {
@@ -21,8 +21,8 @@ const formMixin = {
       return this.formMode === FORM_MODE_TYPE.MODAL
         ? {
             layout: 'horizontal',
-            labelCol: { span: this.labelCol },
-            wrapperCol: { span: this.wrapperCol }
+            labelCol: this.labelCol,
+            wrapperCol: this.wrapperCol
           }
         : {
             layout: 'vertical'
