@@ -29,11 +29,16 @@
 #stop
 #end
 <template>
-  <a-drawer width="35%" :label-col="4" :wrapper-col="14" :visible="open" @close="onClose">
-    <a-divider orientation="left">
-      <b>{{ formTitle }}</b>
-    </a-divider>
-    <a-form-model ref="form" :model="form" :rules="rules">
+  <pop-dialog
+    :mode="formMode"
+    :title="formTitle"
+    width="35%"
+    :visible="open"
+    :loading="submitLoading"
+    @ok="submitForm"
+    @cancel="onClose"
+  >
+    <a-form-model ref="form" :model="form" :rules="rules" v-bind="formLayout">
 #set($requiredCount = 0)
 #set($ruleLastIndex = 0)
 #foreach($column in $columns)
@@ -127,11 +132,12 @@
         </a-space>
       </div>
     </a-form-model>
-  </a-drawer>
+  </pop-dialog>
 </template>
 
 <script>
 import { get${BusinessName}, add${BusinessName}, update${BusinessName} } from '@/api/${moduleName}/${businessName}'
+import { formMixin } from '@/store/form-mixin'
 #if($table.sub)
 import SubTable from './SubTable'
 #end
@@ -141,6 +147,7 @@ import Editor from '@/components/Editor'
 
 export default {
   name: 'CreateForm',
+  mixins: [formMixin],
   props: {
 #set($propsCount = 0)
 #foreach ($column in $columns)

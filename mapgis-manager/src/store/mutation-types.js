@@ -26,7 +26,13 @@ export const NAV_THEME = {
   DARK: 'dark'
 }
 
+export const FORM_MODE_TYPE = {
+  DRAWER: 'Drawer',
+  MODAL: 'Modal'
+}
+
 export const TABLE_SIZE = 'table_size'
 export const TABLE_BORDERED = 'table_bordered'
 export const HIDE_FOOTER = 'hide_footer'
 export const HIDE_BREADCRUMB = 'hide_breadcrumb'
+export const FORM_MODE = 'form_mode'

@@ -1,9 +1,14 @@
 <template>
-  <a-drawer width="35%" :label-col="4" :wrapper-col="14" :visible="open" @close="onClose">
-    <a-divider orientation="left">
-      <b>{{ formTitle }}</b>
-    </a-divider>
-    <a-form-model ref="form" :model="form" :rules="rules">
+  <pop-dialog
+    :mode="formMode"
+    :title="formTitle"
+    width="35%"
+    :visible="open"
+    :loading="submitLoading"
+    @ok="submitForm"
+    @cancel="onClose"
+  >
+    <a-form-model ref="form" :model="form" :rules="rules" v-bind="formLayout">
       <a-form-model-item label="路由ID" prop="routeId">
         <a-input v-model="form.routeId" placeholder="请输入路由ID" />
       </a-form-model-item>
@@ -136,14 +141,16 @@
         </a-space>
       </div>
     </a-form-model>
-  </a-drawer>
+  </pop-dialog>
 </template>
 
 <script>
 import { getRoute, addRoute, updateRoute } from '@/api/system/route'
+import { formMixin } from '@/store/form-mixin'
 
 export default {
   name: 'CreateForm',
+  mixins: [formMixin],
   props: {
     statusOptions: {
       type: Array,

@@ -15,7 +15,8 @@ import {
   TABLE_SIZE,
   TABLE_BORDERED,
   HIDE_FOOTER,
-  HIDE_BREADCRUMB
+  HIDE_BREADCRUMB,
+  FORM_MODE
 } from '@/store/mutation-types'
 import defaultSettings from '@/config/defaultSettings'
 
@@ -37,5 +38,6 @@ export default function Initializer() {
   store.commit(TABLE_BORDERED, storage.get(TABLE_BORDERED, defaultSettings.tableBordered))
   store.commit(HIDE_FOOTER, storage.get(HIDE_FOOTER, defaultSettings.hideFooter))
   store.commit(HIDE_BREADCRUMB, storage.get(HIDE_BREADCRUMB, defaultSettings.hideBreadcrumb))
+  store.commit(FORM_MODE, storage.get(FORM_MODE, defaultSettings.formMode))
   // last step
 }

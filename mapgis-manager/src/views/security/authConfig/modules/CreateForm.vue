@@ -1,9 +1,14 @@
 <template>
-  <a-drawer width="35%" :label-col="4" :wrapper-col="14" :visible="open" @close="onClose">
-    <a-divider orientation="left">
-      <b>{{ formTitle }}</b>
-    </a-divider>
-    <a-form-model ref="form" :model="form" :rules="realRules">
+  <pop-dialog
+    :mode="formMode"
+    :title="formTitle"
+    width="35%"
+    :visible="open"
+    :loading="submitLoading"
+    @ok="submitForm"
+    @cancel="onClose"
+  >
+    <a-form-model ref="form" :model="form" :rules="realRules" v-bind="formLayout">
       <a-form-model-item label="登录方式" v-if="form.configId == undefined">
         <a-select placeholder="登录方式" :value="authType" @change="handleAuthTypeChange">
           <a-select-option v-for="(d, index) in authTypeOptions" :key="index" :value="d.typeValue">
@@ -71,11 +76,12 @@
         </a-space>
       </div>
     </a-form-model>
-  </a-drawer>
+  </pop-dialog>
 </template>
 
 <script>
 import { getAuthConfig, addAuthConfig, updateAuthConfig } from '@/api/system/authConfig'
+import { formMixin } from '@/store/form-mixin'
 
 const defaultAuthTypeOptions = [
   {
@@ -112,6 +118,7 @@ const customAuthTypeOption = {
 
 export default {
   name: 'CreateForm',
+  mixins: [formMixin],
   props: {
     statusOptions: {
       type: Array,

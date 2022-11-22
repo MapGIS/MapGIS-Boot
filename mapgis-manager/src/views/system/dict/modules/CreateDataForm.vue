@@ -1,9 +1,14 @@
 <template>
-  <a-drawer width="35%" :label-col="4" :wrapper-col="14" :visible="open" @close="onClose">
-    <a-divider orientation="left">
-      <b>{{ formTitle }}</b>
-    </a-divider>
-    <a-form-model ref="form" :model="form" :rules="rules">
+  <pop-dialog
+    :mode="formMode"
+    :title="formTitle"
+    width="35%"
+    :visible="open"
+    :loading="submitLoading"
+    @ok="submitForm"
+    @cancel="onClose"
+  >
+    <a-form-model ref="form" :model="form" :rules="rules" v-bind="formLayout">
       <a-form-model-item label="字典类型" prop="dictType">
         <a-input v-model="form.dictType" :disabled="true" />
       </a-form-model-item>
@@ -33,14 +38,16 @@
         </a-space>
       </div>
     </a-form-model>
-  </a-drawer>
+  </pop-dialog>
 </template>
 
 <script>
 import { getData, addData, updateData } from '@/api/system/dict/data'
+import { formMixin } from '@/store/form-mixin'
 
 export default {
   name: 'CreateDataForm',
+  mixins: [formMixin],
   props: {
     dictType: {
       type: String,

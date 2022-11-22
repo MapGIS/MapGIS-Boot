@@ -71,7 +71,8 @@ import {
   TABLE_SIZE,
   TABLE_BORDERED,
   HIDE_FOOTER,
-  HIDE_BREADCRUMB
+  HIDE_BREADCRUMB,
+  FORM_MODE
 } from '@/store/mutation-types'
 
 import defaultSettings from '@/config/defaultSettings'
@@ -297,6 +298,9 @@ export default {
           break
         case 'hideBreadcrumb':
           this.$store.commit(HIDE_BREADCRUMB, value)
+          break
+        case 'formMode':
+          this.$store.commit(FORM_MODE, value)
           break
       }
     }

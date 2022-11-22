@@ -1,9 +1,14 @@
 <template>
-  <a-drawer width="35%" :label-col="4" :wrapper-col="14" :visible="open" @close="onClose">
-    <a-divider orientation="left">
-      <b>{{ formTitle }}</b>
-    </a-divider>
-    <a-form-model ref="form" :model="form" :rules="rules">
+  <pop-dialog
+    :mode="formMode"
+    :title="formTitle"
+    width="35%"
+    :visible="open"
+    :loading="submitLoading"
+    @ok="submitForm"
+    @cancel="onClose"
+  >
+    <a-form-model ref="form" :model="form" :rules="rules" v-bind="formLayout">
       <a-form-model-item label="任务名称" prop="jobName">
         <a-input v-model="form.jobName" placeholder="请输入任务名称" />
       </a-form-model-item>
@@ -66,15 +71,17 @@
       </div>
     </a-form-model>
     <gen-crontab ref="genCrontab" @fill="crontabFill" />
-  </a-drawer>
+  </pop-dialog>
 </template>
 
 <script>
 import { getJob, addJob, updateJob } from '@/api/schedule/job'
 import GenCrontab from './GenCrontab'
+import { formMixin } from '@/store/form-mixin'
 
 export default {
   name: 'CreateForm',
+  mixins: [formMixin],
   components: {
     GenCrontab
   },

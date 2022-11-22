@@ -15,8 +15,8 @@
 module.exports = {
   navTheme: 'dark', // theme for nav menu
   primaryColor: '#1890ff', // primary color of ant design
-  layout: 'mixmenu-center', // nav menu position: `sidemenu` or `topmenu` or `mixmenu` or 'mixmenu-center'
-  contentWidth: 'Fluid', // layout of content: `Fluid` or `Fixed`, only works when layout is topmenu
+  layout: 'sidemenu', // nav menu position: `sidemenu` or `topmenu` or `mixmenu` or `mixmenu-center`
+  contentWidth: 'Fluid', // layout of content: `Fluid` or `Fixed`, only works when layout is topmenu or `mixmenu-center`
   fixedHeader: true, // sticky header
   fixSiderbar: true, // sticky siderbar
   colorWeak: false,
@@ -25,5 +25,6 @@ module.exports = {
   tableBordered: false,
   hideFooter: false,
   hideBreadcrumb: false,
+  formMode: 'Drawer', // crud form mode: `Drawer` or `Modal`
   production: process.env.NODE_ENV === 'production' && process.env.VUE_APP_PREVIEW !== 'true'
 }

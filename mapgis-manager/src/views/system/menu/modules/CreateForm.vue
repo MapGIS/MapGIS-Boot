@@ -1,9 +1,14 @@
 <template>
-  <a-drawer width="35%" :label-col="4" :wrapper-col="14" :visible="open" @close="onClose">
-    <a-divider orientation="left">
-      <b>{{ formTitle }}</b>
-    </a-divider>
-    <a-form-model ref="form" :model="form" :rules="rules">
+  <pop-dialog
+    :mode="formMode"
+    :title="formTitle"
+    width="35%"
+    :visible="open"
+    :loading="submitLoading"
+    @ok="submitForm"
+    @cancel="onClose"
+  >
+    <a-form-model ref="form" :model="form" :rules="rules" v-bind="formLayout">
       <a-form-model-item label="上级菜单" prop="parentId">
         <a-tree-select
           v-model="form.parentId"
@@ -149,7 +154,7 @@
         </a-space>
       </div>
     </a-form-model>
-  </a-drawer>
+  </pop-dialog>
 </template>
 
 <script>
@@ -157,9 +162,11 @@ import { getMenu, addMenu, updateMenu } from '@/api/system/menu'
 import allIcon from '@/core/icons'
 import icons from '@/utils/requireIcons'
 import IconSelector from '@/components/IconSelector'
+import { formMixin } from '@/store/form-mixin'
 
 export default {
   name: 'CreateForm',
+  mixins: [formMixin],
   props: {
     statusOptions: {
       type: Array,

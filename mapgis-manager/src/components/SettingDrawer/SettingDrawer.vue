@@ -191,6 +191,25 @@
           </div>
         </setting-item>
 
+        <setting-item title="表单通用样式" divider>
+          <div>
+            <a-list :split="false">
+              <a-list-item>
+                <span>表单弹出类型</span>
+                <a-select
+                  size="small"
+                  style="width: 80px"
+                  :value="formMode"
+                  @change="value => handleChange('formMode', value)"
+                >
+                  <a-select-option value="Drawer"> 抽屉 </a-select-option>
+                  <a-select-option value="Modal">对话框</a-select-option>
+                </a-select>
+              </a-list-item>
+            </a-list>
+          </div>
+        </setting-item>
+
         <setting-item title="其他设置" divider>
           <div>
             <a-list :split="false">
@@ -222,12 +241,13 @@ import SettingItem from './SettingItem'
 import { updateTheme, updateColorWeak, colorList } from './settingConfig'
 import { baseMixin } from '@/store/app-mixin'
 import { tableMixin } from '@/store/table-mixin'
+import { formMixin } from '@/store/form-mixin'
 
 export default {
   components: {
     SettingItem
   },
-  mixins: [baseMixin, tableMixin],
+  mixins: [baseMixin, tableMixin, formMixin],
   data() {
     return {
       visible: false,
@@ -274,6 +294,8 @@ export default {
   tableSize: '${this.tableSize}',
   tableBordered: ${this.tableBordered},
   hideFooter: ${this.hideFooter},
+  hideBreadcrumb: ${this.hideBreadcrumb},
+  formMode: ${this.formMode},
   title: 'MapGIS Manager',
   production: process.env.NODE_ENV === 'production' && process.env.VUE_APP_PREVIEW !== 'true'
 }`

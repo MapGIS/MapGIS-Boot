@@ -1,9 +1,14 @@
 <template>
-  <a-drawer width="35%" :label-col="4" :wrapper-col="14" :visible="open" @close="onClose">
-    <a-divider orientation="left">
-      <b>{{ formTitle }}</b>
-    </a-divider>
-    <a-form-model ref="form" :model="form" :rules="rules">
+  <pop-dialog
+    :mode="formMode"
+    :title="formTitle"
+    width="35%"
+    :visible="open"
+    :loading="submitLoading"
+    @ok="submitForm"
+    @cancel="onClose"
+  >
+    <a-form-model ref="form" :model="form" :rules="rules" v-bind="formLayout">
       <a-form-model-item label="岗位名称" prop="postName">
         <a-input v-model="form.postName" placeholder="请输入" />
       </a-form-model-item>
@@ -23,14 +28,16 @@
         </a-space>
       </div>
     </a-form-model>
-  </a-drawer>
+  </pop-dialog>
 </template>
 
 <script>
 import { getPost, addPost, updatePost } from '@/api/system/post'
+import { formMixin } from '@/store/form-mixin'
 
 export default {
   name: 'CreateForm',
+  mixins: [formMixin],
   props: {},
   components: {},
   data() {

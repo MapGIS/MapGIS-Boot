@@ -1,10 +1,14 @@
 <template>
   <!-- 增加修改 -->
-  <a-drawer width="35%" :label-col="4" :wrapper-col="14" :visible="open" @close="onClose">
-    <a-divider orientation="left">
-      <b>${subTable.functionName}</b>
-    </a-divider>
-    <a-form-model ref="form" :model="form">
+  <pop-dialog
+    :mode="formMode"
+    :title="subTable.functionName"
+    width="35%"
+    :visible="open"
+    @ok="submitForm"
+    @cancel="onClose"
+  >
+    <a-form-model ref="form" :model="form" v-bind="formLayout">
 #set($columnLastIndex = 0)
 #foreach($column in $subTable.columns)
 #set($javaField=$column.javaField)
@@ -29,12 +33,15 @@
         </a-space>
       </div>
     </a-form-model>
-  </a-drawer>
+  </pop-dialog>
 </template>
 
 <script>
+import { formMixin } from '@/store/form-mixin'
+
 export default {
   name: 'CreateSubForm',
+  mixins: [formMixin],
   props: {},
   components: {},
   data() {

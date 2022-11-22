@@ -141,6 +141,13 @@
         <a-form-model-item label="显示边框">
           <a-switch :checked="tableBordered" @change="checked => handleChange('tableBordered', checked)" />
         </a-form-model-item>
+        <a-divider orientation="left">表单通用样式</a-divider>
+        <a-form-model-item label="表单弹出类型">
+          <a-select style="width: 80px" :value="formMode" @change="value => handleChange('formMode', value)">
+            <a-select-option value="Drawer"> 抽屉 </a-select-option>
+            <a-select-option value="Modal">对话框</a-select-option>
+          </a-select>
+        </a-form-model-item>
         <a-form-model-item :wrapper-col="{ lg: { span: 10, offset: 7 }, sm: { span: 17, offset: 7 } }">
           <a-button type="primary" @click="reset"> 重置 </a-button>
         </a-form-model-item>
@@ -163,15 +170,17 @@ import {
   TABLE_SIZE,
   TABLE_BORDERED,
   HIDE_FOOTER,
-  HIDE_BREADCRUMB
+  HIDE_BREADCRUMB,
+  FORM_MODE
 } from '@/store/mutation-types'
 import { baseMixin } from '@/store/app-mixin'
 import { tableMixin } from '@/store/table-mixin'
+import { formMixin } from '@/store/form-mixin'
 import { updateTheme, updateColorWeak, colorList } from '@/components/SettingDrawer/settingConfig'
 import defaultSettings from '@/config/defaultSettings'
 
 export default {
-  mixins: [baseMixin, tableMixin],
+  mixins: [baseMixin, tableMixin, formMixin],
   data() {
     return {
       colorList,
@@ -192,7 +201,8 @@ export default {
         tableSize: defaultSettings.tableSize,
         tableBordered: defaultSettings.tableBordered,
         hideFooter: defaultSettings.hideFooter,
-        hideBreadcrumb: defaultSettings.hideBreadcrumb
+        hideBreadcrumb: defaultSettings.hideBreadcrumb,
+        formMode: defaultSettings.formMode
       }
     }
   },
@@ -259,6 +269,9 @@ export default {
         case 'hideBreadcrumb':
           this.$store.commit(HIDE_BREADCRUMB, value)
           break
+        case 'formMode':
+          this.$store.commit(FORM_MODE, value)
+          break
       }
     },
     reset() {
@@ -274,6 +287,7 @@ export default {
       this.handleChange('tableBordered', this.settings.tableBordered)
       this.handleChange('hideFooter', this.settings.hideFooter)
       this.handleChange('hideBreadcrumb', this.settings.hideBreadcrumb)
+      this.handleChange('formMode', this.settings.formMode)
     }
   }
 }

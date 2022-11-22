@@ -1,9 +1,14 @@
 <template>
-  <a-drawer width="35%" :label-col="4" :wrapper-col="14" :visible="openDataScope" @close="onClose">
-    <a-divider orientation="left">
-      <b>{{ formTitle }}</b>
-    </a-divider>
-    <a-form-model ref="form" :model="form">
+  <pop-dialog
+    :mode="formMode"
+    :title="formTitle"
+    width="35%"
+    :visible="openDataScope"
+    :loading="submitLoading"
+    @ok="submitDataScope"
+    @cancel="onClose"
+  >
+    <a-form-model ref="form" :model="form" v-bind="formLayout">
       <a-form-model-item label="角色名称" prop="roleName">
         <a-input v-model="form.roleName" :disabled="true" />
       </a-form-model-item>
@@ -48,15 +53,17 @@
         </a-space>
       </div>
     </a-form-model>
-  </a-drawer>
+  </pop-dialog>
 </template>
 
 <script>
 import { getRole, dataScope } from '@/api/system/role'
 import { treeselect as deptTreeselect, roleDeptTreeselect } from '@/api/system/dept'
+import { formMixin } from '@/store/form-mixin'
 
 export default {
   name: 'CreateDataScopeForm',
+  mixins: [formMixin],
   components: {},
   data() {
     return {
