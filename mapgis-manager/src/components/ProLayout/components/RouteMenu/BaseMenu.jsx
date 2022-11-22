@@ -18,10 +18,10 @@ export const RouteMenuProps = {
 
 const httpReg = /(http|https|ftp):\/\/([\w.]+\/?)\S*/
 
-const renderMenu = (h, item, i18nRender) => {
+const renderMenu = (h, item, i18nRender, mode) => {
   if (item && !item.hidden) {
     const bool = item.children && !item.hideChildrenInMenu
-    return bool ? renderSubMenu(h, item, i18nRender) : renderMenuItem(h, item, i18nRender)
+    return bool ? renderSubMenu(h, item, i18nRender, mode) : renderMenuItem(h, item, i18nRender, mode)
   }
   return null
 }
@@ -42,7 +42,7 @@ const renderSubMenu = (h, item, i18nRender) => {
   )
 }
 
-const renderMenuItem = (h, item, i18nRender) => {
+const renderMenuItem = (h, item, i18nRender, mode) => {
   const meta = Object.assign({}, item.meta)
   const target = meta.target || null
   const hasRemoteUrl = httpReg.test(item.path)
@@ -60,17 +60,23 @@ const renderMenuItem = (h, item, i18nRender) => {
   return (
     <MenuItem key={item.name}>
       <CustomTag {...{ props, attrs }}>
-        {renderIcon(h, meta.icon)}
+        {renderIcon(h, meta.icon, mode)}
         {renderTitle(h, meta.title, i18nRender)}
       </CustomTag>
     </MenuItem>
   )
 }
 
-const renderIcon = (h, icon) => {
-  if (icon === undefined || icon === 'none' || icon === null || icon === '' || icon === '#') {
+const renderIcon = (h, icon, mode) => {
+  if (icon === undefined || icon === 'none' || icon === null) {
     return null
   }
+  if (icon === '' || icon === '#') {
+    if (mode !== undefined && mode === 'horizontal') {
+      return null
+    }
+  }
+
   const props = {}
   typeof icon === 'object' ? (props.component = icon) : (props.type = icon)
   return <Icon {...{ props }} />
@@ -129,7 +135,7 @@ const RouteMenu = {
       if (item.hidden) {
         return null
       }
-      return renderMenu(h, item, i18nRender)
+      return renderMenu(h, item, i18nRender, mode)
     })
     return <Menu {...dynamicProps}>{menuItems}</Menu>
   },
