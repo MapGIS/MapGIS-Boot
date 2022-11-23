@@ -64,6 +64,12 @@
             <groupId>com.zondy.mapgis</groupId>
             <artifactId>mapgis-common-ldap</artifactId>
         </dependency>
+
+        <!-- MapGIS Common SystemLog -->
+        <dependency>
+            <groupId>com.zondy.mapgis</groupId>
+            <artifactId>mapgis-common-systemlog</artifactId>
+        </dependency>
     </dependencies>
 
     <profiles>

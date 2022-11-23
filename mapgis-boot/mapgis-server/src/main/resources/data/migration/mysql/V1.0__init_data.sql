@@ -11,7 +11,7 @@
  Target Server Version : 50736
  File Encoding         : 65001
 
- Date: 16/11/2022 22:41:07
+ Date: 23/11/2022 14:53:13
 */
 
 SET NAMES utf8mb4;
@@ -574,6 +574,9 @@ INSERT INTO `sys_menu`
 VALUES (120, 'LDAP登录配置', 3, 9, 'ldap', 'security/ldapConfig/index', NULL, 1, 0, 'C', '0', '0', 'system:config:query',
         'ldap', 'admin', '2022-11-03 14:55:44', '', NULL, 'LDAP登录配置菜单');
 INSERT INTO `sys_menu`
+VALUES (121, '系统日志', 2, 3, 'systemlog', 'system/systemlog/index', NULL, 1, 0, 'C', '0', '0', 'system:systemlog:list',
+        'edit', 'admin', '2022-11-23 11:07:53', '', NULL, '系统日志菜单');
+INSERT INTO `sys_menu`
 VALUES (1000, '在线查询', 100, 1, '', '', '', 1, 0, 'F', '0', '0', 'monitor:online:query', '#', 'admin',
         '2022-03-23 22:12:32', '', NULL, '');
 INSERT INTO `sys_menu`
@@ -789,6 +792,9 @@ VALUES (1070, '配置修改', 118, 1, '', '', '', 1, 0, 'F', '0', '0', 'system:c
 INSERT INTO `sys_menu`
 VALUES (1071, '配置修改', 120, 1, '', '', '', 1, 0, 'F', '0', '0', 'system:config:edit', '#', 'admin',
         '2022-11-03 14:56:11', '', NULL, '');
+INSERT INTO `sys_menu`
+VALUES (1072, '日志导出', 121, 1, '', '', '', 1, 0, 'F', '0', '0', 'system:systemlog:export', '#', 'admin',
+        '2022-11-23 14:52:25', '', NULL, '');
 
 -- ----------------------------
 -- Table structure for sys_micro_app

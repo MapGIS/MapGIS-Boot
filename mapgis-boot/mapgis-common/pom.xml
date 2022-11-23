@@ -20,6 +20,7 @@
         <module>mapgis-common-controllerprefix</module>
         <module>mapgis-common-ldap</module>
         <module>mapgis-common-captcha</module>
+        <module>mapgis-common-systemlog</module>
     </modules>
 
     <artifactId>mapgis-common</artifactId>

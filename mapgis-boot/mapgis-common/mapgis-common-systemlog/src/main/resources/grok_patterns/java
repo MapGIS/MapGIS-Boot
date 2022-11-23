@@ -1,0 +1,20 @@
+# from https://github.com/logstash-plugins/logstash-patterns-core/tree/master/patterns
+JAVACLASS (?:[a-zA-Z$_][a-zA-Z$_0-9]*\.)*[a-zA-Z$_][a-zA-Z$_0-9]*
+#Space is an allowed character to match special cases like 'Native Method' or 'Unknown Source'
+JAVAFILE (?:[A-Za-z0-9_. -]+)
+#Allow special <init>, <clinit> methods
+JAVAMETHOD (?:(<(?:cl)?init>)|[a-zA-Z$_][a-zA-Z$_0-9]*)
+#Line number is optional in special cases 'Native method' or 'Unknown source'
+JAVASTACKTRACEPART %{SPACE}at %{JAVACLASS:class}\.%{JAVAMETHOD:method}\(%{JAVAFILE:file}(?::%{NUMBER:line})?\)
+# Java Logs
+JAVATHREAD (?:[A-Z]{2}-Processor[\d]+)
+JAVALOGMESSAGE (.*)
+
+# myself
+JAVADATETIME 20%{YEAR}-%{MONTHNUM}-%{MONTHDAY} %{HOUR}:?%{MINUTE}(?::?%{SECOND})
+# [main-SendThread(192.168.176.2:12181)]
+JAVATHREADNAME (?:[A-Za-z0-9\-_\(\)\.\: ]+)
+# logger not include space,spring logger include $[]/
+JAVALOGGER40 ((?:[A-Za-z0-9_\.\-\$\[\]\/]{1,40}))
+# has multi space before level and after logger
+JAVALOGBACK %{JAVADATETIME:time}[ ]+%{LOGLEVEL:level} %{INT:pid} [\-]{3} \[%{JAVATHREADNAME:thread}\] %{JAVALOGGER40:logger}[ ]+\: %{JAVALOGMESSAGE:message}

@@ -27,6 +27,8 @@ server:
 
 # 日志配置
 logging:
+  file:
+    name: ./logs/${mapgis.product.name}
   level:
     org.springframework: warn
 
