@@ -513,13 +513,13 @@ INSERT INTO `sys_menu`
 VALUES (7, '系统配置', 0, 7, 'config', NULL, '', 1, 0, 'M', '0', '0', '', 'setting', 'admin', '2022-10-11 18:33:09', '',
         NULL, '系统设置目录');
 INSERT INTO `sys_menu`
-VALUES (100, '在线用户', 1, 1, 'online', 'monitor/online/index', '', 1, 0, 'C', '0', '0', 'monitor:online:list', 'online',
+VALUES (100, '在线用户', 1, 1, 'online', 'monitor/online/index', '', 1, 1, 'C', '0', '0', 'monitor:online:list', 'online',
         'admin', '2022-03-23 22:12:32', '', NULL, '在线用户菜单');
 INSERT INTO `sys_menu`
 VALUES (101, '系统监控', 1, 2, 'server', 'monitor/server/index', '', 1, 1, 'C', '0', '0', 'monitor:server:list', 'server',
         'admin', '2022-03-23 22:12:32', '', NULL, '服务监控菜单');
 INSERT INTO `sys_menu`
-VALUES (102, '登录日志', 2, 1, 'logininfor', 'system/logininfor/index', '', 1, 0, 'C', '0', '0', 'system:logininfor:list',
+VALUES (102, '登录日志', 2, 1, 'logininfor', 'system/logininfor/index', '', 1, 1, 'C', '0', '0', 'system:logininfor:list',
         'logininfor', 'admin', '2022-03-23 22:12:32', '', NULL, '登录日志菜单');
 INSERT INTO `sys_menu`
 VALUES (103, '操作日志', 2, 2, 'operlog', 'system/operlog/index', '', 1, 1, 'C', '0', '0', 'system:operlog:list', 'form',
@@ -576,7 +576,7 @@ INSERT INTO `sys_menu`
 VALUES (120, 'LDAP登录配置', 3, 9, 'ldap', 'security/ldapConfig/index', NULL, 1, 0, 'C', '0', '0', 'system:config:query',
         'ldap', 'admin', '2022-11-03 14:55:44', '', NULL, 'LDAP登录配置菜单');
 INSERT INTO `sys_menu`
-VALUES (121, '系统日志', 2, 3, 'systemlog', 'system/systemlog/index', NULL, 1, 0, 'C', '0', '0', 'system:systemlog:list',
+VALUES (121, '系统日志', 2, 3, 'systemlog', 'system/systemlog/index', NULL, 1, 1, 'C', '0', '0', 'system:systemlog:list',
         'edit', 'admin', '2022-11-23 11:07:53', '', NULL, '系统日志菜单');
 INSERT INTO `sys_menu`
 VALUES (1000, '在线查询', 100, 1, '', '', '', 1, 0, 'F', '0', '0', 'monitor:online:query', '#', 'admin',

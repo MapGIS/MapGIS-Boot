@@ -562,10 +562,10 @@ INSERT INTO `sys_menu`
 VALUES (7, '系统配置', 0, 7, 'config', NULL, '', 1, 0, 'M', '0', '0', '', 'setting', 'admin', '2022-10-11 18:33:09', '',
         NULL, '系统设置目录');
 INSERT INTO `sys_menu`
-VALUES (100, '在线用户', 1, 1, 'online', 'monitor/online/index', '', 1, 0, 'C', '0', '0', 'monitor:online:list', 'online',
+VALUES (100, '在线用户', 1, 1, 'online', 'monitor/online/index', '', 1, 1, 'C', '0', '0', 'monitor:online:list', 'online',
         'admin', '2022-03-23 22:12:32', '', NULL, '在线用户菜单');
 INSERT INTO `sys_menu`
-VALUES (102, '登录日志', 2, 1, 'logininfor', 'system/logininfor/index', '', 1, 0, 'C', '0', '0', 'system:logininfor:list',
+VALUES (102, '登录日志', 2, 1, 'logininfor', 'system/logininfor/index', '', 1, 1, 'C', '0', '0', 'system:logininfor:list',
         'logininfor', 'admin', '2022-03-23 22:12:32', '', NULL, '登录日志菜单');
 INSERT INTO `sys_menu`
 VALUES (103, '操作日志', 2, 2, 'operlog', 'system/operlog/index', '', 1, 1, 'C', '0', '0', 'system:operlog:list', 'form',

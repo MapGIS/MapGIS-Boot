@@ -25,7 +25,7 @@
         </a-form>
       </div>
       <!-- 操作 -->
-      <div class="table-operations">
+      <div class="table-operations" style="overflow: hidden">
         <table-setting
           :style="{ float: 'right' }"
           :table-size.sync="tableSize"
