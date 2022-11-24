@@ -234,4 +234,12 @@ public class SysServiceProxy {
     public SysLdapConfig getLdapConfig() {
         return parseConfigObject(ConfigConstants.CONFIG_KEY_SECURITY_LDAP, SysLdapConfig.class);
     }
+
+    /**
+     * 获取日志配置
+     */
+    public SysLogConfig getLogConfig() {
+        return parseConfigObject(ConfigConstants.CONFIG_KEY_LOG, SysLogConfig.class);
+    }
+
 }

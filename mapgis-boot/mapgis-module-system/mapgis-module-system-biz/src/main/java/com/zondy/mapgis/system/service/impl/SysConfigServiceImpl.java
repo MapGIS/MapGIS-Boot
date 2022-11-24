@@ -143,6 +143,11 @@ public class SysConfigServiceImpl implements ISysConfigService {
             message.put(Constants.REDIS_LISTENER_NAME, Constants.UPDATE_CAS_CONFIG_LISTENER);
             cacheService.convertAndSend(Constants.REDIS_TOPIC_NAME, message);
         }
+
+        if (config.getConfigKey().equals(ConfigConstants.CONFIG_KEY_LOG)) {
+            // 需要通知日志配置更新（单体版有效）
+            sysEventPublisher.publishConfigEvent(SysEventConstants.LOG_SYSTEM_LOG_CONFIG_UPDATE, null);
+        }
         return row;
     }
 

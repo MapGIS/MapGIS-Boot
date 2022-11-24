@@ -29,8 +29,6 @@ server:
 logging:
   file:
     name: ./logs/${mapgis.product.name}
-  level:
-    org.springframework: warn
 
 # Spring配置
 spring:

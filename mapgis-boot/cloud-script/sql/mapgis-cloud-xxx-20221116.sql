@@ -204,6 +204,8 @@ INSERT INTO `sys_config`
 VALUES (8, '安全配置-LDAP登录配置', 'security.ldap',
         '{\"enabled\":false,\"url\":\"\",\"base\":\"\",\"userDn\":\"\",\"password\":\"\",\"defaultRoleIds\":[2],\"roleMapping\":[]}',
         'Y', 'admin', '2022-03-23 22:12:32', '', NULL, 'LDAP登录配置');
+INSERT INTO `sys_config`
+VALUES (9, '日志配置', 'log', '{\"systemLoglevel\":\"INFO\"}', 'Y', 'admin', '2022-03-23 22:12:32', '', NULL, '日志配置');
 
 -- ----------------------------
 -- Table structure for sys_dept

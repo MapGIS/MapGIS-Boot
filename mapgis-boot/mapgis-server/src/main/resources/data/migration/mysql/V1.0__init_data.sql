@@ -11,7 +11,7 @@
  Target Server Version : 50736
  File Encoding         : 65001
 
- Date: 23/11/2022 14:53:13
+ Date: 24/11/2022 17:30:27
 */
 
 SET NAMES utf8mb4;
@@ -204,6 +204,8 @@ INSERT INTO `sys_config`
 VALUES (8, '安全配置-LDAP登录配置', 'security.ldap',
         '{\"enabled\":false,\"url\":\"\",\"base\":\"\",\"userDn\":\"\",\"password\":\"\",\"defaultRoleIds\":[2],\"roleMapping\":[]}',
         'Y', 'admin', '2022-03-23 22:12:32', '', NULL, 'LDAP登录配置');
+INSERT INTO `sys_config`
+VALUES (9, '日志配置', 'log', '{\"systemLoglevel\":\"INFO\"}', 'Y', 'admin', '2022-03-23 22:12:32', '', NULL, '日志配置');
 
 -- ----------------------------
 -- Table structure for sys_dept
@@ -795,6 +797,9 @@ VALUES (1071, '配置修改', 120, 1, '', '', '', 1, 0, 'F', '0', '0', 'system:c
 INSERT INTO `sys_menu`
 VALUES (1072, '日志导出', 121, 1, '', '', '', 1, 0, 'F', '0', '0', 'system:systemlog:export', '#', 'admin',
         '2022-11-23 14:52:25', '', NULL, '');
+INSERT INTO `sys_menu`
+VALUES (1073, '日志配置', 121, 2, '', '', '', 1, 0, 'F', '0', '0', 'system:systemlog:config', '#', 'admin',
+        '2022-11-24 15:53:01', '', NULL, '');
 
 -- ----------------------------
 -- Table structure for sys_micro_app

@@ -1,22 +1,26 @@
 package com.zondy.mapgis.system.controller;
 
 import com.zondy.mapgis.common.controllerprefix.annotation.ManagerRestController;
+import com.zondy.mapgis.common.core.constant.ConfigConstants;
+import com.zondy.mapgis.common.core.constant.UserConstants;
 import com.zondy.mapgis.common.core.utils.StringUtils;
 import com.zondy.mapgis.common.core.web.controller.BaseController;
 import com.zondy.mapgis.common.core.web.domain.AjaxResult;
 import com.zondy.mapgis.common.log.annotation.Log;
 import com.zondy.mapgis.common.log.enums.BusinessType;
 import com.zondy.mapgis.common.security.annotation.RequiresPermissions;
+import com.zondy.mapgis.common.security.utils.SecurityUtils;
 import com.zondy.mapgis.common.systemlog.service.ISystemLogService;
+import com.zondy.mapgis.system.domain.SysConfig;
+import com.zondy.mapgis.system.service.ISysConfigService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -31,6 +35,8 @@ import javax.servlet.http.HttpServletResponse;
 @ManagerRestController("/system/systemlog")
 public class SysLoginfoController extends BaseController {
     private final ISystemLogService systemLogService;
+
+    private final ISysConfigService configService;
 
     private final Environment env;
 
@@ -58,5 +64,24 @@ public class SysLoginfoController extends BaseController {
     @PostMapping("/export")
     public void export(HttpServletResponse response) {
         systemLogService.exportLogFilesToZip(response);
+    }
+
+    @Operation(summary = "获取日志配置")
+    @GetMapping("/config")
+    public AjaxResult getConfig() {
+        return AjaxResult.success(configService.selectConfigByKey(ConfigConstants.CONFIG_KEY_LOG));
+    }
+
+    @Operation(summary = "修改日志配置")
+    @PreAuthorize("@ss.hasPermi('system:systemlog:config')")
+    @RequiresPermissions("system:systemlog:config")
+    @Log(title = "参数管理", businessType = BusinessType.UPDATE)
+    @PutMapping("/config")
+    public AjaxResult updateConfig(@Validated @RequestBody SysConfig config) {
+        if (UserConstants.NOT_UNIQUE.equals(configService.checkConfigKeyUnique(config))) {
+            return AjaxResult.error("修改参数'" + config.getConfigName() + "'失败，参数键名已存在");
+        }
+        config.setUpdateBy(SecurityUtils.getUsername());
+        return toAjax(configService.updateConfig(config));
     }
 }

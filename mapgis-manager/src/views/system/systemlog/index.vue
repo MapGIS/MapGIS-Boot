@@ -23,8 +23,8 @@
               <a-col :md="8" :sm="24">
                 <a-form-item label="级别">
                   <a-select placeholder="日志级别" v-model="queryParam.level" style="width: 100%" allow-clear>
-                    <a-select-option v-for="(d, index) in levelOptions" :key="index" :value="d.value">{{
-                      d.label
+                    <a-select-option v-for="(l, index) in levelOptions" :key="index" :value="l.value">{{
+                      l.label
                     }}</a-select-option>
                   </a-select>
                 </a-form-item>
@@ -61,6 +61,9 @@
       <div class="table-operations">
         <a-button type="primary" @click="handleExport" v-hasPermi="['system:systemlog:export']">
           <a-icon type="download" />导出
+        </a-button>
+        <a-button type="primary" @click="logConfigShow = true" v-hasPermi="['system:systemlog:config']">
+          <a-icon type="setting" />日志配置
         </a-button>
         <table-setting
           :style="{ float: 'right' }"
@@ -120,16 +123,20 @@
         </a-row>
       </div>
     </a-card>
+    <a-modal title="日志配置" :visible="logConfigShow" :footer="null" @cancel="logConfigShow = false">
+      <log-config @ok="logConfigShow = false" />
+    </a-modal>
   </page-header-wrapper>
 </template>
 
 <script>
 import { list } from '@/api/system/systemlog'
 import { tableMixin } from '@/store/table-mixin'
+import LogConfig from './modules/LogConfig.vue'
 
 export default {
   name: 'Systemlog',
-  components: {},
+  components: { LogConfig },
   mixins: [tableMixin],
   data() {
     return {
@@ -154,11 +161,7 @@ export default {
         {
           title: '编号',
           dataIndex: 'id',
-          align: 'center'
-        },
-        {
-          title: '线程ID',
-          dataIndex: 'pid',
+          width: '8%',
           align: 'center'
         },
         {
@@ -169,7 +172,21 @@ export default {
         {
           title: '级别',
           dataIndex: 'level',
+          width: '8%',
           align: 'center'
+        },
+        {
+          title: '进程ID',
+          dataIndex: 'pid',
+          align: 'center',
+          visible: false
+        },
+        {
+          title: '线程名',
+          dataIndex: 'thread',
+          ellipsis: true,
+          align: 'center',
+          visible: false
         },
         {
           title: '日志类',
@@ -192,6 +209,10 @@ export default {
       ],
       levelOptions: [
         {
+          label: 'DEBUG',
+          value: 'DEBUG'
+        },
+        {
           label: 'INFO',
           value: 'INFO'
         },
@@ -203,7 +224,8 @@ export default {
           label: 'ERROR',
           value: 'ERROR'
         }
-      ]
+      ],
+      logConfigShow: false
     }
   },
   filters: {},
@@ -275,6 +297,8 @@ export default {
         onCancel() {}
       })
     },
+    /** 日志配置 */
+    handleConfig() {},
     tableRowClassName(row) {
       const level = row.level
       if (level.toUpperCase() === 'WARN') {
