@@ -24,7 +24,7 @@
       <a-input v-model="form.userDn" />
     </a-form-model-item>
     <a-form-model-item label="LDAP管理员密码" prop="password">
-      <a-input-password v-model="form.password" :visibilityToggle="false" />
+      <a-input-password v-model="form.password" :visibilityToggle="false" autocomplete="new-password" />
     </a-form-model-item>
     <!-- 暂时不提供创建用户的默认角色配置，默认就是第三方用户角色（roleId为2） -->
     <a-form-model-item label="创建用户的默认角色" prop="defaultRoleIds" v-if="false">
