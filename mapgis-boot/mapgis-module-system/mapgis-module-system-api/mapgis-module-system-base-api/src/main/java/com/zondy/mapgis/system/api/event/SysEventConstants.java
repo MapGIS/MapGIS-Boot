@@ -13,7 +13,12 @@ public class SysEventConstants {
     public static final String SECURITY_CAS_CONFIG_UPDATE = "SECURITY_CAS_CONFIG_UPDATE";
 
     /**
-     * 日志配置更新
+     * 系统日志配置更新
      */
     public static final String LOG_SYSTEM_LOG_CONFIG_UPDATE = "LOG_SYSTEM_LOG_CONFIG_UPDATE";
+
+    /**
+     * 访问日志配置更新
+     */
+    public static final String LOG_HTTP_ACCESS_LOG_CONFIG_UPDATE = "LOG_HTTP_ACCESS_LOG_CONFIG_UPDATE";
 }

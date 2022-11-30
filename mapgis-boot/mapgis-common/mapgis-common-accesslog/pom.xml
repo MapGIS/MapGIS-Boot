@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>mapgis-common</artifactId>
+        <groupId>com.zondy.mapgis</groupId>
+        <version>10.6.0.10</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>mapgis-common-accesslog</artifactId>
+    <packaging>pom</packaging>
+    <modules>
+        <module>mapgis-common-base-accesslog</module>
+    </modules>
+
+    <properties>
+        <maven.compiler.source>8</maven.compiler.source>
+        <maven.compiler.target>8</maven.compiler.target>
+    </properties>
+
+    <profiles>
+        <!-- 单体模式 -->
+        <profile>
+            <id>local</id>
+            <modules>
+                <module>mapgis-common-local-accesslog</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>cloud</id>
+            <modules>
+                <module>mapgis-common-cloud-accesslog</module>
+            </modules>
+        </profile>
+    </profiles>
+</project>

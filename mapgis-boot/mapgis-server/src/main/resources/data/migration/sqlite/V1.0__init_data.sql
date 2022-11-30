@@ -10,7 +10,7 @@
  Target Server Version : 3030001
  File Encoding         : 65001
 
- Date: 24/11/2022 17:34:26
+ Date: 30/11/2022 15:37:52
 */
 
 -- ----------------------------
@@ -175,7 +175,8 @@ VALUES (8, '安全配置-LDAP登录配置', 'security.ldap',
         '{"enabled":false,"url":"","base":"","userDn":"","password":"","defaultRoleIds":[2],"roleMapping":[]}', 'Y',
         'admin', '2022-03-23 22:12:32', '', NULL, 'LDAP登录配置');
 INSERT INTO "sys_config"
-VALUES (9, '日志配置', 'log', '{"systemLoglevel":"INFO"}', 'Y', 'admin', '2022-03-23 22:12:32', '', NULL, '日志配置');
+VALUES (9, '日志配置', 'log', '{"systemLoglevel":"INFO","httpAccessEnabled":false,"httpAccessMonitorUrls":[]}', 'Y',
+        'admin', '2022-03-23 22:12:32', '', NULL, '日志配置');
 
 -- ----------------------------
 -- Table structure for sys_dept
@@ -504,8 +505,14 @@ INSERT INTO "sys_menu"
 VALUES (120, 'LDAP登录配置', 3, 9, 'ldap', 'security/ldapConfig/index', NULL, 1, 0, 'C', 0, 0, 'system:config:query',
         'ldap', 'admin', '2022-11-03 14:55:44', '', NULL, 'LDAP登录配置菜单');
 INSERT INTO "sys_menu"
-VALUES (121, '系统日志', 2, 3, 'systemlog', 'system/systemlog/index', NULL, 1, 1, 'C', 0, 0, 'system:systemlog:list',
-        'edit', 'admin', '2022-11-23 11:07:53', '', NULL, '系统日志菜单');
+VALUES (121, '系统日志', 2, 3, 'systemlog', 'log/systemlog/index', NULL, 1, 1, 'C', 0, 0, 'system:systemlog:list', 'edit',
+        'admin', '2022-11-23 11:07:53', '', NULL, '系统日志菜单');
+INSERT INTO "sys_menu"
+VALUES (122, '服务访问日志', 2, 4, 'assesslog', 'log/assesslog/index', NULL, 1, 1, 'C', 0, 0, 'system:assesslog:list',
+        'file-text', 'admin', '2022-11-28 17:23:54', '', NULL, '服务访问日志菜单');
+INSERT INTO "sys_menu"
+VALUES (123, '日志配置', 2, 5, 'config', 'log/config/index', NULL, 1, 0, 'C', 0, 0, 'system:config:query', 'file-done',
+        'admin', '2022-11-30 11:45:39', '', NULL, '日志配置菜单');
 INSERT INTO "sys_menu"
 VALUES (1000, '在线查询', 100, 1, '', '', '', 1, 0, 'F', 0, 0, 'monitor:online:query', '#', 'admin', '2022-03-23 22:12:32',
         '', NULL, '');
@@ -726,8 +733,11 @@ INSERT INTO "sys_menu"
 VALUES (1072, '日志导出', 121, 1, '', '', '', 1, 0, 'F', 0, 0, 'system:systemlog:export', '#', 'admin',
         '2022-11-23 14:52:25', '', NULL, '');
 INSERT INTO "sys_menu"
-VALUES (1073, '日志配置', 121, 2, '', '', '', 1, 0, 'F', 0, 0, 'system:systemlog:config', '#', 'admin',
-        '2022-11-24 15:53:01', '', NULL, '');
+VALUES (1073, '日志导出', 122, 1, '', '', '', 1, 0, 'F', 0, 0, 'system:assesslog:export', '#', 'admin',
+        '2022-11-28 17:23:54', '', NULL, '');
+INSERT INTO "sys_menu"
+VALUES (1074, '配置修改', 123, 1, '', '', '', 1, 0, 'F', 0, 0, 'system:config.edit', '#', 'admin', '2022-11-30 15:10:47',
+        '', NULL, '');
 
 -- ----------------------------
 -- Table structure for sys_micro_app

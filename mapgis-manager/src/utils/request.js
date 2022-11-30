@@ -127,7 +127,7 @@ const installer = {
 }
 
 // 通用下载方法
-export function download(url, params, filename) {
+export function download(url, params, filename, validate) {
   const notificationKey = 'download'
   notification.open({
     key: notificationKey,
@@ -152,7 +152,7 @@ export function download(url, params, filename) {
       responseType: 'blob'
     })
     .then(async data => {
-      const isLogin = await blobValidate(data)
+      const isLogin = validate === undefined || validate ? await blobValidate(data) : true
       if (isLogin) {
         const blob = new Blob([data])
         saveAs(blob, filename)

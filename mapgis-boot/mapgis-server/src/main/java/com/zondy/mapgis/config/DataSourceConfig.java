@@ -53,48 +53,56 @@ public class DataSourceConfig {
     @Primary
     @Bean
     public DataSource dataSource(DynamicDataSourceProperties properties) {
-        DynamicRoutingDataSource dataSource = new DynamicRoutingDataSource();
-        dataSource.setPrimary(properties.getPrimary());
-        dataSource.setStrict(properties.getStrict());
-        dataSource.setStrategy(properties.getStrategy());
-        dataSource.setP6spy(properties.getP6spy());
-        dataSource.setSeata(properties.getSeata());
+        DynamicRoutingDataSource dynamicRoutingDataSource = new DynamicRoutingDataSource();
+
+        dynamicRoutingDataSource.setPrimary(properties.getPrimary());
+        dynamicRoutingDataSource.setStrict(properties.getStrict());
+        dynamicRoutingDataSource.setStrategy(properties.getStrategy());
+        dynamicRoutingDataSource.setP6spy(properties.getP6spy());
+        dynamicRoutingDataSource.setSeata(properties.getSeata());
+
+        String rootPath = EnvironmentUtil.getCurrentProjectPath();
+        DataSource masterDataSource = null;
+        DataSource accessLogDataSource = null;
+        String accessLogDbName = dbName + "-access-log";
+        String accessLogSqlPath = dbType + "-access-log";
 
         // 动态添加数据源
         switch (dbType) {
             case "mysql":
-                addMySQLDataSource(dataSource);
+                masterDataSource = createMySQLDataSource(dbName);
+                accessLogDataSource = createMySQLDataSource(accessLogDbName);
                 break;
             default:
-                addSQLiteDataSource(dataSource);
+                masterDataSource = createSQLiteDataSource(rootPath, dbName);
+                accessLogDataSource = createSQLiteDataSource(rootPath, accessLogDbName);
         }
 
-        try {
-            org.flywaydb.core.api.configuration.Configuration configuration = Flyway.configure().dataSource(dataSource).baselineDescription("initByServer").baselineOnMigrate(true).validateOnMigrate(false).locations(String.format("classpath:data/migration/%s", dbType));
-            Flyway flyway = new Flyway(configuration);
-            flyway.migrate();
-        } catch (Exception e) {
-            log.error("数据库迁移出现异常", e);
-        }
+        // master
+        migrateDataBase(masterDataSource, dbName, dbType);
+        dynamicRoutingDataSource.addDataSource("master", masterDataSource);
 
-        return dataSource;
+        // access_log
+        migrateDataBase(accessLogDataSource, accessLogDbName, accessLogSqlPath);
+        dynamicRoutingDataSource.addDataSource("access_log", accessLogDataSource);
+
+        return dynamicRoutingDataSource;
     }
 
-    void addMySQLDataSource(DynamicRoutingDataSource dynamicRoutingDataSource) {
+    DataSource createMySQLDataSource(String db) {
         DataSourceProperty dataSourceProperty = new DataSourceProperty();
-        String dbUrl = "jdbc:mysql://" + dbHost + ":" + dbPort + "/" + dbName + "?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8";
+        String dbUrl = "jdbc:mysql://" + dbHost + ":" + dbPort + "/" + db + "?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8";
 
         dataSourceProperty.setDriverClassName("com.mysql.cj.jdbc.Driver");
         dataSourceProperty.setUrl(dbUrl);
         dataSourceProperty.setUsername(dbUser);
         dataSourceProperty.setPassword(dbPwd);
 
-        DataSource dataSource = druidDataSourceCreator.createDataSource(dataSourceProperty);
-        dynamicRoutingDataSource.addDataSource("master", dataSource);
+        return druidDataSourceCreator.createDataSource(dataSourceProperty);
     }
 
-    void addSQLiteDataSource(DynamicRoutingDataSource dynamicRoutingDataSource) {
-        Path dbPath = Paths.get(EnvironmentUtil.getCurrentProjectPath(), "data", dbName + ".db").toAbsolutePath();
+    DataSource createSQLiteDataSource(String rootPath, String db) {
+        Path dbPath = Paths.get(rootPath, "data", db + ".db").toAbsolutePath();
         File dir = dbPath.toFile().getParentFile();
         if (!dir.exists() && !dir.mkdirs()) {
             log.error("生成data目录失败，无法创建数据库");
@@ -119,7 +127,16 @@ public class DataSourceConfig {
         druidConfig.setMaxActive(1);
         druidConfig.setMinIdle(0);
         dataSourceProperty.getDruid().setConnectionProperties(config.toProperties());
-        DataSource dataSource = druidDataSourceCreator.createDataSource(dataSourceProperty);
-        dynamicRoutingDataSource.addDataSource("master", dataSource);
+        return druidDataSourceCreator.createDataSource(dataSourceProperty);
+    }
+
+    void migrateDataBase(DataSource dataSource, String dbName, String sqlPath) {
+        try {
+            org.flywaydb.core.api.configuration.Configuration configuration = Flyway.configure().dataSource(dataSource).baselineDescription("initByServer").baselineOnMigrate(true).validateOnMigrate(false).locations(String.format("classpath:data/migration/%s", sqlPath));
+            Flyway flyway = new Flyway(configuration);
+            flyway.migrate();
+        } catch (Exception e) {
+            log.error("数据库" + dbName + "迁移出现异常", e);
+        }
     }
 }

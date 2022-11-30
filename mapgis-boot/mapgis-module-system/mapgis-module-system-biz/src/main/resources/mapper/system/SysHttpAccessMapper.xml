@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zondy.mapgis.system.mapper.SysHttpAccessMapper">
+
+    <resultMap type="SysHttpAccess" id="SysHttpAccessResult">
+        <result property="accessId" column="access_id"/>
+        <result property="ipaddr" column="ipaddr"/>
+        <result property="url" column="url"/>
+        <result property="method" column="method"/>
+        <result property="queryString" column="query_string"/>
+        <result property="requestHeaders" column="request_headers"/>
+        <result property="requestBody" column="request_body"/>
+        <result property="requestBodySize" column="request_body_size"/>
+        <result property="responseStatus" column="response_status"/>
+        <result property="responseHeaders" column="response_headers"/>
+        <result property="responseBody" column="response_body"/>
+        <result property="responseBodySize" column="response_body_size"/>
+        <result property="time" column="time"/>
+        <result property="accessTime" column="access_time"/>
+    </resultMap>
+
+    <sql id="selectSysHttpAccessVo">
+        select access_id,
+               ipaddr,
+               url,
+               method,
+               query_string,
+               request_headers,
+               request_body,
+               request_body_size,
+               response_status,
+               response_headers,
+               response_body,
+               response_body_size,
+               time,
+               access_time
+        from sys_http_access
+    </sql>
+
+    <select id="selectSysHttpAccessList" parameterType="SysHttpAccess" resultMap="SysHttpAccessResult">
+        <include refid="selectSysHttpAccessVo"/>
+        <where>
+            <if test="ipaddr != null  and ipaddr != ''">
+                <bind name="ipaddr_like" value="'%' + ipaddr + '%'"/>
+                and ipaddr like #{ipaddr_like}
+            </if>
+            <if test="url != null  and url != ''">
+                <bind name="url_like" value="'%' + url + '%'"/>
+                and url like #{url_like}
+            </if>
+            <if test="responseStatus != null ">
+                and response_status = #{responseStatus}
+            </if>
+            <if test="params.beginTime != null and params.beginTime != ''"><!-- 开始时间检索 -->
+                <choose>
+                    <when test="_databaseId == 'sqlite'">
+                        and access_time &gt;= #{params.beginTime}
+                    </when>
+                    <otherwise>
+                        and date_format(access_time,'%y%m%d') &gt;= date_format(#{params.beginTime},'%y%m%d')
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="params.endTime != null and params.endTime != ''"><!-- 结束时间检索 -->
+                <choose>
+                    <when test="_databaseId == 'sqlite'">
+                        and access_time &lt;= #{params.endTime}
+                    </when>
+                    <otherwise>
+                        and date_format(access_time,'%y%m%d') &lt;= date_format(#{params.endTime},'%y%m%d')
+                    </otherwise>
+                </choose>
+            </if>
+        </where>
+        order by access_id desc
+    </select>
+
+    <select id="selectSysHttpAccessByAccessId" parameterType="Long"
+            resultMap="SysHttpAccessResult">
+        <include refid="selectSysHttpAccessVo"/>
+        where access_id = #{accessId}
+    </select>
+
+    <insert id="insertSysHttpAccess" parameterType="SysHttpAccess" useGeneratedKeys="true" keyProperty="accessId">
+        insert into sys_http_access
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="ipaddr != null">ipaddr,</if>
+            <if test="url != null">url,</if>
+            <if test="method != null">method,</if>
+            <if test="queryString != null">query_string,</if>
+            <if test="requestHeaders != null">request_headers,</if>
+            <if test="requestBody != null">request_body,</if>
+            <if test="requestBodySize != null">request_body_size,</if>
+            <if test="responseStatus != null">response_status,</if>
+            <if test="responseHeaders != null">response_headers,</if>
+            <if test="responseBody != null">response_body,</if>
+            <if test="responseBodySize != null">response_body_size,</if>
+            <if test="time != null">time,</if>
+            <if test="accessTime != null">access_time,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="ipaddr != null">#{ipaddr},</if>
+            <if test="url != null">#{url},</if>
+            <if test="method != null">#{method},</if>
+            <if test="queryString != null">#{queryString},</if>
+            <if test="requestHeaders != null">#{requestHeaders},</if>
+            <if test="requestBody != null">#{requestBody},</if>
+            <if test="requestBodySize != null">#{requestBodySize},</if>
+            <if test="responseStatus != null">#{responseStatus},</if>
+            <if test="responseHeaders != null">#{responseHeaders},</if>
+            <if test="responseBody != null">#{responseBody},</if>
+            <if test="responseBodySize != null">#{responseBodySize},</if>
+            <if test="time != null">#{time},</if>
+            <if test="accessTime != null">
+                <choose>
+                    <when test="_databaseId == 'sqlite'">
+                        datetime(#{accessTime} / 1000,'unixepoch','localtime'),
+                    </when>
+                    <otherwise>
+                        #{accessTime},
+                    </otherwise>
+                </choose>
+            </if>
+        </trim>
+    </insert>
+
+    <delete id="deleteSysHttpAccessByAccessId" parameterType="Long">
+        delete
+        from sys_http_access
+        where access_id = #{accessId}
+    </delete>
+
+    <delete id="deleteSysHttpAccessByAccessIds" parameterType="String">
+        delete from sys_http_access where access_id in
+        <foreach item="accessId" collection="array" open="(" separator="," close=")">
+            #{accessId}
+        </foreach>
+    </delete>
+
+    <update id="cleanHttpAccess">
+        truncate table sys_http_access
+    </update>
+
+    <update id="cleanHttpAccess" databaseId="sqlite">
+        delete
+        from sys_http_access;
+        update sqlite_sequence
+        SET seq = 0
+        where name = 'sys_http_access';
+    </update>
+
+    <delete id="clearExpired">
+        delete
+        from sys_http_access
+        <where>
+            <choose>
+                <when test="_databaseId == 'sqlite'">
+                    and access_time &lt; datetime(CURRENT_TIMESTAMP,'localtime','-90 day')
+                </when>
+                <otherwise>
+                    and date_format(access_time,'%y%m%d') &lt; date_format(date_sub(sysdate(),INTERVAL 90 DAY),'%y%m%d')
+                </otherwise>
+            </choose>
+        </where>
+    </delete>
+</mapper>

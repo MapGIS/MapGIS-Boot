@@ -21,6 +21,8 @@
         <module>mapgis-common-ldap</module>
         <module>mapgis-common-captcha</module>
         <module>mapgis-common-systemlog</module>
+        <module>mapgis-common-har</module>
+        <module>mapgis-common-accesslog</module>
     </modules>
 
     <artifactId>mapgis-common</artifactId>

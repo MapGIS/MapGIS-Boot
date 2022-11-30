@@ -70,6 +70,12 @@
             <groupId>com.zondy.mapgis</groupId>
             <artifactId>mapgis-common-systemlog</artifactId>
         </dependency>
+
+        <!-- MapGIS Common Har -->
+        <dependency>
+            <groupId>com.zondy.mapgis</groupId>
+            <artifactId>mapgis-common-har</artifactId>
+        </dependency>
     </dependencies>
 
     <profiles>

@@ -65,6 +65,12 @@
             <artifactId>mapgis-common-local-security</artifactId>
         </dependency>
 
+        <!-- MapGIS Common Local AccessLog -->
+        <dependency>
+            <groupId>com.zondy.mapgis</groupId>
+            <artifactId>mapgis-common-local-accesslog</artifactId>
+        </dependency>
+
         <!-- 系统模块 -->
         <dependency>
             <groupId>com.zondy.mapgis</groupId>

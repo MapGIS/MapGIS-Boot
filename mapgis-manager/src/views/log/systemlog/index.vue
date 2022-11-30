@@ -62,9 +62,6 @@
         <a-button type="primary" @click="handleExport" v-hasPermi="['system:systemlog:export']">
           <a-icon type="download" />导出
         </a-button>
-        <a-button type="primary" @click="logConfigShow = true" v-hasPermi="['system:systemlog:config']">
-          <a-icon type="setting" />日志配置
-        </a-button>
         <table-setting
           :style="{ float: 'right' }"
           :table-size.sync="tableSize"
@@ -123,20 +120,16 @@
         </a-row>
       </div>
     </a-card>
-    <a-modal title="日志配置" :visible="logConfigShow" :footer="null" @cancel="logConfigShow = false">
-      <log-config @ok="logConfigShow = false" />
-    </a-modal>
   </page-header-wrapper>
 </template>
 
 <script>
 import { list } from '@/api/system/systemlog'
 import { tableMixin } from '@/store/table-mixin'
-import LogConfig from './modules/LogConfig.vue'
 
 export default {
   name: 'Systemlog',
-  components: { LogConfig },
+  components: {},
   mixins: [tableMixin],
   data() {
     return {
@@ -224,8 +217,7 @@ export default {
           label: 'ERROR',
           value: 'ERROR'
         }
-      ],
-      logConfigShow: false
+      ]
     }
   },
   filters: {},

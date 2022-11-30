@@ -145,8 +145,11 @@ public class SysConfigServiceImpl implements ISysConfigService {
         }
 
         if (config.getConfigKey().equals(ConfigConstants.CONFIG_KEY_LOG)) {
-            // 需要通知日志配置更新（单体版有效）
+            // 需要通知系统日志配置更新（单体版有效）
             sysEventPublisher.publishConfigEvent(SysEventConstants.LOG_SYSTEM_LOG_CONFIG_UPDATE, null);
+
+            // 需要通知HTTP访问日志配置更新（单体版有效）
+            sysEventPublisher.publishConfigEvent(SysEventConstants.LOG_HTTP_ACCESS_LOG_CONFIG_UPDATE, null);
         }
         return row;
     }

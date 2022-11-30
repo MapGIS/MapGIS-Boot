@@ -424,6 +424,34 @@
                 <version>${mapgis.boot.version}</version>
             </dependency>
 
+            <!-- MapGIS Common Har -->
+            <dependency>
+                <groupId>com.zondy.mapgis</groupId>
+                <artifactId>mapgis-common-har</artifactId>
+                <version>${mapgis.boot.version}</version>
+            </dependency>
+
+            <!-- MapGIS Common Base AccessLog -->
+            <dependency>
+                <groupId>com.zondy.mapgis</groupId>
+                <artifactId>mapgis-common-base-accesslog</artifactId>
+                <version>${mapgis.boot.version}</version>
+            </dependency>
+
+            <!-- MapGIS Common Local AccessLog -->
+            <dependency>
+                <groupId>com.zondy.mapgis</groupId>
+                <artifactId>mapgis-common-local-accesslog</artifactId>
+                <version>${mapgis.boot.version}</version>
+            </dependency>
+
+            <!-- MapGIS Common Cloud AccessLog -->
+            <dependency>
+                <groupId>com.zondy.mapgis</groupId>
+                <artifactId>mapgis-common-cloud-accesslog</artifactId>
+                <version>${mapgis.boot.version}</version>
+            </dependency>
+
             <!-- MapGIS System Base Api -->
             <dependency>
                 <groupId>com.zondy.mapgis</groupId>
