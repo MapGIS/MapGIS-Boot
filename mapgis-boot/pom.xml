@@ -60,6 +60,7 @@
         <okttp.version>4.9.1</okttp.version>
         <velocity.version>2.3</velocity.version>
         <grok.version>0.1.9</grok.version>
+        <guava.version>30.0-jre</guava.version>
     </properties>
 
     <!-- 依赖声明 -->
@@ -256,6 +257,12 @@
                 <version>${grok.version}</version>
             </dependency>
 
+            <dependency>
+                <groupId>com.google.guava</groupId>
+                <artifactId>guava</artifactId>
+                <version>${guava.version}</version>
+            </dependency>
+
             <!-- 核心模块 -->
             <dependency>
                 <groupId>com.zondy.mapgis</groupId>
@@ -449,6 +456,34 @@
             <dependency>
                 <groupId>com.zondy.mapgis</groupId>
                 <artifactId>mapgis-common-cloud-accesslog</artifactId>
+                <version>${mapgis.boot.version}</version>
+            </dependency>
+
+            <!-- MapGIS Common Base Meter -->
+            <dependency>
+                <groupId>com.zondy.mapgis</groupId>
+                <artifactId>mapgis-common-base-meter</artifactId>
+                <version>${mapgis.boot.version}</version>
+            </dependency>
+
+            <!-- MapGIS Common Local Meter -->
+            <dependency>
+                <groupId>com.zondy.mapgis</groupId>
+                <artifactId>mapgis-common-local-meter</artifactId>
+                <version>${mapgis.boot.version}</version>
+            </dependency>
+
+            <!-- MapGIS Common Cloud Meter -->
+            <dependency>
+                <groupId>com.zondy.mapgis</groupId>
+                <artifactId>mapgis-common-cloud-meter</artifactId>
+                <version>${mapgis.boot.version}</version>
+            </dependency>
+
+            <!-- MapGIS Common Schedule -->
+            <dependency>
+                <groupId>com.zondy.mapgis</groupId>
+                <artifactId>mapgis-common-schedule</artifactId>
                 <version>${mapgis.boot.version}</version>
             </dependency>
 

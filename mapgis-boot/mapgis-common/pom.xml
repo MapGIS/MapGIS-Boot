@@ -23,6 +23,8 @@
         <module>mapgis-common-systemlog</module>
         <module>mapgis-common-har</module>
         <module>mapgis-common-accesslog</module>
+        <module>mapgis-common-meter</module>
+        <module>mapgis-common-schedule</module>
     </modules>
 
     <artifactId>mapgis-common</artifactId>

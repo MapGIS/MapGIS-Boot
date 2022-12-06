@@ -11,7 +11,7 @@
  Target Server Version : 50736
  File Encoding         : 65001
 
- Date: 30/11/2022 15:33:16
+ Date: 06/12/2022 15:54:13
 */
 
 SET NAMES utf8mb4;
@@ -585,6 +585,9 @@ VALUES (122, '服务访问日志', 2, 4, 'assesslog', 'log/assesslog/index', NUL
 INSERT INTO `sys_menu`
 VALUES (123, '日志配置', 2, 5, 'config', 'log/config/index', NULL, 1, 0, 'C', '0', '0', 'system:config:query', 'file-done',
         'admin', '2022-11-30 11:45:39', '', NULL, '日志配置菜单');
+INSERT INTO `sys_menu`
+VALUES (124, '服务器性能监控', 1, 3, 'performance', 'monitor/performance/index', NULL, 1, 1, 'C', '0', '0',
+        'system:serverPerformance:list', 'fund', 'admin', '2022-12-06 10:54:54', '', NULL, '服务器性能监控菜单');
 INSERT INTO `sys_menu`
 VALUES (1000, '在线查询', 100, 1, '', '', '', 1, 0, 'F', '0', '0', 'monitor:online:query', '#', 'admin',
         '2022-03-23 22:12:32', '', NULL, '');
