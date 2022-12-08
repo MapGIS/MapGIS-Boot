@@ -28,10 +28,10 @@
             <artifactId>guava</artifactId>
         </dependency>
 
-        <!-- 核心模块 -->
+        <!-- MapGIS System Base Api -->
         <dependency>
             <groupId>com.zondy.mapgis</groupId>
-            <artifactId>mapgis-common-core</artifactId>
+            <artifactId>mapgis-module-system-base-api</artifactId>
         </dependency>
     </dependencies>
 </project>

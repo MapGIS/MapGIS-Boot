@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import com.zondy.mapgis.common.core.config.properties.ApiPathProperties;
 import com.zondy.mapgis.common.core.utils.StringUtils;
 import com.zondy.mapgis.common.meter.constants.MetricConstants;
+import com.zondy.mapgis.system.api.domain.SysServerPerformanceData;
 import io.micrometer.core.instrument.Counter;
 import io.micrometer.core.instrument.MeterRegistry;
 import io.micrometer.core.instrument.Tag;
@@ -184,26 +185,33 @@ public class MetricContext {
         return getOrCreateRequestConcurrencyGauge("serviceName_" + serviceName);
     }
 
-    public void record(long startTime, String uri, String remoteAddr, String queryString, String method, String ip, int status) {
-        if (excludeUrls.stream().anyMatch(t -> antPathMatcher.match(t, uri))) {
+    public void record(SysServerPerformanceData serverPerformanceData) {
+        String url = serverPerformanceData.getUrl();
+        String queryString = serverPerformanceData.getQueryString();
+        String remoteAddr = serverPerformanceData.getRemoteAddr();
+        String ipaddr = serverPerformanceData.getIpaddr();
+        String method = serverPerformanceData.getMethod();
+        Long status = serverPerformanceData.getResponseStatus();
+        Long time = serverPerformanceData.getTime();
+
+        if (excludeUrls.stream().anyMatch(t -> antPathMatcher.match(t, url))) {
             return;
         }
 
         try {
-            long elapseMillis = System.currentTimeMillis() - startTime;
             String serviceName = "";
             // 这里需要处理一下，在测试影像时，getTile，发现uri的情况太多导致内存占满，一直GC，这里最长取5段
             // serviceName = uri;
-            if (StringUtils.hasText(uri)) {
-                serviceName = Arrays.stream(uri.split("/")).limit(6).collect(Collectors.joining("/"));
+            if (StringUtils.hasText(url)) {
+                serviceName = Arrays.stream(url.split("/")).limit(6).collect(Collectors.joining("/"));
             }
             // 慢请求监控，时间超过3s，记录请求信息到log，用于跟踪性能问题
-            if (elapseMillis > 3000) {
-                String fullUri = uri + (queryString != null ? ("?" + queryString) : "");
-                log.warn("慢请求,URL:{},Method:{},Remote:{},耗时:{}ms", fullUri, method, ip, elapseMillis);
+            if (time > 3000) {
+                String fullUri = url + (queryString != null ? ("?" + queryString) : "");
+                log.warn("慢请求,URL:{},Method:{},Remote:{},耗时:{}ms", fullUri, method, ipaddr, time);
             }
             // 所有请求，统计平均响应时间
-            allServiceTimer.record(elapseMillis, TimeUnit.MILLISECONDS);
+            allServiceTimer.record(time, TimeUnit.MILLISECONDS);
             // 总请求数
             allServiceCount.increment();
             // 统计某日的请求总数
@@ -227,12 +235,12 @@ public class MetricContext {
                 // 指定IP的访问
                 if (StringUtils.hasText(remoteAddr)) {
                     meterRegistry.timer(MetricConstants.METRIC_SERVER_RESPONSE_TIME,
-                            Lists.newArrayList(Tag.of(MetricConstants.METRIC_REMOTE_ADDR_TAG, remoteAddr))).record(elapseMillis, TimeUnit.MILLISECONDS);
+                            Lists.newArrayList(Tag.of(MetricConstants.METRIC_REMOTE_ADDR_TAG, remoteAddr))).record(time, TimeUnit.MILLISECONDS);
                 }
                 // 指定服务的访问
                 if (StringUtils.hasText(serviceName)) {
                     meterRegistry.timer(MetricConstants.METRIC_SERVER_RESPONSE_TIME,
-                            Lists.newArrayList(Tag.of(MetricConstants.METRIC_SERVICE_TAG, serviceName))).record(elapseMillis, TimeUnit.MILLISECONDS);
+                            Lists.newArrayList(Tag.of(MetricConstants.METRIC_SERVICE_TAG, serviceName))).record(time, TimeUnit.MILLISECONDS);
                 }
             } else {
                 // 指定IP的访问，失败次数

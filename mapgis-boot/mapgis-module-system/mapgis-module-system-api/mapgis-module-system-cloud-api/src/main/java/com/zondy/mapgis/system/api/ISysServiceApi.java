@@ -127,4 +127,14 @@ public interface ISysServiceApi {
      */
     @GetMapping("/system/api/authConfig")
     public R<SysAuthConfig> selectAuthConfigByType(@RequestParam("type") String type, @RequestHeader(SecurityConstants.FROM_SOURCE) String source);
+
+    /**
+     * 保存服务性能数据
+     *
+     * @param sysServerPerformanceData 服务性能数据
+     * @param source                   请求来源
+     * @return 结果
+     */
+    @PostMapping("/system/api/monitor/serverPerformance")
+    public R<Boolean> savePerformanceMonitorRecord(@RequestBody SysServerPerformanceData sysServerPerformanceData, @RequestHeader(SecurityConstants.FROM_SOURCE) String source);
 }

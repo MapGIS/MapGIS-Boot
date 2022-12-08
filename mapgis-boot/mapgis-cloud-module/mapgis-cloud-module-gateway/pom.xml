@@ -108,6 +108,12 @@
             <artifactId>mapgis-common-cloud-cache</artifactId>
         </dependency>
 
+        <!-- MapGIS Common Cloud Meter -->
+        <dependency>
+            <groupId>com.zondy.mapgis</groupId>
+            <artifactId>mapgis-common-cloud-meter</artifactId>
+        </dependency>
+
         <!-- MapGIS System Cloud Api -->
         <dependency>
             <groupId>com.zondy.mapgis</groupId>

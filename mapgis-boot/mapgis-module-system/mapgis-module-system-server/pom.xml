@@ -64,6 +64,12 @@
             <groupId>com.zondy.mapgis</groupId>
             <artifactId>mapgis-common-swagger</artifactId>
         </dependency>
+
+        <!-- MapGIS Common Schedule -->
+        <dependency>
+            <groupId>com.zondy.mapgis</groupId>
+            <artifactId>mapgis-common-schedule</artifactId>
+        </dependency>
     </dependencies>
 
     <build>

@@ -11,7 +11,7 @@
  Target Server Version : 50736
  File Encoding         : 65001
 
- Date: 16/11/2022 22:59:00
+ Date: 08/12/2022 11:48:06
 */
 
 SET NAMES utf8mb4;
@@ -622,16 +622,10 @@ INSERT INTO `sys_menu`
 VALUES (120, 'LDAP登录配置', 3, 9, 'ldap', 'security/ldapConfig/index', NULL, 1, 0, 'C', '0', '0', 'system:config:query',
         'ldap', 'admin', '2022-11-03 14:55:44', '', NULL, 'LDAP登录配置菜单');
 INSERT INTO `sys_menu`
-VALUES (200, 'Sentinel控制台', 1, 2, 'http://localhost:8718', '', '', 0, 0, 'C', '0', '0', 'monitor:sentinel:list',
-        'sentinel', 'admin', '2022-03-31 15:00:49', '', NULL, '流量控制菜单');
+VALUES (124, '服务器性能监控', 1, 3, 'performance', 'monitor/performance/index', NULL, 1, 1, 'C', '0', '0',
+        'system:serverPerformance:list', 'fund', 'admin', '2022-12-06 10:54:54', '', NULL, '服务器性能监控菜单');
 INSERT INTO `sys_menu`
-VALUES (201, 'Nacos控制台', 1, 3, 'http://localhost:8848/nacos', '', '', 0, 0, 'C', '0', '0', 'monitor:nacos:list',
-        'nacos', 'admin', '2022-03-31 15:00:49', '', NULL, '服务治理菜单');
-INSERT INTO `sys_menu`
-VALUES (202, 'Admin控制台', 1, 4, 'http://localhost:9200/login', '', '', 0, 0, 'C', '0', '0', 'monitor:server:list',
-        'server', 'admin', '2022-03-31 15:00:49', '', NULL, '服务监控菜单');
-INSERT INTO `sys_menu`
-VALUES (203, '微服务路由配置', 6, 5, 'route', 'system/route/index', '', 1, 0, 'C', '0', '0', 'system:route:list', 'route',
+VALUES (500, '微服务路由配置', 6, 5, 'route', 'system/route/index', '', 1, 0, 'C', '0', '0', 'system:route:list', 'route',
         'admin', '2022-09-21 22:08:36', '', NULL, '微服务路由配置菜单');
 INSERT INTO `sys_menu`
 VALUES (1000, '在线查询', 100, 1, '', '', '', 1, 0, 'F', '0', '0', 'monitor:online:query', '#', 'admin',
@@ -850,19 +844,19 @@ INSERT INTO `sys_menu`
 VALUES (1071, '配置修改', 120, 1, '', '', '', 1, 0, 'F', '0', '0', 'system:config:edit', '#', 'admin',
         '2022-11-03 14:56:11', '', NULL, '');
 INSERT INTO `sys_menu`
-VALUES (1500, '网关路由查询', 203, 1, '', '', '', 1, 0, 'F', '0', '0', 'system:route:query', '#', 'admin',
+VALUES (1500, '网关路由查询', 500, 1, '', '', '', 1, 0, 'F', '0', '0', 'system:route:query', '#', 'admin',
         '2022-09-21 22:08:36', '', NULL, '');
 INSERT INTO `sys_menu`
-VALUES (1501, '网关路由新增', 203, 2, '', '', '', 1, 0, 'F', '0', '0', 'system:route:add', '#', 'admin',
+VALUES (1501, '网关路由新增', 500, 2, '', '', '', 1, 0, 'F', '0', '0', 'system:route:add', '#', 'admin',
         '2022-09-21 22:08:36', '', NULL, '');
 INSERT INTO `sys_menu`
-VALUES (1502, '网关路由修改', 203, 3, '', '', '', 1, 0, 'F', '0', '0', 'system:route:edit', '#', 'admin',
+VALUES (1502, '网关路由修改', 500, 3, '', '', '', 1, 0, 'F', '0', '0', 'system:route:edit', '#', 'admin',
         '2022-09-21 22:08:36', '', NULL, '');
 INSERT INTO `sys_menu`
-VALUES (1503, '网关路由删除', 203, 4, '', '', '', 1, 0, 'F', '0', '0', 'system:route:remove', '#', 'admin',
+VALUES (1503, '网关路由删除', 500, 4, '', '', '', 1, 0, 'F', '0', '0', 'system:route:remove', '#', 'admin',
         '2022-09-21 22:08:36', '', NULL, '');
 INSERT INTO `sys_menu`
-VALUES (1504, '网关路由导出', 203, 5, '', '', '', 1, 0, 'F', '0', '0', 'system:route:export', '#', 'admin',
+VALUES (1504, '网关路由导出', 500, 5, '', '', '', 1, 0, 'F', '0', '0', 'system:route:export', '#', 'admin',
         '2022-09-21 22:08:36', '', NULL, '');
 
 -- ----------------------------

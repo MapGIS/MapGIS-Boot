@@ -2,6 +2,7 @@ package com.zondy.mapgis.common.meter.filter;
 
 import com.zondy.mapgis.common.core.utils.ip.IpUtils;
 import com.zondy.mapgis.common.meter.context.MetricContext;
+import com.zondy.mapgis.system.api.domain.SysServerPerformanceData;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
@@ -25,16 +26,21 @@ public class PerformanceMeterFilter implements Filter {
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         HttpServletRequest httpServletRequest = (HttpServletRequest) servletRequest;
         HttpServletResponse httpServletResponse = (HttpServletResponse) servletResponse;
+        SysServerPerformanceData serverPerformanceData = new SysServerPerformanceData();
+
         long start = System.currentTimeMillis();
 
         filterChain.doFilter(servletRequest, servletResponse);
 
         // 性能监控记录
-        metricContext.record(start, httpServletRequest.getRequestURI(),
-                httpServletRequest.getRemoteAddr(),
-                httpServletRequest.getQueryString(),
-                httpServletRequest.getMethod(),
-                IpUtils.getIpAddr(httpServletRequest),
-                httpServletResponse.getStatus());
+        serverPerformanceData.setAccessTimeMillis(start);
+        serverPerformanceData.setTime(System.currentTimeMillis() - start);
+        serverPerformanceData.setUrl(httpServletRequest.getRequestURI());
+        serverPerformanceData.setIpaddr(IpUtils.getIpAddr(httpServletRequest));
+        serverPerformanceData.setRemoteAddr(httpServletRequest.getRemoteAddr());
+        serverPerformanceData.setMethod(httpServletRequest.getMethod());
+        serverPerformanceData.setQueryString(httpServletRequest.getQueryString());
+        serverPerformanceData.setResponseStatus((long) httpServletResponse.getStatus());
+        metricContext.record(serverPerformanceData);
     }
 }

@@ -110,4 +110,13 @@ public interface ISysServiceApi {
      * @return 结果
      */
     public R<SysAuthConfig> selectAuthConfigByType(String type, String source);
+
+    /**
+     * 保存服务性能数据
+     *
+     * @param sysServerPerformanceData 服务性能数据
+     * @param source                   请求来源
+     * @return 结果
+     */
+    public R<Boolean> savePerformanceMonitorRecord(SysServerPerformanceData sysServerPerformanceData, String source);
 }

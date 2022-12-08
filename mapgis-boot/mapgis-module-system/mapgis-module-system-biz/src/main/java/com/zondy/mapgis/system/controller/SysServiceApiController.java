@@ -124,4 +124,15 @@ public class SysServiceApiController extends BaseController {
     public R<SysAuthConfig> selectAuthConfigByType(@RequestParam("type") String type) {
         return sysServiceApi.selectAuthConfigByType(type, "");
     }
+
+    /**
+     * 保存服务性能数据
+     *
+     * @param sysServerPerformanceData 服务性能数据
+     * @return 结果
+     */
+    @PostMapping("/monitor/serverPerformance")
+    public R<Boolean> savePerformanceMonitorRecord(@RequestBody SysServerPerformanceData sysServerPerformanceData) {
+        return sysServiceApi.savePerformanceMonitorRecord(sysServerPerformanceData, "");
+    }
 }

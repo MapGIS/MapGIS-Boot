@@ -79,6 +79,11 @@ public class RemoteSysServiceApiFallbackFactory implements FallbackFactory<ISysS
             public R<SysAuthConfig> selectAuthConfigByType(String type, String source) {
                 return R.fail("获取第三方登录配置失败:" + throwable.getMessage());
             }
+
+            @Override
+            public R<Boolean> savePerformanceMonitorRecord(SysServerPerformanceData sysServerPerformanceData, String source) {
+                return R.fail("保存服务性能数据失败:" + throwable.getMessage());
+            }
         };
     }
 }

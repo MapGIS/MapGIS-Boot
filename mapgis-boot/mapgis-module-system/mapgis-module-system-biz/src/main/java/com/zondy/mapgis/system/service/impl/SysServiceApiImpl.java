@@ -3,6 +3,7 @@ package com.zondy.mapgis.system.service.impl;
 import com.zondy.mapgis.common.core.constant.UserConstants;
 import com.zondy.mapgis.common.core.domain.R;
 import com.zondy.mapgis.common.core.utils.StringUtils;
+import com.zondy.mapgis.common.meter.context.MetricContext;
 import com.zondy.mapgis.system.api.ISysServiceApi;
 import com.zondy.mapgis.system.api.domain.*;
 import com.zondy.mapgis.system.api.model.LoginUser;
@@ -46,6 +47,9 @@ public class SysServiceApiImpl implements ISysServiceApi {
 
     @Autowired
     private ISysAuthConfigService authConfigService;
+
+    @Autowired
+    private MetricContext metricContext;
 
     @Override
     public R<LoginUser> getUserInfo(String username, String source) {
@@ -149,5 +153,12 @@ public class SysServiceApiImpl implements ISysServiceApi {
         final SysAuthConfig sysAuthConfig = authConfigService.selectAuthConfigByType(type);
 
         return R.ok(sysAuthConfig);
+    }
+
+    @Override
+    public R<Boolean> savePerformanceMonitorRecord(SysServerPerformanceData sysServerPerformanceData, String source) {
+        metricContext.record(sysServerPerformanceData);
+
+        return R.ok();
     }
 }
