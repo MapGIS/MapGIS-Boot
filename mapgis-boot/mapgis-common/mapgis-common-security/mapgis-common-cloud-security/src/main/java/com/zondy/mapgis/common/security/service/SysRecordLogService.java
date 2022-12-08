@@ -9,6 +9,7 @@ import com.zondy.mapgis.system.api.ISysServiceApi;
 import com.zondy.mapgis.system.api.domain.SysLogininfor;
 import eu.bitwalker.useragentutils.UserAgent;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
 /**
@@ -19,6 +20,7 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class SysRecordLogService implements ISysRecordLogService {
+    @Lazy
     @Autowired
     private ISysServiceApi sysServiceApi;
 

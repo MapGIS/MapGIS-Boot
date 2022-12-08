@@ -10,6 +10,7 @@ import com.zondy.mapgis.system.api.ISysServiceApi;
 import com.zondy.mapgis.system.api.domain.*;
 import com.zondy.mapgis.system.api.model.LoginUser;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -22,6 +23,7 @@ import java.util.List;
  */
 @Component
 public class SysServiceProxy {
+    @Lazy
     @Autowired
     private ISysServiceApi sysServiceApi;
 

@@ -1,5 +1,6 @@
 package com.zondy.mapgis.gateway;
 
+import com.zondy.mapgis.common.accesslog.listener.UpdateHttpAccessLogConfigListener;
 import com.zondy.mapgis.gateway.config.SwaggerProvider;
 import com.zondy.mapgis.gateway.service.SysGatewayRouteService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,9 @@ public class MapGatewayApplication implements CommandLineRunner {
     @Autowired
     private SwaggerProvider swaggerProvider;
 
+    @Autowired
+    private UpdateHttpAccessLogConfigListener updateHttpAccessLogConfigListener;
+
     public static void main(String[] args) {
         SpringApplication.run(MapGatewayApplication.class, args);
     }
@@ -32,5 +36,6 @@ public class MapGatewayApplication implements CommandLineRunner {
     public void run(String... args) {
         sysGatewayRouteService.refresh(null);
         swaggerProvider.refreshApis();
+        updateHttpAccessLogConfigListener.onMessage(null);
     }
 }

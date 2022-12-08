@@ -4,6 +4,7 @@ import com.zondy.mapgis.common.core.constant.SecurityConstants;
 import com.zondy.mapgis.system.api.ISysServiceApi;
 import com.zondy.mapgis.system.api.domain.SysOperLog;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class AsyncLogService {
+    @Lazy
     @Autowired
     private ISysServiceApi sysServiceApi;
 

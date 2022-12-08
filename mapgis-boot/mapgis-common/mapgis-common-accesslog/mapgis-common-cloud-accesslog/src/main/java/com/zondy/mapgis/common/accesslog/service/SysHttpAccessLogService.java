@@ -4,6 +4,7 @@ import com.zondy.mapgis.common.core.constant.SecurityConstants;
 import com.zondy.mapgis.system.api.ISysServiceApi;
 import com.zondy.mapgis.system.api.domain.SysHttpAccess;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 /**
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class SysHttpAccessLogService implements ISysHttpAccessLogService {
+    @Lazy
     @Autowired
     private ISysServiceApi sysServiceApi;
 

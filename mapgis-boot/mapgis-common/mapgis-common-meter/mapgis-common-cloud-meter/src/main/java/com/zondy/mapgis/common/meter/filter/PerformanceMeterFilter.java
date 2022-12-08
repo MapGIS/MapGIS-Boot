@@ -9,6 +9,7 @@ import org.reactivestreams.Publisher;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.core.Ordered;
 import org.springframework.core.io.buffer.DataBuffer;
 import org.springframework.http.server.reactive.ServerHttpRequest;
@@ -31,6 +32,7 @@ import java.util.stream.Collectors;
  */
 @Component
 public class PerformanceMeterFilter implements GlobalFilter, Ordered {
+    @Lazy
     @Autowired
     private ISysServiceApi sysServiceApi;
 
