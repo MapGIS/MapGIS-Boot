@@ -119,4 +119,13 @@ public interface ISysServiceApi {
      * @return 结果
      */
     public R<Boolean> savePerformanceMonitorRecord(SysServerPerformanceData sysServerPerformanceData, String source);
+
+    /**
+     * 保存HTTP访问记录
+     *
+     * @param httpAccess 访问实体
+     * @param source     请求来源
+     * @return 结果
+     */
+    public R<Boolean> saveAccessLog(SysHttpAccess httpAccess, String source);
 }

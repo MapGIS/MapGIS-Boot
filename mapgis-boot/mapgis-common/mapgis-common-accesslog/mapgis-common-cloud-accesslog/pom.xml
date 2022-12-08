@@ -17,10 +17,40 @@
     </properties>
 
     <dependencies>
+        <!-- SpringCloud Gateway -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-gateway</artifactId>
+        </dependency>
+
+        <!-- Java Servlet -->
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+        </dependency>
+
         <!-- MapGIS Common Base AccessLog -->
         <dependency>
             <groupId>com.zondy.mapgis</groupId>
             <artifactId>mapgis-common-base-accesslog</artifactId>
+        </dependency>
+
+        <!-- MapGIS Common Cloud Cache -->
+        <dependency>
+            <groupId>com.zondy.mapgis</groupId>
+            <artifactId>mapgis-common-cloud-cache</artifactId>
+        </dependency>
+
+        <!-- MapGIS System Cloud Api -->
+        <dependency>
+            <groupId>com.zondy.mapgis</groupId>
+            <artifactId>mapgis-module-system-cloud-api</artifactId>
+        </dependency>
+
+        <!-- MapGIS System Cross Api -->
+        <dependency>
+            <groupId>com.zondy.mapgis</groupId>
+            <artifactId>mapgis-module-system-cross-api</artifactId>
         </dependency>
     </dependencies>
 </project>

@@ -37,3 +37,11 @@ spring:
             dataId: sentinel-${mapgis.product.full-name}-gateway-server
             data-type: json
             rule-type: flow
+
+feign:
+  compression:
+    request:
+      enabled: true
+      min-request-size: 8192
+    response:
+      enabled: true

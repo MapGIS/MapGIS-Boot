@@ -135,4 +135,15 @@ public class SysServiceApiController extends BaseController {
     public R<Boolean> savePerformanceMonitorRecord(@RequestBody SysServerPerformanceData sysServerPerformanceData) {
         return sysServiceApi.savePerformanceMonitorRecord(sysServerPerformanceData, "");
     }
+
+    /**
+     * 保存HTTP访问记录
+     *
+     * @param httpAccess 访问实体
+     * @return 结果
+     */
+    @PostMapping("/assesslog")
+    public R<Boolean> saveAccessLog(@RequestBody SysHttpAccess httpAccess) {
+        return sysServiceApi.saveAccessLog(httpAccess, "");
+    }
 }

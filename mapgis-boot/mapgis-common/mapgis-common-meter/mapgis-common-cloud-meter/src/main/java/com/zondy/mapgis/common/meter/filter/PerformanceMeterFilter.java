@@ -67,7 +67,7 @@ public class PerformanceMeterFilter implements GlobalFilter, Ordered {
 
     @Override
     public int getOrder() {
-        return -300;
+        return -301;
     }
 
     private String getQueryString(ServerHttpRequest request) {

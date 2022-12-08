@@ -150,6 +150,12 @@ public class SysConfigServiceImpl implements ISysConfigService {
 
             // 需要通知HTTP访问日志配置更新（单体版有效）
             sysEventPublisher.publishConfigEvent(SysEventConstants.LOG_HTTP_ACCESS_LOG_CONFIG_UPDATE, null);
+
+            // 下面借助Redis的事假机制通知CAS配置更新（微服务版有效）
+            HashMap<String, Object> message = new HashMap<>();
+
+            message.put(Constants.REDIS_LISTENER_NAME, Constants.UPDATE_HTTP_ACCESS_LOG_CONFIG_LISTENER);
+            cacheService.convertAndSend(Constants.REDIS_TOPIC_NAME, message);
         }
         return row;
     }

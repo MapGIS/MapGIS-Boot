@@ -11,7 +11,7 @@
  Target Server Version : 50736
  File Encoding         : 65001
 
- Date: 08/12/2022 11:48:06
+ Date: 08/12/2022 18:40:02
 */
 
 SET NAMES utf8mb4;
@@ -205,7 +205,8 @@ VALUES (8, '安全配置-LDAP登录配置', 'security.ldap',
         '{\"enabled\":false,\"url\":\"\",\"base\":\"\",\"userDn\":\"\",\"password\":\"\",\"defaultRoleIds\":[2],\"roleMapping\":[]}',
         'Y', 'admin', '2022-03-23 22:12:32', '', NULL, 'LDAP登录配置');
 INSERT INTO `sys_config`
-VALUES (9, '日志配置', 'log', '{\"systemLoglevel\":\"INFO\"}', 'Y', 'admin', '2022-03-23 22:12:32', '', NULL, '日志配置');
+VALUES (9, '日志配置', 'log', '{\"systemLoglevel\":\"INFO\",\"httpAccessEnabled\":false,\"httpAccessMonitorUrls\":[]}', 'Y',
+        'admin', '2022-03-23 22:12:32', '', NULL, '日志配置');
 
 -- ----------------------------
 -- Table structure for sys_dept
@@ -622,6 +623,12 @@ INSERT INTO `sys_menu`
 VALUES (120, 'LDAP登录配置', 3, 9, 'ldap', 'security/ldapConfig/index', NULL, 1, 0, 'C', '0', '0', 'system:config:query',
         'ldap', 'admin', '2022-11-03 14:55:44', '', NULL, 'LDAP登录配置菜单');
 INSERT INTO `sys_menu`
+VALUES (122, '服务访问日志', 2, 4, 'assesslog', 'log/assesslog/index', NULL, 1, 1, 'C', '0', '0', 'system:assesslog:list',
+        'file-text', 'admin', '2022-11-28 17:23:54', '', NULL, '服务访问日志菜单');
+INSERT INTO `sys_menu`
+VALUES (123, '日志配置', 2, 5, 'config', 'log/config/index', NULL, 1, 0, 'C', '0', '0', 'system:config:query', 'file-done',
+        'admin', '2022-11-30 11:45:39', '', NULL, '日志配置菜单');
+INSERT INTO `sys_menu`
 VALUES (124, '服务器性能监控', 1, 3, 'performance', 'monitor/performance/index', NULL, 1, 1, 'C', '0', '0',
         'system:serverPerformance:list', 'fund', 'admin', '2022-12-06 10:54:54', '', NULL, '服务器性能监控菜单');
 INSERT INTO `sys_menu`
@@ -843,6 +850,12 @@ VALUES (1070, '配置修改', 118, 1, '', '', '', 1, 0, 'F', '0', '0', 'system:c
 INSERT INTO `sys_menu`
 VALUES (1071, '配置修改', 120, 1, '', '', '', 1, 0, 'F', '0', '0', 'system:config:edit', '#', 'admin',
         '2022-11-03 14:56:11', '', NULL, '');
+INSERT INTO `sys_menu`
+VALUES (1073, '日志导出', 122, 1, '', '', '', 1, 0, 'F', '0', '0', 'system:assesslog:export', '#', 'admin',
+        '2022-11-28 17:23:54', '', NULL, '');
+INSERT INTO `sys_menu`
+VALUES (1074, '配置修改', 123, 1, '', '', '', 1, 0, 'F', '0', '0', 'system:config.edit', '#', 'admin',
+        '2022-11-30 15:10:47', '', NULL, '');
 INSERT INTO `sys_menu`
 VALUES (1500, '网关路由查询', 500, 1, '', '', '', 1, 0, 'F', '0', '0', 'system:route:query', '#', 'admin',
         '2022-09-21 22:08:36', '', NULL, '');

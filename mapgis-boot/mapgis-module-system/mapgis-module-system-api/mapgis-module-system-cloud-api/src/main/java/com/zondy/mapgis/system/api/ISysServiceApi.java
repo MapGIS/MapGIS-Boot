@@ -137,4 +137,14 @@ public interface ISysServiceApi {
      */
     @PostMapping("/system/api/monitor/serverPerformance")
     public R<Boolean> savePerformanceMonitorRecord(@RequestBody SysServerPerformanceData sysServerPerformanceData, @RequestHeader(SecurityConstants.FROM_SOURCE) String source);
+
+    /**
+     * 保存HTTP访问记录
+     *
+     * @param httpAccess 访问实体
+     * @param source     请求来源
+     * @return 结果
+     */
+    @PostMapping("/system/api/assesslog")
+    public R<Boolean> saveAccessLog(@RequestBody SysHttpAccess httpAccess, @RequestHeader(SecurityConstants.FROM_SOURCE) String source);
 }

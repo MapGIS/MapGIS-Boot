@@ -31,7 +31,9 @@ import java.nio.charset.StandardCharsets;
 @Component
 @ConditionalOnProperty(value = "security.xss.enabled", havingValue = "true")
 public class XssFilter implements GlobalFilter, Ordered {
-    // 跨站脚本的 xss 配置，nacos自行添加
+    /**
+     * 跨站脚本的 xss 配置，nacos自行添加
+     */
     @Autowired
     private XssProperties xss;
 

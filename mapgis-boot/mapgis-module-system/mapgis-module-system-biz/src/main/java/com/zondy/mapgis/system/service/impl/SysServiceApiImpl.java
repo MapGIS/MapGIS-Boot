@@ -7,10 +7,7 @@ import com.zondy.mapgis.common.meter.context.MetricContext;
 import com.zondy.mapgis.system.api.ISysServiceApi;
 import com.zondy.mapgis.system.api.domain.*;
 import com.zondy.mapgis.system.api.model.LoginUser;
-import com.zondy.mapgis.system.api.service.ISysLogininforService;
-import com.zondy.mapgis.system.api.service.ISysOperLogService;
-import com.zondy.mapgis.system.api.service.ISysPermissionService;
-import com.zondy.mapgis.system.api.service.ISysUserService;
+import com.zondy.mapgis.system.api.service.*;
 import com.zondy.mapgis.system.service.ISysAuthConfigService;
 import com.zondy.mapgis.system.service.ISysAuthUserService;
 import com.zondy.mapgis.system.service.ISysConfigService;
@@ -50,6 +47,9 @@ public class SysServiceApiImpl implements ISysServiceApi {
 
     @Autowired
     private MetricContext metricContext;
+
+    @Autowired
+    private ISysHttpAccessService httpAccessService;
 
     @Override
     public R<LoginUser> getUserInfo(String username, String source) {
@@ -160,5 +160,14 @@ public class SysServiceApiImpl implements ISysServiceApi {
         metricContext.record(sysServerPerformanceData);
 
         return R.ok();
+    }
+
+    @Override
+    public R<Boolean> saveAccessLog(SysHttpAccess httpAccess, String source) {
+        if (httpAccessService.insertSysHttpAccess(httpAccess) > 0) {
+            return R.ok(true);
+        } else {
+            return R.fail("添加HTTP访问日志失败");
+        }
     }
 }

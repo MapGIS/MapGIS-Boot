@@ -84,6 +84,11 @@ public class RemoteSysServiceApiFallbackFactory implements FallbackFactory<ISysS
             public R<Boolean> savePerformanceMonitorRecord(SysServerPerformanceData sysServerPerformanceData, String source) {
                 return R.fail("保存服务性能数据失败:" + throwable.getMessage());
             }
+
+            @Override
+            public R<Boolean> saveAccessLog(SysHttpAccess httpAccess, String source) {
+                return R.fail("保存HTTP访问日志失败:" + throwable.getMessage());
+            }
         };
     }
 }

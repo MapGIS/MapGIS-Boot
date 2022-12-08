@@ -103,4 +103,9 @@ public class Constants {
      * 更新CAS配置的监听器名称
      */
     public static final String UPDATE_CAS_CONFIG_LISTENER = "updateCasConfigListener";
+
+    /**
+     * 更新HTTP访问日志配置的监听器名称
+     */
+    public static final String UPDATE_HTTP_ACCESS_LOG_CONFIG_LISTENER = "updateHttpAccessLogConfigListener";
 }
