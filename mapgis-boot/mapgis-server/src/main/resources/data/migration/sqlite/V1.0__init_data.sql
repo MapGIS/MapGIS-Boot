@@ -487,8 +487,8 @@ INSERT INTO "sys_menu"
 VALUES (114, '微应用路由配置', 6, 4, 'microApp', 'system/microApp/index', '', 1, 0, 'C', 0, 0, 'system:microApp:list',
         'deployment-unit', 'admin', '2022-09-26 13:54:31', '', NULL, '微应用路由配置菜单');
 INSERT INTO "sys_menu"
-VALUES (115, '安全配置', 3, 1, 'config', 'security/config/index', '', 1, 0, 'C', 0, 0, 'system:config:query', 'validCode',
-        'admin', '2022-10-14 17:51:53', '', NULL, '安全配置菜单');
+VALUES (115, '安全配置', 3, 1, 'securityConfig', 'security/config/index', '', 1, 0, 'C', 0, 0, 'system:config:query',
+        'validCode', 'admin', '2022-10-14 17:51:53', '', NULL, '安全配置菜单');
 INSERT INTO "sys_menu"
 VALUES (116, '基本配置', 7, 1, 'base', 'config/base/index', '', 1, 0, 'C', 0, 0, 'system:config:query', 'profile', 'admin',
         '2022-10-15 15:45:11', '', NULL, '基本配置菜单');
@@ -511,7 +511,7 @@ INSERT INTO "sys_menu"
 VALUES (122, '服务访问日志', 2, 4, 'assesslog', 'log/assesslog/index', NULL, 1, 1, 'C', 0, 0, 'system:assesslog:list',
         'file-text', 'admin', '2022-11-28 17:23:54', '', NULL, '服务访问日志菜单');
 INSERT INTO "sys_menu"
-VALUES (123, '日志配置', 2, 5, 'config', 'log/config/index', NULL, 1, 0, 'C', 0, 0, 'system:config:query', 'file-done',
+VALUES (123, '日志配置', 2, 5, 'logConfig', 'log/config/index', NULL, 1, 0, 'C', 0, 0, 'system:config:query', 'file-done',
         'admin', '2022-11-30 11:45:39', '', NULL, '日志配置菜单');
 INSERT INTO "sys_menu"
 VALUES (124, '服务器性能监控', 1, 3, 'performance', 'monitor/performance/index', NULL, 1, 1, 'C', 0, 0,
