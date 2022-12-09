@@ -111,7 +111,7 @@ public class SysHttpAccess extends BaseEntity {
      * 开始时间
      */
     @Schema(description = "开始时间")
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     @Excel(name = "开始时间", width = 30, dateFormat = "yyyy-MM-dd HH:mm:ss")
     private Date accessTime;
 
