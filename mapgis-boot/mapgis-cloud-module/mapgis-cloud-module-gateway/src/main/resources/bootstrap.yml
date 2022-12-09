@@ -41,7 +41,4 @@ spring:
 feign:
   compression:
     request:
-      enabled: true
       min-request-size: 8192
-    response:
-      enabled: true
