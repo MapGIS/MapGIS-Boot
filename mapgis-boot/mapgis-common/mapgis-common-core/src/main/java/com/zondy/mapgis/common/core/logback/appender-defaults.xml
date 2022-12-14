@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <included>
     <!-- 控制台输出 -->
-    <appender name="CONSOLE" class="com.zondy.mapgis.common.systemlog.logback.CustomConsoleAppender">
+    <appender name="CONSOLE" class="com.zondy.mapgis.common.core.logback.CustomConsoleAppender">
         <encoder>
             <pattern>${CONSOLE_LOG_PATTERN}</pattern>
             <charset>${CONSOLE_CHARSET:-UTF-8}</charset>

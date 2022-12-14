@@ -1,4 +1,4 @@
-package com.zondy.mapgis.common.systemlog.logback;
+package com.zondy.mapgis.common.core.logback;
 
 import ch.qos.logback.core.ConsoleAppender;
 import com.zondy.mapgis.common.core.utils.EnvironmentUtil;

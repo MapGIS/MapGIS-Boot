@@ -59,6 +59,12 @@
             <groupId>org.fusesource.jansi</groupId>
             <artifactId>jansi</artifactId>
         </dependency>
+
+        <!-- 核心模块 -->
+        <dependency>
+            <groupId>com.zondy.mapgis</groupId>
+            <artifactId>mapgis-common-core</artifactId>
+        </dependency>
     </dependencies>
 
     <build>
