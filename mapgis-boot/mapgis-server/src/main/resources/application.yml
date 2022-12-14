@@ -28,7 +28,7 @@ server:
 # 日志配置
 logging:
   file:
-    name: ./logs/${mapgis.product.name}
+    name: ./logs/${mapgis.product.full-name}-server
 
 # Spring配置
 spring:

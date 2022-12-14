@@ -105,6 +105,11 @@ public class Constants {
     public static final String UPDATE_CAS_CONFIG_LISTENER = "updateCasConfigListener";
 
     /**
+     * 更新系统日志配置的监听器名称
+     */
+    public static final String UPDATE_SYSTEM_LOG_CONFIG_LISTENER = "updateSystemLogConfigListener";
+
+    /**
      * 更新HTTP访问日志配置的监听器名称
      */
     public static final String UPDATE_HTTP_ACCESS_LOG_CONFIG_LISTENER = "updateHttpAccessLogConfigListener";

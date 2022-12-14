@@ -26,8 +26,13 @@ public class MapApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-        sysEventPublisher.publishConfigEvent(SysEventConstants.SECURITY_CAS_CONFIG_UPDATE, null);
-        sysEventPublisher.publishConfigEvent(SysEventConstants.LOG_SYSTEM_LOG_CONFIG_UPDATE, null);
-        sysEventPublisher.publishConfigEvent(SysEventConstants.LOG_HTTP_ACCESS_LOG_CONFIG_UPDATE, null);
+        String[] events = {
+                SysEventConstants.SECURITY_CAS_CONFIG_UPDATE,
+                SysEventConstants.LOG_SYSTEM_LOG_CONFIG_UPDATE,
+                SysEventConstants.LOG_HTTP_ACCESS_LOG_CONFIG_UPDATE};
+
+        for (String event : events) {
+            sysEventPublisher.publishConfigEvent(event, null);
+        }
     }
 }

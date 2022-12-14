@@ -58,6 +58,18 @@
             <groupId>com.zondy.mapgis</groupId>
             <artifactId>mapgis-common-swagger</artifactId>
         </dependency>
+
+        <!-- MapGIS Common Cloud SystemLog -->
+        <dependency>
+            <groupId>com.zondy.mapgis</groupId>
+            <artifactId>mapgis-common-cloud-systemlog</artifactId>
+        </dependency>
+
+        <!-- 微服务安全模块 -->
+        <dependency>
+            <groupId>com.zondy.mapgis</groupId>
+            <artifactId>mapgis-common-cloud-security</artifactId>
+        </dependency>
     </dependencies>
 
     <build>

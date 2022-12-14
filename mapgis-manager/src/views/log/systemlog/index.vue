@@ -12,7 +12,7 @@
             </a-col>
             <a-col :md="8" :sm="24">
               <a-form-item label="类型">
-                <a-select placeholder="类型" v-model="queryParam.logId" style="width: 100%" allow-clear>
+                <a-select placeholder="类型" v-model="queryParam.logId" style="width: 100%">
                   <a-select-option v-for="(d, index) in logIdOptions" :key="index" :value="d.value">{{
                     d.label
                   }}</a-select-option>
@@ -124,7 +124,7 @@
 </template>
 
 <script>
-import { list } from '@/api/system/systemlog'
+import { getIds, list } from '@/api/system/systemlog'
 import { tableMixin } from '@/store/table-mixin'
 
 export default {
@@ -144,7 +144,7 @@ export default {
       // 日期范围
       dateRange: [],
       queryParam: {
-        logId: window._CONFIG['productName'],
+        logId: undefined,
         position: undefined,
         count: 100,
         keyword: undefined,
@@ -194,12 +194,7 @@ export default {
           width: 500
         }
       ],
-      logIdOptions: [
-        {
-          label: window._CONFIG['productName'],
-          value: window._CONFIG['productName']
-        }
-      ],
+      logIdOptions: [],
       levelOptions: [
         {
           label: 'DEBUG',
@@ -221,7 +216,16 @@ export default {
     }
   },
   filters: {},
-  created() {
+  async created() {
+    await getIds().then(response => {
+      response.data.forEach(id => {
+        this.logIdOptions.push({ label: id, value: id })
+      })
+
+      if (this.logIdOptions.length > 0) {
+        this.queryParam.logId = this.logIdOptions[0].value
+      }
+    })
     this.getList()
   },
   computed: {},
@@ -268,6 +272,11 @@ export default {
         keyword: undefined,
         level: undefined
       }
+
+      if (this.logIdOptions.length > 0) {
+        this.queryParam.logId = this.logIdOptions[0].value
+      }
+
       this.handleQuery()
     },
     toggleAdvanced() {
@@ -282,7 +291,7 @@ export default {
         onOk() {
           that.download(
             `${window._CONFIG['apiPathManagerPrefix']}/system/systemlog/export`,
-            null,
+            { logId: that.queryParam.logId },
             `systemlog_${new Date().getTime()}.zip`
           )
         },

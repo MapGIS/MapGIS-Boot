@@ -371,6 +371,15 @@ spec:
           value: {{ .Values.k8sPublicIp }}
         - name: GATEWAY_PUBLIC_PORT
           value: '{{ include "mapgis.appPort" . }}'
+        - name: REDIS_HOST
+          value: {{ include "mapgis.fullname" . }}-redis
+        - name: REDIS_PORT
+          value: '6379'
+        - name: REDIS_PWD
+          valueFrom:
+            secretKeyRef:
+              name: {{ include "mapgis.fullname" . }}-secret
+              key: mapgis.redis.password
         volumeMounts:
         - name: {{ include "mapgis.fullname" . }}-file-logs
           mountPath: /mapgis/logs

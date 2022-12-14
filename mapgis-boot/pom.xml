@@ -424,10 +424,24 @@
                 <version>${mapgis.boot.version}</version>
             </dependency>
 
-            <!-- MapGIS Common SystemLog -->
+            <!-- MapGIS Common Base SystemLog -->
             <dependency>
                 <groupId>com.zondy.mapgis</groupId>
-                <artifactId>mapgis-common-systemlog</artifactId>
+                <artifactId>mapgis-common-base-systemlog</artifactId>
+                <version>${mapgis.boot.version}</version>
+            </dependency>
+
+            <!-- MapGIS Common Local SystemLog -->
+            <dependency>
+                <groupId>com.zondy.mapgis</groupId>
+                <artifactId>mapgis-common-local-systemlog</artifactId>
+                <version>${mapgis.boot.version}</version>
+            </dependency>
+
+            <!-- MapGIS Common Cloud SystemLog -->
+            <dependency>
+                <groupId>com.zondy.mapgis</groupId>
+                <artifactId>mapgis-common-cloud-systemlog</artifactId>
                 <version>${mapgis.boot.version}</version>
             </dependency>
 

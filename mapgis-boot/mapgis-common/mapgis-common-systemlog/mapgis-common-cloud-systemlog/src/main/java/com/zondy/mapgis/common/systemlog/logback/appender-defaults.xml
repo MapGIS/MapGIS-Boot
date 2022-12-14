@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<included>
+    <!-- 控制台输出 -->
+    <appender name="CONSOLE" class="com.zondy.mapgis.common.systemlog.logback.CustomConsoleAppender">
+        <encoder>
+            <pattern>${CONSOLE_LOG_PATTERN}</pattern>
+            <charset>${CONSOLE_CHARSET:-UTF-8}</charset>
+        </encoder>
+        <withJansi>${CONSOLE_WITH_JANSI:-false}</withJansi>
+    </appender>
+
+    <!-- 文件 -->
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <encoder>
+            <pattern>${FILE_LOG_PATTERN}</pattern>
+        </encoder>
+        <file>${LOG_FILE}-file.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
+            <!-- 日志文件名格式 -->
+            <fileNamePattern>${LOG_FILE}-file.%i.log</fileNamePattern>
+            <!-- 不能大于20 -->
+            <maxIndex>20</maxIndex>
+        </rollingPolicy>
+        <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+            <MaxFileSize>4MB</MaxFileSize>
+        </triggeringPolicy>
+        <!-- ALL < TRACE < DEBUG < INFO < WARN < ERROR < FATAL < OFF -->
+        <!-- 过滤掉 TRACE 级别的日志-->
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>DEBUG</level>
+        </filter>
+    </appender>
+
+    <!-- 异步输出 -->
+    <appender name="ASYNC_FILE" class="ch.qos.logback.classic.AsyncAppender">
+        <!-- 不丢失日志.默认的,如果队列的80%已满,则会丢弃TRACT、DEBUG、INFO级别的日志 -->
+        <discardingThreshold>0</discardingThreshold>
+        <!-- 更改默认的队列的深度,该值会影响性能.默认值为256 -->
+        <queueSize>1024</queueSize>
+        <!-- 添加附加的appender,最多只能添加一个 -->
+        <appender-ref ref="FILE"/>
+    </appender>
+</included>

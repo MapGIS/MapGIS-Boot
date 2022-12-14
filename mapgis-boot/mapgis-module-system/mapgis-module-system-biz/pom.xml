@@ -68,7 +68,7 @@
         <!-- MapGIS Common SystemLog -->
         <dependency>
             <groupId>com.zondy.mapgis</groupId>
-            <artifactId>mapgis-common-systemlog</artifactId>
+            <artifactId>mapgis-common-base-systemlog</artifactId>
         </dependency>
 
         <!-- MapGIS Common Har -->

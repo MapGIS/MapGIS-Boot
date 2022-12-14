@@ -83,6 +83,12 @@
             <artifactId>mapgis-common-local-meter</artifactId>
         </dependency>
 
+        <!-- MapGIS Common Local SystemLog -->
+        <dependency>
+            <groupId>com.zondy.mapgis</groupId>
+            <artifactId>mapgis-common-local-systemlog</artifactId>
+        </dependency>
+
         <!-- 系统模块 -->
         <dependency>
             <groupId>com.zondy.mapgis</groupId>

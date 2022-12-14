@@ -141,8 +141,10 @@ services:
       NACOS_HOST: mapgis-xxx-nacos
       NACOS_PORT: 8848
     depends_on:
+      - mapgis-xxx-redis
       - mapgis-xxx-nacos
     links:
+      - mapgis-xxx-redis
       - mapgis-xxx-nacos
   mapgis-xxx-job:
     build:
@@ -157,9 +159,11 @@ services:
       NACOS_HOST: mapgis-xxx-nacos
       NACOS_PORT: 8848
     depends_on:
+      - mapgis-xxx-redis
       - mapgis-xxx-mysql
       - mapgis-xxx-nacos
     links:
+      - mapgis-xxx-redis
       - mapgis-xxx-mysql
       - mapgis-xxx-nacos
   mapgis-xxx-gen:

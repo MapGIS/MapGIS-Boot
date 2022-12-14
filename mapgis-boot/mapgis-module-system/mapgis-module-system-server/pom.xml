@@ -70,6 +70,12 @@
             <groupId>com.zondy.mapgis</groupId>
             <artifactId>mapgis-common-schedule</artifactId>
         </dependency>
+
+        <!-- MapGIS Common Cloud SystemLog -->
+        <dependency>
+            <groupId>com.zondy.mapgis</groupId>
+            <artifactId>mapgis-common-cloud-systemlog</artifactId>
+        </dependency>
     </dependencies>
 
     <build>

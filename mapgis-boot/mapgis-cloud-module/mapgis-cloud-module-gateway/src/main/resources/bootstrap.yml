@@ -42,3 +42,8 @@ feign:
   compression:
     request:
       min-request-size: 8192
+
+# 日志配置
+logging:
+  file:
+    name: ./logs/${mapgis.product.full-name}-gateway-server

@@ -3,8 +3,10 @@ package com.zondy.mapgis.system.controller;
 import com.zondy.mapgis.common.controllerprefix.annotation.ManagerRestController;
 import com.zondy.mapgis.common.core.config.properties.ApiPathProperties;
 import com.zondy.mapgis.common.core.constant.ConfigConstants;
+import com.zondy.mapgis.common.core.utils.EnvironmentUtil;
 import com.zondy.mapgis.common.core.utils.JsonUtils;
 import com.zondy.mapgis.common.core.utils.StringUtils;
+import com.zondy.mapgis.common.core.utils.spring.SpringUtils;
 import com.zondy.mapgis.common.core.web.domain.AjaxResult;
 import com.zondy.mapgis.system.api.domain.SysAuthConfig;
 import com.zondy.mapgis.system.api.domain.SysCasConfig;
@@ -15,6 +17,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import java.util.*;
@@ -44,6 +47,7 @@ public class SysWebConfigController {
         Map<String, Object> systemConfig = new LinkedHashMap<>();
         Properties props = System.getProperties();
 
+        systemConfig.put("serviceArch", EnvironmentUtil.isSingleServiceMode(SpringUtils.getBean(Environment.class)) ? "SingleService" : "MicroService");
         systemConfig.put("osName", props.getProperty("os.name"));
         systemConfig.put("osArch", props.getProperty("os.arch"));
         systemConfig.put("javaVersion", props.getProperty("java.version"));
