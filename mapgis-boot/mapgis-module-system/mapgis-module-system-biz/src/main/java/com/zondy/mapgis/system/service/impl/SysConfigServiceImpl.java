@@ -135,7 +135,7 @@ public class SysConfigServiceImpl implements ISysConfigService {
 
         if (config.getConfigKey().equals(ConfigConstants.CONFIG_KEY_SECURITY_CAS)) {
             // 需要通知CAS配置更新（单体版有效）
-            sysEventPublisher.publishConfigEvent(SysEventConstants.SECURITY_CAS_CONFIG_UPDATE, null);
+            sysEventPublisher.publishConfigEvent(SysEventConstants.UPDATE_CAS_CONFIG, null);
 
             // 下面借助Redis的事假机制通知CAS配置更新（微服务版有效）
             HashMap<String, Object> message = new HashMap<>();
@@ -146,10 +146,10 @@ public class SysConfigServiceImpl implements ISysConfigService {
 
         if (config.getConfigKey().equals(ConfigConstants.CONFIG_KEY_LOG)) {
             // 需要通知系统日志配置更新（单体版有效）
-            sysEventPublisher.publishConfigEvent(SysEventConstants.LOG_SYSTEM_LOG_CONFIG_UPDATE, null);
+            sysEventPublisher.publishConfigEvent(SysEventConstants.UPDATE_SYSTEM_LOG, null);
 
             // 需要通知HTTP访问日志配置更新（单体版有效）
-            sysEventPublisher.publishConfigEvent(SysEventConstants.LOG_HTTP_ACCESS_LOG_CONFIG_UPDATE, null);
+            sysEventPublisher.publishConfigEvent(SysEventConstants.UPDATE_HTTP_ACCESS_LOG, null);
 
             // 下面借助Redis的事假机制通知CAS配置更新（微服务版有效）
             HashMap<String, Object> message = new HashMap<>();

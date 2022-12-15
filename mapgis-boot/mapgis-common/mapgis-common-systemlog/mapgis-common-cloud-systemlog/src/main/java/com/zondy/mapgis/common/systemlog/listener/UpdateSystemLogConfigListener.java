@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 import java.util.HashMap;
 
 /**
- * 更新HTTP访问日志配置监听器
+ * 更新系统日志配置监听器（用于微服务版监听）
  *
  * @author xiongbo
  * @since 2022/12/8 16:40

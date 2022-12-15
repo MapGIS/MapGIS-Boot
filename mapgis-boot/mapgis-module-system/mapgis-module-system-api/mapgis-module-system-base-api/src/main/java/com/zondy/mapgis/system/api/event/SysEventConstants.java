@@ -8,17 +8,17 @@ package com.zondy.mapgis.system.api.event;
  */
 public class SysEventConstants {
     /**
-     * CAS配置更新
+     * 更新CAS配置
      */
-    public static final String SECURITY_CAS_CONFIG_UPDATE = "SECURITY_CAS_CONFIG_UPDATE";
+    public static final String UPDATE_CAS_CONFIG = "UPDATE_CAS_CONFIG";
 
     /**
-     * 系统日志配置更新
+     * 更新系统日志配置
      */
-    public static final String LOG_SYSTEM_LOG_CONFIG_UPDATE = "LOG_SYSTEM_LOG_CONFIG_UPDATE";
+    public static final String UPDATE_SYSTEM_LOG = "UPDATE_SYSTEM_LOG";
 
     /**
-     * 访问日志配置更新
+     * 更新访问日志配置
      */
-    public static final String LOG_HTTP_ACCESS_LOG_CONFIG_UPDATE = "LOG_HTTP_ACCESS_LOG_CONFIG_UPDATE";
+    public static final String UPDATE_HTTP_ACCESS_LOG = "UPDATE_HTTP_ACCESS_LOG";
 }

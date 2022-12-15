@@ -8,13 +8,13 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;
 
 /**
- * CAS配置更新监听器（用于单体版监听）
+ * 更新CAS配置的监听器（用于单体版监听）
  *
  * @author xiongbo
  * @since 2022/10/29 13:55
  */
 @Component
-public class CasConfigUpdateListener implements ApplicationListener<SysConfigEvent> {
+public class UpdateCasConfigListener implements ApplicationListener<SysConfigEvent> {
     /**
      * CAS配置
      */
@@ -23,7 +23,7 @@ public class CasConfigUpdateListener implements ApplicationListener<SysConfigEve
 
     @Override
     public void onApplicationEvent(SysConfigEvent event) {
-        if (event.getName() == SysEventConstants.SECURITY_CAS_CONFIG_UPDATE) {
+        if (event.getName() == SysEventConstants.UPDATE_CAS_CONFIG) {
             casSecurityConfig.updateCasSecurityConfig();
         }
     }
