@@ -12,6 +12,7 @@ services:
       MYSQL_SERVICE_DB_NAME: mapgis-cloud-config
       MYSQL_SERVICE_USER: root
       MYSQL_SERVICE_PASSWORD: cloud123.mapgis
+      MYSQL_SERVICE_DB_PARAM: characterEncoding=utf8&connectTimeout=10000&socketTimeout=30000&autoReconnect=true&useSSL=false
     volumes:
       - ./nacos/logs:/home/nacos/logs
     ports:

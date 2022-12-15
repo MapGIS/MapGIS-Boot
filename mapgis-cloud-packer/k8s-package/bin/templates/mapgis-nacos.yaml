@@ -73,6 +73,8 @@ spec:
             secretKeyRef:
               name: {{ include "mapgis.fullname" . }}-secret
               key: mapgis.mysql.root.password
+        - name: MYSQL_SERVICE_DB_PARAM
+          value: 'characterEncoding=utf8&connectTimeout=10000&socketTimeout=30000&autoReconnect=true&useSSL=false'
         volumeMounts:
         - name: {{ include "mapgis.fullname" . }}-nacos-logs
           mountPath: /home/nacos/logs

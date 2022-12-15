@@ -12,6 +12,7 @@ services:
       MYSQL_SERVICE_DB_NAME: ${MYSQL_CONFIG_DB}
       MYSQL_SERVICE_USER: ${MYSQL_USER}
       MYSQL_SERVICE_PASSWORD: ${MYSQL_PWD}
+      MYSQL_SERVICE_DB_PARAM: characterEncoding=utf8&connectTimeout=10000&socketTimeout=30000&autoReconnect=true&useSSL=false
     volumes:
       - ./nacos/logs:/home/nacos/logs
     ports:
