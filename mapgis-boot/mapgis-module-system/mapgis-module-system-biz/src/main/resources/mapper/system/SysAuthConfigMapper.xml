@@ -88,9 +88,9 @@
             <if test="redirectUri != null">redirect_uri,</if>
             <if test="authRequestClass != null">auth_request_class,</if>
             <if test="status != null">status,</if>
-            <if test="createBy != null">create_by,</if>
-            create_time,
             <if test="remark != null">remark,</if>
+            <if test="createBy != null">create_by,</if>
+            create_time
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="type != null">#{type},</if>
@@ -102,16 +102,16 @@
             <if test="redirectUri != null">#{redirectUri},</if>
             <if test="authRequestClass != null">#{authRequestClass},</if>
             <if test="status != null">#{status},</if>
+            <if test="remark != null">#{remark},</if>
             <if test="createBy != null">#{createBy},</if>
             <choose>
                 <when test="_databaseId == 'sqlite'">
-                    (datetime(CURRENT_TIMESTAMP,'localtime')),
+                    (datetime(CURRENT_TIMESTAMP,'localtime'))
                 </when>
                 <otherwise>
-                    sysdate(),
+                    sysdate()
                 </otherwise>
             </choose>
-            <if test="remark != null">#{remark},</if>
         </trim>
     </insert>
 
@@ -127,6 +127,7 @@
             <if test="redirectUri != null">redirect_uri = #{redirectUri},</if>
             <if test="authRequestClass != null">auth_request_class = #{authRequestClass},</if>
             <if test="status != null">status = #{status},</if>
+            <if test="remark != null">remark = #{remark},</if>
             <if test="updateBy != null">update_by = #{updateBy},</if>
             <choose>
                 <when test="_databaseId == 'sqlite'">
@@ -136,7 +137,6 @@
                     update_time = sysdate()
                 </otherwise>
             </choose>
-            <if test="remark != null">remark = #{remark},</if>
         </trim>
         where config_id = #{configId}
     </update>

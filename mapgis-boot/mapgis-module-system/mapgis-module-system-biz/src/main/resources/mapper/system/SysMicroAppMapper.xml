@@ -67,10 +67,10 @@
             <if test="createBy != null">#{createBy},</if>
             <choose>
                 <when test="_databaseId == 'sqlite'">
-                    (datetime(CURRENT_TIMESTAMP,'localtime')),
+                    (datetime(CURRENT_TIMESTAMP,'localtime'))
                 </when>
                 <otherwise>
-                    sysdate(),
+                    sysdate()
                 </otherwise>
             </choose>
         </trim>
