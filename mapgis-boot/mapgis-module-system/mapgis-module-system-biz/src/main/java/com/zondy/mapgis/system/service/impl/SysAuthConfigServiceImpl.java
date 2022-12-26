@@ -50,7 +50,6 @@ public class SysAuthConfigServiceImpl implements ISysAuthConfigService {
      */
     @Override
     public int insertSysAuthConfig(SysAuthConfig sysAuthConfig) {
-        sysAuthConfig.setCreateTime(DateUtils.getNowDate());
         return sysAuthConfigMapper.insertSysAuthConfig(sysAuthConfig);
     }
 
@@ -62,7 +61,6 @@ public class SysAuthConfigServiceImpl implements ISysAuthConfigService {
      */
     @Override
     public int updateSysAuthConfig(SysAuthConfig sysAuthConfig) {
-        sysAuthConfig.setUpdateTime(DateUtils.getNowDate());
         return sysAuthConfigMapper.updateSysAuthConfig(sysAuthConfig);
     }
 

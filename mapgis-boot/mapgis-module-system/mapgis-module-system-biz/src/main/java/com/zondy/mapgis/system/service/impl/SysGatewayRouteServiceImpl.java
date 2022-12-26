@@ -59,7 +59,6 @@ public class SysGatewayRouteServiceImpl implements ISysGatewayRouteService {
      */
     @Override
     public int insertSysGatewayRoute(SysGatewayRoute sysGatewayRoute) {
-        sysGatewayRoute.setCreateTime(DateUtils.getNowDate());
         if (StringUtils.isEmpty(sysGatewayRoute.getPredicates())) {
             sysGatewayRoute.setPredicates("[]");
         }
@@ -81,7 +80,6 @@ public class SysGatewayRouteServiceImpl implements ISysGatewayRouteService {
      */
     @Override
     public int updateSysGatewayRoute(SysGatewayRoute sysGatewayRoute) {
-        sysGatewayRoute.setUpdateTime(DateUtils.getNowDate());
         if (sysGatewayRoute.getPredicates().isEmpty()) {
             sysGatewayRoute.setPredicates("[]");
         }

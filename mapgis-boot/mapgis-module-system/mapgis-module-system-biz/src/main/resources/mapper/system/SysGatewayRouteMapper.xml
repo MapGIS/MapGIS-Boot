@@ -67,9 +67,7 @@
             <if test="orderNum != null">order_num,</if>
             <if test="status != null">status,</if>
             <if test="createBy != null">create_by,</if>
-            <if test="createTime != null">create_time,</if>
-            <if test="updateBy != null">update_by,</if>
-            <if test="updateTime != null">update_time,</if>
+            create_time
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="routeId != null">#{routeId},</if>
@@ -79,9 +77,14 @@
             <if test="orderNum != null">#{orderNum},</if>
             <if test="status != null">#{status},</if>
             <if test="createBy != null">#{createBy},</if>
-            <if test="createTime != null">#{createTime},</if>
-            <if test="updateBy != null">#{updateBy},</if>
-            <if test="updateTime != null">#{updateTime},</if>
+            <choose>
+                <when test="_databaseId == 'sqlite'">
+                    (datetime(CURRENT_TIMESTAMP,'localtime'))
+                </when>
+                <otherwise>
+                    sysdate()
+                </otherwise>
+            </choose>
         </trim>
     </insert>
 
@@ -94,10 +97,15 @@
             <if test="filters != null">filters = #{filters},</if>
             <if test="orderNum != null">order_num = #{orderNum},</if>
             <if test="status != null">status = #{status},</if>
-            <if test="createBy != null">create_by = #{createBy},</if>
-            <if test="createTime != null">create_time = #{createTime},</if>
             <if test="updateBy != null">update_by = #{updateBy},</if>
-            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <choose>
+                <when test="_databaseId == 'sqlite'">
+                    update_time = datetime(CURRENT_TIMESTAMP,'localtime')
+                </when>
+                <otherwise>
+                    update_time = sysdate()
+                </otherwise>
+            </choose>
         </trim>
         where gateway_route_id = #{gatewayRouteId}
     </update>
