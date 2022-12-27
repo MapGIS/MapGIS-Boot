@@ -13,10 +13,12 @@ import com.zondy.mapgis.common.security.annotation.RequiresPermissions;
 import com.zondy.mapgis.common.security.utils.SecurityUtils;
 import com.zondy.mapgis.system.api.domain.SysRole;
 import com.zondy.mapgis.system.api.domain.SysUser;
+import com.zondy.mapgis.system.api.domain.SysUserGroup;
 import com.zondy.mapgis.system.api.service.ISysPermissionService;
 import com.zondy.mapgis.system.api.service.ISysRoleService;
 import com.zondy.mapgis.system.api.service.ISysUserService;
 import com.zondy.mapgis.system.service.ISysPostService;
+import com.zondy.mapgis.system.service.ISysUserGroupService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -50,6 +52,8 @@ public class SysUserController extends BaseController {
     private final ISysPostService postService;
 
     private final ISysPermissionService permissionService;
+
+    private final ISysUserGroupService userGroupService;
 
     /**
      * 获取用户列表
@@ -128,11 +132,13 @@ public class SysUserController extends BaseController {
         List<SysRole> roles = roleService.selectRoleAll();
         ajax.put("roles", roles);
         ajax.put("posts", postService.selectPostAll());
+        ajax.put("userGroups", userGroupService.selectSysUserGroupAll());
         if (StringUtils.isNotNull(userId)) {
             SysUser sysUser = userService.selectUserById(userId);
             ajax.put(AjaxResult.DATA_TAG, sysUser);
             ajax.put("postIds", postService.selectPostListByUserId(userId));
             ajax.put("roleIds", sysUser.getRoles().stream().map(SysRole::getRoleId).collect(Collectors.toList()));
+            ajax.put("userGroupIds", sysUser.getUserGroups().stream().map(SysUserGroup::getUserGroupId).collect(Collectors.toList()));
         }
         return ajax;
     }

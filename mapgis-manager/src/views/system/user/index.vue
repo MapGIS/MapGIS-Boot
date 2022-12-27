@@ -128,7 +128,7 @@
             :bordered="tableBordered"
           >
             <span slot="roleNames" slot-scope="text, record">
-              {{ parseRoles(record.roles) }}
+              {{ parseRoles(record.roles, record.userGroups) }}
             </span>
             <span slot="status" slot-scope="text, record">
               <a-popconfirm
@@ -458,12 +458,19 @@ export default {
         onCancel() {}
       })
     },
-    parseRoles(roles) {
-      return roles
-        .map(role => {
-          return role.roleName
+    parseRoles(roles, userGroups) {
+      const roleNames = roles.map(role => role.roleName)
+      const roleNameSet = new Set(roleNames)
+      if (userGroups) {
+        userGroups.forEach(userGroup => {
+          if (userGroup.roles) {
+            userGroup.roles.forEach(role => {
+              roleNameSet.add(role.roleName)
+            })
+          }
         })
-        .join(',')
+      }
+      return Array.from(roleNameSet).join(',')
     }
   }
 }

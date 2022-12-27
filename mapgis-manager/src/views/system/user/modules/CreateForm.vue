@@ -36,6 +36,13 @@
       <a-form-model-item label="用户信息" prop="remark">
         <a-input v-model="form.remark" placeholder="请输入" type="textarea" allow-clear />
       </a-form-model-item>
+      <a-form-model-item label="用户组" prop="userGroupIds">
+        <a-select mode="multiple" v-model="form.userGroupIds" placeholder="请选择">
+          <a-select-option v-for="(d, index) in userGroupOptions" :key="index" :value="d.userGroupId">
+            {{ d.userGroupName }}
+          </a-select-option>
+        </a-select>
+      </a-form-model-item>
       <a-form-model-item label="角色" prop="roleIds">
         <a-select mode="multiple" v-model="form.roleIds" placeholder="请选择">
           <a-select-option v-for="(d, index) in roleOptions" :key="index" :value="d.roleId">
@@ -150,6 +157,8 @@ export default {
       },
       // 岗位选项
       postOptions: [],
+      // 用户组选项
+      userGroupOptions: [],
       // 角色选项
       roleOptions: [],
       // 是否使用默认密码
@@ -171,7 +180,8 @@ export default {
         status: '0',
         remark: undefined,
         postIds: [],
-        roleIds: []
+        roleIds: [],
+        userGroupIds: []
       },
       open: false,
       rules: {
@@ -237,7 +247,8 @@ export default {
         status: '0',
         remark: undefined,
         postIds: [],
-        roleIds: []
+        roleIds: [],
+        userGroupIds: []
       }
     },
     /** 新增按钮操作 */
@@ -247,6 +258,7 @@ export default {
       getUser().then(response => {
         this.postOptions = response.posts
         this.roleOptions = response.roles
+        this.userGroupOptions = response.userGroups
         this.open = true
         this.formTitle = '新增用户'
         if (this.useInitPassword) {
@@ -263,8 +275,10 @@ export default {
         this.form = response.data
         this.postOptions = response.posts
         this.roleOptions = response.roles
+        this.userGroupOptions = response.userGroups
         this.form.postIds = response.postIds
         this.form.roleIds = response.roleIds
+        this.form.userGroupIds = response.userGroupIds
         this.open = true
         this.formTitle = '修改用户'
         this.form.password = ''

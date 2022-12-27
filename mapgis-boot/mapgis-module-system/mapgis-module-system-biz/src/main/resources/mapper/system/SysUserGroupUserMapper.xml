@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zondy.mapgis.system.mapper.SysUserGroupUserMapper">
+
+    <resultMap type="SysUserGroupUser" id="SysUserGroupUserResult">
+        <result property="userGroupId" column="user_group_id"/>
+        <result property="userId" column="user_id"/>
+    </resultMap>
+
+    <insert id="batchSysUserGroupUser">
+        insert into sys_user_group_user(user_group_id, user_id) values
+        <foreach item="item" index="index" collection="list" separator=",">
+            (#{item.userGroupId},#{item.userId})
+        </foreach>
+    </insert>
+
+    <delete id="deleteSysUserGroupUserByUserGroupId" parameterType="Long">
+        delete
+        from sys_user_group_user
+        where user_group_id = #{userGroupId}
+    </delete>
+
+    <delete id="deleteSysUserGroupUserByUserGroupIds" parameterType="String">
+        delete from sys_user_group_user where user_group_id in
+        <foreach item="userGroupId" collection="array" open="(" separator="," close=")">
+            #{userGroupId}
+        </foreach>
+    </delete>
+
+    <delete id="deleteSysUserGroupUserByUserId" parameterType="Long">
+        delete
+        from sys_user_group_user
+        where user_id = #{userId}
+    </delete>
+</mapper>

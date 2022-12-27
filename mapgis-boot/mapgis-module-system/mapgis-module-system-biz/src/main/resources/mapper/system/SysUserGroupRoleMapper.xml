@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zondy.mapgis.system.mapper.SysUserGroupRoleMapper">
+
+    <resultMap type="SysUserGroupRole" id="SysUserGroupRoleResult">
+        <result property="userGroupId" column="user_group_id"/>
+        <result property="roleId" column="role_id"/>
+    </resultMap>
+
+    <insert id="batchSysUserGroupRole">
+        insert into sys_user_group_role(user_group_id, role_id) values
+        <foreach item="item" index="index" collection="list" separator=",">
+            (#{item.userGroupId},#{item.roleId})
+        </foreach>
+    </insert>
+
+    <delete id="deleteSysUserGroupRoleByUserGroupId" parameterType="Long">
+        delete
+        from sys_user_group_role
+        where user_group_id = #{userGroupId}
+    </delete>
+
+    <delete id="deleteSysUserGroupRoleByUserGroupIds" parameterType="String">
+        delete from sys_user_group_role where user_group_id in
+        <foreach item="userGroupId" collection="array" open="(" separator="," close=")">
+            #{userGroupId}
+        </foreach>
+    </delete>
+</mapper>

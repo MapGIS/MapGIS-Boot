@@ -25,6 +25,7 @@
         <result property="remark" column="remark"/>
         <association property="dept" column="dept_id" javaType="SysDept" resultMap="deptResult"/>
         <collection property="roles" javaType="java.util.List" resultMap="RoleResult"/>
+        <collection property="userGroups" javaType="java.util.List" resultMap="UserGroupResult"/>
     </resultMap>
 
     <!-- 专门为SysUser分页查询准备的resultMap，采用1+n式查询 -->
@@ -50,6 +51,8 @@
         <association property="dept" column="dept_id" javaType="SysDept" resultMap="deptResult"/>
         <collection property="roles" column="user_id" javaType="java.util.List"
                     select="com.zondy.mapgis.system.mapper.SysRoleMapper.selectRolePermissionByUserId"/>
+        <collection property="userGroups" column="user_id" javaType="java.util.List"
+                    select="com.zondy.mapgis.system.mapper.SysUserGroupMapper.selectSysUserGroupListByUserId"/>
     </resultMap>
 
     <resultMap id="deptResult" type="SysDept">
@@ -66,6 +69,11 @@
         <result property="roleKey" column="role_key"/>
         <result property="roleSort" column="role_sort"/>
         <result property="dataScope" column="data_scope"/>
+    </resultMap>
+
+    <resultMap id="UserGroupResult" type="SysUserGroup">
+        <id property="userGroupId" column="user_group_id"/>
+        <result property="userGroupName" column="user_group_name"/>
     </resultMap>
 
     <sql id="selectUserVo">
@@ -94,11 +102,15 @@
                r.role_name,
                r.role_key,
                r.role_sort,
-               r.data_scope
+               r.data_scope,
+               ug.user_group_id,
+               ug.user_group_name
         from sys_user u
                  left join sys_dept d on u.dept_id = d.dept_id
                  left join sys_user_role ur on u.user_id = ur.user_id
                  left join sys_role r on r.role_id = ur.role_id
+                 left join sys_user_group_user ugu on ugu.user_id = u.user_id
+                 left join sys_user_group ug on ug.user_group_id = ugu.user_group_id
     </sql>
 
     <select id="selectUserList" parameterType="SysUser" resultMap="SysUserPageResult">
@@ -329,4 +341,26 @@
         </foreach>
     </delete>
 
+    <select id="selectUserListByUserGroupId" parameterType="Long" resultMap="SysUserResult">
+        select distinct u.user_id,
+                        u.dept_id,
+                        u.nick_name,
+                        u.user_name,
+                        u.email,
+                        u.avatar,
+                        u.phonenumber,
+                        u.sex,
+                        u.status,
+                        u.del_flag,
+                        u.login_ip,
+                        u.login_date,
+                        u.create_by,
+                        u.create_time,
+                        u.remark
+        from sys_user u
+                 left join sys_user_group_user ugu on ugu.user_id = u.user_id
+                 left join sys_user_group ug on ug.user_group_id = ugu.user_group_id
+        where u.del_flag = '0'
+          and ug.user_group_id = #{userGroupId}
+    </select>
 </mapper> 

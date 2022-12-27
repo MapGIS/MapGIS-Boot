@@ -11,7 +11,7 @@
  Target Server Version : 50736
  File Encoding         : 65001
 
- Date: 08/12/2022 18:40:02
+ Date: 27/12/2022 10:12:35
 */
 
 SET NAMES utf8mb4;
@@ -575,16 +575,16 @@ INSERT INTO `sys_menu`
 VALUES (104, '用户管理', 3, 2, 'user', 'system/user/index', '', 1, 0, 'C', '0', '0', 'system:user:list', 'user', 'admin',
         '2022-03-23 22:12:32', '', NULL, '用户管理菜单');
 INSERT INTO `sys_menu`
-VALUES (105, '角色管理', 3, 3, 'role', 'system/role/index', '', 1, 0, 'C', '0', '0', 'system:role:list', 'peoples', 'admin',
+VALUES (105, '角色管理', 3, 4, 'role', 'system/role/index', '', 1, 0, 'C', '0', '0', 'system:role:list', 'peoples', 'admin',
         '2022-03-23 22:12:32', '', NULL, '角色管理菜单');
 INSERT INTO `sys_menu`
-VALUES (106, '菜单管理', 3, 4, 'menu', 'system/menu/index', '', 1, 0, 'C', '0', '0', 'system:menu:list', 'treeTable',
+VALUES (106, '菜单管理', 3, 5, 'menu', 'system/menu/index', '', 1, 0, 'C', '0', '0', 'system:menu:list', 'treeTable',
         'admin', '2022-03-23 22:12:32', '', NULL, '菜单管理菜单');
 INSERT INTO `sys_menu`
-VALUES (107, '部门管理', 3, 5, 'dept', 'system/dept/index', '', 1, 0, 'C', '0', '0', 'system:dept:list', 'tree', 'admin',
+VALUES (107, '部门管理', 3, 6, 'dept', 'system/dept/index', '', 1, 0, 'C', '0', '0', 'system:dept:list', 'tree', 'admin',
         '2022-03-23 22:12:32', '', NULL, '部门管理菜单');
 INSERT INTO `sys_menu`
-VALUES (108, '岗位管理', 3, 6, 'post', 'system/post/index', '', 1, 0, 'C', '0', '0', 'system:post:list', 'post', 'admin',
+VALUES (108, '岗位管理', 3, 7, 'post', 'system/post/index', '', 1, 0, 'C', '0', '0', 'system:post:list', 'post', 'admin',
         '2022-03-23 22:12:32', '', NULL, '岗位管理菜单');
 INSERT INTO `sys_menu`
 VALUES (109, '定时任务', 4, 1, 'job', 'monitor/job/index', '', 1, 0, 'C', '0', '0', 'monitor:job:list', 'job', 'admin',
@@ -611,16 +611,16 @@ INSERT INTO `sys_menu`
 VALUES (116, '基本配置', 7, 1, 'base', 'config/base/index', NULL, 1, 0, 'C', '0', '0', 'system:config:query', 'profile',
         'admin', '2022-10-15 15:45:11', '', NULL, '基本配置菜单');
 INSERT INTO `sys_menu`
-VALUES (117, '第三方登录配置', 3, 7, 'oauth', 'security/authConfig/index', NULL, 1, 0, 'C', '0', '0', 'system:authConfig:list',
-        'team', 'admin', '2022-10-21 16:11:18', '', NULL, '第三方登录配置菜单');
+VALUES (117, '第三方登录配置', 3, 8, 'oauth', 'security/authConfig/index', NULL, 1, 0, 'C', '0', '0', 'system:authConfig:list',
+        'security-scan', 'admin', '2022-10-21 16:11:18', '', NULL, '第三方登录配置菜单');
 INSERT INTO `sys_menu`
-VALUES (118, 'CAS登录配置', 3, 8, 'cas', 'security/casConfig/index', NULL, 1, 0, 'C', '0', '0', 'system:config:query',
+VALUES (118, 'CAS登录配置', 3, 9, 'cas', 'security/casConfig/index', NULL, 1, 0, 'C', '0', '0', 'system:config:query',
         'cas', 'admin', '2022-10-27 14:55:00', '', NULL, 'CAS登录配置菜单');
 INSERT INTO `sys_menu`
 VALUES (119, '主题配置', 7, 2, 'theme', 'config/theme/index', NULL, 1, 0, 'C', '0', '0', '', 'skin', 'admin',
         '2022-10-31 11:39:51', '', NULL, '主题配置菜单');
 INSERT INTO `sys_menu`
-VALUES (120, 'LDAP登录配置', 3, 9, 'ldap', 'security/ldapConfig/index', NULL, 1, 0, 'C', '0', '0', 'system:config:query',
+VALUES (120, 'LDAP登录配置', 3, 10, 'ldap', 'security/ldapConfig/index', NULL, 1, 0, 'C', '0', '0', 'system:config:query',
         'ldap', 'admin', '2022-11-03 14:55:44', '', NULL, 'LDAP登录配置菜单');
 INSERT INTO `sys_menu`
 VALUES (121, '系统日志', 2, 3, 'systemlog', 'log/systemlog/index', NULL, 1, 1, 'C', '0', '0', 'system:systemlog:list',
@@ -634,6 +634,9 @@ VALUES (123, '日志配置', 2, 5, 'logConfig', 'log/config/index', NULL, 1, 0, 
 INSERT INTO `sys_menu`
 VALUES (124, '服务器性能监控', 1, 3, 'performance', 'monitor/performance/index', NULL, 1, 1, 'C', '0', '0',
         'system:serverPerformance:list', 'fund', 'admin', '2022-12-06 10:54:54', '', NULL, '服务器性能监控菜单');
+INSERT INTO `sys_menu`
+VALUES (125, '用户组管理', 3, 3, 'usergroup', 'system/usergroup/index', NULL, 1, 0, 'C', '0', '0', 'system:usergroup:list',
+        'team', 'admin', '2022-12-23 16:32:49', '', NULL, '用户组管理菜单');
 INSERT INTO `sys_menu`
 VALUES (500, '微服务路由配置', 6, 5, 'route', 'system/route/index', '', 1, 0, 'C', '0', '0', 'system:route:list', 'route',
         'admin', '2022-09-21 22:08:36', '', NULL, '微服务路由配置菜单');
@@ -862,6 +865,21 @@ VALUES (1073, '日志导出', 122, 1, '', '', '', 1, 0, 'F', '0', '0', 'system:a
 INSERT INTO `sys_menu`
 VALUES (1074, '配置修改', 123, 1, '', '', '', 1, 0, 'F', '0', '0', 'system:config.edit', '#', 'admin',
         '2022-11-30 15:10:47', '', NULL, '');
+INSERT INTO `sys_menu`
+VALUES (1075, '用户组查询', 125, 1, '', '', '', 1, 0, 'F', '0', '0', 'system:usergroup:query', '#', 'admin',
+        '2022-12-23 16:32:50', '', NULL, '');
+INSERT INTO `sys_menu`
+VALUES (1076, '用户组新增', 125, 2, '', '', '', 1, 0, 'F', '0', '0', 'system:usergroup:add', '#', 'admin',
+        '2022-12-23 16:32:50', '', NULL, '');
+INSERT INTO `sys_menu`
+VALUES (1077, '用户组修改', 125, 3, '', '', '', 1, 0, 'F', '0', '0', 'system:usergroup:edit', '#', 'admin',
+        '2022-12-23 16:32:50', '', NULL, '');
+INSERT INTO `sys_menu`
+VALUES (1078, '用户组删除', 125, 4, '', '', '', 1, 0, 'F', '0', '0', 'system:usergroup:remove', '#', 'admin',
+        '2022-12-23 16:32:50', '', NULL, '');
+INSERT INTO `sys_menu`
+VALUES (1079, '用户组导出', 125, 5, '', '', '', 1, 0, 'F', '0', '0', 'system:usergroup:export', '#', 'admin',
+        '2022-12-23 16:32:50', '', NULL, '');
 INSERT INTO `sys_menu`
 VALUES (1500, '网关路由查询', 500, 1, '', '', '', 1, 0, 'F', '0', '0', 'system:route:query', '#', 'admin',
         '2022-09-21 22:08:36', '', NULL, '');
@@ -1114,6 +1132,66 @@ CREATE TABLE `sys_user`
 INSERT INTO `sys_user`
 VALUES (1, 100, 'admin', '系统管理员', '', '', '0', '', '$2a$10$W0oZaiVL8yYLG6PQsM2f4uYFI9kkS424BVArwpSHozx7FxdCijOfq', '0',
         '0', '', NULL, 'admin', '2022-03-23 22:12:32', '', NULL, '系统管理员');
+
+-- ----------------------------
+-- Table structure for sys_user_group
+-- ----------------------------
+DROP TABLE IF EXISTS `sys_user_group`;
+CREATE TABLE `sys_user_group`
+(
+    `user_group_id`   bigint(20)                                                    NOT NULL AUTO_INCREMENT COMMENT '用户组ID',
+    `user_group_name` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci  NOT NULL COMMENT '用户组名称',
+    `create_by`       varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci  NULL DEFAULT '' COMMENT '创建者',
+    `create_time`     datetime                                                      NULL DEFAULT NULL COMMENT '创建时间',
+    `update_by`       varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci  NULL DEFAULT '' COMMENT '更新者',
+    `update_time`     datetime                                                      NULL DEFAULT NULL COMMENT '更新时间',
+    `remark`          varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '备注',
+    PRIMARY KEY (`user_group_id`) USING BTREE
+) ENGINE = InnoDB
+  AUTO_INCREMENT = 1
+  CHARACTER SET = utf8mb4
+  COLLATE = utf8mb4_general_ci COMMENT = '用户组表'
+  ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Records of sys_user_group
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for sys_user_group_role
+-- ----------------------------
+DROP TABLE IF EXISTS `sys_user_group_role`;
+CREATE TABLE `sys_user_group_role`
+(
+    `user_group_id` bigint(20) NOT NULL COMMENT '用户组ID',
+    `role_id`       bigint(20) NOT NULL COMMENT '角色ID',
+    PRIMARY KEY (`user_group_id`, `role_id`) USING BTREE
+) ENGINE = InnoDB
+  CHARACTER SET = utf8mb4
+  COLLATE = utf8mb4_general_ci COMMENT = '用户组和角色关联表'
+  ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Records of sys_user_group_role
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for sys_user_group_user
+-- ----------------------------
+DROP TABLE IF EXISTS `sys_user_group_user`;
+CREATE TABLE `sys_user_group_user`
+(
+    `user_group_id` bigint(20) NOT NULL COMMENT '用户组ID',
+    `user_id`       bigint(20) NOT NULL COMMENT '用户ID',
+    PRIMARY KEY (`user_group_id`, `user_id`) USING BTREE
+) ENGINE = InnoDB
+  CHARACTER SET = utf8mb4
+  COLLATE = utf8mb4_general_ci COMMENT = '用户组和用户关联表'
+  ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Records of sys_user_group_user
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for sys_user_post

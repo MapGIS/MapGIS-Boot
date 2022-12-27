@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zondy.mapgis.system.mapper.SysUserGroupMapper">
+
+    <resultMap type="SysUserGroup" id="SysUserGroupResult">
+        <result property="userGroupId" column="user_group_id"/>
+        <result property="userGroupName" column="user_group_name"/>
+        <result property="createBy" column="create_by"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateBy" column="update_by"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="remark" column="remark"/>
+        <collection property="users" column="user_group_id" javaType="java.util.List"
+                    select="com.zondy.mapgis.system.mapper.SysUserMapper.selectUserListByUserGroupId"/>
+        <collection property="roles" column="user_group_id" javaType="java.util.List"
+                    select="com.zondy.mapgis.system.mapper.SysRoleMapper.selectRoleListByUserGroupId"/>
+    </resultMap>
+
+    <sql id="selectSysUserGroupVo">
+        select distinct ug.user_group_id,
+                        ug.user_group_name,
+                        ug.create_by,
+                        ug.create_time,
+                        ug.update_by,
+                        ug.update_time,
+                        ug.remark
+        from sys_user_group ug
+    </sql>
+
+    <select id="selectSysUserGroupList" parameterType="SysUserGroup" resultMap="SysUserGroupResult">
+        <include refid="selectSysUserGroupVo"/>
+        <where>
+            <if test="userGroupName != null  and userGroupName != ''">
+                <bind name="user_group_name_like" value="'%' + userGroupName + '%'"/>
+                and user_group_name like #{user_group_name_like}
+            </if>
+            <if test="params.beginTime != null and params.beginTime != ''"><!-- 开始时间检索 -->
+                <choose>
+                    <when test="_databaseId == 'sqlite'">
+                        and r.create_time &gt;= #{params.beginTime}
+                    </when>
+                    <otherwise>
+                        and date_format(r.create_time,'%y%m%d') &gt;= date_format(#{params.beginTime},'%y%m%d')
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="params.endTime != null and params.endTime != ''"><!-- 结束时间检索 -->
+                <choose>
+                    <when test="_databaseId == 'sqlite'">
+                        and r.create_time &lt;= #{params.endTime}
+                    </when>
+                    <otherwise>
+                        and date_format(r.create_time,'%y%m%d') &lt;= date_format(#{params.endTime},'%y%m%d')
+                    </otherwise>
+                </choose>
+            </if>
+        </where>
+    </select>
+
+    <select id="selectSysUserGroupByUserGroupId" parameterType="Long"
+            resultMap="SysUserGroupResult">
+        <include refid="selectSysUserGroupVo"/>
+        where ug.user_group_id = #{userGroupId}
+    </select>
+
+    <select id="selectSysUserGroupListByUserId" parameterType="Long" resultMap="SysUserGroupResult">
+        <include refid="selectSysUserGroupVo"/>
+        left join sys_user_group_user ugu on ugu.user_group_id = ug.user_group_id
+        left join sys_user u on u.user_id = ugu.user_id and u.del_flag = '0'
+        where u.user_id = #{userId}
+    </select>
+
+    <select id="selectSysUserGroupsByUserName" parameterType="String" resultMap="SysUserGroupResult">
+        <include refid="selectSysUserGroupVo"/>
+        left join sys_user_group_user ugu on ugu.user_group_id = ug.user_group_id
+        left join sys_user u on u.user_id = ugu.user_id and u.del_flag = '0'
+        where u.user_name = #{userName}
+    </select>
+
+    <select id="checkUserGroupNameUnique" parameterType="String" resultType="int">
+        select count(1)
+        from sys_user_group
+        where user_group_name = #{userGroupName}
+        limit 1
+    </select>
+
+    <insert id="insertSysUserGroup" parameterType="SysUserGroup" useGeneratedKeys="true" keyProperty="userGroupId">
+        insert into sys_user_group
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userGroupName != null and userGroupName != ''">user_group_name,</if>
+            <if test="remark != null">remark,</if>
+            <if test="createBy != null">create_by,</if>
+            create_time
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userGroupName != null and userGroupName != ''">#{userGroupName},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <choose>
+                <when test="_databaseId == 'sqlite'">
+                    (datetime(CURRENT_TIMESTAMP,'localtime'))
+                </when>
+                <otherwise>
+                    sysdate()
+                </otherwise>
+            </choose>
+        </trim>
+    </insert>
+
+    <update id="updateSysUserGroup" parameterType="SysUserGroup">
+        update sys_user_group
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="userGroupName != null and userGroupName != ''">user_group_name = #{userGroupName},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <choose>
+                <when test="_databaseId == 'sqlite'">
+                    update_time = datetime(CURRENT_TIMESTAMP,'localtime')
+                </when>
+                <otherwise>
+                    update_time = sysdate()
+                </otherwise>
+            </choose>
+        </trim>
+        where user_group_id = #{userGroupId}
+    </update>
+
+    <delete id="deleteSysUserGroupByUserGroupId" parameterType="Long">
+        delete
+        from sys_user_group
+        where user_group_id = #{userGroupId}
+    </delete>
+
+    <delete id="deleteSysUserGroupByUserGroupIds" parameterType="String">
+        delete from sys_user_group where user_group_id in
+        <foreach item="userGroupId" collection="array" open="(" separator="," close=")">
+            #{userGroupId}
+        </foreach>
+    </delete>
+</mapper>

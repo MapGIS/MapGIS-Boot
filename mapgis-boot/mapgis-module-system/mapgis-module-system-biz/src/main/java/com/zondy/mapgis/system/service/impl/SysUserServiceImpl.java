@@ -10,9 +10,11 @@ import com.zondy.mapgis.common.datascope.annotation.DataScope;
 import com.zondy.mapgis.common.security.utils.SecurityUtils;
 import com.zondy.mapgis.system.api.domain.SysRole;
 import com.zondy.mapgis.system.api.domain.SysUser;
+import com.zondy.mapgis.system.api.domain.SysUserGroup;
 import com.zondy.mapgis.system.api.domain.SysUserRole;
 import com.zondy.mapgis.system.api.service.ISysUserService;
 import com.zondy.mapgis.system.domain.SysPost;
+import com.zondy.mapgis.system.domain.SysUserGroupUser;
 import com.zondy.mapgis.system.domain.SysUserPost;
 import com.zondy.mapgis.system.mapper.*;
 import com.zondy.mapgis.system.service.ISysConfigService;
@@ -55,6 +57,12 @@ public class SysUserServiceImpl implements ISysUserService {
 
     @Autowired
     private ISysConfigService configService;
+
+    @Autowired
+    private SysUserGroupMapper userGroupMapper;
+
+    @Autowired
+    private SysUserGroupUserMapper userGroupUserMapper;
 
     @Autowired
     protected Validator validator;
@@ -148,6 +156,21 @@ public class SysUserServiceImpl implements ISysUserService {
     }
 
     /**
+     * 根据用户ID查询用户所属用户组
+     *
+     * @param userName 用户名
+     * @return 结果
+     */
+    @Override
+    public String selectUserUserGroup(String userName) {
+        List<SysUserGroup> list = userGroupMapper.selectSysUserGroupsByUserName(userName);
+        if (CollectionUtils.isEmpty(list)) {
+            return StringUtils.EMPTY;
+        }
+        return list.stream().map(SysUserGroup::getUserGroupName).collect(Collectors.joining(","));
+    }
+
+    /**
      * 校验用户名称是否唯一
      *
      * @param userName 用户名称
@@ -238,6 +261,8 @@ public class SysUserServiceImpl implements ISysUserService {
         insertUserPost(user);
         // 新增用户与角色管理
         insertUserRole(user);
+        // 新增用户与用户组关联
+        insertUserUserGroup(user);
         return rows;
     }
 
@@ -270,6 +295,10 @@ public class SysUserServiceImpl implements ISysUserService {
         userPostMapper.deleteUserPostByUserId(userId);
         // 新增用户与岗位管理
         insertUserPost(user);
+        // 删除用户与用户组关联
+        userGroupUserMapper.deleteSysUserGroupUserByUserId(userId);
+        // 新增用户与用户组关联
+        insertUserUserGroup(user);
         return userMapper.updateUser(user);
     }
 
@@ -353,6 +382,15 @@ public class SysUserServiceImpl implements ISysUserService {
     }
 
     /**
+     * 新增用户用户组信息
+     *
+     * @param user 用户对象
+     */
+    public void insertUserUserGroup(SysUser user) {
+        this.insertUserUserGroup(user.getUserId(), user.getUserGroupIds());
+    }
+
+    /**
      * 新增用户岗位信息
      *
      * @param user 用户对象
@@ -389,6 +427,26 @@ public class SysUserServiceImpl implements ISysUserService {
                 list.add(ur);
             }
             userRoleMapper.batchUserRole(list);
+        }
+    }
+
+    /**
+     * 新增用户用户组信息
+     *
+     * @param userId       用户ID
+     * @param userGroupIds 用户组
+     */
+    public void insertUserUserGroup(Long userId, Long[] userGroupIds) {
+        if (StringUtils.isNotEmpty(userGroupIds)) {
+            // 新增用户与用户组管理
+            List<SysUserGroupUser> list = new ArrayList<SysUserGroupUser>(userGroupIds.length);
+            for (Long userGroupId : userGroupIds) {
+                SysUserGroupUser ugu = new SysUserGroupUser();
+                ugu.setUserId(userId);
+                ugu.setUserGroupId(userGroupId);
+                list.add(ugu);
+            }
+            userGroupUserMapper.batchSysUserGroupUser(list);
         }
     }
 

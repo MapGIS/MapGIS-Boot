@@ -165,6 +165,18 @@ public class SysUser extends BaseEntity {
     @Schema(description = "角色ID")
     private Long roleId;
 
+    /**
+     * 用户组对象
+     */
+    @Schema(description = "用户组对象")
+    private List<SysUserGroup> userGroups;
+
+    /**
+     * 用户组
+     */
+    @Schema(description = "用户组")
+    private Long[] userGroupIds;
+
     public SysUser(Long userId) {
         this.userId = userId;
     }

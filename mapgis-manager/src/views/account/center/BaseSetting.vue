@@ -15,6 +15,9 @@
           <a-form-model-item label="角色" ref="roleGroup">
             <span>{{ roleGroup }}</span>
           </a-form-model-item>
+          <a-form-model-item label="用户组" ref="userGroup">
+            <span>{{ userGroup }}</span>
+          </a-form-model-item>
           <a-form-model-item label="部门" ref="deptName">
             <span>{{ user.dept && user.dept.deptName }}</span>
           </a-form-model-item>
@@ -78,6 +81,7 @@ export default {
       },
       user: {},
       roleGroup: '',
+      userGroup: '',
       postGroup: '',
       preview: {},
       option: {
@@ -125,6 +129,7 @@ export default {
       getUserProfile().then(response => {
         this.user = response.data
         this.roleGroup = response.roleGroup
+        this.userGroup = response.userGroup
         this.postGroup = response.postGroup
       })
     },
