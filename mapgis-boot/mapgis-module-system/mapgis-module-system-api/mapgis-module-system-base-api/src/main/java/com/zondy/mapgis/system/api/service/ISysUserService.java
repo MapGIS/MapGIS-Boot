@@ -146,6 +146,14 @@ public interface ISysUserService {
     public void insertUserAuth(Long userId, Long[] roleIds);
 
     /**
+     * 用户授权用户组
+     *
+     * @param userId       用户ID
+     * @param userGroupIds 用户组
+     */
+    public void insertUserAuthUserGroup(Long userId, Long[] userGroupIds);
+
+    /**
      * 修改用户状态
      *
      * @param user 用户信息

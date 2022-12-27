@@ -316,6 +316,21 @@ public class SysUserServiceImpl implements ISysUserService {
     }
 
     /**
+     * 用户授权用户组
+     *
+     * @param userId       用户ID
+     * @param userGroupIds 用户组
+     */
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void insertUserAuthUserGroup(Long userId, Long[] userGroupIds) {
+        // 删除用户与用户组关联
+        userGroupUserMapper.deleteSysUserGroupUserByUserId(userId);
+        // 新增用户与用户组关联
+        insertUserUserGroup(userId, userGroupIds);
+    }
+
+    /**
      * 修改用户状态
      *
      * @param user 用户信息

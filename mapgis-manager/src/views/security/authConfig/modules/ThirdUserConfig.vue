@@ -1,10 +1,10 @@
 <template>
   <div>
     <a-form-model v-if="configLoaded" ref="form" :model="form" layout="vertical">
-      <a-form-model-item label="创建用户的默认角色" prop="defaultRoleIds">
-        <a-select mode="multiple" v-model="form.defaultRoleIds" placeholder="请选择">
-          <a-select-option v-for="(d, index) in roleOptions" :key="index" :value="d.roleId">
-            {{ d.roleName }}
+      <a-form-model-item label="创建用户的默认默认用户组" prop="defaultUserGroupIds">
+        <a-select mode="multiple" v-model="form.defaultUserGroupIds" placeholder="请选择">
+          <a-select-option v-for="(d, index) in userGroupOptions" :key="index" :value="d.userGroupId">
+            {{ d.userGroupName }}
           </a-select-option>
         </a-select>
       </a-form-model-item>
@@ -29,7 +29,7 @@ import { getConfigByKey, updateConfig } from '@/api/system/config'
 import { getUser } from '@/api/system/user'
 
 const defaultConfigValue = {
-  defaultRoleIds: []
+  defaultUserGroupIds: []
 }
 
 export default {
@@ -40,12 +40,12 @@ export default {
       submitLoading: false,
       configInfo: {},
       form: {},
-      roleOptions: []
+      userGroupOptions: []
     }
   },
   async mounted() {
     const userInfoResult = await getUser()
-    this.roleOptions = userInfoResult.roles
+    this.userGroupOptions = userInfoResult.userGroups
     const configInfoResult = await getConfigByKey('security.oauth')
     this.configInfo = configInfoResult.data
     const configValue = merge(defaultConfigValue, this.configInfo && JSON.parse(this.configInfo.configValue || '{}'))

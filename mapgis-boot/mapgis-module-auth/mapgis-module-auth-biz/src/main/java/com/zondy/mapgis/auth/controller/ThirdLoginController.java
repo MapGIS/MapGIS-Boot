@@ -201,8 +201,8 @@ public class ThirdLoginController extends BaseController {
 
         // 注册账号
         SysAuthExtraConfig oauthConfig = sysServiceProxy.getOAuthConfig();
-        Long[] roleIds = oauthConfig.getDefaultRoleIds();
-        loginService.register(username, password, roleIds);
+        Long[] userGroupIds = oauthConfig.getDefaultUserGroupIds();
+        loginService.register(username, password, userGroupIds, null);
 
         // 根据用户名获取用户id
         LoginUser loginUser = sysServiceProxy.getUserInfo(username);

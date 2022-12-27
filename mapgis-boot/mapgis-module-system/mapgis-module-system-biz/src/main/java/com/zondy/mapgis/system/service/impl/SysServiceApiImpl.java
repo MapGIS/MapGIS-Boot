@@ -79,8 +79,15 @@ public class SysServiceApiImpl implements ISysServiceApi {
         }
         boolean registerResult = userService.registerUser(sysUser);
 
-        if (registerResult && StringUtils.isNotEmpty(sysUser.getRoleIds())) {
-            userService.insertUserAuth(userService.selectUserByUserName(username).getUserId(), sysUser.getRoleIds());
+        if (registerResult) {
+            Long userId = userService.selectUserByUserName(username).getUserId();
+            
+            if (StringUtils.isNotEmpty(sysUser.getRoleIds())) {
+                userService.insertUserAuth(userId, sysUser.getRoleIds());
+            }
+            if (StringUtils.isNotEmpty(sysUser.getUserGroupIds())) {
+                userService.insertUserAuthUserGroup(userId, sysUser.getUserGroupIds());
+            }
         }
         return R.ok(registerResult);
     }

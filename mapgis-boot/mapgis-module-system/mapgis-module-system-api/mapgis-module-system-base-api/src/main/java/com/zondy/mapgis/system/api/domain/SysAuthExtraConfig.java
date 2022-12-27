@@ -11,11 +11,11 @@ import lombok.Data;
 @Data
 public class SysAuthExtraConfig {
     /**
-     * 创建用户的默认角色
+     * 创建用户的默认用户组
      */
-    Long[] defaultRoleIds;
+    Long[] defaultUserGroupIds;
 
     public SysAuthExtraConfig() {
-        defaultRoleIds = new Long[0];
+        defaultUserGroupIds = new Long[0];
     }
 }

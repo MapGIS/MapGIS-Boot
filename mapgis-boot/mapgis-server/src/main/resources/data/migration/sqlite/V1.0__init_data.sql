@@ -10,7 +10,7 @@
  Target Server Version : 3030001
  File Encoding         : 65001
 
- Date: 27/12/2022 10:34:20
+ Date: 27/12/2022 11:49:01
 */
 
 -- ----------------------------
@@ -165,15 +165,15 @@ INSERT INTO "sys_config"
 VALUES (5, '安全配置-用户登录配置', 'security.login', '{"soloLoginEnabled":true,"captchaEnabled":true,"captchaType":"math"}', 'Y',
         'admin', '2022-03-23 22:12:32', '', NULL, '用户登录配置');
 INSERT INTO "sys_config"
-VALUES (6, '安全配置-第三方登录配置', 'security.oauth', '{"defaultRoleIds":[2]}', 'Y', 'admin', '2022-03-23 22:12:32', '', NULL,
-        '第三方登录配置');
+VALUES (6, '安全配置-第三方登录配置', 'security.oauth', '{"defaultUserGroupIds":[1]}', 'Y', 'admin', '2022-03-23 22:12:32', '',
+        NULL, '第三方登录配置');
 INSERT INTO "sys_config"
 VALUES (7, '安全配置-CAS登录配置', 'security.cas', '{"enabled":false,"isReserveDefaultLogin":false,"casServerUrl":""}', 'Y',
         'admin', '2022-03-23 22:12:32', '', NULL, 'CAS登录配置');
 INSERT INTO "sys_config"
 VALUES (8, '安全配置-LDAP登录配置', 'security.ldap',
-        '{"enabled":false,"url":"","base":"","userDn":"","password":"","defaultRoleIds":[2],"roleMapping":[]}', 'Y',
-        'admin', '2022-03-23 22:12:32', '', NULL, 'LDAP登录配置');
+        '{"enabled":false,"url":"","base":"","userDn":"","password":"","defaultUserGroupIds":[1],"roleMapping":[]}',
+        'Y', 'admin', '2022-03-23 22:12:32', '', NULL, 'LDAP登录配置');
 INSERT INTO "sys_config"
 VALUES (9, '日志配置', 'log', '{"systemLoglevel":"INFO","httpAccessEnabled":false,"httpAccessMonitorUrls":[]}', 'Y',
         'admin', '2022-03-23 22:12:32', '', NULL, '日志配置');
@@ -979,6 +979,8 @@ CREATE TABLE "sys_user_group"
 -- ----------------------------
 -- Records of sys_user_group
 -- ----------------------------
+INSERT INTO "sys_user_group"
+VALUES (1, '第三方用户组', 'admin', '2022-12-27 11:30:51', '', NULL, '内置的第三方用户组');
 
 -- ----------------------------
 -- Table structure for sys_user_group_role
@@ -994,6 +996,8 @@ CREATE TABLE "sys_user_group_role"
 -- ----------------------------
 -- Records of sys_user_group_role
 -- ----------------------------
+INSERT INTO "sys_user_group_role"
+VALUES (1, 2);
 
 -- ----------------------------
 -- Table structure for sys_user_group_user

@@ -39,9 +39,9 @@ public class SysLdapConfig {
     String password;
 
     /**
-     * 创建用户的默认角色
+     * 创建用户的默认用户组
      */
-    Long[] defaultRoleIds;
+    Long[] defaultUserGroupIds;
 
     /**
      * 角色映射
@@ -54,7 +54,7 @@ public class SysLdapConfig {
         base = "";
         userDn = "";
         password = "";
-        defaultRoleIds = new Long[0];
+        defaultUserGroupIds = new Long[0];
         roleMapping = new ArrayList<>();
     }
 

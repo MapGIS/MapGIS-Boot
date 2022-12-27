@@ -26,11 +26,11 @@
     <a-form-model-item label="LDAP管理员密码" prop="password">
       <a-input-password v-model="form.password" :visibilityToggle="false" autocomplete="new-password" />
     </a-form-model-item>
-    <!-- 暂时不提供创建用户的默认角色配置，默认就是第三方用户角色（roleId为2） -->
-    <a-form-model-item label="创建用户的默认角色" prop="defaultRoleIds" v-if="false">
-      <a-select mode="multiple" v-model="form.defaultRoleIds" placeholder="请选择">
-        <a-select-option v-for="(d, index) in roleOptions" :key="index" :value="d.roleId">
-          {{ d.roleName }}
+    <!-- 暂时不提供创建用户的默认用户组配置，默认就是第三方用户组（useGroupId为1） -->
+    <a-form-model-item label="创建用户的默认用户组" prop="defaultUserGroupIds" v-if="false">
+      <a-select mode="multiple" v-model="form.defaultUserGroupIds" placeholder="请选择">
+        <a-select-option v-for="(d, index) in userGroupOptions" :key="index" :value="d.userGroupId">
+          {{ d.userGroupName }}
         </a-select-option>
       </a-select>
     </a-form-model-item>
@@ -54,7 +54,7 @@ const defaultConfigValue = {
   base: '',
   userDn: '',
   password: '',
-  defaultRoleIds: [],
+  defaultUserGroupIds: [],
   roleMapping: []
 }
 
@@ -75,7 +75,7 @@ export default {
   },
   async mounted() {
     const userInfoResult = await getUser()
-    this.roleOptions = userInfoResult.roles
+    this.userGroupOptions = userInfoResult.userGroups
     const configInfoResult = await getConfigByKey('security.ldap')
     this.configInfo = configInfoResult.data
     const tempDefaultConfigValue = cloneDeep(defaultConfigValue)

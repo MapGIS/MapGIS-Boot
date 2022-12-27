@@ -148,7 +148,7 @@ public abstract class BaseLoginService {
         }
 
         // 注册
-        register(username, password, roleIds);
+        register(username, password, null, roleIds);
 
         // 注册之后操作
         afterSuccessRegister(username);
@@ -166,7 +166,7 @@ public abstract class BaseLoginService {
     /**
      * 注册
      */
-    public void register(String username, String password, Long[] roleIds) {
+    public void register(String username, String password, Long[] userGroupsIds, Long[] roleIds) {
         // 用户名或密码为空 错误
         if (StringUtils.isAnyBlank(username, password)) {
             throw new ServiceException(MessageUtils.message("user.not.null"));
@@ -185,6 +185,10 @@ public abstract class BaseLoginService {
         sysUser.setUserName(username);
         sysUser.setNickName(username);
         sysUser.setPassword(getEncryptPassword(password));
+        if (!StringUtils.isEmpty(userGroupsIds)) {
+            sysUser.setUserGroupIds(userGroupsIds);
+        }
+
         if (!StringUtils.isEmpty(roleIds)) {
             sysUser.setRoleIds(roleIds);
         }
@@ -238,11 +242,11 @@ public abstract class BaseLoginService {
 
         if (StringUtils.isNull(loginUser) || StringUtils.isNull(loginUser.getUser())) {
             // 不存在用户
-            Long[] roleIds = ldapConfig.getDefaultRoleIds();
+            Long[] userGroupIds = ldapConfig.getDefaultUserGroupIds();
             String password = sysServiceProxy.getInitPasswordConfig();
             List<String> userGroups = LdapUtils.getUserGroups(new LdapUtils.LdapConfig(ldapConfig.getUrl(), ldapConfig.getBase(), ldapConfig.getUserDn(), ldapConfig.getPassword()), username);
             List<SysLdapConfig.SysLdapRoleMappingItem> roleMapping = ldapConfig.getRoleMapping();
-            List<Long> allRoleIds = new ArrayList<>(Arrays.asList(roleIds));
+            List<Long> allRoleIds = new ArrayList<>();
 
             // 根据群组查找是否有给该群组映射角色，如果有，则拿到所有的roleId
             for (String userGroup : userGroups) {
@@ -256,14 +260,14 @@ public abstract class BaseLoginService {
             // 去重
             LinkedHashSet<Long> allRoleIdSet = new LinkedHashSet<>(allRoleIds);
 
-            roleIds = new Long[allRoleIdSet.size()];
+            Long[] roleIds = new Long[allRoleIdSet.size()];
             Iterator iter = allRoleIdSet.iterator();
             for (int i = 0; iter.hasNext(); i++) {
                 roleIds[i] = (Long) iter.next();
             }
 
             // 注册账号
-            register(username, password, roleIds);
+            register(username, password, userGroupIds, roleIds);
         }
     }
 }
