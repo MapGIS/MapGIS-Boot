@@ -11,7 +11,9 @@ import com.zondy.mapgis.common.log.annotation.Log;
 import com.zondy.mapgis.common.log.enums.BusinessType;
 import com.zondy.mapgis.common.security.annotation.RequiresPermissions;
 import com.zondy.mapgis.system.api.domain.SysLogininfor;
+import com.zondy.mapgis.system.api.domain.SysPasswordProtectedConfig;
 import com.zondy.mapgis.system.api.service.ISysLogininforService;
+import com.zondy.mapgis.system.api.service.SysServiceProxy;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -39,6 +41,8 @@ public class SysLogininforController extends BaseController {
     private final ISysLogininforService logininforService;
 
     private final ICacheService cacheService;
+
+    private final SysServiceProxy sysServiceProxy;
 
     @Operation(summary = "查询系统访问记录列表")
     @PreAuthorize("@ss.hasPermi('system:logininfor:list')")
@@ -84,9 +88,16 @@ public class SysLogininforController extends BaseController {
     @PreAuthorize("@ss.hasPermi('system:logininfor:unlock')")
     @RequiresPermissions("system:logininfor:unlock")
     @Log(title = "账号解锁", businessType = BusinessType.OTHER)
-    @GetMapping("/unlock/{userName}")
-    public AjaxResult unlock(@PathVariable("userName") String userName) {
-        cacheService.deleteObject(CacheConstants.PWD_ERR_CNT_KEY + userName);
+    @GetMapping("/unlock/{userName}/{ip}")
+    public AjaxResult unlock(@PathVariable("userName") String userName, @PathVariable("ip") String ip) {
+        SysPasswordProtectedConfig sysPasswordProtectedConfig = sysServiceProxy.getPasswordProtectedConfig();
+        Boolean isLockedByIp = sysPasswordProtectedConfig.getIsLockedByIp();
+
+        if (isLockedByIp) {
+            cacheService.deleteObject(CacheConstants.PWD_ERR_CNT_KEY + userName + ip);
+        } else {
+            cacheService.deleteObject(CacheConstants.PWD_ERR_CNT_KEY + userName);
+        }
         return success();
     }
 }

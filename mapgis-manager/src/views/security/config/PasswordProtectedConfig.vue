@@ -15,6 +15,9 @@
     <a-form-model-item label="自动解锁时间（分钟）" prop="maxRetryCount">
       <a-input-number v-model="form.lockTime" :min="1" />
     </a-form-model-item>
+    <a-form-model-item label="是否通过IP锁定" prop="isLockedByIp">
+      <a-checkbox :checked="form.isLockedByIp" @change="handleIsLockedByIpChange" />
+    </a-form-model-item>
     <a-form-model-item :wrapper-col="{ lg: { span: 10, offset: 7 }, sm: { span: 17, offset: 7 } }">
       <a-button type="primary" :loading="submitLoading" @click="submit" v-hasPermi="['system:config:edit']">
         保存
@@ -30,7 +33,8 @@ import { getConfigByKey, updateConfig } from '@/api/system/config'
 const defaultConfigValue = {
   enabled: false,
   maxRetryCount: 5,
-  lockTime: 10
+  lockTime: 10,
+  isLockedByIp: true
 }
 
 export default {
@@ -55,6 +59,9 @@ export default {
   methods: {
     handleChange(e) {
       this.$set(this.form, 'enabled', e.target.checked)
+    },
+    handleIsLockedByIpChange(e) {
+      this.$set(this.form, 'isLockedByIp', e.target.checked)
     },
     submit() {
       this.$refs.form.validate(valid => {

@@ -18,9 +18,9 @@ export function delLogininfor(infoId) {
 }
 
 // 解锁用户登录状态
-export function unlockLogininfor(userName) {
+export function unlockLogininfor(userName, ip) {
   return request({
-    url: `${window._CONFIG['apiPathManagerPrefix']}/system/logininfor/unlock/` + userName,
+    url: `${window._CONFIG['apiPathManagerPrefix']}/system/logininfor/unlock/${userName}/${ip}`,
     method: 'get'
   })
 }

@@ -132,6 +132,8 @@ export default {
       multiple: true,
       // 选择用户名
       selectName: '',
+      // 选择IP
+      selectIp: '',
       ids: [],
       total: 0,
       // 状态数据字典
@@ -253,6 +255,7 @@ export default {
       this.multiple = !selectedRowKeys.length
       this.single = selectedRowKeys.length !== 1
       this.selectName = selectedRows.map(item => item.userName)
+      this.selectIp = selectedRows.map(item => item.ipaddr)
     },
     toggleAdvanced() {
       this.advanced = !this.advanced
@@ -294,10 +297,11 @@ export default {
     handleUnlock() {
       var that = this
       const username = this.selectName
+      const ip = this.selectIp
       this.$confirm({
         title: '是否确认解锁用户"' + username + '"数据项?',
         onOk() {
-          return unlockLogininfor(username)
+          return unlockLogininfor(username, ip)
             .then(() => {
               that.$message.success('用户' + username + '解锁成功', 3)
             })

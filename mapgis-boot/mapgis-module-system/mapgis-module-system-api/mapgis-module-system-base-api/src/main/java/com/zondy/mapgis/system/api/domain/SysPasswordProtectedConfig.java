@@ -25,9 +25,15 @@ public class SysPasswordProtectedConfig {
      */
     Integer lockTime;
 
+    /**
+     * 是否通过IP锁定账号
+     */
+    Boolean isLockedByIp;
+
     public SysPasswordProtectedConfig() {
         enabled = false;
         maxRetryCount = 5;
         lockTime = 10;
+        isLockedByIp = true;
     }
 }

@@ -3,10 +3,13 @@ package com.zondy.mapgis.common.security.service;
 import com.zondy.mapgis.common.cache.service.ICacheService;
 import com.zondy.mapgis.common.core.constant.CacheConstants;
 import com.zondy.mapgis.common.core.constant.Constants;
+import com.zondy.mapgis.common.core.exception.user.UserPasswordIpRetryLimitExceedException;
 import com.zondy.mapgis.common.core.exception.user.UserPasswordNotMatchException;
 import com.zondy.mapgis.common.core.exception.user.UserPasswordRetryLimitExceedException;
 import com.zondy.mapgis.common.core.utils.MessageUtils;
+import com.zondy.mapgis.common.core.utils.ServletUtils;
 import com.zondy.mapgis.common.core.utils.StringUtils;
+import com.zondy.mapgis.common.core.utils.ip.IpUtils;
 import com.zondy.mapgis.common.core.utils.spring.SpringUtils;
 import com.zondy.mapgis.common.security.utils.BaseSecurityUtils;
 import com.zondy.mapgis.system.api.domain.SysPasswordProtectedConfig;
@@ -34,11 +37,17 @@ public class SysPasswordService {
     /**
      * 登录账号密码错误次数缓存键名
      *
-     * @param username 用户名
+     * @param username     用户名
+     * @param ip           ip地址
+     * @param isLockedByIp 是否通过IP锁定
      * @return 缓存键key
      */
-    private String getCacheKey(String username) {
-        return CacheConstants.PWD_ERR_CNT_KEY + username;
+    private String getCacheKey(String username, String ip, Boolean isLockedByIp) {
+        if (isLockedByIp) {
+            return CacheConstants.PWD_ERR_CNT_KEY + username + ip;
+        } else {
+            return CacheConstants.PWD_ERR_CNT_KEY + username;
+        }
     }
 
     public void validate(SysUser user, String password) {
@@ -53,6 +62,8 @@ public class SysPasswordService {
         Boolean lockEnabled = sysPasswordProtectedConfig.getEnabled();
         Integer maxRetryCount = sysPasswordProtectedConfig.getMaxRetryCount();
         Integer lockTime = sysPasswordProtectedConfig.getLockTime();
+        Boolean isLockedByIp = sysPasswordProtectedConfig.getIsLockedByIp();
+        String ip = IpUtils.getIpAddr(ServletUtils.getRequest());
 
         if (!lockEnabled) {
             if (!matches(user, password)) {
@@ -63,26 +74,32 @@ public class SysPasswordService {
             return;
         }
 
-        Integer retryCount = cacheService.getCacheObject(getCacheKey(username));
+        Integer retryCount = cacheService.getCacheObject(getCacheKey(username, ip, isLockedByIp));
 
         if (retryCount == null) {
             retryCount = 0;
         }
 
         if (retryCount >= maxRetryCount.intValue()) {
-            SpringUtils.getBean(ISysRecordLogService.class).recordLogininfor(username, Constants.LOGIN_FAIL,
-                    MessageUtils.message("user.password.retry.limit.exceed", maxRetryCount, lockTime));
-            throw new UserPasswordRetryLimitExceedException(maxRetryCount, lockTime);
+            if (isLockedByIp) {
+                SpringUtils.getBean(ISysRecordLogService.class).recordLogininfor(username, Constants.LOGIN_FAIL,
+                        MessageUtils.message("user.password.ip.retry.limit.exceed", maxRetryCount, username, ip, lockTime));
+                throw new UserPasswordIpRetryLimitExceedException(maxRetryCount, username, ip, lockTime);
+            } else {
+                SpringUtils.getBean(ISysRecordLogService.class).recordLogininfor(username, Constants.LOGIN_FAIL,
+                        MessageUtils.message("user.password.retry.limit.exceed", maxRetryCount, username, lockTime));
+                throw new UserPasswordRetryLimitExceedException(maxRetryCount, username, lockTime);
+            }
         }
 
         if (!matches(user, password)) {
             retryCount = retryCount + 1;
             SpringUtils.getBean(ISysRecordLogService.class).recordLogininfor(username, Constants.LOGIN_FAIL,
                     MessageUtils.message("user.password.retry.limit.count", retryCount));
-            cacheService.setCacheObject(getCacheKey(username), retryCount, lockTime.longValue(), TimeUnit.MINUTES);
+            cacheService.setCacheObject(getCacheKey(username, ip, isLockedByIp), retryCount, lockTime.longValue(), TimeUnit.MINUTES);
             throw new UserPasswordNotMatchException();
         } else {
-            clearLoginRecordCache(username);
+            clearLoginRecordCache(username, ip, isLockedByIp);
         }
     }
 
@@ -90,9 +107,9 @@ public class SysPasswordService {
         return BaseSecurityUtils.matchesPassword(rawPassword, user.getPassword());
     }
 
-    public void clearLoginRecordCache(String loginName) {
-        if (cacheService.hasKey(getCacheKey(loginName))) {
-            cacheService.deleteObject(getCacheKey(loginName));
+    public void clearLoginRecordCache(String loginName, String ip, Boolean isLockedByIp) {
+        if (cacheService.hasKey(getCacheKey(loginName, ip, isLockedByIp))) {
+            cacheService.deleteObject(getCacheKey(loginName, ip, isLockedByIp));
         }
     }
 }
