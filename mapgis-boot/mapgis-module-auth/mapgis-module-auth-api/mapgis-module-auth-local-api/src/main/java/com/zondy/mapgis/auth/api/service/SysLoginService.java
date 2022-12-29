@@ -1,7 +1,5 @@
 package com.zondy.mapgis.auth.api.service;
 
-import com.zondy.mapgis.auth.api.domain.model.LoginBody;
-import com.zondy.mapgis.auth.api.domain.model.RegisterBody;
 import com.zondy.mapgis.common.core.constant.Constants;
 import com.zondy.mapgis.common.core.utils.MessageUtils;
 import com.zondy.mapgis.common.core.utils.ServletUtils;
@@ -35,16 +33,6 @@ public class SysLoginService extends BaseLoginService {
 
     @Autowired
     private SysRecordLogService recordLogService;
-
-    /**
-     * 登录之前操作
-     *
-     * @param loginBody 登录对象
-     */
-    @Override
-    public void beforeLogin(LoginBody loginBody) {
-        checkCaptcha(loginBody.getCode(), loginBody.getUuid());
-    }
 
     /**
      * 验证用户名密码
@@ -99,16 +87,6 @@ public class SysLoginService extends BaseLoginService {
     @Override
     public String createToken(LoginUser loginUser) {
         return tokenService.createToken(loginUser);
-    }
-
-    /**
-     * 注册之前操作
-     *
-     * @param registerBody 注册对象
-     */
-    @Override
-    public void beforeRegister(RegisterBody registerBody) {
-        checkCaptcha(registerBody.getCode(), registerBody.getUuid());
     }
 
     /**

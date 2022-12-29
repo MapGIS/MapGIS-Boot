@@ -3,15 +3,21 @@ package com.zondy.mapgis.auth.controller;
 import com.zondy.mapgis.auth.api.domain.model.LoginBody;
 import com.zondy.mapgis.auth.api.domain.model.RegisterBody;
 import com.zondy.mapgis.auth.api.service.SysLoginService;
+import com.zondy.mapgis.common.captcha.service.IValidateCodeService;
 import com.zondy.mapgis.common.controllerprefix.annotation.ServicesRestController;
 import com.zondy.mapgis.common.core.constant.TokenConstants;
 import com.zondy.mapgis.common.core.web.domain.AjaxResult;
+import com.zondy.mapgis.system.api.domain.SysLoginConfig;
+import com.zondy.mapgis.system.api.service.SysServiceProxy;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+
+import java.io.IOException;
 
 /**
  * 授权
@@ -25,6 +31,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 public class AuthController {
 
     private final SysLoginService loginService;
+
+    private final IValidateCodeService validateCodeService;
+
+    private final SysServiceProxy sysServiceProxy;
 
     /**
      * 登录方法
@@ -48,5 +58,18 @@ public class AuthController {
         // 用户注册
         loginService.register(registerBody);
         return AjaxResult.success();
+    }
+
+    /**
+     * 生成验证码
+     */
+    @Operation(summary = "生成验证码")
+    @GetMapping("/captchaImage")
+    public AjaxResult createCaptcha() throws IOException {
+        SysLoginConfig sysLoginConfig = sysServiceProxy.getLoginConfig();
+        boolean captchaEnabled = sysLoginConfig.getCaptchaEnabled();
+        String captchaType = sysLoginConfig.getCaptchaType();
+
+        return validateCodeService.createCaptcha(captchaEnabled, captchaType);
     }
 }

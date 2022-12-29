@@ -92,7 +92,7 @@ public abstract class BaseLoginService {
      * @param loginBody 登录对象
      */
     public void beforeLogin(LoginBody loginBody) {
-
+        checkCaptcha(loginBody.getCode(), loginBody.getUuid());
     }
 
     /**
@@ -160,7 +160,7 @@ public abstract class BaseLoginService {
      * @param registerBody 注册对象
      */
     public void beforeRegister(RegisterBody registerBody) {
-
+        checkCaptcha(registerBody.getCode(), registerBody.getUuid());
     }
 
     /**

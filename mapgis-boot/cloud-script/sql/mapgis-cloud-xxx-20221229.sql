@@ -11,7 +11,7 @@
  Target Server Version : 50736
  File Encoding         : 65001
 
- Date: 28/12/2022 14:11:42
+ Date: 29/12/2022 15:43:26
 */
 
 SET NAMES utf8mb4;
@@ -408,8 +408,7 @@ CREATE TABLE `sys_gateway_route`
 INSERT INTO `sys_gateway_route`
 VALUES (1, '${mapgis.product.full-name}-auth-server', 'lb://${mapgis.product.full-name}-auth-server',
         '[{\"name\":\"Path\",\"args\":[\"${api.path.services-prefix}/auth/**\"]}]',
-        '[{\"name\":\"CacheRequestFilter\",\"args\":[]},{\"name\":\"ValidateCodeFilter\",\"args\":[]}]', 0, '0',
-        'admin', '2022-09-20 14:12:32', '', NULL);
+        '[{\"name\":\"CacheRequestFilter\",\"args\":[]}]', 0, '0', 'admin', '2022-09-20 14:12:32', '', NULL);
 INSERT INTO `sys_gateway_route`
 VALUES (2, '${mapgis.product.full-name}-job-server', 'lb://${mapgis.product.full-name}-job-server',
         '[{\"name\":\"Path\",\"args\":[\"${api.path.manager-prefix}/schedule/**\"]}]', '[]', 0, '0', 'admin',
