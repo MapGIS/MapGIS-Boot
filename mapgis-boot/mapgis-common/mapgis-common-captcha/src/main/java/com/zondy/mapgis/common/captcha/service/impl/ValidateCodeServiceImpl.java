@@ -6,6 +6,7 @@ import com.zondy.mapgis.common.captcha.service.IValidateCodeService;
 import com.zondy.mapgis.common.core.constant.CacheConstants;
 import com.zondy.mapgis.common.core.exception.user.CaptchaException;
 import com.zondy.mapgis.common.core.exception.user.CaptchaExpireException;
+import com.zondy.mapgis.common.core.exception.user.CaptchaNullException;
 import com.zondy.mapgis.common.core.utils.StringUtils;
 import com.zondy.mapgis.common.core.utils.sign.Base64;
 import com.zondy.mapgis.common.core.utils.uuid.IdUtils;
@@ -41,12 +42,8 @@ public class ValidateCodeServiceImpl implements IValidateCodeService {
      * 生成验证码
      */
     @Override
-    public AjaxResult createCaptcha(boolean captchaEnabled, String captchaType) throws IOException, CaptchaException {
+    public AjaxResult createCaptcha(String captchaType) throws IOException, CaptchaException {
         AjaxResult ajax = AjaxResult.success();
-        ajax.put("captchaEnabled", captchaEnabled);
-        if (!captchaEnabled) {
-            return ajax;
-        }
 
         // 保存验证码信息
         String uuid = IdUtils.simpleUUID();
@@ -89,6 +86,9 @@ public class ValidateCodeServiceImpl implements IValidateCodeService {
 
         String captcha = cacheService.getCacheObject(verifyKey);
         cacheService.deleteObject(verifyKey);
+        if (StringUtils.isEmpty(code)) {
+            throw new CaptchaNullException();
+        }
         if (captcha == null) {
             throw new CaptchaExpireException();
         }

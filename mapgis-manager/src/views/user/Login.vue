@@ -62,7 +62,7 @@
 
 <script>
 import { mapActions } from 'vuex'
-import { getCodeImg } from '@/api/login'
+import { getIsNeedCode, getCodeImg } from '@/api/login'
 import { getSystemConfig } from '@/api/system/config'
 import { LOGIN_USERNAME, LOGIN_PASSWORD, LOGIN_REMEMBERME } from '@/store/mutation-types'
 import storage from 'store'
@@ -92,22 +92,31 @@ export default {
         code: [{ required: true, message: '请输入验证码', trigger: 'blur' }]
       },
       logining: false,
-      captchaEnabled: true,
+      isNeedCaptcha: false,
       registerConfig: {
         enabled: false
       },
       casConfig: {},
-      oauthConfig: {}
+      oauthConfig: {},
+      loginConfig: {
+        captchaEnabled: false,
+        maxRetryCount: 1
+      }
     }
   },
   computed: {
     otherLoginValid() {
       return (this.casConfig.enabled && this.casConfig.isReserveDefaultLogin) || this.oauthConfig.length
+    },
+    captchaEnabled() {
+      if (this.loginConfig.captchaEnabled && (this.isNeedCaptcha || this.loginConfig.maxRetryCount === 0)) {
+        return true
+      }
+      return false
     }
   },
   created() {
     this.getStorage()
-    this.getCode()
   },
   async mounted() {
     const systemConfigResult = await getSystemConfig()
@@ -116,15 +125,17 @@ export default {
     this.casConfig = systemConfig.casConfig
     this.oauthConfig = systemConfig.oauthConfig
     this.registerConfig = systemConfig.registerConfig
+    this.loginConfig = systemConfig.loginConfig
+
+    if (this.captchaEnabled) {
+      this.getCode()
+    }
   },
   methods: {
     getCode() {
       getCodeImg().then(res => {
-        this.captchaEnabled = res.captchaEnabled === undefined ? true : res.captchaEnabled
-        if (this.captchaEnabled) {
-          this.codeUrl = 'data:image/gif;base64,' + res.img
-          this.form.uuid = res.uuid
-        }
+        this.codeUrl = 'data:image/gif;base64,' + res.img
+        this.form.uuid = res.uuid
       })
     },
     getStorage() {
@@ -177,9 +188,12 @@ export default {
       this.isLoginError = true
       this.loginErrorInfo = err
       this.form.code = undefined
-      if (this.captchaEnabled) {
-        this.getCode()
-      }
+      getIsNeedCode(this.form.username).then(res => {
+        this.isNeedCaptcha = res.isNeedCaptcha
+        if (this.captchaEnabled) {
+          this.getCode()
+        }
+      })
     },
     handleCloseLoginError() {
       this.isLoginError = false

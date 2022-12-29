@@ -26,7 +26,7 @@
           :maxLength="20"
         />
       </a-form-model-item>
-      <a-row :gutter="16" v-if="captchaEnabled">
+      <a-row :gutter="16" v-if="loginConfig.captchaEnabled">
         <a-col class="gutter-row" :span="16">
           <a-form-model-item prop="code">
             <a-input v-model="form.code" size="large" type="text" autocomplete="off" placeholder="验证码">
@@ -58,6 +58,7 @@
 
 <script>
 import { getCodeImg, register } from '@/api/login'
+import { getSystemConfig } from '@/api/system/config'
 export default {
   name: 'Register',
   components: {},
@@ -120,21 +121,25 @@ export default {
       },
       registerBtn: false,
       registering: false,
-      captchaEnabled: true
+      loginConfig: {}
     }
   },
   computed: {},
-  created() {
-    this.getCode()
+  created() {},
+  async mounted() {
+    const systemConfigResult = await getSystemConfig()
+    const systemConfig = systemConfigResult.data
+
+    this.loginConfig = systemConfig.loginConfig
+    if (this.loginConfig.captchaEnabled) {
+      this.getCode()
+    }
   },
   methods: {
     getCode() {
       getCodeImg().then(res => {
-        this.captchaEnabled = res.captchaEnabled === undefined ? true : res.captchaEnabled
-        if (this.captchaEnabled) {
-          this.codeUrl = 'data:image/gif;base64,' + res.img
-          this.form.uuid = res.uuid
-        }
+        this.codeUrl = 'data:image/gif;base64,' + res.img
+        this.form.uuid = res.uuid
       })
     },
     handleRegister() {
@@ -169,7 +174,7 @@ export default {
       this.isRegisterError = true
       this.registerErrorInfo = err
       this.form.code = undefined
-      if (this.captchaEnabled) {
+      if (this.loginConfig.captchaEnabled) {
         this.getCode()
       }
     },

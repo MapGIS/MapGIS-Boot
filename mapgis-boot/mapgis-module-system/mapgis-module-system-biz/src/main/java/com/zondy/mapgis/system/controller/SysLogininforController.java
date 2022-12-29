@@ -2,7 +2,7 @@ package com.zondy.mapgis.system.controller;
 
 import com.zondy.mapgis.common.cache.service.ICacheService;
 import com.zondy.mapgis.common.controllerprefix.annotation.ManagerRestController;
-import com.zondy.mapgis.common.core.constant.CacheConstants;
+import com.zondy.mapgis.common.core.utils.CacheUtils;
 import com.zondy.mapgis.common.core.utils.poi.ExcelUtil;
 import com.zondy.mapgis.common.core.web.controller.BaseController;
 import com.zondy.mapgis.common.core.web.domain.AjaxResult;
@@ -93,11 +93,7 @@ public class SysLogininforController extends BaseController {
         SysPasswordProtectedConfig sysPasswordProtectedConfig = sysServiceProxy.getPasswordProtectedConfig();
         Boolean isLockedByIp = sysPasswordProtectedConfig.getIsLockedByIp();
 
-        if (isLockedByIp) {
-            cacheService.deleteObject(CacheConstants.PWD_ERR_CNT_KEY + userName + ip);
-        } else {
-            cacheService.deleteObject(CacheConstants.PWD_ERR_CNT_KEY + userName);
-        }
+        cacheService.deleteObject(CacheUtils.getLoginCacheKey(userName, ip, isLockedByIp));
         return success();
     }
 }

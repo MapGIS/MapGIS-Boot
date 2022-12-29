@@ -12,7 +12,7 @@
     <a-form-model-item label="允许连续失败次数" prop="maxRetryCount">
       <a-input-number v-model="form.maxRetryCount" :min="1" />
     </a-form-model-item>
-    <a-form-model-item label="自动解锁时间（分钟）" prop="maxRetryCount">
+    <a-form-model-item label="自动解锁时间（分钟）" prop="lockTime">
       <a-input-number v-model="form.lockTime" :min="1" />
     </a-form-model-item>
     <a-form-model-item label="是否通过IP锁定" prop="isLockedByIp">

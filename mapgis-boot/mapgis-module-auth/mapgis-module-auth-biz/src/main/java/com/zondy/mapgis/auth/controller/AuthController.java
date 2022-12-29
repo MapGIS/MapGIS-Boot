@@ -14,6 +14,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -67,9 +68,20 @@ public class AuthController {
     @GetMapping("/captchaImage")
     public AjaxResult createCaptcha() throws IOException {
         SysLoginConfig sysLoginConfig = sysServiceProxy.getLoginConfig();
-        boolean captchaEnabled = sysLoginConfig.getCaptchaEnabled();
         String captchaType = sysLoginConfig.getCaptchaType();
 
-        return validateCodeService.createCaptcha(captchaEnabled, captchaType);
+        return validateCodeService.createCaptcha(captchaType);
+    }
+
+    /**
+     * 是否需要验证码
+     */
+    @Operation(summary = "是否需要验证码")
+    @GetMapping("/isNeedCaptcha/{username}")
+    public AjaxResult isNeedCaptcha(@PathVariable("username") String username) {
+        AjaxResult ajax = AjaxResult.success();
+        boolean isNeedCaptcha = loginService.isNeedCaptcha(username);
+        ajax.put("isNeedCaptcha", isNeedCaptcha);
+        return ajax;
     }
 }

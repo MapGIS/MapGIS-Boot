@@ -10,6 +10,7 @@ import com.zondy.mapgis.common.core.utils.spring.SpringUtils;
 import com.zondy.mapgis.common.core.web.domain.AjaxResult;
 import com.zondy.mapgis.system.api.domain.SysAuthConfig;
 import com.zondy.mapgis.system.api.domain.SysCasConfig;
+import com.zondy.mapgis.system.api.domain.SysLoginConfig;
 import com.zondy.mapgis.system.api.domain.SysRegisterConfig;
 import com.zondy.mapgis.system.service.ISysAuthConfigService;
 import com.zondy.mapgis.system.service.ISysConfigService;
@@ -52,6 +53,7 @@ public class SysWebConfigController {
         systemConfig.put("osArch", props.getProperty("os.arch"));
         systemConfig.put("javaVersion", props.getProperty("java.version"));
         systemConfig.put("registerConfig", getRegisterConfig());
+        systemConfig.put("loginConfig", getLoginConfig());
         systemConfig.put("oauthConfig", getAuthConfig());
         systemConfig.put("casConfig", getCasConfig());
         return AjaxResult.success(systemConfig);
@@ -112,5 +114,18 @@ public class SysWebConfigController {
         }
 
         return casConfig;
+    }
+
+    private Map<String, Object> getLoginConfig() {
+        Map<String, Object> loginConfig = new LinkedHashMap<>();
+        String strConfig = configService.selectConfigValueByKey(ConfigConstants.CONFIG_KEY_SECURITY_LOGIN);
+        SysLoginConfig sysLoginConfig = JsonUtils.parseObject(strConfig, SysLoginConfig.class);
+
+        if (StringUtils.isNotNull(sysLoginConfig)) {
+            loginConfig.put("captchaEnabled", sysLoginConfig.getCaptchaEnabled());
+            loginConfig.put("maxRetryCount", sysLoginConfig.getMaxRetryCount());
+        }
+
+        return loginConfig;
     }
 }

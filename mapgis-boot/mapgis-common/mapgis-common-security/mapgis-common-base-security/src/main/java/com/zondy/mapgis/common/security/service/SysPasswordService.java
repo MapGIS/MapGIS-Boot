@@ -1,17 +1,18 @@
 package com.zondy.mapgis.common.security.service;
 
 import com.zondy.mapgis.common.cache.service.ICacheService;
-import com.zondy.mapgis.common.core.constant.CacheConstants;
 import com.zondy.mapgis.common.core.constant.Constants;
 import com.zondy.mapgis.common.core.exception.user.UserPasswordIpRetryLimitExceedException;
 import com.zondy.mapgis.common.core.exception.user.UserPasswordNotMatchException;
 import com.zondy.mapgis.common.core.exception.user.UserPasswordRetryLimitExceedException;
+import com.zondy.mapgis.common.core.utils.CacheUtils;
 import com.zondy.mapgis.common.core.utils.MessageUtils;
 import com.zondy.mapgis.common.core.utils.ServletUtils;
 import com.zondy.mapgis.common.core.utils.StringUtils;
 import com.zondy.mapgis.common.core.utils.ip.IpUtils;
 import com.zondy.mapgis.common.core.utils.spring.SpringUtils;
 import com.zondy.mapgis.common.security.utils.BaseSecurityUtils;
+import com.zondy.mapgis.system.api.domain.SysLoginConfig;
 import com.zondy.mapgis.system.api.domain.SysPasswordProtectedConfig;
 import com.zondy.mapgis.system.api.domain.SysUser;
 import com.zondy.mapgis.system.api.service.SysServiceProxy;
@@ -34,22 +35,6 @@ public class SysPasswordService {
     @Autowired
     private SysServiceProxy sysServiceProxy;
 
-    /**
-     * 登录账号密码错误次数缓存键名
-     *
-     * @param username     用户名
-     * @param ip           ip地址
-     * @param isLockedByIp 是否通过IP锁定
-     * @return 缓存键key
-     */
-    private String getCacheKey(String username, String ip, Boolean isLockedByIp) {
-        if (isLockedByIp) {
-            return CacheConstants.PWD_ERR_CNT_KEY + username + ip;
-        } else {
-            return CacheConstants.PWD_ERR_CNT_KEY + username;
-        }
-    }
-
     public void validate(SysUser user, String password) {
         if (StringUtils.isEmpty(password)) {
             return;
@@ -69,12 +54,16 @@ public class SysPasswordService {
             if (!matches(user, password)) {
                 SpringUtils.getBean(ISysRecordLogService.class).recordLogininfor(username, Constants.LOGIN_FAIL,
                         MessageUtils.message("user.password.not.match"));
+                // 记录验证码显示登录错误次数缓存
+                recordCaptchaLoginCache(username, ip);
                 throw new UserPasswordNotMatchException();
+            } else {
+                clearCaptchaLoginCache(username, ip);
             }
             return;
         }
 
-        Integer retryCount = cacheService.getCacheObject(getCacheKey(username, ip, isLockedByIp));
+        Integer retryCount = cacheService.getCacheObject(CacheUtils.getLoginCacheKey(username, ip, isLockedByIp));
 
         if (retryCount == null) {
             retryCount = 0;
@@ -96,10 +85,13 @@ public class SysPasswordService {
             retryCount = retryCount + 1;
             SpringUtils.getBean(ISysRecordLogService.class).recordLogininfor(username, Constants.LOGIN_FAIL,
                     MessageUtils.message("user.password.retry.limit.count", retryCount));
-            cacheService.setCacheObject(getCacheKey(username, ip, isLockedByIp), retryCount, lockTime.longValue(), TimeUnit.MINUTES);
+            cacheService.setCacheObject(CacheUtils.getLoginCacheKey(username, ip, isLockedByIp), retryCount, lockTime.longValue(), TimeUnit.MINUTES);
+            // 记录验证码显示登录错误次数缓存
+            recordCaptchaLoginCache(username, ip);
             throw new UserPasswordNotMatchException();
         } else {
-            clearLoginRecordCache(username, ip, isLockedByIp);
+            clearLoginCache(username, ip, isLockedByIp);
+            clearCaptchaLoginCache(username, ip);
         }
     }
 
@@ -107,9 +99,35 @@ public class SysPasswordService {
         return BaseSecurityUtils.matchesPassword(rawPassword, user.getPassword());
     }
 
-    public void clearLoginRecordCache(String loginName, String ip, Boolean isLockedByIp) {
-        if (cacheService.hasKey(getCacheKey(loginName, ip, isLockedByIp))) {
-            cacheService.deleteObject(getCacheKey(loginName, ip, isLockedByIp));
+    public void clearLoginCache(String loginName, String ip, Boolean isLockedByIp) {
+        if (cacheService.hasKey(CacheUtils.getLoginCacheKey(loginName, ip, isLockedByIp))) {
+            cacheService.deleteObject(CacheUtils.getLoginCacheKey(loginName, ip, isLockedByIp));
+        }
+    }
+
+    public void clearCaptchaLoginCache(String loginName, String ip) {
+        if (cacheService.hasKey(CacheUtils.getCaptchaLoginCacheKey(loginName, ip))) {
+            cacheService.deleteObject(CacheUtils.getCaptchaLoginCacheKey(loginName, ip));
+        }
+    }
+
+    public void recordCaptchaLoginCache(String loginName, String ip) {
+        // 获取用户登录安全配置
+        SysLoginConfig sysLoginConfig = sysServiceProxy.getLoginConfig();
+        final Boolean captchaEnabled = sysLoginConfig.getCaptchaEnabled();
+        final Integer maxRetryCount = sysLoginConfig.getMaxRetryCount();
+        final Integer recordTime = sysLoginConfig.getRecordTime();
+
+        // 启用验证码并且需要N次失败后才显示
+        if (captchaEnabled && maxRetryCount > 0) {
+            Integer retryCount = cacheService.getCacheObject(CacheUtils.getCaptchaLoginCacheKey(loginName, ip));
+
+            if (retryCount == null) {
+                retryCount = 0;
+            }
+
+            retryCount = retryCount + 1;
+            cacheService.setCacheObject(CacheUtils.getCaptchaLoginCacheKey(loginName, ip), retryCount, recordTime.longValue(), TimeUnit.MINUTES);
         }
     }
 }

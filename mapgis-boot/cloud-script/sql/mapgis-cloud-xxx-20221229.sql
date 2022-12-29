@@ -193,8 +193,8 @@ VALUES (4, '安全配置-密码安全配置', 'security.passwordProtected',
         '2022-03-23 22:12:32', '', NULL, '密码安全配置');
 INSERT INTO `sys_config`
 VALUES (5, '安全配置-登录配置', 'security.login',
-        '{\"soloLoginEnabled\":true,\"captchaEnabled\":true,\"captchaType\":\"math\"}', 'Y', 'admin',
-        '2022-03-23 22:12:32', '', NULL, '用户登录配置');
+        '{\"soloLoginEnabled\":true,\"captchaEnabled\":true,\"captchaType\":\"math\",\"maxRetryCount\":1,\"recordTime\":10}',
+        'Y', 'admin', '2022-03-23 22:12:32', '', NULL, '用户登录配置');
 INSERT INTO `sys_config`
 VALUES (6, '安全配置-第三方登录配置', 'security.oauth', '{\"defaultUserGroupIds\":[1]}', 'Y', 'admin', '2022-03-23 22:12:32', '',
         NULL, '第三方登录配置');

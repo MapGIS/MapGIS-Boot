@@ -148,7 +148,10 @@ public class CasSecurityConfig extends WebSecurityConfigurerAdapter {
                 // 过滤请求
                 .authorizeRequests()
                 // 对于登录login 注册register 验证码captchaImage 允许匿名访问
-                .antMatchers(strServicesPrefix + "/auth/login", strServicesPrefix + "/auth/register", strServicesPrefix + "/auth/captchaImage").anonymous()
+                .antMatchers(strServicesPrefix + "/auth/login",
+                        strServicesPrefix + "/auth/register",
+                        strServicesPrefix + "/auth/captchaImage",
+                        strServicesPrefix + "/auth/isNeedCaptcha/**").anonymous()
                 .antMatchers(strServicesPrefix + "/auth/thirdLogin/**").anonymous()
                 .antMatchers(strServicesPrefix + "/auth/casLogin/**").anonymous()
                 // 静态资源，可匿名访问

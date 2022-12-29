@@ -25,9 +25,21 @@ public class SysLoginConfig {
      */
     String captchaType;
 
+    /**
+     * 连续失败N次显示验证码
+     */
+    Integer maxRetryCount;
+
+    /**
+     * 失败记录有效期（分钟）
+     */
+    Integer recordTime;
+
     public SysLoginConfig() {
         soloLoginEnabled = true;
         captchaEnabled = true;
         captchaType = "math";
+        maxRetryCount = 1;
+        recordTime = 10;
     }
 }

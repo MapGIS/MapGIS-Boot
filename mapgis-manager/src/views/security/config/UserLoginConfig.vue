@@ -28,6 +28,12 @@
         </div>
       </div>
     </a-form-model-item>
+    <a-form-model-item label="连续失败N次显示验证码" prop="maxRetryCount">
+      <a-input-number v-model="form.maxRetryCount" :min="0" />
+    </a-form-model-item>
+    <a-form-model-item label="失败记录有效期（分钟）" prop="recordTime">
+      <a-input-number v-model="form.recordTime" :min="1" />
+    </a-form-model-item>
     <a-form-model-item :wrapper-col="{ lg: { span: 10, offset: 7 }, sm: { span: 17, offset: 7 } }">
       <a-button type="primary" :loading="submitLoading" @click="submit" v-hasPermi="['system:config:edit']">
         保存
@@ -43,7 +49,9 @@ import { getConfigByKey, updateConfig } from '@/api/system/config'
 const defaultConfigValue = {
   soloLoginEnabled: true,
   captchaEnabled: true,
-  captchaType: 'math'
+  captchaType: 'math',
+  maxRetryCount: 1,
+  recordTime: 10
 }
 
 export default {

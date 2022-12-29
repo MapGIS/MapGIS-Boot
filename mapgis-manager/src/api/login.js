@@ -53,6 +53,14 @@ export function logout() {
   })
 }
 
+// 获取是否需要显示验证码
+export function getIsNeedCode(username) {
+  return request({
+    url: `${window._CONFIG['apiPathServicesPrefix']}/auth/isNeedCaptcha/${username}`,
+    method: 'get'
+  })
+}
+
 // 获取验证码
 export function getCodeImg() {
   return request({

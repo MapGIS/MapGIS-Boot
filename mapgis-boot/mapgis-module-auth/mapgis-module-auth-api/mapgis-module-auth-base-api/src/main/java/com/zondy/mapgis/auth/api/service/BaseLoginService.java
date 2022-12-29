@@ -2,14 +2,16 @@ package com.zondy.mapgis.auth.api.service;
 
 import com.zondy.mapgis.auth.api.domain.model.LoginBody;
 import com.zondy.mapgis.auth.api.domain.model.RegisterBody;
+import com.zondy.mapgis.common.cache.service.ICacheService;
 import com.zondy.mapgis.common.captcha.service.IValidateCodeService;
 import com.zondy.mapgis.common.core.constant.UserConstants;
 import com.zondy.mapgis.common.core.exception.ServiceException;
-import com.zondy.mapgis.common.core.utils.DateUtils;
-import com.zondy.mapgis.common.core.utils.MessageUtils;
-import com.zondy.mapgis.common.core.utils.StringUtils;
+import com.zondy.mapgis.common.core.utils.*;
+import com.zondy.mapgis.common.core.utils.ip.IpUtils;
+import com.zondy.mapgis.common.core.utils.spring.SpringUtils;
 import com.zondy.mapgis.common.ldap.utils.LdapUtils;
 import com.zondy.mapgis.system.api.domain.SysLdapConfig;
+import com.zondy.mapgis.system.api.domain.SysLoginConfig;
 import com.zondy.mapgis.system.api.domain.SysRegisterConfig;
 import com.zondy.mapgis.system.api.domain.SysUser;
 import com.zondy.mapgis.system.api.model.LoginUser;
@@ -92,7 +94,10 @@ public abstract class BaseLoginService {
      * @param loginBody 登录对象
      */
     public void beforeLogin(LoginBody loginBody) {
-        checkCaptcha(loginBody.getCode(), loginBody.getUuid());
+        // 校验验证码
+        if (isNeedCaptcha(loginBody.getUsername())) {
+            validateCodeService.checkCaptcha(loginBody.getCode(), loginBody.getUuid());
+        }
     }
 
     /**
@@ -160,7 +165,12 @@ public abstract class BaseLoginService {
      * @param registerBody 注册对象
      */
     public void beforeRegister(RegisterBody registerBody) {
-        checkCaptcha(registerBody.getCode(), registerBody.getUuid());
+        boolean captchaEnabled = sysServiceProxy.getLoginConfig().getCaptchaEnabled();
+
+        // 校验验证码
+        if (captchaEnabled) {
+            validateCodeService.checkCaptcha(registerBody.getCode(), registerBody.getUuid());
+        }
     }
 
     /**
@@ -203,21 +213,6 @@ public abstract class BaseLoginService {
      * 成功注册之后操作
      */
     public abstract void afterSuccessRegister(String username);
-
-    /**
-     * 校验验证码
-     *
-     * @param code 验证码
-     * @param uuid 生成验证码的UUID
-     */
-    public void checkCaptcha(String code, String uuid) {
-        boolean captchaEnabled = sysServiceProxy.getLoginConfig().getCaptchaEnabled();
-
-        // 校验验证码
-        if (captchaEnabled) {
-            validateCodeService.checkCaptcha(code, uuid);
-        }
-    }
 
     /**
      * 记录登录信息
@@ -269,5 +264,29 @@ public abstract class BaseLoginService {
             // 注册账号
             register(username, password, userGroupIds, roleIds);
         }
+    }
+
+    /**
+     * 是否需要验证码
+     *
+     * @param username
+     */
+    public boolean isNeedCaptcha(String username) {
+        String ip = IpUtils.getIpAddr(ServletUtils.getRequest());
+        SysLoginConfig sysLoginConfig = sysServiceProxy.getLoginConfig();
+        Boolean captchaEnabled = sysLoginConfig.getCaptchaEnabled();
+        final Integer maxRetryCount = sysLoginConfig.getMaxRetryCount();
+
+        if (!captchaEnabled) {
+            return false;
+        }
+
+        Integer retryCount = SpringUtils.getBean(ICacheService.class).getCacheObject(CacheUtils.getCaptchaLoginCacheKey(username, ip));
+
+        if (retryCount == null) {
+            retryCount = 0;
+        }
+
+        return retryCount >= maxRetryCount;
     }
 }

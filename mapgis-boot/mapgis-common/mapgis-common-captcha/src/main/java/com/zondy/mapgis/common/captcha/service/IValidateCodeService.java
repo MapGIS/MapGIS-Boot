@@ -15,7 +15,7 @@ public interface IValidateCodeService {
     /**
      * 生成验证码
      */
-    public AjaxResult createCaptcha(boolean captchaEnabled, String captchaType) throws IOException, CaptchaException;
+    public AjaxResult createCaptcha(String captchaType) throws IOException, CaptchaException;
 
     /**
      * 校验验证码
