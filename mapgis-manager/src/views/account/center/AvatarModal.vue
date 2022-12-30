@@ -132,7 +132,7 @@ export default {
           formData.append('avatarfile', data, this.fileName)
           uploadAvatar(formData).then(response => {
             this.open = false
-            let imgUrl = window._CONFIG['domianURL'] + response.imgUrl
+            let imgUrl = window._CONFIG['domainURL'] + response.imgUrl
             if (response.imgUrl.startsWith('http') || response.imgUrl.startsWith('https')) {
               imgUrl = response.imgUrl
             }

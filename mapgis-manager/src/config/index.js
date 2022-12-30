@@ -10,4 +10,4 @@ window._CONFIG['apiPathServicesPrefix'] = `/${window._CONFIG.VUE_APP_PRODUCT_NAM
 Vue.prototype.API_BASE_URL = window._CONFIG.VUE_APP_API_BASE_URL
   ? window._CONFIG.VUE_APP_API_BASE_URL
   : process.env.VUE_APP_API_BASE_URL
-window._CONFIG['domianURL'] = Vue.prototype.API_BASE_URL
+window._CONFIG['domainURL'] = Vue.prototype.API_BASE_URL

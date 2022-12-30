@@ -55,7 +55,7 @@ const user = {
         getInfo(state.token)
           .then(res => {
             const user = res.user
-            let avatarUrl = window._CONFIG['domianURL'] + user.avatar
+            let avatarUrl = window._CONFIG['domainURL'] + user.avatar
             if (user.avatar.startsWith('http') || user.avatar.startsWith('https')) {
               avatarUrl = user.avatar
             }

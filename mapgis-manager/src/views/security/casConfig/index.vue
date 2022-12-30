@@ -36,7 +36,7 @@ const defaultConfigValue = {
   enabled: false,
   isReserveDefaultLogin: false,
   casServerUrl: '',
-  // document.location.origin + window._CONFIG['domianURL']
+  // document.location.origin + window._CONFIG['domainURL']
   casServiceHostUrl: '',
   // document.location.origin
   casServiceWebUrl: ''
@@ -60,7 +60,7 @@ export default {
   async mounted() {
     const configInfoResult = await getConfigByKey('security.cas')
     this.configInfo = configInfoResult.data
-    defaultConfigValue.casServiceHostUrl = document.location.origin + window._CONFIG['domianURL']
+    defaultConfigValue.casServiceHostUrl = document.location.origin + window._CONFIG['domainURL']
     defaultConfigValue.casServiceWebUrl = document.location.origin
     const configValue = merge(defaultConfigValue, this.configInfo && JSON.parse(this.configInfo.configValue || '{}'))
 

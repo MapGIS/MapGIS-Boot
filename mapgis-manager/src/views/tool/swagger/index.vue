@@ -12,7 +12,7 @@ export default {
   components: {},
   data() {
     return {
-      src: window._CONFIG['domianURL'] + '/webjars/swagger-ui/index.html',
+      src: window._CONFIG['domainURL'] + '/webjars/swagger-ui/index.html',
       height: document.documentElement.clientHeight - 94.5 + 'px;',
       loading: true
     }

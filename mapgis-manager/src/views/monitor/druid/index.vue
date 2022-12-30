@@ -12,7 +12,7 @@ export default {
   components: {},
   data() {
     return {
-      src: window._CONFIG['domianURL'] + '/druid/login.html',
+      src: window._CONFIG['domainURL'] + '/druid/login.html',
       height: document.documentElement.clientHeight - 94.5 + 'px;',
       loading: true
     }

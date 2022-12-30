@@ -51,7 +51,7 @@ export default {
     return {
       loading: false,
       open: false,
-      uploadImgUrl: window._CONFIG['domianURL'] + '/common/upload',
+      uploadImgUrl: window._CONFIG['domainURL'] + '/common/upload',
       headers: {
         Authorization: 'Bearer ' + storage.get(ACCESS_TOKEN)
       }
