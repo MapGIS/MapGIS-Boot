@@ -1,10 +1,12 @@
 package com.zondy.mapgis.system.service.impl;
 
 import com.baomidou.dynamic.datasource.annotation.DS;
+import com.zondy.mapgis.common.core.utils.DateUtils;
 import com.zondy.mapgis.system.api.domain.SysHttpAccess;
 import com.zondy.mapgis.system.api.service.ISysHttpAccessService;
 import com.zondy.mapgis.system.mapper.SysHttpAccessMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -85,10 +87,10 @@ public class SysHttpAccessServiceImpl implements ISysHttpAccessService {
     }
 
     /**
-     * 清理过期的数据（90天之前）
+     * 每天清理一下Http访问日志，超过90天的将被清除
      */
-    @Override
-    public void clearExpired() {
+    @Scheduled(initialDelay = 5 * DateUtils.MILLIS_PER_SECOND, fixedDelay = DateUtils.MILLIS_PER_DAY)
+    public void clearGarbage() {
         sysHttpAccessMapper.clearExpired();
     }
 }

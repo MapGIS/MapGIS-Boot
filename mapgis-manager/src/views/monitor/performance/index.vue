@@ -275,7 +275,6 @@ export default {
         xAxis: [
           {
             type: 'time',
-            minInterval: 60 * 1000,
             splitLine: {
               show: false
             },
@@ -415,7 +414,6 @@ export default {
         xAxis: [
           {
             type: 'time',
-            minInterval: 60 * 1000,
             splitLine: {
               show: false
             },
@@ -438,7 +436,6 @@ export default {
             type: 'value',
             minInterval: 1,
             min: 0,
-            // max: '100',
             axisLabel: {
               formatter: function (value, index) {
                 return value

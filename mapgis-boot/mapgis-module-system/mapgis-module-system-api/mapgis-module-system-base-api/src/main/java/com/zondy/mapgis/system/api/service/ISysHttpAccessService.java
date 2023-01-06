@@ -55,9 +55,4 @@ public interface ISysHttpAccessService {
      * 清空Http访问日志
      */
     public void cleanHttpAccess();
-
-    /**
-     * 清理过期的数据（90天之前）
-     */
-    public void clearExpired();
 }

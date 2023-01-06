@@ -331,7 +331,6 @@ export default {
         this.color = '#ffffff'
       }
       this.isEchartsInited = false
-      this.initEcharts()
       this.getServerInfoTimeRange()
     }
   },
@@ -349,7 +348,6 @@ export default {
     } else if (this.theme === 'night') {
       this.color = '#ffffff'
     }
-    this.initEcharts()
     this.getServerInfo()
     this.handleTimeRangeSelectChange(this.defaultTimeRangeItem)
     this.monitor = window.setInterval(() => {
@@ -398,7 +396,6 @@ export default {
         self.$nextTick(() => {
           // 监控信息获取完毕后初始化Echarts
           if (!this.isEchartsInited) {
-            self.initEcharts()
             self.getServerInfoTimeRange()
           }
         })
@@ -411,6 +408,10 @@ export default {
       getServerRange({ beginTime: this.beginTime, endTime: this.endTime }).then(response => {
         self.dataTimeRange = response.data
         self.initEcharts()
+        if (!this.isEchartsInited) {
+          return false
+        }
+
         // 渲染图表
         self.cpuRecords = []
         for (let i = 0; i < self.dataTimeRange.cpu.length; i++) {
