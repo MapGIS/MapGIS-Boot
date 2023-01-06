@@ -64,18 +64,23 @@ public class DataSourceConfig {
         String rootPath = EnvironmentUtil.getCurrentProjectPath();
         DataSource masterDataSource = null;
         DataSource accessLogDataSource = null;
+        DataSource hardwareMonitorDataSource = null;
         String accessLogDbName = dbName + "-access-log";
         String accessLogSqlPath = dbType + "-access-log";
+        String hardwareMonitorDbName = dbName + "-hardware-monitor";
+        String hardwareMonitorSqlPath = dbType + "-hardware-monitor";
 
         // 动态添加数据源
         switch (dbType) {
             case "mysql":
                 masterDataSource = createMySQLDataSource(dbName);
                 accessLogDataSource = createMySQLDataSource(accessLogDbName);
+                hardwareMonitorDataSource = createMySQLDataSource(hardwareMonitorDbName);
                 break;
             default:
                 masterDataSource = createSQLiteDataSource(rootPath, dbName);
                 accessLogDataSource = createSQLiteDataSource(rootPath, accessLogDbName);
+                hardwareMonitorDataSource = createSQLiteDataSource(rootPath, hardwareMonitorDbName);
         }
 
         // master
@@ -85,6 +90,10 @@ public class DataSourceConfig {
         // access_log
         migrateDataBase(accessLogDataSource, accessLogDbName, accessLogSqlPath);
         dynamicRoutingDataSource.addDataSource("access_log", accessLogDataSource);
+
+        // hardware_monitor
+        migrateDataBase(hardwareMonitorDataSource, hardwareMonitorDbName, hardwareMonitorSqlPath);
+        dynamicRoutingDataSource.addDataSource("hardware_monitor", hardwareMonitorDataSource);
 
         return dynamicRoutingDataSource;
     }

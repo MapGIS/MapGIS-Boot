@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zondy.mapgis.system.mapper.SysCpuMapper">
+
+    <resultMap type="SysCpu" id="SysCpuResult">
+        <result property="cpuId" column="cpu_id"/>
+        <result property="percent" column="percent"/>
+        <result property="time" column="time"/>
+    </resultMap>
+
+    <sql id="selectSysCpuVo">
+        select cpu_id, percent, time
+        from sys_cpu
+    </sql>
+
+    <select id="selectRecentSysCpuWithinTime" parameterType="Date"
+            resultMap="SysCpuResult">
+        <include refid="selectSysCpuVo"/>
+        <where>
+            <if test="time != null">
+                <choose>
+                    <when test="_databaseId == 'sqlite'">
+                        and time &gt; #{time}
+                    </when>
+                    <otherwise>
+                        and date_format(time,'%y%m%d %H:%i:%S') &gt; date_format(#{time},'%y%m%d %H:%i:%S')
+                    </otherwise>
+                </choose>
+            </if>
+        </where>
+        order by time desc limit 0,1
+    </select>
+
+    <select id="selectSysCpuList" parameterType="SysCpu" resultMap="SysCpuResult">
+        <include refid="selectSysCpuVo"/>
+        <where>
+            <if test="percent != null ">
+                and percent = #{percent}
+            </if>
+            <if test="params.beginTime != null and params.beginTime != ''"><!-- 开始时间检索 -->
+                <choose>
+                    <when test="_databaseId == 'sqlite'">
+                        and time &gt;= #{params.beginTime}
+                    </when>
+                    <otherwise>
+                        and date_format(time,'%y%m%d %H:%i:%S') &gt;= date_format(#{params.beginTime},
+                        '%y%m%d %H:%i:%S')
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="params.endTime != null and params.endTime != ''"><!-- 结束时间检索 -->
+                <choose>
+                    <when test="_databaseId == 'sqlite'">
+                        and time &lt;= #{params.endTime}
+                    </when>
+                    <otherwise>
+                        and date_format(time,'%y%m%d %H:%i:%S') &lt;= date_format(#{params.endTime},
+                        '%y%m%d %H:%i:%S')
+                    </otherwise>
+                </choose>
+            </if>
+        </where>
+    </select>
+
+    <insert id="insertSysCpu" parameterType="SysCpu" useGeneratedKeys="true" keyProperty="cpuId">
+        insert into sys_cpu
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="percent != null">percent,</if>
+            <if test="time != null">time,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="percent != null">#{percent},</if>
+            <if test="time != null">
+                <choose>
+                    <when test="_databaseId == 'sqlite'">
+                        datetime(#{time} / 1000,'unixepoch','localtime')
+                    </when>
+                    <otherwise>
+                        #{time}
+                    </otherwise>
+                </choose>
+            </if>
+        </trim>
+    </insert>
+
+    <delete id="clearExpired">
+        delete
+        from sys_cpu
+        <where>
+            <choose>
+                <when test="_databaseId == 'sqlite'">
+                    and time &lt; datetime(CURRENT_TIMESTAMP,'localtime','-90 day')
+                </when>
+                <otherwise>
+                    and date_format(time,'%y%m%d') &lt; date_format(date_sub(sysdate(),INTERVAL 90 DAY),'%y%m%d')
+                </otherwise>
+            </choose>
+        </where>
+    </delete>
+</mapper>

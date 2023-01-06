@@ -116,10 +116,10 @@
             <if test="accessTime != null">
                 <choose>
                     <when test="_databaseId == 'sqlite'">
-                        datetime(#{accessTime} / 1000,'unixepoch','localtime'),
+                        datetime(#{accessTime} / 1000,'unixepoch','localtime')
                     </when>
                     <otherwise>
-                        #{accessTime},
+                        #{accessTime}
                     </otherwise>
                 </choose>
             </if>

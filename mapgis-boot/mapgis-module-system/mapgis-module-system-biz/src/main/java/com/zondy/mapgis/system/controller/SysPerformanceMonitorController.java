@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.GetMapping;
  * @author xiongbo
  * @since 2022/12/5 18:17
  */
-@Tag(name = "服务器性能监控管理", description = "服务器性能监控控制器")
+@Tag(name = "服务器监控管理", description = "服务器监控控制器")
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
 @ManagerRestController("/system/monitor")
 public class SysPerformanceMonitorController extends BaseController {
