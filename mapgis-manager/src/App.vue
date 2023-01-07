@@ -8,7 +8,7 @@
 
 <script>
 import { setDocumentTitle, setFavicon } from '@/utils/domUtil'
-import Watermark from '@/utils/wartermark'
+import watermark from 'watermark-dom'
 import { i18nRender } from '@/locales'
 import { getBaseConfig } from '@/api/system/config'
 
@@ -17,7 +17,15 @@ export default {
     return {}
   },
   mounted() {
-    Watermark.set('MapGIS Boot')
+    watermark.load({
+      watermark_txt: 'MapGIS Boot',
+      watermark_width: 300,
+      watermark_height: 240,
+      watermark_angle: 30,
+      watermark_color: 'black',
+      watermark_alpha: 0.15,
+      watermark_fontsize: '15px'
+    })
     getBaseConfig().then(response => {
       const configValue = response.data
       if (configValue) {
@@ -29,7 +37,7 @@ export default {
     })
   },
   destroyed() {
-    Watermark.remove()
+    watermark.remove()
   },
   computed: {
     locale() {
