@@ -39,7 +39,7 @@
     "wangeditor": "^4.7.10",
     "vue-echarts": "^5.0.0-beta.0",
     "qiankun": "^2.8.0",
-    "watermark-dom": "2.3.0"
+    "watermark-dom": "^2.3.0"
   },
   "devDependencies": {
     "@ant-design/colors": "^6.0.0",

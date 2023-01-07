@@ -24,7 +24,10 @@ export default {
       watermark_angle: 30,
       watermark_color: 'black',
       watermark_alpha: 0.15,
-      watermark_fontsize: '15px'
+      watermark_fontsize: '15px',
+      watermark_x: 0,
+      watermark_y: 0,
+      monitor: false
     })
     getBaseConfig().then(response => {
       const configValue = response.data
