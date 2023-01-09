@@ -88,6 +88,12 @@
             <groupId>com.zondy.mapgis</groupId>
             <artifactId>mapgis-common-base-meter</artifactId>
         </dependency>
+
+        <!-- MapGIS Common MyBatis -->
+        <dependency>
+            <groupId>com.zondy.mapgis</groupId>
+            <artifactId>mapgis-common-mybatis</artifactId>
+        </dependency>
     </dependencies>
 
     <profiles>

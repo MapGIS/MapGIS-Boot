@@ -29,12 +29,6 @@
             <artifactId>druid-spring-boot-starter</artifactId>
         </dependency>
 
-        <!-- Mybatis 依赖配置 -->
-        <dependency>
-            <groupId>org.mybatis.spring.boot</groupId>
-            <artifactId>mybatis-spring-boot-starter</artifactId>
-        </dependency>
-
         <!-- MapGIS System Local API -->
         <dependency>
             <groupId>com.zondy.mapgis</groupId>

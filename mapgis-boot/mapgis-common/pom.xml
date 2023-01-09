@@ -25,6 +25,7 @@
         <module>mapgis-common-accesslog</module>
         <module>mapgis-common-meter</module>
         <module>mapgis-common-schedule</module>
+        <module>mapgis-common-mybatis</module>
     </modules>
 
     <artifactId>mapgis-common</artifactId>

@@ -36,8 +36,6 @@
         <spring-cloud-alibaba.version>2021.0.1.0</spring-cloud-alibaba.version>
         <alibaba.nacos.version>2.0.4</alibaba.nacos.version>
         <spring-boot-admin.version>2.7.3</spring-boot-admin.version>
-        <mybatis-spring-boot.version>2.2.0</mybatis-spring-boot.version>
-        <mybatis-spring.version>2.0.6</mybatis-spring.version>
         <swagger.annotations.version>2.2.0</swagger.annotations.version>
         <springdoc.version>1.6.8</springdoc.version>
         <tobato.version>1.27.2</tobato.version>
@@ -61,6 +59,7 @@
         <velocity.version>2.3</velocity.version>
         <grok.version>0.1.9</grok.version>
         <guava.version>30.0-jre</guava.version>
+        <mybatis-plus.version>3.5.3</mybatis-plus.version>
     </properties>
 
     <!-- 依赖声明 -->
@@ -114,18 +113,6 @@
                 <version>${minio.version}</version>
             </dependency>
 
-            <!-- Mybatis 依赖配置 -->
-            <dependency>
-                <groupId>org.mybatis.spring.boot</groupId>
-                <artifactId>mybatis-spring-boot-starter</artifactId>
-                <version>${mybatis-spring-boot.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.mybatis</groupId>
-                <artifactId>mybatis-spring</artifactId>
-                <version>${mybatis-spring.version}</version>
-            </dependency>
-
             <!-- springdoc -->
             <dependency>
                 <groupId>org.springdoc</groupId>
@@ -157,6 +144,12 @@
                 <groupId>com.github.pagehelper</groupId>
                 <artifactId>pagehelper-spring-boot-starter</artifactId>
                 <version>${pagehelper.boot.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <artifactId>mybatis</artifactId>
+                        <groupId>org.mybatis</groupId>
+                    </exclusion>
+                </exclusions>
             </dependency>
 
             <!-- excel工具 -->
@@ -261,6 +254,13 @@
                 <groupId>com.google.guava</groupId>
                 <artifactId>guava</artifactId>
                 <version>${guava.version}</version>
+            </dependency>
+
+            <!-- MyBatis Plus -->
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-boot-starter</artifactId>
+                <version>${mybatis-plus.version}</version>
             </dependency>
 
             <!-- 核心模块 -->
@@ -498,6 +498,13 @@
             <dependency>
                 <groupId>com.zondy.mapgis</groupId>
                 <artifactId>mapgis-common-schedule</artifactId>
+                <version>${mapgis.boot.version}</version>
+            </dependency>
+
+            <!-- MapGIS Common MyBatis -->
+            <dependency>
+                <groupId>com.zondy.mapgis</groupId>
+                <artifactId>mapgis-common-mybatis</artifactId>
                 <version>${mapgis.boot.version}</version>
             </dependency>
 
