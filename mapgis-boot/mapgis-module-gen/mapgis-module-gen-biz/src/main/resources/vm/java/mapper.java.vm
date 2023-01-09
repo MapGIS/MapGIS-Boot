@@ -1,5 +1,6 @@
 package ${packageName}.mapper;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import ${packageName}.domain.${ClassName};
 #if($table.sub)
 import ${packageName}.domain.${subClassName};
@@ -13,7 +14,7 @@ import java.util.List;
  * @author ${author}
  * @date ${datetime}
  */
-public interface ${ClassName}Mapper {
+public interface ${ClassName}Mapper extends BaseMapper<${ClassName}> {
     /**
      * 查询${functionName}
      *
