@@ -1,7 +1,7 @@
 package com.zondy.mapgis.auth.controller;
 
 import com.zondy.mapgis.auth.api.service.SysLoginService;
-import com.zondy.mapgis.common.controllerprefix.annotation.ServicesRestController;
+import com.zondy.mapgis.common.controllerprefix.annotation.ManagerRestController;
 import com.zondy.mapgis.common.core.constant.TokenConstants;
 import com.zondy.mapgis.common.core.utils.StringUtils;
 import com.zondy.mapgis.common.core.web.domain.AjaxResult;
@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.PathVariable;
  */
 @Tag(name = "CAS登录管理", description = "CAS登录控制器")
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
-@ServicesRestController("/auth/casLogin")
+@ManagerRestController("/auth/casLogin")
 public class CasLoginController {
 
     private final SysLoginService loginService;

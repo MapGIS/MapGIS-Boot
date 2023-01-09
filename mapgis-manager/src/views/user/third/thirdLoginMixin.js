@@ -23,7 +23,7 @@ const thirdLoginMixin = {
   methods: {
     ...mapActions(['ThirdLogin']),
     onThirdLogin(source) {
-      const loginUrl = `${window._CONFIG['domainURL']}${window._CONFIG['apiPathServicesPrefix']}/auth/thirdLogin/render/${source}`
+      const loginUrl = `${window._CONFIG['domainURL']}${window._CONFIG['apiPathManagerPrefix']}/auth/thirdLogin/render/${source}`
       window.open(
         loginUrl,
         `login ${source}`,

@@ -1,9 +1,9 @@
 import request from '@/utils/request'
 
 const userApi = {
-  Login: `${window._CONFIG['apiPathServicesPrefix']}/auth/login`,
-  Logout: `${window._CONFIG['apiPathServicesPrefix']}/auth/logout`,
-  Register: `${window._CONFIG['apiPathServicesPrefix']}/auth/register`,
+  Login: `${window._CONFIG['apiPathManagerPrefix']}/auth/login`,
+  Logout: `${window._CONFIG['apiPathManagerPrefix']}/auth/logout`,
+  Register: `${window._CONFIG['apiPathManagerPrefix']}/auth/register`,
   // get my info
   UserInfo: `${window._CONFIG['apiPathManagerPrefix']}/system/user/getInfo`
 }
@@ -56,7 +56,7 @@ export function logout() {
 // 获取是否需要显示验证码
 export function getIsNeedCode(username) {
   return request({
-    url: `${window._CONFIG['apiPathServicesPrefix']}/auth/isNeedCaptcha/${username}`,
+    url: `${window._CONFIG['apiPathManagerPrefix']}/auth/isNeedCaptcha/${username}`,
     method: 'get'
   })
 }
@@ -64,7 +64,7 @@ export function getIsNeedCode(username) {
 // 获取验证码
 export function getCodeImg() {
   return request({
-    url: `${window._CONFIG['apiPathServicesPrefix']}/auth/captchaImage`,
+    url: `${window._CONFIG['apiPathManagerPrefix']}/auth/captchaImage`,
     method: 'get'
   })
 }
@@ -72,7 +72,7 @@ export function getCodeImg() {
 // 第三方登录
 export function thirdLogin(token, source) {
   return request({
-    url: `${window._CONFIG['apiPathServicesPrefix']}/auth/thirdLogin/getLoginUser/${token}/${source}`,
+    url: `${window._CONFIG['apiPathManagerPrefix']}/auth/thirdLogin/getLoginUser/${token}/${source}`,
     method: 'get',
     headers: {
       'Content-Type': 'application/json;charset=UTF-8'
@@ -83,7 +83,7 @@ export function thirdLogin(token, source) {
 // 创建账号并与第三方授权用户绑定
 export function thirdLoginUserCreate(data) {
   return request({
-    url: `${window._CONFIG['apiPathServicesPrefix']}/auth/thirdLogin/user/create`,
+    url: `${window._CONFIG['apiPathManagerPrefix']}/auth/thirdLogin/user/create`,
     method: 'post',
     data: data
   })
@@ -92,7 +92,7 @@ export function thirdLoginUserCreate(data) {
 // 创建账号并与第三方授权用户绑定
 export function thirdLoginCheckPassword(data) {
   return request({
-    url: `${window._CONFIG['apiPathServicesPrefix']}/auth/thirdLogin/user/checkPassword`,
+    url: `${window._CONFIG['apiPathManagerPrefix']}/auth/thirdLogin/user/checkPassword`,
     method: 'post',
     data: data
   })
@@ -101,7 +101,7 @@ export function thirdLoginCheckPassword(data) {
 // CAS登录
 export function casLogin(token) {
   return request({
-    url: `${window._CONFIG['apiPathServicesPrefix']}/auth/casLogin/getLoginUser/${token}`,
+    url: `${window._CONFIG['apiPathManagerPrefix']}/auth/casLogin/getLoginUser/${token}`,
     method: 'get',
     headers: {
       'Content-Type': 'application/json;charset=UTF-8'

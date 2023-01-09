@@ -4,7 +4,7 @@ import com.zondy.mapgis.auth.api.domain.model.LoginBody;
 import com.zondy.mapgis.auth.api.domain.model.RegisterBody;
 import com.zondy.mapgis.auth.api.service.SysLoginService;
 import com.zondy.mapgis.common.captcha.service.IValidateCodeService;
-import com.zondy.mapgis.common.controllerprefix.annotation.ServicesRestController;
+import com.zondy.mapgis.common.controllerprefix.annotation.ManagerRestController;
 import com.zondy.mapgis.common.core.constant.TokenConstants;
 import com.zondy.mapgis.common.core.web.domain.AjaxResult;
 import com.zondy.mapgis.system.api.domain.SysLoginConfig;
@@ -28,7 +28,7 @@ import java.io.IOException;
  */
 @Tag(name = "授权管理", description = "授权控制器")
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
-@ServicesRestController("/auth")
+@ManagerRestController("/auth")
 public class AuthController {
 
     private final SysLoginService loginService;

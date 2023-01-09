@@ -48,7 +48,7 @@ import java.util.List;
 @Tag(name = "第三方登录管理", description = "第三方登录控制器")
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
 @Controller
-@RequestMapping("${api.path.services-prefix}/auth/thirdLogin")
+@RequestMapping("${api.path.manager-prefix}/auth/thirdLogin")
 public class ThirdLoginController extends BaseController {
 
     private final SysLoginService loginService;

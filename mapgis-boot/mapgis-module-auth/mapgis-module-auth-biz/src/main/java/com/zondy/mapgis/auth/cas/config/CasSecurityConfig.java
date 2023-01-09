@@ -135,7 +135,6 @@ public class CasSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         String strProductName = productConfig.getName();
-        String strServicesPrefix = apiPathProperties.getServicesPrefix();
         String strManagerPrefix = apiPathProperties.getManagerPrefix();
 
         httpSecurity
@@ -148,12 +147,12 @@ public class CasSecurityConfig extends WebSecurityConfigurerAdapter {
                 // 过滤请求
                 .authorizeRequests()
                 // 对于登录login 注册register 验证码captchaImage 允许匿名访问
-                .antMatchers(strServicesPrefix + "/auth/login",
-                        strServicesPrefix + "/auth/register",
-                        strServicesPrefix + "/auth/captchaImage",
-                        strServicesPrefix + "/auth/isNeedCaptcha/**").anonymous()
-                .antMatchers(strServicesPrefix + "/auth/thirdLogin/**").anonymous()
-                .antMatchers(strServicesPrefix + "/auth/casLogin/**").anonymous()
+                .antMatchers(strManagerPrefix + "/auth/login",
+                        strManagerPrefix + "/auth/register",
+                        strManagerPrefix + "/auth/captchaImage",
+                        strManagerPrefix + "/auth/isNeedCaptcha/**").anonymous()
+                .antMatchers(strManagerPrefix + "/auth/thirdLogin/**").anonymous()
+                .antMatchers(strManagerPrefix + "/auth/casLogin/**").anonymous()
                 // 静态资源，可匿名访问
                 .antMatchers(
                         HttpMethod.GET,
@@ -179,7 +178,7 @@ public class CasSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .headers().frameOptions().disable();
         // 添加Logout filter
-        httpSecurity.logout().logoutUrl(strServicesPrefix + "/auth/logout").logoutSuccessHandler(logoutSuccessHandler);
+        httpSecurity.logout().logoutUrl(strManagerPrefix + "/auth/logout").logoutSuccessHandler(logoutSuccessHandler);
         // 添加CAS 认证filter
         httpSecurity.addFilter(casAuthenticationFilter());
         // 添加JWT filter

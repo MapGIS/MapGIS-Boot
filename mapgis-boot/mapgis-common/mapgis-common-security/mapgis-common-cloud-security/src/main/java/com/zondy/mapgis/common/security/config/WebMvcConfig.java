@@ -29,9 +29,9 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
     @PostConstruct
     public void init() {
-        String strServicesPrefix = apiPathProperties.getServicesPrefix();
+        String strManagerPrefix = apiPathProperties.getManagerPrefix();
 
-        excludeUrls = new String[]{strServicesPrefix + "/auth/login", strServicesPrefix + "/auth/logout"};
+        excludeUrls = new String[]{strManagerPrefix + "/auth/login", strManagerPrefix + "/auth/logout"};
     }
 
     @Override
