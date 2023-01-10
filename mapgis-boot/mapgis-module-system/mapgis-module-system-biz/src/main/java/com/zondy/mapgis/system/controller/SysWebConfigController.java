@@ -3,6 +3,8 @@ package com.zondy.mapgis.system.controller;
 import com.zondy.mapgis.common.controllerprefix.annotation.ManagerRestController;
 import com.zondy.mapgis.common.core.config.properties.ApiPathProperties;
 import com.zondy.mapgis.common.core.constant.ConfigConstants;
+import com.zondy.mapgis.common.core.platform.DevPlatform;
+import com.zondy.mapgis.common.core.platform.PlatformVersion;
 import com.zondy.mapgis.common.core.utils.EnvironmentUtil;
 import com.zondy.mapgis.common.core.utils.JsonUtils;
 import com.zondy.mapgis.common.core.utils.StringUtils;
@@ -48,6 +50,8 @@ public class SysWebConfigController {
         Map<String, Object> systemConfig = new LinkedHashMap<>();
         Properties props = System.getProperties();
 
+        systemConfig.put("version", PlatformVersion.getVersion());
+        systemConfig.put("devPlatform", DevPlatform.getName());
         systemConfig.put("serviceArch", EnvironmentUtil.isSingleServiceMode(SpringUtils.getBean(Environment.class)) ? "SingleService" : "MicroService");
         systemConfig.put("osName", props.getProperty("os.name"));
         systemConfig.put("osArch", props.getProperty("os.arch"));
