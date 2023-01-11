@@ -63,6 +63,8 @@
         <xstream.version>1.4.17</xstream.version>
         <jts.version>1.18.2</jts.version>
         <geojson.version>27.2</geojson.version>
+        <kryo-serializers.version>0.42</kryo-serializers.version>
+        <kryo.version>4.0.2</kryo.version>
     </properties>
 
     <!-- 依赖声明 -->
@@ -287,6 +289,20 @@
                 <version>${geojson.version}</version>
             </dependency>
 
+            <!-- kryo-serializers -->
+            <dependency>
+                <groupId>de.javakaffee</groupId>
+                <artifactId>kryo-serializers</artifactId>
+                <version>${kryo-serializers.version}</version>
+            </dependency>
+
+            <!-- kryo -->
+            <dependency>
+                <groupId>com.esotericsoftware</groupId>
+                <artifactId>kryo</artifactId>
+                <version>${kryo.version}</version>
+            </dependency>
+
             <!-- 核心模块 -->
             <dependency>
                 <groupId>com.zondy.mapgis</groupId>
@@ -333,41 +349,6 @@
             <dependency>
                 <groupId>com.zondy.mapgis</groupId>
                 <artifactId>mapgis-common-captcha</artifactId>
-                <version>${mapgis.boot.version}</version>
-            </dependency>
-
-            <!-- 系统模块 -->
-            <dependency>
-                <groupId>com.zondy.mapgis</groupId>
-                <artifactId>mapgis-module-system-biz</artifactId>
-                <version>${mapgis.boot.version}</version>
-            </dependency>
-
-            <!-- 文件模块 -->
-            <dependency>
-                <groupId>com.zondy.mapgis</groupId>
-                <artifactId>mapgis-module-file-biz</artifactId>
-                <version>${mapgis.boot.version}</version>
-            </dependency>
-
-            <!-- 授权模块 -->
-            <dependency>
-                <groupId>com.zondy.mapgis</groupId>
-                <artifactId>mapgis-module-auth-biz</artifactId>
-                <version>${mapgis.boot.version}</version>
-            </dependency>
-
-            <!-- 定时任务模块 -->
-            <dependency>
-                <groupId>com.zondy.mapgis</groupId>
-                <artifactId>mapgis-module-job-biz</artifactId>
-                <version>${mapgis.boot.version}</version>
-            </dependency>
-
-            <!-- 代码生成模块 -->
-            <dependency>
-                <groupId>com.zondy.mapgis</groupId>
-                <artifactId>mapgis-module-gen-biz</artifactId>
                 <version>${mapgis.boot.version}</version>
             </dependency>
 
@@ -539,6 +520,13 @@
                 <version>${mapgis.boot.version}</version>
             </dependency>
 
+            <!-- MapGIS Common ObjectSerializer -->
+            <dependency>
+                <groupId>com.zondy.mapgis</groupId>
+                <artifactId>mapgis-common-objectserializer</artifactId>
+                <version>${mapgis.boot.version}</version>
+            </dependency>
+
             <!-- MapGIS System Base Api -->
             <dependency>
                 <groupId>com.zondy.mapgis</groupId>
@@ -608,6 +596,41 @@
                 <artifactId>mapgis-module-auth-cloud-api</artifactId>
                 <version>${mapgis.boot.version}</version>
             </dependency>
+
+            <!-- 系统模块 -->
+            <dependency>
+                <groupId>com.zondy.mapgis</groupId>
+                <artifactId>mapgis-module-system-biz</artifactId>
+                <version>${mapgis.boot.version}</version>
+            </dependency>
+
+            <!-- 文件模块 -->
+            <dependency>
+                <groupId>com.zondy.mapgis</groupId>
+                <artifactId>mapgis-module-file-biz</artifactId>
+                <version>${mapgis.boot.version}</version>
+            </dependency>
+
+            <!-- 授权模块 -->
+            <dependency>
+                <groupId>com.zondy.mapgis</groupId>
+                <artifactId>mapgis-module-auth-biz</artifactId>
+                <version>${mapgis.boot.version}</version>
+            </dependency>
+
+            <!-- 定时任务模块 -->
+            <dependency>
+                <groupId>com.zondy.mapgis</groupId>
+                <artifactId>mapgis-module-job-biz</artifactId>
+                <version>${mapgis.boot.version}</version>
+            </dependency>
+
+            <!-- 代码生成模块 -->
+            <dependency>
+                <groupId>com.zondy.mapgis</groupId>
+                <artifactId>mapgis-module-gen-biz</artifactId>
+                <version>${mapgis.boot.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -628,10 +651,24 @@
     </dependencies>
 
     <repositories>
+        <!-- 项目中配置私有仓库，保证所有依赖都优先从aliyun找，因为osgeo很慢-->
         <repository>
-            <id>public</id>
-            <name>aliyun nexus</name>
+            <id>aliyun</id>
             <url>https://maven.aliyun.com/repository/public</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+        <repository>
+            <id>osgeo</id>
+            <name>OSGeo Release Repository</name>
+            <url>https://repo.osgeo.org/repository/release/</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
             <releases>
                 <enabled>true</enabled>
             </releases>
