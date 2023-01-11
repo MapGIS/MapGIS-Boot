@@ -1,1 +1,1 @@
-com.zondy.mapgis.common.service.json.JacksonModuleConfiguration
+com.zondy.mapgis.common.service.config.ServiceAutoConfiguration

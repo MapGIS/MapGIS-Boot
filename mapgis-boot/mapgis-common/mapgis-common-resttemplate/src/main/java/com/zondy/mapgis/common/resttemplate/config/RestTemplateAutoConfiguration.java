@@ -1,10 +1,11 @@
 package com.zondy.mapgis.common.resttemplate.config;
 
+import com.zondy.mapgis.common.resttemplate.config.properties.HttpClientProperties;
 import com.zondy.mapgis.common.resttemplate.http.HttpClientFactory;
-import com.zondy.mapgis.common.resttemplate.properties.HttpClientProperties;
 import org.springframework.boot.autoconfigure.http.HttpMessageConverters;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.web.client.RestTemplate;
 
@@ -15,6 +16,7 @@ import org.springframework.web.client.RestTemplate;
  * @since 2023/1/11 11:56
  */
 @Configuration
+@Import({HttpClientConfig.class})
 public class RestTemplateAutoConfiguration {
     /**
      * RestTemplate HttpClient自动配置

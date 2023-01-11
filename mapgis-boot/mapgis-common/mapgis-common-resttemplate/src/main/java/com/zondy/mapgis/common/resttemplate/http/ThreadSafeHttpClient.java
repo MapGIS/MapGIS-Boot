@@ -2,7 +2,7 @@ package com.zondy.mapgis.common.resttemplate.http;
 
 import cn.hutool.core.io.IoUtil;
 import com.zondy.mapgis.common.core.utils.spring.SpringUtils;
-import com.zondy.mapgis.common.resttemplate.properties.HttpClientProperties;
+import com.zondy.mapgis.common.resttemplate.config.properties.HttpClientProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpStatus;

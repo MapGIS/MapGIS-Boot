@@ -1,6 +1,6 @@
 package com.zondy.mapgis.common.resttemplate.http;
 
-import com.zondy.mapgis.common.resttemplate.properties.HttpClientProperties;
+import com.zondy.mapgis.common.resttemplate.config.properties.HttpClientProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.config.Registry;

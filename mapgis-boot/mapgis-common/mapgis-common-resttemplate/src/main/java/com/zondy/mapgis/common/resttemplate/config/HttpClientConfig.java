@@ -1,6 +1,6 @@
-package com.zondy.mapgis.common.resttemplate.http;
+package com.zondy.mapgis.common.resttemplate.config;
 
-import com.zondy.mapgis.common.resttemplate.properties.HttpClientProperties;
+import com.zondy.mapgis.common.resttemplate.config.properties.HttpClientProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
@@ -12,5 +12,5 @@ import org.springframework.context.annotation.Configuration;
  */
 @Configuration
 @EnableConfigurationProperties({HttpClientProperties.class})
-public class HttpClientConfiguration {
+public class HttpClientConfig {
 }
