@@ -1,6 +1,6 @@
 package com.zondy.mapgis.file.api.config.properties;
 
-import com.zondy.mapgis.common.core.utils.EnvironmentUtil;
+import com.zondy.mapgis.common.core.utils.EnvUtils;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
@@ -36,7 +36,7 @@ public class FileProperties {
      * @return 完整路径
      */
     public String getFullPath() {
-        String currentPath = EnvironmentUtil.getCurrentProjectPath();
+        String currentPath = EnvUtils.getCurrentProjectPath();
 
         return currentPath + path;
     }

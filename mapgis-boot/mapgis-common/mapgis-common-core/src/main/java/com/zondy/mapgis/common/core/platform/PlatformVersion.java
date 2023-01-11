@@ -1,6 +1,6 @@
 package com.zondy.mapgis.common.core.platform;
 
-import com.zondy.mapgis.common.core.utils.EnvironmentUtil;
+import com.zondy.mapgis.common.core.utils.EnvUtils;
 
 /**
  * 平台版本
@@ -13,7 +13,7 @@ public class PlatformVersion {
     }
 
     public static String getVersion() {
-        String version = EnvironmentUtil.getVersion(PlatformVersion.class);
+        String version = EnvUtils.getVersion(PlatformVersion.class);
         if (version == null) {
             return "1.0.0.0";
         }

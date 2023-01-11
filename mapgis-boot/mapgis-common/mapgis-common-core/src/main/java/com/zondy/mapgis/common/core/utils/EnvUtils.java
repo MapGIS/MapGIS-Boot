@@ -3,6 +3,8 @@ package com.zondy.mapgis.common.core.utils;
 import cn.hutool.setting.dialect.Props;
 import com.sun.management.OperatingSystemMXBean;
 import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.core.env.Environment;
 
 import java.io.File;
@@ -28,7 +30,7 @@ import java.util.stream.Stream;
  * @since 2022/3/15 18:00
  */
 @Slf4j
-public class EnvironmentUtil {
+public class EnvUtils {
     /**
      * 注意静态变量和静态代码块的执行次序
      */
@@ -61,6 +63,11 @@ public class EnvironmentUtil {
      * 系统CPU架构：mips64el（国产龙芯）
      */
     public static final boolean IS_LONGXIN_LINUX = System.getProperty("os.arch").toLowerCase().contains("mips64el");
+
+    /**
+     * 调试时，在配置文件中添加配置开启调试日志'logging.level.DEBUG_LOG=debug'，默认关闭
+     */
+    public static final Logger LOGGER = LoggerFactory.getLogger("DEBUG_LOG");
 
     /**
      * 控制台输出被禁用属性名
@@ -357,6 +364,18 @@ public class EnvironmentUtil {
         })) {
             // 保证多个版本同时存在时，会取最大的版本号
             return stream.map(t -> t.toFile().getName()).max(Comparator.naturalOrder()).orElse(null);
+        }
+    }
+
+    public static void debug(String var1) {
+        if (LOGGER.isDebugEnabled()) {
+            LOGGER.debug(var1);
+        }
+    }
+
+    public static void debug(String var1, Object... var2) {
+        if (LOGGER.isDebugEnabled()) {
+            LOGGER.debug(var1, var2);
         }
     }
 }

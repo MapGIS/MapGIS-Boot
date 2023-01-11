@@ -5,7 +5,7 @@ import cn.hutool.core.date.DatePattern;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.io.IoUtil;
 import cn.hutool.core.util.ZipUtil;
-import com.zondy.mapgis.common.core.utils.EnvironmentUtil;
+import com.zondy.mapgis.common.core.utils.EnvUtils;
 import com.zondy.mapgis.common.systemlog.model.LogFileReadState;
 import com.zondy.mapgis.common.systemlog.model.SysLoginfoEx;
 import com.zondy.mapgis.common.systemlog.model.SysLoginfoList;
@@ -42,7 +42,7 @@ public class SystemLogServiceImpl implements ISystemLogService, InitializingBean
     /**
      * 日志路径
      */
-    public String logDir = Paths.get(EnvironmentUtil.getCurrentProjectPath(), "logs").toAbsolutePath().normalize().toString();
+    public String logDir = Paths.get(EnvUtils.getCurrentProjectPath(), "logs").toAbsolutePath().normalize().toString();
 
     /**
      * grok对象

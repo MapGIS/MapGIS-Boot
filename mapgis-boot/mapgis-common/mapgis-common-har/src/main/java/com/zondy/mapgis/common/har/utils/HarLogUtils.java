@@ -5,7 +5,7 @@ import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.io.IoUtil;
 import cn.hutool.core.io.file.FileNameUtil;
 import com.zondy.mapgis.common.core.constant.DateContants;
-import com.zondy.mapgis.common.core.utils.EnvironmentUtil;
+import com.zondy.mapgis.common.core.utils.EnvUtils;
 import com.zondy.mapgis.common.core.utils.StringUtils;
 import com.zondy.mapgis.common.har.creator.DefaultHarStreamWriter;
 import com.zondy.mapgis.common.har.model.*;
@@ -125,7 +125,7 @@ public class HarLogUtils {
      */
     public static File getNewestHarLogFile() {
         try {
-            Path logsDir = Paths.get(EnvironmentUtil.getCurrentProjectPath(), "logs");
+            Path logsDir = Paths.get(EnvUtils.getCurrentProjectPath(), "logs");
             // 找到最新的文件
             try (Stream<Path> stream = Files.find(logsDir, 1, (p, attr) -> {
                 return p.toString().endsWith(".harlog");
@@ -148,7 +148,7 @@ public class HarLogUtils {
      */
     public static File getNewHarFile() {
         String dateTimeString = DateContants.DATE_TIME_NO_SPLIT_FORMATTER.format(LocalDateTime.now());
-        return Paths.get(EnvironmentUtil.getCurrentProjectPath(), "logs", dateTimeString + ".harlog").toFile();
+        return Paths.get(EnvUtils.getCurrentProjectPath(), "logs", dateTimeString + ".harlog").toFile();
     }
 
     private static void parseHeaders(SysHttpAccess.MultiPair[] headers, List<HarCookie> harCookies, List<HarHeader> harHeaders) {

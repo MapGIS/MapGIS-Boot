@@ -1,7 +1,7 @@
 package com.zondy.mapgis.common.core.logback;
 
 import ch.qos.logback.core.ConsoleAppender;
-import com.zondy.mapgis.common.core.utils.EnvironmentUtil;
+import com.zondy.mapgis.common.core.utils.EnvUtils;
 import org.apache.commons.io.output.NullPrintStream;
 
 import java.io.OutputStream;
@@ -15,7 +15,7 @@ import java.io.OutputStream;
 public class CustomConsoleAppender<E> extends ConsoleAppender<E> {
     @Override
     public void setOutputStream(OutputStream outputStream) {
-        if (EnvironmentUtil.CONSOLE_OUT_DISABLED) {
+        if (EnvUtils.CONSOLE_OUT_DISABLED) {
             outputStream = NullPrintStream.NULL_PRINT_STREAM;
         }
         super.setOutputStream(outputStream);

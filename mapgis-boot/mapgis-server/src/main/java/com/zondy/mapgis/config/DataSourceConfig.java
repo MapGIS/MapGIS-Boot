@@ -5,7 +5,7 @@ import com.baomidou.dynamic.datasource.creator.DruidDataSourceCreator;
 import com.baomidou.dynamic.datasource.spring.boot.autoconfigure.DataSourceProperty;
 import com.baomidou.dynamic.datasource.spring.boot.autoconfigure.DynamicDataSourceProperties;
 import com.baomidou.dynamic.datasource.spring.boot.autoconfigure.druid.DruidConfig;
-import com.zondy.mapgis.common.core.utils.EnvironmentUtil;
+import com.zondy.mapgis.common.core.utils.EnvUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.flywaydb.core.Flyway;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,7 +61,7 @@ public class DataSourceConfig {
         dynamicRoutingDataSource.setP6spy(properties.getP6spy());
         dynamicRoutingDataSource.setSeata(properties.getSeata());
 
-        String rootPath = EnvironmentUtil.getCurrentProjectPath();
+        String rootPath = EnvUtils.getCurrentProjectPath();
         DataSource masterDataSource = null;
         DataSource accessLogDataSource = null;
         DataSource hardwareMonitorDataSource = null;

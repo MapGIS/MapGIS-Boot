@@ -3,6 +3,8 @@
     <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
     <include resource="com/zondy/mapgis/common/core/logback/appender-defaults.xml"/>
 
+    <logger name="DEBUG_LOG" level="off"/>
+
     <root level="info">
         <appender-ref ref="CONSOLE"/>
         <appender-ref ref="ASYNC_FILE"/>

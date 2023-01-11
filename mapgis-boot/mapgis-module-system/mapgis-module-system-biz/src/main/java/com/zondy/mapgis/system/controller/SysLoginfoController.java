@@ -1,7 +1,7 @@
 package com.zondy.mapgis.system.controller;
 
 import com.zondy.mapgis.common.controllerprefix.annotation.ManagerRestController;
-import com.zondy.mapgis.common.core.utils.EnvironmentUtil;
+import com.zondy.mapgis.common.core.utils.EnvUtils;
 import com.zondy.mapgis.common.core.web.controller.BaseController;
 import com.zondy.mapgis.common.core.web.domain.AjaxResult;
 import com.zondy.mapgis.common.log.annotation.Log;
@@ -52,7 +52,7 @@ public class SysLoginfoController extends BaseController {
         List<String> ids = new ArrayList<>();
 
         // 单体版模式
-        if (EnvironmentUtil.isSingleServiceMode(env)) {
+        if (EnvUtils.isSingleServiceMode(env)) {
             ids.add(env.resolvePlaceholders("${mapgis.product.full-name}-server"));
         } else {
             List<SysGatewayRoute> list = sysGatewayRouteService.selectSysGatewayRouteList(new SysGatewayRoute());

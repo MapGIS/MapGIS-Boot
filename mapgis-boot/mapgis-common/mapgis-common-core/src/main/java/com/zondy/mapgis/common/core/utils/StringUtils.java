@@ -516,4 +516,51 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils {
         }
         return sb.toString();
     }
+
+    /**
+     * 去掉bom头
+     *
+     * @param in
+     * @return
+     */
+    public static String removeUTF8Bom(String in) {
+        if (in != null && in.indexOf(65279) == 0) {
+            return in.substring(1);
+        }
+        return in;
+    }
+
+    /**
+     * String左对齐
+     */
+    public static String padLeft(String src, int len, char ch) {
+        int diff = len - src.length();
+        if (diff <= 0) {
+            return src;
+        }
+
+        char[] charr = new char[len];
+        System.arraycopy(src.toCharArray(), 0, charr, 0, src.length());
+        for (int i = src.length(); i < len; i++) {
+            charr[i] = ch;
+        }
+        return new String(charr);
+    }
+
+    /**
+     * String右对齐
+     */
+    public static String padRight(String src, int len, char ch) {
+        int diff = len - src.length();
+        if (diff <= 0) {
+            return src;
+        }
+
+        char[] charr = new char[len];
+        System.arraycopy(src.toCharArray(), 0, charr, diff, src.length());
+        for (int i = 0; i < diff; i++) {
+            charr[i] = ch;
+        }
+        return new String(charr);
+    }
 }

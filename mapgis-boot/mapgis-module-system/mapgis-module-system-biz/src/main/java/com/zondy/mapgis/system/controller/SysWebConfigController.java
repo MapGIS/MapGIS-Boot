@@ -5,7 +5,7 @@ import com.zondy.mapgis.common.core.config.properties.ApiPathProperties;
 import com.zondy.mapgis.common.core.constant.ConfigConstants;
 import com.zondy.mapgis.common.core.platform.DevPlatform;
 import com.zondy.mapgis.common.core.platform.PlatformVersion;
-import com.zondy.mapgis.common.core.utils.EnvironmentUtil;
+import com.zondy.mapgis.common.core.utils.EnvUtils;
 import com.zondy.mapgis.common.core.utils.JsonUtils;
 import com.zondy.mapgis.common.core.utils.StringUtils;
 import com.zondy.mapgis.common.core.utils.spring.SpringUtils;
@@ -52,7 +52,7 @@ public class SysWebConfigController {
 
         systemConfig.put("version", PlatformVersion.getVersion());
         systemConfig.put("devPlatform", DevPlatform.getName());
-        systemConfig.put("serviceArch", EnvironmentUtil.isSingleServiceMode(SpringUtils.getBean(Environment.class)) ? "SingleService" : "MicroService");
+        systemConfig.put("serviceArch", EnvUtils.isSingleServiceMode(SpringUtils.getBean(Environment.class)) ? "SingleService" : "MicroService");
         systemConfig.put("osName", props.getProperty("os.name"));
         systemConfig.put("osArch", props.getProperty("os.arch"));
         systemConfig.put("javaVersion", props.getProperty("java.version"));
