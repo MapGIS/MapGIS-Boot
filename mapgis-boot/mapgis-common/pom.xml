@@ -28,6 +28,7 @@
         <module>mapgis-common-mybatis</module>
         <module>mapgis-common-service</module>
         <module>mapgis-common-objectserializer</module>
+        <module>mapgis-common-resttemplate</module>
     </modules>
 
     <artifactId>mapgis-common</artifactId>

@@ -17,7 +17,7 @@ import org.springframework.context.annotation.Import;
 @Configuration
 public class ObjectSerializerAutoConfiguration {
     /**
-     * Kryo序列号自动配置
+     * Kryo序列化自动配置
      */
     @Configuration
     @Import({KryoObjectSerializer.class})

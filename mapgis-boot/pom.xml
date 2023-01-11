@@ -527,6 +527,13 @@
                 <version>${mapgis.boot.version}</version>
             </dependency>
 
+            <!-- MapGIS Common RestTemplate -->
+            <dependency>
+                <groupId>com.zondy.mapgis</groupId>
+                <artifactId>mapgis-common-resttemplate</artifactId>
+                <version>${mapgis.boot.version}</version>
+            </dependency>
+
             <!-- MapGIS System Base Api -->
             <dependency>
                 <groupId>com.zondy.mapgis</groupId>
