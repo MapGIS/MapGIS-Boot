@@ -706,6 +706,14 @@
 
     <build>
         <plugins>
+            <!-- 统一管理父子模块的版本号，使用命令行 ”mvn versions:set -DnewVersion=10.5.8.10“-->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>versions-maven-plugin</artifactId>
+                <configuration>
+                    <generateBackupPoms>false</generateBackupPoms>
+                </configuration>
+            </plugin>
             <!-- 指定JDK编译版本 -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
