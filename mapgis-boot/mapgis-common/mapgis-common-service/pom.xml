@@ -62,6 +62,12 @@
             <optional>true</optional>
         </dependency>
 
+        <!-- guava -->
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+        </dependency>
+
         <!-- 核心模块 -->
         <dependency>
             <groupId>com.zondy.mapgis</groupId>

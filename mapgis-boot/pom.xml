@@ -65,6 +65,7 @@
         <geojson.version>27.2</geojson.version>
         <kryo-serializers.version>0.42</kryo-serializers.version>
         <kryo.version>4.0.2</kryo.version>
+        <guava.version>30.0-jre</guava.version>
     </properties>
 
     <!-- 依赖声明 -->
@@ -301,6 +302,13 @@
                 <groupId>com.esotericsoftware</groupId>
                 <artifactId>kryo</artifactId>
                 <version>${kryo.version}</version>
+            </dependency>
+
+            <!-- guava -->
+            <dependency>
+                <groupId>com.google.guava</groupId>
+                <artifactId>guava</artifactId>
+                <version>${guava.version}</version>
             </dependency>
 
             <!-- 核心模块 -->
