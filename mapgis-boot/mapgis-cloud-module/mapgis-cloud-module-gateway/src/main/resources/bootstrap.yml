@@ -23,6 +23,8 @@ spring:
         # 共享配置
         shared-configs[0]:
           data-id: ${mapgis.product.full-name}-application-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}
+          #  配置中心发布配置时自动刷新
+          refresh: true
     sentinel:
       # 取消控制台懒加载
       eager: true
