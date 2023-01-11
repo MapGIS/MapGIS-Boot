@@ -1,1 +1,1 @@
-com.zondy.mapgis.common.kryo.config.ObjectSerializerAutoConfiguration
+com.zondy.mapgis.common.objectserializer.config.ObjectSerializerAutoConfiguration

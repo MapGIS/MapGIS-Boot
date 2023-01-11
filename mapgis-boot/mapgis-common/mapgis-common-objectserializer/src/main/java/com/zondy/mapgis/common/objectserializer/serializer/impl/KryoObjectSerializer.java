@@ -1,10 +1,10 @@
-package com.zondy.mapgis.common.kryo.serializer.impl;
+package com.zondy.mapgis.common.objectserializer.serializer.impl;
 
 import com.esotericsoftware.kryo.KryoException;
 import com.esotericsoftware.kryo.io.Input;
 import com.esotericsoftware.kryo.io.Output;
 import com.esotericsoftware.kryo.pool.KryoPool;
-import com.zondy.mapgis.common.kryo.serializer.IObjectSerializer;
+import com.zondy.mapgis.common.objectserializer.serializer.IObjectSerializer;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.ByteArrayOutputStream;

@@ -1,8 +1,8 @@
-package com.zondy.mapgis.common.kryo.config;
+package com.zondy.mapgis.common.objectserializer.config;
 
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryo.pool.KryoPool;
-import com.zondy.mapgis.common.kryo.serializer.impl.KryoObjectSerializer;
+import com.zondy.mapgis.common.objectserializer.serializer.impl.KryoObjectSerializer;
 import org.objenesis.strategy.StdInstantiatorStrategy;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

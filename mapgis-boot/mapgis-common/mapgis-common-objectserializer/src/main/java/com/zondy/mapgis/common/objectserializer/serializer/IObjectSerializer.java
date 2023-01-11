@@ -1,4 +1,4 @@
-package com.zondy.mapgis.common.kryo.serializer;
+package com.zondy.mapgis.common.objectserializer.serializer;
 
 /**
  * 对象序列化接口
