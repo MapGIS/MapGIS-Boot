@@ -1,0 +1,4 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  com.zondy.mapgis.common.core.utils.spring.SpringUtils,\
+  com.zondy.mapgis.common.core.config.ProductConfig,\
+  com.zondy.mapgis.common.core.config.properties.ApiPathProperties

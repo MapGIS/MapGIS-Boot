@@ -1,0 +1,4 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  com.zondy.mapgis.common.security.handler.GlobalExceptionHandler,\
+  com.zondy.mapgis.common.security.service.TokenService,\
+  com.zondy.mapgis.common.security.service.SysPasswordService

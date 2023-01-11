@@ -1,0 +1,3 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  com.zondy.mapgis.common.captcha.config.CaptchaConfig,\
+  com.zondy.mapgis.common.captcha.service.impl.ValidateCodeServiceImpl

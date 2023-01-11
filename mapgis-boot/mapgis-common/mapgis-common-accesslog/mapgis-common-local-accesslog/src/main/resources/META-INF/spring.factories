@@ -1,0 +1,4 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  com.zondy.mapgis.common.accesslog.config.HttpAccessFilterConfig,\
+  com.zondy.mapgis.common.accesslog.service.SysHttpAccessLogService,\
+  com.zondy.mapgis.common.accesslog.listener.UpdateHttpAccessLogConfigListener
