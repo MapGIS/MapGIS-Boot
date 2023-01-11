@@ -4,6 +4,7 @@ import cn.hutool.core.util.StrUtil;
 import cn.hutool.core.util.URLUtil;
 import cn.hutool.http.HttpUtil;
 import com.zondy.mapgis.common.core.utils.StringUtils;
+import com.zondy.mapgis.common.core.web.controller.BaseStaticResourceController;
 import com.zondy.mapgis.common.service.exception.web.BadRequestException;
 import com.zondy.mapgis.common.service.factory.ResponseFactory;
 import com.zondy.mapgis.common.service.format.ResponseFormat;
@@ -28,29 +29,12 @@ import java.util.Map;
  * @author xiongbo
  * @since 2023/1/10 10:57
  */
-public class BaseController {
+public class BaseController extends BaseStaticResourceController {
     @Autowired
     protected UserSessionManager userSessionManager;
 
     @Autowired
     protected ResponseFactory responseFactory;
-
-    private static final Map<String, String> DEFAULT_MEDIA_TYPES = new HashMap<>();
-
-    static {
-        // 摘自swagger插件代码
-        DEFAULT_MEDIA_TYPES.put("html", "text/html");
-        DEFAULT_MEDIA_TYPES.put("png", "image/png");
-        DEFAULT_MEDIA_TYPES.put("gif", "image/gif");
-        DEFAULT_MEDIA_TYPES.put("css", "text/css");
-        DEFAULT_MEDIA_TYPES.put("js", "application/javascript");
-        DEFAULT_MEDIA_TYPES.put("eot", "application/vnd.ms-fontobject");
-        DEFAULT_MEDIA_TYPES.put("ttf", "application/font-sfnt");
-        DEFAULT_MEDIA_TYPES.put("svg", "image/svg+xml");
-        DEFAULT_MEDIA_TYPES.put("woff", "application/font-woff");
-        DEFAULT_MEDIA_TYPES.put("woff2", "application/font-woff2");
-        DEFAULT_MEDIA_TYPES.put("ico", "image/x-icon");
-    }
 
     /**
      * 获取request
