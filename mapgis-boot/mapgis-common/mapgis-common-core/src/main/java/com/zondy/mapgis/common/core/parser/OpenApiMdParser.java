@@ -1,6 +1,7 @@
-package com.zondy.mapgis.common.core.utils;
+package com.zondy.mapgis.common.core.parser;
 
 import cn.hutool.core.io.IoUtil;
+import com.zondy.mapgis.common.core.utils.StringUtils;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.InputStream;
@@ -9,13 +10,13 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * open api工具类
+ * open api解析器
  *
  * @author xiongbo
  * @since 2023/1/10 18:05
  */
 @Slf4j
-public class OpenApiUtils {
+public class OpenApiMdParser {
     /**
      * open api中md标签格式为 {{api-docs/map-server.md}}，注意文件夹名称只能为字母数字-_,不能以-开头
      */
