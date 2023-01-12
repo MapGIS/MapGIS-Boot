@@ -3,6 +3,7 @@
     <a-space size="0">
       <screenfull :class="prefixCls" />
       <notice-icon v-hasPermi="['system:notice:list']" :class="prefixCls" />
+      <select-lang :class="prefixCls" style="vertical-align: middle" />
       <avatar-dropdown :menu="showMenu" :current-user="currentUser" :class="prefixCls" />
     </a-space>
   </div>

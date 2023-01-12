@@ -1,16 +1,21 @@
 <template>
   <div id="userLayout" :class="['user-layout-wrapper', isMobile && 'mobile']">
     <div class="container" :style="{ backgroundImage: backgourndImageUrl }">
-      <div class="top">
-        <div class="header">
-          <a href="/">
-            <img v-if="logo" :src="logo" class="logo" alt="logo" />
-            <span class="title">{{ title }}</span>
-          </a>
-        </div>
-        <div class="desc"></div>
+      <div class="user-layout-lang">
+        <select-lang class="select-lang-trigger" />
       </div>
-      <router-view />
+      <div class="user-layout-content">
+        <div class="top">
+          <div class="header">
+            <a href="/">
+              <img v-if="logo" :src="logo" class="logo" alt="logo" />
+              <span class="title">{{ title }}</span>
+            </a>
+          </div>
+          <div class="desc"></div>
+        </div>
+        <router-view />
+      </div>
       <div class="footer">
         <div class="copyright">{{ copyright }}</div>
       </div>
@@ -20,11 +25,15 @@
 
 <script>
 import { deviceMixin } from '@/store/device-mixin'
+import SelectLang from '@/components/SelectLang'
 import { getBaseConfig, getSystemConfig } from '@/api/system/config'
 
 export default {
   name: 'UserLayout',
   mixins: [deviceMixin],
+  components: {
+    SelectLang
+  },
   data() {
     return {
       logo: '',
@@ -81,58 +90,80 @@ export default {
     background-repeat: no-repeat;
     background-position-x: center;
     background-size: cover;
-    padding: 110px 0 144px;
     position: relative;
+
+    .user-layout-lang {
+      width: 100%;
+      height: 40px;
+      line-height: 44px;
+      text-align: right;
+
+      .select-lang-trigger {
+        cursor: pointer;
+        padding: 12px;
+        margin-right: 24px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 18px;
+        vertical-align: middle;
+        color: rgba(255, 255, 255, 0.85);
+      }
+    }
 
     a {
       text-decoration: none;
     }
 
-    .top {
-      text-align: center;
+    .user-layout-content {
+      padding: 110px 0 144px;
 
-      .header {
-        height: 44px;
-        line-height: 44px;
+      .top {
+        text-align: center;
 
-        .badge {
-          position: absolute;
-          display: inline-block;
-          line-height: 1;
-          vertical-align: middle;
-          margin-left: -12px;
-          margin-top: -10px;
-          opacity: 0.8;
-        }
-
-        .logo {
+        .header {
           height: 44px;
-          vertical-align: top;
-          margin-right: 16px;
-          border-style: none;
-        }
+          line-height: 44px;
 
-        .title {
-          font-size: 33px;
-          color: rgba(255, 255, 255, 0.85);
-          font-family: Avenir, 'Helvetica Neue', Arial, Helvetica, sans-serif;
-          font-weight: 600;
-          position: relative;
-          top: 2px;
+          .badge {
+            position: absolute;
+            display: inline-block;
+            line-height: 1;
+            vertical-align: middle;
+            margin-left: -12px;
+            margin-top: -10px;
+            opacity: 0.8;
+          }
+
+          .logo {
+            height: 44px;
+            vertical-align: top;
+            margin-right: 16px;
+            border-style: none;
+          }
+
+          .title {
+            font-size: 33px;
+            color: rgba(255, 255, 255, 0.85);
+            font-family: Avenir, 'Helvetica Neue', Arial, Helvetica, sans-serif;
+            font-weight: 600;
+            position: relative;
+            top: 2px;
+          }
+        }
+        .desc {
+          font-size: 14px;
+          color: rgba(255, 255, 255, 0.45);
+          margin-top: 12px;
+          margin-bottom: 40px;
         }
       }
-      .desc {
-        font-size: 14px;
-        color: rgba(255, 255, 255, 0.45);
-        margin-top: 12px;
-        margin-bottom: 40px;
-      }
-    }
 
-    .main {
-      min-width: 260px;
-      width: 368px;
-      margin: 0 auto;
+      .main {
+        min-width: 260px;
+        width: 368px;
+        margin: 0 auto;
+      }
     }
 
     .footer {

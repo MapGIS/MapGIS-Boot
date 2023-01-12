@@ -5,11 +5,11 @@
         :labelCol="{ lg: { span: 7 }, sm: { span: 7 } }"
         :wrapperCol="{ lg: { span: 10 }, sm: { span: 17 } }"
       >
-        <a-divider orientation="left">主题通用样式</a-divider>
-        <a-form-model-item label="整体风格设置">
+        <a-divider orientation="left">{{ $t('app.setting.theme.style') }}</a-divider>
+        <a-form-model-item :label="$t('app.setting.pagestyle')">
           <div class="setting-drawer-index-blockChecbox">
             <a-tooltip>
-              <template slot="title"> 暗色菜单风格 </template>
+              <template slot="title">{{ $t('app.setting.pagestyle.dark') }}</template>
               <div class="setting-drawer-index-item" @click="handleChange('theme', 'dark')">
                 <div class="setting-drawer-index-item-side setting-drawer-index-item-com-style" />
                 <div class="setting-drawer-index-selectIcon" v-if="navTheme === 'dark'">
@@ -18,7 +18,7 @@
               </div>
             </a-tooltip>
             <a-tooltip>
-              <template slot="title"> 亮色菜单风格 </template>
+              <template slot="title">{{ $t('app.setting.pagestyle.light') }}</template>
               <div class="setting-drawer-index-item" @click="handleChange('theme', 'light')">
                 <div class="setting-drawer-index-item-light setting-drawer-index-item-com-style" />
                 <div class="setting-drawer-index-selectIcon" v-if="navTheme === 'light'">
@@ -27,7 +27,7 @@
               </div>
             </a-tooltip>
             <a-tooltip>
-              <template slot="title"> 暗黑模式 </template>
+              <template slot="title">{{ $t('app.setting.pagestyle.realdark') }}</template>
               <div class="setting-drawer-index-item" @click="handleChange('theme', 'night')">
                 <div class="setting-drawer-index-item-night setting-drawer-index-item-com-style" />
                 <div class="setting-drawer-index-selectIcon" v-if="navTheme === 'night'">
@@ -37,7 +37,7 @@
             </a-tooltip>
           </div>
         </a-form-model-item>
-        <a-form-model-item label="主题色">
+        <a-form-model-item :label="$t('app.setting.themecolor')">
           <div style="margin-top: 10px">
             <a-tooltip class="setting-drawer-theme-color-colorBlock" v-for="(item, index) in colorList" :key="index">
               <template slot="title">
@@ -49,10 +49,10 @@
             </a-tooltip>
           </div>
         </a-form-model-item>
-        <a-form-model-item label="导航模式">
+        <a-form-model-item :label="$t('app.setting.navigationmode')">
           <div class="setting-drawer-index-blockChecbox">
             <a-tooltip>
-              <template slot="title"> 侧边栏导航 </template>
+              <template slot="title">{{ $t('app.setting.sidemenu') }}</template>
               <div class="setting-drawer-index-item" @click="handleChange('layout', 'sidemenu')">
                 <div class="setting-drawer-index-item-side setting-drawer-index-item-com-style" />
                 <div class="setting-drawer-index-selectIcon" v-if="layout === 'sidemenu'">
@@ -62,7 +62,7 @@
             </a-tooltip>
 
             <a-tooltip>
-              <template slot="title"> 顶部栏导航 </template>
+              <template slot="title">{{ $t('app.setting.topmenu') }}</template>
               <div class="setting-drawer-index-item" @click="handleChange('layout', 'topmenu')">
                 <div class="setting-drawer-index-item-top setting-drawer-index-item-com-style" />
                 <div class="setting-drawer-index-selectIcon" v-if="layout === 'topmenu'">
@@ -72,7 +72,7 @@
             </a-tooltip>
 
             <a-tooltip>
-              <template slot="title"> 混和导航 </template>
+              <template slot="title">{{ $t('app.setting.mixmenu') }}</template>
               <div class="setting-drawer-index-item" @click="handleChange('layout', 'mixmenu')">
                 <div class="setting-drawer-index-item-mix setting-drawer-index-item-com-style" />
                 <div class="setting-drawer-index-selectIcon" v-if="layout === 'mixmenu'">
@@ -82,7 +82,7 @@
             </a-tooltip>
 
             <a-tooltip>
-              <template slot="title"> 混和居中导航 </template>
+              <template slot="title">{{ $t('app.setting.mixmenu-center') }}</template>
               <div class="setting-drawer-index-item" @click="handleChange('layout', 'mixmenu-center')">
                 <div class="setting-drawer-index-item-mix-center setting-drawer-index-item-com-style" />
                 <div class="setting-drawer-index-selectIcon" v-if="layout === 'mixmenu-center'">
@@ -92,64 +92,64 @@
             </a-tooltip>
           </div>
         </a-form-model-item>
-        <a-form-model-item label="内容区域宽度">
-          <a-select style="width: 80px" :value="contentWidth" @change="value => handleChange('contentWidth', value)">
+        <a-form-model-item :label="$t('app.setting.content-width')">
+          <a-select style="width: 90px" :value="contentWidth" @change="value => handleChange('contentWidth', value)">
             <a-select-option value="Fixed" v-if="layout === 'topmenu' || layout === 'mixmenu-center'">
-              固定
+              {{ $t('app.setting.content-width.fixed') }}
             </a-select-option>
-            <a-select-option value="Fluid">流式</a-select-option>
+            <a-select-option value="Fluid">{{ $t('app.setting.content-width.fluid') }}</a-select-option>
           </a-select>
         </a-form-model-item>
-        <a-form-model-item label="固定 Header">
+        <a-form-model-item :label="$t('app.setting.fixedheader')">
           <a-switch
             :disabled="layout === 'mixmenu'"
             :checked="fixedHeader"
             @change="checked => handleChange('fixedHeader', checked)"
           />
         </a-form-model-item>
-        <a-form-model-item label="固定侧边菜单" :style="{ opacity: layout === 'topmenu' ? 0.5 : 1 }">
+        <a-form-model-item :label="$t('app.setting.fixedsidebar')" :style="{ opacity: layout === 'topmenu' ? 0.5 : 1 }">
           <a-switch
             :disabled="layout === 'topmenu'"
             :checked="fixedSidebar"
             @change="checked => handleChange('fixSiderbar', checked)"
           />
         </a-form-model-item>
-        <a-form-model-item label="隐藏 Footer">
+        <a-form-model-item :label="$t('app.setting.hideFotter')">
           <a-switch :checked="hideFooter" @change="checked => handleChange('hideFooter', checked)" />
         </a-form-model-item>
-        <a-form-model-item label="隐藏面包屑">
+        <a-form-model-item :label="$t('app.setting.hideBreadcrumb')">
           <a-switch :checked="hideBreadcrumb" @change="checked => handleChange('hideBreadcrumb', checked)" />
         </a-form-model-item>
-        <a-form-model-item label="多页签模式">
+        <a-form-model-item :label="$t('app.setting.multitab')">
           <a-switch :checked="multiTab" @change="checked => handleChange('multiTab', checked)" />
         </a-form-model-item>
-        <a-form-model-item label="色弱模式">
+        <a-form-model-item :label="$t('app.setting.weakmode')">
           <a-switch :checked="colorWeak" @change="checked => handleChange('colorWeak', checked)" />
         </a-form-model-item>
-        <a-divider orientation="left">表格通用样式</a-divider>
-        <a-form-model-item label="表格大小">
+        <a-divider orientation="left">{{ $t('app.setting.table.style') }}</a-divider>
+        <a-form-model-item :label="$t('app.setting.table.size')">
           <a-radio-group
             :value="tableSize"
             button-style="solid"
             @change="e => handleChange('tableSize', e.target.value)"
           >
-            <a-radio-button value="default"> 默认 </a-radio-button>
-            <a-radio-button value="middle"> 中等 </a-radio-button>
-            <a-radio-button value="small"> 紧凑 </a-radio-button>
+            <a-radio-button value="default">{{ $t('app.setting.table.size.default') }}</a-radio-button>
+            <a-radio-button value="middle">{{ $t('app.setting.table.size.middle') }}</a-radio-button>
+            <a-radio-button value="small">{{ $t('app.setting.table.size.small') }}</a-radio-button>
           </a-radio-group>
         </a-form-model-item>
-        <a-form-model-item label="显示边框">
+        <a-form-model-item :label="$t('app.setting.table.bordered')">
           <a-switch :checked="tableBordered" @change="checked => handleChange('tableBordered', checked)" />
         </a-form-model-item>
-        <a-divider orientation="left">表单通用样式</a-divider>
-        <a-form-model-item label="表单弹出类型">
-          <a-select style="width: 80px" :value="formMode" @change="value => handleChange('formMode', value)">
-            <a-select-option value="Drawer"> 抽屉 </a-select-option>
-            <a-select-option value="Modal">对话框</a-select-option>
+        <a-divider orientation="left">{{ $t('app.setting.form.style') }}</a-divider>
+        <a-form-model-item :label="$t('app.setting.form.popup')">
+          <a-select style="width: 90px" :value="formMode" @change="value => handleChange('formMode', value)">
+            <a-select-option value="Drawer">{{ $t('app.setting.form.popup.drawer') }}</a-select-option>
+            <a-select-option value="Modal">{{ $t('app.setting.form.popup.modal') }}</a-select-option>
           </a-select>
         </a-form-model-item>
         <a-form-model-item :wrapper-col="{ lg: { span: 10, offset: 7 }, sm: { span: 17, offset: 7 } }">
-          <a-button type="primary" @click="reset"> 重置 </a-button>
+          <a-button type="primary" @click="reset">{{ $t('reset') }}</a-button>
         </a-form-model-item>
       </a-form-model>
     </a-card>

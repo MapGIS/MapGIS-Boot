@@ -1,6 +1,9 @@
 import antd from 'ant-design-vue/es/locale-provider/zh_CN'
 import momentCN from 'moment/locale/zh-cn'
+import global from './zh-CN/global'
+
 import setting from './zh-CN/setting'
+import config from './zh-CN/config'
 
 const components = {
   antLocale: antd,
@@ -12,5 +15,7 @@ export default {
   message: '-',
 
   ...components,
-  ...setting
+  ...global,
+  ...setting,
+  ...config
 }

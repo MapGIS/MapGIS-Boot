@@ -2,10 +2,10 @@
   <div class="setting-drawer">
     <a-drawer width="300" placement="right" @close="onClose" :closable="false" :visible="visible" style="z-index: 999">
       <div class="setting-drawer-index-content">
-        <setting-item title="整体风格设置">
+        <setting-item :title="$t('app.setting.pagestyle')">
           <div class="setting-drawer-index-blockChecbox">
             <a-tooltip>
-              <template slot="title"> 暗色菜单风格 </template>
+              <template slot="title">{{ $t('app.setting.pagestyle.dark') }}</template>
               <div class="setting-drawer-index-item" @click="handleChange('theme', 'dark')">
                 <div class="setting-drawer-index-item-side setting-drawer-index-item-com-style" />
                 <div class="setting-drawer-index-selectIcon" v-if="navTheme === 'dark'">
@@ -15,7 +15,7 @@
             </a-tooltip>
 
             <a-tooltip>
-              <template slot="title"> 亮色菜单风格 </template>
+              <template slot="title">{{ $t('app.setting.pagestyle.light') }}</template>
               <div class="setting-drawer-index-item" @click="handleChange('theme', 'light')">
                 <div class="setting-drawer-index-item-light setting-drawer-index-item-com-style" />
                 <div class="setting-drawer-index-selectIcon" v-if="navTheme === 'light'">
@@ -25,7 +25,7 @@
             </a-tooltip>
 
             <a-tooltip>
-              <template slot="title"> 暗黑模式 </template>
+              <template slot="title">{{ $t('app.setting.pagestyle.realdark') }}</template>
               <div class="setting-drawer-index-item" @click="handleChange('theme', 'night')">
                 <div class="setting-drawer-index-item-night setting-drawer-index-item-com-style" />
                 <div class="setting-drawer-index-selectIcon" v-if="navTheme === 'night'">
@@ -36,7 +36,7 @@
           </div>
         </setting-item>
 
-        <setting-item title="主题色" divider>
+        <setting-item :title="$t('app.setting.themecolor')" divider>
           <div style="height: 20px">
             <a-tooltip class="setting-drawer-theme-color-colorBlock" v-for="(item, index) in colorList" :key="index">
               <template slot="title">
@@ -49,10 +49,10 @@
           </div>
         </setting-item>
 
-        <setting-item title="导航模式" divider>
+        <setting-item :title="$t('app.setting.navigationmode')" divider>
           <div class="setting-drawer-index-blockChecbox">
             <a-tooltip>
-              <template slot="title"> 侧边栏导航 </template>
+              <template slot="title">{{ $t('app.setting.sidemenu') }}</template>
               <div class="setting-drawer-index-item" @click="handleChange('layout', 'sidemenu')">
                 <div class="setting-drawer-index-item-side setting-drawer-index-item-com-style" />
                 <div class="setting-drawer-index-selectIcon" v-if="layout === 'sidemenu'">
@@ -62,7 +62,7 @@
             </a-tooltip>
 
             <a-tooltip>
-              <template slot="title"> 顶部栏导航 </template>
+              <template slot="title">{{ $t('app.setting.topmenu') }}</template>
               <div class="setting-drawer-index-item" @click="handleChange('layout', 'topmenu')">
                 <div class="setting-drawer-index-item-top setting-drawer-index-item-com-style" />
                 <div class="setting-drawer-index-selectIcon" v-if="layout === 'topmenu'">
@@ -72,7 +72,7 @@
             </a-tooltip>
 
             <a-tooltip>
-              <template slot="title"> 混和导航 </template>
+              <template slot="title">{{ $t('app.setting.mixmenu') }}</template>
               <div class="setting-drawer-index-item" @click="handleChange('layout', 'mixmenu')">
                 <div class="setting-drawer-index-item-mix setting-drawer-index-item-com-style" />
                 <div class="setting-drawer-index-selectIcon" v-if="layout === 'mixmenu'">
@@ -82,7 +82,7 @@
             </a-tooltip>
 
             <a-tooltip>
-              <template slot="title"> 混和居中导航 </template>
+              <template slot="title">{{ $t('app.setting.mixmenu-center') }}</template>
               <div class="setting-drawer-index-item" @click="handleChange('layout', 'mixmenu-center')">
                 <div class="setting-drawer-index-item-mix-center setting-drawer-index-item-com-style" />
                 <div class="setting-drawer-index-selectIcon" v-if="layout === 'mixmenu-center'">
@@ -94,24 +94,21 @@
           <div>
             <a-list :split="false">
               <a-list-item>
-                <span>内容区域宽度</span>
-                <a-tooltip slot="actions">
-                  <template slot="title"> 该设定仅 [顶部栏导航和混合居中导航] 时有效 </template>
-                  <a-select
-                    size="small"
-                    style="width: 80px"
-                    :value="contentWidth"
-                    @change="value => handleChange('contentWidth', value)"
-                  >
-                    <a-select-option value="Fixed" v-if="layout === 'topmenu' || layout === 'mixmenu-center'">
-                      固定
-                    </a-select-option>
-                    <a-select-option value="Fluid">流式</a-select-option>
-                  </a-select>
-                </a-tooltip>
+                <span>{{ $t('app.setting.content-width') }}</span>
+                <a-select
+                  size="small"
+                  style="width: 90px"
+                  :value="contentWidth"
+                  @change="value => handleChange('contentWidth', value)"
+                >
+                  <a-select-option value="Fixed" v-if="layout === 'topmenu' || layout === 'mixmenu-center'">
+                    {{ $t('app.setting.content-width.fixed') }}
+                  </a-select-option>
+                  <a-select-option value="Fluid">{{ $t('app.setting.content-width.fluid') }}</a-select-option>
+                </a-select>
               </a-list-item>
               <a-list-item>
-                <span>固定 Header</span>
+                <span>{{ $t('app.setting.fixedheader') }}</span>
                 <a-switch
                   slot="actions"
                   size="small"
@@ -121,7 +118,7 @@
                 />
               </a-list-item>
               <a-list-item>
-                <span :style="{ opacity: layout === 'topmenu' ? 0.5 : 1 }">固定侧边菜单</span>
+                <span :style="{ opacity: layout === 'topmenu' ? 0.5 : 1 }">{{ $t('app.setting.fixedsidebar') }}</span>
                 <a-switch
                   slot="actions"
                   size="small"
@@ -131,7 +128,7 @@
                 />
               </a-list-item>
               <a-list-item>
-                <span>隐藏 Footer</span>
+                <span>{{ $t('app.setting.hideFotter') }}</span>
                 <a-switch
                   slot="actions"
                   size="small"
@@ -140,7 +137,7 @@
                 />
               </a-list-item>
               <a-list-item>
-                <span>隐藏面包屑</span>
+                <span>{{ $t('app.setting.hideBreadcrumb') }}</span>
                 <a-switch
                   slot="actions"
                   size="small"
@@ -149,7 +146,7 @@
                 />
               </a-list-item>
               <a-list-item>
-                <span>多页签模式</span>
+                <span>{{ $t('app.setting.multitab') }}</span>
                 <a-switch
                   slot="actions"
                   size="small"
@@ -161,11 +158,11 @@
           </div>
         </setting-item>
 
-        <setting-item title="表格通用样式" divider>
+        <setting-item :title="$t('app.setting.table.style')" divider>
           <div>
             <a-list :split="false">
               <a-list-item>
-                <span>表格大小</span>
+                <span>{{ $t('app.setting.table.size') }}</span>
                 <a-radio-group
                   slot="actions"
                   :value="tableSize"
@@ -173,13 +170,13 @@
                   button-style="solid"
                   @change="e => handleChange('tableSize', e.target.value)"
                 >
-                  <a-radio-button value="default"> 默认 </a-radio-button>
-                  <a-radio-button value="middle"> 中等 </a-radio-button>
-                  <a-radio-button value="small"> 紧凑 </a-radio-button>
+                  <a-radio-button value="default">{{ $t('app.setting.table.size.default') }}</a-radio-button>
+                  <a-radio-button value="middle">{{ $t('app.setting.table.size.middle') }}</a-radio-button>
+                  <a-radio-button value="small">{{ $t('app.setting.table.size.small') }}</a-radio-button>
                 </a-radio-group>
               </a-list-item>
               <a-list-item>
-                <span>显示边框</span>
+                <span>{{ $t('app.setting.table.bordered') }}</span>
                 <a-switch
                   slot="actions"
                   size="small"
@@ -191,30 +188,30 @@
           </div>
         </setting-item>
 
-        <setting-item title="表单通用样式" divider>
+        <setting-item :title="$t('app.setting.form.style')" divider>
           <div>
             <a-list :split="false">
               <a-list-item>
-                <span>表单弹出类型</span>
+                <span>{{ $t('app.setting.form.popup') }}</span>
                 <a-select
                   size="small"
-                  style="width: 80px"
+                  style="width: 90px"
                   :value="formMode"
                   @change="value => handleChange('formMode', value)"
                 >
-                  <a-select-option value="Drawer"> 抽屉 </a-select-option>
-                  <a-select-option value="Modal">对话框</a-select-option>
+                  <a-select-option value="Drawer">{{ $t('app.setting.form.popup.drawer') }}</a-select-option>
+                  <a-select-option value="Modal">{{ $t('app.setting.form.popup.modal') }}</a-select-option>
                 </a-select>
               </a-list-item>
             </a-list>
           </div>
         </setting-item>
 
-        <setting-item title="其他设置" divider>
+        <setting-item :title="$t('app.setting.othersettings')" divider>
           <div>
             <a-list :split="false">
               <a-list-item>
-                <span>色弱模式</span>
+                <span>{{ $t('app.setting.weakmode') }}</span>
                 <a-switch
                   slot="actions"
                   size="small"
@@ -226,7 +223,7 @@
           </div>
         </setting-item>
 
-        <a-button @click="doCopy" icon="copy" block>拷贝设置</a-button>
+        <a-button @click="doCopy" icon="copy" block>{{ $t('app.setting.copy') }}</a-button>
       </div>
       <div class="setting-drawer-index-handle" @click="toggle" slot="handle">
         <a-icon type="setting" v-if="!visible" />
@@ -302,11 +299,11 @@ export default {
       this.$copyText(text)
         .then(message => {
           console.log('copy', message)
-          this.$message.success('复制完毕')
+          this.$message.success(this.$t('app.setting.copyinfo'))
         })
         .catch(err => {
           console.log('copy.err', err)
-          this.$message.error('复制失败')
+          this.$message.error(this.$t('app.setting.copy.failed'))
         })
     }
   }

@@ -9,7 +9,7 @@
         :model="form"
         :rules="rules"
       >
-        <a-form-model-item label="系统Logo" prop="logo">
+        <a-form-model-item :label="$t('config.base.system.logo')" prop="logo">
           <a-upload
             :file-list="form.logo"
             list-type="picture-card"
@@ -22,19 +22,19 @@
             <img v-if="imageUrl" :src="imageUrl" alt="avatar" style="max-height: 100px; max-width: 100px" />
             <div v-else>
               <a-icon :type="logoLoading ? 'loading' : 'plus'" />
-              <div class="ant-upload-text">上传</div>
+              <div class="ant-upload-text">{{ $t('upload') }}</div>
             </div>
           </a-upload>
         </a-form-model-item>
-        <a-form-model-item :wrapper-col="{ span: 8 }" label="系统名称" prop="title">
-          <a-input v-model="form.title" placeholder="请输入系统名称" />
+        <a-form-model-item :wrapper-col="{ span: 8 }" :label="$t('config.base.system.name')" prop="title">
+          <a-input v-model="form.title" :placeholder="$t('config.base.system.name.placeholder')" />
         </a-form-model-item>
-        <a-form-model-item label="版权信息" prop="copyright">
-          <a-input v-model="form.copyright" placeholder="请输入系统名称" />
+        <a-form-model-item :label="$t('config.base.system.copyright')" prop="copyright">
+          <a-input v-model="form.copyright" :placeholder="$t('config.base.system.copyright.placeholder')" />
         </a-form-model-item>
         <a-form-model-item :wrapper-col="{ lg: { span: 10, offset: 7 }, sm: { span: 17, offset: 7 } }">
           <a-button type="primary" :loading="submitLoading" @click="submit" v-hasPermi="['system:config:edit']">
-            保存
+            {{ $t('save') }}
           </a-button>
         </a-form-model-item>
       </a-form-model>
@@ -64,9 +64,9 @@ export default {
       configInfo: {},
       form: {},
       rules: {
-        logo: [{ required: true, message: '请上传系统Logo', trigger: 'blur' }],
-        title: [{ required: true, message: '请输入系统名称', trigger: 'blur' }],
-        copyright: [{ required: true, message: '请输入版权信息', trigger: 'blur' }]
+        logo: [{ required: true, message: this.$t('config.base.system.logo.placeholder'), trigger: 'blur' }],
+        title: [{ required: true, message: this.$t('config.base.system.name.placeholder'), trigger: 'blur' }],
+        copyright: [{ required: true, message: this.$t('config.base.system.copyright.placeholder'), trigger: 'blur' }]
       },
       logoLoading: false,
       imageUrl: ''
@@ -133,7 +133,7 @@ export default {
           })
           updateConfig(this.configInfo)
             .then(response => {
-              this.$message.success('设置成功', 3)
+              this.$message.success(this.$t('setting.success'), 3)
             })
             .finally(() => {
               this.submitLoading = false
