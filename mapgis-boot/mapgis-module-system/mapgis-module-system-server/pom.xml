@@ -76,6 +76,12 @@
             <groupId>com.zondy.mapgis</groupId>
             <artifactId>mapgis-common-cloud-systemlog</artifactId>
         </dependency>
+
+        <!-- MapGIS Common WebServer -->
+        <dependency>
+            <groupId>com.zondy.mapgis</groupId>
+            <artifactId>mapgis-common-webserver</artifactId>
+        </dependency>
     </dependencies>
 
     <build>

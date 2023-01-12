@@ -29,6 +29,7 @@
         <module>mapgis-common-service</module>
         <module>mapgis-common-objectserializer</module>
         <module>mapgis-common-resttemplate</module>
+        <module>mapgis-common-webserver</module>
     </modules>
 
     <artifactId>mapgis-common</artifactId>
