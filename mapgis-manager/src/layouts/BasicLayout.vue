@@ -80,7 +80,7 @@ import RightContent from '@/components/GlobalHeader/RightContent'
 import GlobalFooter from '@/components/GlobalFooter'
 import Ads from '@/components/Other/CarbonAds'
 import { baseMixin } from '@/store/app-mixin'
-import { getBaseConfig } from '@/api/system/config'
+import { getBaseConfig, getSystemConfig } from '@/api/system/config'
 
 export default {
   name: 'BasicLayout',
@@ -225,7 +225,10 @@ export default {
         } = JSON.parse(configValue)
         this.logo = logo
         this.title = title
-        this.copyright = copyright
+
+        getSystemConfig().then(res => {
+          this.copyright = `${copyright} ${res.data.fullVersion}`
+        })
       }
     })
   },

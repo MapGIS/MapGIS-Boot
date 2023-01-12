@@ -54,7 +54,10 @@ public class SysWebConfigController {
         systemConfig.put("devPlatform", DevPlatform.getName());
         systemConfig.put("serviceArch", EnvUtils.isSingleServiceMode(SpringUtils.getBean(Environment.class)) ? "SingleService" : "MicroService");
         systemConfig.put("osName", props.getProperty("os.name"));
+        systemConfig.put("osVersion", props.getProperty("os.version"));
+        systemConfig.put("osUsername", props.getProperty("USERNAME"));
         systemConfig.put("osArch", props.getProperty("os.arch"));
+        systemConfig.put("fullVersion", getFullVersion(props));
         systemConfig.put("javaVersion", props.getProperty("java.version"));
         systemConfig.put("registerConfig", getRegisterConfig());
         systemConfig.put("loginConfig", getLoginConfig());
@@ -70,6 +73,33 @@ public class SysWebConfigController {
     @GetMapping(value = "/base")
     public AjaxResult getBaseConfig() {
         return AjaxResult.success().put(AjaxResult.DATA_TAG, configService.selectConfigValueByKey(ConfigConstants.CONFIG_KEY_SYSTEM_BASE));
+    }
+
+    private String getFullVersion(Properties props) {
+        StringBuilder fullVersion = new StringBuilder();
+        String version = PlatformVersion.getVersion();
+        String osName = "";
+        String osArch = props.getProperty("os.arch");
+
+        if (EnvUtils.IS_OS_WINDOWS) {
+            osName = "win";
+        } else if (EnvUtils.IS_OS_LINUX) {
+            osName = "linux";
+        }
+
+        if (osArch.equalsIgnoreCase("amd64")) {
+            osArch = "x86_64";
+        }
+
+        fullVersion.append(version);
+        if (StringUtils.isNotEmpty(osName)) {
+            fullVersion.append("-" + osName);
+        }
+        if (StringUtils.isNotEmpty(osArch)) {
+            fullVersion.append("-" + osArch);
+        }
+
+        return fullVersion.toString();
     }
 
     private Map<String, Object> getRegisterConfig() {

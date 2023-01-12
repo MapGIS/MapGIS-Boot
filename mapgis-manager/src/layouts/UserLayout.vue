@@ -20,7 +20,7 @@
 
 <script>
 import { deviceMixin } from '@/store/device-mixin'
-import { getBaseConfig } from '@/api/system/config'
+import { getBaseConfig, getSystemConfig } from '@/api/system/config'
 
 export default {
   name: 'UserLayout',
@@ -49,7 +49,10 @@ export default {
         } = JSON.parse(configValue)
         this.logo = logo
         this.title = title
-        this.copyright = copyright
+
+        getSystemConfig().then(res => {
+          this.copyright = `${copyright} ${res.data.fullVersion}`
+        })
       }
     })
   },
