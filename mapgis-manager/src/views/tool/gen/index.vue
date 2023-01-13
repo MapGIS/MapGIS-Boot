@@ -7,12 +7,12 @@
           <a-row :gutter="48">
             <a-col :md="8" :sm="24">
               <a-form-item label="表名称">
-                <a-input v-model="queryParam.tableName" placeholder="请输入" allow-clear />
+                <a-input v-model="queryParam.tableName" :placeholder="$t('please.input')" allow-clear />
               </a-form-item>
             </a-col>
             <a-col :md="8" :sm="24">
               <a-form-item label="表描述">
-                <a-input v-model="queryParam.tableComment" placeholder="请输入" allow-clear />
+                <a-input v-model="queryParam.tableComment" :placeholder="$t('please.input')" allow-clear />
               </a-form-item>
             </a-col>
             <template v-if="advanced">
@@ -33,10 +33,12 @@
                 class="table-page-search-submitButtons"
                 :style="(advanced && { float: 'right', overflow: 'hidden' }) || {}"
               >
-                <a-button type="primary" @click="handleQuery"><a-icon type="search" />查询</a-button>
-                <a-button style="margin-left: 8px" @click="resetQuery"><a-icon type="redo" />重置</a-button>
+                <a-button type="primary" @click="handleQuery"><a-icon type="search" />{{ $t('query') }}</a-button>
+                <a-button style="margin-left: 8px" @click="resetQuery">
+                  <a-icon type="redo" />{{ $t('reset') }}
+                </a-button>
                 <a @click="toggleAdvanced" style="margin-left: 8px">
-                  {{ advanced ? '收起' : '展开' }}
+                  {{ advanced ? $t('collapse') : $t('expand') }}
                   <a-icon :type="advanced ? 'up' : 'down'" />
                 </a>
               </span>
@@ -52,10 +54,10 @@
           <a-icon type="cloud-download" />生成
         </a-button>
         <a-button type="primary" :disabled="single" @click="handleEditTable" v-hasPermi="['tool:gen:edit']">
-          <a-icon type="edit" />修改
+          <a-icon type="edit" />{{ $t('modify') }}
         </a-button>
         <a-button type="danger" :disabled="multiple" @click="handleDelete" v-hasPermi="['tool:gen:remove']">
-          <a-icon type="delete" />删除
+          <a-icon type="delete" />{{ $t('delete') }}
         </a-button>
         <a-button
           type="dashed"
@@ -133,7 +135,7 @@
         :current="queryParam.pageNum"
         :total="total"
         :page-size="queryParam.pageSize"
-        :showTotal="total => `共 ${total} 条`"
+        :showTotal="totalItems"
         @showSizeChange="onShowSizeChange"
         @change="changeSize"
       />
@@ -186,7 +188,7 @@ export default {
       // 表头
       columns: [
         {
-          title: '序号',
+          title: '编号',
           dataIndex: 'tableId',
           align: 'center'
         },
@@ -235,7 +237,13 @@ export default {
   created() {
     this.getList()
   },
+  computed: {},
   methods: {
+    totalItems(total) {
+      const totalText = this.$t('result.total')
+      const itemsText = this.$t('result.items')
+      return `${totalText} ${total} ${itemsText}`
+    },
     /** 查询表集合 */
     getList() {
       this.loading = true
@@ -283,16 +291,17 @@ export default {
     },
     /** 删除按钮操作 */
     handleDelete(row) {
-      var that = this
+      const that = this
       const tableIds = row.tableId || this.ids
+      const messge = this.$t('delete.success')
       this.$confirm({
-        title: '确认删除所选中数据?',
-        content: '当前选中编号为' + tableIds + '的数据',
+        title: this.$t('confirm.selected.data.delete'),
+        content: this.$t('currently.selected.number') + tableIds + this.$t('is.data'),
         onOk() {
           return delTable(tableIds).then(() => {
             that.onSelectChange([], [])
             that.getList()
-            that.$message.success('删除成功', 3)
+            that.$message.success(messge, 3)
           })
         },
         onCancel() {}
@@ -300,11 +309,11 @@ export default {
     },
     /** 同步数据库操作 */
     handleSynchDb(row) {
-      var that = this
+      const that = this
       const tableName = row.tableName
       this.$confirm({
         title: '确认强制同步数据?',
-        content: '当前同步表名为' + tableName + '的数据',
+        content: '当前同步表名为' + tableName + this.$t('is.data'),
         onOk() {
           return synchDb(tableName).then(() => {
             that.onSelectChange([], [])

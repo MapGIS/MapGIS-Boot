@@ -20,8 +20,8 @@
       </a-form-model-item>
       <div class="bottom-control">
         <a-space>
-          <a-button type="primary" :loading="submitLoading" @click="submitForm"> 保存 </a-button>
-          <a-button type="dashed" @click="cancel"> 取消 </a-button>
+          <a-button type="primary" :loading="submitLoading" @click="submitForm">{{ $t('save') }}</a-button>
+          <a-button type="dashed" @click="cancel">{{ $t('cancel') }}</a-button>
         </a-space>
       </div>
     </a-form-model>
@@ -111,7 +111,7 @@ export default {
       this.reset()
       this.formType = 1
       this.open = true
-      this.formTitle = '添加'
+      this.formTitle = this.$t('add')
     },
     /** 修改按钮操作 */
     handleUpdate(row, ids) {
@@ -121,7 +121,7 @@ export default {
       getMicroApp(microAppId).then(response => {
         this.form = response.data
         this.open = true
-        this.formTitle = '修改'
+        this.formTitle = this.$t('modify')
       })
     },
     /** 提交按钮 */
@@ -130,9 +130,10 @@ export default {
         if (valid) {
           this.submitLoading = true
           if (this.form.microAppId !== undefined && this.form.microAppId !== null) {
+            const modifyMessage = this.$t('modify.success')
             updateMicroApp(this.form)
               .then(response => {
-                this.$message.success('修改成功', 3)
+                this.$message.success(modifyMessage, 3)
                 this.open = false
                 this.$emit('ok')
               })
@@ -140,9 +141,10 @@ export default {
                 this.submitLoading = false
               })
           } else {
+            const addMessage = this.$t('add.success')
             addMicroApp(this.form)
               .then(response => {
-                this.$message.success('新增成功', 3)
+                this.$message.success(addMessage, 3)
                 this.open = false
                 this.$emit('ok')
               })

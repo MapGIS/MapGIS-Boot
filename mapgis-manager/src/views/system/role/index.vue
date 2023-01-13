@@ -7,12 +7,12 @@
           <a-row :gutter="48">
             <a-col :md="8" :sm="24">
               <a-form-item label="角色名">
-                <a-input v-model="queryParam.roleName" placeholder="请输入" allow-clear />
+                <a-input v-model="queryParam.roleName" :placeholder="$t('please.input')" allow-clear />
               </a-form-item>
             </a-col>
             <a-col :md="8" :sm="24">
               <a-form-item label="权限字符">
-                <a-input v-model="queryParam.roleKey" placeholder="请输入" allow-clear />
+                <a-input v-model="queryParam.roleKey" :placeholder="$t('please.input')" allow-clear />
               </a-form-item>
             </a-col>
             <template v-if="advanced">
@@ -33,10 +33,12 @@
                 class="table-page-search-submitButtons"
                 :style="(advanced && { float: 'right', overflow: 'hidden' }) || {}"
               >
-                <a-button type="primary" @click="handleQuery"><a-icon type="search" />查询</a-button>
-                <a-button style="margin-left: 8px" @click="resetQuery"><a-icon type="redo" />重置</a-button>
+                <a-button type="primary" @click="handleQuery"><a-icon type="search" />{{ $t('query') }}</a-button>
+                <a-button style="margin-left: 8px" @click="resetQuery">
+                  <a-icon type="redo" />{{ $t('reset') }}
+                </a-button>
                 <a @click="toggleAdvanced" style="margin-left: 8px">
-                  {{ advanced ? '收起' : '展开' }}
+                  {{ advanced ? $t('collapse') : $t('expand') }}
                   <a-icon :type="advanced ? 'up' : 'down'" />
                 </a>
               </span>
@@ -47,7 +49,7 @@
       <!-- 操作 -->
       <div class="table-operations">
         <a-button type="primary" @click="$refs.createForm.handleAdd()" v-hasPermi="['system:role:add']">
-          <a-icon type="plus" />新增
+          <a-icon type="plus" />{{ $t('add') }}
         </a-button>
         <a-button
           type="primary"
@@ -55,13 +57,13 @@
           @click="$refs.createForm.handleUpdate(undefined, ids)"
           v-hasPermi="['system:role:edit']"
         >
-          <a-icon type="edit" />修改
+          <a-icon type="edit" />{{ $t('modify') }}
         </a-button>
         <a-button type="danger" :disabled="multiple" @click="handleDelete" v-hasPermi="['system:role:remove']">
-          <a-icon type="delete" />删除
+          <a-icon type="delete" />{{ $t('delete') }}
         </a-button>
         <a-button type="primary" @click="handleExport" v-hasPermi="['system:role:export']">
-          <a-icon type="download" />导出
+          <a-icon type="download" />{{ $t('export') }}
         </a-button>
         <table-setting
           :style="{ float: 'right' }"
@@ -142,7 +144,7 @@
         :current="queryParam.pageNum"
         :total="total"
         :page-size="queryParam.pageSize"
-        :showTotal="total => `共 ${total} 条`"
+        :showTotal="totalItems"
         @showSizeChange="onShowSizeChange"
         @change="changeSize"
       />
@@ -241,6 +243,11 @@ export default {
   computed: {},
   watch: {},
   methods: {
+    totalItems(total) {
+      const totalText = this.$t('result.total')
+      const itemsText = this.$t('result.items')
+      return `${totalText} ${total} ${itemsText}`
+    },
     /** 查询角色列表 */
     getList() {
       this.loading = true
@@ -287,16 +294,17 @@ export default {
     },
     /** 删除按钮操作 */
     handleDelete(row) {
-      var that = this
+      const that = this
       const roleIds = row.roleId || this.ids
+      const messge = this.$t('delete.success')
       this.$confirm({
-        title: '确认删除所选中数据?',
-        content: '当前选中编号为' + roleIds + '的数据',
+        title: this.$t('confirm.selected.data.delete'),
+        content: this.$t('currently.selected.number') + roleIds + this.$t('is.data'),
         onOk() {
           return delRole(roleIds).then(() => {
             that.onSelectChange([], [])
             that.getList()
-            that.$message.success('删除成功', 3)
+            that.$message.success(messge, 3)
           })
         },
         onCancel() {}
@@ -304,10 +312,10 @@ export default {
     },
     /** 导出按钮操作 */
     handleExport() {
-      var that = this
+      const that = this
       this.$confirm({
-        title: '是否确认导出?',
-        content: '此操作将导出当前条件下所有数据而非选中数据',
+        title: this.$t('confirm.export'),
+        content: this.$t('export.condition.data.description'),
         onOk() {
           that.download(
             `${window._CONFIG['apiPathManagerPrefix']}/system/role/export`,

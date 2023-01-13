@@ -15,7 +15,7 @@
           style="width: 100%"
           :dropdown-style="{ maxHeight: '400px', overflow: 'auto' }"
           :tree-data="deptOptions"
-          placeholder="请选择"
+          :placeholder="$t('please.select')"
           :replaceFields="{
             children: 'children',
             title: 'deptName',
@@ -27,15 +27,15 @@
         </a-tree-select>
       </a-form-model-item>
       <a-form-model-item label="部门名称" prop="deptName">
-        <a-input v-model="form.deptName" placeholder="请输入" />
+        <a-input v-model="form.deptName" :placeholder="$t('please.input')" />
       </a-form-model-item>
       <a-form-model-item label="排序" prop="orderNum">
         <a-input-number v-model="form.orderNum" :min="0" style="width: 100%" />
       </a-form-model-item>
       <div class="bottom-control">
         <a-space>
-          <a-button type="primary" :loading="submitLoading" @click="submitForm"> 保存 </a-button>
-          <a-button type="dashed" @click="cancel"> 取消 </a-button>
+          <a-button type="primary" :loading="submitLoading" @click="submitForm">{{ $t('save') }}</a-button>
+          <a-button type="dashed" @click="cancel">{{ $t('cancel') }}</a-button>
         </a-space>
       </div>
     </a-form-model>
@@ -123,9 +123,10 @@ export default {
         if (valid) {
           this.submitLoading = true
           if (this.form.deptId !== undefined) {
+            const modifyMessage = this.$t('modify.success')
             updateDept(this.form)
               .then(response => {
-                this.$message.success('修改成功', 3)
+                this.$message.success(modifyMessage, 3)
                 this.open = false
                 this.$emit('ok')
               })
@@ -133,9 +134,10 @@ export default {
                 this.submitLoading = false
               })
           } else {
+            const addMessage = this.$t('add.success')
             addDept(this.form)
               .then(response => {
-                this.$message.success('新增成功', 3)
+                this.$message.success(addMessage, 3)
                 this.open = false
                 this.$emit('ok')
               })

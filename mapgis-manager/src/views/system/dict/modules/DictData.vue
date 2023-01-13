@@ -10,7 +10,7 @@
           v-hasPermi="['system:dict:add']"
           ghost
         >
-          <a-icon type="plus" />新增
+          <a-icon type="plus" />{{ $t('add') }}
         </a-button>
         <a-button
           type="danger"
@@ -20,7 +20,7 @@
           v-hasPermi="['system:dict:remove']"
           ghost
         >
-          <a-icon type="delete" />删除
+          <a-icon type="delete" />{{ $t('delete') }}
         </a-button>
         <table-setting
           :style="{ float: 'right' }"
@@ -51,10 +51,12 @@
         </span>
         <span slot="operation" slot-scope="text, record">
           <a @click="$refs.createDataForm.handleUpdate(record)" v-hasPermi="['system:dict:edit']">
-            <a-icon type="edit" />修改
+            <a-icon type="edit" />{{ $t('modify') }}
           </a>
           <a-divider type="vertical" />
-          <a @click="handleDelete(record)" v-hasPermi="['system:dict:remove']"> <a-icon type="delete" />删除 </a>
+          <a @click="handleDelete(record)" v-hasPermi="['system:dict:remove']">
+            <a-icon type="delete" />{{ $t('delete') }}
+          </a>
         </span>
       </a-table>
     </a-card>
@@ -202,16 +204,17 @@ export default {
     },
     /** 删除按钮操作 */
     handleDelete(row) {
-      var that = this
+      const that = this
       const dictCodes = row.dictCode || this.ids
+      const messge = this.$t('delete.success')
       this.$confirm({
-        title: '确认删除所选中数据?',
-        content: '当前选中字典编码为' + dictCodes + '的数据',
+        title: this.$t('confirm.selected.data.delete'),
+        content: '当前选中字典编码为' + dictCodes + this.$t('is.data'),
         onOk() {
           return delData(dictCodes).then(() => {
             that.onSelectChange([], [])
             that.getList()
-            that.$message.success('删除成功', 3)
+            that.$message.success(messge, 3)
           })
         },
         onCancel() {}

@@ -101,7 +101,7 @@
             </template>
             <!-- 字典类型 -->
             <template slot="dictType" slot-scope="text, record">
-              <a-select v-model="record.dictType" placeholder="请选择" style="width: 100%">
+              <a-select v-model="record.dictType" :placeholder="$t('please.select')" style="width: 100%">
                 <a-select-option v-for="item in dictOptions" :key="item.dictType" :value="item.dictType">
                   {{ item.dictName }}
                 </a-select-option>
@@ -116,8 +116,8 @@
       <a-form label-width="100px">
         <footer-tool-bar>
           <a-space>
-            <a-button type="primary" :loading="submitLoading" @click="submitForm"> 保存 </a-button>
-            <a-button type="dashed" @click="back"> 取消 </a-button>
+            <a-button type="primary" :loading="submitLoading" @click="submitForm">{{ $t('save') }}</a-button>
+            <a-button type="dashed" @click="back">{{ $t('cancel') }}</a-button>
           </a-space>
         </footer-tool-bar>
       </a-form>
@@ -157,7 +157,7 @@ export default {
       // 表头
       columns: [
         {
-          title: '序号',
+          title: '编号',
           dataIndex: 'columnId',
           scopedSlots: { customRender: 'columnId' },
           align: 'center',

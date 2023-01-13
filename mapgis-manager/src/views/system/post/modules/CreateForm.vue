@@ -10,21 +10,21 @@
   >
     <a-form-model ref="form" :model="form" :rules="rules" v-bind="formLayout">
       <a-form-model-item label="岗位名称" prop="postName">
-        <a-input v-model="form.postName" placeholder="请输入" />
+        <a-input v-model="form.postName" :placeholder="$t('please.input')" />
       </a-form-model-item>
       <a-form-model-item label="岗位编码" prop="postCode">
-        <a-input v-model="form.postCode" placeholder="请输入" />
+        <a-input v-model="form.postCode" :placeholder="$t('please.input')" />
       </a-form-model-item>
       <a-form-model-item label="显示顺序" prop="postSort">
         <a-input-number v-model="form.postSort" :min="0" style="width: 100%" />
       </a-form-model-item>
       <a-form-model-item label="备注" prop="remark">
-        <a-input v-model="form.remark" placeholder="请输入" type="textarea" allow-clear />
+        <a-input v-model="form.remark" :placeholder="$t('please.input')" type="textarea" allow-clear />
       </a-form-model-item>
       <div class="bottom-control">
         <a-space>
-          <a-button type="primary" :loading="submitLoading" @click="submitForm"> 保存 </a-button>
-          <a-button type="dashed" @click="cancel"> 取消 </a-button>
+          <a-button type="primary" :loading="submitLoading" @click="submitForm">{{ $t('save') }}</a-button>
+          <a-button type="dashed" @click="cancel">{{ $t('cancel') }}</a-button>
         </a-space>
       </div>
     </a-form-model>
@@ -105,9 +105,10 @@ export default {
         if (valid) {
           this.submitLoading = true
           if (this.form.postId !== undefined) {
+            const modifyMessage = this.$t('modify.success')
             updatePost(this.form)
               .then(response => {
-                this.$message.success('修改成功', 3)
+                this.$message.success(modifyMessage, 3)
                 this.open = false
                 this.$emit('ok')
               })
@@ -115,9 +116,10 @@ export default {
                 this.submitLoading = false
               })
           } else {
+            const addMessage = this.$t('add.success')
             addPost(this.form)
               .then(response => {
-                this.$message.success('新增成功', 3)
+                this.$message.success(addMessage, 3)
                 this.open = false
                 this.$emit('ok')
               })

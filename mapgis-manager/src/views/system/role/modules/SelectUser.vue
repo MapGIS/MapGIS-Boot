@@ -16,13 +16,15 @@
             <a-row :gutter="48">
               <a-col :md="8" :sm="24">
                 <a-form-item label="用户名称">
-                  <a-input v-model="queryParam.userName" placeholder="请输入" allow-clear />
+                  <a-input v-model="queryParam.userName" :placeholder="$t('please.input')" allow-clear />
                 </a-form-item>
               </a-col>
               <a-col :md="8" :sm="24">
                 <span class="table-page-search-submitButtons">
-                  <a-button type="primary" @click="handleQuery"><a-icon type="search" />查询</a-button>
-                  <a-button style="margin-left: 8px" @click="resetQuery"><a-icon type="redo" />重置</a-button>
+                  <a-button type="primary" @click="handleQuery"><a-icon type="search" />{{ $t('query') }}</a-button>
+                  <a-button style="margin-left: 8px" @click="resetQuery">
+                    <a-icon type="redo" />{{ $t('reset') }}
+                  </a-button>
                 </span>
               </a-col>
             </a-row>
@@ -56,7 +58,7 @@
           :current="queryParam.pageNum"
           :total="total"
           :page-size="queryParam.pageSize"
-          :showTotal="total => `共 ${total} 条`"
+          :showTotal="totalItems"
           @showSizeChange="onShowSizeChange"
           @change="changeSize"
         />
@@ -134,6 +136,7 @@ export default {
     }
   },
   created() {},
+  computed: {},
   methods: {
     // 查询表数据
     getList() {

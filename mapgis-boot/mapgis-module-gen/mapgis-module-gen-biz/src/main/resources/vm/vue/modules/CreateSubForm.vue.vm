@@ -22,14 +22,14 @@
 #elseif($column.list && "" != $javaField)
 #set($columnLastIndex = $foreach.count)
       <a-form-model-item label="${comment}" prop="${javaField}">
-        <a-input v-model="form.${javaField}" placeholder="请输入" />
+        <a-input v-model="form.${javaField}" :placeholder="$t('please.input')" />
       </a-form-model-item>
 #end
 #end
       <div class="bottom-control">
         <a-space>
-          <a-button type="primary" @click="submitForm"> 保存 </a-button>
-          <a-button type="dashed" @click="cancel"> 取消 </a-button>
+          <a-button type="primary" @click="submitForm">{{ $t('save') }}</a-button>
+          <a-button type="dashed" @click="cancel">{{ $t('cancel') }}</a-button>
         </a-space>
       </div>
     </a-form-model>
@@ -46,7 +46,7 @@ export default {
   components: {},
   data() {
     return {
-      formTitle: '增加',
+      formTitle: '新增',
       // 表单参数
       form: {
 #foreach($column in $subTable.columns)

@@ -28,7 +28,7 @@
     </a-form-model-item>
     <!-- 暂时不提供创建用户的默认用户组配置，默认就是第三方用户组（useGroupId为1） -->
     <a-form-model-item label="创建用户的默认用户组" prop="defaultUserGroupIds" v-if="false">
-      <a-select mode="multiple" v-model="form.defaultUserGroupIds" placeholder="请选择">
+      <a-select mode="multiple" v-model="form.defaultUserGroupIds" :placeholder="$t('please.select')">
         <a-select-option v-for="(d, index) in userGroupOptions" :key="index" :value="d.userGroupId">
           {{ d.userGroupName }}
         </a-select-option>
@@ -36,7 +36,7 @@
     </a-form-model-item>
     <a-form-model-item :wrapper-col="{ lg: { span: 10, offset: 7 }, sm: { span: 17, offset: 7 } }">
       <a-button type="primary" :loading="submitLoading" @click="submit" v-hasPermi="['system:config:edit']">
-        保存
+        {{ $t('save') }}
       </a-button>
     </a-form-model-item>
   </a-form-model>
@@ -97,9 +97,10 @@ export default {
         if (valid) {
           this.submitLoading = true
           this.configInfo.configValue = JSON.stringify({ ...this.form })
+          const settingMessage = this.$t('setting.success')
           updateConfig(this.configInfo)
             .then(response => {
-              this.$message.success('设置成功', 3)
+              this.$message.success(settingMessage, 3)
             })
             .finally(() => {
               this.submitLoading = false

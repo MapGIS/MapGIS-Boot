@@ -3,7 +3,7 @@
     <!-- 操作 -->
     <div class="table-operations">
       <a-button type="primary" @click="handleAdd()" v-hasPermi="['system:config:edit']">
-        <a-icon type="plus" />新增
+        <a-icon type="plus" />{{ $t('add') }}
       </a-button>
       <a-button
         type="primary"
@@ -11,10 +11,10 @@
         @click="handleUpdate(undefined, externalRoles)"
         v-hasPermi="['system:config:edit']"
       >
-        <a-icon type="edit" />修改
+        <a-icon type="edit" />{{ $t('modify') }}
       </a-button>
       <a-button type="danger" :disabled="multiple" @click="handleDelete" v-hasPermi="['system:config:edit']">
-        <a-icon type="delete" />删除
+        <a-icon type="delete" />{{ $t('delete') }}
       </a-button>
       <table-setting
         :style="{ float: 'right' }"
@@ -50,9 +50,13 @@
         {{ parseSystemRoleIds(record.systemRoleIds) }}
       </span>
       <span slot="operation" slot-scope="text, record">
-        <a @click="handleUpdate(record, undefined)" v-hasPermi="['system:config:edit']"> <a-icon type="edit" />修改 </a>
+        <a @click="handleUpdate(record, undefined)" v-hasPermi="['system:config:edit']">
+          <a-icon type="edit" />{{ $t('modify') }}
+        </a>
         <a-divider type="vertical" v-hasPermi="['system:config:edit']" />
-        <a @click="handleDelete(record)" v-hasPermi="['system:config:edit']"> <a-icon type="delete" />删除 </a>
+        <a @click="handleDelete(record)" v-hasPermi="['system:config:edit']">
+          <a-icon type="delete" />{{ $t('delete') }}
+        </a>
       </span>
     </a-table>
   </a-card>
@@ -144,20 +148,21 @@ export default {
     },
     /** 删除按钮操作 */
     handleDelete(row) {
-      var that = this
+      const that = this
       const externalRoles = row.externalRole ? [row.externalRole] : this.externalRoles
       const roleMapping = this.list.filter(item => {
         return !externalRoles.includes(item.externalRole)
       })
+      const messge = this.$t('delete.success')
       this.$confirm({
-        title: '确认删除所选中数据?',
-        content: '当前选中LDAP群组为' + externalRoles + '的数据',
+        title: this.$t('confirm.selected.data.delete'),
+        content: '当前选中LDAP群组为' + externalRoles + this.$t('is.data'),
         onOk() {
           that.configInfo.configValue = JSON.stringify({ ...that.configValue, roleMapping })
           return updateConfig(that.configInfo).then(() => {
             that.onSelectChange([], [])
             that.getList()
-            that.$message.success('删除成功', 3)
+            that.$message.success(messge, 3)
           })
         },
         onCancel() {}

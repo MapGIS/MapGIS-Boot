@@ -8,7 +8,7 @@
         <a-alert type="error" :message="ldapErrorMsg" banner />
       </a-form-model-item>
       <a-form-model-item label="LDAP群组" prop="externalRole">
-        <a-select v-model="form.externalRole" placeholder="请选择" :disabled="!isAdd">
+        <a-select v-model="form.externalRole" :placeholder="$t('please.select')" :disabled="!isAdd">
           <a-select-option v-for="(role, index) in validLdapRoles" :key="index" :value="role">
             {{ role }}
           </a-select-option>
@@ -25,8 +25,8 @@
       </a-form-model-item>
       <div class="bottom-control">
         <a-space>
-          <a-button type="primary" @click="submitForm"> 保存 </a-button>
-          <a-button type="dashed" @click="cancel"> 取消 </a-button>
+          <a-button type="primary" @click="submitForm">{{ $t('save') }}</a-button>
+          <a-button type="dashed" @click="cancel">{{ $t('cancel') }}</a-button>
         </a-space>
       </div>
     </a-form-model>
@@ -122,14 +122,16 @@ export default {
       this.$refs.form.validate(valid => {
         if (valid) {
           if (this.isAdd) {
+            const modifyMessage = this.$t('modify.success')
             this.$emit('add', this.form, () => {
-              this.$message.success('修改成功', 3)
+              this.$message.success(modifyMessage, 3)
               this.open = false
               this.$emit('ok')
             })
           } else {
+            const addMessage = this.$t('add.success')
             this.$emit('update', this.form, () => {
-              this.$message.success('新增成功', 3)
+              this.$message.success(addMessage, 3)
               this.open = false
               this.$emit('ok')
             })

@@ -11,40 +11,50 @@
   >
     <a-form-model ref="form" :model="form" :rules="rules" v-bind="formLayout">
       <a-form-model-item label="用户名" prop="userName">
-        <a-input v-model="form.userName" placeholder="请输入" :disabled="form.userId !== undefined" />
+        <a-input v-model="form.userName" :placeholder="$t('please.input')" :disabled="form.userId !== undefined" />
       </a-form-model-item>
       <a-form-model-item label="使用初始密码" v-if="form.userId == undefined">
         <a-switch :checked="useInitPassword" @change="checked => handleInitPasswordChange(checked)" />
       </a-form-model-item>
       <a-form-model-item label="密码" prop="password" v-if="form.userId == undefined && useInitPassword">
-        <a-input-password v-model="form.password" placeholder="请输入" :maxLength="16" autocomplete="new-password" />
+        <a-input-password
+          v-model="form.password"
+          :placeholder="$t('please.input')"
+          :maxLength="16"
+          autocomplete="new-password"
+        />
       </a-form-model-item>
       <a-form-model-item label="密码" prop="password" v-if="form.userId == undefined && !useInitPassword">
-        <a-input-password v-model="form.password" placeholder="请输入" :maxLength="16" autocomplete="new-password" />
+        <a-input-password
+          v-model="form.password"
+          :placeholder="$t('please.input')"
+          :maxLength="16"
+          autocomplete="new-password"
+        />
       </a-form-model-item>
       <a-form-model-item label="确认密码" prop="confirmPassword" v-if="form.userId == undefined && !useInitPassword">
         <a-input-password
           v-model="form.confirmPassword"
-          placeholder="请输入"
+          :placeholder="$t('please.input')"
           :maxLength="16"
           autocomplete="new-password"
         />
       </a-form-model-item>
       <a-form-model-item label="用户昵称" prop="nickName">
-        <a-input v-model="form.nickName" placeholder="请输入" :maxLength="30" />
+        <a-input v-model="form.nickName" :placeholder="$t('please.input')" :maxLength="30" />
       </a-form-model-item>
       <a-form-model-item label="用户信息" prop="remark">
-        <a-input v-model="form.remark" placeholder="请输入" type="textarea" allow-clear />
+        <a-input v-model="form.remark" :placeholder="$t('please.input')" type="textarea" allow-clear />
       </a-form-model-item>
       <a-form-model-item label="用户组" prop="userGroupIds">
-        <a-select mode="multiple" v-model="form.userGroupIds" placeholder="请选择">
+        <a-select mode="multiple" v-model="form.userGroupIds" :placeholder="$t('please.select')">
           <a-select-option v-for="(d, index) in userGroupOptions" :key="index" :value="d.userGroupId">
             {{ d.userGroupName }}
           </a-select-option>
         </a-select>
       </a-form-model-item>
       <a-form-model-item label="角色" prop="roleIds">
-        <a-select mode="multiple" v-model="form.roleIds" placeholder="请选择">
+        <a-select mode="multiple" v-model="form.roleIds" :placeholder="$t('please.select')">
           <a-select-option v-for="(d, index) in roleOptions" :key="index" :value="d.roleId">
             {{ d.roleName }}
           </a-select-option>
@@ -56,14 +66,14 @@
           style="width: 100%"
           :dropdown-style="{ maxHeight: '400px', overflow: 'auto' }"
           :tree-data="deptOptions"
-          placeholder="请选择"
+          :placeholder="$t('please.select')"
           :replaceFields="replaceFields"
           tree-default-expand-all
         >
         </a-tree-select>
       </a-form-model-item>
       <a-form-model-item label="岗位" prop="postIds">
-        <a-select mode="multiple" v-model="form.postIds" placeholder="请选择">
+        <a-select mode="multiple" v-model="form.postIds" :placeholder="$t('please.select')">
           <a-select-option v-for="(d, index) in postOptions" :key="index" :value="d.postId">
             {{ d.postName }}
           </a-select-option>
@@ -77,10 +87,10 @@
         </a-radio-group>
       </a-form-model-item>
       <a-form-model-item label="手机号" prop="phonenumber">
-        <a-input v-model="form.phonenumber" placeholder="请输入" />
+        <a-input v-model="form.phonenumber" :placeholder="$t('please.input')" />
       </a-form-model-item>
       <a-form-model-item label="邮箱" prop="email">
-        <a-input v-model="form.email" placeholder="请输入" />
+        <a-input v-model="form.email" :placeholder="$t('please.input')" />
       </a-form-model-item>
       <a-form-model-item label="性别" prop="sex">
         <a-radio-group v-model="form.sex" button-style="solid">
@@ -91,8 +101,8 @@
       </a-form-model-item>
       <div class="bottom-control">
         <a-space>
-          <a-button type="primary" :loading="submitLoading" @click="submitForm"> 保存 </a-button>
-          <a-button type="dashed" @click="cancel"> 取消 </a-button>
+          <a-button type="primary" :loading="submitLoading" @click="submitForm">{{ $t('save') }}</a-button>
+          <a-button type="dashed" @click="cancel">{{ $t('cancel') }}</a-button>
         </a-space>
       </div>
     </a-form-model>
@@ -290,9 +300,10 @@ export default {
         if (valid) {
           this.submitLoading = true
           if (this.form.userId !== undefined) {
+            const modifyMessage = this.$t('modify.success')
             updateUser(this.form)
               .then(response => {
-                this.$message.success('修改成功', 3)
+                this.$message.success(modifyMessage, 3)
                 this.open = false
                 this.$emit('ok')
               })
@@ -300,9 +311,10 @@ export default {
                 this.submitLoading = false
               })
           } else {
+            const addMessage = this.$t('add.success')
             addUser(this.form)
               .then(response => {
-                this.$message.success('新增成功', 3)
+                this.$message.success(addMessage, 3)
                 this.open = false
                 this.$emit('ok')
               })

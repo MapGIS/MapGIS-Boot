@@ -14,7 +14,7 @@
       </a-tabs>
       <div class="bottom-control">
         <a-space>
-          <a-button type="dashed" @click="close"> 关闭 </a-button>
+          <a-button type="dashed" @click="close">{{ $t('close') }}</a-button>
         </a-space>
       </div>
     </a-drawer>

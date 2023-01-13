@@ -42,5 +42,6 @@ export default {
   'app.setting.form.popup': '表单弹出类型',
   'app.setting.form.popup.drawer': '抽屉',
   'app.setting.form.popup.modal': '对话框',
-  'app.setting.theme.style': '主题通用样式'
+  'app.setting.theme.style': '主题通用样式',
+  'app.setting.theme.updating': '正在切换主题'
 }

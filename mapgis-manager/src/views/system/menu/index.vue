@@ -7,12 +7,17 @@
           <a-row :gutter="48">
             <a-col :md="8" :sm="24">
               <a-form-item label="菜单名称">
-                <a-input v-model="queryParam.menuName" placeholder="请输入" allow-clear />
+                <a-input v-model="queryParam.menuName" :placeholder="$t('please.input')" allow-clear />
               </a-form-item>
             </a-col>
             <a-col :md="8" :sm="24">
               <a-form-item label="状态">
-                <a-select placeholder="请选择" v-model="queryParam.status" style="width: 100%" allow-clear>
+                <a-select
+                  :placeholder="$t('please.select')"
+                  v-model="queryParam.status"
+                  style="width: 100%"
+                  allow-clear
+                >
                   <a-select-option v-for="(d, index) in statusOptions" :key="index" :value="d.dictValue">{{
                     d.dictLabel
                   }}</a-select-option>
@@ -21,8 +26,10 @@
             </a-col>
             <a-col :md="8" :sm="24">
               <span class="table-page-search-submitButtons">
-                <a-button type="primary" @click="handleQuery"><a-icon type="search" />查询</a-button>
-                <a-button style="margin-left: 8px" @click="resetQuery"><a-icon type="redo" />重置</a-button>
+                <a-button type="primary" @click="handleQuery"><a-icon type="search" />{{ $t('query') }}</a-button>
+                <a-button style="margin-left: 8px" @click="resetQuery">
+                  <a-icon type="redo" />{{ $t('reset') }}
+                </a-button>
               </span>
             </a-col>
           </a-row>
@@ -31,7 +38,7 @@
       <!-- 操作 -->
       <div class="table-operations">
         <a-button type="primary" @click="$refs.createForm.handleAdd()" v-hasPermi="['system:menu:add']">
-          <a-icon type="plus" />新增
+          <a-icon type="plus" />{{ $t('add') }}
         </a-button>
         <table-setting
           :style="{ float: 'right' }"
@@ -72,15 +79,15 @@
         </span>
         <span slot="operation" slot-scope="text, record">
           <a @click="$refs.createForm.handleUpdate(record)" v-hasPermi="['system:menu:edit']">
-            <a-icon type="edit" />修改
+            <a-icon type="edit" />{{ $t('modify') }}
           </a>
           <a-divider type="vertical" v-hasPermi="['system:menu:add']" />
           <a @click="$refs.createForm.handleAdd(record)" v-hasPermi="['system:menu:add']">
-            <a-icon type="plus" />新增
+            <a-icon type="plus" />{{ $t('add') }}
           </a>
           <a-divider type="vertical" v-if="record.menuId != 0" v-hasPermi="['system:menu:remove']" />
           <a @click="handleDelete(record)" v-if="record.menuId != 0" v-hasPermi="['system:menu:remove']">
-            <a-icon type="delete" />删除
+            <a-icon type="delete" />{{ $t('delete') }}
           </a>
         </span>
       </a-table>
@@ -218,22 +225,23 @@ export default {
     getTreeselect() {
       listMenu().then(response => {
         this.menuOptions = []
-        const menu = { menuId: 0, menuName: '主目录', children: [] }
+        const menu = { menuId: 0, menuName: this.$t('directory.home'), children: [] }
         menu.children = this.handleTree(response.data, 'menuId')
         this.menuOptions.push(menu)
       })
     },
     /** 删除按钮操作 */
     handleDelete(row) {
-      var that = this
+      const that = this
       const menuId = row.menuId
+      const messge = this.$t('delete.success')
       this.$confirm({
-        title: '确认删除所选中数据?',
-        content: '当前选中编号为' + menuId + '的数据',
+        title: this.$t('confirm.selected.data.delete'),
+        content: this.$t('currently.selected.number') + menuId + this.$t('is.data'),
         onOk() {
           return delMenu(menuId).then(() => {
             that.getList()
-            that.$message.success('删除成功', 3)
+            that.$message.success(messge, 3)
           })
         },
         onCancel() {}

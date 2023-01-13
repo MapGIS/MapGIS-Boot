@@ -1,7 +1,7 @@
 <template>
   <a-drawer width="35%" placement="right" :closable="false" :visible="openView" @close="onCloseView">
     <a-descriptions title="调度日志详细" layout="vertical" bordered :column="3">
-      <a-descriptions-item label="日志序号">
+      <a-descriptions-item label="日志编号">
         {{ form.jobLogId }}
       </a-descriptions-item>
       <a-descriptions-item label="任务名称">

@@ -4,22 +4,22 @@
       <a-row>
         <a-col :span="12">
           <a-form-model-item label="表名称" prop="tableName">
-            <a-input placeholder="请输入仓库名称" v-model="info.tableName" />
+            <a-input placeholder="请输入表名称" v-model="info.tableName" />
           </a-form-model-item>
         </a-col>
         <a-col :span="12">
           <a-form-model-item label="表描述" prop="tableComment">
-            <a-input placeholder="请输入仓库名称" v-model="info.tableComment" />
+            <a-input placeholder="请输入表描述" v-model="info.tableComment" />
           </a-form-model-item>
         </a-col>
         <a-col :span="12">
           <a-form-model-item label="实体类名称" prop="className">
-            <a-input placeholder="请输入仓库名称" v-model="info.className" />
+            <a-input placeholder="请输入实体类名称" v-model="info.className" />
           </a-form-model-item>
         </a-col>
         <a-col :span="12">
           <a-form-model-item label="作者" prop="functionAuthor">
-            <a-input placeholder="请输入仓库名称" v-model="info.functionAuthor" />
+            <a-input placeholder="请输入作者" v-model="info.functionAuthor" />
           </a-form-model-item>
         </a-col>
         <a-col :span="24" :pull="3">

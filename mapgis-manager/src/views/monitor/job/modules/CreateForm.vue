@@ -13,7 +13,7 @@
         <a-input v-model="form.jobName" placeholder="请输入任务名称" />
       </a-form-model-item>
       <a-form-model-item label="任务分组" prop="jobGroup">
-        <a-select placeholder="请选择" v-model="form.jobGroup">
+        <a-select :placeholder="$t('please.select')" v-model="form.jobGroup">
           <a-select-option v-for="(d, index) in jobGroupOptions" :key="index" :value="d.dictValue">{{
             d.dictLabel
           }}</a-select-option>
@@ -65,8 +65,8 @@
       </a-form-model-item>
       <div class="bottom-control">
         <a-space>
-          <a-button type="primary" :loading="submitLoading" @click="submitForm"> 保存 </a-button>
-          <a-button type="dashed" @click="cancel"> 取消 </a-button>
+          <a-button type="primary" :loading="submitLoading" @click="submitForm">{{ $t('save') }}</a-button>
+          <a-button type="dashed" @click="cancel">{{ $t('cancel') }}</a-button>
         </a-space>
       </div>
     </a-form-model>
@@ -176,9 +176,10 @@ export default {
         if (valid) {
           this.submitLoading = true
           if (this.form.jobId !== undefined) {
+            const modifyMessage = this.$t('modify.success')
             updateJob(this.form)
               .then(response => {
-                this.$message.success('修改成功', 3)
+                this.$message.success(modifyMessage, 3)
                 this.open = false
                 this.$emit('ok')
               })
@@ -186,9 +187,10 @@ export default {
                 this.submitLoading = false
               })
           } else {
+            const addMessage = this.$t('add.success')
             addJob(this.form)
               .then(response => {
-                this.$message.success('新增成功', 3)
+                this.$message.success(addMessage, 3)
                 this.open = false
                 this.$emit('ok')
               })

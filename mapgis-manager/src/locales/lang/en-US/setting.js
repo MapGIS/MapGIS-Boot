@@ -42,5 +42,6 @@ export default {
   'app.setting.form.popup': 'Form Popup Type',
   'app.setting.form.popup.drawer': 'Drawer',
   'app.setting.form.popup.modal': 'Modal',
-  'app.setting.theme.style': 'Theme Common Style'
+  'app.setting.theme.style': 'Theme Common Style',
+  'app.setting.theme.updating': 'Updating Theme'
 }

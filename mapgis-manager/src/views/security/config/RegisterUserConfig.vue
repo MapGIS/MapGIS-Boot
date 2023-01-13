@@ -10,7 +10,7 @@
       <a-checkbox :checked="form.enabled" @change="handleChange" />
     </a-form-model-item>
     <a-form-model-item label="注册用户的默认角色" prop="defaultRoleIds">
-      <a-select mode="multiple" v-model="form.defaultRoleIds" placeholder="请选择">
+      <a-select mode="multiple" v-model="form.defaultRoleIds" :placeholder="$t('please.select')">
         <a-select-option v-for="(d, index) in roleOptions" :key="index" :value="d.roleId">
           {{ d.roleName }}
         </a-select-option>
@@ -18,7 +18,7 @@
     </a-form-model-item>
     <a-form-model-item :wrapper-col="{ lg: { span: 10, offset: 7 }, sm: { span: 17, offset: 7 } }">
       <a-button type="primary" :loading="submitLoading" @click="submit" v-hasPermi="['system:config:edit']">
-        保存
+        {{ $t('save') }}
       </a-button>
     </a-form-model-item>
   </a-form-model>
@@ -65,9 +65,10 @@ export default {
         if (valid) {
           this.submitLoading = true
           this.configInfo.configValue = JSON.stringify({ ...this.form })
+          const settingMessage = this.$t('setting.success')
           updateConfig(this.configInfo)
             .then(response => {
-              this.$message.success('设置成功', 3)
+              this.$message.success(settingMessage, 3)
             })
             .finally(() => {
               this.submitLoading = false

@@ -1,13 +1,13 @@
 <template>
   <a-modal ref="subTableModel" :title="title" width="80%" :visible="visible" @cancel="close">
     <template slot="footer">
-      <a-button type="dashed" @click="close"> 关闭 </a-button>
+      <a-button type="dashed" @click="close">{{ $t('close') }}</a-button>
     </template>
     <a-card :bordered="false">
       <!-- 操作 -->
       <div class="table-operations">
-        <a-button type="primary" @click="$refs.createSubForm.handleAdd()"> <a-icon type="plus" />新增 </a-button>
-        <a-button type="danger" :disabled="multiple" @click="handleDelete"> <a-icon type="delete" />删除 </a-button>
+        <a-button type="primary" @click="$refs.createSubForm.handleAdd()"> <a-icon type="plus" />{{ $t('add') }} </a-button>
+        <a-button type="danger" :disabled="multiple" @click="handleDelete"> <a-icon type="delete" />{{ $t('delete') }} </a-button>
         <table-setting
           :style="{ float: 'right' }"
           :table-size.sync="tableSize"
@@ -31,7 +31,7 @@
       >
         <span slot="operation" slot-scope="text, record">
           <a-divider type="vertical" />
-          <a @click="handleDelete(record)"> <a-icon type="delete" />删除 </a>
+          <a @click="handleDelete(record)"> <a-icon type="delete" />{{ $t('delete') }} </a>
         </span>
       </a-table>
     </a-card>
@@ -124,14 +124,14 @@ export default {
     },
     /** 删除按钮操作 */
     handleDelete(row) {
-      var that = this
+      const that = this
       if (row) {
         var index = (this.list || []).findIndex(item => item === row)
       }
       const ids = index !== undefined ? index : this.ids
       this.$confirm({
-        title: '确认删除所选中数据?',
-        content: '当前选中序号为' + ids + '的数据',
+        title: this.$t('confirm.selected.data.delete'),
+        content: this.$t('currently.selected.number') + ids + this.$t('is.data'),
         onOk() {
           that.$emit('delete', index, ids)
         },

@@ -10,13 +10,13 @@
   >
     <a-form-model ref="form" :model="form" :rules="rules" v-bind="formLayout">
       <a-form-model-item label="参数名称" prop="configName">
-        <a-input v-model="form.configName" placeholder="请输入" />
+        <a-input v-model="form.configName" :placeholder="$t('please.input')" />
       </a-form-model-item>
       <a-form-model-item label="参数键名" prop="configKey">
-        <a-input v-model="form.configKey" placeholder="请输入" />
+        <a-input v-model="form.configKey" :placeholder="$t('please.input')" />
       </a-form-model-item>
       <a-form-model-item label="参数键值" prop="configValue">
-        <a-input v-model="form.configValue" placeholder="请输入" />
+        <a-input v-model="form.configValue" :placeholder="$t('please.input')" />
       </a-form-model-item>
       <a-form-model-item label="系统内置" prop="configType">
         <a-select placeholder="是否内置" v-model="form.configType">
@@ -30,8 +30,8 @@
       </a-form-model-item>
       <div class="bottom-control">
         <a-space>
-          <a-button type="primary" :loading="submitLoading" @click="submitForm"> 保存 </a-button>
-          <a-button type="dashed" @click="cancel"> 取消 </a-button>
+          <a-button type="primary" :loading="submitLoading" @click="submitForm">{{ $t('save') }}</a-button>
+          <a-button type="dashed" @click="cancel">{{ $t('cancel') }}</a-button>
         </a-space>
       </div>
     </a-form-model>
@@ -119,9 +119,10 @@ export default {
         if (valid) {
           this.submitLoading = true
           if (this.form.configId !== undefined) {
+            const modifyMessage = this.$t('modify.success')
             updateConfig(this.form)
               .then(response => {
-                this.$message.success('修改成功', 3)
+                this.$message.success(modifyMessage, 3)
                 this.open = false
                 this.$emit('ok')
               })
@@ -129,9 +130,10 @@ export default {
                 this.submitLoading = false
               })
           } else {
+            const addMessage = this.$t('add.success')
             addConfig(this.form)
               .then(response => {
-                this.$message.success('新增成功', 3)
+                this.$message.success(addMessage, 3)
                 this.open = false
                 this.$emit('ok')
               })

@@ -5,7 +5,7 @@
         <a-col :span="12">
           <a-form-model-item prop="tplCategory">
             <span slot="label"> 生成模板 </span>
-            <a-select v-model="info.tplCategory" placeholder="请选择" @change="tplSelectChange">
+            <a-select v-model="info.tplCategory" :placeholder="$t('please.select')" @change="tplSelectChange">
               <a-select-option value="crud">单表（增删改查）</a-select-option>
               <a-select-option value="tree">树表（增删改查）</a-select-option>
               <a-select-option value="sub">主子表（增删改查）</a-select-option>
@@ -131,7 +131,7 @@
                 <a-icon type="question-circle-o" />
               </a-tooltip>
             </span>
-            <a-select v-model="info.treeCode" placeholder="请选择">
+            <a-select v-model="info.treeCode" :placeholder="$t('please.select')">
               <a-select-option v-for="(item, index) in info.columns" :key="index" :value="item.columnName">
                 {{ item.columnName + '：' + item.columnComment }}
               </a-select-option>
@@ -147,7 +147,7 @@
                 <a-icon type="question-circle-o" />
               </a-tooltip>
             </span>
-            <a-select v-model="info.treeParentCode" placeholder="请选择">
+            <a-select v-model="info.treeParentCode" :placeholder="$t('please.select')">
               <a-select-option v-for="(item, index) in info.columns" :key="index" :value="item.columnName">
                 {{ item.columnName + '：' + item.columnComment }}
               </a-select-option>
@@ -163,7 +163,7 @@
                 <a-icon type="question-circle-o" />
               </a-tooltip>
             </span>
-            <a-select v-model="info.treeName" placeholder="请选择">
+            <a-select v-model="info.treeName" :placeholder="$t('please.select')">
               <a-select-option v-for="(item, index) in info.columns" :key="index" :value="item.columnName">
                 {{ item.columnName + '：' + item.columnComment }}
               </a-select-option>
@@ -183,7 +183,7 @@
                 <a-icon type="question-circle-o" />
               </a-tooltip>
             </span>
-            <a-select v-model="info.subTableName" placeholder="请选择" @change="subSelectChange">
+            <a-select v-model="info.subTableName" :placeholder="$t('please.select')" @change="subSelectChange">
               <a-select-option v-for="(item, index) in tables" :key="index" :value="item.tableName">
                 {{ item.tableName + '：' + item.tableComment }}
               </a-select-option>
@@ -199,7 +199,7 @@
                 <a-icon type="question-circle-o" />
               </a-tooltip>
             </span>
-            <a-select v-model="info.subTableFkName" placeholder="请选择">
+            <a-select v-model="info.subTableFkName" :placeholder="$t('please.select')">
               <a-select-option v-for="(item, index) in subColumns" :key="index" :value="item.columnName">
                 {{ item.columnName + '：' + item.columnComment }}
               </a-select-option>
@@ -291,7 +291,7 @@ export default {
     },
     /** 设置关联外键 */
     setSubTableColumns(value) {
-      for (var item in this.tables) {
+      for (const item in this.tables) {
         const name = this.tables[item].tableName
         if (value === name) {
           this.subColumns = this.tables[item].columns

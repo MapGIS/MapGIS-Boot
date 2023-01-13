@@ -7,13 +7,15 @@
           <a-row :gutter="48">
             <a-col :md="8" :sm="24">
               <a-form-item label="部门名称">
-                <a-input v-model="queryParam.deptName" placeholder="请输入" allow-clear />
+                <a-input v-model="queryParam.deptName" :placeholder="$t('please.input')" allow-clear />
               </a-form-item>
             </a-col>
             <a-col :md="8" :sm="24">
               <span class="table-page-search-submitButtons">
-                <a-button type="primary" @click="handleQuery"><a-icon type="search" />查询</a-button>
-                <a-button style="margin-left: 8px" @click="resetQuery"><a-icon type="redo" />重置</a-button>
+                <a-button type="primary" @click="handleQuery"><a-icon type="search" />{{ $t('query') }}</a-button>
+                <a-button style="margin-left: 8px" @click="resetQuery">
+                  <a-icon type="redo" />{{ $t('reset') }}
+                </a-button>
               </span>
             </a-col>
           </a-row>
@@ -22,7 +24,7 @@
       <!-- 操作 -->
       <div class="table-operations">
         <a-button type="primary" @click="$refs.createForm.handleAdd()" v-hasPermi="['system:dept:add']">
-          <a-icon type="plus" />新增
+          <a-icon type="plus" />{{ $t('add') }}
         </a-button>
         <table-setting
           :style="{ float: 'right' }"
@@ -49,15 +51,15 @@
         </span>
         <span slot="operation" slot-scope="text, record">
           <a @click="$refs.createForm.handleUpdate(record)" v-hasPermi="['system:dept:edit']">
-            <a-icon type="edit" />修改
+            <a-icon type="edit" />{{ $t('modify') }}
           </a>
           <a-divider type="vertical" v-hasPermi="['system:dept:add']" />
           <a @click="$refs.createForm.handleAdd(record)" v-hasPermi="['system:dept:add']">
-            <a-icon type="plus" />新增
+            <a-icon type="plus" />{{ $t('add') }}
           </a>
           <a-divider type="vertical" v-if="record.parentId != 0" v-hasPermi="['system:dept:remove']" />
           <a @click="handleDelete(record)" v-if="record.parentId != 0" v-hasPermi="['system:dept:remove']">
-            <a-icon type="delete" />删除
+            <a-icon type="delete" />{{ $t('delete') }}
           </a>
         </span>
       </a-table>
@@ -152,15 +154,16 @@ export default {
     },
     /** 删除按钮操作 */
     handleDelete(row) {
-      var that = this
+      const that = this
       const deptId = row.deptId
+      const messge = this.$t('delete.success')
       this.$confirm({
-        title: '确认删除所选中数据?',
-        content: '当前选中编号为' + deptId + '的数据',
+        title: this.$t('confirm.selected.data.delete'),
+        content: this.$t('currently.selected.number') + deptId + this.$t('is.data'),
         onOk() {
           return delDept(deptId).then(() => {
             that.getList()
-            that.$message.success('删除成功', 3)
+            that.$message.success(messge, 3)
           })
         },
         onCancel() {}

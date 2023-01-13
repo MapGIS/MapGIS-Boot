@@ -17,8 +17,10 @@
             </a-col>
             <a-col :md="8" :sm="24">
               <span class="table-page-search-submitButtons">
-                <a-button type="primary" @click="handleQuery"><a-icon type="search" />查询</a-button>
-                <a-button style="margin-left: 8px" @click="resetQuery"><a-icon type="redo" />重置</a-button>
+                <a-button type="primary" @click="handleQuery"><a-icon type="search" />{{ $t('query') }}</a-button>
+                <a-button style="margin-left: 8px" @click="resetQuery">
+                  <a-icon type="redo" />{{ $t('reset') }}
+                </a-button>
               </span>
             </a-col>
           </a-row>
@@ -69,7 +71,7 @@
         :current="queryParam.pageNum"
         :total="total"
         :page-size="queryParam.pageSize"
-        :showTotal="total => `共 ${total} 条`"
+        :showTotal="totalItems"
         @showSizeChange="onShowSizeChange"
         @change="changeSize"
       />
@@ -154,6 +156,11 @@ export default {
   computed: {},
   watch: {},
   methods: {
+    totalItems(total) {
+      const totalText = this.$t('result.total')
+      const itemsText = this.$t('result.items')
+      return `${totalText} ${total} ${itemsText}`
+    },
     /** 查询登录日志列表 */
     getList() {
       this.loading = true

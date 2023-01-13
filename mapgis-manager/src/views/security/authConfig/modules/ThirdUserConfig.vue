@@ -2,7 +2,7 @@
   <div>
     <a-form-model v-if="configLoaded" ref="form" :model="form" layout="vertical">
       <a-form-model-item label="创建用户的默认默认用户组" prop="defaultUserGroupIds">
-        <a-select mode="multiple" v-model="form.defaultUserGroupIds" placeholder="请选择">
+        <a-select mode="multiple" v-model="form.defaultUserGroupIds" :placeholder="$t('please.select')">
           <a-select-option v-for="(d, index) in userGroupOptions" :key="index" :value="d.userGroupId">
             {{ d.userGroupName }}
           </a-select-option>
@@ -16,7 +16,7 @@
           v-hasPermi="['system:config:edit']"
           style="float: right"
         >
-          保存
+          {{ $t('save') }}
         </a-button>
       </a-form-model-item>
     </a-form-model>
@@ -60,9 +60,10 @@ export default {
         if (valid) {
           this.submitLoading = true
           this.configInfo.configValue = JSON.stringify({ ...this.form })
+          const settingMessage = this.$t('setting.success')
           updateConfig(this.configInfo)
             .then(response => {
-              this.$message.success('设置成功', 3)
+              this.$message.success(settingMessage, 3)
             })
             .finally(() => {
               this.submitLoading = false

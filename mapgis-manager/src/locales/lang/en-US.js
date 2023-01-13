@@ -4,6 +4,7 @@ import global from './en-US/global'
 
 import setting from './en-US/setting'
 import config from './en-US/config'
+import log from './en-US/log'
 
 const components = {
   antLocale: antdEnUS,
@@ -17,5 +18,6 @@ export default {
   ...components,
   ...global,
   ...setting,
-  ...config
+  ...config,
+  ...log
 }

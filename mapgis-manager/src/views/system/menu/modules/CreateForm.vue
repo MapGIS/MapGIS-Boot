@@ -15,7 +15,7 @@
           style="width: 100%"
           :dropdown-style="{ maxHeight: '400px', overflow: 'auto' }"
           :tree-data="menuOptions"
-          placeholder="请选择"
+          :placeholder="$t('please.select')"
           :replaceFields="{
             children: 'children',
             title: 'menuName',
@@ -49,7 +49,7 @@
         <icon-selector v-model="form.icon" @change="handleIconChange" :svgIcons="iconList" :allIcon="allIcon" />
       </a-card>
       <a-form-model-item label="菜单名称" prop="menuName">
-        <a-input v-model="form.menuName" placeholder="请输入" />
+        <a-input v-model="form.menuName" :placeholder="$t('please.input')" />
       </a-form-model-item>
       <a-form-model-item label="排序" prop="orderNum">
         <a-input-number v-model="form.orderNum" :min="0" :max="9999" style="width: 100%" />
@@ -75,7 +75,7 @@
             <a-icon type="question-circle-o" />
           </a-tooltip>
         </span>
-        <a-input v-model="form.path" placeholder="请输入" />
+        <a-input v-model="form.path" :placeholder="$t('please.input')" />
       </a-form-model-item>
       <a-form-model-item prop="component" v-if="form.menuType == 'C'">
         <span slot="label">
@@ -90,7 +90,7 @@
             使用微应用组件
           </a-button>
         </span>
-        <a-input v-model="form.component" placeholder="请输入" />
+        <a-input v-model="form.component" :placeholder="$t('please.input')" />
       </a-form-model-item>
       <a-form-model-item prop="perms" v-if="form.menuType != 'M'">
         <span slot="label">
@@ -102,7 +102,7 @@
             <a-icon type="question-circle-o" />
           </a-tooltip>
         </span>
-        <a-input v-model="form.perms" placeholder="请输入" :maxLength="100" />
+        <a-input v-model="form.perms" :placeholder="$t('please.input')" :maxLength="100" />
       </a-form-model-item>
       <a-form-model-item prop="visible" v-if="form.menuType != 'F'">
         <span slot="label">
@@ -149,8 +149,8 @@
       </a-form-model-item>
       <div class="bottom-control">
         <a-space>
-          <a-button type="primary" :loading="submitLoading" @click="submitForm"> 保存 </a-button>
-          <a-button type="dashed" @click="cancel"> 取消 </a-button>
+          <a-button type="primary" :loading="submitLoading" @click="submitForm">{{ $t('save') }}</a-button>
+          <a-button type="dashed" @click="cancel">{{ $t('cancel') }}</a-button>
         </a-space>
       </div>
     </a-form-model>
@@ -280,9 +280,10 @@ export default {
         if (valid) {
           this.submitLoading = true
           if (this.form.menuId !== undefined) {
+            const modifyMessage = this.$t('modify.success')
             updateMenu(this.form)
               .then(response => {
-                this.$message.success('修改成功', 3)
+                this.$message.success(modifyMessage, 3)
                 this.open = false
                 this.iconVisible = false
                 this.$emit('ok')
@@ -291,9 +292,10 @@ export default {
                 this.submitLoading = false
               })
           } else {
+            const addMessage = this.$t('add.success')
             addMenu(this.form)
               .then(response => {
-                this.$message.success('新增成功', 3)
+                this.$message.success(addMessage, 3)
                 this.open = false
                 this.iconVisible = false
                 this.$emit('ok')

@@ -27,12 +27,12 @@
         </a-select>
       </a-form-model-item>
       <a-form-model-item label="描述" prop="remark">
-        <a-input v-model="form.remark" placeholder="请输入内容" type="textarea" allow-clear />
+        <a-input v-model="form.remark" :placeholder="$t('please.input.content')" type="textarea" allow-clear />
       </a-form-model-item>
       <div class="bottom-control">
         <a-space>
-          <a-button type="primary" :loading="submitLoading" @click="submitForm"> 保存 </a-button>
-          <a-button type="dashed" @click="cancel"> 取消 </a-button>
+          <a-button type="primary" :loading="submitLoading" @click="submitForm">{{ $t('save') }}</a-button>
+          <a-button type="dashed" @click="cancel">{{ $t('cancel') }}</a-button>
         </a-space>
       </div>
     </a-form-model>
@@ -85,6 +85,11 @@ export default {
   watch: {},
   mounted() {},
   methods: {
+    totalItems(total) {
+      const totalText = this.$t('result.total')
+      const itemsText = this.$t('result.items')
+      return `${totalText} ${total} ${itemsText}`
+    },
     /** 查询用户列表 */
     getUserList() {
       const queryParam = {
@@ -135,7 +140,7 @@ export default {
       this.reset()
       this.formType = 1
       this.open = true
-      this.formTitle = '添加'
+      this.formTitle = this.$t('add')
     },
     /** 修改按钮操作 */
     handleUpdate(row, ids) {
@@ -153,7 +158,7 @@ export default {
           this.form.userIds.push(user.userId)
         })
         this.open = true
-        this.formTitle = '修改'
+        this.formTitle = this.$t('modify')
       })
     },
     /** 提交按钮 */
@@ -162,9 +167,10 @@ export default {
         if (valid) {
           this.submitLoading = true
           if (this.form.userGroupId !== undefined && this.form.userGroupId !== null) {
+            const modifyMessage = this.$t('modify.success')
             updateUsergroup(this.form)
               .then(response => {
-                this.$message.success('修改成功', 3)
+                this.$message.success(modifyMessage, 3)
                 this.open = false
                 this.$emit('ok')
               })
@@ -172,9 +178,10 @@ export default {
                 this.submitLoading = false
               })
           } else {
+            const addMessage = this.$t('add.success')
             addUsergroup(this.form)
               .then(response => {
-                this.$message.success('新增成功', 3)
+                this.$message.success(addMessage, 3)
                 this.open = false
                 this.$emit('ok')
               })

@@ -31,10 +31,12 @@
                 class="table-page-search-submitButtons"
                 :style="(advanced && { float: 'right', overflow: 'hidden' }) || {}"
               >
-                <a-button type="primary" @click="handleQuery"><a-icon type="search" />查询</a-button>
-                <a-button style="margin-left: 8px" @click="resetQuery"><a-icon type="redo" />重置</a-button>
+                <a-button type="primary" @click="handleQuery"><a-icon type="search" />{{ $t('query') }}</a-button>
+                <a-button style="margin-left: 8px" @click="resetQuery">
+                  <a-icon type="redo" />{{ $t('reset') }}
+                </a-button>
                 <a @click="toggleAdvanced" style="margin-left: 8px">
-                  {{ advanced ? '收起' : '展开' }}
+                  {{ advanced ? $t('collapse') : $t('expand') }}
                   <a-icon :type="advanced ? 'up' : 'down'" />
                 </a>
               </span>
@@ -45,7 +47,7 @@
       <!-- 操作 -->
       <div class="table-operations">
         <a-button type="primary" @click="$refs.createForm.handleAdd()" v-hasPermi="['monitor:job:add']">
-          <a-icon type="plus" />新增
+          <a-icon type="plus" />{{ $t('add') }}
         </a-button>
         <a-button
           type="primary"
@@ -53,13 +55,13 @@
           @click="$refs.createForm.handleUpdate(undefined, ids)"
           v-hasPermi="['monitor:job:edit']"
         >
-          <a-icon type="edit" />修改
+          <a-icon type="edit" />{{ $t('modify') }}
         </a-button>
         <a-button type="danger" :disabled="multiple" @click="handleDelete" v-hasPermi="['monitor:job:remove']">
-          <a-icon type="delete" />删除
+          <a-icon type="delete" />{{ $t('delete') }}
         </a-button>
         <a-button type="primary" @click="handleExport" v-hasPermi="['monitor:job:export']">
-          <a-icon type="download" />导出
+          <a-icon type="download" />{{ $t('export') }}
         </a-button>
         <a-button type="dashed" @click="handleJobLog" v-hasPermi="['monitor:job:query']">
           <a-icon type="snippets" />日志
@@ -155,7 +157,7 @@
         :current="queryParam.pageNum"
         :total="total"
         :page-size="queryParam.pageSize"
-        :showTotal="total => `共 ${total} 条`"
+        :showTotal="totalItems"
         @showSizeChange="onShowSizeChange"
         @change="changeSize"
       />
@@ -261,6 +263,11 @@ export default {
   computed: {},
   watch: {},
   methods: {
+    totalItems(total) {
+      const totalText = this.$t('result.total')
+      const itemsText = this.$t('result.items')
+      return `${totalText} ${total} ${itemsText}`
+    },
     /** 查询定时任务列表 */
     getList() {
       this.loading = true
@@ -344,17 +351,18 @@ export default {
     cancelHandleRun(row) {},
     /** 删除按钮操作 */
     handleDelete(row) {
-      var that = this
+      const that = this
       this.ids = this.selectedRows.map(item => item.jobId)
       const jobIds = row.jobId || this.ids
+      const messge = this.$t('delete.success')
       this.$confirm({
-        title: '确认删除所选中数据?',
-        content: '当前选中定时任务编号为' + jobIds + '的数据',
+        title: this.$t('confirm.selected.data.delete'),
+        content: this.$t('currently.selected.number') + jobIds + this.$t('is.data'),
         onOk() {
           return delJob(jobIds).then(() => {
             that.onSelectChange([], [])
             that.getList()
-            that.$message.success('删除成功', 3)
+            that.$message.success(messge, 3)
           })
         },
         onCancel() {}
@@ -362,10 +370,10 @@ export default {
     },
     /** 导出按钮操作 */
     handleExport() {
-      var that = this
+      const that = this
       this.$confirm({
-        title: '是否确认导出?',
-        content: '此操作将导出当前条件下所有数据而非选中数据',
+        title: this.$t('confirm.export'),
+        content: this.$t('export.condition.data.description'),
         onOk() {
           that.download(
             `${window._CONFIG['apiPathManagerPrefix']}/monitor/job/export`,

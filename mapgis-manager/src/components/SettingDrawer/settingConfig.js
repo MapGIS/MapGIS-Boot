@@ -1,5 +1,6 @@
 import message from 'ant-design-vue/es/message'
 import themeUtil from '@/utils/themeUtil'
+import i18n from '@/locales'
 
 // let lessNodesAppended
 const colorList = [
@@ -38,7 +39,7 @@ const colorList = [
 ]
 
 const updateTheme = (theme, color) => {
-  const hideMessage = message.loading('正在切换主题！', 0)
+  const hideMessage = message.loading(i18n.t('app.setting.theme.updating'), 0)
   themeUtil.changeThemeColor(color, theme).then(r => {
     hideMessage()
   })

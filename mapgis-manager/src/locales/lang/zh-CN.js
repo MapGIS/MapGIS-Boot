@@ -4,6 +4,7 @@ import global from './zh-CN/global'
 
 import setting from './zh-CN/setting'
 import config from './zh-CN/config'
+import log from './zh-CN/log'
 
 const components = {
   antLocale: antd,
@@ -17,5 +18,6 @@ export default {
   ...components,
   ...global,
   ...setting,
-  ...config
+  ...config,
+  ...log
 }

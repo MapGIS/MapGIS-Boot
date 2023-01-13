@@ -16,7 +16,7 @@
       <a-input-password v-model="form.confirmPassword" placeholder="请确认密码" :maxLength="16" />
     </a-form-model-item>
     <a-form-model-item :wrapper-col="{ lg: { span: 10, offset: 7 }, sm: { span: 17, offset: 7 } }">
-      <a-button type="primary" :loading="submitLoading" @click="submit">保存</a-button>
+      <a-button type="primary" :loading="submitLoading" @click="submit">{{ $t('save') }}</a-button>
     </a-form-model-item>
   </a-form-model>
 </template>
@@ -72,9 +72,10 @@ export default {
       this.$refs.form.validate(valid => {
         if (valid) {
           this.submitLoading = true
+          const modifyMessage = this.$t('modify.success')
           updateUserPwd(this.form.oldPassword, this.form.newPassword)
             .then(response => {
-              this.$message.success('修改成功', 3)
+              this.$message.success(modifyMessage, 3)
               this.open = false
             })
             .finally(() => {

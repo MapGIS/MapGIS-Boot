@@ -25,16 +25,16 @@
             <span>{{ postGroup }}</span>
           </a-form-model-item>
           <a-form-model-item label="用户昵称" ref="nickName" prop="nickName">
-            <a-input v-model="user.nickName" placeholder="请输入" :maxLength="30" />
+            <a-input v-model="user.nickName" :placeholder="$t('please.input')" :maxLength="30" />
           </a-form-model-item>
           <a-form-model-item label="用户信息" prop="remark">
-            <a-input v-model="user.remark" placeholder="请输入" type="textarea" />
+            <a-input v-model="user.remark" :placeholder="$t('please.input')" type="textarea" />
           </a-form-model-item>
           <a-form-model-item label="手机号" prop="phonenumber">
-            <a-input v-model="user.phonenumber" placeholder="请输入" />
+            <a-input v-model="user.phonenumber" :placeholder="$t('please.input')" />
           </a-form-model-item>
           <a-form-model-item label="邮箱" prop="email">
-            <a-input v-model="user.email" placeholder="请输入" />
+            <a-input v-model="user.email" :placeholder="$t('please.input')" />
           </a-form-model-item>
           <a-form-model-item label="性别" prop="sex">
             <a-radio-group v-model="user.sex">
@@ -43,7 +43,7 @@
             </a-radio-group>
           </a-form-model-item>
           <a-form-model-item :wrapper-col="{ lg: { span: 10, offset: 7 }, sm: { span: 17, offset: 7 } }">
-            <a-button type="primary" :loading="submitLoading" @click="submit">保存</a-button>
+            <a-button type="primary" :loading="submitLoading" @click="submit">{{ $t('save') }}</a-button>
           </a-form-model-item>
         </a-form-model>
       </a-col>
@@ -142,7 +142,7 @@ export default {
         .then(response => {
           this.$notification.open({
             message: '提示',
-            description: '修改成功',
+            description: this.$t('modify.success'),
             icon: <a-icon type="check" style="color: #1890FF" />,
             duration: 3
           })

@@ -33,10 +33,12 @@
                 class="table-page-search-submitButtons"
                 :style="(advanced && { float: 'right', overflow: 'hidden' }) || {}"
               >
-                <a-button type="primary" @click="handleQuery"><a-icon type="search" />查询</a-button>
-                <a-button style="margin-left: 8px" @click="resetQuery"><a-icon type="redo" />重置</a-button>
+                <a-button type="primary" @click="handleQuery"><a-icon type="search" />{{ $t('query') }}</a-button>
+                <a-button style="margin-left: 8px" @click="resetQuery">
+                  <a-icon type="redo" />{{ $t('reset') }}
+                </a-button>
                 <a @click="toggleAdvanced" style="margin-left: 8px">
-                  {{ advanced ? '收起' : '展开' }}
+                  {{ advanced ? $t('collapse') : $t('expand') }}
                   <a-icon :type="advanced ? 'up' : 'down'" />
                 </a>
               </span>
@@ -47,7 +49,7 @@
       <!-- 操作 -->
       <div class="table-operations">
         <a-button type="primary" @click="handleExport" v-hasPermi="['system:assesslog:export']">
-          <a-icon type="download" />导出HAR文件
+          <a-icon type="download" />{{ $t('export.harfile') }}
         </a-button>
         <table-setting
           :style="{ float: 'right' }"
@@ -79,7 +81,7 @@
         :current="queryParam.pageNum"
         :total="total"
         :page-size="queryParam.pageSize"
-        :showTotal="total => `共 ${total} 条`"
+        :showTotal="totalItems"
         @showSizeChange="onShowSizeChange"
         @change="changeSize"
       />
@@ -165,6 +167,11 @@ export default {
   computed: {},
   watch: {},
   methods: {
+    totalItems(total) {
+      const totalText = this.$t('result.total')
+      const itemsText = this.$t('result.items')
+      return `${totalText} ${total} ${itemsText}`
+    },
     /** 查询Http访问日志列表 */
     getList() {
       this.loading = true
@@ -214,10 +221,10 @@ export default {
     },
     /** 导出按钮操作 */
     handleExport() {
-      var that = this
+      const that = this
       this.$confirm({
-        title: '是否确认导出?',
-        content: '此操作将导出当前条件下所有数据而非选中数据',
+        title: this.$t('confirm.export'),
+        content: this.$t('export.condition.data.description'),
         onOk() {
           that.download(
             `${window._CONFIG['apiPathManagerPrefix']}/system/assesslog/export`,

@@ -65,7 +65,7 @@
           style="width: 100%"
           :dropdown-style="{ maxHeight: '400px', overflow: 'auto' }"
           :tree-data="${businessName}Options"
-          placeholder="请选择"
+          :placeholder="$t('please.select')"
           :replaceFields="{ children: 'children', title: '${treeName}', key: '${treeCode}', value: '${treeCode}' }"
           tree-default-expand-all
         >
@@ -85,7 +85,7 @@
         </a-select>
 #elseif($column.htmlType == "select" && $dictType)
         <a-select placeholder="请选择${comment}" v-model="form.${field}">
-          <a-select-option value="" >请选择字典生成</a-select-option>
+          <a-select-option value="" >{{ $t('please.select.dict.gen') }}</a-select-option>
         </a-select>
 #elseif($column.htmlType == "checkbox" && "" != $dictType)
         <a-select
@@ -97,7 +97,7 @@
         </a-select>
 #elseif($column.htmlType == "checkbox" && $dictType)
         <a-select placeholder="请选择${comment}" v-model="form.${field}">
-          <a-select-option value="" >请选择字典生成</a-select-option>
+          <a-select-option value="" >{{ $t('please.select.dict.gen') }}</a-select-option>
         </a-select>
 #elseif($column.htmlType == "radio" && "" != $dictType)
         <a-radio-group v-model="form.${field}" button-style="solid">
@@ -105,12 +105,12 @@
         </a-radio-group>
 #elseif($column.htmlType == "radio" && $dictType)
         <a-radio-group v-model="form.${field}" button-style="solid">
-          <a-radio-button value="">请选择字典生成</a-radio-button>
+          <a-radio-button value="">{{ $t('please.select.dict.gen') }}</a-radio-button>
         </a-radio-group>
 #elseif($column.htmlType == "datetime")
         <a-date-picker style="width: 100%" v-model="form.${field}" format="YYYY-MM-DD HH:mm:ss" allow-clear/>
 #elseif($column.htmlType == "textarea")
-        <a-input v-model="form.${field}" placeholder="请输入内容" type="textarea" allow-clear />
+        <a-input v-model="form.${field}" :placeholder="$t('please.input.content')" type="textarea" allow-clear />
 #end
       </a-form-model-item>
 #end
@@ -122,13 +122,13 @@
       </a-divider>
       <sub-table ref="subTable" title="${subTable.functionName}" :list="subList" @add="handleAdd${subclassName}" @delete="handleDelete${subclassName}" />
       <p>当前存在 {{ subList.length }} 条信息</p>
-      <a-button type="dashed" @click="$refs.subTable.show()"> 详情 </a-button>
+      <a-button type="dashed" @click="$refs.subTable.show()">{{ $t('details') }}</a-button>
       <br />
 #end
       <div class="bottom-control">
         <a-space>
-          <a-button type="primary" :loading="submitLoading" @click="submitForm"> 保存 </a-button>
-          <a-button type="dashed" @click="cancel"> 取消 </a-button>
+          <a-button type="primary" :loading="submitLoading" @click="submitForm">{{ $t('save') }}</a-button>
+          <a-button type="dashed" @click="cancel">{{ $t('cancel') }}</a-button>
         </a-space>
       </div>
     </a-form-model>
@@ -285,7 +285,7 @@ export default {
 #end
       this.formType = 1
       this.open = true
-      this.formTitle = '添加'
+      this.formTitle = this.$t('add')
     },
 #if($table.sub)
     /** 新增子项操作 */
@@ -326,7 +326,7 @@ export default {
 #end
 #end
         this.open = true
-        this.formTitle = '修改'
+        this.formTitle = this.$t('modify')
       })
     },
     /** 提交按钮 */
@@ -350,9 +350,10 @@ export default {
           this.form.${subclassName}List = this.subList
 #end
           if (this.form.${pkColumn.javaField} !== undefined && this.form.${pkColumn.javaField} !== null) {
+            const modifyMessage = this.$t('modify.success')
             update${BusinessName}(this.form)
               .then(response => {
-                this.$message.success('修改成功', 3)
+                this.$message.success(modifyMessage, 3)
                 this.open = false
                 this.$emit('ok')
               })
@@ -360,9 +361,10 @@ export default {
                 this.submitLoading = false
               })
           } else {
+            const addMessage = this.$t('add.success')
             add${BusinessName}(this.form)
               .then(response => {
-                this.$message.success('新增成功', 3)
+                this.$message.success(addMessage, 3)
                 this.open = false
                 this.$emit('ok')
               })

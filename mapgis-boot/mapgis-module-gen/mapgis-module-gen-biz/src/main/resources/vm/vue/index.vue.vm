@@ -48,7 +48,7 @@
             ${querySpace}<a-col :md="8" :sm="24">
               ${querySpace}<a-form-item label="${comment}" prop="${column.javaField}">
                 ${querySpace}<a-select placeholder="请选择${comment}" v-model="queryParam.${column.javaField}" style="width: 100%" allow-clear>
-                  ${querySpace}<a-select-option>请选择字典生成</a-select-option>
+                  ${querySpace}<a-select-option>{{ $t('please.select.dict.gen') }}</a-select-option>
                 ${querySpace}</a-select>
               ${querySpace}</a-form-item>
             ${querySpace}</a-col>
@@ -75,11 +75,13 @@
                 class="table-page-search-submitButtons"
                 :style="(advanced && { float: 'right', overflow: 'hidden' }) || {}"
               >
-                <a-button type="primary" @click="handleQuery"><a-icon type="search" />查询</a-button>
-                <a-button style="margin-left: 8px" @click="resetQuery"><a-icon type="redo" />重置</a-button>
+                <a-button type="primary" @click="handleQuery"><a-icon type="search" />{{ $t('query') }}</a-button>
+                <a-button style="margin-left: 8px" @click="resetQuery">
+                  <a-icon type="redo" />{{ $t('reset') }}
+                </a-button>
 #if($queryCount > 2)
                 <a @click="toggleAdvanced" style="margin-left: 8px">
-                  {{ advanced ? '收起' : '展开' }}
+                  {{ advanced ? $t('collapse') : $t('expand') }}
                   <a-icon :type="advanced ? 'up' : 'down'" />
                 </a>
 #end
@@ -92,7 +94,7 @@
       <div class="table-operations">
 #if($isInsert == 1)
         <a-button type="primary" @click="$refs.createForm.handleAdd()" v-hasPermi="['${moduleName}:${businessName}:add']">
-          <a-icon type="plus" />新增
+          <a-icon type="plus" />{{ $t('add') }}
         </a-button>
 #end
 #if($isEdit == 1)
@@ -102,14 +104,14 @@
           @click="$refs.createForm.handleUpdate(undefined, ids)"
           v-hasPermi="['${moduleName}:${businessName}:edit']"
         >
-          <a-icon type="edit" />修改
+          <a-icon type="edit" />{{ $t('modify') }}
         </a-button>
 #end
         <a-button type="danger" :disabled="multiple" @click="handleDelete" v-hasPermi="['${moduleName}:${businessName}:remove']">
-          <a-icon type="delete" />删除
+          <a-icon type="delete" />{{ $t('delete') }}
         </a-button>
         <a-button type="primary" @click="handleExport" v-hasPermi="['${moduleName}:${businessName}:export']">
-          <a-icon type="download" />导出
+          <a-icon type="download" />{{ $t('export') }}
         </a-button>
         <table-setting
           :style="{ float: 'right' }"
@@ -168,18 +170,18 @@
 #if($isEdit == 1)
           <a-divider type="vertical" v-hasPermi="['${moduleName}:${businessName}:edit']" />
           <a @click="$refs.createForm.handleUpdate(record, undefined)" v-hasPermi="['${moduleName}:${businessName}:edit']">
-            <a-icon type="edit" />修改
+            <a-icon type="edit" />{{ $t('modify') }}
           </a>
 #end
 #if($tplCategory == 'tree' && ($isInsert == 1 || $isEdit == 1))
           <a-divider type="vertical" v-hasPermi="['${moduleName}:${businessName}:add']" />
           <a @click="$refs.createForm.handleAdd(record)" v-hasPermi="['${moduleName}:${businessName}:add']">
-            <a-icon type="plus" />新增
+            <a-icon type="plus" />{{ $t('add') }}
           </a>
 #end
           <a-divider type="vertical" v-hasPermi="['${moduleName}:${businessName}:remove']" />
           <a @click="handleDelete(record)" v-hasPermi="['${moduleName}:${businessName}:remove']">
-            <a-icon type="delete" />删除
+            <a-icon type="delete" />{{ $t('delete') }}
           </a>
         </span>
       </a-table>
@@ -192,7 +194,7 @@
         :current="queryParam.pageNum"
         :total="total"
         :page-size="queryParam.pageSize"
-        :showTotal="total => `共 ${total} 条`"
+        :showTotal="totalItems"
         @showSizeChange="onShowSizeChange"
         @change="changeSize"
       />
@@ -314,6 +316,11 @@ export default {
   computed: {},
   watch: {},
   methods: {
+    totalItems(total) {
+      const totalText = this.$t('result.total')
+      const itemsText = this.$t('result.items')
+      return `${totalText} ${total} ${itemsText}`
+    },
     /** 查询${functionName}列表 */
     getList() {
       this.loading = true
@@ -419,7 +426,7 @@ export default {
     getTreeselect() {
       list${BusinessName}().then(response => {
         this.${businessName}Options = []
-        const data = { ${treeCode}: 0, ${treeName}: '主目录', children: [] }
+        const data = { ${treeCode}: 0, ${treeName}: this.$t('directory.home'), children: [] }
         data.children = this.handleTree(response.data, '${treeCode}', '${treeParentCode}')
         this.${businessName}Options.push(data)
       })
@@ -427,16 +434,17 @@ export default {
 #end
     /** 删除按钮操作 */
     handleDelete(row) {
-      var that = this
+      const that = this
       const ${pkColumn.javaField}s = row.${pkColumn.javaField} || this.ids
+      const messge = this.$t('delete.success')
       this.$confirm({
-        title: '确认删除所选中数据?',
-        content: '当前选中编号为' + ${pkColumn.javaField}s + '的数据',
+        title: this.$t('confirm.selected.data.delete'),
+        content: this.$t('currently.selected.number') + ${pkColumn.javaField}s + this.$t('is.data'),
         onOk() {
           return del${BusinessName}(${pkColumn.javaField}s).then(() => {
             that.onSelectChange([], [])
             that.getList()
-            that.$message.success('删除成功', 3)
+            that.$message.success(messge, 3)
           })
         },
         onCancel() {}
@@ -444,10 +452,10 @@ export default {
     },
     /** 导出按钮操作 */
     handleExport() {
-      var that = this
+      const that = this
       this.$confirm({
-        title: '是否确认导出?',
-        content: '此操作将导出当前条件下所有数据而非选中数据',
+        title: this.$t('confirm.export'),
+        content: this.$t('export.condition.data.description'),
         onOk() {
           that.download(
             `${window._CONFIG['apiPathManagerPrefix']}/${moduleName}/${businessName}/export`,

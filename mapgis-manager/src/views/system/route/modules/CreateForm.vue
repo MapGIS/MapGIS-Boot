@@ -136,8 +136,8 @@
       </a-form-model-item>
       <div class="bottom-control">
         <a-space>
-          <a-button type="primary" :loading="submitLoading" @click="submitForm"> 保存 </a-button>
-          <a-button type="dashed" @click="cancel"> 取消 </a-button>
+          <a-button type="primary" :loading="submitLoading" @click="submitForm">{{ $t('save') }}</a-button>
+          <a-button type="dashed" @click="cancel">{{ $t('cancel') }}</a-button>
         </a-space>
       </div>
     </a-form-model>
@@ -411,7 +411,7 @@ export default {
       this.reset()
       this.formType = 1
       this.open = true
-      this.formTitle = '添加'
+      this.formTitle = this.$t('add')
       this.form.predicates = []
       this.form.filters = []
     },
@@ -425,7 +425,7 @@ export default {
         this.form.predicates = JSON.parse(this.form.predicates)
         this.form.filters = JSON.parse(this.form.filters)
         this.open = true
-        this.formTitle = '修改'
+        this.formTitle = this.$t('modify')
       })
     },
     /** 提交按钮 */
@@ -436,9 +436,10 @@ export default {
           this.form.filters = JSON.stringify(this.form.filters)
           this.submitLoading = true
           if (this.form.gatewayRouteId !== undefined && this.form.gatewayRouteId !== null) {
+            const modifyMessage = this.$t('modify.success')
             updateRoute(this.form)
               .then(response => {
-                this.$message.success('修改成功', 3)
+                this.$message.success(modifyMessage, 3)
                 this.open = false
                 this.$emit('ok')
               })
@@ -446,9 +447,10 @@ export default {
                 this.submitLoading = false
               })
           } else {
+            const addMessage = this.$t('add.success')
             addRoute(this.form)
               .then(response => {
-                this.$message.success('新增成功', 3)
+                this.$message.success(addMessage, 3)
                 this.open = false
                 this.$emit('ok')
               })

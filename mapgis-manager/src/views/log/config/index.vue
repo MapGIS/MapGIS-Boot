@@ -10,7 +10,7 @@
       >
         <a-divider orientation="left">系统日志</a-divider>
         <a-form-model-item label="日志级别" prop="systemLoglevel">
-          <a-select v-model="form.systemLoglevel" placeholder="请选择">
+          <a-select v-model="form.systemLoglevel" :placeholder="$t('please.select')">
             <a-select-option v-for="(l, index) in levelOptions" :key="index" :value="l.value">
               {{ l.label }}
             </a-select-option>
@@ -52,7 +52,7 @@
         </a-form-model-item>
         <a-form-model-item :wrapper-col="{ lg: { span: 10, offset: 7 }, sm: { span: 17, offset: 7 } }">
           <a-button type="primary" :loading="submitLoading" @click="submit" v-hasPermi="['system:config:edit']">
-            保存
+            {{ $t('save') }}
           </a-button>
         </a-form-model-item>
       </a-form-model>
@@ -159,9 +159,10 @@ export default {
         if (valid) {
           this.submitLoading = true
           this.configInfo.configValue = JSON.stringify({ ...this.form })
+          const settingMessage = this.$t('setting.success')
           updateConfig(this.configInfo)
             .then(response => {
-              this.$message.success('设置成功', 3)
+              this.$message.success(settingMessage, 3)
             })
             .finally(() => {
               this.submitLoading = false

@@ -10,7 +10,7 @@
   >
     <a-form-model ref="form" :model="form" :rules="rules" v-bind="formLayout">
       <a-form-model-item label="角色名称" prop="roleName">
-        <a-input v-model="form.roleName" placeholder="请输入" :disabled="updateDisable" />
+        <a-input v-model="form.roleName" :placeholder="$t('please.input')" :disabled="updateDisable" />
       </a-form-model-item>
       <a-form-model-item prop="roleKey">
         <span slot="label">
@@ -20,11 +20,11 @@
             <a-icon type="question-circle-o" />
           </a-tooltip>
         </span>
-        <a-input v-model="form.roleKey" placeholder="请输入" :disabled="updateDisable" />
+        <a-input v-model="form.roleKey" :placeholder="$t('please.input')" :disabled="updateDisable" />
       </a-form-model-item>
       <a-form-model-item label="排序" prop="roleSort">
         <a-input-number
-          placeholder="请输入"
+          :placeholder="$t('please.input')"
           v-model="form.roleSort"
           :min="0"
           style="width: 100%"
@@ -32,7 +32,13 @@
         />
       </a-form-model-item>
       <a-form-model-item label="角色描述" prop="remark">
-        <a-input v-model="form.remark" placeholder="请输入" type="textarea" allow-clear :disabled="updateDisable" />
+        <a-input
+          v-model="form.remark"
+          :placeholder="$t('please.input')"
+          type="textarea"
+          allow-clear
+          :disabled="updateDisable"
+        />
       </a-form-model-item>
       <a-form-model-item label="菜单权限">
         <a-checkbox @change="handleCheckedTreeExpand($event)" :disabled="updateDisable"> 展开/折叠 </a-checkbox>
@@ -60,9 +66,9 @@
       <div class="bottom-control">
         <a-space>
           <a-button type="primary" :loading="submitLoading" @click="submitForm" :disabled="updateDisable">
-            保存
+            {{ $t('save') }}
           </a-button>
-          <a-button type="dashed" @click="cancel"> 取消 </a-button>
+          <a-button type="dashed" @click="cancel">{{ $t('cancel') }}</a-button>
         </a-space>
       </div>
     </a-form-model>
@@ -280,10 +286,11 @@ export default {
         if (valid) {
           this.submitLoading = true
           if (this.form.roleId !== undefined) {
+            const modifyMessage = this.$t('modify.success')
             this.form.menuIds = this.getMenuAllCheckedKeys()
             updateRole(this.form)
               .then(response => {
-                this.$message.success('修改成功', 3)
+                this.$message.success(modifyMessage, 3)
                 this.open = false
                 this.$emit('ok')
               })
@@ -291,10 +298,11 @@ export default {
                 this.submitLoading = false
               })
           } else {
+            const addMessage = this.$t('add.success')
             this.form.menuIds = this.getMenuAllCheckedKeys()
             addRole(this.form)
               .then(response => {
-                this.$message.success('新增成功', 3)
+                this.$message.success(addMessage, 3)
                 this.open = false
                 this.$emit('ok')
               })

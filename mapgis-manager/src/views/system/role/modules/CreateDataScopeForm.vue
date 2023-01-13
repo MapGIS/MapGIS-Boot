@@ -16,7 +16,12 @@
         <a-input v-model="form.roleKey" :disabled="true" />
       </a-form-model-item>
       <a-form-model-item label="权限范围" prop="dataScope">
-        <a-select placeholder="请选择" v-model="form.dataScope" style="width: 100%" :disabled="updateDisable">
+        <a-select
+          :placeholder="$t('please.select')"
+          v-model="form.dataScope"
+          style="width: 100%"
+          :disabled="updateDisable"
+        >
           <a-select-option v-for="(d, index) in dataScopeOptions" :key="index" :value="d.value">{{
             d.label
           }}</a-select-option>
@@ -47,9 +52,9 @@
       <div class="bottom-control">
         <a-space>
           <a-button type="primary" :loading="submitLoading" @click="submitDataScope" :disabled="updateDisable">
-            保存
+            {{ $t('save') }}
           </a-button>
-          <a-button type="dashed" @click="cancel"> 取消 </a-button>
+          <a-button type="dashed" @click="cancel">{{ $t('cancel') }}</a-button>
         </a-space>
       </div>
     </a-form-model>
@@ -275,9 +280,10 @@ export default {
       if (this.form.roleId !== undefined) {
         this.form.deptIds = this.getDeptAllCheckedKeys()
         this.submitLoading = true
+        const modifyMessage = this.$t('modify.success')
         dataScope(this.form)
           .then(response => {
-            this.$message.success('修改成功', 3)
+            this.$message.success(modifyMessage, 3)
             this.openDataScope = false
             this.$emit('ok')
           })

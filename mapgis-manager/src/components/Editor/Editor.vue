@@ -72,7 +72,7 @@ export default {
   },
   methods: {
     init() {
-      var that = this
+      const that = this
       this.editor = new E('#editor')
       // 代码高亮
       this.editor.highlight = hljs
