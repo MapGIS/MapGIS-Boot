@@ -10,13 +10,13 @@
     @cancel="onClose"
   >
     <a-form-model ref="form" :model="form" :rules="rules" v-bind="formLayout">
-      <a-form-model-item label="用户名" prop="userName">
+      <a-form-model-item :label="$t('username')" prop="userName">
         <a-input v-model="form.userName" :placeholder="$t('please.input')" :disabled="form.userId !== undefined" />
       </a-form-model-item>
       <a-form-model-item label="使用初始密码" v-if="form.userId == undefined">
         <a-switch :checked="useInitPassword" @change="checked => handleInitPasswordChange(checked)" />
       </a-form-model-item>
-      <a-form-model-item label="密码" prop="password" v-if="form.userId == undefined && useInitPassword">
+      <a-form-model-item :label="$t('password')" prop="password" v-if="form.userId == undefined && useInitPassword">
         <a-input-password
           v-model="form.password"
           :placeholder="$t('please.input')"
@@ -24,7 +24,7 @@
           autocomplete="new-password"
         />
       </a-form-model-item>
-      <a-form-model-item label="密码" prop="password" v-if="form.userId == undefined && !useInitPassword">
+      <a-form-model-item :label="$t('password')" prop="password" v-if="form.userId == undefined && !useInitPassword">
         <a-input-password
           v-model="form.password"
           :placeholder="$t('please.input')"
@@ -32,7 +32,11 @@
           autocomplete="new-password"
         />
       </a-form-model-item>
-      <a-form-model-item label="确认密码" prop="confirmPassword" v-if="form.userId == undefined && !useInitPassword">
+      <a-form-model-item
+        :label="$t('password.confirm')"
+        prop="confirmPassword"
+        v-if="form.userId == undefined && !useInitPassword"
+      >
         <a-input-password
           v-model="form.confirmPassword"
           :placeholder="$t('please.input')"
@@ -40,27 +44,27 @@
           autocomplete="new-password"
         />
       </a-form-model-item>
-      <a-form-model-item label="用户昵称" prop="nickName">
+      <a-form-model-item :label="$t('user.nickname')" prop="nickName">
         <a-input v-model="form.nickName" :placeholder="$t('please.input')" :maxLength="30" />
       </a-form-model-item>
-      <a-form-model-item label="用户信息" prop="remark">
+      <a-form-model-item :label="$t('user.info')" prop="remark">
         <a-input v-model="form.remark" :placeholder="$t('please.input')" type="textarea" allow-clear />
       </a-form-model-item>
-      <a-form-model-item label="用户组" prop="userGroupIds">
+      <a-form-model-item :label="$t('usergroup')" prop="userGroupIds">
         <a-select mode="multiple" v-model="form.userGroupIds" :placeholder="$t('please.select')">
           <a-select-option v-for="(d, index) in userGroupOptions" :key="index" :value="d.userGroupId">
             {{ d.userGroupName }}
           </a-select-option>
         </a-select>
       </a-form-model-item>
-      <a-form-model-item label="角色" prop="roleIds">
+      <a-form-model-item :label="$t('role')" prop="roleIds">
         <a-select mode="multiple" v-model="form.roleIds" :placeholder="$t('please.select')">
           <a-select-option v-for="(d, index) in roleOptions" :key="index" :value="d.roleId">
             {{ d.roleName }}
           </a-select-option>
         </a-select>
       </a-form-model-item>
-      <a-form-model-item label="部门" prop="deptId">
+      <a-form-model-item :label="$t('department')" prop="deptId">
         <a-tree-select
           v-model="form.deptId"
           style="width: 100%"
@@ -72,7 +76,7 @@
         >
         </a-tree-select>
       </a-form-model-item>
-      <a-form-model-item label="岗位" prop="postIds">
+      <a-form-model-item :label="$t('post')" prop="postIds">
         <a-select mode="multiple" v-model="form.postIds" :placeholder="$t('please.select')">
           <a-select-option v-for="(d, index) in postOptions" :key="index" :value="d.postId">
             {{ d.postName }}
@@ -86,13 +90,13 @@
           }}</a-radio-button>
         </a-radio-group>
       </a-form-model-item>
-      <a-form-model-item label="手机号" prop="phonenumber">
+      <a-form-model-item :label="$t('mobile.phone.number')" prop="phonenumber">
         <a-input v-model="form.phonenumber" :placeholder="$t('please.input')" />
       </a-form-model-item>
-      <a-form-model-item label="邮箱" prop="email">
+      <a-form-model-item :label="$t('email')" prop="email">
         <a-input v-model="form.email" :placeholder="$t('please.input')" />
       </a-form-model-item>
-      <a-form-model-item label="性别" prop="sex">
+      <a-form-model-item :label="$t('sex')" prop="sex">
         <a-radio-group v-model="form.sex" button-style="solid">
           <a-radio-button v-for="(d, index) in sexOptions" :key="index" :value="d.dictValue">{{
             d.dictLabel
@@ -134,7 +138,7 @@ export default {
   data() {
     const validateNewPass = (rule, value, callback) => {
       if (value === '') {
-        callback(new Error('请输入新密码'))
+        callback(new Error(this.$t('please.input.password.new')))
       } else if (
         !/((^(?=.*[a-z])(?=.*[A-Z])(?=.*\W)[\da-zA-Z\W]{8,16}$)|(^(?=.*\d)(?=.*[A-Z])(?=.*\W)[\da-zA-Z\W]{8,16}$)|(^(?=.*\d)(?=.*[a-z])(?=.*\W)[\da-zA-Z\W]{8,16}$)|(^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[\da-zA-Z\W]{8,16}$))/.test(
           value
@@ -202,14 +206,14 @@ export default {
         email: [
           {
             type: 'email',
-            message: '请正确填写邮箱地址',
+            message: this.$t('please.input.correct.email'),
             trigger: ['blur', 'change']
           }
         ],
         phonenumber: [
           {
             pattern: /^1[3|4|5|6|7|8|9][0-9]\d{8}$/,
-            message: '请正确填写手机号',
+            message: this.$t('please.input.correct.mobile.phone.number'),
             trigger: 'blur'
           }
         ]

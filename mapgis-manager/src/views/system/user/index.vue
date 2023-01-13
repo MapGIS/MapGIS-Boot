@@ -17,7 +17,7 @@
                   </a-form-item>
                 </a-col>
                 <a-col :md="8" :sm="24">
-                  <a-form-item label="角色">
+                  <a-form-item :label="$t('role')">
                     <a-select placeholder="请选择角色" v-model="queryParam.roleId" style="width: 100%" allow-clear>
                       <a-select-option v-for="(r, index) in roleOptions" :key="index" :value="r.roleId">{{
                         r.roleName

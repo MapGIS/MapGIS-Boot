@@ -6,8 +6,8 @@
     :model="form"
     :rules="rules"
   >
-    <a-form-model-item label="初始密码" prop="configValue">
-      <a-input-password v-model="form.configValue" placeholder="请确认密码" :maxLength="16" />
+    <a-form-model-item :label="$t('security.config.init.password')" prop="configValue">
+      <a-input-password v-model="form.configValue" :placeholder="$t('please.password.confirm')" :maxLength="16" />
     </a-form-model-item>
     <a-form-model-item :wrapper-col="{ lg: { span: 10, offset: 7 }, sm: { span: 17, offset: 7 } }">
       <a-button type="primary" :loading="submitLoading" @click="submit" v-hasPermi="['system:config:edit']">
@@ -25,7 +25,7 @@ export default {
   data() {
     const validatePass = (rule, value, callback) => {
       if (value === '') {
-        callback(new Error('请输入新密码'))
+        callback(new Error(this.$t('please.input.password.new')))
       } else if (
         !/((^(?=.*[a-z])(?=.*[A-Z])(?=.*\W)[\da-zA-Z\W]{8,16}$)|(^(?=.*\d)(?=.*[A-Z])(?=.*\W)[\da-zA-Z\W]{8,16}$)|(^(?=.*\d)(?=.*[a-z])(?=.*\W)[\da-zA-Z\W]{8,16}$)|(^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[\da-zA-Z\W]{8,16}$))/.test(
           value

@@ -9,37 +9,37 @@
           :model="user"
           ref="form"
         >
-          <a-form-model-item label="用户名" ref="userName" prop="userName">
+          <a-form-model-item :label="$t('username')" ref="userName" prop="userName">
             <span>{{ user.userName }}</span>
           </a-form-model-item>
-          <a-form-model-item label="角色" ref="roleGroup">
+          <a-form-model-item :label="$t('role')" ref="roleGroup">
             <span>{{ roleGroup }}</span>
           </a-form-model-item>
-          <a-form-model-item label="用户组" ref="userGroup">
+          <a-form-model-item :label="$t('usergroup')" ref="userGroup">
             <span>{{ userGroup }}</span>
           </a-form-model-item>
-          <a-form-model-item label="部门" ref="deptName">
+          <a-form-model-item :label="$t('department')" ref="deptName">
             <span>{{ user.dept && user.dept.deptName }}</span>
           </a-form-model-item>
-          <a-form-model-item label="岗位" ref="postGroup">
+          <a-form-model-item :label="$t('post')" ref="postGroup">
             <span>{{ postGroup }}</span>
           </a-form-model-item>
-          <a-form-model-item label="用户昵称" ref="nickName" prop="nickName">
+          <a-form-model-item :label="$t('user.nickname')" ref="nickName" prop="nickName">
             <a-input v-model="user.nickName" :placeholder="$t('please.input')" :maxLength="30" />
           </a-form-model-item>
-          <a-form-model-item label="用户信息" prop="remark">
+          <a-form-model-item :label="$t('user.info')" prop="remark">
             <a-input v-model="user.remark" :placeholder="$t('please.input')" type="textarea" />
           </a-form-model-item>
-          <a-form-model-item label="手机号" prop="phonenumber">
+          <a-form-model-item :label="$t('mobile.phone.number')" prop="phonenumber">
             <a-input v-model="user.phonenumber" :placeholder="$t('please.input')" />
           </a-form-model-item>
-          <a-form-model-item label="邮箱" prop="email">
+          <a-form-model-item :label="$t('email')" prop="email">
             <a-input v-model="user.email" :placeholder="$t('please.input')" />
           </a-form-model-item>
-          <a-form-model-item label="性别" prop="sex">
+          <a-form-model-item :label="$t('sex')" prop="sex">
             <a-radio-group v-model="user.sex">
-              <a-radio :value="sexValue.men">男</a-radio>
-              <a-radio :value="sexValue.women">女</a-radio>
+              <a-radio :value="sexValue.men">{{ $t('male') }}</a-radio>
+              <a-radio :value="sexValue.women">{{ $t('female') }}</a-radio>
             </a-radio-group>
           </a-form-model-item>
           <a-form-model-item :wrapper-col="{ lg: { span: 10, offset: 7 }, sm: { span: 17, offset: 7 } }">
@@ -100,18 +100,18 @@ export default {
         fixedNumber: [1, 1]
       },
       rules: {
-        nickName: [{ required: true, message: '请输入昵称', trigger: 'blur' }],
+        nickName: [{ required: true, message: this.$t('please.input.nickname'), trigger: 'blur' }],
         email: [
           {
             type: 'email',
-            message: '请正确填写邮箱地址',
+            message: this.$t('please.input.correct.email'),
             trigger: ['blur', 'change']
           }
         ],
         phonenumber: [
           {
             pattern: /^1[3|4|5|6|7|8|9][0-9]\d{8}$/,
-            message: '请正确填写手机号',
+            message: this.$t('please.input.correct.mobile.phone.number'),
             trigger: 'blur'
           }
         ]

@@ -38,15 +38,17 @@ export default {
   mixins: [baseMixin],
   data() {
     return {
-      configItems: [
-        { title: '个人信息', key: 'base', component: 'BaseSetting' },
-        { title: '密码设置', key: 'security', component: 'Security' },
-        { title: '账号绑定', key: 'binding', component: 'Binding' }
-      ],
       currentKey: ['base']
     }
   },
   computed: {
+    configItems() {
+      return [
+        { title: this.$t('account.center.user.info'), key: 'base', component: 'BaseSetting' },
+        { title: this.$t('account.center.password.setting'), key: 'security', component: 'Security' },
+        { title: this.$t('account.center.bind'), key: 'binding', component: 'Binding' }
+      ]
+    },
     currentTitle() {
       const currnetConfig = this.configItems.find(config => {
         return this.currentKey.indexOf(config.key) > -1

@@ -1,6 +1,8 @@
 <template>
   <div class="main user-layout-register">
-    <h3><span>注册</span></h3>
+    <h3>
+      <span>{{ $t('register') }}</span>
+    </h3>
     <a-form-model ref="form" :model="form" :rules="rules">
       <a-alert
         v-if="isRegisterError"
@@ -12,24 +14,30 @@
         :after-close="handleCloseRegisterError"
       />
       <a-form-model-item prop="username">
-        <a-input v-model="form.username" size="large" autocomplete="off" placeholder="账号" />
+        <a-input v-model="form.username" size="large" autocomplete="off" :placeholder="$t('username')" />
       </a-form-model-item>
       <a-form-model-item has-feedback prop="password">
-        <a-input-password v-model="form.password" size="large" autocomplete="off" placeholder="密码" :maxLength="16" />
+        <a-input-password
+          v-model="form.password"
+          size="large"
+          autocomplete="off"
+          :placeholder="$t('password')"
+          :maxLength="16"
+        />
       </a-form-model-item>
       <a-form-model-item has-feedback prop="confirmPassword">
         <a-input-password
           v-model="form.confirmPassword"
           size="large"
           autocomplete="off"
-          placeholder="确认密码"
+          :placeholder="$t('password.confirm')"
           :maxLength="20"
         />
       </a-form-model-item>
       <a-row :gutter="16" v-if="loginConfig.captchaEnabled">
         <a-col class="gutter-row" :span="16">
           <a-form-model-item prop="code">
-            <a-input v-model="form.code" size="large" type="text" autocomplete="off" placeholder="验证码">
+            <a-input v-model="form.code" size="large" type="text" autocomplete="off" :placeholder="$t('captcha')">
               <a-icon slot="prefix" type="security-scan" :style="{ color: 'rgba(0,0,0,.25)' }" />
             </a-input>
           </a-form-model-item>
@@ -48,9 +56,11 @@
           @click.stop.prevent="handleRegister"
           :disabled="registering"
         >
-          注册
+          {{ $t('register') }}
         </a-button>
-        <router-link class="login" :to="{ name: 'login' }">使用已有账号登录</router-link>
+        <router-link class="login" :to="{ name: 'login' }">
+          {{ $t('user.register.use.existed.account.login') }}
+        </router-link>
       </a-form-item>
     </a-form-model>
   </div>
@@ -65,7 +75,7 @@ export default {
   data() {
     const validateNewPass = (rule, value, callback) => {
       if (value === '') {
-        callback(new Error('请输入新密码'))
+        callback(new Error(this.$t('please.input.password.new')))
       } else if (
         !/((^(?=.*[a-z])(?=.*[A-Z])(?=.*\W)[\da-zA-Z\W]{8,16}$)|(^(?=.*\d)(?=.*[A-Z])(?=.*\W)[\da-zA-Z\W]{8,16}$)|(^(?=.*\d)(?=.*[a-z])(?=.*\W)[\da-zA-Z\W]{8,16}$)|(^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[\da-zA-Z\W]{8,16}$))/.test(
           value
@@ -101,7 +111,7 @@ export default {
       },
       rules: {
         username: [
-          { required: true, trigger: 'blur', message: '请输入您的账号' },
+          { required: true, trigger: 'blur', message: this.$t('please.input.username') },
           {
             min: 2,
             max: 20,
@@ -110,14 +120,14 @@ export default {
           }
         ],
         password: [
-          { required: true, trigger: 'blur', message: '请输入您的密码' },
+          { required: true, trigger: 'blur', message: this.$t('please.input.password') },
           { required: true, validator: validateNewPass, trigger: 'blur' }
         ],
         confirmPassword: [
-          { required: true, trigger: 'blur', message: '请再次输入您的密码' },
+          { required: true, trigger: 'blur', message: this.$t('please.password.confirm') },
           { required: true, validator: validateConfirmPass, trigger: 'blur' }
         ],
-        code: [{ required: true, trigger: 'change', message: '请输入验证码' }]
+        code: [{ required: true, trigger: 'change', message: this.$t('please.input.captcha') }]
       },
       registerBtn: false,
       registering: false,

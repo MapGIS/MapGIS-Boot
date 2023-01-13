@@ -5,13 +5,13 @@
     </a>
     <!-- 第三方登录绑定账号密码输入弹框 -->
     <a-modal
-      title="请输入密码"
+      :title="$t('please.input.password')"
       :visible="thirdPasswordShow"
       @ok="thirdLoginCheckPassword"
       @cancel="thirdLoginNoPassword"
       :maskClosable="false"
     >
-      <a-input-password placeholder="请输入密码" v-model="thirdLoginPassword" />
+      <a-input-password :placeholder="$t('please.input.password')" v-model="thirdLoginPassword" />
     </a-modal>
 
     <!-- 第三方登录提示是否绑定账号弹框 -->

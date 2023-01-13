@@ -11,19 +11,19 @@
         :after-close="handleCloseLoginError"
       />
       <a-form-model-item prop="username">
-        <a-input v-model="form.username" size="large" placeholder="账号: admin">
+        <a-input v-model="form.username" size="large" placeholder="admin">
           <a-icon slot="prefix" type="user" :style="{ color: 'rgba(0,0,0,.25)' }" />
         </a-input>
       </a-form-model-item>
       <a-form-model-item prop="password">
-        <a-input-password v-model="form.password" size="large" placeholder="密码: cloud123.mapgis">
+        <a-input-password v-model="form.password" size="large" placeholder="cloud123.mapgis">
           <a-icon slot="prefix" type="lock" :style="{ color: 'rgba(0,0,0,.25)' }" />
         </a-input-password>
       </a-form-model-item>
       <a-row :gutter="16" v-if="captchaEnabled">
         <a-col class="gutter-row" :span="16">
           <a-form-model-item prop="code">
-            <a-input v-model="form.code" size="large" type="text" autocomplete="off" placeholder="验证码">
+            <a-input v-model="form.code" size="large" type="text" autocomplete="off" :placeholder="$t('captcha')">
               <a-icon slot="prefix" type="security-scan" :style="{ color: 'rgba(0,0,0,.25)' }" />
             </a-input>
           </a-form-model-item>
@@ -33,9 +33,11 @@
         </a-col>
       </a-row>
       <a-form-model-item prop="rememberMe">
-        <a-checkbox :checked="form.rememberMe" @change="rememberMe">记住密码</a-checkbox>
+        <a-checkbox :checked="form.rememberMe" @change="rememberMe">
+          {{ $t('user.login.password.remember') }}
+        </a-checkbox>
         <router-link v-if="registerConfig.enabled" class="register" :to="{ name: 'register' }" style="float: right">
-          注册账号
+          {{ $t('user.login.account.register') }}
         </router-link>
       </a-form-model-item>
       <a-form-item style="margin-top: 24px">
@@ -48,11 +50,11 @@
           :disabled="logining"
           @click="handleSubmit"
         >
-          确定
+          {{ $t('confirm') }}
         </a-button>
       </a-form-item>
       <div v-if="otherLoginValid" class="user-login-other">
-        <span>其他登录方式:</span>
+        <span>{{ $t('user.login.other') }}</span>
         <cas-login :config="casConfig"></cas-login>
         <third-login :config="oauthConfig" ref="thirdLogin"></third-login>
       </div>
@@ -87,9 +89,9 @@ export default {
         rememberMe: false
       },
       rules: {
-        username: [{ required: true, message: '请输入帐户名', trigger: 'blur' }],
-        password: [{ required: true, message: '请输入密码', trigger: 'blur' }],
-        code: [{ required: true, message: '请输入验证码', trigger: 'blur' }]
+        username: [{ required: true, message: this.$t('please.input.username'), trigger: 'blur' }],
+        password: [{ required: true, message: this.$t('please.input.password'), trigger: 'blur' }],
+        code: [{ required: true, message: this.$t('please.input.captcha'), trigger: 'blur' }]
       },
       logining: false,
       isNeedCaptcha: false,

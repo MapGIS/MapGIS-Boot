@@ -1,21 +1,21 @@
 <template>
   <a-modal :title="title" :visible="open" :confirm-loading="submitLoading" @ok="submitForm" @cancel="cancel">
     <a-form-model ref="form" :model="form" :rules="rules">
-      <a-form-model-item label="用户名" prop="userName">
+      <a-form-model-item :label="$t('username')" prop="userName">
         <a-input v-model="form.userName" :disabled="true" />
       </a-form-model-item>
-      <a-form-model-item has-feedback label="新密码" prop="newPassword">
+      <a-form-model-item has-feedback :label="$t('password.new')" prop="newPassword">
         <a-input-password
           v-model="form.newPassword"
-          placeholder="请输入新密码"
+          :placeholder="$t('please.input.password.new')"
           :maxLength="16"
           autocomplete="new-password"
         />
       </a-form-model-item>
-      <a-form-model-item has-feedback label="确认密码" prop="confirmPassword">
+      <a-form-model-item has-feedback :label="$t('password.confirm')" prop="confirmPassword">
         <a-input-password
           v-model="form.confirmPassword"
-          placeholder="请确认密码"
+          :placeholder="$t('please.password.confirm')"
           :maxLength="16"
           autocomplete="new-password"
         />
@@ -32,7 +32,7 @@ export default {
   data() {
     const validateNewPass = (rule, value, callback) => {
       if (value === '') {
-        callback(new Error('请输入新密码'))
+        callback(new Error(this.$t('please.input.password.new')))
       } else if (
         !/((^(?=.*[a-z])(?=.*[A-Z])(?=.*\W)[\da-zA-Z\W]{8,16}$)|(^(?=.*\d)(?=.*[A-Z])(?=.*\W)[\da-zA-Z\W]{8,16}$)|(^(?=.*\d)(?=.*[a-z])(?=.*\W)[\da-zA-Z\W]{8,16}$)|(^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[\da-zA-Z\W]{8,16}$))/.test(
           value

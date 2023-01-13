@@ -6,14 +6,14 @@
     :model="form"
     :rules="rules"
   >
-    <a-form-model-item has-feedback label="旧密码" prop="oldPassword">
-      <a-input-password v-model="form.oldPassword" placeholder="请输入旧密码" :maxLength="16" />
+    <a-form-model-item has-feedback :label="$t('password.old')" prop="oldPassword">
+      <a-input-password v-model="form.oldPassword" :placeholder="$t('please.input.password.old')" :maxLength="16" />
     </a-form-model-item>
-    <a-form-model-item has-feedback label="新密码" prop="newPassword">
-      <a-input-password v-model="form.newPassword" placeholder="请输入新密码" :maxLength="16" />
+    <a-form-model-item has-feedback :label="$t('password.new')" prop="newPassword">
+      <a-input-password v-model="form.newPassword" :placeholder="$t('please.input.password.new')" :maxLength="16" />
     </a-form-model-item>
-    <a-form-model-item has-feedback label="确认密码" prop="confirmPassword">
-      <a-input-password v-model="form.confirmPassword" placeholder="请确认密码" :maxLength="16" />
+    <a-form-model-item has-feedback :label="$t('password.confirm')" prop="confirmPassword">
+      <a-input-password v-model="form.confirmPassword" :placeholder="$t('please.password.confirm')" :maxLength="16" />
     </a-form-model-item>
     <a-form-model-item :wrapper-col="{ lg: { span: 10, offset: 7 }, sm: { span: 17, offset: 7 } }">
       <a-button type="primary" :loading="submitLoading" @click="submit">{{ $t('save') }}</a-button>
@@ -29,7 +29,7 @@ export default {
   data() {
     const validateNewPass = (rule, value, callback) => {
       if (value === '') {
-        callback(new Error('请输入新密码'))
+        callback(new Error(this.$t('please.input.password.new')))
       } else if (
         !/((^(?=.*[a-z])(?=.*[A-Z])(?=.*\W)[\da-zA-Z\W]{8,16}$)|(^(?=.*\d)(?=.*[A-Z])(?=.*\W)[\da-zA-Z\W]{8,16}$)|(^(?=.*\d)(?=.*[a-z])(?=.*\W)[\da-zA-Z\W]{8,16}$)|(^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[\da-zA-Z\W]{8,16}$))/.test(
           value

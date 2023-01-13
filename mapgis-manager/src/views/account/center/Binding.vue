@@ -19,7 +19,7 @@
       @ok="thirdLoginCheckPassword"
       @cancel="thirdLoginNoPassword"
     >
-      <a-input-password placeholder="请输入密码" v-model="thirdLoginPassword" />
+      <a-input-password :placeholder="$t('please.input.password')" v-model="thirdLoginPassword" />
     </a-modal>
   </a-list>
 </template>

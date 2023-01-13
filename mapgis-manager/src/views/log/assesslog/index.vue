@@ -49,7 +49,7 @@
       <!-- 操作 -->
       <div class="table-operations">
         <a-button type="primary" @click="handleExport" v-hasPermi="['system:assesslog:export']">
-          <a-icon type="download" />{{ $t('export.harfile') }}
+          <a-icon type="download" />{{ $t('log.accesslog.export.harfile') }}
         </a-button>
         <table-setting
           :style="{ float: 'right' }"
