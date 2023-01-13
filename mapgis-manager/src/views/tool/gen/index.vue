@@ -225,7 +225,7 @@ export default {
           align: 'center'
         },
         {
-          title: '操作',
+          title: this.$t('operation'),
           dataIndex: 'action',
           width: '20%',
           scopedSlots: { customRender: 'operation' },

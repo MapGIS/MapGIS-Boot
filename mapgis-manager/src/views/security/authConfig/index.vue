@@ -179,7 +179,7 @@ export default {
           align: 'center'
         },
         {
-          title: '操作',
+          title: this.$t('operation'),
           dataIndex: 'operation',
           width: '12%',
           scopedSlots: { customRender: 'operation' },

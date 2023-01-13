@@ -227,7 +227,7 @@ export default {
           visible: false
         },
         {
-          title: '操作',
+          title: this.$t('operation'),
           dataIndex: 'operation',
           width: '18%',
           scopedSlots: { customRender: 'operation' },
