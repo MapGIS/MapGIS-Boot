@@ -50,7 +50,7 @@
           :disabled="logining"
           @click="handleSubmit"
         >
-          {{ $t('confirm') }}
+          {{ $t('login') }}
         </a-button>
       </a-form-item>
       <div v-if="otherLoginValid" class="user-login-other">

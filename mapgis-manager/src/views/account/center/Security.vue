@@ -35,7 +35,7 @@ export default {
           value
         )
       ) {
-        callback(new Error('请输入8-16位字符，至少包含数字、大写字母、小写字母和特殊字符中的三种类型'))
+        callback(new Error(this.$t('password.length.limit')))
       } else {
         if (this.form.confirmPassword !== '') {
           this.$refs.form.validateField('confirmPassword')
@@ -45,9 +45,9 @@ export default {
     }
     const validateConfirmPass = (rule, value, callback) => {
       if (value === '') {
-        callback(new Error('请再次输入新密码确认'))
+        callback(new Error(this.$t('please.input.password.new.again.confirm')))
       } else if (value !== this.form.newPassword) {
-        callback(new Error('两次输入的密码不一致'))
+        callback(new Error(this.$t('password.inconsistent')))
       } else {
         callback()
       }

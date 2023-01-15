@@ -81,7 +81,7 @@ export default {
           value
         )
       ) {
-        callback(new Error('请输入8-16位字符，至少包含数字、大写字母、小写字母和特殊字符中的三种类型'))
+        callback(new Error(this.$t('password.length.limit')))
       } else {
         if (this.form.confirmPassword !== '') {
           this.$refs.form.validateField('confirmPassword')
@@ -91,9 +91,9 @@ export default {
     }
     const validateConfirmPass = (rule, value, callback) => {
       if (value === '') {
-        callback(new Error('请再次输入新密码确认'))
+        callback(new Error(this.$t('please.input.password.new.again.confirm')))
       } else if (value !== this.form.password) {
-        callback(new Error('两次输入的密码不一致'))
+        callback(new Error(this.$t('password.inconsistent')))
       } else {
         callback()
       }
@@ -115,7 +115,7 @@ export default {
           {
             min: 2,
             max: 20,
-            message: '用户账号长度必须介于 2 和 20 之间',
+            message: this.$t('username.length.limit'),
             trigger: 'blur'
           }
         ],
@@ -173,9 +173,10 @@ export default {
       this.$router.push({ path: '/login' })
       // 延迟 1 秒显示欢迎信息
       const username = this.form.username
+      const message = this.$t('user.register.success', { username: username })
       setTimeout(() => {
         this.$notification.success({
-          message: '恭喜你，您的账号 ' + username + ' 注册成功！'
+          message: message
         })
       }, 1000)
       this.handleCloseRegisterError()

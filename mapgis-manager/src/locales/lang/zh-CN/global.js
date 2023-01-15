@@ -62,5 +62,10 @@ export default {
   'please.input.correct.email': '请正确填写邮箱地址',
   'please.input.correct.mobile.phone.number': '请正确填写手机号',
   captcha: '验证码',
-  register: '注册'
+  register: '注册',
+  login: '登录',
+  'username.length.limit': '用户名长度必须介于 2 和 20 之间',
+  'please.input.password.new.again.confirm': '请再次输入新密码确认',
+  'password.inconsistent': '两次输入的密码不一致',
+  'password.length.limit': '请输入8-16位字符，至少包含数字、大写字母、小写字母和特殊字符中的三种类型'
 }

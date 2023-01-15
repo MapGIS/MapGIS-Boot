@@ -21,7 +21,7 @@ export default {
   'please.input.content': 'Please Input Content',
   'please.input.username': 'Please Input Username',
   'please.input.password': 'Please Input Password',
-  'please.input.captcha': 'Please Input Captcha',
+  'please.input.captcha': 'Please Input Verification Code',
   'please.select': 'Please Select',
   'confirm.selected.data.delete': 'Are you sure to delete the selected data?',
   'delete.success': 'Delete Success',
@@ -53,7 +53,7 @@ export default {
   department: 'Department',
   post: 'Post',
   'user.nickname': 'User Nickname',
-  'user.info': 'User Info',
+  'user.info': 'User Information',
   'mobile.phone.number': 'Mobile Phone Number',
   email: 'Email',
   sex: 'Sex',
@@ -62,6 +62,12 @@ export default {
   'please.input.nickname': 'Please Input Nickname',
   'please.input.correct.email': 'Please input the email correctly',
   'please.input.correct.mobile.phone.number': 'Please input the mobile phone number correctly',
-  captcha: 'Captcha',
-  register: 'Register'
+  captcha: 'Verification Code',
+  register: 'Register',
+  login: 'Login',
+  'username.length.limit': 'Username length must be between 2 and 20',
+  'please.input.password.new.again.confirm': 'Please input the new password again to confirm',
+  'password.inconsistent': 'The passwords inputed two times are inconsistent',
+  'password.length.limit':
+    'Please enter 8-16 characters, including at least three types of numbers, uppercase letters, lowercase letters and special characters'
 }

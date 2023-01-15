@@ -31,7 +31,7 @@ export default {
           value
         )
       ) {
-        callback(new Error('请输入8-16位字符，至少包含数字、大写字母、小写字母和特殊字符中的三种类型'))
+        callback(new Error(this.$t('password.length.limit')))
       } else {
         callback()
       }
