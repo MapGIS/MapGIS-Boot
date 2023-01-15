@@ -21,7 +21,7 @@
             </a-col>
             <template v-if="advanced">
               <a-col :md="8" :sm="24">
-                <a-form-item label="级别">
+                <a-form-item :label="$t('level')">
                   <a-select placeholder="日志级别" v-model="queryParam.level" style="width: 100%" allow-clear>
                     <a-select-option v-for="(l, index) in levelOptions" :key="index" :value="l.value">{{
                       l.label
@@ -154,18 +154,18 @@ export default {
       },
       columns: [
         {
-          title: '编号',
+          title: this.$t('id'),
           dataIndex: 'id',
           width: '8%',
           align: 'center'
         },
         {
-          title: '日期',
+          title: this.$t('date'),
           dataIndex: 'createTime',
           align: 'center'
         },
         {
-          title: '级别',
+          title: this.$t('level'),
           dataIndex: 'level',
           width: '8%',
           align: 'center'

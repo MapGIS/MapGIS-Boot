@@ -11,7 +11,7 @@
               </a-form-item>
             </a-col>
             <a-col :md="8" :sm="24">
-              <a-form-item label="操作人员">
+              <a-form-item :label="$t('operation.user')">
                 <a-input v-model="queryParam.createBy" :placeholder="$t('please.input')" allow-clear />
               </a-form-item>
             </a-col>
@@ -179,7 +179,7 @@ export default {
           align: 'center'
         },
         {
-          title: '操作人员',
+          title: this.$t('operation.user'),
           dataIndex: 'createBy',
           ellipsis: true,
           align: 'center'

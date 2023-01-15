@@ -6,13 +6,21 @@
         <a-form layout="inline">
           <a-row :gutter="48">
             <a-col :md="8" :sm="24">
-              <a-form-item label="登录地址">
-                <a-input v-model="queryParam.ipaddr" placeholder="请输入登录地址" allow-clear />
+              <a-form-item :label="$t('login.address')">
+                <a-input
+                  v-model="queryParam.ipaddr"
+                  :placeholder="$t('please.prefix.input', { content: $t('login.address') })"
+                  allow-clear
+                />
               </a-form-item>
             </a-col>
             <a-col :md="8" :sm="24">
               <a-form-item :label="$t('username')">
-                <a-input v-model="queryParam.userName" placeholder="请输入用户名称" allow-clear />
+                <a-input
+                  v-model="queryParam.userName"
+                  :placeholder="$t('please.prefix.input', { content: $t('username') })"
+                  allow-clear
+                />
               </a-form-item>
             </a-col>
             <a-col :md="8" :sm="24">
@@ -51,15 +59,15 @@
         </span>
         <span slot="operation" slot-scope="text, record">
           <a-popconfirm
-            ok-text="是"
-            cancel-text="否"
+            :ok-text="$t('yes')"
+            :cancel-text="$t('no')"
             @confirm="confirmHandleForceLogout(record)"
             @cancel="cancelHandleForceLogout(record)"
           >
             <span slot="title">
-              确认强退<b>{{ record.userName }} </b>的用户吗?
+              {{ $t('monitor.online.forced.exit.user', { username: record.userName }) }}
             </span>
-            <a v-hasPermi="['system:online:forceLogout']"> 强退 </a>
+            <a v-hasPermi="['system:online:forceLogout']"> {{ $t('monitor.online.forced.exit') }} </a>
           </a-popconfirm>
         </span>
       </a-table>
@@ -102,7 +110,7 @@ export default {
       },
       columns: [
         {
-          title: '会话编号',
+          title: this.$t('monitor.online.session.id'),
           dataIndex: 'tokenId',
           ellipsis: true,
           align: 'center'
@@ -118,23 +126,23 @@ export default {
           align: 'center'
         },
         {
-          title: '登录地址',
+          title: this.$t('login.address'),
           dataIndex: 'ipaddr',
           ellipsis: true,
           align: 'center'
         },
         {
-          title: '浏览器',
+          title: this.$t('browser'),
           dataIndex: 'browser',
           align: 'center'
         },
         {
-          title: '操作系统',
+          title: this.$t('os'),
           dataIndex: 'os',
           align: 'center'
         },
         {
-          title: '登录时间',
+          title: this.$t('login.time'),
           dataIndex: 'loginTime',
           width: 180,
           scopedSlots: { customRender: 'loginTime' },
@@ -200,10 +208,10 @@ export default {
       forceLogout(row.tokenId)
         .then(() => {
           this.getList()
-          this.$message.success('已强退', 3)
+          this.$message.success(this.$t('monitor.online.has.forced.exited'), 3)
         })
         .catch(function () {
-          this.$message.error('发生异常', 3)
+          this.$message.error(this.$t('exception.occurred'), 3)
         })
     },
     cancelHandleForceLogout(row) {}

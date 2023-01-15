@@ -171,7 +171,7 @@ export default {
           align: 'center'
         },
         {
-          title: '操作类型',
+          title: this.$t('operation.type'),
           dataIndex: 'jobGroup',
           scopedSlots: { customRender: 'jobGroup' },
           align: 'center'

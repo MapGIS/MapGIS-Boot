@@ -11,14 +11,23 @@
               </a-form-item>
             </a-col>
             <a-col :md="8" :sm="24">
-              <a-form-item label="操作人员">
-                <a-input v-model="queryParam.operName" placeholder="请输入操作人员" allow-clear />
+              <a-form-item :label="$t('operation.user')">
+                <a-input
+                  v-model="queryParam.operName"
+                  :placeholder="$t('please.prefix.input', { content: $t('operation.user') })"
+                  allow-clear
+                />
               </a-form-item>
             </a-col>
             <template v-if="advanced">
               <a-col :md="8" :sm="24">
                 <a-form-item label="类型">
-                  <a-select placeholder="操作类型" v-model="queryParam.businessType" style="width: 100%" allow-clear>
+                  <a-select
+                    :placeholder="$t('operation.type')"
+                    v-model="queryParam.businessType"
+                    style="width: 100%"
+                    allow-clear
+                  >
                     <a-select-option v-for="(d, index) in typeOptions" :key="index" :value="d.dictValue">{{
                       d.dictLabel
                     }}</a-select-option>
@@ -27,7 +36,12 @@
               </a-col>
               <a-col :md="8" :sm="24">
                 <a-form-item :label="$t('status')">
-                  <a-select placeholder="操作状态" v-model="queryParam.status" style="width: 100%" allow-clear>
+                  <a-select
+                    :placeholder="$t('operation.status')"
+                    v-model="queryParam.status"
+                    style="width: 100%"
+                    allow-clear
+                  >
                     <a-select-option v-for="(d, index) in statusOptions" :key="index" :value="d.dictValue">{{
                       d.dictLabel
                     }}</a-select-option>
@@ -35,7 +49,7 @@
                 </a-form-item>
               </a-col>
               <a-col :md="8" :sm="24">
-                <a-form-item label="操作时间">
+                <a-form-item :label="$t('operation.time')">
                   <a-range-picker
                     style="width: 100%"
                     v-model="dateRange"
@@ -175,35 +189,35 @@ export default {
           align: 'center'
         },
         {
-          title: '操作类型',
+          title: this.$t('operation.type'),
           dataIndex: 'businessType',
           scopedSlots: { customRender: 'businessType' },
           align: 'center'
         },
         {
-          title: '请求方式',
+          title: this.$t('request.method'),
           dataIndex: 'requestMethod',
           align: 'center'
         },
         {
-          title: '操作人员',
+          title: this.$t('operation.user'),
           dataIndex: 'operName',
           align: 'center',
           sorter: true
         },
         {
-          title: '操作地址',
+          title: this.$t('operation.address'),
           dataIndex: 'operIp',
           align: 'center'
         },
         {
-          title: '操作状态',
+          title: this.$t('operation.status'),
           dataIndex: 'status',
           scopedSlots: { customRender: 'status' },
           align: 'center'
         },
         {
-          title: '操作日期',
+          title: this.$t('operation.date'),
           dataIndex: 'operTime',
           align: 'center',
           sorter: true

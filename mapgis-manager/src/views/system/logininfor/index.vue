@@ -6,13 +6,22 @@
         <a-form layout="inline">
           <a-row :gutter="48">
             <a-col :md="8" :sm="24">
-              <a-form-item label="登录地址">
-                <a-input v-model="queryParam.ipaddr" placeholder="请输入登录地址" allow-clear />
+              <a-form-item :label="$t('login.address')">
+                <a-input
+                  v-model="queryParam.ipaddr"
+                  :placeholder="$t('please.prefix.input', { content: $t('login.address') })"
+                  allow-clear
+                />
               </a-form-item>
             </a-col>
             <a-col :md="8" :sm="24">
               <a-form-item :label="$t('status')">
-                <a-select placeholder="请选择状态" v-model="queryParam.status" style="width: 100%" allow-clear>
+                <a-select
+                  :placeholder="$t('please.prefix.select', { content: $t('status') })"
+                  v-model="queryParam.status"
+                  style="width: 100%"
+                  allow-clear
+                >
                   <a-select-option v-for="(d, index) in statusOptions" :key="index" :value="d.dictValue">{{
                     d.dictLabel
                   }}</a-select-option>
@@ -161,33 +170,33 @@ export default {
           align: 'center'
         },
         {
-          title: '登录地址',
+          title: this.$t('login.address'),
           dataIndex: 'ipaddr',
           align: 'center'
         },
         {
-          title: '浏览器',
+          title: this.$t('browser'),
           dataIndex: 'browser',
           align: 'center'
         },
         {
-          title: '操作系统',
+          title: this.$t('os'),
           dataIndex: 'os',
           align: 'center'
         },
         {
-          title: '登录状态',
+          title: this.$t('login.status'),
           dataIndex: 'status',
           scopedSlots: { customRender: 'status' },
           align: 'center'
         },
         {
-          title: '操作信息',
+          title: this.$t('operation.info'),
           dataIndex: 'msg',
           align: 'center'
         },
         {
-          title: '登录时间',
+          title: this.$t('login.time'),
           dataIndex: 'loginTime',
           align: 'center',
           sorter: true

@@ -334,7 +334,7 @@ export default {
           this.$message.success(text + '成功', 3)
         })
         .catch(function () {
-          this.$message.error(text + '发生异常', 3)
+          this.$message.error(text + this.$t('exception.occurred'), 3)
         })
     },
     cancelHandleStatus(row) {},
@@ -345,7 +345,7 @@ export default {
           this.$message.success('执行成功', 3)
         })
         .catch(function () {
-          this.$message.error('发生异常', 3)
+          this.$message.error(this.$t('exception.occurred'), 3)
         })
     },
     cancelHandleRun(row) {},

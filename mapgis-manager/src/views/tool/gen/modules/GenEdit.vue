@@ -157,7 +157,7 @@ export default {
       // 表头
       columns: [
         {
-          title: '编号',
+          title: this.$t('id'),
           dataIndex: 'columnId',
           scopedSlots: { customRender: 'columnId' },
           align: 'center',

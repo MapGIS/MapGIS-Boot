@@ -1,43 +1,51 @@
 <template>
   <page-header-wrapper>
-    <a-spin tip="数据加载中..." :spinning="!show">
+    <a-spin tip="Loading..." :spinning="!show">
       <div v-if="!show" style="height: 500px; width: 100%" />
     </a-spin>
     <a-space v-if="show" direction="vertical" style="width: 100%">
       <a-card :bordered="false">
         <div class="server-base-info" v-if="data.sys">
           <a-icon type="setting" style="margin-right: 5px" />
-          <span> 系统：{{ data.sys.osFullInfo }} </span>
-          <span> IP：{{ data.sys.ip }} </span>
-          <span> 服务器已不间断运行：{{ data.jvm.runTime }} </span>
+          <span> {{ `${$t('system')}： ${data.sys.osFullInfo}` }}</span>
+          <span> {{ `IP：${data.sys.ip}` }} </span>
+          <span> {{ `${$t('monitor.server.running.desc')}：${data.jvm.runTime}` }} </span>
           <a-icon type="sync" class="icon-refresh" @click="onRefreshServerInfo" />
         </div>
       </a-card>
 
       <a-row :gutter="[10, 10]">
         <a-col :xs="24" :sm="12" :md="12" :lg="6" :xl="6">
-          <a-card title="CPU监控" :bordered="false" class="monitor-server-center-row-col-card">
+          <a-card
+            :title="$t('monitor.server.cpu.monitor')"
+            :bordered="false"
+            class="monitor-server-center-row-col-card"
+          >
             <a-tooltip>
               <template #title>
-                <div>CPU系统使用率：{{ data.cpu.sys }}%</div>
-                <div>CPU用户使用率：{{ data.cpu.user }}%</div>
-                <div>CPU当前总使用率：{{ data.cpu.total }}%</div>
-                <div>CPU当前等待率：{{ data.cpu.wait }}%</div>
-                <div>CPU当前空闲率：{{ data.cpu.free }}%</div>
+                <div>{{ `${$t('monitor.server.cpu.system.usage')}：${data.cpu.sys}%` }}</div>
+                <div>{{ `${$t('monitor.server.cpu.user.usage')}：${data.cpu.user}%` }}</div>
+                <div>{{ `${$t('monitor.server.cpu.total.usage')}：${data.cpu.total}%` }}</div>
+                <div>{{ `${$t('monitor.server.cpu.wait.ratio')}：${data.cpu.wait}%` }}</div>
+                <div>{{ `${$t('monitor.server.cpu.idle.ratio')}：${data.cpu.free}%` }}</div>
               </template>
               <a-progress type="dashboard" :stroke-color="getProgressColor(data.cpu.total)" :percent="data.cpu.total" />
             </a-tooltip>
-            <div>CPU当前总使用率</div>
+            <div>{{ $t('monitor.server.cpu.total.usage') }}</div>
           </a-card>
         </a-col>
         <a-col :xs="24" :sm="12" :md="12" :lg="6" :xl="6">
-          <a-card title="内存信息" :bordered="false" class="monitor-server-center-row-col-card">
+          <a-card
+            :title="$t('monitor.server.memory.info')"
+            :bordered="false"
+            class="monitor-server-center-row-col-card"
+          >
             <a-tooltip>
               <template #title>
-                <div>内存总量：{{ data.memory.total }}</div>
-                <div>内存已用：{{ data.memory.used }}</div>
-                <div>内存剩余：{{ data.memory.free }}</div>
-                <div>内存使用率：{{ data.memory.usage }}%</div>
+                <div>{{ `${$t('monitor.server.memory.total')}：${data.memory.total}` }}</div>
+                <div>{{ `${$t('monitor.server.memory.used')}：${data.memory.used}` }}</div>
+                <div>{{ `${$t('monitor.server.memory.free')}： ${data.memory.free}` }}</div>
+                <div>{{ `${$t('monitor.server.memory.usage')}： ${data.memory.usage}%` }}</div>
               </template>
               <a-progress
                 type="dashboard"
@@ -45,17 +53,17 @@
                 :percent="data.memory.usage"
               />
             </a-tooltip>
-            <div>内存使用率</div>
+            <div>{{ $t('monitor.server.memory.usage') }}</div>
           </a-card>
         </a-col>
         <a-col :xs="24" :sm="12" :md="12" :lg="6" :xl="6">
-          <a-card title="磁盘信息" :bordered="false" class="monitor-server-center-row-col-card">
+          <a-card :title="$t('monitor.server.disk.info')" :bordered="false" class="monitor-server-center-row-col-card">
             <a-tooltip>
               <template #title>
-                <div>磁盘总量：{{ data.disk.total }}</div>
-                <div>磁盘已用：{{ data.disk.used }}</div>
-                <div>磁盘剩余：{{ data.disk.free }}</div>
-                <div>磁盘使用率：{{ data.disk.usage }}%</div>
+                <div>{{ `${$t('monitor.server.disk.usage')}：${data.disk.total}` }}</div>
+                <div>{{ `${$t('monitor.server.disk.used')}：${data.disk.used}` }}</div>
+                <div>{{ `${$t('monitor.server.disk.free')}：${data.disk.free}` }}</div>
+                <div>{{ `${$t('monitor.server.disk.usage')}：${data.disk.usage}%` }}</div>
               </template>
               <a-progress
                 type="dashboard"
@@ -63,21 +71,25 @@
                 :percent="data.disk.usage"
               />
             </a-tooltip>
-            <div>磁盘使用率</div>
+            <div>{{ $t('monitor.server.disk.usage') }}</div>
           </a-card>
         </a-col>
         <a-col :xs="24" :sm="12" :md="12" :lg="6" :xl="6">
-          <a-card title="JVM监控" :bordered="false" class="monitor-server-center-row-col-card">
+          <a-card
+            :title="$t('monitor.server.jvm.monitor')"
+            :bordered="false"
+            class="monitor-server-center-row-col-card"
+          >
             <a-tooltip>
               <template #title>
-                <div>JVM总分配内存：{{ data.jvm.total }}</div>
-                <div>JVM已用内存：{{ data.jvm.used }}</div>
-                <div>JVM剩余内存：{{ data.jvm.free }}</div>
-                <div>JVM内存使用率：{{ data.jvm.usage }}%</div>
+                <div>{{ `${$t('monitor.server.jvm.memory.total')}：${data.jvm.total}` }}</div>
+                <div>{{ `${$t('monitor.server.jvm.memory.used')}：${data.jvm.used}` }}</div>
+                <div>{{ `${$t('monitor.server.jvm.memory.free')}：${data.jvm.free}` }}</div>
+                <div>{{ `${$t('monitor.server.jvm.memory.usage')}：${data.jvm.usage}%` }}</div>
               </template>
               <a-progress type="dashboard" :stroke-color="getProgressColor(data.jvm.usage)" :percent="data.jvm.usage" />
             </a-tooltip>
-            <div>JVM内存使用率</div>
+            <div>{{ $t('monitor.server.jvm.memory.usage') }}</div>
           </a-card>
         </a-col>
       </a-row>
@@ -86,13 +98,13 @@
         <a-range-picker
           :show-time="{ format: 'HH:mm:ss' }"
           format="YYYY-MM-DD HH:mm:ss"
-          :placeholder="['开始时间', '结束时间']"
+          :placeholder="[$t('start.time'), $t('end.time')]"
           :allowClear="false"
           v-model="defaultTimeRange"
           @ok="onTimeRangeOk"
         />
         <a-select
-          style="width: 120px; padding-left: 8px"
+          style="width: 160px; padding-left: 8px"
           @change="handleTimeRangeSelectChange"
           v-model="defaultTimeRangeItem"
         >
@@ -127,38 +139,62 @@
         </a-row>
       </div>
 
-      <a-card title="CPU监控" :bordered="false">
+      <a-card :title="$t('monitor.server.cpu.monitor')" :bordered="false">
         <a-descriptions size="middle" :column="2" bordered>
-          <a-descriptions-item label="CPU名称">{{ data.cpu.name }}</a-descriptions-item>
-          <a-descriptions-item label="CPU数量">{{ data.cpu.package }}</a-descriptions-item>
-          <a-descriptions-item label="CPU物理核心数">{{ data.cpu.physical }}</a-descriptions-item>
-          <a-descriptions-item label="CPU逻辑核心数">{{ data.cpu.logical }}</a-descriptions-item>
+          <a-descriptions-item :label="$t('monitor.server.cpu.name')">
+            {{ data.cpu.name }}
+          </a-descriptions-item>
+          <a-descriptions-item :label="$t('monitor.server.cpu.number')">
+            {{ data.cpu.package }}
+          </a-descriptions-item>
+          <a-descriptions-item :label="$t('monitor.server.cpu.physical.number')">
+            {{ data.cpu.physical }}
+          </a-descriptions-item>
+          <a-descriptions-item :label="$t('monitor.server.cpu.logical.number')">
+            {{ data.cpu.logical }}
+          </a-descriptions-item>
         </a-descriptions>
       </a-card>
 
-      <a-card title="JVM信息" :bordered="false">
+      <a-card :title="$t('monitor.server.jvm.info')" :bordered="false">
         <a-descriptions size="middle" :column="2" bordered>
-          <a-descriptions-item label="JVM名称">{{ data.jvm.name }}</a-descriptions-item>
-          <a-descriptions-item label="JVM版本">{{ data.jvm.version }}</a-descriptions-item>
-          <a-descriptions-item label="JVM启动时间">{{ data.jvm.startTime }}</a-descriptions-item>
-          <a-descriptions-item label="JVM运行时长">{{ data.jvm.runTime }}</a-descriptions-item>
-          <a-descriptions-item label="Java版本">{{ data.jvm.javaVersion }}</a-descriptions-item>
-          <a-descriptions-item label="Java安装路径">{{ data.jvm.javaPath }}</a-descriptions-item>
-          <a-descriptions-item label="服务器路径" :span="2">{{ data.sys.userDir }}</a-descriptions-item>
-          <a-descriptions-item label="运行参数" :span="2">{{ data.jvm.inputArgs }}</a-descriptions-item>
+          <a-descriptions-item :label="$t('monitor.server.jvm.name')">
+            {{ data.jvm.name }}
+          </a-descriptions-item>
+          <a-descriptions-item :label="$t('monitor.server.jvm.version')">
+            {{ data.jvm.version }}
+          </a-descriptions-item>
+          <a-descriptions-item :label="$t('monitor.server.jvm.start.time')">
+            {{ data.jvm.startTime }}
+          </a-descriptions-item>
+          <a-descriptions-item :label="$t('monitor.server.jvm.run.time')">
+            {{ data.jvm.runTime }}
+          </a-descriptions-item>
+          <a-descriptions-item :label="$t('monitor.server.jvm.java.version')">
+            {{ data.jvm.javaVersion }}
+          </a-descriptions-item>
+          <a-descriptions-item :label="$t('monitor.server.jvm.java.path')">
+            {{ data.jvm.javaPath }}
+          </a-descriptions-item>
+          <a-descriptions-item :label="$t('monitor.server.jvm.server.path')" :span="2">
+            {{ data.sys.userDir }}
+          </a-descriptions-item>
+          <a-descriptions-item :label="$t('monitor.server.jvm.run.args')" :span="2">
+            {{ data.jvm.inputArgs }}
+          </a-descriptions-item>
         </a-descriptions>
       </a-card>
 
-      <a-card title="服务器信息" :bordered="false">
+      <a-card :title="$t('monitor.server.server.info')" :bordered="false">
         <a-descriptions size="middle" :column="2" bordered>
-          <a-descriptions-item label="服务器名称">{{ data.sys.name }}</a-descriptions-item>
-          <a-descriptions-item label="服务器操作系统">{{ data.sys.os }}</a-descriptions-item>
-          <a-descriptions-item label="服务器IP">{{ data.sys.ip }}</a-descriptions-item>
-          <a-descriptions-item label="服务器架构">{{ data.sys.arch }}</a-descriptions-item>
+          <a-descriptions-item :label="$t('monitor.server.server.name')">{{ data.sys.name }}</a-descriptions-item>
+          <a-descriptions-item :label="$t('monitor.server.server.os')">{{ data.sys.os }}</a-descriptions-item>
+          <a-descriptions-item :label="$t('monitor.server.server.ip')">{{ data.sys.ip }}</a-descriptions-item>
+          <a-descriptions-item :label="$t('monitor.server.server.arch')">{{ data.sys.arch }}</a-descriptions-item>
         </a-descriptions>
       </a-card>
 
-      <a-card title="磁盘状态" :bordered="false">
+      <a-card :title="$t('monitor.server.disk.status')" :bordered="false">
         <a-table
           :size="tableSize"
           rowKey="dir"
@@ -224,36 +260,36 @@ export default {
       dataTimeRange: {},
       fileColumns: [
         {
-          title: '盘符路径',
+          title: this.$t('monitor.server.disk.status.file.system.mountpoint'),
           dataIndex: 'dir',
           ellipsis: true
         },
         {
-          title: '文件系统',
+          title: this.$t('monitor.server.disk.status.file.system.type'),
           dataIndex: 'type'
         },
         {
-          title: '盘符名称',
+          title: this.$t('monitor.server.disk.status.file.system.name'),
           dataIndex: 'name',
           ellipsis: true
         },
         {
-          title: '总大小',
+          title: this.$t('monitor.server.disk.status.total'),
           dataIndex: 'total',
           scopedSlots: { customRender: 'total' }
         },
         {
-          title: '可用大小',
+          title: this.$t('monitor.server.disk.status.free'),
           dataIndex: 'free',
           scopedSlots: { customRender: 'free' }
         },
         {
-          title: '已用大小',
+          title: this.$t('monitor.server.disk.status.used'),
           dataIndex: 'used',
           scopedSlots: { customRender: 'used' }
         },
         {
-          title: '已用百分比',
+          title: this.$t('monitor.server.disk.status.usage'),
           dataIndex: 'usage',
           scopedSlots: { customRender: 'usage' }
         }
@@ -264,55 +300,55 @@ export default {
       endTime: '',
       timeRanges: [
         {
-          label: '近5分钟',
+          label: this.$t('monitor.server.recent.5m'),
           value: 'recent5m'
         },
         {
-          label: '近15分钟',
+          label: this.$t('monitor.server.recent.15m'),
           value: 'recent15m'
         },
         {
-          label: '近30分钟',
+          label: this.$t('monitor.server.recent.30m'),
           value: 'recent30m'
         },
         {
-          label: '近1小时',
+          label: this.$t('monitor.server.recent.1h'),
           value: 'recent1h'
         },
         {
-          label: '近3小时',
+          label: this.$t('monitor.server.recent.3h'),
           value: 'recent3h'
         },
         {
-          label: '近6小时',
+          label: this.$t('monitor.server.recent.6h'),
           value: 'recent6h'
         },
         {
-          label: '近12小时',
+          label: this.$t('monitor.server.recent.12h'),
           value: 'recent12h'
         },
         {
-          label: '近24小时',
+          label: this.$t('monitor.server.recent.24h'),
           value: 'recent24h'
         },
         {
-          label: '当日',
+          label: this.$t('monitor.server.today'),
           value: 'today'
         },
         {
-          label: '近两天',
+          label: this.$t('monitor.server.recent.2d'),
           value: 'recent2d'
         },
         {
-          label: '近七天',
+          label: this.$t('monitor.server.recent.7d'),
           value: 'recent7d'
         },
         {
-          label: '近一月',
+          label: this.$t('monitor.server.recent.1month'),
           value: 'recent1month'
         },
         {
-          label: '近三月',
+          label: this.$t('monitor.server.recent.3month'),
           value: 'recent3month'
         }
       ]
@@ -579,7 +615,7 @@ export default {
           containLabel: true
         },
         title: {
-          text: 'CPU使用率',
+          text: this.$t('monitor.server.cpu.usage'),
           left: 'center',
           textStyle: {
             fontSize: 15,
@@ -593,7 +629,7 @@ export default {
               // cpu实时数据
               const totalTips = params[0]
               const totalValue = totalTips.value ? totalTips.value[1] + '%' : ''
-              return '时刻' + '：' + totalTips.name.toLocaleString() + '  ' + '使用率' + '：' + totalValue
+              return self.$t('monitor.server.time.usage', { time: totalTips.name.toLocaleString(), usage: totalValue })
             }
           },
           axisPointer: {
@@ -670,7 +706,7 @@ export default {
         ],
         series: [
           {
-            name: '使用率',
+            name: this.$t('monitor.server.usage'),
             type: 'line',
             smooth: true,
             showSymbol: false,
@@ -689,7 +725,7 @@ export default {
               data: [
                 {
                   type: 'max',
-                  name: '最大值'
+                  name: this.$t('monitor.server.maximum')
                 }
               ],
               itemStyle: {
@@ -709,7 +745,7 @@ export default {
       self.memoryRecords = []
       const option = {
         title: {
-          text: '内存使用率',
+          text: this.$t('monitor.server.memory.usage'),
           subtext: '',
           left: 'center',
           textStyle: {
@@ -730,7 +766,7 @@ export default {
               // cpu实时数据
               const totalTips = params[0]
               const totalValue = totalTips.value ? totalTips.value[1] + '%' : ''
-              return '时刻' + '：' + totalTips.name.toLocaleString() + '  ' + '使用率' + '：' + totalValue
+              return self.$t('monitor.server.time.usage', { time: totalTips.name.toLocaleString(), usage: totalValue })
             }
           },
           axisPointer: {
@@ -807,7 +843,7 @@ export default {
         ],
         series: [
           {
-            name: '使用率',
+            name: this.$t('monitor.server.usage'),
             type: 'line',
             data: self.memoryRecords,
             smooth: true,
@@ -826,7 +862,7 @@ export default {
               data: [
                 {
                   type: 'max',
-                  name: '最大值'
+                  name: this.$t('monitor.server.maximum')
                 }
               ],
               itemStyle: {
@@ -850,7 +886,7 @@ export default {
       }
       const option = {
         title: {
-          text: '磁盘读写速度',
+          text: this.$t('monitor.server.disk.read.write.speed'),
           subtext: '',
           left: 'center',
           textStyle: {
@@ -874,19 +910,11 @@ export default {
               // 写入数据
               const writeTips = params[1]
               const writeValue = writeTips.value ? writeTips.value[1] + 'Kb/s' : ''
-              return (
-                '时刻' +
-                '：' +
-                writeTips.name.toLocaleString() +
-                '  ' +
-                '读取速度' +
-                '：' +
-                readValue +
-                '  ' +
-                '写入速度' +
-                '：' +
-                writeValue
-              )
+              return self.$t('monitor.server.disk.time.usage', {
+                time: writeTips.name.toLocaleString(),
+                read: readValue,
+                write: writeValue
+              })
             }
           },
           axisPointer: {
@@ -896,7 +924,7 @@ export default {
         },
         color: ['#03a9f4', '#4CAF50'],
         legend: {
-          data: ['读取速度', '写入速度'],
+          data: [this.$t('monitor.server.disk.read.speed'), this.$t('monitor.server.disk.write.speed')],
           y: 'top',
           orient: 'vertical',
           right: '24px',
@@ -973,7 +1001,7 @@ export default {
         series: [
           // 读取速度
           {
-            name: '读取速度',
+            name: this.$t('monitor.server.disk.read.speed'),
             type: 'line',
             smooth: true,
             showSymbol: false,
@@ -992,7 +1020,7 @@ export default {
               data: [
                 {
                   type: 'max',
-                  name: '写入速度'
+                  name: this.$t('monitor.server.maximum')
                 }
               ],
               itemStyle: {
@@ -1003,7 +1031,7 @@ export default {
           },
           // 写入速度
           {
-            name: '写入速度',
+            name: this.$t('monitor.server.disk.write.speed'),
             type: 'line',
             smooth: true,
             showSymbol: false,
@@ -1022,7 +1050,7 @@ export default {
               data: [
                 {
                   type: 'max',
-                  name: '最大值'
+                  name: this.$t('monitor.server.maximum')
                 }
               ],
               itemStyle: {
@@ -1047,7 +1075,7 @@ export default {
       // 设置参数
       const option = {
         title: {
-          text: '网络传输速率',
+          text: this.$t('monitor.server.network.trans.rate'),
           subtext: '',
           left: 'center',
           textStyle: {
@@ -1071,19 +1099,11 @@ export default {
               // 接收数据
               const receiveTips = params[1]
               const receiveValue = receiveTips.value ? receiveTips.value[1] + 'Kb/s' : ''
-              return (
-                '时刻' +
-                '：' +
-                sendTips.name.toLocaleString() +
-                '  ' +
-                '发送速率' +
-                '：' +
-                sendValue +
-                '  ' +
-                '接收速率' +
-                '：' +
-                receiveValue
-              )
+              return self.$t('monitor.server.network.time.usage', {
+                time: sendTips.name.toLocaleString(),
+                send: sendValue,
+                receive: receiveValue
+              })
             }
           },
           axisPointer: {
@@ -1093,7 +1113,7 @@ export default {
         },
         color: ['#03a9f4', '#4CAF50'],
         legend: {
-          data: ['发送速率', '接收速率'],
+          data: [this.$t('monitor.server.network.send.rate'), this.$t('monitor.server.network.receive.rate')],
           y: 'top',
           orient: 'vertical',
           right: '24px',
@@ -1170,7 +1190,7 @@ export default {
         series: [
           // 发送速率
           {
-            name: '发送速率',
+            name: this.$t('monitor.server.network.send.rate'),
             type: 'line',
             smooth: true,
             showSymbol: false,
@@ -1189,7 +1209,7 @@ export default {
               data: [
                 {
                   type: 'max',
-                  name: '最大值'
+                  name: this.$t('monitor.server.network.send.maximum')
                 }
               ],
               itemStyle: {
@@ -1200,7 +1220,7 @@ export default {
           },
           // 接收速率
           {
-            name: '接收速率',
+            name: this.$t('monitor.server.network.receive.rate'),
             type: 'line',
             smooth: true,
             showSymbol: false,
@@ -1219,7 +1239,7 @@ export default {
               data: [
                 {
                   type: 'max',
-                  name: '最大值'
+                  name: this.$t('monitor.server.network.send.maximum')
                 }
               ],
               itemStyle: {

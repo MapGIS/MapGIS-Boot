@@ -274,7 +274,7 @@ export default {
       },
       columns: [
         {
-          title: '用户编号',
+          title: this.$t('id.suffix', { content: this.$t('user') }),
           dataIndex: 'userId',
           width: '8%',
           align: 'center',
@@ -315,13 +315,13 @@ export default {
           visible: false
         },
         {
-          title: '上次登录地址',
+          title: this.$t('security.user.last.login.address'),
           dataIndex: 'loginIp',
           align: 'center',
           visible: false
         },
         {
-          title: '上次登录时间',
+          title: this.$t('security.user.last.login.time'),
           dataIndex: 'loginDate',
           align: 'center',
           visible: false

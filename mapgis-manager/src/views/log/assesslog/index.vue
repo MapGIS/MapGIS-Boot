@@ -6,12 +6,16 @@
         <a-form layout="inline">
           <a-row :gutter="48">
             <a-col :md="8" :sm="24">
-              <a-form-item label="客户端IP" prop="ipaddr">
-                <a-input v-model="queryParam.ipaddr" placeholder="请输入客户端IP" allow-clear />
+              <a-form-item :label="$t('client.ip')" prop="ipaddr">
+                <a-input
+                  v-model="queryParam.ipaddr"
+                  :placeholder="$t('please.prefix.input', { content: $t('client.ip') })"
+                  allow-clear
+                />
               </a-form-item>
             </a-col>
             <a-col :md="8" :sm="24">
-              <a-form-item label="开始时间">
+              <a-form-item :label="$t('start.time')">
                 <a-range-picker
                   style="width: 100%"
                   v-model="daterangeAccessTime"
@@ -23,8 +27,12 @@
             </a-col>
             <template v-if="advanced">
               <a-col :md="8" :sm="24">
-                <a-form-item label="返回状态码" prop="responseStatus">
-                  <a-input v-model="queryParam.responseStatus" placeholder="请输入返回状态码" allow-clear />
+                <a-form-item :label="$t('return.status.code')" prop="responseStatus">
+                  <a-input
+                    v-model="queryParam.responseStatus"
+                    :placeholder="$t('please.prefix.input', { content: $t('return.status.code') })"
+                    allow-clear
+                  />
                 </a-form-item>
               </a-col>
             </template>
@@ -117,7 +125,7 @@ export default {
       },
       columns: [
         {
-          title: '开始时间',
+          title: this.$t('start.time'),
           dataIndex: 'accessTime',
           scopedSlots: { customRender: 'accessTime' },
           ellipsis: true,
@@ -125,26 +133,26 @@ export default {
           align: 'center'
         },
         {
-          title: '客户端IP',
+          title: this.$t('client.ip'),
           dataIndex: 'ipaddr',
           ellipsis: true,
           width: '12%',
           align: 'center'
         },
         {
-          title: '请求URL',
+          title: this.$t('request.url'),
           dataIndex: 'url',
           ellipsis: true,
           align: 'center'
         },
         {
-          title: '请求参数',
+          title: this.$t('request.params'),
           dataIndex: 'queryString',
           ellipsis: true,
           align: 'center'
         },
         {
-          title: '返回状态码',
+          title: this.$t('return.status.code'),
           dataIndex: 'responseStatus',
           ellipsis: true,
           width: '8%',
