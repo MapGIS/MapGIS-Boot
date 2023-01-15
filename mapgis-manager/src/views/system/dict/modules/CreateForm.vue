@@ -9,13 +9,13 @@
     @cancel="onClose"
   >
     <a-form-model ref="form" :model="form" :rules="rules" v-bind="formLayout">
-      <a-form-model-item label="字典名称" prop="dictName">
+      <a-form-model-item :label="$t('dict.name')" prop="dictName">
         <a-input v-model="form.dictName" placeholder="请输入字典名称" />
       </a-form-model-item>
       <a-form-model-item label="字典类型" prop="dictType">
         <a-input v-model="form.dictType" placeholder="请输入字典类型" />
       </a-form-model-item>
-      <a-form-model-item label="状态" prop="status">
+      <a-form-model-item :label="$t('status')" prop="status">
         <a-select :placeholder="$t('please.select')" v-model="form.status">
           <a-select-option v-for="(d, index) in statusOptions" :key="index" :value="d.dictValue">{{
             d.dictLabel

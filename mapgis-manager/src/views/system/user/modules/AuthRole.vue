@@ -66,7 +66,7 @@ export default {
           align: 'center'
         },
         {
-          title: '角色名称',
+          title: this.$t('role.name'),
           dataIndex: 'roleName',
           ellipsis: true,
           align: 'center'
@@ -78,7 +78,7 @@ export default {
           align: 'center'
         },
         {
-          title: '创建时间',
+          title: this.$t('create.time'),
           dataIndex: 'createTime',
           scopedSlots: { customRender: 'createTime' },
           align: 'center'

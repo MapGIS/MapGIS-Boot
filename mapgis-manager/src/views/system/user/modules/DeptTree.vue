@@ -1,6 +1,11 @@
 <template>
   <div>
-    <a-input-search style="margin-bottom: 8px" placeholder="请输入部门名称" @change="filterNode" />
+    <a-input-search
+      style="margin-bottom: 8px"
+      :title="$t('security.user.please.input.department.name')"
+      :placeholder="$t('security.user.please.input.department.name')"
+      @change="filterNode"
+    />
     <a-tree
       :expanded-keys="expandedKeys"
       :auto-expand-parent="autoExpandParent"

@@ -23,7 +23,7 @@
           :disabled="form.configId !== undefined || isDefaultAuthType(form.type)"
         />
       </a-form-model-item>
-      <a-form-model-item label="登录名称" prop="name">
+      <a-form-model-item :label="$t('login.name')" prop="name">
         <a-input v-model="form.name" placeholder="请输入登录名称" />
       </a-form-model-item>
       <div style="display: flex; flex-flow: row-reverse">
@@ -59,7 +59,7 @@
           </div>
         </a-upload>
       </a-form-model-item>
-      <a-form-model-item label="状态" prop="status">
+      <a-form-model-item :label="$t('status')" prop="status">
         <a-radio-group v-model="form.status" button-style="solid">
           <a-radio-button v-for="(d, index) in statusOptions" :key="index" :value="d.dictValue">{{
             d.dictLabel

@@ -9,7 +9,7 @@
     @cancel="onClose"
   >
     <a-form-model ref="form" :model="form" :rules="rules" v-bind="formLayout">
-      <a-form-model-item label="参数名称" prop="configName">
+      <a-form-model-item :label="$t('config.name')" prop="configName">
         <a-input v-model="form.configName" :placeholder="$t('please.input')" />
       </a-form-model-item>
       <a-form-model-item label="参数键名" prop="configKey">

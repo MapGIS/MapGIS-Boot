@@ -6,12 +6,12 @@
         <a-form layout="inline">
           <a-row :gutter="48">
             <a-col :md="8" :sm="24">
-              <a-form-item label="用户组名称" prop="userGroupName">
+              <a-form-item :label="$t('usergroup.name')" prop="userGroupName">
                 <a-input v-model="queryParam.userGroupName" placeholder="请输入用户组名称" allow-clear />
               </a-form-item>
             </a-col>
             <a-col :md="8" :sm="24">
-              <a-form-item label="创建时间">
+              <a-form-item :label="$t('create.time')">
                 <a-range-picker
                   style="width: 100%"
                   v-model="daterangeCreateTime"
@@ -151,7 +151,7 @@ export default {
           visible: false
         },
         {
-          title: '用户组名称',
+          title: this.$t('usergroup.name'),
           dataIndex: 'userGroupName',
           ellipsis: true,
           align: 'center'

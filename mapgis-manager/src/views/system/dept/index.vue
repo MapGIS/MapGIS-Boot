@@ -6,7 +6,7 @@
         <a-form layout="inline">
           <a-row :gutter="48">
             <a-col :md="8" :sm="24">
-              <a-form-item label="部门名称">
+              <a-form-item :label="$t('department.name')">
                 <a-input v-model="queryParam.deptName" :placeholder="$t('please.input')" allow-clear />
               </a-form-item>
             </a-col>
@@ -89,7 +89,7 @@ export default {
       },
       columns: [
         {
-          title: '部门名称',
+          title: this.$t('department.name'),
           dataIndex: 'deptName'
         },
         {
@@ -98,7 +98,7 @@ export default {
           align: 'center'
         },
         {
-          title: '创建时间',
+          title: this.$t('create.time'),
           dataIndex: 'createTime',
           ellipsis: true,
           scopedSlots: { customRender: 'createTime' },

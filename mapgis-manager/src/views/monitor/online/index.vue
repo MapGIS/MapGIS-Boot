@@ -11,7 +11,7 @@
               </a-form-item>
             </a-col>
             <a-col :md="8" :sm="24">
-              <a-form-item label="用户名称">
+              <a-form-item :label="$t('username')">
                 <a-input v-model="queryParam.userName" placeholder="请输入用户名称" allow-clear />
               </a-form-item>
             </a-col>
@@ -108,12 +108,12 @@ export default {
           align: 'center'
         },
         {
-          title: '登录名称',
+          title: this.$t('login.name'),
           dataIndex: 'userName',
           align: 'center'
         },
         {
-          title: '部门名称',
+          title: this.$t('department.name'),
           dataIndex: 'deptName',
           align: 'center'
         },

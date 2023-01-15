@@ -21,7 +21,7 @@
       <a-form-model-item label="显示排序" prop="dictSort">
         <a-input-number v-model="form.dictSort" :min="0" style="width: 100%" />
       </a-form-model-item>
-      <a-form-model-item label="状态" prop="status">
+      <a-form-model-item :label="$t('status')" prop="status">
         <a-select :placeholder="$t('please.select')" v-model="form.status">
           <a-select-option v-for="(d, index) in statusOptions" :key="index" :value="d.dictValue">{{
             d.dictLabel

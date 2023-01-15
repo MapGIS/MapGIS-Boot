@@ -9,7 +9,7 @@
     @cancel="onClose"
   >
     <a-form-model ref="form" :model="form" :rules="rules" v-bind="formLayout">
-      <a-form-model-item label="岗位名称" prop="postName">
+      <a-form-model-item :label="$t('post.name')" prop="postName">
         <a-input v-model="form.postName" :placeholder="$t('please.input')" />
       </a-form-model-item>
       <a-form-model-item label="岗位编码" prop="postCode">

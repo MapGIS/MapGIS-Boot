@@ -6,7 +6,7 @@
         <a-form layout="inline">
           <a-row :gutter="48">
             <a-col :md="8" :sm="24">
-              <a-form-item label="角色名">
+              <a-form-item :label="$t('role.name')">
                 <a-input v-model="queryParam.roleName" :placeholder="$t('please.input')" allow-clear />
               </a-form-item>
             </a-col>
@@ -17,7 +17,7 @@
             </a-col>
             <template v-if="advanced">
               <a-col :md="8" :sm="24">
-                <a-form-item label="创建时间">
+                <a-form-item :label="$t('create.time')">
                   <a-range-picker
                     style="width: 100%"
                     v-model="dateRange"
@@ -195,7 +195,7 @@ export default {
           visible: false
         },
         {
-          title: '角色名',
+          title: this.$t('role.name'),
           dataIndex: 'roleName',
           width: '18%',
           ellipsis: true,
@@ -220,7 +220,7 @@ export default {
           align: 'left'
         },
         {
-          title: '创建时间',
+          title: this.$t('create.time'),
           dataIndex: 'createTime',
           scopedSlots: { customRender: 'createTime' },
           align: 'center',

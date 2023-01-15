@@ -83,7 +83,7 @@
           </a-select-option>
         </a-select>
       </a-form-model-item>
-      <a-form-model-item label="状态" prop="status">
+      <a-form-model-item :label="$t('status')" prop="status">
         <a-radio-group v-model="form.status" button-style="solid">
           <a-radio-button v-for="(d, index) in statusOptions" :key="index" :value="d.dictValue">{{
             d.dictLabel
@@ -274,7 +274,7 @@ export default {
         this.roleOptions = response.roles
         this.userGroupOptions = response.userGroups
         this.open = true
-        this.formTitle = '新增用户'
+        this.formTitle = this.$t('add.suffix', { content: this.$t('user') })
         if (this.useInitPassword) {
           this.form.password = this.initPassword
         }
@@ -294,7 +294,7 @@ export default {
         this.form.roleIds = response.roleIds
         this.form.userGroupIds = response.userGroupIds
         this.open = true
-        this.formTitle = '修改用户'
+        this.formTitle = this.$t('modify.suffix', { content: this.$t('user') })
         this.form.password = ''
       })
     },

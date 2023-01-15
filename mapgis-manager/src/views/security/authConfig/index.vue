@@ -11,7 +11,7 @@
               </a-form-item>
             </a-col>
             <a-col :md="8" :sm="24">
-              <a-form-item label="登录名称" prop="name">
+              <a-form-item :label="$t('login.name')" prop="name">
                 <a-input v-model="queryParam.name" placeholder="请输入登录名称" allow-clear />
               </a-form-item>
             </a-col>
@@ -154,7 +154,7 @@ export default {
           align: 'center'
         },
         {
-          title: '登录名称',
+          title: this.$t('login.name'),
           dataIndex: 'name',
           width: '15%',
           align: 'center'
@@ -172,7 +172,7 @@ export default {
           align: 'center'
         },
         {
-          title: '状态',
+          title: this.$t('status'),
           dataIndex: 'status',
           scopedSlots: { customRender: 'status' },
           width: '6%',

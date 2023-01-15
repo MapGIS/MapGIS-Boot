@@ -12,13 +12,18 @@
             <a-form layout="inline">
               <a-row :gutter="48">
                 <a-col :md="8" :sm="24">
-                  <a-form-item label="用户名称">
+                  <a-form-item :label="$t('username')">
                     <a-input v-model="queryParam.userName" :placeholder="$t('please.input')" allow-clear />
                   </a-form-item>
                 </a-col>
                 <a-col :md="8" :sm="24">
                   <a-form-item :label="$t('role')">
-                    <a-select placeholder="请选择角色" v-model="queryParam.roleId" style="width: 100%" allow-clear>
+                    <a-select
+                      :placeholder="$t('please.prefix.select', { content: $t('role') })"
+                      v-model="queryParam.roleId"
+                      style="width: 100%"
+                      allow-clear
+                    >
                       <a-select-option v-for="(r, index) in roleOptions" :key="index" :value="r.roleId">{{
                         r.roleName
                       }}</a-select-option>
@@ -27,8 +32,13 @@
                 </a-col>
                 <template v-if="advanced">
                   <a-col :md="8" :sm="24">
-                    <a-form-item label="状态" prop="status">
-                      <a-select placeholder="请选择状态" v-model="queryParam.status" style="width: 100%" allow-clear>
+                    <a-form-item :label="$t('status')" prop="status">
+                      <a-select
+                        :placeholder="$t('please.prefix.select', { content: $t('status') })"
+                        v-model="queryParam.status"
+                        style="width: 100%"
+                        allow-clear
+                      >
                         <a-select-option v-for="(d, index) in statusOptions" :key="index" :value="d.dictValue">{{
                           d.dictLabel
                         }}</a-select-option>
@@ -36,7 +46,7 @@
                     </a-form-item>
                   </a-col>
                   <a-col :md="8" :sm="24">
-                    <a-form-item label="创建时间">
+                    <a-form-item :label="$t('create.time')">
                       <a-range-picker
                         style="width: 100%"
                         v-model="dateRange"
@@ -271,35 +281,35 @@ export default {
           visible: false
         },
         {
-          title: '用户名',
+          title: this.$t('username'),
           dataIndex: 'userName',
           align: 'center'
         },
         {
-          title: '用户昵称',
+          title: this.$t('user.nickname'),
           dataIndex: 'nickName',
           align: 'center'
         },
         {
-          title: '部门',
+          title: this.$t('department'),
           dataIndex: 'dept.deptName',
           scopedSlots: { customRender: 'dept.deptName' },
           align: 'center'
         },
         {
-          title: '角色',
+          title: this.$t('role'),
           dataIndex: 'roles',
           scopedSlots: { customRender: 'roleNames' },
           align: 'center'
         },
         {
-          title: '创建时间',
+          title: this.$t('create.time'),
           dataIndex: 'createTime',
           align: 'center',
           visible: false
         },
         {
-          title: '修改时间',
+          title: this.$t('update.time'),
           dataIndex: 'updateTime',
           align: 'center',
           visible: false
@@ -317,13 +327,13 @@ export default {
           visible: false
         },
         {
-          title: '用户信息',
+          title: this.$t('user.info'),
           dataIndex: 'remark',
           align: 'center',
           visible: false
         },
         {
-          title: '状态',
+          title: this.$t('status'),
           dataIndex: 'status',
           scopedSlots: { customRender: 'status' },
           width: '6%',

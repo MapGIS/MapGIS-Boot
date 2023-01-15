@@ -26,7 +26,7 @@
                 </a-form-item>
               </a-col>
               <a-col :md="8" :sm="24">
-                <a-form-item label="状态">
+                <a-form-item :label="$t('status')">
                   <a-select placeholder="操作状态" v-model="queryParam.status" style="width: 100%" allow-clear>
                     <a-select-option v-for="(d, index) in statusOptions" :key="index" :value="d.dictValue">{{
                       d.dictLabel

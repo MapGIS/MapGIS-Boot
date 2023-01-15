@@ -26,7 +26,7 @@
         >
         </a-tree-select>
       </a-form-model-item>
-      <a-form-model-item label="部门名称" prop="deptName">
+      <a-form-model-item :label="$t('department.name')" prop="deptName">
         <a-input v-model="form.deptName" :placeholder="$t('please.input')" />
       </a-form-model-item>
       <a-form-model-item label="排序" prop="orderNum">

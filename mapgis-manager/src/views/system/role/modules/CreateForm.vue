@@ -9,7 +9,7 @@
     @cancel="onClose"
   >
     <a-form-model ref="form" :model="form" :rules="rules" v-bind="formLayout">
-      <a-form-model-item label="角色名称" prop="roleName">
+      <a-form-model-item :label="$t('role.name')" prop="roleName">
         <a-input v-model="form.roleName" :placeholder="$t('please.input')" :disabled="updateDisable" />
       </a-form-model-item>
       <a-form-model-item prop="roleKey">

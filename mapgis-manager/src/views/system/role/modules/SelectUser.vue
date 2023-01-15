@@ -15,7 +15,7 @@
           <a-form layout="inline">
             <a-row :gutter="48">
               <a-col :md="8" :sm="24">
-                <a-form-item label="用户名称">
+                <a-form-item :label="$t('username')">
                   <a-input v-model="queryParam.userName" :placeholder="$t('please.input')" allow-clear />
                 </a-form-item>
               </a-col>
@@ -109,7 +109,7 @@ export default {
       // 表格属性
       columns: [
         {
-          title: '用户名称',
+          title: this.$t('username'),
           dataIndex: 'userName',
           align: 'center'
         },
@@ -120,13 +120,13 @@ export default {
           align: 'center'
         },
         {
-          title: '状态',
+          title: this.$t('status'),
           dataIndex: 'status',
           scopedSlots: { customRender: 'status' },
           align: 'center'
         },
         {
-          title: '创建时间',
+          title: this.$t('create.time'),
           dataIndex: 'createTime',
           scopedSlots: { customRender: 'createTime' },
           ellipsis: true,

@@ -9,7 +9,7 @@
     @cancel="onClose"
   >
     <a-form-model ref="form" :model="form" :rules="rules" v-bind="formLayout">
-      <a-form-model-item label="用户组名称" prop="userGroupName">
+      <a-form-model-item :label="$t('usergroup.name')" prop="userGroupName">
         <a-input v-model="form.userGroupName" placeholder="请输入用户组名称" />
       </a-form-model-item>
       <a-form-model-item label="成员" prop="userIds">

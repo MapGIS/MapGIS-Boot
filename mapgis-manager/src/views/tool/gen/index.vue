@@ -17,7 +17,7 @@
             </a-col>
             <template v-if="advanced">
               <a-col :md="8" :sm="24">
-                <a-form-item label="创建时间">
+                <a-form-item :label="$t('create.time')">
                   <a-range-picker
                     style="width: 100%"
                     v-model="dateRange"
@@ -211,7 +211,7 @@ export default {
           align: 'center'
         },
         {
-          title: '创建时间',
+          title: this.$t('create.time'),
           dataIndex: 'createTime',
           ellipsis: true,
           scopedSlots: { customRender: 'createTime' },

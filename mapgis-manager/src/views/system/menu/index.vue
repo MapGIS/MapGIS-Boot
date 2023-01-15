@@ -6,12 +6,12 @@
         <a-form layout="inline">
           <a-row :gutter="48">
             <a-col :md="8" :sm="24">
-              <a-form-item label="菜单名称">
+              <a-form-item :label="$t('menu.name')">
                 <a-input v-model="queryParam.menuName" :placeholder="$t('please.input')" allow-clear />
               </a-form-item>
             </a-col>
             <a-col :md="8" :sm="24">
-              <a-form-item label="状态">
+              <a-form-item :label="$t('status')">
                 <a-select
                   :placeholder="$t('please.select')"
                   v-model="queryParam.status"
@@ -124,7 +124,7 @@ export default {
       },
       columns: [
         {
-          title: '菜单名称',
+          title: this.$t('menu.name'),
           dataIndex: 'menuName',
           ellipsis: true,
           width: '15%'
@@ -156,13 +156,13 @@ export default {
           align: 'center'
         },
         {
-          title: '状态',
+          title: this.$t('status'),
           dataIndex: 'status',
           scopedSlots: { customRender: 'status' },
           align: 'center'
         },
         {
-          title: '创建时间',
+          title: this.$t('create.time'),
           dataIndex: 'createTime',
           ellipsis: true,
           scopedSlots: { customRender: 'createTime' },

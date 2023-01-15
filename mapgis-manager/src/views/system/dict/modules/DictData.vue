@@ -129,7 +129,7 @@ export default {
           align: 'center'
         },
         {
-          title: '状态',
+          title: this.$t('status'),
           dataIndex: 'status',
           scopedSlots: { customRender: 'status' },
           align: 'center'
@@ -141,7 +141,7 @@ export default {
           align: 'center'
         },
         {
-          title: '创建时间',
+          title: this.$t('create.time'),
           dataIndex: 'createTime',
           ellipsis: true,
           scopedSlots: { customRender: 'createTime' },

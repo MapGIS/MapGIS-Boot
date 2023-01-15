@@ -6,7 +6,7 @@
         <a-form layout="inline">
           <a-row :gutter="48">
             <a-col :md="8" :sm="24">
-              <a-form-item label="参数名称">
+              <a-form-item :label="$t('config.name')">
                 <a-input v-model="queryParam.configName" :placeholder="$t('please.input')" allow-clear />
               </a-form-item>
             </a-col>
@@ -31,7 +31,7 @@
                 </a-form-item>
               </a-col>
               <a-col :md="8" :sm="24">
-                <a-form-item label="创建时间">
+                <a-form-item :label="$t('create.time')">
                   <a-range-picker
                     style="width: 100%"
                     v-model="dateRange"
@@ -182,7 +182,7 @@ export default {
           align: 'center'
         },
         {
-          title: '参数名称',
+          title: this.$t('config.name'),
           dataIndex: 'configName',
           ellipsis: true,
           align: 'center'
@@ -212,7 +212,7 @@ export default {
           align: 'center'
         },
         {
-          title: '创建时间',
+          title: this.$t('create.time'),
           dataIndex: 'createTime',
           scopedSlots: { customRender: 'createTime' },
           ellipsis: true,

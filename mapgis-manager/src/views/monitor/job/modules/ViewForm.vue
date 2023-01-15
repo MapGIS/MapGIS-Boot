@@ -10,7 +10,7 @@
       <a-descriptions-item label="任务名称">
         {{ form.jobName }}
       </a-descriptions-item>
-      <a-descriptions-item label="创建时间">
+      <a-descriptions-item :label="$t('create.time')">
         {{ form.createTime }}
       </a-descriptions-item>
       <a-descriptions-item label="下次执行时间" span="2">

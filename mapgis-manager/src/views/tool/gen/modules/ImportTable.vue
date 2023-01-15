@@ -113,7 +113,7 @@ export default {
           align: 'center'
         },
         {
-          title: '创建时间',
+          title: this.$t('create.time'),
           dataIndex: 'createTime',
           scopedSlots: { customRender: 'createTime' },
           align: 'center'

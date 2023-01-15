@@ -33,13 +33,13 @@
 #if($column.htmlType == "input")
             ${querySpace}<a-col :md="8" :sm="24">
               ${querySpace}<a-form-item label="${comment}" prop="${column.javaField}">
-                ${querySpace}<a-input v-model="queryParam.${column.javaField}" placeholder="请输入${comment}" allow-clear />
+                ${querySpace}<a-input v-model="queryParam.${column.javaField}" :placeholder="$t('please.prefix.input', { content: '${comment}'})" allow-clear />
               ${querySpace}</a-form-item>
             ${querySpace}</a-col>
 #elseif(($column.htmlType == "select" || $column.htmlType == "radio") && "" != $dictType)
             ${querySpace}<a-col :md="8" :sm="24">
               ${querySpace}<a-form-item label="${comment}" prop="${column.javaField}">
-                ${querySpace}<a-select placeholder="请选择${comment}" v-model="queryParam.${column.javaField}" style="width: 100%" allow-clear>
+                ${querySpace}<a-select :placeholder="$t('please.prefix.select', { content: '${comment}'})" v-model="queryParam.${column.javaField}" style="width: 100%" allow-clear>
                   ${querySpace}<a-select-option v-for="(d, index) in ${column.javaField}Options" :key="index" :value="d.dictValue">{{ d.dictLabel }}</a-select-option>
                 ${querySpace}</a-select>
               ${querySpace}</a-form-item>
@@ -47,7 +47,7 @@
 #elseif(($column.htmlType == "select" || $column.htmlType == "radio") && $dictType)
             ${querySpace}<a-col :md="8" :sm="24">
               ${querySpace}<a-form-item label="${comment}" prop="${column.javaField}">
-                ${querySpace}<a-select placeholder="请选择${comment}" v-model="queryParam.${column.javaField}" style="width: 100%" allow-clear>
+                ${querySpace}<a-select :placeholder="$t('please.prefix.select', { content: '${comment}'})" v-model="queryParam.${column.javaField}" style="width: 100%" allow-clear>
                   ${querySpace}<a-select-option>{{ $t('please.select.dict.gen') }}</a-select-option>
                 ${querySpace}</a-select>
               ${querySpace}</a-form-item>

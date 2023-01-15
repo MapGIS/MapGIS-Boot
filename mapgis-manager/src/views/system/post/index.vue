@@ -11,7 +11,7 @@
               </a-form-item>
             </a-col>
             <a-col :md="8" :sm="24">
-              <a-form-item label="岗位名称">
+              <a-form-item :label="$t('post.name')">
                 <a-input v-model="queryParam.postName" :placeholder="$t('please.input')" allow-clear />
               </a-form-item>
             </a-col>
@@ -142,7 +142,7 @@ export default {
           align: 'center'
         },
         {
-          title: '岗位名称',
+          title: this.$t('post.name'),
           dataIndex: 'postName',
           ellipsis: true,
           align: 'center'
@@ -153,7 +153,7 @@ export default {
           align: 'center'
         },
         {
-          title: '创建时间',
+          title: this.$t('create.time'),
           dataIndex: 'createTime',
           ellipsis: true,
           scopedSlots: { customRender: 'createTime' },

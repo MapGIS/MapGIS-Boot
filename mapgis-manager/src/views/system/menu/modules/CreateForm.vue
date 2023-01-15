@@ -48,7 +48,7 @@
       <a-card :body-style="{ padding: '10px 20px' }" :bordered="false" v-if="iconVisible">
         <icon-selector v-model="form.icon" @change="handleIconChange" :svgIcons="iconList" :allIcon="allIcon" />
       </a-card>
-      <a-form-model-item label="菜单名称" prop="menuName">
+      <a-form-model-item :label="$t('menu.name')" prop="menuName">
         <a-input v-model="form.menuName" :placeholder="$t('please.input')" />
       </a-form-model-item>
       <a-form-model-item label="排序" prop="orderNum">

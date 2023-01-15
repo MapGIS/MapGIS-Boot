@@ -235,7 +235,7 @@ export default {
           align: 'center'
         },
         {
-          title: '状态',
+          title: this.$t('status'),
           dataIndex: 'status',
           scopedSlots: { customRender: 'status' },
           align: 'center'

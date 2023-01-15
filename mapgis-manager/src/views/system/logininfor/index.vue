@@ -11,7 +11,7 @@
               </a-form-item>
             </a-col>
             <a-col :md="8" :sm="24">
-              <a-form-item label="状态">
+              <a-form-item :label="$t('status')">
                 <a-select placeholder="请选择状态" v-model="queryParam.status" style="width: 100%" allow-clear>
                   <a-select-option v-for="(d, index) in statusOptions" :key="index" :value="d.dictValue">{{
                     d.dictLabel
@@ -21,7 +21,7 @@
             </a-col>
             <template v-if="advanced">
               <a-col :md="8" :sm="24">
-                <a-form-item label="登录名称">
+                <a-form-item :label="$t('login.name')">
                   <a-input v-model="queryParam.loginName" style="width: 100%" allow-clear />
                 </a-form-item>
               </a-col>
@@ -156,7 +156,7 @@ export default {
           align: 'center'
         },
         {
-          title: '用户名称',
+          title: this.$t('username'),
           dataIndex: 'userName',
           align: 'center'
         },

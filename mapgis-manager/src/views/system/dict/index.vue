@@ -6,7 +6,7 @@
         <a-form layout="inline">
           <a-row :gutter="48">
             <a-col :md="8" :sm="24">
-              <a-form-item label="字典名称">
+              <a-form-item :label="$t('dict.name')">
                 <a-input v-model="queryParam.dictName" placeholder="请输入字典名称" allow-clear />
               </a-form-item>
             </a-col>
@@ -17,7 +17,7 @@
             </a-col>
             <template v-if="advanced">
               <a-col :md="8" :sm="24">
-                <a-form-item label="状态">
+                <a-form-item :label="$t('status')">
                   <a-select placeholder="字典状态" v-model="queryParam.status" style="width: 100%">
                     <a-select-option v-for="(d, index) in statusOptions" :key="index" :value="d.dictValue">{{
                       d.dictLabel
@@ -26,7 +26,7 @@
                 </a-form-item>
               </a-col>
               <a-col :md="8" :sm="24">
-                <a-form-item label="创建时间">
+                <a-form-item :label="$t('create.time')">
                   <a-range-picker
                     style="width: 100%"
                     v-model="dateRange"
@@ -186,7 +186,7 @@ export default {
           align: 'center'
         },
         {
-          title: '字典名称',
+          title: this.$t('dict.name'),
           dataIndex: 'dictName',
           ellipsis: true,
           align: 'center'
@@ -198,7 +198,7 @@ export default {
           align: 'center'
         },
         {
-          title: '状态',
+          title: this.$t('status'),
           dataIndex: 'status',
           scopedSlots: { customRender: 'status' },
           align: 'center'
@@ -210,7 +210,7 @@ export default {
           align: 'center'
         },
         {
-          title: '创建时间',
+          title: this.$t('create.time'),
           dataIndex: 'createTime',
           ellipsis: true,
           scopedSlots: { customRender: 'createTime' },
