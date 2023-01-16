@@ -3,40 +3,42 @@ import themeUtil from '@/utils/themeUtil'
 import i18n from '@/locales'
 
 // let lessNodesAppended
-const colorList = [
-  {
-    key: '薄暮',
-    color: '#f5222d'
-  },
-  {
-    key: '火山',
-    color: '#fa541c'
-  },
-  {
-    key: '日暮',
-    color: '#faad14'
-  },
-  {
-    key: '明青',
-    color: '#13c2c2'
-  },
-  {
-    key: '极光绿',
-    color: '#52c41a'
-  },
-  {
-    key: '拂晓蓝（默认）',
-    color: '#1890ff'
-  },
-  {
-    key: '极客蓝',
-    color: '#2f54eb'
-  },
-  {
-    key: '酱紫',
-    color: '#722ed1'
-  }
-]
+function getColorList() {
+  return [
+    {
+      key: i18n.t('app.setting.themecolor.dust'),
+      color: '#f5222d'
+    },
+    {
+      key: i18n.t('app.setting.themecolor.volcano'),
+      color: '#fa541c'
+    },
+    {
+      key: i18n.t('app.setting.themecolor.sunset'),
+      color: '#faad14'
+    },
+    {
+      key: i18n.t('app.setting.themecolor.cyan'),
+      color: '#13c2c2'
+    },
+    {
+      key: i18n.t('app.setting.themecolor.green'),
+      color: '#52c41a'
+    },
+    {
+      key: i18n.t('app.setting.themecolor.purple'),
+      color: '#1890ff'
+    },
+    {
+      key: i18n.t('app.setting.themecolor.geekblue'),
+      color: '#2f54eb'
+    },
+    {
+      key: i18n.t('app.setting.themecolor.purple'),
+      color: '#722ed1'
+    }
+  ]
+}
 
 const updateTheme = (theme, color) => {
   const hideMessage = message.loading(i18n.t('app.setting.theme.updating'), 0)
@@ -51,4 +53,4 @@ const updateColorWeak = colorWeak => {
   colorWeak ? app.classList.add('colorWeak') : app.classList.remove('colorWeak')
 }
 
-export { updateTheme, colorList, updateColorWeak }
+export { updateTheme, getColorList, updateColorWeak }

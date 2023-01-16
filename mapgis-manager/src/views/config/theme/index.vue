@@ -176,14 +176,13 @@ import {
 import { baseMixin } from '@/store/app-mixin'
 import { tableMixin } from '@/store/table-mixin'
 import { formMixin } from '@/store/form-mixin'
-import { updateTheme, updateColorWeak, colorList } from '@/components/SettingDrawer/settingConfig'
+import { updateTheme, updateColorWeak, getColorList } from '@/components/SettingDrawer/settingConfig'
 import defaultSettings from '@/config/defaultSettings'
 
 export default {
   mixins: [baseMixin, tableMixin, formMixin],
   data() {
     return {
-      colorList,
       settings: {
         // 布局类型
         layout: defaultSettings.layout, // 'sidemenu', 'topmenu', 'mixmenu'
@@ -204,6 +203,11 @@ export default {
         hideBreadcrumb: defaultSettings.hideBreadcrumb,
         formMode: defaultSettings.formMode
       }
+    }
+  },
+  computed: {
+    colorList() {
+      return getColorList()
     }
   },
   mounted() {},

@@ -235,7 +235,7 @@
 
 <script>
 import SettingItem from './SettingItem'
-import { updateTheme, updateColorWeak, colorList } from './settingConfig'
+import { updateTheme, updateColorWeak, getColorList } from './settingConfig'
 import { baseMixin } from '@/store/app-mixin'
 import { tableMixin } from '@/store/table-mixin'
 import { formMixin } from '@/store/form-mixin'
@@ -247,8 +247,12 @@ export default {
   mixins: [baseMixin, tableMixin, formMixin],
   data() {
     return {
-      visible: false,
-      colorList
+      visible: false
+    }
+  },
+  computed: {
+    colorList() {
+      return getColorList()
     }
   },
   watch: {},
