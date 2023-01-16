@@ -7,7 +7,7 @@
             <div class="text-header">
               {{ todayRequestCount }}
             </div>
-            <div class="text-body">今日总访问量</div>
+            <div class="text-body">{{ $t('monitor.performance.today.total.visits') }}</div>
           </div>
         </a-col>
         <a-col :span="6">
@@ -15,7 +15,7 @@
             <div class="text-header">
               {{ totalRequestCount }}
             </div>
-            <div class="text-body">累计总访问量</div>
+            <div class="text-body">{{ $t('monitor.performance.cumulative.total.visits') }}</div>
           </div>
         </a-col>
         <a-col :span="6">
@@ -23,13 +23,13 @@
             <div class="text-header">
               {{ realtimeConcurrency }}
             </div>
-            <div class="text-body">实时并发数</div>
+            <div class="text-body">{{ $t('monitor.performance.realtime.concurrency') }}</div>
           </div>
         </a-col>
         <a-col :span="6">
           <div class="text-card" style="background: #faf2dc">
             <div class="text-header">{{ avgResponseTime }}<span style="font-size: 16px">ms</span></div>
-            <div class="text-body">平均响应时间</div>
+            <div class="text-body">{{ $t('monitor.performance.average.response.time') }}</div>
           </div>
         </a-col>
       </a-row>
@@ -224,7 +224,7 @@ export default {
           containLabel: true
         },
         title: {
-          text: '平均响应时间' + '(ms)',
+          text: this.$t('monitor.performance.average.response.time') + '(ms)',
           left: 'center',
           textStyle: {
             fontSize: 15,
@@ -238,7 +238,10 @@ export default {
               // cpu实时数据
               const totalTips = params[0]
               const totalValue = totalTips.value ? totalTips.value[1] : ''
-              return '时刻' + '：' + totalTips.name.toLocaleString() + '  ' + '平均响应时间' + '：' + totalValue
+              return self.$t('monitor.performance.average.response.time.time', {
+                time: totalTips.name.toLocaleString(),
+                response: totalValue
+              })
             }
           },
           axisPointer: {
@@ -247,7 +250,7 @@ export default {
           confine: true
         },
         legend: {
-          data: ['当前节点']
+          data: [this.$t('monitor.performance.current.node')]
         },
         toolbox: {
           show: true,
@@ -318,7 +321,7 @@ export default {
         ],
         series: [
           {
-            name: '平均响应时间',
+            name: this.$t('monitor.performance.average.response.time'),
             type: 'line',
             smooth: true,
             showSymbol: false,
@@ -337,7 +340,7 @@ export default {
               data: [
                 {
                   type: 'max',
-                  name: '最大值'
+                  name: this.$t('monitor.server.maximum')
                 }
               ],
               itemStyle: {
@@ -363,7 +366,7 @@ export default {
           containLabel: true
         },
         title: {
-          text: '实时并发数',
+          text: this.$t('monitor.performance.realtime.concurrency'),
           left: 'center',
           textStyle: {
             fontSize: 15,
@@ -377,7 +380,10 @@ export default {
               // cpu实时数据
               const totalTips = params[0]
               const totalValue = totalTips.value ? totalTips.value[1] : ''
-              return '时刻' + '：' + totalTips.name.toLocaleString() + '  ' + '并发请求数' + '：' + totalValue
+              return self.$t('monitor.performance.realtime.concurrency.time', {
+                time: totalTips.name.toLocaleString(),
+                request: totalValue
+              })
             }
           },
           axisPointer: {
@@ -386,7 +392,7 @@ export default {
           confine: true
         },
         legend: {
-          data: ['当前节点']
+          data: [this.$t('monitor.performance.current.node')]
         },
         toolbox: {
           show: true,
@@ -457,7 +463,7 @@ export default {
         ],
         series: [
           {
-            name: '实时并发数',
+            name: this.$t('monitor.performance.realtime.concurrency'),
             type: 'line',
             smooth: true,
             showSymbol: false,
@@ -476,7 +482,7 @@ export default {
               data: [
                 {
                   type: 'max',
-                  name: '最大值'
+                  name: this.$t('monitor.server.maximum')
                 }
               ],
               itemStyle: {
