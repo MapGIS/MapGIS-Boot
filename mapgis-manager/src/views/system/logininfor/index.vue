@@ -35,7 +35,7 @@
                 </a-form-item>
               </a-col>
               <a-col :md="8" :sm="24">
-                <a-form-item label="登陆时间">
+                <a-form-item :label="$t('login.time')">
                   <a-range-picker
                     style="width: 100%"
                     v-model="dateRange"
@@ -73,7 +73,7 @@
           <a-icon type="delete" />{{ $t('clear') }}
         </a-button>
         <a-button type="primary" @click="handleUnlock" v-hasPermi="['system:logininfor:unlock']" :disabled="single">
-          <a-icon type="unlock" />解锁
+          <a-icon type="unlock" />{{ $t('unlock') }}
         </a-button>
         <a-button type="primary" @click="handleExport" v-hasPermi="['system:logininfor:export']">
           <a-icon type="download" />{{ $t('export') }}
@@ -160,7 +160,7 @@ export default {
       },
       columns: [
         {
-          title: '访问编号',
+          title: this.$t('id.suffix', { content: this.$t('log') }),
           dataIndex: 'infoId',
           align: 'center'
         },
@@ -299,7 +299,7 @@ export default {
       const that = this
       this.$confirm({
         title: this.$t('confirm.clear'),
-        content: '此操作将会清空所有登录日志数据项',
+        content: this.$t('log.logininfo.tip.clear'),
         onOk() {
           return cleanLogininfor().then(() => {
             that.onSelectChange([], [])
@@ -315,12 +315,13 @@ export default {
       const that = this
       const username = this.selectName
       const ip = this.selectIp
+      const successMessage = this.$t('log.logininfo.lock.success', { username: username })
       this.$confirm({
-        title: '是否确认解锁用户"' + username + '"数据项?',
+        title: this.$t('log.logininfor.confirm.unlock.user', { username: username }),
         onOk() {
           return unlockLogininfor(username, ip)
             .then(() => {
-              that.$message.success('用户' + username + '解锁成功', 3)
+              that.$message.success(successMessage, 3)
             })
             .catch(() => {})
         },

@@ -6,8 +6,12 @@
         <a-form layout="inline">
           <a-row :gutter="48">
             <a-col :md="8" :sm="24">
-              <a-form-item label="系统模块">
-                <a-input v-model="queryParam.title" placeholder="请输入系统模块" allow-clear />
+              <a-form-item :label="$t('log.operlog.system.module')">
+                <a-input
+                  v-model="queryParam.title"
+                  :placeholder="$t('please.prefix.input', { content: $t('log.operlog.system.module') })"
+                  allow-clear
+                />
               </a-form-item>
             </a-col>
             <a-col :md="8" :sm="24">
@@ -21,7 +25,7 @@
             </a-col>
             <template v-if="advanced">
               <a-col :md="8" :sm="24">
-                <a-form-item label="类型">
+                <a-form-item :label="$t('type')">
                   <a-select
                     :placeholder="$t('operation.type')"
                     v-model="queryParam.businessType"
@@ -122,7 +126,7 @@
         </span>
         <span slot="operation" slot-scope="text, record">
           <a @click="$refs.viewForm.handleView(record)" v-hasPermi="['system:operlog:query']">
-            <a-icon type="eye" />详细
+            <a-icon type="eye" />{{ $t('detail') }}
           </a>
         </span>
       </a-table>
@@ -179,12 +183,12 @@ export default {
       },
       columns: [
         {
-          title: '日志编号',
+          title: this.$t('id.suffix', { content: this.$t('log') }),
           dataIndex: 'operId',
           align: 'center'
         },
         {
-          title: '系统模块',
+          title: this.$t('log.operlog.system.module'),
           dataIndex: 'title',
           align: 'center'
         },
@@ -217,7 +221,7 @@ export default {
           align: 'center'
         },
         {
-          title: this.$t('operation.date'),
+          title: this.$t('operation.time'),
           dataIndex: 'operTime',
           align: 'center',
           sorter: true
@@ -331,7 +335,7 @@ export default {
       const that = this
       this.$confirm({
         title: this.$t('confirm.clear'),
-        content: '此操作将会清空所有操作日志数据项',
+        content: this.$t('log.operlog.tip.clear'),
         onOk() {
           return cleanOperlog().then(() => {
             that.onSelectChange([], [])

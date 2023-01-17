@@ -6,13 +6,17 @@
         <a-form layout="inline">
           <a-row :gutter="48">
             <a-col :md="8" :sm="24">
-              <a-form-item label="关键字">
-                <a-input v-model="queryParam.keyword" placeholder="请输入关键字" allow-clear />
+              <a-form-item :label="$t('keyword')">
+                <a-input
+                  v-model="queryParam.keyword"
+                  :placeholder="$t('please.prefix.input', { content: $t('keyword') })"
+                  allow-clear
+                />
               </a-form-item>
             </a-col>
             <a-col :md="8" :sm="24">
-              <a-form-item label="类型">
-                <a-select placeholder="类型" v-model="queryParam.logId" style="width: 100%">
+              <a-form-item :label="$t('type')">
+                <a-select :placeholder="$t('type')" v-model="queryParam.logId" style="width: 100%">
                   <a-select-option v-for="(d, index) in logIdOptions" :key="index" :value="d.value">{{
                     d.label
                   }}</a-select-option>
@@ -22,7 +26,12 @@
             <template v-if="advanced">
               <a-col :md="8" :sm="24">
                 <a-form-item :label="$t('level')">
-                  <a-select placeholder="日志级别" v-model="queryParam.level" style="width: 100%" allow-clear>
+                  <a-select
+                    :placeholder="$t('log.systemlog.log.level')"
+                    v-model="queryParam.level"
+                    style="width: 100%"
+                    allow-clear
+                  >
                     <a-select-option v-for="(l, index) in levelOptions" :key="index" :value="l.value">{{
                       l.label
                     }}</a-select-option>
@@ -30,7 +39,7 @@
                 </a-form-item>
               </a-col>
               <a-col :md="8" :sm="24">
-                <a-form-item label="时间">
+                <a-form-item :label="$t('time')">
                   <a-range-picker
                     style="width: 100%"
                     v-model="dateRange"
@@ -93,12 +102,12 @@
             size="small"
             @click="messageDetail(text)"
           >
-            {{ '更多' }}
+            {{ $t('more') }}
           </a-button>
         </template>
       </a-table>
       <a-modal
-        title="日志详情"
+        :title="$t('log.systemlog.log.detail')"
         :visible="detailVisible"
         :maskClosable="false"
         :footer="null"
@@ -111,12 +120,12 @@
         <a-row style="height: 30px; margin-top: 15px">
           <a-col :span="12">
             <div v-if="list != null">
-              <span style="font-size: 14px">{{ '总获取到' }} {{ list.length }} {{ '条日志' }}</span>
+              <span style="font-size: 14px">{{ $t('log.systemlog.log.get.total', { total: list.length }) }}</span>
             </div>
           </a-col>
           <a-col :span="12">
             <a-button style="float: right" :disabled="!hasMore" type="primary" size="small" @click="getEarlyLogs">
-              {{ '获取更早的' }}
+              {{ $t('log.systemlog.log.get.earlier') }}
             </a-button>
           </a-col>
         </a-row>
@@ -171,25 +180,25 @@ export default {
           align: 'center'
         },
         {
-          title: '进程ID',
+          title: this.$t('id.suffix', { content: this.$t('process') }),
           dataIndex: 'pid',
           align: 'center',
           visible: false
         },
         {
-          title: '线程名',
+          title: this.$t('thread.name'),
           dataIndex: 'thread',
           ellipsis: true,
           align: 'center',
           visible: false
         },
         {
-          title: '日志类',
+          title: this.$t('log.systemlog.log.class'),
           dataIndex: 'logger',
           align: 'center'
         },
         {
-          title: '日志信息',
+          title: this.$t('log.info'),
           dataIndex: 'message',
           align: 'left',
           scopedSlots: { customRender: 'message' },

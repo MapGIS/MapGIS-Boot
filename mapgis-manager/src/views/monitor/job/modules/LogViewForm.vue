@@ -1,7 +1,7 @@
 <template>
   <a-drawer width="35%" placement="right" :closable="false" :visible="openView" @close="onCloseView">
     <a-descriptions title="调度日志详细" layout="vertical" bordered :column="3">
-      <a-descriptions-item label="日志编号">
+      <a-descriptions-item :label="$t('id.suffix', { content: this.$t('log') })">
         {{ form.jobLogId }}
       </a-descriptions-item>
       <a-descriptions-item label="任务名称">
@@ -20,7 +20,7 @@
       <a-descriptions-item label="调用方法" span="3">
         {{ form.invokeTarget }}
       </a-descriptions-item>
-      <a-descriptions-item label="日志信息" span="3">
+      <a-descriptions-item :label="$t('log.info')" span="3">
         {{ form.jobMessage }}
       </a-descriptions-item>
       <a-descriptions-item label="异常信息" span="3" v-if="form.status == 1">

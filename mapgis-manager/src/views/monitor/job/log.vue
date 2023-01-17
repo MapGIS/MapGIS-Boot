@@ -102,7 +102,7 @@
         </span>
         <span slot="operation" slot-scope="text, record">
           <a @click="$refs.logViewForm.handleView(record)" v-hasPermi="['monitor:job:query']">
-            <a-icon type="eye" />详细
+            <a-icon type="eye" />{{ $t('detail') }}
           </a>
         </span>
       </a-table>
@@ -160,12 +160,12 @@ export default {
       multiple: true,
       columns: [
         {
-          title: '日志编号',
+          title: this.$t('id.suffix', { content: this.$t('log') }),
           dataIndex: 'jobLogId',
           align: 'center'
         },
         {
-          title: '系统模块',
+          title: this.$t('log.operlog.system.module'),
           dataIndex: 'jobName',
           ellipsis: true,
           align: 'center'
@@ -183,7 +183,7 @@ export default {
           align: 'center'
         },
         {
-          title: '日志信息',
+          title: this.$t('log.info'),
           dataIndex: 'jobMessage',
           ellipsis: true,
           align: 'center'

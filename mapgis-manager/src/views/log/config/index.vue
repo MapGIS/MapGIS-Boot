@@ -8,19 +8,19 @@
         ref="form"
         :model="form"
       >
-        <a-divider orientation="left">系统日志</a-divider>
-        <a-form-model-item label="日志级别" prop="systemLoglevel">
+        <a-divider orientation="left">{{ $t('log.logconfig.system.log') }}</a-divider>
+        <a-form-model-item :label="$t('log.logconfig.system.log')" prop="systemLoglevel">
           <a-select v-model="form.systemLoglevel" :placeholder="$t('please.select')">
             <a-select-option v-for="(l, index) in levelOptions" :key="index" :value="l.value">
               {{ l.label }}
             </a-select-option>
           </a-select>
         </a-form-model-item>
-        <a-divider orientation="left">服务访问日志</a-divider>
-        <a-form-model-item label="是否启用" prop="httpAccessEnabled">
+        <a-divider orientation="left">{{ $t('log.logconifg.service.access.log') }}</a-divider>
+        <a-form-model-item :label="$t('enabled.or.not')" prop="httpAccessEnabled">
           <a-checkbox :checked="form.httpAccessEnabled" @change="handleChange" />
         </a-form-model-item>
-        <a-form-model-item label="监控的服务访问URL列表" prop="httpAccessMonitorUrls">
+        <a-form-model-item :label="$t('log.logconfig.monitored.service.access.url.list')" prop="httpAccessMonitorUrls">
           <a-layout class="monitor-layout">
             <a-layout-content style="padding: 6px 10px 10px 10px">
               <a-tag
@@ -112,7 +112,8 @@ export default {
   },
   computed: {
     addMonitorUrlTip() {
-      return `新增URL（示例：/${window._CONFIG['productName']}/*,/${window._CONFIG['productName']}/**）`
+      return `${this.$t('log.logconfig.service.access.add.example')}/${window._CONFIG['productName']}/*,
+      /${window._CONFIG['productName']}/**）`
     }
   },
   async mounted() {

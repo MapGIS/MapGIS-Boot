@@ -159,7 +159,7 @@ export default {
           align: 'center'
         },
         {
-          title: '耗时(毫秒)',
+          title: this.$t('log.accesslog.take.time.milliseconds'),
           dataIndex: 'time',
           ellipsis: true,
           width: '8%',

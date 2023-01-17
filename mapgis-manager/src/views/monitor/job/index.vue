@@ -238,12 +238,13 @@ export default {
           title: this.$t('status'),
           dataIndex: 'status',
           scopedSlots: { customRender: 'status' },
+          width: '6%',
           align: 'center'
         },
         {
           title: this.$t('operation'),
           dataIndex: 'operation',
-          width: '15%',
+          width: '21%',
           scopedSlots: { customRender: 'operation' },
           align: 'center'
         }
