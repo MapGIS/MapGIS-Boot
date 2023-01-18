@@ -124,5 +124,5 @@ export default {
   thread: '线程',
   'thread.name': '线程名称',
   'log.info': '日志信息',
-  'enabled.or.not': '是否启用'
+  'whether.to.enable': '是否启用'
 }

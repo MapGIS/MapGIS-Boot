@@ -125,5 +125,5 @@ export default {
   thread: 'Thread',
   'thread.name': 'Thread Name',
   'log.info': 'Log Information',
-  'enabled.or.not': 'Enabled Or Not'
+  'whether.to.enable': 'Whether To Enable'
 }

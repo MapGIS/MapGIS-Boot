@@ -6,13 +6,13 @@
     ref="form"
     :model="form"
   >
-    <a-form-model-item label="是否允许同时登录" prop="soloLoginEnabled">
+    <a-form-model-item :label="$t('security.config.whether.to.allow.simultaneous.login')" prop="soloLoginEnabled">
       <a-checkbox :checked="form.soloLoginEnabled" @change="handleSoloLoginChange" />
     </a-form-model-item>
-    <a-form-model-item label="是否启用验证码" prop="captchaEnabled">
+    <a-form-model-item :label="$t('security.config.whether.to.enable.captcha')" prop="captchaEnabled">
       <a-checkbox v-model="form.captchaEnabled" @change="handleCaptchaChange" />
     </a-form-model-item>
-    <a-form-model-item label="验证码类型" prop="captchaType">
+    <a-form-model-item :label="$t('security.config.captcha.type')" prop="captchaType">
       <div class="login-config-captcha">
         <div class="captcha-type-item" @click="form.captchaType = 'math'">
           <img :src="require('@/assets/images/captcha-math.png')" alt="math" />
@@ -28,10 +28,10 @@
         </div>
       </div>
     </a-form-model-item>
-    <a-form-model-item label="连续失败N次显示验证码" prop="maxRetryCount">
+    <a-form-model-item :label="$t('security.config.captcha.display.limit')" prop="maxRetryCount">
       <a-input-number v-model="form.maxRetryCount" :min="0" />
     </a-form-model-item>
-    <a-form-model-item label="失败记录有效期（分钟）" prop="recordTime">
+    <a-form-model-item :label="$t('security.config.error.record.validity.period')" prop="recordTime">
       <a-input-number v-model="form.recordTime" :min="1" />
     </a-form-model-item>
     <a-form-model-item :wrapper-col="{ lg: { span: 10, offset: 7 }, sm: { span: 17, offset: 7 } }">

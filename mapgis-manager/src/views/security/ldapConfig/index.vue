@@ -33,14 +33,16 @@ export default {
   mixins: [baseMixin],
   data() {
     return {
-      configItems: [
-        { title: 'LDAP登录配置', key: 'baseConfig', component: 'LdapBaseConfig' },
-        { title: '角色映射配置', key: 'roleMapping', component: 'LdapRoleMapping' }
-      ],
       currentKey: ['baseConfig']
     }
   },
   computed: {
+    configItems() {
+      return [
+        { title: 'LDAP登录配置', key: 'baseConfig', component: 'LdapBaseConfig' },
+        { title: '角色映射配置', key: 'roleMapping', component: 'LdapRoleMapping' }
+      ]
+    },
     currentTitle() {
       const currnetConfig = this.configItems.find(config => {
         return this.currentKey.indexOf(config.key) > -1

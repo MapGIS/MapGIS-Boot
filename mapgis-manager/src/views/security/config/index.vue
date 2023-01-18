@@ -39,16 +39,30 @@ export default {
   mixins: [baseMixin],
   data() {
     return {
-      configItems: [
-        { title: '密码安全配置', key: 'passwordProtected', component: 'PasswordProtectedConfig' },
-        { title: '初始密码配置', key: 'initPassword', component: 'InitPasswordConfig' },
-        { title: '用户注册配置', key: 'registerUser', component: 'RegisterUserConfig' },
-        { title: '用户登录配置', key: 'userLogin', component: 'UserLoginConfig' }
-      ],
       currentKey: ['passwordProtected']
     }
   },
   computed: {
+    configItems() {
+      return [
+        {
+          title: this.$t('security.config.password.security.config'),
+          key: 'passwordProtected',
+          component: 'PasswordProtectedConfig'
+        },
+        {
+          title: this.$t('security.config.init.password.config'),
+          key: 'initPassword',
+          component: 'InitPasswordConfig'
+        },
+        {
+          title: this.$t('security.config.user.register.config'),
+          key: 'registerUser',
+          component: 'RegisterUserConfig'
+        },
+        { title: this.$t('security.config.user.login.config'), key: 'userLogin', component: 'UserLoginConfig' }
+      ]
+    },
     currentTitle() {
       const currnetConfig = this.configItems.find(config => {
         return this.currentKey.indexOf(config.key) > -1

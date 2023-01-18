@@ -6,16 +6,16 @@
     ref="form"
     :model="form"
   >
-    <a-form-model-item label="是否启用防暴力破解" prop="enabled">
+    <a-form-model-item :label="$t('security.config.whether.to.enable.against.brute.cracking')" prop="enabled">
       <a-checkbox :checked="form.enabled" @change="handleChange" />
     </a-form-model-item>
-    <a-form-model-item label="允许连续失败次数" prop="maxRetryCount">
+    <a-form-model-item :label="$t('security.config.error.count.in.period')" prop="maxRetryCount">
       <a-input-number v-model="form.maxRetryCount" :min="1" />
     </a-form-model-item>
-    <a-form-model-item label="自动解锁时间（分钟）" prop="lockTime">
+    <a-form-model-item :label="$t('security.config.lock.time')" prop="lockTime">
       <a-input-number v-model="form.lockTime" :min="1" />
     </a-form-model-item>
-    <a-form-model-item label="是否通过IP锁定" prop="isLockedByIp">
+    <a-form-model-item :label="$t('security.config.whether.to.lock.through.ip')" prop="isLockedByIp">
       <a-checkbox :checked="form.isLockedByIp" @change="handleIsLockedByIpChange" />
     </a-form-model-item>
     <a-form-model-item :wrapper-col="{ lg: { span: 10, offset: 7 }, sm: { span: 17, offset: 7 } }">

@@ -17,7 +17,7 @@
           </a-select>
         </a-form-model-item>
         <a-divider orientation="left">{{ $t('log.logconifg.service.access.log') }}</a-divider>
-        <a-form-model-item :label="$t('enabled.or.not')" prop="httpAccessEnabled">
+        <a-form-model-item :label="$t('whether.to.enable')" prop="httpAccessEnabled">
           <a-checkbox :checked="form.httpAccessEnabled" @change="handleChange" />
         </a-form-model-item>
         <a-form-model-item :label="$t('log.logconfig.monitored.service.access.url.list')" prop="httpAccessMonitorUrls">

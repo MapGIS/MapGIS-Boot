@@ -6,10 +6,10 @@
     ref="form"
     :model="form"
   >
-    <a-form-model-item label="是否启用注册功能" prop="enabled">
+    <a-form-model-item :label="$t('security.config.whether.to.enable.register')" prop="enabled">
       <a-checkbox :checked="form.enabled" @change="handleChange" />
     </a-form-model-item>
-    <a-form-model-item label="注册用户的默认角色" prop="defaultRoleIds">
+    <a-form-model-item :label="$t('security.config.register.user.default.role')" prop="defaultRoleIds">
       <a-select mode="multiple" v-model="form.defaultRoleIds" :placeholder="$t('please.select')">
         <a-select-option v-for="(d, index) in roleOptions" :key="index" :value="d.roleId">
           {{ d.roleName }}
