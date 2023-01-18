@@ -112,3 +112,23 @@ body {
   font-size: 14px;
   line-height: 1.5;
 }
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 3px;
+  background: fade(@text-color, 20%);
+}
+
+::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 1px rgba(0, 0, 0, 0);
+  border-radius: 3px;
+  background: fade(@text-color, 10%);
+}
+
+::-webkit-scrollbar-corner {
+  background: fade(@text-color, 10%);
+}
