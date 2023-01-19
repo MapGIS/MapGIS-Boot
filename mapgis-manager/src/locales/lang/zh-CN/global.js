@@ -135,5 +135,7 @@ export default {
   'disable.success': '停用成功',
   'disable.exception': '停用异常',
   'not.empty.suffix': '{content}不能为空',
-  'uploading...': '上传中...'
+  'uploading...': '上传中...',
+  description: '描述',
+  member: '成员'
 }

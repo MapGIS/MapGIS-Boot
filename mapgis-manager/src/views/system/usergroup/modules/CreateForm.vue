@@ -10,23 +10,34 @@
   >
     <a-form-model ref="form" :model="form" :rules="rules" v-bind="formLayout">
       <a-form-model-item :label="$t('usergroup.name')" prop="userGroupName">
-        <a-input v-model="form.userGroupName" placeholder="请输入用户组名称" />
+        <a-input
+          v-model="form.userGroupName"
+          :placeholder="$t('please.prefix.input', { content: $t('usergroup.name') })"
+        />
       </a-form-model-item>
-      <a-form-model-item label="成员" prop="userIds">
-        <a-select mode="multiple" v-model="form.userIds" placeholder="请选择用户组成员">
+      <a-form-model-item :label="$t('member')" prop="userIds">
+        <a-select
+          mode="multiple"
+          v-model="form.userIds"
+          :placeholder="$t('please.prefix.select', { content: $t('security.usergroup.member') })"
+        >
           <a-select-option v-for="user in userList" :key="user.userId" :value="user.userId">
             {{ user.userName }}
           </a-select-option>
         </a-select>
       </a-form-model-item>
-      <a-form-model-item label="关联角色" prop="roleIds">
-        <a-select mode="multiple" v-model="form.roleIds" placeholder="请选择用户组关联角色">
+      <a-form-model-item :label="$t('security.usergroup.associated.roles')" prop="roleIds">
+        <a-select
+          mode="multiple"
+          v-model="form.roleIds"
+          :placeholder="$t('please.prefix.select', { content: $t('security.usergroup.usergroup.associated.roles') })"
+        >
           <a-select-option v-for="role in roleList" :key="role.roleId" :value="role.roleId">
             {{ role.roleName }}
           </a-select-option>
         </a-select>
       </a-form-model-item>
-      <a-form-model-item label="描述" prop="remark">
+      <a-form-model-item :label="$t('description')" prop="remark">
         <a-input v-model="form.remark" :placeholder="$t('please.input.content')" type="textarea" allow-clear />
       </a-form-model-item>
       <div class="bottom-control">
@@ -72,7 +83,13 @@ export default {
       formType: 1,
       open: false,
       rules: {
-        userGroupName: [{ required: true, message: '用户组名称不能为空', trigger: 'blur' }]
+        userGroupName: [
+          {
+            required: true,
+            message: this.$t('not.empty.suffix', { content: this.$t('usergroup.name') }),
+            trigger: 'blur'
+          }
+        ]
       }
     }
   },

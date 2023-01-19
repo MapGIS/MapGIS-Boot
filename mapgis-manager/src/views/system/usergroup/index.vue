@@ -7,7 +7,11 @@
           <a-row :gutter="48">
             <a-col :md="8" :sm="24">
               <a-form-item :label="$t('usergroup.name')" prop="userGroupName">
-                <a-input v-model="queryParam.userGroupName" placeholder="请输入用户组名称" allow-clear />
+                <a-input
+                  v-model="queryParam.userGroupName"
+                  :placeholder="$t('please.prefix.input', { content: $t('usergroup.name') })"
+                  allow-clear
+                />
               </a-form-item>
             </a-col>
             <a-col :md="8" :sm="24">
@@ -157,20 +161,20 @@ export default {
           align: 'center'
         },
         {
-          title: '成员',
+          title: this.$t('member'),
           dataIndex: 'users',
           scopedSlots: { customRender: 'users' },
           align: 'center',
           width: 330
         },
         {
-          title: '关联角色',
+          title: this.$t('security.usergroup.associated.roles'),
           dataIndex: 'roles',
           scopedSlots: { customRender: 'roles' },
           align: 'center'
         },
         {
-          title: '描述',
+          title: this.$t('description'),
           dataIndex: 'remark',
           ellipsis: true,
           align: 'center'

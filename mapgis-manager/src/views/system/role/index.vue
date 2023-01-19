@@ -99,7 +99,7 @@
           <a @click="$refs.createForm.handleUpdate(record, undefined)" v-hasPermi="['system:role:edit']">
             <template v-if="record.isSys == 0">
               <a-icon type="edit" />
-              修改
+              {{ $t('modify') }}
             </template>
             <template v-else>
               <a-icon type="search" />
@@ -111,13 +111,13 @@
           </template>
           <a @click="handleDelete(record)" v-hasPermi="['system:role:remove']" v-if="record.isSys == 0">
             <a-icon type="delete" />
-            删除
+            {{ $t('delete') }}
           </a>
           <a-divider type="vertical" v-hasPermi="['system:role:edit']" />
           <a-dropdown v-hasPermi="['system:role:edit']">
             <a class="ant-dropdown-link" @click="e => e.preventDefault()">
               <a-icon type="double-right" />
-              更多
+              {{ $t('more') }}
             </a>
             <a-menu slot="overlay">
               <a-menu-item>

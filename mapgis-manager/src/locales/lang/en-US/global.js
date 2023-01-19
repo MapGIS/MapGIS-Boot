@@ -136,5 +136,7 @@ export default {
   'disable.success': 'Disable Success',
   'disable.exception': 'Disable Exception',
   'not.empty.suffix': '{content} Cannot be empty',
-  'uploading...': 'uploading...'
+  'uploading...': 'uploading...',
+  description: 'Description',
+  member: 'Member'
 }
