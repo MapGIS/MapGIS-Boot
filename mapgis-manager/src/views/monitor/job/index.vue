@@ -97,15 +97,15 @@
         </span>
         <span slot="status" slot-scope="text, record">
           <a-popconfirm
-            ok-text="是"
-            cancel-text="否"
+            :ok-text="$t('yes')"
+            :cancel-text="$t('no')"
             @confirm="confirmHandleStatus(record)"
             @cancel="cancelHandleStatus(record)"
           >
             <span slot="title">
               确认<b>{{ record.status === '1' ? '开启' : '关闭' }} </b>{{ record.jobName }}的任务吗?
             </span>
-            <a-switch checked-children="开" un-checked-children="关" :checked="record.status == 0" />
+            <a-switch :checked-children="$t('on')" :un-checked-children="$t('off')" :checked="record.status == 0" />
           </a-popconfirm>
         </span>
         <span slot="operation" slot-scope="text, record">
@@ -127,8 +127,8 @@
             <a-menu slot="overlay">
               <a-menu-item v-hasPermi="['monitor:job:edit']">
                 <a-popconfirm
-                  ok-text="是"
-                  cancel-text="否"
+                  :ok-text="$t('yes')"
+                  :cancel-text="$t('no')"
                   @confirm="confirmHandleRun(record)"
                   @cancel="cancelHandleRun(record)"
                 >
@@ -238,7 +238,7 @@ export default {
           title: this.$t('status'),
           dataIndex: 'status',
           scopedSlots: { customRender: 'status' },
-          width: '6%',
+          width: '8%',
           align: 'center'
         },
         {
@@ -328,14 +328,15 @@ export default {
     },
     /* 任务状态修改 */
     confirmHandleStatus(row) {
-      const text = row.status === '1' ? '启用' : '停用'
       row.status = row.status === '0' ? '1' : '0'
       changeJobStatus(row.jobId, row.status)
         .then(() => {
-          this.$message.success(text + '成功', 3)
+          const successMessage = row.status === '1' ? this.$t('enable.success') : this.$t('disable.success')
+          this.$message.success(successMessage, 3)
         })
         .catch(function () {
-          this.$message.error(text + this.$t('exception.occurred'), 3)
+          const exceptionMessage = row.status === '1' ? this.$t('enable.exception') : this.$t('disable.exception')
+          this.$message.error(exceptionMessage, 3)
         })
     },
     cancelHandleStatus(row) {},

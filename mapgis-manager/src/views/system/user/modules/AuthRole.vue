@@ -1,7 +1,7 @@
 <template>
   <a-modal
     ref="authRole"
-    :title="'分配角色'"
+    :title="$t('security.user.assign.roles')"
     :width="900"
     :visible="visible"
     :confirm-loading="submitLoading"
@@ -60,7 +60,7 @@ export default {
       // 表格属性
       columns: [
         {
-          title: '角色编号',
+          title: this.$t('id.suffix', { content: this.$t('role') }),
           dataIndex: 'roleId',
           ellipsis: true,
           align: 'center'
@@ -72,7 +72,7 @@ export default {
           align: 'center'
         },
         {
-          title: '权限字符',
+          title: this.$t('security.role.permission.character'),
           dataIndex: 'roleKey',
           ellipsis: true,
           align: 'center'

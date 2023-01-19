@@ -60,7 +60,9 @@ export default {
         confirmPassword: undefined
       },
       rules: {
-        oldPassword: [{ required: true, message: '密码不能为空', trigger: 'blur' }],
+        oldPassword: [
+          { required: true, message: this.$t('not.empty.suffix', { content: this.$t('password') }), trigger: 'blur' }
+        ],
         newPassword: [{ required: true, validator: validateNewPass, trigger: 'change' }],
         confirmPassword: [{ required: true, validator: validateConfirmPass, trigger: 'change' }]
       }

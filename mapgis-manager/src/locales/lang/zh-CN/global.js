@@ -16,7 +16,10 @@ export default {
   confirm: '确定',
   submit: '提交',
   upload: '上传',
+  open: '打开',
   close: '关闭',
+  on: '开',
+  off: '关',
   'setting.success': '设置成功',
   'setting.failed': '设置失败',
   'please.input': '请输入',
@@ -124,5 +127,13 @@ export default {
   thread: '线程',
   'thread.name': '线程名称',
   'log.info': '日志信息',
-  'whether.to.enable': '是否启用'
+  'whether.to.enable': '是否启用',
+  enable: '启用',
+  disable: '停用',
+  'enable.success': '启用成功',
+  'enable.exception': '启用异常',
+  'disable.success': '停用成功',
+  'disable.exception': '停用异常',
+  'not.empty.suffix': '{content}不能为空',
+  'uploading...': '上传中...'
 }

@@ -16,7 +16,10 @@ export default {
   confirm: 'Confirm',
   submit: 'Submit',
   upload: 'Upload',
+  open: 'Open',
   close: 'Close',
+  on: 'On',
+  off: 'Off',
   'setting.success': 'Setting Success',
   'setting.failed': 'Setting Failed',
   'please.input': 'Please Input',
@@ -125,5 +128,13 @@ export default {
   thread: 'Thread',
   'thread.name': 'Thread Name',
   'log.info': 'Log Information',
-  'whether.to.enable': 'Whether To Enable'
+  'whether.to.enable': 'Whether To Enable',
+  enable: 'Enable',
+  disable: 'Disable',
+  'enable.success': 'Enable Success',
+  'enable.exception': 'Enable Exception',
+  'disable.success': 'Disable Success',
+  'disable.exception': 'Disable Exception',
+  'not.empty.suffix': '{content} Cannot be empty',
+  'uploading...': 'uploading...'
 }

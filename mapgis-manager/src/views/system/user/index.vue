@@ -144,18 +144,23 @@
             </span>
             <span slot="status" slot-scope="text, record">
               <a-popconfirm
-                ok-text="是"
-                cancel-text="否"
+                :ok-text="$t('yes')"
+                :cancel-text="$t('no')"
                 @confirm="confirmHandleStatus(record)"
                 @cancel="cancelHandleStatus(record)"
                 :disabled="record.userId === 1"
               >
                 <span slot="title">
-                  确认<b>{{ record.status === '1' ? '启用' : '停用' }} </b>{{ record.nickName }}的用户吗?
+                  {{
+                    $t('security.user.confirm.switch.state', {
+                      operation: record.status === '1' ? $t('enable').toLowerCase() : $t('disable').toLowerCase(),
+                      username: record.nickName
+                    })
+                  }}
                 </span>
                 <a-switch
-                  checked-children="开"
-                  un-checked-children="关"
+                  :checked-children="$t('on')"
+                  :un-checked-children="$t('off')"
                   :checked="record.status == 0"
                   :disabled="record.userId === 1"
                 />
@@ -167,30 +172,30 @@
             <span slot="operation" slot-scope="text, record" v-if="record.userId !== 1">
               <a @click="$refs.createForm.handleUpdate(record, undefined)" v-hasPermi="['system:user:edit']">
                 <a-icon type="edit" />
-                修改
+                {{ $t('modify') }}
               </a>
               <a-divider type="vertical" v-hasPermi="['system:user:remove']" />
               <a @click="handleDelete(record)" v-hasPermi="['system:user:remove']">
                 <a-icon type="delete" />
-                删除
+                {{ $t('delete') }}
               </a>
               <a-divider type="vertical" v-hasPermi="['system:user:resetPwd', 'system:user:edit']" />
               <a-dropdown v-hasPermi="['system:user:resetPwd', 'system:user:edit']">
                 <a class="ant-dropdown-link" @click="e => e.preventDefault()">
                   <a-icon type="double-right" />
-                  更多
+                  {{ $t('more') }}
                 </a>
                 <a-menu slot="overlay">
                   <a-menu-item v-hasPermi="['system:user:resetPwd']">
                     <a @click="$refs.resetPassword.handleResetPwd(record)">
                       <a-icon type="key" />
-                      修改密码
+                      {{ $t('security.user.modify.password') }}
                     </a>
                   </a-menu-item>
                   <a-menu-item v-hasPermi="['system:user:edit']">
                     <a @click="$refs.authRole.handleAuthRole(record)">
                       <a-icon type="check-circle" />
-                      分配角色
+                      {{ $t('security.user.assign.roles') }}
                     </a>
                   </a-menu-item>
                 </a-menu>
@@ -336,13 +341,13 @@ export default {
           title: this.$t('status'),
           dataIndex: 'status',
           scopedSlots: { customRender: 'status' },
-          width: '6%',
+          width: '8%',
           align: 'center'
         },
         {
           title: this.$t('operation'),
           dataIndex: 'operation',
-          width: '21%',
+          width: '25%',
           scopedSlots: { customRender: 'operation' },
           align: 'center'
         }
@@ -429,14 +434,15 @@ export default {
     },
     /* 用户状态修改 */
     confirmHandleStatus(row) {
-      const text = row.status === '1' ? '启用' : '关闭'
       row.status = row.status === '0' ? '1' : '0'
       changeUserStatus(row.userId, row.status)
         .then(() => {
-          this.$message.success(text + '成功', 3)
+          const successMessage = row.status === '1' ? this.$t('enable.success') : this.$t('disable.success')
+          this.$message.success(successMessage, 3)
         })
         .catch(function () {
-          this.$message.error(text + '异常', 3)
+          const exceptionMessage = row.status === '1' ? this.$t('enable.exception') : this.$t('disable.exception')
+          this.$message.error(exceptionMessage, 3)
         })
     },
     cancelHandleStatus(row) {},

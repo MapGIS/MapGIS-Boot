@@ -181,7 +181,7 @@ export default {
         {
           title: this.$t('operation'),
           dataIndex: 'operation',
-          width: '12%',
+          width: '15%',
           scopedSlots: { customRender: 'operation' },
           align: 'center'
         }

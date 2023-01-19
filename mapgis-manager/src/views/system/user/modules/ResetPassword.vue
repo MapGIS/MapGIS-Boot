@@ -57,7 +57,7 @@ export default {
     }
     return {
       submitLoading: false,
-      title: '重置密码',
+      title: this.$t('security.user.reset.password'),
       open: false,
       childrenDrawer: false,
       formLayout: 'horizontal',
@@ -101,7 +101,7 @@ export default {
           this.submitLoading = true
           resetUserPwd(this.form.userId, this.form.newPassword)
             .then(response => {
-              this.$message.success('重置成功', 3)
+              this.$message.success(this.$t('security.user.reset.success'), 3)
               this.open = false
             })
             .finally(() => {

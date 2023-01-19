@@ -14,7 +14,7 @@
       </a-form-model-item>
       <a-form-model-item prop="roleKey">
         <span slot="label">
-          权限字符
+          {{ $t('security.role.permission.character') }}
           <a-tooltip>
             <template slot="title"> 控制器中定义的权限字符，如：@PreAuthorize(`@ss.hasRole('admin')`) </template>
             <a-icon type="question-circle-o" />

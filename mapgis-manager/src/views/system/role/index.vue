@@ -11,7 +11,7 @@
               </a-form-item>
             </a-col>
             <a-col :md="8" :sm="24">
-              <a-form-item label="权限字符">
+              <a-form-item :label="$t('security.role.permission.character')">
                 <a-input v-model="queryParam.roleKey" :placeholder="$t('please.input')" allow-clear />
               </a-form-item>
             </a-col>

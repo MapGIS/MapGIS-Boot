@@ -139,7 +139,7 @@ export default {
           align: 'center'
         },
         {
-          title: '用户昵称',
+          title: this.$t('user.nickname'),
           dataIndex: 'nickName',
           ellipsis: true,
           align: 'center'

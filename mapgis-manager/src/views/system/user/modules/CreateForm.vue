@@ -13,7 +13,7 @@
       <a-form-model-item :label="$t('username')" prop="userName">
         <a-input v-model="form.userName" :placeholder="$t('please.input')" :disabled="form.userId !== undefined" />
       </a-form-model-item>
-      <a-form-model-item label="使用初始密码" v-if="form.userId == undefined">
+      <a-form-model-item :label="$t('security.user.use.init.password')" v-if="form.userId == undefined">
         <a-switch :checked="useInitPassword" @change="checked => handleInitPasswordChange(checked)" />
       </a-form-model-item>
       <a-form-model-item :label="$t('password')" prop="password" v-if="form.userId == undefined && useInitPassword">
@@ -199,8 +199,16 @@ export default {
       },
       open: false,
       rules: {
-        userName: [{ required: true, message: '用户名不能为空', trigger: 'blur' }],
-        nickName: [{ required: true, message: '用户昵称不能为空', trigger: 'blur' }],
+        userName: [
+          { required: true, message: this.$t('not.empty.suffix', { content: this.$t('username') }), trigger: 'blur' }
+        ],
+        nickName: [
+          {
+            required: true,
+            message: this.$t('not.empty.suffix', { content: this.$t('user.nickname') }),
+            trigger: 'blur'
+          }
+        ],
         password: [{ required: true, validator: validateNewPass, trigger: 'change' }],
         confirmPassword: [{ required: true, validator: validateConfirmPass, trigger: 'change' }],
         email: [

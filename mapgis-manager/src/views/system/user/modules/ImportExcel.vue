@@ -6,7 +6,7 @@
     @cancel="importExcelHandleCancel"
     @ok="importExcelHandleChange"
   >
-    <a-spin tip="上传中..." :spinning="uploading">
+    <a-spin :tip="$t('uploading...')" :spinning="uploading">
       <a-upload-dragger
         name="file"
         accept=".xlsx, .xls"
@@ -18,13 +18,13 @@
         <p class="ant-upload-drag-icon">
           <a-icon type="inbox" />
         </p>
-        <p class="ant-upload-text">请将文件拖拽到此处上传❥(^_-)</p>
-        <p class="ant-upload-hint">支持单个上传，也可以点击后选择文件上传</p>
+        <p class="ant-upload-text">{{ $t('security.user.please.drag.file.to.upload') }}</p>
+        <p class="ant-upload-hint">{{ $t('security.user.upload.types.desc') }}</p>
       </a-upload-dragger>
       <a-checkbox @change="handleCheckedUpdateSupport" :checked="updateSupport != 0">
-        是否更新已经存在的用户数据
+        {{ $t('security.user.whether.to.update.existed.user.data') }}
       </a-checkbox>
-      <a @click="importTemplate">下载模板</a>
+      <a @click="importTemplate">{{ $t('security.user.download.template') }}</a>
     </a-spin>
   </a-modal>
 </template>
@@ -38,7 +38,7 @@ export default {
   components: {},
   data() {
     return {
-      title: '用户导入',
+      title: this.$t('security.user.user.import'),
       open: false,
       uploadStatus: '',
       fileList: [],
