@@ -138,5 +138,8 @@ export default {
   'not.empty.suffix': '{content} Cannot be empty',
   'uploading...': 'uploading...',
   description: 'Description',
-  member: 'Member'
+  member: 'Member',
+  look: 'Look',
+  order: 'Order',
+  return: 'Return'
 }

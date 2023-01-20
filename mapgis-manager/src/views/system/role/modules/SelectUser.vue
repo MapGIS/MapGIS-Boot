@@ -1,7 +1,7 @@
 <template>
   <a-modal
     ref="authRole"
-    :title="'选择用户'"
+    :title="$t('security.role.select.user')"
     :width="900"
     :visible="visible"
     :confirm-loading="submitLoading"

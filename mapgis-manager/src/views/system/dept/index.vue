@@ -93,7 +93,7 @@ export default {
           dataIndex: 'deptName'
         },
         {
-          title: '排序',
+          title: this.$t('order'),
           dataIndex: 'orderNum',
           align: 'center'
         },

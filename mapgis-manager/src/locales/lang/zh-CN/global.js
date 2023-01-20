@@ -137,5 +137,8 @@ export default {
   'not.empty.suffix': '{content}不能为空',
   'uploading...': '上传中...',
   description: '描述',
-  member: '成员'
+  member: '成员',
+  look: '查看',
+  order: '排序',
+  return: '返回'
 }

@@ -12,10 +12,10 @@
       <a-form-model-item :label="$t('role.name')" prop="roleName">
         <a-input v-model="form.roleName" :disabled="true" />
       </a-form-model-item>
-      <a-form-model-item label="角色标识" prop="roleKey">
+      <a-form-model-item :label="$t('security.role.role.identification')" prop="roleKey">
         <a-input v-model="form.roleKey" :disabled="true" />
       </a-form-model-item>
-      <a-form-model-item label="权限范围" prop="dataScope">
+      <a-form-model-item :label="$t('security.role.permission.scope')" prop="dataScope">
         <a-select
           :placeholder="$t('please.select')"
           v-model="form.dataScope"
@@ -27,15 +27,19 @@
           }}</a-select-option>
         </a-select>
       </a-form-model-item>
-      <a-form-model-item label="数据权限" v-show="form.dataScope == 2">
-        <a-checkbox @change="handleCheckedTreeExpand($event)" :disabled="updateDisable"> 展开/折叠 </a-checkbox>
-        <a-checkbox @change="handleCheckedTreeNodeAll($event)" :disabled="updateDisable"> 全选/全不选 </a-checkbox>
+      <a-form-model-item :label="$t('security.role.data.permission')" v-show="form.dataScope == 2">
+        <a-checkbox @change="handleCheckedTreeExpand($event)" :disabled="updateDisable">
+          {{ $t('security.role.expand.collapse') }}
+        </a-checkbox>
+        <a-checkbox @change="handleCheckedTreeNodeAll($event)" :disabled="updateDisable">
+          {{ $t('security.role.select.all.none') }}
+        </a-checkbox>
         <a-checkbox
           @change="handleCheckedTreeConnect($event)"
           :checked="form.deptCheckStrictly"
           :disabled="updateDisable"
         >
-          父子联动
+          {{ $t('security.role.parent.child.linkage') }}
         </a-checkbox>
         <a-tree
           v-model="deptCheckedKeys"
@@ -77,23 +81,23 @@ export default {
       dataScopeOptions: [
         {
           value: '1',
-          label: '全部数据权限'
+          label: this.$t('security.role.all.data.permission')
         },
         {
           value: '2',
-          label: '自定义数据权限'
+          label: this.$t('security.role.custom.data.permission')
         },
         {
           value: '3',
-          label: '本部门数据权限'
+          label: this.$t('security.role.data.permission.of.department')
         },
         {
           value: '4',
-          label: '本部门及以下数据权限'
+          label: this.$t('security.role.data.permission.of.department.and.below')
         },
         {
           value: '5',
-          label: '仅本人数据权限'
+          label: this.$t('security.role.only.my.data.permission')
         }
       ],
       deptExpandedKeys: [],
@@ -272,7 +276,7 @@ export default {
             }
           })
         })
-        this.formTitle = '分配数据权限'
+        this.formTitle = this.$t('security.role.assign.data.permission')
       })
     },
     /** 提交按钮（数据权限） */

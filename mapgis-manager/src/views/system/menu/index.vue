@@ -137,13 +137,13 @@ export default {
           align: 'center'
         },
         {
-          title: '排序',
+          title: this.$t('order'),
           dataIndex: 'orderNum',
           width: '5%',
           align: 'center'
         },
         {
-          title: '权限标识',
+          title: this.$t('security.role.permission.identification'),
           dataIndex: 'perms',
           ellipsis: true,
           align: 'center'

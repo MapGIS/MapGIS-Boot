@@ -14,15 +14,17 @@
       </a-form-model-item>
       <a-form-model-item prop="roleKey">
         <span slot="label">
-          {{ $t('security.role.permission.character') }}
+          {{ $t('security.role.role.identification') }}
           <a-tooltip>
-            <template slot="title"> 控制器中定义的权限字符，如：@PreAuthorize(`@ss.hasRole('admin')`) </template>
+            <template slot="title">
+              {{ $t('security.role.role.define.description', { eg: '@PreAuthorize("@ss.hasRole(\'admin\')")' }) }}
+            </template>
             <a-icon type="question-circle-o" />
           </a-tooltip>
         </span>
         <a-input v-model="form.roleKey" :placeholder="$t('please.input')" :disabled="updateDisable" />
       </a-form-model-item>
-      <a-form-model-item label="排序" prop="roleSort">
+      <a-form-model-item :label="$t('order')" prop="roleSort">
         <a-input-number
           :placeholder="$t('please.input')"
           v-model="form.roleSort"
@@ -31,7 +33,7 @@
           :disabled="updateDisable"
         />
       </a-form-model-item>
-      <a-form-model-item label="角色描述" prop="remark">
+      <a-form-model-item :label="$t('security.role.role.description')" prop="remark">
         <a-input
           v-model="form.remark"
           :placeholder="$t('please.input')"
@@ -40,15 +42,19 @@
           :disabled="updateDisable"
         />
       </a-form-model-item>
-      <a-form-model-item label="菜单权限">
-        <a-checkbox @change="handleCheckedTreeExpand($event)" :disabled="updateDisable"> 展开/折叠 </a-checkbox>
-        <a-checkbox @change="handleCheckedTreeNodeAll($event)" :disabled="updateDisable"> 全选/全不选 </a-checkbox>
+      <a-form-model-item :label="$t('security.role.menu.permission')">
+        <a-checkbox @change="handleCheckedTreeExpand($event)" :disabled="updateDisable">
+          {{ $t('security.role.expand.collapse') }}
+        </a-checkbox>
+        <a-checkbox @change="handleCheckedTreeNodeAll($event)" :disabled="updateDisable">
+          {{ $t('security.role.select.all.none') }}
+        </a-checkbox>
         <a-checkbox
           @change="handleCheckedTreeConnect($event)"
           :checked="form.menuCheckStrictly"
           :disabled="updateDisable"
         >
-          父子联动
+          {{ $t('security.role.parent.child.linkage') }}
         </a-checkbox>
         <a-tree
           v-model="menuCheckedKeys"
@@ -108,9 +114,19 @@ export default {
       menuExpand: false,
       menuNodeAll: false,
       rules: {
-        roleName: [{ required: true, message: '角色名称不能为空', trigger: 'blur' }],
-        roleKey: [{ required: true, message: '权限字符不能为空', trigger: 'blur' }],
-        roleSort: [{ required: true, message: '显示顺序不能为空', trigger: 'blur' }]
+        roleName: [
+          { required: true, message: this.$t('not.empty.suffix', { content: this.$t('role.name') }), trigger: 'blur' }
+        ],
+        roleKey: [
+          {
+            required: true,
+            message: this.$t('not.empty.suffix', { content: this.$t('security.role.role.identification') }),
+            trigger: 'blur'
+          }
+        ],
+        roleSort: [
+          { required: true, message: this.$t('not.empty.suffix', { content: this.$t('order') }), trigger: 'blur' }
+        ]
       },
       defaultProps: {
         children: 'children',
@@ -258,7 +274,7 @@ export default {
       this.reset()
       this.getMenuTreeselect()
       this.open = true
-      this.formTitle = '添加角色'
+      this.formTitle = this.$t('add.suffix', { content: this.$t('role') })
     },
     /** 修改按钮操作 */
     handleUpdate(row, ids) {
@@ -277,7 +293,7 @@ export default {
             }
           })
         })
-        this.formTitle = '修改角色'
+        this.formTitle = this.$t('modify.suffix', { content: this.$t('role') })
       })
     },
     /** 提交按钮 */

@@ -29,7 +29,7 @@
       <a-form-model-item :label="$t('department.name')" prop="deptName">
         <a-input v-model="form.deptName" :placeholder="$t('please.input')" />
       </a-form-model-item>
-      <a-form-model-item label="排序" prop="orderNum">
+      <a-form-model-item :label="$t('order')" prop="orderNum">
         <a-input-number v-model="form.orderNum" :min="0" style="width: 100%" />
       </a-form-model-item>
       <div class="bottom-control">

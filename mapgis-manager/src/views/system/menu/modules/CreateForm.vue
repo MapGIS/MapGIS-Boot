@@ -51,7 +51,7 @@
       <a-form-model-item :label="$t('menu.name')" prop="menuName">
         <a-input v-model="form.menuName" :placeholder="$t('please.input')" />
       </a-form-model-item>
-      <a-form-model-item label="排序" prop="orderNum">
+      <a-form-model-item :label="$t('order')" prop="orderNum">
         <a-input-number v-model="form.orderNum" :min="0" :max="9999" style="width: 100%" />
       </a-form-model-item>
       <a-form-model-item prop="isFrame" v-if="form.menuType != 'F'">
@@ -94,10 +94,10 @@
       </a-form-model-item>
       <a-form-model-item prop="perms" v-if="form.menuType != 'M'">
         <span slot="label">
-          权限标识
+          {{ $t('security.role.permission.identification') }}
           <a-tooltip>
             <template slot="title">
-              控制器中定义的权限字符，如：@PreAuthorize(`@ss.hasPermi('system:user:list')`)
+              控制器中定义的权限标识，如：@PreAuthorize(`@ss.hasPermi('system:user:list')`)
             </template>
             <a-icon type="question-circle-o" />
           </a-tooltip>

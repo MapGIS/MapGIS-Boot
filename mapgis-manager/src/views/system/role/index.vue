@@ -11,7 +11,7 @@
               </a-form-item>
             </a-col>
             <a-col :md="8" :sm="24">
-              <a-form-item :label="$t('security.role.permission.character')">
+              <a-form-item :label="$t('security.role.role.identification')">
                 <a-input v-model="queryParam.roleKey" :placeholder="$t('please.input')" allow-clear />
               </a-form-item>
             </a-col>
@@ -103,7 +103,7 @@
             </template>
             <template v-else>
               <a-icon type="search" />
-              查看
+              {{ $t('look') }}
             </template>
           </a>
           <template v-if="record.isSys == 0">
@@ -123,13 +123,13 @@
               <a-menu-item>
                 <a @click="$refs.createDataScopeForm.handleDataScope(record)">
                   <a-icon type="lock" />
-                  数据权限
+                  {{ $t('security.role.data.permission') }}
                 </a>
               </a-menu-item>
               <a-menu-item>
                 <a @click="handleAuthUser(record)">
                   <a-icon type="user-add" />
-                  分配用户
+                  {{ $t('security.role.assign.users') }}
                 </a>
               </a-menu-item>
             </a-menu>
@@ -189,7 +189,7 @@ export default {
       },
       columns: [
         {
-          title: '角色编号',
+          title: this.$t('id.suffix', { content: this.$t('role') }),
           dataIndex: 'roleId',
           align: 'center',
           visible: false
@@ -197,25 +197,25 @@ export default {
         {
           title: this.$t('role.name'),
           dataIndex: 'roleName',
-          width: '18%',
+          width: '16%',
           ellipsis: true,
           align: 'center'
         },
         {
-          title: '权限标识',
+          title: this.$t('security.role.role.identification'),
           dataIndex: 'roleKey',
-          width: '12%',
+          width: '16%',
           ellipsis: true,
           align: 'center'
         },
         {
-          title: '排序',
+          title: this.$t('order'),
           dataIndex: 'roleSort',
           width: '5%',
           align: 'center'
         },
         {
-          title: '角色描述',
+          title: this.$t('security.role.role.description'),
           dataIndex: 'remark',
           align: 'left'
         },
@@ -229,7 +229,7 @@ export default {
         {
           title: this.$t('operation'),
           dataIndex: 'operation',
-          width: '18%',
+          width: '25%',
           scopedSlots: { customRender: 'operation' },
           align: 'center'
         }

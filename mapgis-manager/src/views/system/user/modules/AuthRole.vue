@@ -72,7 +72,7 @@ export default {
           align: 'center'
         },
         {
-          title: this.$t('security.role.permission.character'),
+          title: this.$t('security.role.role.identification'),
           dataIndex: 'roleKey',
           ellipsis: true,
           align: 'center'

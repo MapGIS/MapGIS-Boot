@@ -1,3 +1,27 @@
 export default {
-  'security.role.permission.character': 'Permission Character'
+  'security.role.permission.identification': 'Permission Identification',
+  'security.role.role.identification': 'Role Identification',
+  'security.role.data.permission': 'Data Permission',
+  'security.role.assign.users': 'Assign Users',
+  'security.role.role.description': 'Role Description',
+  'security.role.add.user': 'Add User',
+  'security.role.cancel.batch.authorization': 'Cancel Batch Authorization',
+  'security.role.cancel.authorization': 'Cancel Authorization',
+  'security.role.cancel.authorization.success': 'Cancel Authorization Success',
+  'security.role.confirm.cancel.user.role': 'Are you sure to cancel the role of this user?',
+  'security.role.currently.selected.user': 'Currently selected user {username}',
+  'security.role.confirm.cancel.selected.user.role': 'Are you sure to cancel the roles for these selected users?',
+  'security.role.select.user': 'Select User',
+  'security.role.permission.scope': 'Permission Scope',
+  'security.role.assign.data.permission': 'Assign Data Permission',
+  'security.role.expand.collapse': 'Expand/Collapse',
+  'security.role.select.all.none': 'Slect All/None',
+  'security.role.parent.child.linkage': 'Parent-Child Linkage',
+  'security.role.all.data.permission': 'All Data Permission',
+  'security.role.custom.data.permission': 'Custom Data Permission',
+  'security.role.data.permission.of.department': 'Data Permission Of The Department',
+  'security.role.data.permission.of.department.and.below': 'Data Permission Of The Department And Below',
+  'security.role.only.my.data.permission': 'Only My Data Permission',
+  'security.role.role.define.description': 'Role Identification defined in the controller, eg: {eg}',
+  'security.role.menu.permission': 'Menu Permission'
 }

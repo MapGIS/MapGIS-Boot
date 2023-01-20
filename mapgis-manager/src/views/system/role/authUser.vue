@@ -25,7 +25,7 @@
       <div class="table-operations">
         <a-button type="primary" @click="$refs.selectUser.handleAuthUser()" v-hasPermi="['system:role:add']">
           <a-icon type="plus" />
-          添加用户
+          {{ $t('security.role.add.user') }}
         </a-button>
         <a-button
           type="danger"
@@ -35,11 +35,11 @@
           v-hasPermi="['system:role:remove']"
         >
           <a-icon type="delete" />
-          取消批量授权
+          {{ $t('security.role.cancel.batch.authorization') }}
         </a-button>
         <a-button type="primary" @click="back">
           <a-icon type="edit" />
-          返回
+          {{ $t('return') }}
         </a-button>
         <table-setting
           :style="{ float: 'right' }"
@@ -73,7 +73,7 @@
         <span slot="operation" slot-scope="text, record" v-if="record.userId !== 1">
           <a @click="cancelAuthUser(record)" v-hasPermi="['system:role:remove']">
             <a-icon type="edit" />
-            取消授权
+            {{ $t('security.role.cancel.authorization') }}
           </a>
         </span>
       </a-table>
@@ -237,8 +237,8 @@ export default {
       const userName = row.userName
       const roleId = this.queryParam.roleId
       this.$confirm({
-        title: '确认要取消该用户的角色吗?',
-        content: '当前选中用户' + userName,
+        title: this.$t('security.role.confirm.cancel.user.role'),
+        content: this.$t('security.role.currently.selected.user', { username: userName }),
         onOk() {
           const param = {
             userId: row.userId,
@@ -247,7 +247,7 @@ export default {
           return authUserCancel(param).then(() => {
             that.onSelectChange([], [])
             that.getList()
-            that.$message.success('取消授权成功', 3)
+            that.$message.success(that.$t('security.role.cancel.authorization.success'), 3)
           })
         },
         onCancel() {}
@@ -258,7 +258,7 @@ export default {
       const that = this
       const roleId = this.queryParam.roleId
       this.$confirm({
-        title: '是否取消选中用户授权数据项?',
+        title: this.$t('security.role.confirm.cancel.selected.user.role'),
         onOk() {
           const param = {
             roleId: roleId,
@@ -269,7 +269,7 @@ export default {
             .then(() => {
               that.onSelectChange([], [])
               that.getList()
-              that.$message.success('取消授权成功', 3)
+              that.$message.success(that.$t('security.role.cancel.authorization.success'), 3)
             })
             .finally(() => {
               that.authing = false
