@@ -12,13 +12,13 @@
       <a-form-model-item :label="$t('post.name')" prop="postName">
         <a-input v-model="form.postName" :placeholder="$t('please.input')" />
       </a-form-model-item>
-      <a-form-model-item label="岗位编码" prop="postCode">
+      <a-form-model-item :label="$t('security.post.post.code')" prop="postCode">
         <a-input v-model="form.postCode" :placeholder="$t('please.input')" />
       </a-form-model-item>
-      <a-form-model-item label="显示顺序" prop="postSort">
+      <a-form-model-item :label="$t('order')" prop="postSort">
         <a-input-number v-model="form.postSort" :min="0" style="width: 100%" />
       </a-form-model-item>
-      <a-form-model-item label="备注" prop="remark">
+      <a-form-model-item :label="$t('remark')" prop="remark">
         <a-input v-model="form.remark" :placeholder="$t('please.input')" type="textarea" allow-clear />
       </a-form-model-item>
       <div class="bottom-control">
@@ -54,9 +54,23 @@ export default {
       },
       open: false,
       rules: {
-        postName: [{ required: true, message: '岗位编码不能为空', trigger: 'blur' }],
-        postCode: [{ required: true, message: '岗位名称不能为空', trigger: 'blur' }],
-        postSort: [{ required: true, message: '显示顺序不能为空', trigger: 'blur' }]
+        postName: [
+          {
+            required: true,
+            message: this.$t('not.empty.suffix', { content: this.$t('security.post.post.code') }),
+            trigger: 'blur'
+          }
+        ],
+        postCode: [
+          {
+            required: true,
+            message: this.$t('not.empty.suffix', { content: this.$t('post.name') }),
+            trigger: 'blur'
+          }
+        ],
+        postSort: [
+          { required: true, message: this.$t('not.empty.suffix', { content: this.$t('order') }), trigger: 'blur' }
+        ]
       }
     }
   },
@@ -87,7 +101,7 @@ export default {
     handleAdd() {
       this.reset()
       this.open = true
-      this.formTitle = '添加岗位'
+      this.formTitle = this.$t('add.suffix', { content: this.$t('post') })
     },
     /** 修改按钮操作 */
     handleUpdate(row, ids) {
@@ -96,7 +110,7 @@ export default {
       getPost(postId).then(response => {
         this.form = response.data
         this.open = true
-        this.formTitle = '修改岗位'
+        this.formTitle = this.$t('modify.suffix', { content: this.$t('post') })
       })
     },
     /** 提交按钮 */

@@ -9,7 +9,7 @@
     @cancel="onClose"
   >
     <a-form-model ref="form" :model="form" :rules="rules" v-bind="formLayout">
-      <a-form-model-item label="上级菜单" prop="parentId">
+      <a-form-model-item :label="$t('security.menu.parent.menu')" prop="parentId">
         <a-tree-select
           v-model="form.parentId"
           style="width: 100%"
@@ -26,21 +26,21 @@
         >
         </a-tree-select>
       </a-form-model-item>
-      <a-form-model-item label="菜单类型" prop="menuType">
+      <a-form-model-item :label="$t('security.menu.menu.type')" prop="menuType">
         <a-radio-group v-model="form.menuType" button-style="solid">
-          <a-radio-button value="M">目录</a-radio-button>
-          <a-radio-button value="C">菜单</a-radio-button>
-          <a-radio-button value="F">按钮</a-radio-button>
+          <a-radio-button value="M">{{ $t('security.menu.menu.type.directory') }}</a-radio-button>
+          <a-radio-button value="C">{{ $t('security.menu.menu.type.menu') }}</a-radio-button>
+          <a-radio-button value="F">{{ $t('security.menu.menu.type.button') }}</a-radio-button>
         </a-radio-group>
       </a-form-model-item>
-      <a-form-model-item label="图标" prop="icon" v-if="form.menuType != 'F'">
+      <a-form-model-item :label="$t('icon')" prop="icon" v-if="form.menuType != 'F'">
         <a-space size="large">
           <a-icon :component="allIcon[form.icon + 'Icon']" v-if="form.icon && allIcon[form.icon + 'Icon']" />
           <a-icon :type="form.icon" v-if="form.icon && !allIcon[form.icon + 'Icon']" />
-          <a-button type="dashed" @click="selectIcon"> 选择图标 </a-button>
-          <a-button type="dashed" @click="removeIcon"> 移除图标 </a-button>
+          <a-button type="dashed" @click="selectIcon"> {{ $t('security.menu.select.icon') }} </a-button>
+          <a-button type="dashed" @click="removeIcon"> {{ $t('security.menu.remove.icon') }}</a-button>
           <a @click="cancelSelectIcon" v-if="iconVisible" style="margin-left: 8px">
-            收起
+            {{ $t('collapse') }}
             <a-icon type="up" />
           </a>
         </a-space>
@@ -56,22 +56,22 @@
       </a-form-model-item>
       <a-form-model-item prop="isFrame" v-if="form.menuType != 'F'">
         <span slot="label">
-          是否外链
+          {{ $t('security.menu.whether.to.external.link') }}
           <a-tooltip>
-            <template slot="title"> 选择是外链则路由地址需要以`http(s)://`开头 </template>
+            <template slot="title"> {{ $t('security.menu.external.link.description') }} </template>
             <a-icon type="question-circle-o" />
           </a-tooltip>
         </span>
         <a-radio-group v-model="form.isFrame" button-style="solid">
-          <a-radio-button value="0">是</a-radio-button>
-          <a-radio-button value="1">否</a-radio-button>
+          <a-radio-button value="0">{{ $t('yes') }}</a-radio-button>
+          <a-radio-button value="1">{{ $t('no') }}</a-radio-button>
         </a-radio-group>
       </a-form-model-item>
       <a-form-model-item prop="path" v-if="form.menuType != 'F'">
         <span slot="label">
-          路由地址
+          {{ $t('security.menu.route.path') }}
           <a-tooltip>
-            <template slot="title"> 访问的路由地址，如：`user`，如外网地址需内链访问则以`http(s)://`开头 </template>
+            <template slot="title"> {{ $t('security.menu.route.path.description') }} </template>
             <a-icon type="question-circle-o" />
           </a-tooltip>
         </span>
@@ -79,15 +79,13 @@
       </a-form-model-item>
       <a-form-model-item prop="component" v-if="form.menuType == 'C'">
         <span slot="label">
-          组件路径
+          {{ $t('security.menu.component.path') }}
           <a-tooltip>
-            <template slot="title">
-              访问的组件路径，如：`system/user/index`，默认在`views`目录下，如果是微应用，请使用微应用组件</template
-            >
+            <template slot="title"> {{ $t('security.menu.component.path.description') }}</template>
             <a-icon type="question-circle-o" />
           </a-tooltip>
           <a-button type="dashed" size="small" style="margin: 0 8px" @click="useMicroPageCompoment">
-            使用微应用组件
+            {{ $t('security.menu.use.micro.application.component') }}
           </a-button>
         </span>
         <a-input v-model="form.component" :placeholder="$t('please.input')" />
@@ -97,7 +95,11 @@
           {{ $t('security.role.permission.identification') }}
           <a-tooltip>
             <template slot="title">
-              控制器中定义的权限标识，如：@PreAuthorize(`@ss.hasPermi('system:user:list')`)
+              {{
+                $t('security.menu.permission.define.description', {
+                  eg: '@PreAuthorize("@ss.hasPermi(\'system:user:list\')"'
+                })
+              }}
             </template>
             <a-icon type="question-circle-o" />
           </a-tooltip>
@@ -106,9 +108,9 @@
       </a-form-model-item>
       <a-form-model-item prop="visible" v-if="form.menuType != 'F'">
         <span slot="label">
-          是否显示
+          {{ $t('security.menu.whether.to.show') }}
           <a-tooltip>
-            <template slot="title"> 选择隐藏则路由将不会出现在侧边栏，但仍然可以访问 </template>
+            <template slot="title"> {{ $t('security.menu.whether.to.show.description') }} </template>
             <a-icon type="question-circle-o" />
           </a-tooltip>
         </span>
@@ -120,9 +122,9 @@
       </a-form-model-item>
       <a-form-model-item prop="status" v-if="form.menuType != 'F'">
         <span slot="label">
-          状态
+          {{ $t('status') }}
           <a-tooltip>
-            <template slot="title"> 选择停用则路由将不会出现在侧边栏，也不能被访问 </template>
+            <template slot="title"> {{ $t('security.menu.status.description') }} </template>
             <a-icon type="question-circle-o" />
           </a-tooltip>
         </span>
@@ -134,17 +136,17 @@
       </a-form-model-item>
       <a-form-model-item prop="isCache" v-if="form.menuType == 'C'">
         <span slot="label">
-          是否缓存
+          {{ $t('security.menu.whether.to.cache') }}
           <a-tooltip>
             <template slot="title">
-              选择是则会被`keep-alive`缓存，需要匹配组件的`name`和地址保持一致，仅在多页签下有效。
+              {{ $t('security.menu.whether.to.cache.description') }}
             </template>
             <a-icon type="question-circle-o" />
           </a-tooltip>
         </span>
         <a-radio-group v-model="form.isCache" button-style="solid">
-          <a-radio-button value="0">缓存</a-radio-button>
-          <a-radio-button value="1">不缓存</a-radio-button>
+          <a-radio-button value="0">{{ $t('cache') }}</a-radio-button>
+          <a-radio-button value="1">{{ $t('not.cache') }}</a-radio-button>
         </a-radio-group>
       </a-form-model-item>
       <div class="bottom-control">
@@ -206,9 +208,19 @@ export default {
       },
       open: false,
       rules: {
-        menuName: [{ required: true, message: '菜单名称不能为空', trigger: 'blur' }],
-        orderNum: [{ required: true, message: '菜单顺序不能为空', trigger: 'blur' }],
-        path: [{ required: true, message: '路由地址不能为空', trigger: 'blur' }]
+        menuName: [
+          { required: true, message: this.$t('not.empty.suffix', { content: this.$t('menu.name') }), trigger: 'blur' }
+        ],
+        orderNum: [
+          { required: true, message: this.$t('not.empty.suffix', { content: this.$t('order') }), trigger: 'blur' }
+        ],
+        path: [
+          {
+            required: true,
+            message: this.$t('not.empty.suffix', { content: this.$t('security.menu.route.path') }),
+            trigger: 'blur'
+          }
+        ]
       }
     }
   },
@@ -262,7 +274,7 @@ export default {
         this.form.parentId = 0
       }
       this.open = true
-      this.formTitle = '添加菜单'
+      this.formTitle = this.$t('add.suffix', { content: this.$t('menu') })
     },
     /** 修改按钮操作 */
     handleUpdate(row) {
@@ -271,7 +283,7 @@ export default {
       getMenu(row.menuId).then(response => {
         this.form = response.data
         this.open = true
-        this.formTitle = '修改菜单'
+        this.formTitle = this.$t('modify.suffix', { content: this.$t('menu') })
       })
     },
     /** 提交按钮 */

@@ -141,5 +141,9 @@ export default {
   member: 'Member',
   look: 'Look',
   order: 'Order',
-  return: 'Return'
+  return: 'Return',
+  icon: 'Icon',
+  cache: 'Cache',
+  'not.cache': 'Not Cache',
+  remark: 'Remark'
 }

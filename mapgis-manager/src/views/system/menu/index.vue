@@ -130,7 +130,7 @@ export default {
           width: '15%'
         },
         {
-          title: '图标',
+          title: this.$t('icon'),
           dataIndex: 'icon',
           scopedSlots: { customRender: 'icon' },
           width: '5%',
@@ -149,7 +149,7 @@ export default {
           align: 'center'
         },
         {
-          title: '组件路径',
+          title: this.$t('security.menu.component.path'),
           dataIndex: 'component',
           scopedSlots: { customRender: 'component' },
           ellipsis: true,

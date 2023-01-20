@@ -6,7 +6,7 @@
         <a-form layout="inline">
           <a-row :gutter="48">
             <a-col :md="8" :sm="24">
-              <a-form-item label="岗位编码">
+              <a-form-item :label="$t('id.suffix', { content: this.$t('post') })">
                 <a-input v-model="queryParam.postCode" :placeholder="$t('please.input')" allow-clear />
               </a-form-item>
             </a-col>
@@ -131,7 +131,7 @@ export default {
       },
       columns: [
         {
-          title: '岗位编号',
+          title: this.$t('id.suffix', { content: this.$t('post') }),
           dataIndex: 'postId',
           align: 'center'
         },
@@ -148,7 +148,7 @@ export default {
           align: 'center'
         },
         {
-          title: '显示顺序',
+          title: this.$t('order'),
           dataIndex: 'postSort',
           align: 'center'
         },

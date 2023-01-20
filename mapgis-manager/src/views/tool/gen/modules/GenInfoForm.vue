@@ -63,7 +63,7 @@
         <a-col :span="12">
           <a-form-model-item>
             <span slot="label">
-              上级菜单
+              {{ $t('security.menu.parent.menu') }}
               <a-tooltip>
                 <template slot="title"> 分配到指定菜单下，例如 系统管理 </template>
                 <a-icon type="question-circle-o" />

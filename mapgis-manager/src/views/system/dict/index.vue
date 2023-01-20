@@ -204,7 +204,7 @@ export default {
           align: 'center'
         },
         {
-          title: '备注',
+          title: this.$t('remark'),
           dataIndex: 'remark',
           ellipsis: true,
           align: 'center'

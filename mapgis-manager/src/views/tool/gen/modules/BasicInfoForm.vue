@@ -23,7 +23,7 @@
           </a-form-model-item>
         </a-col>
         <a-col :span="24" :pull="3">
-          <a-form-model-item label="备注">
+          <a-form-model-item :label="$t('remark')">
             <a-textarea placeholder="textarea with clear icon" allow-clear v-model="info.remark" />
           </a-form-model-item>
         </a-col>

@@ -9,7 +9,7 @@
     @cancel="onClose"
   >
     <a-form-model ref="form" :model="form" :rules="rules" v-bind="formLayout">
-      <a-form-model-item label="上级部门" prop="parentId">
+      <a-form-model-item :label="$t('security.dept.parent.department')" prop="parentId">
         <a-tree-select
           v-model="form.parentId"
           style="width: 100%"
@@ -68,9 +68,27 @@ export default {
       },
       open: false,
       rules: {
-        parentId: [{ required: true, message: '上级部门不能为空', trigger: 'blur' }],
-        deptName: [{ required: true, message: '部门名称不能为空', trigger: 'blur' }],
-        orderNum: [{ required: true, message: '排序不能为空', trigger: 'blur' }]
+        parentId: [
+          {
+            required: true,
+            message: this.$t('not.empty.suffix', { content: this.$t('security.dept.parent.department') }),
+            trigger: 'blur'
+          }
+        ],
+        deptName: [
+          {
+            required: true,
+            message: this.$t('not.empty.suffix', { content: this.$t('department.name') }),
+            trigger: 'blur'
+          }
+        ],
+        orderNum: [
+          {
+            required: true,
+            message: this.$t('not.empty.suffix', { content: this.$t('order') }),
+            trigger: 'blur'
+          }
+        ]
       }
     }
   },
@@ -103,7 +121,7 @@ export default {
         this.form.parentId = row.deptId
       }
       this.open = true
-      this.formTitle = '添加部门'
+      this.formTitle = this.$t('add.suffix', { content: this.$t('department') })
       this.$emit('select-tree')
     },
     /** 修改按钮操作 */
@@ -113,7 +131,7 @@ export default {
       getDept(deptId).then(response => {
         this.form = response.data
         this.open = true
-        this.formTitle = '修改部门'
+        this.formTitle = this.$t('modify.suffix', { content: this.$t('department') })
       })
       this.$emit('select-tree', row)
     },

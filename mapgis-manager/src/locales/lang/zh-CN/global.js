@@ -140,5 +140,9 @@ export default {
   member: '成员',
   look: '查看',
   order: '排序',
-  return: '返回'
+  return: '返回',
+  icon: '图标',
+  cache: '缓存',
+  'not.cache': '不缓存',
+  remark: '备注'
 }
