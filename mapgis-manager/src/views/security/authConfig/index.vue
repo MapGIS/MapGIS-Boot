@@ -6,13 +6,21 @@
         <a-form layout="inline">
           <a-row :gutter="48">
             <a-col :md="8" :sm="24">
-              <a-form-item label="登录平台" prop="type">
-                <a-input v-model="queryParam.type" placeholder="请输入登录平台" allow-clear />
+              <a-form-item :label="$t('security.oauth.login.platform')" prop="type">
+                <a-input
+                  v-model="queryParam.type"
+                  :placeholder="$t('please.prefix.input', { content: $t('security.oauth.login.platform') })"
+                  allow-clear
+                />
               </a-form-item>
             </a-col>
             <a-col :md="8" :sm="24">
               <a-form-item :label="$t('login.name')" prop="name">
-                <a-input v-model="queryParam.name" placeholder="请输入登录名称" allow-clear />
+                <a-input
+                  v-model="queryParam.name"
+                  :placeholder="$t('please.prefix.input', { content: $t('login.name') })"
+                  allow-clear
+                />
               </a-form-item>
             </a-col>
             <a-col :md="(!advanced && 8) || 24" :sm="24">
@@ -148,7 +156,7 @@ export default {
       },
       columns: [
         {
-          title: '登录平台',
+          title: this.$t('security.oauth.login.platform'),
           dataIndex: 'type',
           width: '10%',
           align: 'center'
@@ -160,13 +168,13 @@ export default {
           align: 'center'
         },
         {
-          title: '客户端ID',
+          title: this.$t('security.oauth.client.id'),
           dataIndex: 'clientId',
           ellipsis: true,
           align: 'center'
         },
         {
-          title: '回调地址',
+          title: this.$t('security.oauth.redirect.url'),
           dataIndex: 'redirectUri',
           ellipsis: true,
           align: 'center'

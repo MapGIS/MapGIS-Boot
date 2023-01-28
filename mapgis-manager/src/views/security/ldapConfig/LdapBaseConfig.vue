@@ -27,7 +27,7 @@
       <a-input-password v-model="form.password" :visibilityToggle="false" autocomplete="new-password" />
     </a-form-model-item>
     <!-- 暂时不提供创建用户的默认用户组配置，默认就是第三方用户组（useGroupId为1） -->
-    <a-form-model-item label="创建用户的默认用户组" prop="defaultUserGroupIds" v-if="false">
+    <a-form-model-item :label="$t('security.usergroup.default.user.group')" prop="defaultUserGroupIds" v-if="false">
       <a-select mode="multiple" v-model="form.defaultUserGroupIds" :placeholder="$t('please.select')">
         <a-select-option v-for="(d, index) in userGroupOptions" :key="index" :value="d.userGroupId">
           {{ d.userGroupName }}

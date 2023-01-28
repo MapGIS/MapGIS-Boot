@@ -54,7 +54,7 @@
         </a-button>
       </a-form-item>
       <div v-if="otherLoginValid" class="user-login-other">
-        <span>{{ $t('user.login.other') }}</span>
+        <span>{{ $t('user.login.others') }}</span>
         <cas-login :config="casConfig"></cas-login>
         <third-login :config="oauthConfig" ref="thirdLogin"></third-login>
       </div>

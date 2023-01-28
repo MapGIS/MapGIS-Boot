@@ -1,7 +1,7 @@
 <template>
   <div>
     <a-form-model v-if="configLoaded" ref="form" :model="form" layout="vertical">
-      <a-form-model-item label="创建用户的默认默认用户组" prop="defaultUserGroupIds">
+      <a-form-model-item :label="$t('security.usergroup.default.user.group')" prop="defaultUserGroupIds">
         <a-select mode="multiple" v-model="form.defaultUserGroupIds" :placeholder="$t('please.select')">
           <a-select-option v-for="(d, index) in userGroupOptions" :key="index" :value="d.userGroupId">
             {{ d.userGroupName }}
