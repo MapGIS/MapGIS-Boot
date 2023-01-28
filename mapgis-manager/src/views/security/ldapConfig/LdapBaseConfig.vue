@@ -7,7 +7,7 @@
     :model="form"
     :rules="rules"
   >
-    <a-form-model-item label="是否启用" prop="enabled">
+    <a-form-model-item :label="$t('whether.to.enable')" prop="enabled">
       <a-checkbox :checked="form.enabled" @change="handleChange" />
     </a-form-model-item>
     <a-form-model-item label="LDAP服务器地址" prop="url">

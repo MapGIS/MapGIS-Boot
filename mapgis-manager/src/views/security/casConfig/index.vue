@@ -9,13 +9,13 @@
         :model="form"
         :rules="rules"
       >
-        <a-form-model-item label="是否启用" prop="enabled">
+        <a-form-model-item :label="$t('whether.to.enable')" prop="enabled">
           <a-checkbox :checked="form.enabled" @change="handleChange" />
         </a-form-model-item>
-        <a-form-model-item label="是否保留默认登录方式" prop="isReserveDefaultLogin">
+        <a-form-model-item :label="$t('security.cas.whether.to.keep.default.login')" prop="isReserveDefaultLogin">
           <a-checkbox :checked="form.isReserveDefaultLogin" @change="handleReserveDefaultLoginChange" />
         </a-form-model-item>
-        <a-form-model-item label="CAS服务器访问地址" prop="casServerUrl">
+        <a-form-model-item :label="$t('security.cas.server.url')" prop="casServerUrl">
           <a-input v-model="form.casServerUrl" placeholder="http://{host}:{port}/cas" />
         </a-form-model-item>
         <a-form-model-item :wrapper-col="{ lg: { span: 10, offset: 7 }, sm: { span: 17, offset: 7 } }">
@@ -51,9 +51,27 @@ export default {
       configInfo: {},
       form: {},
       rules: {
-        casServerUrl: [{ required: true, message: '请输入CAS服务器访问地址', trigger: 'blur' }],
-        casServiceHostUrl: [{ required: true, message: '请输入CAS客户端服务访问地址', trigger: 'blur' }],
-        casServiceWebUrl: [{ required: true, message: '请输入CAS客户端Web访问地址', trigger: 'blur' }]
+        casServerUrl: [
+          {
+            required: true,
+            message: this.$t('please.prefix.input', { content: this.$t('security.cas.server.url') }),
+            trigger: 'blur'
+          }
+        ],
+        casServiceHostUrl: [
+          {
+            required: true,
+            message: this.$t('please.prefix.input', { content: this.$t('security.cas.service.host.url') }),
+            trigger: 'blur'
+          }
+        ],
+        casServiceWebUrl: [
+          {
+            required: true,
+            message: this.$t('please.prefix.input', { content: this.$t('security.cas.service.web.url') }),
+            trigger: 'blur'
+          }
+        ]
       }
     }
   },

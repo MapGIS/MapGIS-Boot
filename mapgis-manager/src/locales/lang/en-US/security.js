@@ -6,5 +6,6 @@ import menu from './security/menu'
 import dept from './security/dept'
 import post from './security/post'
 import oauth from './security/oauth'
+import cas from './security/cas'
 
-export default { ...config, ...user, ...role, ...usergroup, ...menu, ...dept, ...post, ...oauth }
+export default { ...config, ...user, ...role, ...usergroup, ...menu, ...dept, ...post, ...oauth, ...cas }
