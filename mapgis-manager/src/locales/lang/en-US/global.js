@@ -151,5 +151,8 @@ export default {
   'optional.roles': 'Optional Roles',
   'selected.roles': 'Selected Roles',
   optional: 'Optional',
-  selected: 'Selected'
+  selected: 'Selected',
+  job: 'Job',
+  running: 'Running',
+  pause: 'Pause'
 }

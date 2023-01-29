@@ -1,6 +1,7 @@
 import antdEnUS from 'ant-design-vue/es/locale-provider/en_US'
 import momentEU from 'moment/locale/eu'
 import global from './en-US/global'
+import compos from './en-US/components'
 
 import setting from './en-US/setting'
 import account from './en-US/account'
@@ -24,6 +25,7 @@ export default {
 
   ...components,
   ...global,
+  ...compos,
   ...setting,
   ...user,
   ...account,

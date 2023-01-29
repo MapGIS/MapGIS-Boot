@@ -1,7 +1,7 @@
 <template>
   <a-modal
     ref="genCrontab"
-    :title="'Cron表达式生成器'"
+    :title="$t('schedule.job.cron.expression.generator')"
     :width="900"
     :visible="visible"
     :confirm-loading="submitLoading"

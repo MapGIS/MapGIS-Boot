@@ -1,6 +1,7 @@
 import antd from 'ant-design-vue/es/locale-provider/zh_CN'
 import momentCN from 'moment/locale/zh-cn'
 import global from './zh-CN/global'
+import compos from './en-US/components'
 
 import setting from './zh-CN/setting'
 import account from './zh-CN/account'
@@ -24,6 +25,7 @@ export default {
 
   ...components,
   ...global,
+  ...compos,
   ...setting,
   ...user,
   ...account,

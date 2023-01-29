@@ -6,19 +6,32 @@
         <a-form layout="inline">
           <a-row :gutter="48">
             <a-col :md="8" :sm="24">
-              <a-form-item label="任务名称">
-                <a-input v-model="queryParam.jobName" placeholder="请输入任务名称" allow-clear />
+              <a-form-item :label="$t('schedule.job.name')">
+                <a-input
+                  v-model="queryParam.jobName"
+                  :placeholder="$t('please.prefix.input', { content: $t('schedule.job.name') })"
+                  allow-clear
+                />
               </a-form-item>
             </a-col>
             <a-col :md="8" :sm="24">
-              <a-form-item label="任务组名">
-                <a-input v-model="queryParam.jobGroup" placeholder="请选择任务组名" allow-clear />
+              <a-form-item :label="$t('schedule.job.group')">
+                <a-input
+                  v-model="queryParam.jobGroup"
+                  :placeholder="$t('please.prefix.input', { content: $t('schedule.job.group') })"
+                  allow-clear
+                />
               </a-form-item>
             </a-col>
             <template v-if="advanced">
               <a-col :md="8" :sm="24">
-                <a-form-item label="任务状态">
-                  <a-select placeholder="请选择任务状态" v-model="queryParam.status" style="width: 100%" allow-clear>
+                <a-form-item :label="$t('schedule.job.status')">
+                  <a-select
+                    :placeholder="$t('please.prefix.select', { content: $t('schedule.job.status') })"
+                    v-model="queryParam.status"
+                    style="width: 100%"
+                    allow-clear
+                  >
                     <a-select-option v-for="(d, index) in statusOptions" :key="index" :value="d.dictValue">{{
                       d.dictLabel
                     }}</a-select-option>
@@ -64,7 +77,7 @@
           <a-icon type="download" />{{ $t('export') }}
         </a-button>
         <a-button type="dashed" @click="handleJobLog" v-hasPermi="['monitor:job:query']">
-          <a-icon type="snippets" />日志
+          <a-icon type="snippets" />{{ $t('log') }}
         </a-button>
         <table-setting
           :style="{ float: 'right' }"
@@ -103,7 +116,12 @@
             @cancel="cancelHandleStatus(record)"
           >
             <span slot="title">
-              确认<b>{{ record.status === '1' ? '开启' : '关闭' }} </b>{{ record.jobName }}的任务吗?
+              {{
+                $t('schedule.job.confirm.switch.state', {
+                  operation: record.status === '1' ? $t('enable').toLowerCase() : $t('disable').toLowerCase(),
+                  job: record.jobName
+                })
+              }}
             </span>
             <a-switch :checked-children="$t('on')" :un-checked-children="$t('off')" :checked="record.status == 0" />
           </a-popconfirm>
@@ -111,18 +129,18 @@
         <span slot="operation" slot-scope="text, record">
           <a @click="$refs.createForm.handleUpdate(record, undefined)" v-hasPermi="['monitor:job:edit']">
             <a-icon type="edit" />
-            修改
+            {{ $t('modify') }}
           </a>
           <a-divider type="vertical" v-hasPermi="['monitor:job:remove']" />
           <a @click="handleDelete(record)" v-hasPermi="['monitor:job:remove']">
             <a-icon type="delete" />
-            删除
+            {{ $t('delete') }}
           </a>
           <a-divider type="vertical" v-hasPermi="['system:job:edit', 'monitor:job:query']" />
           <a-dropdown v-hasPermi="['system:job:edit', 'monitor:job:query']">
             <a class="ant-dropdown-link" @click="e => e.preventDefault()">
               <a-icon type="double-right" />
-              更多
+              {{ $t('more') }}
             </a>
             <a-menu slot="overlay">
               <a-menu-item v-hasPermi="['monitor:job:edit']">
@@ -132,17 +150,17 @@
                   @confirm="confirmHandleRun(record)"
                   @cancel="cancelHandleRun(record)"
                 >
-                  <span slot="title">确认执行一次{{ record.jobName }}的任务吗?</span>
+                  <span slot="title">{{ $t('schedule.job.confirm.execute.once', { job: record.jobName }) }}</span>
                   <a>
                     <a-icon type="caret-right" />
-                    执行一次
+                    {{ $t('schedule.job.execute.once') }}
                   </a>
                 </a-popconfirm>
               </a-menu-item>
               <a-menu-item v-hasPermi="['monitor:job:query']">
                 <a @click="$refs.viewForm.handleView(record)">
                   <a-icon type="eye" />
-                  详细
+                  {{ $t('detail') }}
                 </a>
               </a-menu-item>
             </a-menu>
@@ -206,30 +224,30 @@ export default {
       },
       columns: [
         {
-          title: '任务编号',
+          title: this.$t('id.suffix', { content: this.$t('job') }),
           dataIndex: 'jobId',
           align: 'center'
         },
         {
-          title: '任务名称',
+          title: this.$t('schedule.job.name'),
           dataIndex: 'jobName',
           ellipsis: true,
           align: 'center'
         },
         {
-          title: '任务组名',
+          title: this.$t('schedule.job.group'),
           dataIndex: 'jobGroup',
           scopedSlots: { customRender: 'jobGroup' },
           align: 'center'
         },
         {
-          title: '调用目标字符串',
+          title: this.$t('schedule.job.invoke.method'),
           dataIndex: 'invokeTarget',
           ellipsis: true,
           align: 'center'
         },
         {
-          title: 'cron执行表达式',
+          title: this.$t('schedule.job.cron.expression'),
           dataIndex: 'cronExpression',
           ellipsis: true,
           align: 'center'
@@ -344,7 +362,7 @@ export default {
     confirmHandleRun(row) {
       runJob(row.jobId, row.jobGroup)
         .then(() => {
-          this.$message.success('执行成功', 3)
+          this.$message.success(this.$t('schedule.job.execute.success'), 3)
         })
         .catch(function () {
           this.$message.error(this.$t('exception.occurred'), 3)

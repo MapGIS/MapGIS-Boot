@@ -150,5 +150,8 @@ export default {
   'optional.roles': '供选择的角色',
   'selected.roles': '选中的角色',
   optional: '可选的',
-  selected: '选中的'
+  selected: '选中的',
+  job: '任务',
+  running: '运行中',
+  pause: '暂停'
 }

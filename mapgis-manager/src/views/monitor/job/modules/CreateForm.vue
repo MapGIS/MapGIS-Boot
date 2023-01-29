@@ -9,53 +9,62 @@
     @cancel="onClose"
   >
     <a-form-model ref="form" :model="form" :rules="rules" v-bind="formLayout">
-      <a-form-model-item label="任务名称" prop="jobName">
-        <a-input v-model="form.jobName" placeholder="请输入任务名称" />
+      <a-form-model-item :label="$t('schedule.job.name')" prop="jobName">
+        <a-input
+          v-model="form.jobName"
+          :placeholder="$t('please.prefix.input', { content: $t('schedule.job.name') })"
+        />
       </a-form-model-item>
-      <a-form-model-item label="任务分组" prop="jobGroup">
+      <a-form-model-item :label="$t('schedule.job.group')" prop="jobGroup">
         <a-select :placeholder="$t('please.select')" v-model="form.jobGroup">
-          <a-select-option v-for="(d, index) in jobGroupOptions" :key="index" :value="d.dictValue">{{
-            d.dictLabel
-          }}</a-select-option>
+          <a-select-option v-for="(d, index) in jobGroupOptions" :key="index" :value="d.dictValue">
+            {{ d.dictLabel }}
+          </a-select-option>
         </a-select>
       </a-form-model-item>
       <a-form-model-item prop="invokeTarget">
         <span slot="label">
-          调用方法&nbsp;
+          {{ $t('schedule.job.invoke.method') }}&nbsp;
           <a-popover placement="topLeft">
             <template slot="content">
-              <p>Class类调用示例：<code>com.zondy.mapgis.quartz.task.MapTask.mapParams('gis')</code></p>
-              <p>参数说明：支持字符串，布尔类型，长整型，浮点型，整型</p>
+              <p>
+                {{ $t('schedule.job.class.call.example') }}
+                <code>com.zondy.mapgis.quartz.task.MapTask.mapParams('gis')</code>
+              </p>
+              <p>{{ $t('schedule.job.parameter.desc') }}</p>
             </template>
-            <span slot="title"> Bean调用示例：<code>mapTask.mapParams('gis')</code></span>
+            <span slot="title">{{ $t('schedule.job.bean.call.example') }}<code>mapTask.mapParams('gis')</code></span>
             <a-icon type="question-circle-o" />
           </a-popover>
         </span>
-        <a-input v-model="form.invokeTarget" placeholder="请输入调用目标字符串" />
+        <a-input
+          v-model="form.invokeTarget"
+          :placeholder="$t('please.prefix.input', { content: $t('schedule.job.invoke.method') })"
+        />
       </a-form-model-item>
-      <a-form-model-item label="cron表达式" prop="cronExpression">
+      <a-form-model-item :label="$t('schedule.job.cron.expression')" prop="cronExpression">
         <a-input-search
           v-model="form.cronExpression"
-          placeholder="请输入cron执行表达式"
+          :placeholder="$t('please.prefix.input', { content: $t('schedule.job.cron.expression') })"
           @search="$refs.genCrontab.show(form.cronExpression)"
         >
           <a-button slot="enterButton">
-            生成表达式
+            {{ $t('schedule.job.generate.expresson') }}
             <a-icon type="tool" />
           </a-button>
         </a-input-search>
       </a-form-model-item>
-      <a-form-model-item label="是否并发" prop="concurrent">
+      <a-form-model-item :label="$t('schedule.job.whether.to.concurrent')" prop="concurrent">
         <a-radio-group v-model="form.concurrent" button-style="solid">
-          <a-radio-button value="0">允许</a-radio-button>
-          <a-radio-button value="1">禁止</a-radio-button>
+          <a-radio-button value="0">{{ $t('schedule.job.permit') }}</a-radio-button>
+          <a-radio-button value="1">{{ $t('schedule.job.prohibit') }}</a-radio-button>
         </a-radio-group>
       </a-form-model-item>
-      <a-form-model-item label="错误策略" prop="misfirePolicy">
+      <a-form-model-item :label="$t('schedule.job.misfire.policy')" prop="misfirePolicy">
         <a-radio-group v-model="form.misfirePolicy" button-style="solid">
-          <a-radio-button value="1">立即执行</a-radio-button>
-          <a-radio-button value="2">执行一次</a-radio-button>
-          <a-radio-button value="3">放弃执行</a-radio-button>
+          <a-radio-button value="1">{{ $t('schedule.job.execute.immediately') }}</a-radio-button>
+          <a-radio-button value="2">{{ $t('schedule.job.execute.once') }}</a-radio-button>
+          <a-radio-button value="3">{{ $t('schedule.job.abandon.execute') }}</a-radio-button>
         </a-radio-group>
       </a-form-model-item>
       <a-form-model-item :label="$t('status')" prop="status">
@@ -113,9 +122,27 @@ export default {
       open: false,
       openView: false,
       rules: {
-        jobName: [{ required: true, message: '任务名称不能为空', trigger: 'blur' }],
-        invokeTarget: [{ required: true, message: '调用目标字符串不能为空', trigger: 'blur' }],
-        cronExpression: [{ required: true, message: 'cron执行表达式不能为空', trigger: 'blur' }]
+        jobName: [
+          {
+            required: true,
+            message: this.$t('not.empty.suffix', { content: this.$t('schedule.job.name') }),
+            trigger: 'blur'
+          }
+        ],
+        invokeTarget: [
+          {
+            required: true,
+            message: this.$t('not.empty.suffix', { content: this.$t('schedule.job.invoke.method') }),
+            trigger: 'blur'
+          }
+        ],
+        cronExpression: [
+          {
+            required: true,
+            message: this.$t('not.empty.suffix', { content: this.$t('schedule.job.cron.expression') }),
+            trigger: 'blur'
+          }
+        ]
       }
     }
   },
@@ -158,7 +185,7 @@ export default {
     handleAdd() {
       this.reset()
       this.open = true
-      this.formTitle = '添加任务'
+      this.formTitle = this.$t('add.suffix', { content: this.$t('job') })
     },
     /** 修改按钮操作 */
     handleUpdate(row, ids) {
@@ -167,7 +194,7 @@ export default {
       getJob(jobId).then(response => {
         this.form = response.data
         this.open = true
-        this.formTitle = '修改任务'
+        this.formTitle = this.$t('modify.suffix', { content: this.$t('job') })
       })
     },
     /** 提交按钮 */

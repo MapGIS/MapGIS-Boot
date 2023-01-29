@@ -6,13 +6,22 @@
         <a-form layout="inline">
           <a-row :gutter="48">
             <a-col :md="8" :sm="24">
-              <a-form-item label="任务名称">
-                <a-input v-model="queryParam.jobName" placeholder="请输入任务名称" allow-clear />
+              <a-form-item :label="$t('schedule.job.name')">
+                <a-input
+                  v-model="queryParam.jobName"
+                  :placeholder="$t('please.prefix.input', { content: $t('schedule.job.name') })"
+                  allow-clear
+                />
               </a-form-item>
             </a-col>
             <a-col :md="8" :sm="24">
-              <a-form-item label="任务组名">
-                <a-select placeholder="请选择任务组名" v-model="queryParam.jobGroup" style="width: 100%" allow-clear>
+              <a-form-item :label="$t('schedule.job.group')">
+                <a-select
+                  :placeholder="$t('please.prefix.select', { content: $t('schedule.job.group') })"
+                  v-model="queryParam.jobGroup"
+                  style="width: 100%"
+                  allow-clear
+                >
                   <a-select-option v-for="(d, index) in jobGroupOptions" :key="index" :value="d.dictValue">{{
                     d.dictLabel
                   }}</a-select-option>
@@ -21,8 +30,13 @@
             </a-col>
             <template v-if="advanced">
               <a-col :md="8" :sm="24">
-                <a-form-item label="执行状态">
-                  <a-select placeholder="请选择执行状态" v-model="queryParam.status" style="width: 100%" allow-clear>
+                <a-form-item :label="$t('schedule.job.execute.status')">
+                  <a-select
+                    :placeholder="$t('please.prefix.select', { content: $t('schedule.job.execute.status') })"
+                    v-model="queryParam.status"
+                    style="width: 100%"
+                    allow-clear
+                  >
                     <a-select-option v-for="(d, index) in typeOptions" :key="index" :value="d.dictValue">{{
                       d.dictLabel
                     }}</a-select-option>
@@ -30,7 +44,7 @@
                 </a-form-item>
               </a-col>
               <a-col :md="8" :sm="24">
-                <a-form-item label="执行时间">
+                <a-form-item :label="$t('schedule.job.execute.time')">
                   <a-range-picker
                     style="width: 100%"
                     v-model="dateRange"
@@ -177,7 +191,7 @@ export default {
           align: 'center'
         },
         {
-          title: '调用目标字符串',
+          title: this.$t('schedule.job.invoke.method'),
           dataIndex: 'invokeTarget',
           ellipsis: true,
           align: 'center'
@@ -189,13 +203,13 @@ export default {
           align: 'center'
         },
         {
-          title: '执行状态',
+          title: this.$t('schedule.job.status'),
           dataIndex: 'status',
           scopedSlots: { customRender: 'status' },
           align: 'center'
         },
         {
-          title: '执行时间',
+          title: this.$t('schedule.job.execute.time'),
           dataIndex: 'createTime',
           align: 'center'
         },
@@ -301,7 +315,7 @@ export default {
       const that = this
       this.$confirm({
         title: this.$t('confirm.clear'),
-        content: '此操作将会清空所有调度日志数据项',
+        content: this.$t('schedule.job.tip.clear'),
         onOk() {
           return cleanJobLog().then(() => {
             that.onSelectChange([], [])

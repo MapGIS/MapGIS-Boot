@@ -1,40 +1,40 @@
 <template>
   <a-drawer width="35%" placement="right" :closable="false" :visible="openView" @close="onCloseView">
-    <a-descriptions title="任务详细" layout="vertical" bordered>
-      <a-descriptions-item label="任务编号">
+    <a-descriptions :title="$t('schedule.job.detail')" layout="vertical" bordered>
+      <a-descriptions-item :label="$t('id.suffix', { content: this.$t('job') })">
         {{ form.jobId }}
       </a-descriptions-item>
-      <a-descriptions-item label="任务分组">
+      <a-descriptions-item :label="$t('schedule.job.group')">
         {{ jobGroupFormat(form.jobGroup) }}
       </a-descriptions-item>
-      <a-descriptions-item label="任务名称">
+      <a-descriptions-item :label="$t('schedule.job.name')">
         {{ form.jobName }}
       </a-descriptions-item>
       <a-descriptions-item :label="$t('create.time')">
         {{ form.createTime }}
       </a-descriptions-item>
-      <a-descriptions-item label="下次执行时间" span="2">
+      <a-descriptions-item :label="$t('schedule.job.next.execute.time')" span="2">
         {{ parseTime(form.nextValidTime) }}
       </a-descriptions-item>
-      <a-descriptions-item label="调用目标方法">
+      <a-descriptions-item :label="$t('schedule.job.invoke.method')">
         {{ form.invokeTarget }}
       </a-descriptions-item>
-      <a-descriptions-item label="cron表达式" span="2">
+      <a-descriptions-item :label="$t('schedule.job.cron.expression')" span="2">
         {{ form.cronExpression }}
       </a-descriptions-item>
-      <a-descriptions-item label="任务状态">
-        <a-badge v-if="form.status == 0" status="processing" text="运行中" />
-        <a-badge v-if="form.status == 1" status="warning" text="暂停" />
+      <a-descriptions-item :label="$t('schedule.job.status')">
+        <a-badge v-if="form.status == 0" status="processing" :text="$t('running')" />
+        <a-badge v-if="form.status == 1" status="warning" :text="$t('pause')" />
       </a-descriptions-item>
-      <a-descriptions-item label="是否并发">
-        <a-badge v-if="form.concurrent == 0" status="processing" text="允许" />
-        <a-badge v-if="form.concurrent == 1" status="warning" text="禁止" />
+      <a-descriptions-item :label="$t('schedule.job.whether.to.concurrent')">
+        <a-badge v-if="form.concurrent == 0" status="processing" :text="$t('schedule.job.permit')" />
+        <a-badge v-if="form.concurrent == 1" status="warning" :text="$t('schedule.job.prohibit')" />
       </a-descriptions-item>
-      <a-descriptions-item label="执行策略">
-        <a-badge v-if="form.misfirePolicy == 0" status="default" text="默认策略" />
-        <a-badge v-if="form.misfirePolicy == 1" status="Processing" text="立即执行" />
-        <a-badge v-if="form.misfirePolicy == 2" color="purple" text="执行一次" />
-        <a-badge v-if="form.misfirePolicy == 3" status="warning" text="放弃执行" />
+      <a-descriptions-item :label="$t('schedule.job.misfire.policy')">
+        <a-badge v-if="form.misfirePolicy == 0" status="default" :text="$t('schedule.job.default.policy')" />
+        <a-badge v-if="form.misfirePolicy == 1" status="Processing" :text="$t('schedule.job.execute.immediately')" />
+        <a-badge v-if="form.misfirePolicy == 2" color="purple" :text="$t('schedule.job.execute.once')" />
+        <a-badge v-if="form.misfirePolicy == 3" status="warning" :text="$t('schedule.job.abandon.execute')" />
       </a-descriptions-item>
     </a-descriptions>
   </a-drawer>
