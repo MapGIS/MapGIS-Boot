@@ -154,5 +154,7 @@ export default {
   selected: 'Selected',
   job: 'Job',
   running: 'Running',
-  pause: 'Pause'
+  pause: 'Pause',
+  notice: 'Notice',
+  publish: 'Publish'
 }

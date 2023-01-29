@@ -6,7 +6,7 @@
         <a-form layout="inline">
           <a-row :gutter="48">
             <a-col :md="8" :sm="24">
-              <a-form-item label="公告标题">
+              <a-form-item :label="$t('message.notice.title')">
                 <a-input v-model="queryParam.noticeTitle" :placeholder="$t('please.input')" allow-clear />
               </a-form-item>
             </a-col>
@@ -17,7 +17,7 @@
             </a-col>
             <template v-if="advanced">
               <a-col :md="8" :sm="24">
-                <a-form-item label="公告类型">
+                <a-form-item :label="$t('message.notice.type')">
                   <a-select
                     :placeholder="$t('please.select')"
                     v-model="queryParam.noticeType"
@@ -156,18 +156,18 @@ export default {
       },
       columns: [
         {
-          title: '公告编号',
+          title: this.$t('id.suffix', { content: this.$t('notice') }),
           dataIndex: 'noticeId',
           align: 'center'
         },
         {
-          title: '公告标题',
+          title: this.$t('message.notice.title'),
           dataIndex: 'noticeTitle',
           ellipsis: true,
           align: 'center'
         },
         {
-          title: '公告类型',
+          title: this.$t('message.notice.type'),
           dataIndex: 'noticeType',
           scopedSlots: { customRender: 'noticeType' },
           align: 'center'
@@ -294,7 +294,7 @@ export default {
         name: 'NoticeForm',
         params: {
           id: undefined,
-          formTitle: '添加公告'
+          formTitle: this.$t('add.suffix', { content: this.$t('notice') })
         }
       })
     },
@@ -305,7 +305,7 @@ export default {
         name: 'NoticeForm',
         params: {
           id: noticeId,
-          formTitle: '修改公告'
+          formTitle: this.$t('modify.suffix', { content: this.$t('notice') })
         }
       })
     }

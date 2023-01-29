@@ -10,7 +10,7 @@
     <template v-slot:extraContent> </template>
     <template v-slot:extra>
       <a-space>
-        <a-button type="primary" @click="handleSubmit"> 发布 </a-button>
+        <a-button type="primary" @click="handleSubmit"> {{ $t('publish') }} </a-button>
         <a-button type="dashed" @click="back">{{ $t('cancel') }}</a-button>
       </a-space>
     </template>
@@ -19,7 +19,11 @@
         <a-col :span="24">
           <a-form-model ref="baseForm" :model="form" :rules="baseRules" :wrapper-col="wrapperCol">
             <a-form-model-item prop="noticeTitle">
-              <a-input size="large" v-model="form.noticeTitle" placeholder="请输入标题" />
+              <a-input
+                size="large"
+                v-model="form.noticeTitle"
+                :placeholder="$t('please.prefix.input', { content: $t('message.notice.title') })"
+              />
             </a-form-model-item>
             <a-form-model-item prop="noticeContent">
               <editor ref="noticeContentEditor" v-model="form.noticeContent" />
@@ -33,7 +37,7 @@
         <b>{{ formTitle }}</b>
       </a-divider>
       <a-form-model ref="form" :model="form" :rules="rules">
-        <a-form-model-item label="公告类型" prop="noticeType">
+        <a-form-model-item :label="$t('message.notice.type')" prop="noticeType">
           <a-select :placeholder="$t('please.select')" v-model="form.noticeType">
             <a-select-option v-for="(d, index) in typeOptions" :key="index" :value="d.dictValue">{{
               d.dictLabel
@@ -49,7 +53,7 @@
         </a-form-model-item>
         <div class="bottom-control">
           <a-space>
-            <a-button type="primary" :loading="submitLoading" @click="submitForm"> 发布 </a-button>
+            <a-button type="primary" :loading="submitLoading" @click="submitForm">{{ $t('publish') }}</a-button>
             <a-button type="dashed" @click="onClose">{{ $t('cancel') }}</a-button>
           </a-space>
         </div>
@@ -87,10 +91,22 @@ export default {
         status: '0'
       },
       baseRules: {
-        noticeTitle: [{ required: true, message: '公告标题不能为空', trigger: 'blur' }]
+        noticeTitle: [
+          {
+            required: true,
+            message: this.$t('not.empty.suffix', { content: this.$t('message.notice.title') }),
+            trigger: 'blur'
+          }
+        ]
       },
       rules: {
-        noticeType: [{ required: true, message: '公告类型不能为空', trigger: 'change' }]
+        noticeType: [
+          {
+            required: true,
+            message: this.$t('not.empty.suffix', { content: this.$t('message.notice.type') }),
+            trigger: 'change'
+          }
+        ]
       },
       open: false
     }
@@ -129,7 +145,7 @@ export default {
     /** 新增按钮操作 */
     handleAdd() {
       this.reset()
-      this.formTitle = '添加公告'
+      this.formTitle = this.$t('add.suffix', { content: this.$t('notice') })
     },
     /** 修改按钮操作 */
     handleUpdate(id) {
@@ -137,7 +153,7 @@ export default {
       const noticeId = id
       getNotice(noticeId).then(response => {
         this.form = response.data
-        this.formTitle = '修改公告'
+        this.formTitle = this.$t('modify.suffix', { content: this.$t('notice') })
       })
     },
     /** 提交按钮 */

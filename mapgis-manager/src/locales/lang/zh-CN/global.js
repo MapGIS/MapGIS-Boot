@@ -153,5 +153,7 @@ export default {
   selected: '选中的',
   job: '任务',
   running: '运行中',
-  pause: '暂停'
+  pause: '暂停',
+  notice: '公告',
+  publish: '发布'
 }
