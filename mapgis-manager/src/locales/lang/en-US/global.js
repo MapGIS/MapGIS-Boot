@@ -145,5 +145,11 @@ export default {
   icon: 'Icon',
   cache: 'Cache',
   'not.cache': 'Not Cache',
-  remark: 'Remark'
+  remark: 'Remark',
+  'mapping.role': 'Mapping Role',
+  'role.mapping.config': 'Role Mapping Config',
+  'optional.roles': 'Optional Roles',
+  'selected.roles': 'Selected Roles',
+  optional: 'Optional',
+  selected: 'Selected'
 }

@@ -7,17 +7,17 @@
       <a-form-model-item v-if="isAdd && ldapErrorMsg">
         <a-alert type="error" :message="ldapErrorMsg" banner />
       </a-form-model-item>
-      <a-form-model-item label="LDAP群组" prop="externalRole">
+      <a-form-model-item :label="$t('security.ldap.group')" prop="externalRole">
         <a-select v-model="form.externalRole" :placeholder="$t('please.select')" :disabled="!isAdd">
           <a-select-option v-for="(role, index) in validLdapRoles" :key="index" :value="role">
             {{ role }}
           </a-select-option>
         </a-select>
       </a-form-model-item>
-      <a-form-model-item label="映射角色" prop="systemRoleIds">
+      <a-form-model-item :label="$t('mapping.role')" prop="systemRoleIds">
         <a-transfer
           :data-source="systemRoles"
-          :titles="['供选择的角色', '选中的角色']"
+          :titles="[$t('optional'), $t('selected')]"
           :target-keys="targetKeys"
           :render="item => item.roleName"
           @change="handleRoleChange"
@@ -59,8 +59,20 @@ export default {
       },
       open: false,
       rules: {
-        externalRole: [{ required: true, message: 'LDAP群组不能为空', trigger: 'blur' }],
-        systemRoleIds: [{ required: true, message: '选中的角色不能为空', trigger: 'blur' }]
+        externalRole: [
+          {
+            required: true,
+            message: this.$t('not.empty.suffix', { content: this.$t('security.ldap.group') }),
+            trigger: 'blur'
+          }
+        ],
+        systemRoleIds: [
+          {
+            required: true,
+            message: this.$t('not.empty.suffix', { content: this.$t('selected.roles') }),
+            trigger: 'blur'
+          }
+        ]
       },
       isAdd: true,
       targetKeys: [],
@@ -78,7 +90,7 @@ export default {
     ldapRoles().then(response => {
       this.ldapRoles = response.data
       if (this.ldapRoles.length === 0) {
-        this.ldapErrorMsg = '请确保LDAP登录配置可用!'
+        this.ldapErrorMsg = this.$t('security.ldap.connect.tip')
       }
     })
   },
@@ -103,7 +115,7 @@ export default {
     handleAdd(existedExternalRoles) {
       this.reset()
       this.open = true
-      this.formTitle = '添加角色映射配置'
+      this.formTitle = this.$t('add.suffix', { content: this.$t('role.mapping.config') })
       this.existedExternalRoles = existedExternalRoles
       this.isAdd = true
     },
@@ -113,7 +125,7 @@ export default {
       this.form = { ...roleMappingItem }
       this.targetKeys = this.form.systemRoleIds.map(roleId => roleId.toString())
       this.open = true
-      this.formTitle = '修改角色映射配置'
+      this.formTitle = this.$t('modify.suffix', { content: this.$t('role.mapping.config') })
       this.existedExternalRoles = existedExternalRoles
       this.isAdd = false
     },

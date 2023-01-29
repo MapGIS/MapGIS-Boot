@@ -136,7 +136,7 @@ export default {
           align: 'center'
         },
         {
-          title: '岗位编码',
+          title: this.$t('security.post.post.code'),
           dataIndex: 'postCode',
           ellipsis: true,
           align: 'center'

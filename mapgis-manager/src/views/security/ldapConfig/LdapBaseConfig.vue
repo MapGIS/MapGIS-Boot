@@ -10,20 +10,20 @@
     <a-form-model-item :label="$t('whether.to.enable')" prop="enabled">
       <a-checkbox :checked="form.enabled" @change="handleChange" />
     </a-form-model-item>
-    <a-form-model-item label="LDAP服务器地址" prop="url">
+    <a-form-model-item :label="$t('security.ldap.server.url')" prop="url">
       <a-input v-model="form.url" placeholder="ldap(s)://{host}:{port}">
-        <a-tooltip slot="suffix" title="LDAP默认端口为389，LDAPS默认端口为636">
+        <a-tooltip slot="suffix" :title="$t('security.ldap.port.desc')">
           <a-icon type="info-circle" />
         </a-tooltip>
       </a-input>
     </a-form-model-item>
-    <a-form-model-item label="根条目位置" prop="base">
+    <a-form-model-item :label="$t('security.ldap.base.dn')" prop="base">
       <a-input v-model="form.base" />
     </a-form-model-item>
-    <a-form-model-item label="LDAP管理员名称" prop="userDn">
+    <a-form-model-item :label="$t('security.ldap.admin.dn')" prop="userDn">
       <a-input v-model="form.userDn" />
     </a-form-model-item>
-    <a-form-model-item label="LDAP管理员密码" prop="password">
+    <a-form-model-item :label="$t('security.ldap.admin.password')" prop="password">
       <a-input-password v-model="form.password" :visibilityToggle="false" autocomplete="new-password" />
     </a-form-model-item>
     <!-- 暂时不提供创建用户的默认用户组配置，默认就是第三方用户组（useGroupId为1） -->
@@ -67,9 +67,27 @@ export default {
       configInfo: {},
       form: {},
       rules: {
-        url: [{ required: true, message: '请输入LDAP服务器地址', trigger: 'blur' }],
-        base: [{ required: true, message: '请输入根条目位置', trigger: 'blur' }],
-        userDn: [{ required: true, message: '请输入LDAP管理员名称', trigger: 'blur' }]
+        url: [
+          {
+            required: true,
+            message: this.$t('please.prefix.input', { content: this.$t('security.ldap.server.url') }),
+            trigger: 'blur'
+          }
+        ],
+        base: [
+          {
+            required: true,
+            message: this.$t('please.prefix.input', { content: this.$t('security.ldap.base.dn') }),
+            trigger: 'blur'
+          }
+        ],
+        userDn: [
+          {
+            required: true,
+            message: this.$t('please.prefix.input', { content: this.$t('security.ldap.admin.dn') }),
+            trigger: 'blur'
+          }
+        ]
       }
     }
   },

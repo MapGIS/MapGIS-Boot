@@ -87,13 +87,13 @@ export default {
       loading: false,
       columns: [
         {
-          title: 'LDAP群组',
+          title: this.$t('security.ldap.group'),
           dataIndex: 'externalRole',
           width: '25%',
           align: 'center'
         },
         {
-          title: '映射角色',
+          title: this.$t('mapping.role'),
           dataIndex: 'systemRoleIds',
           scopedSlots: { customRender: 'systemRoleIds' },
           ellipsis: true,
@@ -156,7 +156,7 @@ export default {
       const messge = this.$t('delete.success')
       this.$confirm({
         title: this.$t('confirm.selected.data.delete'),
-        content: '当前选中LDAP群组为' + externalRoles + this.$t('is.data'),
+        content: this.$t('security.ldap.selected.group') + externalRoles + this.$t('is.data'),
         onOk() {
           that.configInfo.configValue = JSON.stringify({ ...that.configValue, roleMapping })
           return updateConfig(that.configInfo).then(() => {

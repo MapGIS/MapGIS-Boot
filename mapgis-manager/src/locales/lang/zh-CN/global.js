@@ -144,5 +144,11 @@ export default {
   icon: '图标',
   cache: '缓存',
   'not.cache': '不缓存',
-  remark: '备注'
+  remark: '备注',
+  'mapping.role': '映射角色',
+  'role.mapping.config': '角色映射配置',
+  'optional.roles': '供选择的角色',
+  'selected.roles': '选中的角色',
+  optional: '可选的',
+  selected: '选中的'
 }

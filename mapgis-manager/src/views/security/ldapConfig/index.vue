@@ -39,8 +39,8 @@ export default {
   computed: {
     configItems() {
       return [
-        { title: 'LDAP登录配置', key: 'baseConfig', component: 'LdapBaseConfig' },
-        { title: '角色映射配置', key: 'roleMapping', component: 'LdapRoleMapping' }
+        { title: this.$t('security.ldap.login.config'), key: 'baseConfig', component: 'LdapBaseConfig' },
+        { title: this.$t('role.mapping.config'), key: 'roleMapping', component: 'LdapRoleMapping' }
       ]
     },
     currentTitle() {

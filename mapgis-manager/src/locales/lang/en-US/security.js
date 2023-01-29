@@ -7,5 +7,6 @@ import dept from './security/dept'
 import post from './security/post'
 import oauth from './security/oauth'
 import cas from './security/cas'
+import ldap from './security/ldap'
 
-export default { ...config, ...user, ...role, ...usergroup, ...menu, ...dept, ...post, ...oauth, ...cas }
+export default { ...config, ...user, ...role, ...usergroup, ...menu, ...dept, ...post, ...oauth, ...cas, ...ldap }
