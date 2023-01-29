@@ -6,19 +6,31 @@
         <a-form layout="inline">
           <a-row :gutter="48">
             <a-col :md="8" :sm="24">
-              <a-form-item label="微应用名称" prop="name">
-                <a-input v-model="queryParam.name" placeholder="请输入微应用名称" allow-clear />
+              <a-form-item :label="$t('dev.microApp.name')" prop="name">
+                <a-input
+                  v-model="queryParam.name"
+                  :placeholder="$t('please.prefix.input', { content: $t('dev.microApp.name') })"
+                  allow-clear
+                />
               </a-form-item>
             </a-col>
             <a-col :md="8" :sm="24">
-              <a-form-item label="微应用入口" prop="entry">
-                <a-input v-model="queryParam.entry" placeholder="请输入微应用入口" allow-clear />
+              <a-form-item :label="$t('dev.microApp.entry')" prop="entry">
+                <a-input
+                  v-model="queryParam.entry"
+                  :placeholder="$t('please.prefix.input', { content: $t('dev.microApp.entry') })"
+                  allow-clear
+                />
               </a-form-item>
             </a-col>
             <template v-if="advanced">
               <a-col :md="8" :sm="24">
-                <a-form-item label="微应用路由" prop="activeRule">
-                  <a-input v-model="queryParam.activeRule" placeholder="请输入微应用路由" allow-clear />
+                <a-form-item :label="$t('dev.microApp.route')" prop="activeRule">
+                  <a-input
+                    v-model="queryParam.activeRule"
+                    :placeholder="$t('please.prefix.input', { content: $t('dev.microApp.route') })"
+                    allow-clear
+                  />
                 </a-form-item>
               </a-col>
             </template>
@@ -142,25 +154,25 @@ export default {
       },
       columns: [
         {
-          title: '微应用编号',
+          title: this.$t('id.suffix', { content: this.$t('microApp') }),
           dataIndex: 'microAppId',
           width: '10%',
           align: 'center'
         },
         {
-          title: '微应用名称',
+          title: this.$t('dev.microApp.name'),
           dataIndex: 'name',
           ellipsis: true,
           align: 'center'
         },
         {
-          title: '微应用入口',
+          title: this.$t('dev.microApp.entry'),
           dataIndex: 'entry',
           ellipsis: true,
           align: 'center'
         },
         {
-          title: '微应用路由',
+          title: this.$t('dev.microApp.route'),
           dataIndex: 'activeRule',
           ellipsis: true,
           align: 'center'

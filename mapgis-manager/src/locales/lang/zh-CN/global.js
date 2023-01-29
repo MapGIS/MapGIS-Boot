@@ -167,5 +167,6 @@ export default {
   sync: '同步',
   entity: '实体',
   author: '作者',
-  required: '必填'
+  required: '必填',
+  microApp: '微应用'
 }

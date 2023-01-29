@@ -9,14 +9,17 @@
     @cancel="onClose"
   >
     <a-form-model ref="form" :model="form" :rules="rules" v-bind="formLayout">
-      <a-form-model-item label="微应用名称" prop="name">
-        <a-input v-model="form.name" placeholder="请输入微应用名称" />
+      <a-form-model-item :label="$t('dev.microApp.name')" prop="name">
+        <a-input v-model="form.name" :placeholder="$t('please.prefix.input', { content: $t('dev.microApp.name') })" />
       </a-form-model-item>
-      <a-form-model-item label="微应用入口" prop="entry">
-        <a-input v-model="form.entry" placeholder="请输入微应用入口" />
+      <a-form-model-item :label="$t('dev.microApp.entry')" prop="entry">
+        <a-input v-model="form.entry" :placeholder="$t('please.prefix.input', { content: $t('dev.microApp.entry') })" />
       </a-form-model-item>
-      <a-form-model-item label="微应用路由" prop="activeRule">
-        <a-input v-model="form.activeRule" placeholder="请输入微应用路由" />
+      <a-form-model-item :label="$t('dev.microApp.route')" prop="activeRule">
+        <a-input
+          v-model="form.activeRule"
+          :placeholder="$t('please.prefix.input', { content: $t('dev.microApp.route') })"
+        />
       </a-form-model-item>
       <div class="bottom-control">
         <a-space>
@@ -63,11 +66,27 @@ export default {
       formType: 1,
       open: false,
       rules: {
-        name: [{ required: true, message: '微应用名称不能为空', trigger: 'blur' }],
-
-        entry: [{ required: true, message: '微应用入口不能为空', trigger: 'blur' }],
-
-        activeRule: [{ required: true, message: '微应用路由不能为空', trigger: 'blur' }]
+        name: [
+          {
+            required: true,
+            message: this.$t('not.empty.suffix', { content: this.$t('dev.microApp.name') }),
+            trigger: 'blur'
+          }
+        ],
+        entry: [
+          {
+            required: true,
+            message: this.$t('not.empty.suffix', { content: this.$t('dev.microApp.entry') }),
+            trigger: 'blur'
+          }
+        ],
+        activeRule: [
+          {
+            required: true,
+            message: this.$t('not.empty.suffix', { content: this.$t('dev.microApp.route') }),
+            trigger: 'blur'
+          }
+        ]
       }
     }
   },

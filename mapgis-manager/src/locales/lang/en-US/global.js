@@ -168,5 +168,6 @@ export default {
   sync: 'Sync',
   entity: 'Entity',
   author: 'Author',
-  required: 'Required'
+  required: 'Required',
+  microApp: 'Micro App'
 }
