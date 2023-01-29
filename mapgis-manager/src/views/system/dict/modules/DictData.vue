@@ -106,24 +106,24 @@ export default {
       },
       columns: [
         {
-          title: '字典编码',
+          title: this.$t('dev.dict.code'),
           dataIndex: 'dictCode',
           align: 'center'
         },
         {
-          title: '字典标签',
+          title: this.$t('dev.dict.label'),
           dataIndex: 'dictLabel',
           ellipsis: true,
           align: 'center'
         },
         {
-          title: '字典键值',
+          title: this.$t('dev.dict.value'),
           dataIndex: 'dictValue',
           ellipsis: true,
           align: 'center'
         },
         {
-          title: '字典排序',
+          title: this.$t('dev.dict.order'),
           dataIndex: 'dictSort',
           ellipsis: true,
           align: 'center'
@@ -209,7 +209,7 @@ export default {
       const messge = this.$t('delete.success')
       this.$confirm({
         title: this.$t('confirm.selected.data.delete'),
-        content: '当前选中字典编码为' + dictCodes + this.$t('is.data'),
+        content: this.$t('dev.dict.selected.dict.code') + dictCodes + this.$t('is.data'),
         onOk() {
           return delData(dictCodes).then(() => {
             that.onSelectChange([], [])

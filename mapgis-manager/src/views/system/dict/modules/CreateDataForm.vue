@@ -9,16 +9,16 @@
     @cancel="onClose"
   >
     <a-form-model ref="form" :model="form" :rules="rules" v-bind="formLayout">
-      <a-form-model-item label="字典类型" prop="dictType">
+      <a-form-model-item :label="$t('dev.dict.type')" prop="dictType">
         <a-input v-model="form.dictType" :disabled="true" />
       </a-form-model-item>
-      <a-form-model-item label="数据标签" prop="dictLabel">
-        <a-input v-model="form.dictLabel" placeholder="请输入数据标签" />
+      <a-form-model-item :label="$t('dev.dict.label')" prop="dictLabel">
+        <a-input v-model="form.dictLabel" :placeholder="$t('please.prefix.input', { content: $t('dev.dict.label') })" />
       </a-form-model-item>
-      <a-form-model-item label="数据键值" prop="dictValue">
-        <a-input v-model="form.dictValue" placeholder="请输入数据键值" />
+      <a-form-model-item :label="$t('dev.dict.value')" prop="dictValue">
+        <a-input v-model="form.dictValue" :placeholder="$t('please.prefix.input', { content: $t('dev.dict.value') })" />
       </a-form-model-item>
-      <a-form-model-item label="显示排序" prop="dictSort">
+      <a-form-model-item :label="$t('dev.dict.order')" prop="dictSort">
         <a-input-number v-model="form.dictSort" :min="0" style="width: 100%" />
       </a-form-model-item>
       <a-form-model-item :label="$t('status')" prop="status">
@@ -74,9 +74,27 @@ export default {
       },
       open: false,
       rules: {
-        dictLabel: [{ required: true, message: '数据标签不能为空', trigger: 'blur' }],
-        dictValue: [{ required: true, message: '数据键值不能为空', trigger: 'blur' }],
-        dictSort: [{ required: true, message: '数据顺序不能为空', trigger: 'blur' }]
+        dictLabel: [
+          {
+            required: true,
+            message: this.$t('not.empty.suffix', { content: this.$t('dev.dict.label') }),
+            trigger: 'blur'
+          }
+        ],
+        dictValue: [
+          {
+            required: true,
+            message: this.$t('not.empty.suffix', { content: this.$t('dev.dict.value') }),
+            trigger: 'blur'
+          }
+        ],
+        dictSort: [
+          {
+            required: true,
+            message: this.$t('not.empty.suffix', { content: this.$t('dev.dict.order') }),
+            trigger: 'blur'
+          }
+        ]
       }
     }
   },
@@ -108,7 +126,7 @@ export default {
     handleAdd() {
       this.reset()
       this.open = true
-      this.formTitle = '添加字典数据'
+      this.formTitle = this.$t('add.suffix', { content: this.$t('dev.dict.data') })
       this.form.dictType = this.dictType
     },
     /** 修改按钮操作 */
@@ -118,7 +136,7 @@ export default {
       getData(dictCode).then(response => {
         this.form = response.data
         this.open = true
-        this.formTitle = '修改字典数据'
+        this.formTitle = this.$t('modify.suffix', { content: this.$t('dev.dict.data') })
       })
     },
     /** 提交按钮 */

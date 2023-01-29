@@ -80,7 +80,7 @@
           <a-icon type="download" />{{ $t('export') }}
         </a-button>
         <a-button type="dashed" :loading="refreshing" @click="handleRefreshCache" v-hasPermi="['system:config:remove']">
-          <a-icon type="redo" />刷新缓存
+          <a-icon type="redo" />{{ $t('refresh.cache') }}
         </a-button>
         <table-setting
           :style="{ float: 'right' }"
@@ -333,7 +333,7 @@ export default {
       this.refreshing = true
       refreshCache()
         .then(() => {
-          this.$message.success('刷新成功', 3)
+          this.$message.success(this.$t('refresh.success'), 3)
         })
         .finally(() => {
           this.refreshing = false

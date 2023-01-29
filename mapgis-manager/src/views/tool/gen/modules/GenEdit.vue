@@ -249,7 +249,7 @@ export default {
           width: '10%'
         },
         {
-          title: '字典类型',
+          title: this.$t('dev.dict.type'),
           dataIndex: 'dictType',
           scopedSlots: { customRender: 'dictType' },
           align: 'center',

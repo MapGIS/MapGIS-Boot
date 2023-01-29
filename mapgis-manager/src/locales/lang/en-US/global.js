@@ -81,6 +81,7 @@ export default {
   status: 'Status',
   'department.name': 'Department Name',
   'menu.name': 'Menu Name',
+  dict: 'Dictionary',
   'dict.name': 'Dictionary Name',
   'login.name': 'Login Name',
   'config.name': 'Config Name',
@@ -156,5 +157,7 @@ export default {
   running: 'Running',
   pause: 'Pause',
   notice: 'Notice',
-  publish: 'Publish'
+  publish: 'Publish',
+  'refresh.cache': 'Refresh Cache',
+  'refresh.success': 'Refresh Success'
 }

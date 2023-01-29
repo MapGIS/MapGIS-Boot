@@ -7,18 +7,30 @@
           <a-row :gutter="48">
             <a-col :md="8" :sm="24">
               <a-form-item :label="$t('dict.name')">
-                <a-input v-model="queryParam.dictName" placeholder="请输入字典名称" allow-clear />
+                <a-input
+                  v-model="queryParam.dictName"
+                  :placeholder="$t('please.prefix.input', { content: $t('dict.name') })"
+                  allow-clear
+                />
               </a-form-item>
             </a-col>
             <a-col :md="8" :sm="24">
-              <a-form-item label="字典类型">
-                <a-input v-model="queryParam.dictType" placeholder="请选择字典类型" allow-clear />
+              <a-form-item :label="$t('dev.dict.type')">
+                <a-input
+                  v-model="queryParam.dictType"
+                  :placeholder="$t('please.prefix.select', { content: $t('dev.dict.type') })"
+                  allow-clear
+                />
               </a-form-item>
             </a-col>
             <template v-if="advanced">
               <a-col :md="8" :sm="24">
-                <a-form-item :label="$t('status')">
-                  <a-select placeholder="字典状态" v-model="queryParam.status" style="width: 100%">
+                <a-form-item :label="$t('dev.dict.status')">
+                  <a-select
+                    :placeholder="$t('please.prefix.select', { content: $t('dev.dict.status') })"
+                    v-model="queryParam.status"
+                    style="width: 100%"
+                  >
                     <a-select-option v-for="(d, index) in statusOptions" :key="index" :value="d.dictValue">{{
                       d.dictLabel
                     }}</a-select-option>
@@ -74,7 +86,7 @@
           <a-icon type="download" />{{ $t('export') }}
         </a-button>
         <a-button type="dashed" :loading="refreshing" @click="handleRefreshCache" v-hasPermi="['system:dict:remove']">
-          <a-icon type="redo" />刷新缓存
+          <a-icon type="redo" />{{ $t('refresh.cache') }}
         </a-button>
         <table-setting
           :style="{ float: 'right' }"
@@ -181,7 +193,7 @@ export default {
       expandedKeys: [],
       columns: [
         {
-          title: '字典编号',
+          title: this.$t('id.suffix', { content: this.$t('dict') }),
           dataIndex: 'dictId',
           align: 'center'
         },
@@ -192,7 +204,7 @@ export default {
           align: 'center'
         },
         {
-          title: '字典类型',
+          title: this.$t('dev.dict.type'),
           dataIndex: 'dictType',
           ellipsis: true,
           align: 'center'
@@ -331,7 +343,7 @@ export default {
       this.refreshing = true
       refreshCache()
         .then(() => {
-          this.$message.success('刷新成功')
+          this.$message.success(this.$t('refresh.success'))
         })
         .finally(() => {
           this.refreshing = false

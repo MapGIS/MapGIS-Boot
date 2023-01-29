@@ -10,10 +10,10 @@
   >
     <a-form-model ref="form" :model="form" :rules="rules" v-bind="formLayout">
       <a-form-model-item :label="$t('dict.name')" prop="dictName">
-        <a-input v-model="form.dictName" placeholder="请输入字典名称" />
+        <a-input v-model="form.dictName" :placeholder="$t('please.prefix.input', { content: $t('dict.name') })" />
       </a-form-model-item>
-      <a-form-model-item label="字典类型" prop="dictType">
-        <a-input v-model="form.dictType" placeholder="请输入字典类型" />
+      <a-form-model-item :label="$t('dev.dict.type')" prop="dictType">
+        <a-input v-model="form.dictType" :placeholder="$t('please.prefix.input', { content: $t('dev.dict.type') })" />
       </a-form-model-item>
       <a-form-model-item :label="$t('status')" prop="status">
         <a-select :placeholder="$t('please.select')" v-model="form.status">
@@ -63,8 +63,16 @@ export default {
       },
       open: false,
       rules: {
-        dictName: [{ required: true, message: '字典名称不能为空', trigger: 'blur' }],
-        dictType: [{ required: true, message: '字典类型不能为空', trigger: 'blur' }]
+        dictName: [
+          { required: true, message: this.$t('not.empty.suffix', { content: this.$t('dict.name') }), trigger: 'blur' }
+        ],
+        dictType: [
+          {
+            required: true,
+            message: this.$t('not.empty.suffix', { content: this.$t('dev.dict.type') }),
+            trigger: 'blur'
+          }
+        ]
       }
     }
   },
@@ -95,7 +103,7 @@ export default {
     handleAdd() {
       this.reset()
       this.open = true
-      this.formTitle = '添加字典类型'
+      this.formTitle = this.$t('add.suffix', { content: this.$t('dev.dict.type') })
     },
     /** 修改按钮操作 */
     handleUpdate(row, ids) {
@@ -104,7 +112,7 @@ export default {
       getType(dictId).then(response => {
         this.form = response.data
         this.open = true
-        this.formTitle = '修改字典类型'
+        this.formTitle = this.$t('modify.suffix', { content: this.$t('dev.dict.type') })
       })
     },
     /** 提交按钮 */

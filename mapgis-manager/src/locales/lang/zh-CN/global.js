@@ -79,6 +79,7 @@ export default {
   status: '状态',
   'department.name': '部门名称',
   'menu.name': '菜单名称',
+  dict: '字典',
   'dict.name': '字典名称',
   'login.name': '登录名称',
   'config.name': '参数名称',
@@ -155,5 +156,7 @@ export default {
   running: '运行中',
   pause: '暂停',
   notice: '公告',
-  publish: '发布'
+  publish: '发布',
+  'refresh.cache': '刷新缓存',
+  'refresh.success': '刷新成功'
 }
