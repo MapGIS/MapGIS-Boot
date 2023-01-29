@@ -8,20 +8,20 @@
     </template>
     <template v-slot:content> </template>
     <template v-slot:extraContent> </template>
-    <a-result title="请至少选择一个表修改" v-if="tableId == 0">
+    <a-result :title="$t('dev.gen.please.select.table.modify')" v-if="tableId == 0">
       <template #icon>
         <a-icon type="smile" theme="twoTone" />
       </template>
       <template #extra>
-        <a-button type="primary" @click="back"> 返回生成页 </a-button>
+        <a-button type="primary" @click="back"> {{ $t('dev.gen.return.generate.page') }} </a-button>
       </template>
     </a-result>
     <a-card :bordered="false" v-if="tableId != 0">
       <a-tabs default-active-key="2">
-        <a-tab-pane key="1" tab="基本信息" force-render>
+        <a-tab-pane key="1" :tab="$t('dev.gen.base.information')" force-render>
           <basic-info-form ref="basicInfo" :info="info" />
         </a-tab-pane>
-        <a-tab-pane key="2" tab="字段信息" force-render>
+        <a-tab-pane key="2" :tab="$t('dev.gen.filed.information')" force-render>
           <!-- 表格 -->
           <a-table
             ref="table"
@@ -88,15 +88,15 @@
             <!-- 显示类型 -->
             <template slot="htmlType" slot-scope="text, record">
               <a-select v-model="record.htmlType" style="width: 100%">
-                <a-select-option value="input">文本框</a-select-option>
-                <a-select-option value="textarea">文本域</a-select-option>
-                <a-select-option value="select">下拉框</a-select-option>
-                <a-select-option value="radio">单选框</a-select-option>
-                <a-select-option value="checkbox">复选框</a-select-option>
-                <a-select-option value="datetime">日期控件</a-select-option>
-                <a-select-option value="imageUpload">图片上传</a-select-option>
-                <a-select-option value="fileUpload">文件上传</a-select-option>
-                <a-select-option value="editor">富文本控件</a-select-option>
+                <a-select-option value="input">{{ $t('dev.gen.input') }}</a-select-option>
+                <a-select-option value="textarea">{{ $t('dev.gen.textarea') }}</a-select-option>
+                <a-select-option value="select">{{ $t('dev.gen.select') }}</a-select-option>
+                <a-select-option value="radio">{{ $t('dev.gen.radio') }}</a-select-option>
+                <a-select-option value="checkbox">{{ $t('dev.gen.checkbox') }}</a-select-option>
+                <a-select-option value="datetime">{{ $t('dev.gen.datetime') }}</a-select-option>
+                <a-select-option value="imageUpload">{{ $t('dev.gen.imageUpload') }}</a-select-option>
+                <a-select-option value="fileUpload">{{ $t('dev.gen.fileUpload') }}</a-select-option>
+                <a-select-option value="editor">{{ $t('dev.gen.editor') }}</a-select-option>
               </a-select>
             </template>
             <!-- 字典类型 -->
@@ -109,12 +109,12 @@
             </template>
           </a-table>
         </a-tab-pane>
-        <a-tab-pane key="3" tab="生成信息" force-render>
+        <a-tab-pane key="3" :tab="$t('dev.gen.generate.information')" force-render>
           <gen-info-form ref="genInfo" :info="info" :tables="tables" :menus="menus" />
         </a-tab-pane>
       </a-tabs>
       <a-form label-width="100px">
-        <footer-tool-bar>
+        <footer-tool-bar :collapsed="sideCollapsed">
           <a-space>
             <a-button type="primary" :loading="submitLoading" @click="submitForm">{{ $t('save') }}</a-button>
             <a-button type="dashed" @click="back">{{ $t('cancel') }}</a-button>
@@ -126,6 +126,7 @@
 </template>
 
 <script>
+import { baseMixin } from '@/store/app-mixin'
 import { getGenTable, updateGenTable } from '@/api/tool/gen'
 import { optionselect as getDictOptionselect } from '@/api/system/dict/type'
 import { listMenu as getMenuTreeselect } from '@/api/system/menu'
@@ -137,10 +138,11 @@ export default {
     BasicInfoForm,
     GenInfoForm
   },
+  mixins: [baseMixin],
   data() {
     return {
       tableId: 0,
-      formTitle: '修改生成配置',
+      formTitle: this.$t('dev.gen.modify.generate.config'),
       // 表格加载
       tableLoading: false,
       submitLoading: false,
@@ -164,21 +166,21 @@ export default {
           width: '5%'
         },
         {
-          title: '字段列名',
+          title: this.$t('dev.gen.field.column.name'),
           dataIndex: 'columnName',
           align: 'center',
           ellipsis: true,
           width: '10%'
         },
         {
-          title: '字段描述',
+          title: this.$t('dev.gen.field.description'),
           dataIndex: 'columnComment',
           scopedSlots: { customRender: 'columnComment' },
           align: 'center',
           width: '8%'
         },
         {
-          title: '物理类型',
+          title: this.$t('dev.gen.field.type'),
           dataIndex: 'columnType',
           scopedSlots: { customRender: 'columnType' },
           align: 'center',
@@ -186,63 +188,63 @@ export default {
           width: '10%'
         },
         {
-          title: 'Java类型',
+          title: this.$t('dev.gen.java.type'),
           dataIndex: 'javaType',
           scopedSlots: { customRender: 'javaType' },
           align: 'center',
           width: '8%'
         },
         {
-          title: 'java属性',
+          title: this.$t('dev.gen.java.attribution'),
           dataIndex: 'javaField',
           scopedSlots: { customRender: 'javaField' },
           align: 'center',
           width: '10%'
         },
         {
-          title: '插入',
+          title: this.$t('insert'),
           dataIndex: 'isInsert',
           scopedSlots: { customRender: 'isInsert' },
           align: 'center',
           width: '3%'
         },
         {
-          title: '编辑',
+          title: this.$t('edit'),
           dataIndex: 'isEdit',
           scopedSlots: { customRender: 'isEdit' },
           align: 'center',
           width: '3%'
         },
         {
-          title: '列表',
+          title: this.$t('list'),
           dataIndex: 'isList',
           scopedSlots: { customRender: 'isList' },
           align: 'center',
           width: '3%'
         },
         {
-          title: '查询',
+          title: this.$t('query'),
           dataIndex: 'isQuery',
           scopedSlots: { customRender: 'isQuery' },
           align: 'center',
           width: '3%'
         },
         {
-          title: '查询方式',
+          title: this.$t('dev.gen.query.type'),
           dataIndex: 'queryType',
           scopedSlots: { customRender: 'queryType' },
           align: 'center',
           width: '10%'
         },
         {
-          title: '必填',
+          title: this.$t('required'),
           dataIndex: 'isRequired',
           scopedSlots: { customRender: 'isRequired' },
           align: 'center',
           width: '3%'
         },
         {
-          title: '显示类型',
+          title: this.$t('dev.gen.display.type'),
           dataIndex: 'htmlType',
           scopedSlots: { customRender: 'htmlType' },
           align: 'center',
@@ -327,7 +329,7 @@ export default {
             this.submitLoading = false
           })
       } else {
-        this.msgError('表单校验未通过，请重新检查提交内容')
+        this.$message.error(this.$t('dev.gen.form.verify.failed.desc'))
       }
     },
     /** 关闭按钮 */

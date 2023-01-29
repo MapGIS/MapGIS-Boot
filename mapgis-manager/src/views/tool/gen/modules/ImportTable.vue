@@ -1,7 +1,7 @@
 <template>
   <a-modal
     ref="createModal"
-    :title="'导入代码'"
+    :title="$t('dev.gen.import.table')"
     :width="900"
     :visible="visible"
     :confirm-loading="submitLoading"
@@ -12,19 +12,19 @@
       <a-form layout="inline">
         <a-row :gutter="48">
           <a-col :md="8" :sm="24">
-            <a-form-item label="表名称">
+            <a-form-item :label="$t('dev.gen.table.name')">
               <a-input v-model="queryParam.tableName" :placeholder="$t('please.input')" allow-clear />
             </a-form-item>
           </a-col>
           <a-col :md="8" :sm="24">
-            <a-form-item label="表描述">
+            <a-form-item :label="$t('dev.gen.table.comment')">
               <a-input v-model="queryParam.tableComment" :placeholder="$t('please.input')" allow-clear />
             </a-form-item>
           </a-col>
           <a-col :md="8" :sm="24">
             <span class="table-page-search-submitButtons">
-              <a-button @click="handleQuery" type="primary">查询</a-button>
-              <a-button @click="resetQuery" style="margin-left: 8px">重置</a-button>
+              <a-button @click="handleQuery" type="primary">{{ $t('query') }}</a-button>
+              <a-button @click="resetQuery" style="margin-left: 8px">{{ $t('reset') }}</a-button>
             </span>
           </a-col>
         </a-row>
@@ -101,13 +101,13 @@ export default {
       // 表格属性
       columns: [
         {
-          title: '表名称',
+          title: this.$t('dev.gen.table.name'),
           dataIndex: 'tableName',
           ellipsis: true,
           align: 'center'
         },
         {
-          title: '表描述',
+          title: this.$t('dev.gen.table.comment'),
           dataIndex: 'tableComment',
           ellipsis: true,
           align: 'center'
@@ -119,7 +119,7 @@ export default {
           align: 'center'
         },
         {
-          title: '更新时间',
+          title: this.$t('update.time'),
           dataIndex: 'updateTime',
           scopedSlots: { customRender: 'updateTime' },
           align: 'center'

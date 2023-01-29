@@ -1,5 +1,5 @@
 <template>
-  <a-spin :spinning="loading" tip="加载中...">
+  <a-spin :spinning="loading" :tip="$t('loading...')">
     <div :style="'height:' + height">
       <iframe :src="src" frameborder="no" style="width: 100%; height: 100%" scrolling="auto" />
     </div>

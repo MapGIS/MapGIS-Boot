@@ -1,6 +1,6 @@
 <template>
   <div>
-    <a-drawer title="代码预览" :width="800" :visible="visible" @close="close">
+    <a-drawer :title="$t('dev.gen.code.preview')" :width="800" :visible="visible" @close="close">
       <a-tabs v-if="isShowCodeTabs">
         <a-tab-pane
           v-for="(value, key) in previewData"

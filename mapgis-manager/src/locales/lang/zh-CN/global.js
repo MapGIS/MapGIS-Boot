@@ -2,6 +2,8 @@ export default {
   yes: '是',
   no: '否',
   add: '新增',
+  list: '列表',
+  insert: '插入',
   modify: '修改',
   delete: '删除',
   import: '导入',
@@ -137,6 +139,7 @@ export default {
   'disable.exception': '停用异常',
   'not.empty.suffix': '{content}不能为空',
   'uploading...': '上传中...',
+  'loading...': '加载中...',
   description: '描述',
   member: '成员',
   look: '查看',
@@ -158,5 +161,11 @@ export default {
   notice: '公告',
   publish: '发布',
   'refresh.cache': '刷新缓存',
-  'refresh.success': '刷新成功'
+  'refresh.success': '刷新成功',
+  preview: '预览',
+  edit: '编辑',
+  sync: '同步',
+  entity: '实体',
+  author: '作者',
+  required: '必填'
 }

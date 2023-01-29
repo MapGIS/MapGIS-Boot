@@ -3,23 +3,35 @@
     <a-form-model ref="basicInfoForm" :model="info" :rules="rules" :label-col="labelCol" :wrapper-col="wrapperCol">
       <a-row>
         <a-col :span="12">
-          <a-form-model-item label="表名称" prop="tableName">
-            <a-input placeholder="请输入表名称" v-model="info.tableName" />
+          <a-form-model-item :label="$t('dev.gen.table.name')" prop="tableName">
+            <a-input
+              :placeholder="$t('please.prefix.input', { content: $t('dev.gen.table.name') })"
+              v-model="info.tableName"
+            />
           </a-form-model-item>
         </a-col>
         <a-col :span="12">
-          <a-form-model-item label="表描述" prop="tableComment">
-            <a-input placeholder="请输入表描述" v-model="info.tableComment" />
+          <a-form-model-item :label="$t('dev.gen.table.comment')" prop="tableComment">
+            <a-input
+              :placeholder="$t('please.prefix.input', { content: $t('dev.gen.table.comment') })"
+              v-model="info.tableComment"
+            />
           </a-form-model-item>
         </a-col>
         <a-col :span="12">
-          <a-form-model-item label="实体类名称" prop="className">
-            <a-input placeholder="请输入实体类名称" v-model="info.className" />
+          <a-form-model-item :label="$t('dev.gen.entity.class.name')" prop="className">
+            <a-input
+              :placeholder="$t('please.prefix.input', { content: $t('dev.gen.entity.class.name') })"
+              v-model="info.className"
+            />
           </a-form-model-item>
         </a-col>
         <a-col :span="12">
-          <a-form-model-item label="作者" prop="functionAuthor">
-            <a-input placeholder="请输入作者" v-model="info.functionAuthor" />
+          <a-form-model-item :label="$t('author')" prop="functionAuthor">
+            <a-input
+              :placeholder="$t('please.prefix.input', { content: $t('author') })"
+              v-model="info.functionAuthor"
+            />
           </a-form-model-item>
         </a-col>
         <a-col :span="24" :pull="3">
@@ -47,10 +59,30 @@ export default {
       // 模态框数据
       data: {},
       rules: {
-        tableName: [{ required: true, message: '请输入表名称', trigger: 'blur' }],
-        tableComment: [{ required: true, message: '请输入表描述', trigger: 'blur' }],
-        className: [{ required: true, message: '请输入实体类名称', trigger: 'blur' }],
-        functionAuthor: [{ required: true, message: '请输入作者', trigger: 'blur' }]
+        tableName: [
+          {
+            required: true,
+            message: this.$t('please.prefix.input', { content: this.$t('dev.gen.table.name') }),
+            trigger: 'blur'
+          }
+        ],
+        tableComment: [
+          {
+            required: true,
+            message: this.$t('please.prefix.input', { content: this.$t('dev.gen.table.comment') }),
+            trigger: 'blur'
+          }
+        ],
+        className: [
+          {
+            required: true,
+            message: this.$t('please.prefix.input', { content: this.$t('dev.gen.entity.class.name') }),
+            trigger: 'blur'
+          }
+        ],
+        functionAuthor: [
+          { required: true, message: this.$t('please.prefix.input', { content: this.$t('author') }), trigger: 'blur' }
+        ]
       },
       labelCol: {
         xs: { span: 12 },

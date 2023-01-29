@@ -2,6 +2,8 @@ export default {
   yes: 'Yes',
   no: 'No',
   add: 'Add',
+  list: 'List',
+  insert: 'Insert',
   modify: 'Modify',
   delete: 'Delete',
   import: 'Import',
@@ -138,6 +140,7 @@ export default {
   'disable.exception': 'Disable Exception',
   'not.empty.suffix': '{content} Cannot be empty',
   'uploading...': 'uploading...',
+  'loading...': 'Loading...',
   description: 'Description',
   member: 'Member',
   look: 'Look',
@@ -159,5 +162,11 @@ export default {
   notice: 'Notice',
   publish: 'Publish',
   'refresh.cache': 'Refresh Cache',
-  'refresh.success': 'Refresh Success'
+  'refresh.success': 'Refresh Success',
+  preview: 'Preview',
+  edit: 'Edit',
+  sync: 'Sync',
+  entity: 'Entity',
+  author: 'Author',
+  required: 'Required'
 }

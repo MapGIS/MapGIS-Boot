@@ -6,12 +6,12 @@
         <a-form layout="inline">
           <a-row :gutter="48">
             <a-col :md="8" :sm="24">
-              <a-form-item label="表名称">
+              <a-form-item :label="$t('dev.gen.table.name')">
                 <a-input v-model="queryParam.tableName" :placeholder="$t('please.input')" allow-clear />
               </a-form-item>
             </a-col>
             <a-col :md="8" :sm="24">
-              <a-form-item label="表描述">
+              <a-form-item :label="$t('dev.gen.table.comment')">
                 <a-input v-model="queryParam.tableComment" :placeholder="$t('please.input')" allow-clear />
               </a-form-item>
             </a-col>
@@ -48,10 +48,10 @@
       </div>
       <div class="table-operations">
         <a-button type="primary" @click="$refs.importTable.show()" v-hasPermi="['tool:gen:import']">
-          <a-icon type="cloud-upload" />导入
+          <a-icon type="cloud-upload" />{{ $t('import') }}
         </a-button>
         <a-button type="primary" @click="handleGenTable" v-hasPermi="['tool:gen:code']">
-          <a-icon type="cloud-download" />生成
+          <a-icon type="cloud-download" />{{ $t('dev.gen.generate') }}
         </a-button>
         <a-button type="primary" :disabled="single" @click="handleEditTable" v-hasPermi="['tool:gen:edit']">
           <a-icon type="edit" />{{ $t('modify') }}
@@ -91,36 +91,36 @@
         <span slot="operation" slot-scope="text, record">
           <a @click="handleEditTable(record)" v-hasPermi="['tool:gen:edit']">
             <a-icon type="edit" />
-            编辑
+            {{ $t('edit') }}
           </a>
           <a-divider type="vertical" v-hasPermi="['tool:gen:remove']" />
           <a @click="handleDelete(record)" v-hasPermi="['tool:gen:remove']">
             <a-icon type="delete" />
-            删除
+            {{ $t('delete') }}
           </a>
           <a-divider type="vertical" v-hasPermi="['tool:gen:preview', 'tool:gen:edit', 'tool:gen:code']" />
           <a-dropdown v-hasPermi="['tool:gen:preview', 'tool:gen:edit', 'tool:gen:code']">
             <a class="ant-dropdown-link" @click="e => e.preventDefault()">
               <a-icon type="double-right" />
-              更多
+              {{ $t('more') }}
             </a>
             <a-menu slot="overlay">
               <a-menu-item v-hasPermi="['tool:gen:preview']">
                 <a @click="$refs.previewCode.handlePreview(record)" v-hasPermi="['tool:gen:preview']">
                   <a-icon type="eye" />
-                  预览
+                  {{ $t('preview') }}
                 </a>
               </a-menu-item>
               <a-menu-item v-hasPermi="['tool:gen:edit']">
                 <a @click="handleSynchDb(record)">
                   <a-icon type="cloud-sync" />
-                  同步
+                  {{ $t('sync') }}
                 </a>
               </a-menu-item>
               <a-menu-item v-hasPermi="['tool:gen:code']">
                 <a @click="handleGenTable(record)">
                   <a-icon type="cloud-download" />
-                  生成代码
+                  {{ $t('dev.gen.generate.code') }}
                 </a>
               </a-menu-item>
             </a-menu>
@@ -193,19 +193,19 @@ export default {
           align: 'center'
         },
         {
-          title: '表名称',
+          title: this.$t('dev.gen.table.name'),
           dataIndex: 'tableName',
           ellipsis: true,
           align: 'center'
         },
         {
-          title: '表描述',
+          title: this.$t('dev.gen.table.comment'),
           dataIndex: 'tableComment',
           ellipsis: true,
           align: 'center'
         },
         {
-          title: '实体',
+          title: this.$t('entity'),
           dataIndex: 'className',
           ellipsis: true,
           align: 'center'
@@ -218,7 +218,7 @@ export default {
           align: 'center'
         },
         {
-          title: '更新时间',
+          title: this.$t('update.time'),
           dataIndex: 'updateTime',
           scopedSlots: { customRender: 'updateTime' },
           ellipsis: true,
@@ -312,13 +312,13 @@ export default {
       const that = this
       const tableName = row.tableName
       this.$confirm({
-        title: '确认强制同步数据?',
-        content: '当前同步表名为' + tableName + this.$t('is.data'),
+        title: this.$t('dev.gen.confirm.sync.data'),
+        content: this.$t('dev.gen.current.sync.table') + tableName + this.$t('is.data'),
         onOk() {
           return synchDb(tableName).then(() => {
             that.onSelectChange([], [])
             that.getList()
-            that.$message.success('同步成功', 3)
+            that.$message.success(that.$t('dev.gen.sync.success'), 3)
           })
         },
         onCancel() {}
@@ -338,12 +338,12 @@ export default {
     handleGenTable(row) {
       const tableNames = row.tableName || this.tableNames
       if (tableNames === '') {
-        this.$message.error('请选择要生成的数据', 3)
+        this.$message.error(this.$t('dev.gen.please.select.data'), 3)
         return
       }
       if (row.genType === '1') {
         genCode(row.tableName).then(response => {
-          this.msgSuccess('成功生成到自定义路径：' + row.genPath)
+          this.$message.success(this.$t('dev.gen.success.generate.path') + row.genPath)
         })
       } else {
         downLoadZip('/gen/batchGenCode?tables=' + tableNames, 'mapgis')
