@@ -12,5 +12,6 @@ export default {
   'security.oauth.weibo.login': 'WeiBo Login',
   'security.oauth.github.login': 'GitHub Login',
   'security.oauth.gitee.login': 'Gitee Login',
-  'security.oauth.custom.login': 'Custom OAuth2 Login'
+  'security.oauth.custom.login': 'Custom OAuth2 Login',
+  'security.oauth.login.role.config': 'Third-party Login Role Config'
 }

@@ -26,7 +26,7 @@
                   }"
                 >
                   <a-spin v-if="loadingMore" />
-                  <a-button v-else @click="onLoadMore"> 查看更多 </a-button>
+                  <a-button v-else @click="onLoadMore"> {{ $t('see.more') }} </a-button>
                 </div>
                 <a-list-item v-for="(item, index) in list" :key="index">
                   <a-list-item-meta :description="item.createTime">

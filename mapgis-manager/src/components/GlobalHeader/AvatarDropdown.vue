@@ -8,12 +8,12 @@
       <a-menu class="ant-pro-drop-down menu" :selected-keys="[]">
         <a-menu-item v-if="menu" key="center" @click="handleToCenter">
           <a-icon type="user" />
-          个人中心
+          {{ $t('user.center') }}
         </a-menu-item>
         <a-menu-divider v-if="menu" />
         <a-menu-item key="logout" @click="handleLogout">
           <a-icon type="logout" />
-          退出登录
+          {{ $t('logout') }}
         </a-menu-item>
       </a-menu>
     </template>

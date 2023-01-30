@@ -58,7 +58,7 @@
         </a-button>
         <!-- 暂时不提供第三方登录角色配置，默认就是第三方用户角色（roleId为2） -->
         <a-button type="primary" @click="thirdUseConfigShow = true" v-hasPermi="['system:config:query']" v-if="false">
-          <a-icon type="setting" />第三方登录角色配置
+          <a-icon type="setting" />{{ $t('security.oauth.login.role.config') }}
         </a-button>
         <table-setting
           :style="{ float: 'right' }"
@@ -108,7 +108,7 @@
       />
     </a-card>
     <a-modal
-      title="第三方登录角色配置"
+      :title="$t('security.oauth.login.role.config')"
       :visible="thirdUseConfigShow"
       :footer="null"
       @cancel="thirdUseConfigShow = false"

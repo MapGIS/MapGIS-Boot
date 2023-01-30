@@ -176,5 +176,11 @@ export default {
   config: '配置',
   route: '路由',
   create: '创建',
-  'create.prefix': '创建{content}'
+  'create.prefix': '创建{content}',
+  'user.center': '个人中心',
+  logout: '退出登录',
+  'see.more': '查看更多',
+  'exit.fullscreen': '退出全屏',
+  'switch.to.fullscreen': '切为全屏',
+  'not.support.fullscreen': '你的浏览器不支持全屏'
 }

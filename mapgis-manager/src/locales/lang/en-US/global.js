@@ -177,5 +177,11 @@ export default {
   config: 'Config',
   route: 'Route',
   create: 'Create',
-  'create.prefix': 'Create {content}'
+  'create.prefix': 'Create {content}',
+  'user.center': 'User Center',
+  logout: 'Logout',
+  'see.more': 'See More',
+  'exit.fullscreen': 'Exit Fullscreen',
+  'switch.to.fullscreen': 'Switch To Fullscreen',
+  'not.support.fullscreen': 'Your browser does not support fullscreen'
 }

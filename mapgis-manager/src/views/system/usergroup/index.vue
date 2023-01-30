@@ -148,7 +148,7 @@ export default {
       },
       columns: [
         {
-          title: '用户组编号',
+          title: this.$t('id.suffix', { content: this.$t('usergroup') }),
           dataIndex: 'userGroupId',
           ellipsis: true,
           align: 'center',

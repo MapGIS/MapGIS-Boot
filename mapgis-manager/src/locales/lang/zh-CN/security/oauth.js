@@ -12,5 +12,6 @@ export default {
   'security.oauth.weibo.login': '微博登录',
   'security.oauth.github.login': 'GitHub登录',
   'security.oauth.gitee.login': 'Gitee登录',
-  'security.oauth.custom.login': '自定义OAuth2登录'
+  'security.oauth.custom.login': '自定义OAuth2登录',
+  'security.oauth.login.role.config': '第三方登录角色配置'
 }

@@ -46,7 +46,7 @@
               <a-button v-else class="button-new-tag" size="small" @click="showInput">
                 {{ addMonitorUrlTip }}
               </a-button>
-              <span v-if="showError" class="error-msg">监控URL输入不合法</span>
+              <span v-if="showError" class="error-msg">{{ $t('log.logconfig.illegal.url') }}</span>
             </a-layout-content>
           </a-layout>
         </a-form-model-item>

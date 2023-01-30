@@ -2,7 +2,7 @@
   <div>
     <a-tooltip placement="bottom">
       <template slot="title">
-        {{ isFullscreen ? '退出全屏' : '切为全屏' }}
+        {{ isFullscreen ? $t('exit.fullscreen') : $t('switch.to.fullscreen') }}
       </template>
       <a-icon :type="isFullscreen ? 'fullscreen-exit' : 'fullscreen'" @click="click" :style="{ fontSize: '16px' }" />
     </a-tooltip>
@@ -28,7 +28,7 @@ export default {
   methods: {
     click() {
       if (!screenfull.isEnabled) {
-        this.$message.warning('你的浏览器不支持全屏')
+        this.$message.warning(this.$t('not.support.fullscreen'))
         return false
       }
       screenfull.toggle()
