@@ -141,7 +141,7 @@ export default {
       updateUserProfile(this.user)
         .then(response => {
           this.$notification.open({
-            message: '提示',
+            message: this.$t('tip'),
             description: this.$t('modify.success'),
             icon: <a-icon type="check" style="color: #1890FF" />,
             duration: 3

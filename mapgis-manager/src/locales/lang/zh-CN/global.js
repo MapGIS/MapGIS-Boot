@@ -168,5 +168,9 @@ export default {
   entity: '实体',
   author: '作者',
   required: '必填',
-  microApp: '微应用'
+  microApp: '微应用',
+  tip: '提示',
+  bind: '绑定',
+  unbind: '解绑',
+  'confirm.logout': '确定注销并退出系统吗？'
 }

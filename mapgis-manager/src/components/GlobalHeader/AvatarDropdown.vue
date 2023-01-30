@@ -44,8 +44,8 @@ export default {
     },
     handleLogout(e) {
       Modal.confirm({
-        title: '提示',
-        content: '确定注销并退出系统吗？',
+        title: this.$t('tip'),
+        content: this.$t('confirm.logout'),
         onOk: () => {
           return this.$store.dispatch('Logout').then(() => {
             if (!this.$store.getters.casInfo.enabled) {

@@ -14,7 +14,7 @@
     </a-list-item>
     <!-- 第三方登录绑定账号密码输入弹框 -->
     <a-modal
-      title="请输入登录账号密码进行绑定"
+      :title="$t('account.center.input.account.bind')"
       :visible="thirdPasswordShow"
       @ok="thirdLoginCheckPassword"
       @cancel="thirdLoginNoPassword"
@@ -62,10 +62,12 @@ export default {
             binded,
             authId: binded ? authUser.authId : '',
             uuid: binded ? authUser.uuid : '',
-            title: `绑定${type.name}账号`,
-            description: binded ? `当前已经绑定${type.name}账号` : `当前未绑定${type.name}账号`,
+            title: this.$t('account.center.bind.type', { type: type.name }),
+            description: binded
+              ? this.$t('account.center.current.bound', { type: type.name })
+              : this.$t('account.center.current.not.bound', { type: type.name }),
             actions: {
-              title: binded ? '解绑' : '绑定'
+              title: binded ? this.$t('unbind') : this.$t('bind')
             }
           }
         })
@@ -85,10 +87,10 @@ export default {
         const token = event.data
         if (typeof token === 'string') {
           // 如果是字符串类型 说明是token信息
-          if (token === '登录失败') {
+          if (token === 'Login Failed') {
             that.$message.warning(token)
           } else {
-            that.$message.warning('第三方账号已绑定')
+            that.$message.warning(that.$t('account.center.account.has.bound'))
           }
         } else if (typeof token === 'object') {
           // 对象类型 说明需要提示是否绑定现有账号
@@ -97,7 +99,7 @@ export default {
             that.thirdLoginUserBind(item)
           }
         } else {
-          that.$message.warning('不识别的信息传递')
+          that.$message.warning(that.$t('user.login.unrecognized.information'))
         }
 
         window.removeEventListener('message', receiveMessage)
@@ -105,18 +107,19 @@ export default {
       window.addEventListener('message', receiveMessage, false)
     },
     unbind(item) {
+      const that = this
       this.$confirm({
-        title: `您确定要解除${item.type.name}绑定吗?`,
-        okText: '是',
+        title: this.$t('account.center.confirm.unbind', { type: item.type.name }),
+        okText: this.$t('yes'),
         okType: 'danger',
-        cancelText: '否',
+        cancelText: this.$t('no'),
         onOk() {
           unbindAuth({ authId: item.authId }).then(() => {
             item.binded = false
             item.authId = ''
             item.uuid = ''
-            item.description = `当前未绑定${item.type.name}账号`
-            item.actions.title = '绑定'
+            item.description = that.$t('account.center.current.not.bound', { type: item.type.name })
+            item.actions.title = that.$t('bind')
           })
         },
         onCancel() {}
@@ -136,12 +139,12 @@ export default {
         })
         .then(() => {
           this.thirdLoginNoPassword()
-          this.$message.success(`当前已经绑定${this.authItem.type.name}账号`)
+          this.$message.success(this.$t('account.center.current.bound', { type: this.authItem.type.name }))
           this.authItem.binded = true
           this.authItem.authId = this.thirdLoginInfo.authId
           this.authItem.uuid = this.thirdLoginInfo.uuid
-          this.authItem.description = `当前已经绑定${this.authItem.type.name}账号`
-          this.authItem.actions.title = '解绑'
+          this.authItem.description = this.$t('account.center.current.bound', { type: this.authItem.type.name })
+          this.authItem.actions.title = this.$t('unbind')
         })
     },
     // 没有密码 取消操作

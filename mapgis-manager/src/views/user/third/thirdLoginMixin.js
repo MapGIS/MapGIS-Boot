@@ -37,7 +37,7 @@ const thirdLoginMixin = {
         const token = event.data
         if (typeof token === 'string') {
           // 如果是字符串类型 说明是token信息
-          if (token === '登录失败') {
+          if (token === 'Login Failed') {
             that.$message.warning(token)
           } else {
             that.doThirdLogin(token)
@@ -51,7 +51,7 @@ const thirdLoginMixin = {
             that.thirdLoginUserId = that.thirdLoginInfo.userId
           }
         } else {
-          that.$message.warning('不识别的信息传递')
+          that.$message.warning(that.$t('user.login.unrecognized.information'))
         }
 
         window.removeEventListener('message', receiveMessage)
@@ -115,9 +115,10 @@ const thirdLoginMixin = {
       this.$router.push({ path: '/' })
     },
     requestFailed(err) {
-      const description = ((err.response || {}).data || {}).message || err.message || '请求出现错误，请稍后再试'
+      const description =
+        ((err.response || {}).data || {}).message || err.message || this.$t('user.login.error.occurred.try')
       this.$notification['error']({
-        message: '登录失败',
+        message: this.$t('user.login.failed'),
         description: description,
         duration: 4
       })

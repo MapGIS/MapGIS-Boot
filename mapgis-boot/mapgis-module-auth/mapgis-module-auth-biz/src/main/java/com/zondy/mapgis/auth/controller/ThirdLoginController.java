@@ -141,7 +141,7 @@ public class ThirdLoginController extends BaseController {
                 }
             }
         } else {
-            modelMap.addAttribute(TokenConstants.TOKEN, "登录失败");
+            modelMap.addAttribute(TokenConstants.TOKEN, "Login Failed");
         }
 
         return "thirdLogin";

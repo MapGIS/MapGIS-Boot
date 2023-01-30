@@ -169,5 +169,9 @@ export default {
   entity: 'Entity',
   author: 'Author',
   required: 'Required',
-  microApp: 'Micro App'
+  microApp: 'Micro App',
+  tip: 'Tip',
+  bind: 'Bind',
+  unbind: 'Unbind',
+  'confirm.logout': 'Are you sure to logout?'
 }

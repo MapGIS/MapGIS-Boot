@@ -25,11 +25,11 @@
       <div class="ant-modal-confirm-body-wrapper">
         <div class="ant-modal-confirm-body">
           <a-icon type="question-circle" style="color: #faad14" />
-          <span class="ant-modal-confirm-title">提示</span>
+          <span class="ant-modal-confirm-title">{{ this.$t('tip') }}</span>
           <div v-if="thirdLoginUserId" class="ant-modal-confirm-content">
-            已有同名账号{{ this.thirdLoginUsername }}存在,请确认是否绑定该账号？
+            {{ $t('user.login.bind.tip', { username: this.thirdLoginUsername }) }}
           </div>
-          <div v-else class="ant-modal-confirm-content">请确认是否自动创建新账号？</div>
+          <div v-else class="ant-modal-confirm-content">{{ $t('user.login.auto.create') }}</div>
         </div>
         <div class="ant-modal-confirm-btns">
           <a-button
@@ -37,9 +37,11 @@
             :loading="thirdCreateUserLoding"
             :type="thirdLoginUserId ? 'default' : 'primary'"
           >
-            创建新账号
+            {{ $t('user.login.create.new.account') }}
           </a-button>
-          <a-button v-if="thirdLoginUserId" @click="thirdLoginUserBind" type="primary">确认绑定</a-button>
+          <a-button v-if="thirdLoginUserId" @click="thirdLoginUserBind" type="primary">
+            {{ $t('user.login.confirm.bind') }}
+          </a-button>
         </div>
       </div>
     </a-modal>

@@ -1,9 +1,8 @@
 <template>
   <a-modal
-    title="修改头像"
+    :title="$t('account.center.modify.avatar')"
     :visible="visible"
     :maskClosable="false"
-    :confirm-loading="submitLoading"
     :width="800"
     :footer="null"
     @cancel="cancelHandel"
@@ -32,7 +31,7 @@
     <a-row>
       <a-col :lg="2" :md="2">
         <a-upload name="file" :beforeUpload="beforeUpload" :showUploadList="false">
-          <a-button icon="upload">选择图片</a-button>
+          <a-button icon="upload">{{ $t('account.center.select.picture') }}</a-button>
         </a-upload>
       </a-col>
       <a-col :lg="{ span: 1, offset: 2 }" :md="2">
@@ -63,7 +62,6 @@ export default {
     return {
       visible: false,
       id: null,
-      submitLoading: false,
       fileList: [],
       uploading: false,
       options: {
@@ -137,7 +135,7 @@ export default {
               imgUrl = response.imgUrl
             }
             store.commit('SET_AVATAR', imgUrl)
-            _this.$message.success('上传成功')
+            _this.$message.success(_this.$t('account.center.upload.success'))
             _this.$emit('ok', imgUrl)
             _this.visible = false
           })
@@ -150,17 +148,6 @@ export default {
       }
       this.uploading = false
     },
-    okHandel() {
-      const vm = this
-
-      vm.submitLoading = true
-      setTimeout(() => {
-        vm.submitLoading = false
-        vm.close()
-        vm.$message.success('上传头像成功')
-      }, 2000)
-    },
-
     realTime(data) {
       this.previews = data
     }

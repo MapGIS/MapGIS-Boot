@@ -1,5 +1,7 @@
 <template>
-  <a v-if="config.enabled && config.isReserveDefaultLogin" :href="config.casLoginUrl">CAS登录</a>
+  <a v-if="config.enabled && config.isReserveDefaultLogin" :href="config.casLoginUrl">
+    {{ $t('user.login.cas.login') }}
+  </a>
 </template>
 
 <script>
