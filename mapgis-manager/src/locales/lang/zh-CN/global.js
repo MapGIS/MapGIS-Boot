@@ -173,5 +173,8 @@ export default {
   bind: '绑定',
   unbind: '解绑',
   'confirm.logout': '确定注销并退出系统吗？',
-  config: '配置'
+  config: '配置',
+  route: '路由',
+  create: '创建',
+  'create.prefix': '创建{content}'
 }

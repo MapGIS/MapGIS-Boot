@@ -6,19 +6,32 @@
         <a-form layout="inline">
           <a-row :gutter="48">
             <a-col :md="8" :sm="24">
-              <a-form-item label="路由ID" prop="routeId">
-                <a-input v-model="queryParam.routeId" placeholder="请输入路由ID" allow-clear />
+              <a-form-item :label="$t('id.suffix', { content: this.$t('route') })" prop="routeId">
+                <a-input
+                  v-model="queryParam.routeId"
+                  :placeholder="$t('please.prefix.input', { content: $t('id.suffix', { content: this.$t('route') }) })"
+                  allow-clear
+                />
               </a-form-item>
             </a-col>
             <a-col :md="8" :sm="24">
-              <a-form-item label="服务地址" prop="uri">
-                <a-input v-model="queryParam.uri" placeholder="请输入服务地址" allow-clear />
+              <a-form-item :label="$t('dev.route.service.url')" prop="uri">
+                <a-input
+                  v-model="queryParam.uri"
+                  :placeholder="$t('please.prefix.input', { content: $t('dev.route.service.url') })"
+                  allow-clear
+                />
               </a-form-item>
             </a-col>
             <template v-if="advanced">
               <a-col :md="8" :sm="24">
-                <a-form-item label="路由状态" prop="status">
-                  <a-select placeholder="请选择路由状态" v-model="queryParam.status" style="width: 100%" allow-clear>
+                <a-form-item :label="$t('dev.route.status')" prop="status">
+                  <a-select
+                    :placeholder="$t('please.prefix.select', { content: $t('dev.route.status') })"
+                    v-model="queryParam.status"
+                    style="width: 100%"
+                    allow-clear
+                  >
                     <a-select-option v-for="(d, index) in statusOptions" :key="index" :value="d.dictValue">{{
                       d.dictLabel
                     }}</a-select-option>
@@ -151,31 +164,25 @@ export default {
       },
       columns: [
         {
-          title: '路由编号',
-          dataIndex: 'gatewayRouteId',
-          width: '10%',
-          align: 'center'
-        },
-        {
-          title: '路由ID',
+          title: this.$t('id.suffix', { content: this.$t('route') }),
           dataIndex: 'routeId',
           ellipsis: true,
           align: 'center'
         },
         {
-          title: '服务地址',
+          title: this.$t('dev.route.service.url'),
           dataIndex: 'uri',
           ellipsis: true,
           align: 'center'
         },
         {
-          title: '顺序',
+          title: this.$t('order'),
           dataIndex: 'orderNum',
           width: '5%',
           align: 'center'
         },
         {
-          title: '路由状态',
+          title: this.$t('dev.route.status'),
           dataIndex: 'status',
           scopedSlots: { customRender: 'status' },
           width: '10%',

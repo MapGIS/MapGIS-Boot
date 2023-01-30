@@ -174,5 +174,8 @@ export default {
   bind: 'Bind',
   unbind: 'Unbind',
   'confirm.logout': 'Are you sure to logout?',
-  config: 'Config'
+  config: 'Config',
+  route: 'Route',
+  create: 'Create',
+  'create.prefix': 'Create {content}'
 }

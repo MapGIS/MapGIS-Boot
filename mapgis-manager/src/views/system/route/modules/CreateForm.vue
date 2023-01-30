@@ -9,13 +9,19 @@
     @cancel="onClose"
   >
     <a-form-model ref="form" :model="form" :rules="rules" v-bind="formLayout">
-      <a-form-model-item label="路由ID" prop="routeId">
-        <a-input v-model="form.routeId" placeholder="请输入路由ID" />
+      <a-form-model-item :label="$t('id.suffix', { content: this.$t('route') })" prop="routeId">
+        <a-input
+          v-model="form.routeId"
+          :placeholder="$t('please.prefix.input', { content: $t('id.suffix', { content: this.$t('route') }) })"
+        />
       </a-form-model-item>
-      <a-form-model-item label="服务地址" prop="uri">
-        <a-input v-model="form.uri" placeholder="请输入服务地址" />
+      <a-form-model-item :label="$t('dev.route.service.url')" prop="uri">
+        <a-input
+          v-model="form.uri"
+          :placeholder="$t('please.prefix.input', { content: $t('dev.route.service.url') })"
+        />
       </a-form-model-item>
-      <a-form-model-item label="断言" prop="predicates">
+      <a-form-model-item :label="$t('dev.route.predicates')" prop="predicates">
         <div v-for="(item, index) in form.predicates" :key="index">
           <a-divider>
             {{ item.name }}
@@ -58,21 +64,21 @@
             />
             <a-tag v-else style="borderstyle: dashed; cursor: pointer" @click="showInput(item, index)">
               <a-icon type="plus" />
-              新建{{ item.name }}
+              {{ $t('create.prefix', { content: item.name }) }}
             </a-tag>
           </div>
           <div v-if="!keyRoutes.includes(item.name)">
             <a-row v-for="(value, key) in item.args" :key="key">
-              <a-col :span="5" style="margin-top: 2px">
-                <span v-if="key == 'header'">Header名称</span>
-                <span v-if="key == 'regexp'">参数值</span>
-                <span v-if="key == 'param'">参数名</span>
-                <span v-if="key == 'name'">Cookie名称</span>
+              <a-col :span="5" style="margin-top: 8px">
+                <span v-if="key == 'header'">{{ $t('dev.route.header.name') }}</span>
+                <span v-if="key == 'regexp'">{{ $t('dev.route.parameter.value') }}</span>
+                <span v-if="key == 'param'">{{ $t('dev.route.parameter.name') }}</span>
+                <span v-if="key == 'name'">{{ $t('dev.route.cookie.name') }}</span>
               </a-col>
               <a-col :span="18">
                 <a-input
                   :defaultValue="value"
-                  placeholder="参数值"
+                  :placeholder="$t('dev.route.parameter.value')"
                   style="width: 70%; margin-right: 8px; margin-top: 3px"
                   @change="e => valueChange(e, item.args, key)"
                 />
@@ -88,26 +94,34 @@
               }}</a-menu-item>
             </a-menu>
             <a-button type="dashed" style="width: 100%">
-              添加断言
+              {{ $t('dev.route.add.predicate') }}
               <a-icon type="down" />
             </a-button>
           </a-dropdown>
         </p>
       </a-form-model-item>
-      <a-form-model-item label="过滤器" prop="filters">
+      <a-form-model-item :label="$t('dev.route.filter')" prop="filters">
         <div v-for="(item, index) in form.filters" :key="index">
           <a-divider>
             {{ item.name }}
             <a-icon type="delete" size="22" @click="removeFilter(form.filters, index)" />
           </a-divider>
           <div v-for="tag in item.args" :key="tag.key">
-            <a-input v-model="tag.key" placeholder="参数键" style="width: 45%; margin-right: 8px" />
-            <a-input v-model="tag.value" placeholder="参数值" style="width: 40%; margin-right: 8px" />
+            <a-input
+              v-model="tag.key"
+              :placeholder="$t('dev.route.parameter.key')"
+              style="width: 45%; margin-right: 8px"
+            />
+            <a-input
+              v-model="tag.value"
+              :placeholder="$t('dev.route.parameter.value')"
+              style="width: 40%; margin-right: 8px"
+            />
             <a-icon class="dynamic-delete-button" type="minus-circle-o" @click="removeFilterParams(item, index)" />
           </div>
           <a-button type="dashed" style="margin-left: 28%; width: 30%" size="small" @click="addFilterParams(item)">
             <a-icon type="plus" />
-            添加参数
+            {{ $t('dev.route.add.parameter') }}
           </a-button>
         </div>
         <p class="btn" style="padding-top: 10px">
@@ -118,16 +132,16 @@
               </a-menu-item>
             </a-menu>
             <a-button type="dashed" style="width: 100%">
-              添加过滤器
+              {{ $t('dev.route.add.filter') }}
               <a-icon type="down" />
             </a-button>
           </a-dropdown>
         </p>
       </a-form-model-item>
-      <a-form-model-item label="顺序" prop="orderNum">
-        <a-input v-model="form.orderNum" placeholder="请输入顺序" />
+      <a-form-model-item :label="$t('order')" prop="orderNum">
+        <a-input v-model="form.orderNum" :placeholder="$t('please.prefix.input', { content: $t('order') })" />
       </a-form-model-item>
-      <a-form-model-item label="路由状态" prop="status">
+      <a-form-model-item :label="$t('dev.route.status')" prop="status">
         <a-radio-group v-model="form.status" button-style="solid">
           <a-radio-button v-for="(d, index) in statusOptions" :key="index" :value="d.dictValue">{{
             d.dictLabel
@@ -180,9 +194,20 @@ export default {
       formType: 1,
       open: false,
       rules: {
-        routeId: [{ required: true, message: '路由ID不能为空', trigger: 'blur' }],
-
-        uri: [{ required: true, message: '服务地址不能为空', trigger: 'blur' }]
+        routeId: [
+          {
+            required: true,
+            message: this.$t('not.empty.suffix', { content: this.$t('id.suffix', { content: this.$t('route') }) }),
+            trigger: 'blur'
+          }
+        ],
+        uri: [
+          {
+            required: true,
+            message: this.$t('not.empty.suffix', { content: this.$t('dev.route.service.url') }),
+            trigger: 'blur'
+          }
+        ]
       },
       keyRoutes: ['Path', 'Host', 'Method', 'After', 'Before', 'Between', 'RemoteAddr'],
       // gateway对应的规则key
@@ -370,8 +395,8 @@ export default {
             }
           ]
         },
-        { key: 11, title: '缓存请求过滤器', name: 'CacheRequestFilter', args: [] },
-        { key: 12, title: '验证码过滤器', name: 'ValidateCodeFilter', args: [] }
+        { key: 11, title: this.$t('dev.route.cache.request.filter'), name: 'CacheRequestFilter', args: [] },
+        { key: 12, title: this.$t('dev.route.validate.code.filter'), name: 'ValidateCodeFilter', args: [] }
       ]
     }
   },
