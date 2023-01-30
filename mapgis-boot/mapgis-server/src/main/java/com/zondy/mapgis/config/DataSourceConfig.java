@@ -100,7 +100,7 @@ public class DataSourceConfig {
 
     DataSource createMySQLDataSource(String db) {
         DataSourceProperty dataSourceProperty = new DataSourceProperty();
-        String dbUrl = "jdbc:mysql://" + dbHost + ":" + dbPort + "/" + db + "?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8";
+        String dbUrl = "jdbc:mysql://" + dbHost + ":" + dbPort + "/" + db + "?useUnicode=true&characterEncoding=utf8&connectTimeout=30000&socketTimeout=60000&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8";
 
         dataSourceProperty.setDriverClassName("com.mysql.cj.jdbc.Driver");
         dataSourceProperty.setUrl(dbUrl);

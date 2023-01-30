@@ -237,7 +237,7 @@ __  __              _____ _____  _____    _____
 # db mysql
 spring.datasource.platform=mysql
 db.num=1
-db.url.0=jdbc:mysql://mapgis-xxx-mysql:3306/mapgis-cloud-config?characterEncoding=utf8&connectTimeout=1000&socketTimeout=3000&autoReconnect=true&useUnicode=true&useSSL=false&serverTimezone=UTC
+db.url.0=jdbc:mysql://mapgis-xxx-mysql:3306/mapgis-cloud-config?characterEncoding=utf8&connectTimeout=30000&socketTimeout=60000&autoReconnect=true&useUnicode=true&useSSL=false&serverTimezone=UTC
 db.user=root
 db.password=cloud123.mapgis
 ```
