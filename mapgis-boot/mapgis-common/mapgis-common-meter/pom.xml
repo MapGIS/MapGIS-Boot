@@ -13,8 +13,6 @@
     <packaging>pom</packaging>
     <modules>
         <module>mapgis-common-base-meter</module>
-        <module>mapgis-common-local-meter</module>
-        <module>mapgis-common-cloud-meter</module>
     </modules>
 
     <properties>

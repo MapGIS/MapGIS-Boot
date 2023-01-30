@@ -8,7 +8,7 @@
         ref="form"
         :model="form"
       >
-        <a-divider orientation="left">{{ $t('log.logconfig.system.log') }}</a-divider>
+        <header-title :title="$t('log.logconfig.system.log')"></header-title>
         <a-form-model-item :label="$t('log.logconfig.system.log')" prop="systemLoglevel">
           <a-select v-model="form.systemLoglevel" :placeholder="$t('please.select')">
             <a-select-option v-for="(l, index) in levelOptions" :key="index" :value="l.value">
@@ -16,7 +16,7 @@
             </a-select-option>
           </a-select>
         </a-form-model-item>
-        <a-divider orientation="left">{{ $t('log.logconifg.service.access.log') }}</a-divider>
+        <header-title :title="$t('log.logconifg.service.access.log')"></header-title>
         <a-form-model-item :label="$t('whether.to.enable')" prop="httpAccessEnabled">
           <a-checkbox :checked="form.httpAccessEnabled" @change="handleChange" />
         </a-form-model-item>
@@ -63,6 +63,7 @@
 <script>
 import merge from 'lodash/merge'
 import { getConfigByKey, updateConfig } from '@/api/system/config'
+import HeaderTitle from '@/components/HeaderTitle'
 
 const defaultConfigValue = {
   systemLoglevel: 'INFO',
@@ -72,6 +73,7 @@ const defaultConfigValue = {
 
 export default {
   name: 'LogConfig',
+  components: { HeaderTitle },
   data() {
     return {
       configLoaded: false,

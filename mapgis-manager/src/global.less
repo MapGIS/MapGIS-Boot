@@ -40,10 +40,13 @@ body {
 }
 // 数据列表 搜索条件
 .table-page-search-wrapper {
+  background-color: @table-header-bg;
+  padding: 16px 16px 0;
+  margin-bottom: 16px;
   .ant-form-inline {
     .ant-form-item {
       display: flex;
-      margin-bottom: 24px;
+      margin-bottom: 16px;
       margin-right: 0;
 
       .ant-form-item-control-wrapper {
@@ -66,7 +69,6 @@ body {
 
   .table-page-search-submitButtons {
     display: block;
-    margin-bottom: 24px;
     white-space: nowrap;
   }
 }
@@ -100,11 +102,11 @@ body {
   position: absolute;
   bottom: 0;
   width: 100%;
-  border-top: 1px solid #e8e8e8;
+  border-top: 1px solid @border-color;
   padding: 10px 16px;
   text-align: right;
   left: 0;
-  background: #fff;
+  background: @body-background;
   border-radius: 0 0 4px 4px;
 }
 .ant-drawer-body {

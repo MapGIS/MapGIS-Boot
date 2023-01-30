@@ -5,7 +5,7 @@
         :labelCol="{ lg: { span: 7 }, sm: { span: 7 } }"
         :wrapperCol="{ lg: { span: 10 }, sm: { span: 17 } }"
       >
-        <a-divider orientation="left">{{ $t('app.setting.theme.style') }}</a-divider>
+        <header-title :title="$t('app.setting.theme.style')"></header-title>
         <a-form-model-item :label="$t('app.setting.pagestyle')">
           <div class="setting-drawer-index-blockChecbox">
             <a-tooltip>
@@ -126,7 +126,7 @@
         <a-form-model-item :label="$t('app.setting.weakmode')">
           <a-switch :checked="colorWeak" @change="checked => handleChange('colorWeak', checked)" />
         </a-form-model-item>
-        <a-divider orientation="left">{{ $t('app.setting.table.style') }}</a-divider>
+        <header-title :title="$t('app.setting.table.style')"></header-title>
         <a-form-model-item :label="$t('app.setting.table.size')">
           <a-radio-group
             :value="tableSize"
@@ -141,7 +141,7 @@
         <a-form-model-item :label="$t('app.setting.table.bordered')">
           <a-switch :checked="tableBordered" @change="checked => handleChange('tableBordered', checked)" />
         </a-form-model-item>
-        <a-divider orientation="left">{{ $t('app.setting.form.style') }}</a-divider>
+        <header-title :title="$t('app.setting.form.style')"></header-title>
         <a-form-model-item :label="$t('app.setting.form.popup')">
           <a-select style="width: 90px" :value="formMode" @change="value => handleChange('formMode', value)">
             <a-select-option value="Drawer">{{ $t('app.setting.form.popup.drawer') }}</a-select-option>
@@ -178,9 +178,11 @@ import { tableMixin } from '@/store/table-mixin'
 import { formMixin } from '@/store/form-mixin'
 import { updateTheme, updateColorWeak, getColorList } from '@/components/SettingDrawer/settingConfig'
 import defaultSettings from '@/config/defaultSettings'
+import HeaderTitle from '@/components/HeaderTitle'
 
 export default {
   mixins: [baseMixin, tableMixin, formMixin],
+  components: { HeaderTitle },
   data() {
     return {
       settings: {
