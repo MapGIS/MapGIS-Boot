@@ -172,5 +172,6 @@ export default {
   tip: '提示',
   bind: '绑定',
   unbind: '解绑',
-  'confirm.logout': '确定注销并退出系统吗？'
+  'confirm.logout': '确定注销并退出系统吗？',
+  config: '配置'
 }

@@ -11,13 +11,13 @@
               </a-form-item>
             </a-col>
             <a-col :md="8" :sm="24">
-              <a-form-item label="参数键名">
+              <a-form-item :label="$t('config.config.parmeter.key.name')">
                 <a-input v-model="queryParam.configKey" :placeholder="$t('please.input')" allow-clear />
               </a-form-item>
             </a-col>
             <template v-if="advanced">
               <a-col :md="8" :sm="24">
-                <a-form-item label="参数类型">
+                <a-form-item :label="$t('config.config.system.built.in')">
                   <a-select
                     :placeholder="$t('please.select')"
                     v-model="queryParam.configType"
@@ -177,7 +177,7 @@ export default {
       },
       columns: [
         {
-          title: '参数主键',
+          title: this.$t('id.suffix', { content: this.$t('config') }),
           dataIndex: 'configId',
           align: 'center'
         },
@@ -188,19 +188,19 @@ export default {
           align: 'center'
         },
         {
-          title: '参数键名',
+          title: this.$t('config.config.parmeter.key.name'),
           dataIndex: 'configKey',
           ellipsis: true,
           align: 'center'
         },
         {
-          title: '参数键值',
+          title: this.$t('config.config.parmeter.key.value'),
           dataIndex: 'configValue',
           ellipsis: true,
           align: 'center'
         },
         {
-          title: '系统内置',
+          title: this.$t('config.config.system.built.in'),
           dataIndex: 'configType',
           scopedSlots: { customRender: 'configType' },
           align: 'center'

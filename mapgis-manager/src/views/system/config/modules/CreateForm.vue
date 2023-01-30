@@ -12,17 +12,17 @@
       <a-form-model-item :label="$t('config.name')" prop="configName">
         <a-input v-model="form.configName" :placeholder="$t('please.input')" />
       </a-form-model-item>
-      <a-form-model-item label="参数键名" prop="configKey">
+      <a-form-model-item :label="$t('config.config.parmeter.key.name')" prop="configKey">
         <a-input v-model="form.configKey" :placeholder="$t('please.input')" />
       </a-form-model-item>
-      <a-form-model-item label="参数键值" prop="configValue">
-        <a-input v-model="form.configValue" :placeholder="$t('please.input')" />
+      <a-form-model-item :label="$t('config.config.parmeter.key.value')" prop="configValue">
+        <a-input v-model="form.configValue" :placeholder="$t('please.input')" type="textarea" />
       </a-form-model-item>
-      <a-form-model-item label="系统内置" prop="configType">
-        <a-select placeholder="是否内置" v-model="form.configType">
-          <a-select-option v-for="(d, index) in typeOptions" :key="index" :value="d.dictValue">{{
-            d.dictLabel
-          }}</a-select-option>
+      <a-form-model-item :label="$t('config.config.system.built.in')" prop="configType">
+        <a-select :placeholder="$t('config.config.whether.to.built.in')" v-model="form.configType">
+          <a-select-option v-for="(d, index) in typeOptions" :key="index" :value="d.dictValue">
+            {{ d.dictLabel }}
+          </a-select-option>
         </a-select>
       </a-form-model-item>
       <a-form-model-item :label="$t('remark')" prop="remark">
@@ -67,9 +67,27 @@ export default {
       },
       open: false,
       rules: {
-        configName: [{ required: true, message: '参数名称不能为空', trigger: 'blur' }],
-        configKey: [{ required: true, message: '参数键名不能为空', trigger: 'blur' }],
-        configValue: [{ required: true, message: '参数键值不能为空', trigger: 'blur' }]
+        configName: [
+          {
+            required: true,
+            message: this.$t('not.empty.suffix', { content: this.$t('config.name') }),
+            trigger: 'blur'
+          }
+        ],
+        configKey: [
+          {
+            required: true,
+            message: this.$t('not.empty.suffix', { content: this.$t('config.config.parmeter.key.name') }),
+            trigger: 'blur'
+          }
+        ],
+        configValue: [
+          {
+            required: true,
+            message: this.$t('not.empty.suffix', { content: this.$t('config.config.parmeter.key.value') }),
+            trigger: 'blur'
+          }
+        ]
       }
     }
   },
@@ -101,7 +119,7 @@ export default {
     handleAdd() {
       this.reset()
       this.open = true
-      this.formTitle = '添加参数'
+      this.formTitle = this.$t('add.suffix', { content: this.$t('config') })
     },
     /** 修改按钮操作 */
     handleUpdate(row, ids) {
@@ -110,7 +128,7 @@ export default {
       getConfig(configId).then(response => {
         this.form = response.data
         this.open = true
-        this.formTitle = '修改参数'
+        this.formTitle = this.$t('modify.suffix', { content: this.$t('config') })
       })
     },
     /** 提交按钮 */

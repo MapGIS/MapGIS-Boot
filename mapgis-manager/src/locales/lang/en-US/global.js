@@ -173,5 +173,6 @@ export default {
   tip: 'Tip',
   bind: 'Bind',
   unbind: 'Unbind',
-  'confirm.logout': 'Are you sure to logout?'
+  'confirm.logout': 'Are you sure to logout?',
+  config: 'Config'
 }
