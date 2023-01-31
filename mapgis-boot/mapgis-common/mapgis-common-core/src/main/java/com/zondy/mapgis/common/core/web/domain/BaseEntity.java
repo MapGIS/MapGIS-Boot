@@ -1,6 +1,8 @@
 package com.zondy.mapgis.common.core.web.domain;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.experimental.Accessors;
@@ -25,6 +27,7 @@ public class BaseEntity implements Serializable {
      * 搜索值
      */
     @Schema(description = "搜索值")
+    @JsonIgnore
     private String searchValue;
 
     /**
@@ -63,5 +66,6 @@ public class BaseEntity implements Serializable {
      * 请求参数
      */
     @Schema(description = "请求参数")
+    @JsonInclude(JsonInclude.Include.NON_EMPTY)
     private Map<String, Object> params = new HashMap<>();
 }

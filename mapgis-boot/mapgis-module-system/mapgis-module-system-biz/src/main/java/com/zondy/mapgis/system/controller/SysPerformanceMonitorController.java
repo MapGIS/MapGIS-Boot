@@ -28,6 +28,6 @@ public class SysPerformanceMonitorController extends BaseController {
     @RequiresPermissions("system:serverPerformance:list")
     @GetMapping("/serverPerformance")
     public AjaxResult getServerPerformanceInfo() {
-        return AjaxResult.success(performanceMeterService.getPerformanceInfo());
+        return success(performanceMeterService.getPerformanceInfo());
     }
 }

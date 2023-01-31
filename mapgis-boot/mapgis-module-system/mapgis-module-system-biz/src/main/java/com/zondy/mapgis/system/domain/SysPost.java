@@ -9,6 +9,7 @@ import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 /**
@@ -54,8 +55,8 @@ public class SysPost extends BaseEntity {
      */
     @Schema(description = "岗位排序")
     @Excel(name = "岗位排序")
-    @NotBlank(message = "显示顺序不能为空")
-    private String postSort;
+    @NotNull(message = "显示顺序不能为空")
+    private Integer postSort;
 
     /**
      * 用户是否存在此岗位标识 默认不存在

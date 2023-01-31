@@ -1,5 +1,7 @@
 package com.zondy.mapgis.common.log.aspect;
 
+import cn.hutool.core.lang.Dict;
+import cn.hutool.core.map.MapUtil;
 import com.zondy.mapgis.common.core.utils.JsonUtils;
 import com.zondy.mapgis.common.core.utils.ServletUtils;
 import com.zondy.mapgis.common.core.utils.StringUtils;
@@ -20,7 +22,6 @@ import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.HandlerMapping;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -37,6 +38,11 @@ import java.util.Map;
 @Component
 public class LogAspect {
     private static final Logger log = LoggerFactory.getLogger(LogAspect.class);
+
+    /**
+     * 排除敏感属性字段
+     */
+    public static final String[] EXCLUDE_PROPERTIES = {"password", "oldPassword", "newPassword", "confirmPassword"};
 
     @Autowired
     private AsyncLogService asyncLogService;
@@ -70,7 +76,7 @@ public class LogAspect {
             // 请求的地址
             String ip = IpUtils.getIpAddr(ServletUtils.getRequest());
             operLog.setOperIp(ip);
-            operLog.setOperUrl(ServletUtils.getRequest().getRequestURI());
+            operLog.setOperUrl(StringUtils.substring(ServletUtils.getRequest().getRequestURI(), 0, 255));
             String username = SecurityUtils.getUsername();
             if (StringUtils.isNotBlank(username)) {
                 operLog.setOperName(username);
@@ -92,7 +98,6 @@ public class LogAspect {
             asyncLogService.saveSysLog(operLog);
         } catch (Exception exp) {
             // 记录本地异常日志
-            log.error("==前置通知异常==");
             log.error("异常信息:{}", exp.getMessage());
             exp.printStackTrace();
         }
@@ -135,8 +140,9 @@ public class LogAspect {
             String params = argsArrayToString(joinPoint.getArgs());
             operLog.setOperParam(StringUtils.substring(params, 0, 2000));
         } else {
-            Map<?, ?> paramsMap = (Map<?, ?>) ServletUtils.getRequest().getAttribute(HandlerMapping.URI_TEMPLATE_VARIABLES_ATTRIBUTE);
-            operLog.setOperParam(StringUtils.substring(paramsMap.toString(), 0, 2000));
+            Map<String, String> paramsMap = ServletUtils.getParamMap(ServletUtils.getRequest());
+            MapUtil.removeAny(paramsMap, EXCLUDE_PROPERTIES);
+            operLog.setOperParam(StringUtils.substring(JsonUtils.toJsonString(paramsMap), 0, 2000));
         }
     }
 
@@ -149,8 +155,15 @@ public class LogAspect {
             for (Object o : paramsArray) {
                 if (StringUtils.isNotNull(o) && !isFilterObject(o)) {
                     try {
-                        params.append(JsonUtils.toJsonString(o)).append(" ");
+                        String str = JsonUtils.toJsonString(o);
+                        Dict dict = JsonUtils.parseMap(str);
+                        if (MapUtil.isNotEmpty(dict)) {
+                            MapUtil.removeAny(dict, EXCLUDE_PROPERTIES);
+                            str = JsonUtils.toJsonString(dict);
+                        }
+                        params.append(str).append(" ");
                     } catch (Exception e) {
+                        e.printStackTrace();
                     }
                 }
             }

@@ -135,6 +135,15 @@ export function updateAuthRole(data) {
   })
 }
 
+// 查询部门下拉树结构
+export function deptTreeSelect() {
+  return request({
+    url: `${window._CONFIG['apiPathManagerPrefix']}/system/user/deptTree`,
+    method: 'get'
+  })
+}
+
+// 校验密码
 export function checkPassword(data) {
   return request({
     url: `${window._CONFIG['apiPathManagerPrefix']}/system/user/checkPassword`,

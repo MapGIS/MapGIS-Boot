@@ -117,7 +117,7 @@
             :statusOptions="statusOptions"
             :sexOptions="sexOptions"
             @ok="getList"
-            @select-tree="getTreeselect"
+            @select-tree="getDeptTree"
           />
           <!-- 修改密码抽屉 -->
           <reset-password ref="resetPassword" />
@@ -221,8 +221,7 @@
 </template>
 
 <script>
-import { listUser, delUser, changeUserStatus, getUser } from '@/api/system/user'
-import { treeselect } from '@/api/system/dept'
+import { listUser, delUser, changeUserStatus, getUser, deptTreeSelect } from '@/api/system/user'
 import AuthRole from './modules/AuthRole'
 import ResetPassword from './modules/ResetPassword'
 import CreateForm from './modules/CreateForm'
@@ -357,7 +356,7 @@ export default {
   filters: {},
   created() {
     this.getList()
-    this.getTreeselect()
+    this.getDeptTree()
     this.getDicts('sys_normal_disable').then(response => {
       this.statusOptions = response.data
     })
@@ -386,8 +385,8 @@ export default {
       })
     },
     /** 查询部门下拉树结构 */
-    getTreeselect() {
-      treeselect().then(response => {
+    getDeptTree() {
+      deptTreeSelect().then(response => {
         this.deptOptions = response.data
       })
     },

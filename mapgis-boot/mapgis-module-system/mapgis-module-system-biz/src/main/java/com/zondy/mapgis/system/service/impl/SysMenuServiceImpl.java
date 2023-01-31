@@ -88,6 +88,24 @@ public class SysMenuServiceImpl implements ISysMenuService {
     }
 
     /**
+     * 根据角色ID查询权限
+     *
+     * @param roleId 角色ID
+     * @return 权限列表
+     */
+    @Override
+    public Set<String> selectMenuPermsByRoleId(Long roleId) {
+        List<String> perms = menuMapper.selectMenuPermsByRoleId(roleId);
+        Set<String> permsSet = new HashSet<>();
+        for (String perm : perms) {
+            if (StringUtils.isNotEmpty(perm)) {
+                permsSet.addAll(Arrays.asList(perm.trim().split(",")));
+            }
+        }
+        return permsSet;
+    }
+
+    /**
      * 根据用户ID查询菜单
      *
      * @param userId 用户名称
@@ -176,10 +194,7 @@ public class SysMenuServiceImpl implements ISysMenuService {
     @Override
     public List<SysMenu> buildMenuTree(List<SysMenu> menus) {
         List<SysMenu> returnList = new ArrayList<SysMenu>();
-        List<Long> tempList = new ArrayList<Long>();
-        for (SysMenu dept : menus) {
-            tempList.add(dept.getMenuId());
-        }
+        List<Long> tempList = menus.stream().map(SysMenu::getMenuId).collect(Collectors.toList());
         for (Iterator<SysMenu> iterator = menus.iterator(); iterator.hasNext(); ) {
             SysMenu menu = (SysMenu) iterator.next();
             // 如果是顶级节点, 遍历该父节点的所有子节点
@@ -401,8 +416,8 @@ public class SysMenuServiceImpl implements ISysMenuService {
     /**
      * 递归列表
      *
-     * @param list
-     * @param t
+     * @param list 分类表
+     * @param t    子节点
      */
     private void recursionFn(List<SysMenu> list, SysMenu t) {
         // 得到子节点列表
@@ -440,10 +455,10 @@ public class SysMenuServiceImpl implements ISysMenuService {
     /**
      * 内链域名特殊字符替换
      *
-     * @return
+     * @return 替换后的内链域名
      */
     public String innerLinkReplaceEach(String path) {
-        return StringUtils.replaceEach(path, new String[]{Constants.HTTP, Constants.HTTPS},
-                new String[]{"", ""});
+        return StringUtils.replaceEach(path, new String[]{Constants.HTTP, Constants.HTTPS, Constants.WWW, "."},
+                new String[]{"", "", "", "/"});
     }
 }

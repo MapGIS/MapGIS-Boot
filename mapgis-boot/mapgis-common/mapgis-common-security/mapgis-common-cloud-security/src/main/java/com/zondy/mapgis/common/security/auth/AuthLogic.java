@@ -1,5 +1,6 @@
 package com.zondy.mapgis.common.security.auth;
 
+import com.zondy.mapgis.common.core.context.SecurityContextHolder;
 import com.zondy.mapgis.common.core.exception.auth.NotLoginException;
 import com.zondy.mapgis.common.core.exception.auth.NotPermissionException;
 import com.zondy.mapgis.common.core.exception.auth.NotRoleException;
@@ -128,6 +129,7 @@ public class AuthLogic {
      * @param requiresPermissions 注解对象
      */
     public void checkPermi(RequiresPermissions requiresPermissions) {
+        SecurityContextHolder.setPermission(StringUtils.join(requiresPermissions.value(), ","));
         if (requiresPermissions.logical() == Logical.AND) {
             checkPermiAnd(requiresPermissions.value());
         } else {

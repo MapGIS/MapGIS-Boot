@@ -42,7 +42,7 @@ public class FileStorageController extends BaseController {
             FileStorage fileStorage = new FileStorage();
             fileStorage.setName(FileUtils.getName(url));
             fileStorage.setUrl(url);
-            return AjaxResult.success(fileStorage);
+            return success(fileStorage);
         } catch (Exception e) {
             log.error("上传文件失败", e);
             throw new ServiceException("上传文件失败！");

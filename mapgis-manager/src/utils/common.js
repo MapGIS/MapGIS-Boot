@@ -83,8 +83,14 @@ export function selectDictLabel(datas, value) {
   return actions.join('')
 }
 
-// 回显数据字典（字符串数组）
+// 回显数据字典（字符串、数组）
 export function selectDictLabels(datas, value, separator) {
+  if (value === undefined || value.length === 0) {
+    return ''
+  }
+  if (Array.isArray(value)) {
+    value = value.join(',')
+  }
   var actions = []
   var currentSeparator = undefined === separator ? ',' : separator
   var temp = value.split(currentSeparator)

@@ -1,5 +1,6 @@
 package com.zondy.mapgis.common.security.service;
 
+import com.zondy.mapgis.common.core.context.SecurityContextHolder;
 import com.zondy.mapgis.common.core.utils.StringUtils;
 import com.zondy.mapgis.common.security.utils.SecurityUtils;
 import com.zondy.mapgis.system.api.domain.SysRole;
@@ -45,6 +46,7 @@ public class PermissionService {
         if (StringUtils.isNull(loginUser) || CollectionUtils.isEmpty(loginUser.getPermissions())) {
             return false;
         }
+        SecurityContextHolder.setPermission(permission);
         return hasPermissions(loginUser.getPermissions(), permission);
     }
 
@@ -61,7 +63,7 @@ public class PermissionService {
     /**
      * 验证用户是否具有以下任意一个权限
      *
-     * @param permissions 以 PERMISSION_NAMES_DELIMETER 为分隔符的权限列表
+     * @param permissions 以逗号为分隔符的权限列表
      * @return 用户是否具有以下任意一个权限
      */
     public boolean hasAnyPermi(String permissions) {
@@ -72,6 +74,7 @@ public class PermissionService {
         if (StringUtils.isNull(loginUser) || CollectionUtils.isEmpty(loginUser.getPermissions())) {
             return false;
         }
+        SecurityContextHolder.setPermission(permissions);
         Set<String> authorities = loginUser.getPermissions();
         for (String permission : permissions.split(PERMISSION_DELIMETER)) {
             if (permission != null && hasPermissions(authorities, permission)) {

@@ -67,7 +67,7 @@ public class SysGatewayRouteController extends BaseController {
     @RequiresPermissions("system:route:query")
     @GetMapping(value = "/{gatewayRouteId}")
     public AjaxResult getInfo(@PathVariable("gatewayRouteId") Long gatewayRouteId) {
-        return AjaxResult.success(sysGatewayRouteService.selectSysGatewayRouteByGatewayRouteId(gatewayRouteId));
+        return success(sysGatewayRouteService.selectSysGatewayRouteByGatewayRouteId(gatewayRouteId));
     }
 
     /**

@@ -7,6 +7,7 @@
   </a-drawer>
   <a-modal
     v-else
+    class="pop-dialog-wrapper-modal"
     :title="title"
     :width="realWidth"
     :visible="visible"
@@ -61,4 +62,10 @@ export default {
 }
 </script>
 
-<style></style>
+<style lang="less" scoped>
+.pop-dialog-wrapper-modal {
+  /deep/ .bottom-control {
+    display: none;
+  }
+}
+</style>

@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-dependencies</artifactId>
-        <version>2.7.2</version>
+        <version>2.7.7</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -31,26 +31,25 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
-        <spring-boot.version>2.7.2</spring-boot.version>
-        <spring-cloud.version>2021.0.3</spring-cloud.version>
-        <spring-cloud-alibaba.version>2021.0.1.0</spring-cloud-alibaba.version>
+        <spring-cloud.version>2021.0.5</spring-cloud.version>
+        <spring-cloud-alibaba.version>2021.0.4.0</spring-cloud-alibaba.version>
         <alibaba.nacos.version>2.0.4</alibaba.nacos.version>
-        <spring-boot-admin.version>2.7.3</spring-boot-admin.version>
+        <spring-boot-admin.version>2.7.10</spring-boot-admin.version>
         <swagger.annotations.version>2.2.0</swagger.annotations.version>
         <springdoc.version>1.6.8</springdoc.version>
         <tobato.version>1.27.2</tobato.version>
-        <kaptcha.version>2.3.2</kaptcha.version>
-        <pagehelper.boot.version>1.4.3</pagehelper.boot.version>
-        <druid.version>1.2.11</druid.version>
-        <dynamic-ds.version>3.5.1</dynamic-ds.version>
+        <kaptcha.version>2.3.3</kaptcha.version>
+        <pagehelper.boot.version>1.4.6</pagehelper.boot.version>
+        <druid.version>1.2.15</druid.version>
+        <dynamic-ds.version>3.5.2</dynamic-ds.version>
         <commons.io.version>2.11.0</commons.io.version>
         <commons.fileupload.version>1.4</commons.fileupload.version>
         <jjwt.version>0.9.1</jjwt.version>
         <minio.version>8.2.2</minio.version>
         <poi.version>4.1.2</poi.version>
-        <transmittable-thread-local.version>2.13.2</transmittable-thread-local.version>
+        <transmittable-thread-local.version>2.14.2</transmittable-thread-local.version>
         <bitwalker.version>1.21</bitwalker.version>
-        <oshi.version>6.2.2</oshi.version>
+        <oshi.version>6.4.0</oshi.version>
         <hutool.version>5.7.22</hutool.version>
         <jansi.version>1.18</jansi.version>
         <flyway.version>6.4.4</flyway.version>
@@ -87,13 +86,6 @@
                 <version>${spring-cloud-alibaba.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
-            </dependency>
-
-            <!-- Alibaba Nacos 配置 -->
-            <dependency>
-                <groupId>com.alibaba.nacos</groupId>
-                <artifactId>nacos-client</artifactId>
-                <version>${alibaba.nacos.version}</version>
             </dependency>
 
             <!-- hutool 的依赖配置-->
@@ -140,7 +132,7 @@
 
             <!-- 验证码 -->
             <dependency>
-                <groupId>com.github.penggle</groupId>
+                <groupId>pro.fessional</groupId>
                 <artifactId>kaptcha</artifactId>
                 <version>${kaptcha.version}</version>
             </dependency>
@@ -742,6 +734,22 @@
                 </configuration>
             </plugin>
         </plugins>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-maven-plugin</artifactId>
+                    <version>${mapgis.boot.version}</version>
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>repackage</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+            </plugins>
+        </pluginManagement>
         <resources>
             <resource>
                 <directory>src/main/resources</directory>

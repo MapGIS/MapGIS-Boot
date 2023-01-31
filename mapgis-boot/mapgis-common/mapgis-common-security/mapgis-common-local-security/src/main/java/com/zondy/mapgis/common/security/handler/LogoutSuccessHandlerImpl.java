@@ -53,6 +53,6 @@ public class LogoutSuccessHandlerImpl implements LogoutSuccessHandler {
             ServletUtils.renderString(response, JsonUtils.toJsonString(AjaxResult.error(HttpStatus.SUCCESS, MessageUtils.message("user.logout.success"))));
             return;
         }
-        ServletUtils.renderString(response, JsonUtils.toJsonString(AjaxResult.error(HttpStatus.SUCCESS, MessageUtils.message("user.not.exists"))));
+        ServletUtils.renderString(response, JsonUtils.toJsonString(AjaxResult.success(MessageUtils.message("user.not.exists"))));
     }
 }

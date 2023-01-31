@@ -12,6 +12,7 @@ import com.zondy.mapgis.common.log.enums.BusinessType;
 import com.zondy.mapgis.common.security.annotation.RequiresPermissions;
 import com.zondy.mapgis.common.security.service.TokenService;
 import com.zondy.mapgis.common.security.utils.SecurityUtils;
+import com.zondy.mapgis.system.api.domain.SysDept;
 import com.zondy.mapgis.system.api.domain.SysRole;
 import com.zondy.mapgis.system.api.domain.SysUser;
 import com.zondy.mapgis.system.api.domain.SysUserRole;
@@ -19,6 +20,7 @@ import com.zondy.mapgis.system.api.model.LoginUser;
 import com.zondy.mapgis.system.api.service.ISysPermissionService;
 import com.zondy.mapgis.system.api.service.ISysRoleService;
 import com.zondy.mapgis.system.api.service.ISysUserService;
+import com.zondy.mapgis.system.service.ISysDeptService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -48,6 +50,8 @@ public class SysRoleController extends BaseController {
     private final ISysPermissionService permissionService;
 
     private final ISysUserService userService;
+
+    private final ISysDeptService deptService;
 
     @Operation(summary = "查询角色信息列表")
     @PreAuthorize("@ss.hasPermi('system:role:list')")
@@ -79,7 +83,7 @@ public class SysRoleController extends BaseController {
     @GetMapping(value = "/{roleId}")
     public AjaxResult getInfo(@PathVariable Long roleId) {
         roleService.checkRoleDataScope(roleId);
-        return AjaxResult.success(roleService.selectRoleById(roleId));
+        return success(roleService.selectRoleById(roleId));
     }
 
     /**
@@ -92,9 +96,9 @@ public class SysRoleController extends BaseController {
     @PostMapping
     public AjaxResult add(@Validated @RequestBody SysRole role) {
         if (UserConstants.NOT_UNIQUE.equals(roleService.checkRoleNameUnique(role))) {
-            return AjaxResult.error("新增角色'" + role.getRoleName() + "'失败，角色名称已存在");
+            return error("新增角色'" + role.getRoleName() + "'失败，角色名称已存在");
         } else if (UserConstants.NOT_UNIQUE.equals(roleService.checkRoleKeyUnique(role))) {
-            return AjaxResult.error("新增角色'" + role.getRoleName() + "'失败，角色权限已存在");
+            return error("新增角色'" + role.getRoleName() + "'失败，角色权限已存在");
         }
         role.setCreateBy(SecurityUtils.getUsername());
         return toAjax(roleService.insertRole(role));
@@ -113,9 +117,9 @@ public class SysRoleController extends BaseController {
         roleService.checkRoleAllowed(role);
         roleService.checkRoleDataScope(role.getRoleId());
         if (UserConstants.NOT_UNIQUE.equals(roleService.checkRoleNameUnique(role))) {
-            return AjaxResult.error("修改角色'" + role.getRoleName() + "'失败，角色名称已存在");
+            return error("修改角色'" + role.getRoleName() + "'失败，角色名称已存在");
         } else if (UserConstants.NOT_UNIQUE.equals(roleService.checkRoleKeyUnique(role))) {
-            return AjaxResult.error("修改角色'" + role.getRoleName() + "'失败，角色权限已存在");
+            return error("修改角色'" + role.getRoleName() + "'失败，角色权限已存在");
         }
         role.setUpdateBy(SecurityUtils.getUsername());
 
@@ -123,13 +127,13 @@ public class SysRoleController extends BaseController {
             // 更新缓存用户权限
             LoginUser loginUser = SecurityUtils.getLoginUser();
             if (StringUtils.isNotNull(loginUser.getUser()) && !loginUser.getUser().isAdmin()) {
-                loginUser.setPermissions(permissionService.getMenuPermission(loginUser.getUser().getUserId()));
+                loginUser.setPermissions(permissionService.getMenuPermission(loginUser.getUser()));
                 loginUser.setUser(userService.selectUserByUserName(loginUser.getUser().getUserName()));
                 tokenService.setLoginUser(loginUser);
             }
-            return AjaxResult.success();
+            return success();
         }
-        return AjaxResult.error("修改角色'" + role.getRoleName() + "'失败，请联系管理员");
+        return error("修改角色'" + role.getRoleName() + "'失败，请联系管理员");
     }
 
     /**
@@ -166,7 +170,7 @@ public class SysRoleController extends BaseController {
     @RequiresPermissions("system:role:query")
     @GetMapping("/optionselect")
     public AjaxResult optionselect() {
-        return AjaxResult.success(roleService.selectRoleAll());
+        return success(roleService.selectRoleAll());
     }
 
     /**
@@ -230,5 +234,19 @@ public class SysRoleController extends BaseController {
     public AjaxResult selectAuthUserAll(Long roleId, Long[] userIds) {
         roleService.checkRoleDataScope(roleId);
         return toAjax(roleService.insertAuthUsers(roleId, userIds));
+    }
+
+    /**
+     * 获取对应角色部门树列表
+     */
+    @Operation(summary = "获取对应角色部门树列表")
+    @PreAuthorize("@ss.hasPermi('system:role:query')")
+    @RequiresPermissions("system:role:query")
+    @GetMapping(value = "/deptTree/{roleId}")
+    public AjaxResult deptTree(@PathVariable("roleId") Long roleId) {
+        AjaxResult ajax = AjaxResult.success();
+        ajax.put("checkedKeys", deptService.selectDeptListByRoleId(roleId));
+        ajax.put("depts", deptService.selectDeptTreeList(new SysDept()));
+        return ajax;
     }
 }

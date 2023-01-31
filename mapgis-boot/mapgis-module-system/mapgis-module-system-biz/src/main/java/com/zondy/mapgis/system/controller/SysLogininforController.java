@@ -81,7 +81,7 @@ public class SysLogininforController extends BaseController {
     @DeleteMapping("/clean")
     public AjaxResult clean() {
         logininforService.cleanLogininfor();
-        return AjaxResult.success();
+        return success();
     }
 
     @Operation(summary = "账号解锁")

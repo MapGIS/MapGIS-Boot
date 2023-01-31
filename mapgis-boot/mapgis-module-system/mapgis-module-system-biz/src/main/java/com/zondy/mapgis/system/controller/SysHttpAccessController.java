@@ -72,7 +72,7 @@ public class SysHttpAccessController extends BaseController {
     @RequiresPermissions("system:assesslog:query")
     @GetMapping(value = "/{accessId}")
     public AjaxResult getInfo(@PathVariable("accessId") Long accessId) {
-        return AjaxResult.success(sysHttpAccessService.selectSysHttpAccessByAccessId(accessId));
+        return success(sysHttpAccessService.selectSysHttpAccessByAccessId(accessId));
     }
 
     /**
@@ -97,6 +97,6 @@ public class SysHttpAccessController extends BaseController {
     @DeleteMapping("/clean")
     public AjaxResult clean() {
         sysHttpAccessService.cleanHttpAccess();
-        return AjaxResult.success();
+        return success();
     }
 }

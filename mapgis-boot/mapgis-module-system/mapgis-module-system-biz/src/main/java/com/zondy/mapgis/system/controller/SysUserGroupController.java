@@ -68,7 +68,7 @@ public class SysUserGroupController extends BaseController {
     @RequiresPermissions("system:usergroup:query")
     @GetMapping(value = "/{userGroupId}")
     public AjaxResult getInfo(@PathVariable("userGroupId") Long userGroupId) {
-        return AjaxResult.success(sysUserGroupService.selectSysUserGroupByUserGroupId(userGroupId));
+        return success(sysUserGroupService.selectSysUserGroupByUserGroupId(userGroupId));
     }
 
     /**
@@ -81,7 +81,7 @@ public class SysUserGroupController extends BaseController {
     @PostMapping
     public AjaxResult add(@RequestBody SysUserGroup sysUserGroup) {
         if (UserConstants.NOT_UNIQUE.equals(sysUserGroupService.checkUserGroupNameUnique(sysUserGroup.getUserGroupName()))) {
-            return AjaxResult.error("新增用户组'" + sysUserGroup.getUserGroupName() + "'失败，用户组名称已存在");
+            return error("新增用户组'" + sysUserGroup.getUserGroupName() + "'失败，用户组名称已存在");
         }
         sysUserGroup.setCreateBy(SecurityUtils.getUsername());
         return toAjax(sysUserGroupService.insertSysUserGroup(sysUserGroup));

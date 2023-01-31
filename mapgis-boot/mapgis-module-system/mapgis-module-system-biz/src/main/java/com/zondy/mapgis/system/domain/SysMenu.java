@@ -104,9 +104,9 @@ public class SysMenu extends BaseEntity {
     private String visible;
 
     /**
-     * 菜单状态（0显示 1隐藏）
+     * 菜单状态（0正常 1停用）
      */
-    @Schema(description = "菜单状态（0显示 1隐藏）")
+    @Schema(description = "菜单状态（0正常 1停用）")
     private String status;
 
     /**

@@ -11,12 +11,14 @@ import com.zondy.mapgis.common.log.annotation.Log;
 import com.zondy.mapgis.common.log.enums.BusinessType;
 import com.zondy.mapgis.common.security.annotation.RequiresPermissions;
 import com.zondy.mapgis.common.security.utils.SecurityUtils;
+import com.zondy.mapgis.system.api.domain.SysDept;
 import com.zondy.mapgis.system.api.domain.SysRole;
 import com.zondy.mapgis.system.api.domain.SysUser;
 import com.zondy.mapgis.system.api.domain.SysUserGroup;
 import com.zondy.mapgis.system.api.service.ISysPermissionService;
 import com.zondy.mapgis.system.api.service.ISysRoleService;
 import com.zondy.mapgis.system.api.service.ISysUserService;
+import com.zondy.mapgis.system.service.ISysDeptService;
 import com.zondy.mapgis.system.service.ISysPostService;
 import com.zondy.mapgis.system.service.ISysUserGroupService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -48,6 +50,8 @@ public class SysUserController extends BaseController {
     private final ISysUserService userService;
 
     private final ISysRoleService roleService;
+
+    private final ISysDeptService deptService;
 
     private final ISysPostService postService;
 
@@ -89,7 +93,7 @@ public class SysUserController extends BaseController {
         List<SysUser> userList = util.importExcel(file.getInputStream());
         String operName = SecurityUtils.getUsername();
         String message = userService.importUser(userList, updateSupport, operName);
-        return AjaxResult.success(message);
+        return success(message);
     }
 
     @Operation(summary = "下载导入模板")
@@ -107,11 +111,11 @@ public class SysUserController extends BaseController {
     @Operation(summary = "获取用户信息")
     @GetMapping("getInfo")
     public AjaxResult getInfo() {
-        Long userId = SecurityUtils.getUserId();
+        SysUser user = SecurityUtils.getLoginUser().getUser();
         // 角色集合
-        Set<String> roles = permissionService.getRolePermission(userId);
+        Set<String> roles = permissionService.getRolePermission(user);
         // 权限集合
-        Set<String> permissions = permissionService.getMenuPermission(userId);
+        Set<String> permissions = permissionService.getMenuPermission(user);
         AjaxResult ajax = AjaxResult.success();
         ajax.put("user", SecurityUtils.getLoginUser().getUser());
         ajax.put("roles", roles);
@@ -152,14 +156,14 @@ public class SysUserController extends BaseController {
     @Log(title = "用户管理", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@Validated @RequestBody SysUser user) {
-        if (UserConstants.NOT_UNIQUE.equals(userService.checkUserNameUnique(user.getUserName()))) {
-            return AjaxResult.error("新增用户'" + user.getUserName() + "'失败，登录账号已存在");
+        if (UserConstants.NOT_UNIQUE.equals(userService.checkUserNameUnique(user))) {
+            return error("新增用户'" + user.getUserName() + "'失败，登录账号已存在");
         } else if (StringUtils.isNotEmpty(user.getPhonenumber())
                 && UserConstants.NOT_UNIQUE.equals(userService.checkPhoneUnique(user))) {
-            return AjaxResult.error("新增用户'" + user.getUserName() + "'失败，手机号码已存在");
+            return error("新增用户'" + user.getUserName() + "'失败，手机号码已存在");
         } else if (StringUtils.isNotEmpty(user.getEmail())
                 && UserConstants.NOT_UNIQUE.equals(userService.checkEmailUnique(user))) {
-            return AjaxResult.error("新增用户'" + user.getUserName() + "'失败，邮箱账号已存在");
+            return error("新增用户'" + user.getUserName() + "'失败，邮箱账号已存在");
         }
         user.setCreateBy(SecurityUtils.getUsername());
         user.setPassword(SecurityUtils.encryptPassword(user.getPassword()));
@@ -177,12 +181,14 @@ public class SysUserController extends BaseController {
     public AjaxResult edit(@Validated @RequestBody SysUser user) {
         userService.checkUserAllowed(user);
         userService.checkUserDataScope(user.getUserId());
-        if (StringUtils.isNotEmpty(user.getPhonenumber())
+        if (UserConstants.NOT_UNIQUE.equals(userService.checkUserNameUnique(user))) {
+            return error("修改用户'" + user.getUserName() + "'失败，登录账号已存在");
+        } else if (StringUtils.isNotEmpty(user.getPhonenumber())
                 && UserConstants.NOT_UNIQUE.equals(userService.checkPhoneUnique(user))) {
-            return AjaxResult.error("修改用户'" + user.getUserName() + "'失败，手机号码已存在");
+            return error("修改用户'" + user.getUserName() + "'失败，手机号码已存在");
         } else if (StringUtils.isNotEmpty(user.getEmail())
                 && UserConstants.NOT_UNIQUE.equals(userService.checkEmailUnique(user))) {
-            return AjaxResult.error("修改用户'" + user.getUserName() + "'失败，邮箱账号已存在");
+            return error("修改用户'" + user.getUserName() + "'失败，邮箱账号已存在");
         }
         user.setUpdateBy(SecurityUtils.getUsername());
         return toAjax(userService.updateUser(user));
@@ -227,9 +233,9 @@ public class SysUserController extends BaseController {
     public AjaxResult checkPwd(@RequestBody SysUser user) {
         String correctPassword = userService.selectUserById(SecurityUtils.getUserId()).getPassword();
         if (SecurityUtils.matchesPassword(user.getPassword(), correctPassword)) {
-            return AjaxResult.success();
+            return success();
         } else {
-            return AjaxResult.error("密码不正确");
+            return error("密码不正确");
         }
     }
 
@@ -276,5 +282,16 @@ public class SysUserController extends BaseController {
         userService.checkUserDataScope(userId);
         userService.insertUserAuth(userId, roleIds);
         return success();
+    }
+
+    /**
+     * 获取部门树列表
+     */
+    @Operation(summary = "获取部门树列表")
+    @PreAuthorize("@ss.hasPermi('system:user:list')")
+    @RequiresPermissions("system:user:list")
+    @GetMapping("/deptTree")
+    public AjaxResult deptTree(SysDept dept) {
+        return success(deptService.selectDeptTreeList(dept));
     }
 }

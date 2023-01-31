@@ -67,7 +67,7 @@ public class SysAuthConfigController extends BaseController {
     @RequiresPermissions("system:authConfig:query")
     @GetMapping(value = "/{configId}")
     public AjaxResult getInfo(@PathVariable("configId") Integer configId) {
-        return AjaxResult.success(sysAuthConfigService.selectSysAuthConfigByConfigId(configId));
+        return success(sysAuthConfigService.selectSysAuthConfigByConfigId(configId));
     }
 
     /**
@@ -80,7 +80,7 @@ public class SysAuthConfigController extends BaseController {
     @PostMapping
     public AjaxResult add(@RequestBody SysAuthConfig sysAuthConfig) {
         if (sysAuthConfigService.isAuthTypeUnique(sysAuthConfig.getType())) {
-            return AjaxResult.error("新增第三方配置'" + sysAuthConfig.getType() + "'失败，登录平台已存在");
+            return error("新增第三方配置'" + sysAuthConfig.getType() + "'失败，登录平台已存在");
         }
         sysAuthConfig.setCreateBy(SecurityUtils.getUsername());
         return toAjax(sysAuthConfigService.insertSysAuthConfig(sysAuthConfig));

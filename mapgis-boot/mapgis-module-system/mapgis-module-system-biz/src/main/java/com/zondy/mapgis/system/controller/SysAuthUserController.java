@@ -55,7 +55,7 @@ public class SysAuthUserController extends BaseController {
         if (authUserService.checkAuthUser(userId, source) > 0) {
             throw new ServiceException("平台账号已经绑定");
         }
-        return AjaxResult.success();
+        return success();
     }
 
     /**

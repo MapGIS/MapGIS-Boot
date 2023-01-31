@@ -235,7 +235,7 @@ public class ThirdLoginController extends BaseController {
 
         String correctPassword = sysUser.getPassword();
         if (!SecurityUtils.matchesPassword(authUserCheckPasswordVo.getPassword(), correctPassword)) {
-            return AjaxResult.error("密码不正确");
+            return error("密码不正确");
         }
 
         // 密码正确进行绑定

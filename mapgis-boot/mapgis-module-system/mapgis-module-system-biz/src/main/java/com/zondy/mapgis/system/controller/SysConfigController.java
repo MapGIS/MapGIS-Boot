@@ -68,7 +68,7 @@ public class SysConfigController extends BaseController {
     @RequiresPermissions("system:config:query")
     @GetMapping(value = "/{configId}")
     public AjaxResult getInfo(@PathVariable Long configId) {
-        return AjaxResult.success(configService.selectConfigById(configId));
+        return success(configService.selectConfigById(configId));
     }
 
     /**
@@ -79,7 +79,7 @@ public class SysConfigController extends BaseController {
     @RequiresPermissions("system:config:query")
     @GetMapping(value = "/configKey/{configKey}/info")
     public AjaxResult getInfoByKey(@PathVariable String configKey) {
-        return AjaxResult.success(configService.selectConfigByKey(configKey));
+        return success(configService.selectConfigByKey(configKey));
     }
 
     /**
@@ -88,7 +88,7 @@ public class SysConfigController extends BaseController {
     @Operation(summary = "根据参数键名查询参数值")
     @GetMapping(value = "/configKey/{configKey}")
     public AjaxResult getConfigValueByKey(@PathVariable String configKey) {
-        return AjaxResult.success().put(AjaxResult.DATA_TAG, configService.selectConfigValueByKey(configKey));
+        return success().put(AjaxResult.DATA_TAG, configService.selectConfigValueByKey(configKey));
     }
 
     /**
@@ -101,7 +101,7 @@ public class SysConfigController extends BaseController {
     @PostMapping
     public AjaxResult add(@Validated @RequestBody SysConfig config) {
         if (UserConstants.NOT_UNIQUE.equals(configService.checkConfigKeyUnique(config))) {
-            return AjaxResult.error("新增参数'" + config.getConfigName() + "'失败，参数键名已存在");
+            return error("新增参数'" + config.getConfigName() + "'失败，参数键名已存在");
         }
         config.setCreateBy(SecurityUtils.getUsername());
         return toAjax(configService.insertConfig(config));
@@ -117,7 +117,7 @@ public class SysConfigController extends BaseController {
     @PutMapping
     public AjaxResult edit(@Validated @RequestBody SysConfig config) {
         if (UserConstants.NOT_UNIQUE.equals(configService.checkConfigKeyUnique(config))) {
-            return AjaxResult.error("修改参数'" + config.getConfigName() + "'失败，参数键名已存在");
+            return error("修改参数'" + config.getConfigName() + "'失败，参数键名已存在");
         }
         config.setUpdateBy(SecurityUtils.getUsername());
         return toAjax(configService.updateConfig(config));
@@ -146,6 +146,6 @@ public class SysConfigController extends BaseController {
     @DeleteMapping("/refreshCache")
     public AjaxResult refreshCache() {
         configService.resetConfigCache();
-        return AjaxResult.success();
+        return success();
     }
 }

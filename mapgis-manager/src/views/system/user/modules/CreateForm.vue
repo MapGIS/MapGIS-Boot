@@ -298,8 +298,8 @@ export default {
         this.postOptions = response.posts
         this.roleOptions = response.roles
         this.userGroupOptions = response.userGroups
-        this.form.postIds = response.postIds
-        this.form.roleIds = response.roleIds
+        this.$set(this.form, 'postIds', response.postIds)
+        this.$set(this.form, 'roleIds', response.roleIds)
         this.form.userGroupIds = response.userGroupIds
         this.open = true
         this.formTitle = this.$t('modify.suffix', { content: this.$t('user') })

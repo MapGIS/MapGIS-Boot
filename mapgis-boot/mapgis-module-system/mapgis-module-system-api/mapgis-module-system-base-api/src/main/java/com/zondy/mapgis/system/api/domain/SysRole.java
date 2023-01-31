@@ -11,7 +11,9 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.Set;
 
 /**
  * 角色表 sys_role
@@ -57,8 +59,8 @@ public class SysRole extends BaseEntity {
      */
     @Schema(description = "角色排序")
     @Excel(name = "角色排序")
-    @NotBlank(message = "显示顺序不能为空")
-    private String roleSort;
+    @NotNull(message = "显示顺序不能为空")
+    private Integer roleSort;
 
     /**
      * 数据范围（1：所有数据权限；2：自定义数据权限；3：本部门数据权限；4：本部门及以下数据权限；5：仅本人数据权限）
@@ -109,6 +111,11 @@ public class SysRole extends BaseEntity {
      */
     @Schema(description = "部门组（数据权限）")
     private Long[] deptIds;
+
+    /**
+     * 角色菜单权限
+     */
+    private Set<String> permissions;
 
     public SysRole(Long roleId) {
         this.roleId = roleId;

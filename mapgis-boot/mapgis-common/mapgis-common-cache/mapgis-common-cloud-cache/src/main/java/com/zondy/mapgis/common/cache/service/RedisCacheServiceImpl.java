@@ -122,8 +122,8 @@ public class RedisCacheServiceImpl implements ICacheService {
      * @return
      */
     @Override
-    public long deleteObject(final Collection collection) {
-        return redisTemplate.delete(collection);
+    public boolean deleteObject(final Collection collection) {
+        return redisTemplate.delete(collection) > 0;
     }
 
     /**
@@ -200,18 +200,7 @@ public class RedisCacheServiceImpl implements ICacheService {
     }
 
     /**
-     * 删除Hash中的数据
-     *
-     * @param key
-     * @param hKey
-     */
-    @Override
-    public void delCacheMapValue(final String key, final String hKey) {
-        HashOperations hashOperations = redisTemplate.opsForHash();
-        hashOperations.delete(key, hKey);
-    }
-
-    /**
+     * /**
      * 获取多个Hash中的数据
      *
      * @param key   Redis键

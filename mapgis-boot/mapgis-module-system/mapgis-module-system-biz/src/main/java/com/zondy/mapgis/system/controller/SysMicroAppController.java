@@ -67,7 +67,7 @@ public class SysMicroAppController extends BaseController {
     @RequiresPermissions("system:microApp:query")
     @GetMapping(value = "/{microAppId}")
     public AjaxResult getInfo(@PathVariable("microAppId") Long microAppId) {
-        return AjaxResult.success(sysMicroAppService.selectSysMicroAppByMicroAppId(microAppId));
+        return success(sysMicroAppService.selectSysMicroAppByMicroAppId(microAppId));
     }
 
     /**
@@ -118,6 +118,6 @@ public class SysMicroAppController extends BaseController {
     public AjaxResult getMicroApps() {
         SysMicroApp sysMicroApp = new SysMicroApp();
         List<SysMicroApp> list = sysMicroAppService.selectSysMicroAppList(sysMicroApp);
-        return AjaxResult.success(list);
+        return success(list);
     }
 }

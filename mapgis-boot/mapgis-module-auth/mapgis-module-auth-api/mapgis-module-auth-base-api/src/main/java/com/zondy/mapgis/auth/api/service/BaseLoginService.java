@@ -64,6 +64,8 @@ public abstract class BaseLoginService {
             loginUser = authenticateLogin(username, password);
         } catch (Exception e) {
             throw new ServiceException(e.getMessage());
+        } finally {
+            finallyDisposeOnAuthenticateLogin();
         }
         // 成功登录之后操作
         afterSuccessLogin(loginUser, username);
@@ -108,6 +110,12 @@ public abstract class BaseLoginService {
      * @return 登录用户
      */
     public abstract LoginUser authenticateLogin(String username, String password);
+
+    /**
+     * 验证用户名密码时最终异常处置
+     */
+    public void finallyDisposeOnAuthenticateLogin() {
+    }
 
     /**
      * 加载用户

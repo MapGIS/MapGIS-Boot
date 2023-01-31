@@ -52,6 +52,14 @@ public class SysLoginService extends BaseLoginService {
     }
 
     /**
+     * 验证用户名密码时最终异常处置
+     */
+    @Override
+    public void finallyDisposeOnAuthenticateLogin() {
+        AuthenticationContextHolder.clearContext();
+    }
+
+    /**
      * 加载用户
      *
      * @param username 用户名

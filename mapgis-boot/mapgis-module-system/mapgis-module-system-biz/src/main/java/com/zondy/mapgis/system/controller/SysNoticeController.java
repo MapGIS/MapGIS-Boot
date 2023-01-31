@@ -54,7 +54,7 @@ public class SysNoticeController extends BaseController {
     @RequiresPermissions("system:notice:query")
     @GetMapping(value = "/{noticeId}")
     public AjaxResult getInfo(@PathVariable Long noticeId) {
-        return AjaxResult.success(noticeService.selectNoticeById(noticeId));
+        return success(noticeService.selectNoticeById(noticeId));
     }
 
     /**

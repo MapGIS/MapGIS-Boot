@@ -58,9 +58,9 @@ public class SysServiceApiImpl implements ISysServiceApi {
             return R.ok();
         }
         // 角色集合
-        Set<String> roles = permissionService.getRolePermission(sysUser.getUserId());
+        Set<String> roles = permissionService.getRolePermission(sysUser);
         // 权限集合
-        Set<String> permissions = permissionService.getMenuPermission(sysUser.getUserId());
+        Set<String> permissions = permissionService.getMenuPermission(sysUser);
         LoginUser sysUserVo = new LoginUser();
         sysUserVo.setUserId(sysUser.getUserId());
         sysUserVo.setUsername(sysUser.getUserName());
@@ -74,14 +74,14 @@ public class SysServiceApiImpl implements ISysServiceApi {
     public R<Boolean> registerUserInfo(SysUser sysUser, String source) {
         String username = sysUser.getUserName();
 
-        if (UserConstants.NOT_UNIQUE.equals(userService.checkUserNameUnique(username))) {
+        if (UserConstants.NOT_UNIQUE.equals(userService.checkUserNameUnique(sysUser))) {
             return R.fail("保存用户'" + username + "'失败，注册账号已存在");
         }
         boolean registerResult = userService.registerUser(sysUser);
 
         if (registerResult) {
             Long userId = userService.selectUserByUserName(username).getUserId();
-            
+
             if (StringUtils.isNotEmpty(sysUser.getRoleIds())) {
                 userService.insertUserAuth(userId, sysUser.getRoleIds());
             }

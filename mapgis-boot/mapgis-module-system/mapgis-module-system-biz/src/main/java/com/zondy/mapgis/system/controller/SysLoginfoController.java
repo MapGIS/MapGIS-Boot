@@ -66,7 +66,7 @@ public class SysLoginfoController extends BaseController {
             ids.add(0, env.resolvePlaceholders("${mapgis.product.full-name}-gateway-server"));
         }
 
-        return AjaxResult.success(ids);
+        return success(ids);
     }
 
     /**
@@ -83,7 +83,7 @@ public class SysLoginfoController extends BaseController {
                               @RequestParam(name = "beginTime", required = false) String beginTime,
                               @RequestParam(name = "endTime", required = false) String endTime,
                               @RequestParam(name = "keyword", required = false) String keyword) {
-        return AjaxResult.success(systemLogService.getLogs(logId, position, count, level, beginTime, endTime, keyword));
+        return success(systemLogService.getLogs(logId, position, count, level, beginTime, endTime, keyword));
     }
 
     /**

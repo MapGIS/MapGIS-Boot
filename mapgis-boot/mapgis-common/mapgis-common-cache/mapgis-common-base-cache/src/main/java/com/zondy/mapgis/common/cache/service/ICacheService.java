@@ -86,7 +86,7 @@ public interface ICacheService {
      * @param collection 多个对象
      * @return
      */
-    public long deleteObject(final Collection collection);
+    public boolean deleteObject(final Collection collection);
 
     /**
      * 缓存List数据
@@ -138,14 +138,6 @@ public interface ICacheService {
      * @return Hash中的对象
      */
     public <T> T getCacheMapValue(final String key, final String hKey);
-
-    /**
-     * 删除Hash中的数据
-     *
-     * @param key
-     * @param hKey
-     */
-    public void delCacheMapValue(final String key, final String hKey);
 
     /**
      * 获取多个Hash中的数据

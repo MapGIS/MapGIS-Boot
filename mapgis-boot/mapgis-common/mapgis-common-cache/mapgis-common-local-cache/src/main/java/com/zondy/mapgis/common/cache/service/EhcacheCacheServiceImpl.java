@@ -144,14 +144,14 @@ public class EhcacheCacheServiceImpl implements ICacheService {
      * @return
      */
     @Override
-    public long deleteObject(final Collection collection) {
+    public boolean deleteObject(final Collection collection) {
         final Map<Object, Element> cacheAll = cache.getAll(collection);
 
         if (cacheAll != null) {
             cache.removeAll(collection);
-            return cacheAll.size();
+            return cacheAll.size() > 0;
         }
-        return 0L;
+        return false;
     }
 
     /**
@@ -220,16 +220,6 @@ public class EhcacheCacheServiceImpl implements ICacheService {
     @Override
     public <T> T getCacheMapValue(final String key, final String hKey) {
         return null;
-    }
-
-    /**
-     * 删除Hash中的数据
-     *
-     * @param key
-     * @param hKey
-     */
-    @Override
-    public void delCacheMapValue(final String key, final String hKey) {
     }
 
     /**

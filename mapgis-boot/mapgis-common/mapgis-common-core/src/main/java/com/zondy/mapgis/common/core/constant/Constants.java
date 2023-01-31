@@ -18,6 +18,11 @@ public class Constants {
     public static final String GBK = "GBK";
 
     /**
+     * www主域
+     */
+    public static final String WWW = "www.";
+
+    /**
      * RMI 远程方法调用
      */
     public static final String LOOKUP_RMI = "rmi:";
@@ -82,7 +87,7 @@ public class Constants {
      * 定时任务违规的字符
      */
     public static final String[] JOB_ERROR_STR = {"java.net.URL", "javax.naming.InitialContext", "org.yaml.snakeyaml",
-            "org.springframework", "org.apache", "com.zondy.mapgis.common.core.utils.file"};
+            "org.springframework", "org.apache", "com.zondy.mapgis.common.core.utils.file", "com.zondy.mapgis.common.core.config"};
 
     /**
      * Redis通道名称

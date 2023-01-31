@@ -140,6 +140,8 @@ public class CasSecurityConfig extends WebSecurityConfigurerAdapter {
         httpSecurity
                 // CSRF禁用，因为不使用session
                 .csrf().disable()
+                // 禁用HTTP响应标头
+                .headers().cacheControl().disable().and()
                 // 认证失败处理类
                 .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
                 // 基于token，所以不需要session
@@ -150,9 +152,9 @@ public class CasSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(strManagerPrefix + "/auth/login",
                         strManagerPrefix + "/auth/register",
                         strManagerPrefix + "/auth/captchaImage",
-                        strManagerPrefix + "/auth/isNeedCaptcha/**").anonymous()
-                .antMatchers(strManagerPrefix + "/auth/thirdLogin/**").anonymous()
-                .antMatchers(strManagerPrefix + "/auth/casLogin/**").anonymous()
+                        strManagerPrefix + "/auth/isNeedCaptcha/**").permitAll()
+                .antMatchers(strManagerPrefix + "/auth/thirdLogin/**").permitAll()
+                .antMatchers(strManagerPrefix + "/auth/casLogin/**").permitAll()
                 // 静态资源，可匿名访问
                 .antMatchers(
                         HttpMethod.GET,

@@ -109,6 +109,10 @@ request.interceptors.response.use(res => {
         description: msg
       })
     }
+  } else if (code === 601) {
+    notification.warn({
+      message: msg
+    })
   } else if (code !== 200) {
     notification.error({
       message: msg

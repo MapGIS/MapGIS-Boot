@@ -67,9 +67,9 @@ public class SysJobLogController extends BaseController {
     @Operation(summary = "根据调度编号获取详细信息")
     @PreAuthorize("@ss.hasPermi('monitor:job:query')")
     @RequiresPermissions("monitor:job:query")
-    @GetMapping(value = "/{configId}")
+    @GetMapping(value = "/{jobLogId}")
     public AjaxResult getInfo(@PathVariable Long jobLogId) {
-        return AjaxResult.success(jobLogService.selectJobLogById(jobLogId));
+        return success(jobLogService.selectJobLogById(jobLogId));
     }
 
 
@@ -95,6 +95,6 @@ public class SysJobLogController extends BaseController {
     @DeleteMapping("/clean")
     public AjaxResult clean() {
         jobLogService.cleanJobLog();
-        return AjaxResult.success();
+        return success();
     }
 }

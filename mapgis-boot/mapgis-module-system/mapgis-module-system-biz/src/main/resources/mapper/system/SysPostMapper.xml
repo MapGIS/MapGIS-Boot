@@ -81,7 +81,7 @@
         <set>
             <if test="postCode != null and postCode != ''">post_code = #{postCode},</if>
             <if test="postName != null and postName != ''">post_name = #{postName},</if>
-            <if test="postSort != null and postSort != ''">post_sort = #{postSort},</if>
+            <if test="postSort != null">post_sort = #{postSort},</if>
             <if test="remark != null">remark = #{remark},</if>
             <if test="updateBy != null and updateBy != ''">update_by = #{updateBy},</if>
             <choose>
@@ -101,7 +101,7 @@
         <if test="postId != null and postId != 0">post_id,</if>
         <if test="postCode != null and postCode != ''">post_code,</if>
         <if test="postName != null and postName != ''">post_name,</if>
-        <if test="postSort != null and postSort != ''">post_sort,</if>
+        <if test="postSort != null">post_sort,</if>
         <if test="remark != null and remark != ''">remark,</if>
         <if test="createBy != null and createBy != ''">create_by,</if>
         create_time
@@ -109,7 +109,7 @@
         <if test="postId != null and postId != 0">#{postId},</if>
         <if test="postCode != null and postCode != ''">#{postCode},</if>
         <if test="postName != null and postName != ''">#{postName},</if>
-        <if test="postSort != null and postSort != ''">#{postSort},</if>
+        <if test="postSort != null">#{postSort},</if>
         <if test="remark != null and remark != ''">#{remark},</if>
         <if test="createBy != null and createBy != ''">#{createBy},</if>
         <choose>

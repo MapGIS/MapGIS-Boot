@@ -220,7 +220,7 @@
     </select>
 
     <select id="checkUserNameUnique" parameterType="String" resultType="int">
-        select count(1)
+        select user_id, user_name
         from sys_user
         where user_name = #{userName}
           and del_flag = '0'
