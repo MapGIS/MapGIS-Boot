@@ -10,7 +10,7 @@ features:
     details: The front and back ends are separated, and the free switching of monolith and microservice versions is supported
   - title: Feature-rich
     details: Built in complete permission architecture, including a series of system general modules such as menu, role, user, dictionary, parameter and monitoring
-footer: MIT Licensed | Copyright © 2022-present MapGIS
+footer: MIT Licensed | Copyright © 2023-present MapGIS
 ---
 
 ## Getting Started

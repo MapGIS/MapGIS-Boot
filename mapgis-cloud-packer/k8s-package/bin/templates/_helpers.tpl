@@ -75,7 +75,7 @@ Image
   {{- if .Values.imageMySQL -}}
     {{ .Values.imageMySQL }}
   {{- else -}}
-    {{ include "mapgis.name" . }}-mysql:10.6.0.10
+    {{ include "mapgis.name" . }}-mysql:10.6.2.10
   {{- end -}}
 {{- end -}}
 
@@ -83,7 +83,7 @@ Image
   {{- if .Values.imageGateway -}}
     {{ .Values.imageGateway }}
   {{- else -}}
-    {{ include "mapgis.name" . }}-gateway:10.6.0.10
+    {{ include "mapgis.name" . }}-gateway:10.6.2.10
   {{- end -}}
 {{- end -}}
 
@@ -91,7 +91,7 @@ Image
   {{- if .Values.imageMonitor -}}
     {{ .Values.imageMonitor }}
   {{- else -}}
-    {{ include "mapgis.name" . }}-monitor:10.6.0.10
+    {{ include "mapgis.name" . }}-monitor:10.6.2.10
   {{- end -}}
 {{- end -}}
 
@@ -99,7 +99,7 @@ Image
   {{- if .Values.imageAuth -}}
     {{ .Values.imageAuth }}
   {{- else -}}
-    {{ include "mapgis.name" . }}-auth:10.6.0.10
+    {{ include "mapgis.name" . }}-auth:10.6.2.10
   {{- end -}}
 {{- end -}}
 
@@ -107,7 +107,7 @@ Image
   {{- if .Values.imageSystem -}}
     {{ .Values.imageSystem }}
   {{- else -}}
-    {{ include "mapgis.name" . }}-system:10.6.0.10
+    {{ include "mapgis.name" . }}-system:10.6.2.10
   {{- end -}}
 {{- end -}}
 
@@ -115,7 +115,7 @@ Image
   {{- if .Values.imageFile -}}
     {{ .Values.imageFile }}
   {{- else -}}
-    {{ include "mapgis.name" . }}-file:10.6.0.10
+    {{ include "mapgis.name" . }}-file:10.6.2.10
   {{- end -}}
 {{- end -}}
 
@@ -123,7 +123,7 @@ Image
   {{- if .Values.imageJob -}}
     {{ .Values.imageJob }}
   {{- else -}}
-    {{ include "mapgis.name" . }}-job:10.6.0.10
+    {{ include "mapgis.name" . }}-job:10.6.2.10
   {{- end -}}
 {{- end -}}
 
@@ -131,7 +131,7 @@ Image
   {{- if .Values.imageGen -}}
     {{ .Values.imageGen }}
   {{- else -}}
-    {{ include "mapgis.name" . }}-gen:10.6.0.10
+    {{ include "mapgis.name" . }}-gen:10.6.2.10
   {{- end -}}
 {{- end -}}
 

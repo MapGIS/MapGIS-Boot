@@ -139,7 +139,7 @@ sudo chmod +x install.sh && sudo ./install.sh
 DOCKER_REGISTRY_URL=
 
 # 镜像标签
-MAPGIS_IMAGE_TAG=10.6.0.10
+MAPGIS_IMAGE_TAG=10.6.2.10
 
 # 应用端口
 MAPGIS_APP_PORT=8080
@@ -177,7 +177,7 @@ sudo chmod +x install.sh && sudo ./install.sh
 DOCKER_REGISTRY_URL=
 
 # 镜像标签
-MAPGIS_IMAGE_TAG=10.6.0.10
+MAPGIS_IMAGE_TAG=10.6.2.10
 
 # NACOS主机(用于微服务之间通信，一般不需要修改)
 NACOS_HOST=mapgis-xxx-nacos

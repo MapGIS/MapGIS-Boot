@@ -10,7 +10,7 @@ features:
     details: 前后端分离，支持单体和微服务版本自由切换
   - title: 功能丰富
     details: 内置完整的权限架构，包括：菜单、角色、用户、字典、参数、监控等一系列系统常规模块
-footer: MIT Licensed | Copyright © 2022-present MapGIS
+footer: MIT Licensed | Copyright © 2023-present MapGIS
 ---
 
 ## Getting Started

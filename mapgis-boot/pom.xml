@@ -12,7 +12,7 @@
     <groupId>com.zondy.mapgis</groupId>
     <artifactId>mapgis-boot</artifactId>
     <packaging>pom</packaging>
-    <version>10.6.0.10</version>
+    <version>10.6.2.10</version>
 
     <modules>
         <module>mapgis-common</module>
@@ -27,10 +27,10 @@
     <description>MapGIS开发平台</description>
 
     <properties>
-        <mapgis.boot.version>10.6.0.10</mapgis.boot.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
+        <spring-boot.version>2.7.7</spring-boot.version>
         <spring-cloud.version>2021.0.5</spring-cloud.version>
         <spring-cloud-alibaba.version>2021.0.4.0</spring-cloud-alibaba.version>
         <alibaba.nacos.version>2.0.4</alibaba.nacos.version>
@@ -307,343 +307,343 @@
             <dependency>
                 <groupId>com.zondy.mapgis</groupId>
                 <artifactId>mapgis-common-core</artifactId>
-                <version>${mapgis.boot.version}</version>
+                <version>${project.version}</version>
             </dependency>
 
             <!-- 防重复提交模块 -->
             <dependency>
                 <groupId>com.zondy.mapgis</groupId>
                 <artifactId>mapgis-common-repeatsubmit</artifactId>
-                <version>${mapgis.boot.version}</version>
+                <version>${project.version}</version>
             </dependency>
 
             <!-- 数据范围模块 -->
             <dependency>
                 <groupId>com.zondy.mapgis</groupId>
                 <artifactId>mapgis-common-datascope</artifactId>
-                <version>${mapgis.boot.version}</version>
+                <version>${project.version}</version>
             </dependency>
 
             <!-- 多数据源模块 -->
             <dependency>
                 <groupId>com.zondy.mapgis</groupId>
                 <artifactId>mapgis-common-datasource</artifactId>
-                <version>${mapgis.boot.version}</version>
+                <version>${project.version}</version>
             </dependency>
 
             <!-- MapGIS Common Swagger -->
             <dependency>
                 <groupId>com.zondy.mapgis</groupId>
                 <artifactId>mapgis-common-swagger</artifactId>
-                <version>${mapgis.boot.version}</version>
+                <version>${project.version}</version>
             </dependency>
 
             <!-- MapGIS Common LDAP -->
             <dependency>
                 <groupId>com.zondy.mapgis</groupId>
                 <artifactId>mapgis-common-ldap</artifactId>
-                <version>${mapgis.boot.version}</version>
+                <version>${project.version}</version>
             </dependency>
 
             <!-- MapGIS Common Captcha -->
             <dependency>
                 <groupId>com.zondy.mapgis</groupId>
                 <artifactId>mapgis-common-captcha</artifactId>
-                <version>${mapgis.boot.version}</version>
+                <version>${project.version}</version>
             </dependency>
 
             <!-- MapGIS Common Base Cache -->
             <dependency>
                 <groupId>com.zondy.mapgis</groupId>
                 <artifactId>mapgis-common-base-cache</artifactId>
-                <version>${mapgis.boot.version}</version>
+                <version>${project.version}</version>
             </dependency>
 
             <!-- MapGIS Common Local Cache -->
             <dependency>
                 <groupId>com.zondy.mapgis</groupId>
                 <artifactId>mapgis-common-local-cache</artifactId>
-                <version>${mapgis.boot.version}</version>
+                <version>${project.version}</version>
             </dependency>
 
             <!-- MapGIS Common Cloud Cache -->
             <dependency>
                 <groupId>com.zondy.mapgis</groupId>
                 <artifactId>mapgis-common-cloud-cache</artifactId>
-                <version>${mapgis.boot.version}</version>
+                <version>${project.version}</version>
             </dependency>
 
             <!-- MapGIS Common Base Log -->
             <dependency>
                 <groupId>com.zondy.mapgis</groupId>
                 <artifactId>mapgis-common-base-log</artifactId>
-                <version>${mapgis.boot.version}</version>
+                <version>${project.version}</version>
             </dependency>
 
             <!-- MapGIS Common Local Log -->
             <dependency>
                 <groupId>com.zondy.mapgis</groupId>
                 <artifactId>mapgis-common-local-log</artifactId>
-                <version>${mapgis.boot.version}</version>
+                <version>${project.version}</version>
             </dependency>
 
             <!-- MapGIS Common Cloud Log -->
             <dependency>
                 <groupId>com.zondy.mapgis</groupId>
                 <artifactId>mapgis-common-cloud-log</artifactId>
-                <version>${mapgis.boot.version}</version>
+                <version>${project.version}</version>
             </dependency>
 
             <!-- MapGIS Common Cross Log -->
             <dependency>
                 <groupId>com.zondy.mapgis</groupId>
                 <artifactId>mapgis-common-cross-log</artifactId>
-                <version>${mapgis.boot.version}</version>
+                <version>${project.version}</version>
             </dependency>
 
             <!-- MapGIS Common Base Security -->
             <dependency>
                 <groupId>com.zondy.mapgis</groupId>
                 <artifactId>mapgis-common-base-security</artifactId>
-                <version>${mapgis.boot.version}</version>
+                <version>${project.version}</version>
             </dependency>
 
             <!-- 单体安全模块 -->
             <dependency>
                 <groupId>com.zondy.mapgis</groupId>
                 <artifactId>mapgis-common-local-security</artifactId>
-                <version>${mapgis.boot.version}</version>
+                <version>${project.version}</version>
             </dependency>
 
             <!-- 微服务安全模块 -->
             <dependency>
                 <groupId>com.zondy.mapgis</groupId>
                 <artifactId>mapgis-common-cloud-security</artifactId>
-                <version>${mapgis.boot.version}</version>
+                <version>${project.version}</version>
             </dependency>
 
             <!-- 全局前缀模块 -->
             <dependency>
                 <groupId>com.zondy.mapgis</groupId>
                 <artifactId>mapgis-common-controllerprefix</artifactId>
-                <version>${mapgis.boot.version}</version>
+                <version>${project.version}</version>
             </dependency>
 
             <!-- MapGIS Common Base SystemLog -->
             <dependency>
                 <groupId>com.zondy.mapgis</groupId>
                 <artifactId>mapgis-common-base-systemlog</artifactId>
-                <version>${mapgis.boot.version}</version>
+                <version>${project.version}</version>
             </dependency>
 
             <!-- MapGIS Common Local SystemLog -->
             <dependency>
                 <groupId>com.zondy.mapgis</groupId>
                 <artifactId>mapgis-common-local-systemlog</artifactId>
-                <version>${mapgis.boot.version}</version>
+                <version>${project.version}</version>
             </dependency>
 
             <!-- MapGIS Common Cloud SystemLog -->
             <dependency>
                 <groupId>com.zondy.mapgis</groupId>
                 <artifactId>mapgis-common-cloud-systemlog</artifactId>
-                <version>${mapgis.boot.version}</version>
+                <version>${project.version}</version>
             </dependency>
 
             <!-- MapGIS Common Har -->
             <dependency>
                 <groupId>com.zondy.mapgis</groupId>
                 <artifactId>mapgis-common-har</artifactId>
-                <version>${mapgis.boot.version}</version>
+                <version>${project.version}</version>
             </dependency>
 
             <!-- MapGIS Common Base AccessLog -->
             <dependency>
                 <groupId>com.zondy.mapgis</groupId>
                 <artifactId>mapgis-common-base-accesslog</artifactId>
-                <version>${mapgis.boot.version}</version>
+                <version>${project.version}</version>
             </dependency>
 
             <!-- MapGIS Common Local AccessLog -->
             <dependency>
                 <groupId>com.zondy.mapgis</groupId>
                 <artifactId>mapgis-common-local-accesslog</artifactId>
-                <version>${mapgis.boot.version}</version>
+                <version>${project.version}</version>
             </dependency>
 
             <!-- MapGIS Common Cloud AccessLog -->
             <dependency>
                 <groupId>com.zondy.mapgis</groupId>
                 <artifactId>mapgis-common-cloud-accesslog</artifactId>
-                <version>${mapgis.boot.version}</version>
+                <version>${project.version}</version>
             </dependency>
 
             <!-- MapGIS Common Base Meter -->
             <dependency>
                 <groupId>com.zondy.mapgis</groupId>
                 <artifactId>mapgis-common-base-meter</artifactId>
-                <version>${mapgis.boot.version}</version>
+                <version>${project.version}</version>
             </dependency>
 
             <!-- MapGIS Common Local Meter -->
             <dependency>
                 <groupId>com.zondy.mapgis</groupId>
                 <artifactId>mapgis-common-local-meter</artifactId>
-                <version>${mapgis.boot.version}</version>
+                <version>${project.version}</version>
             </dependency>
 
             <!-- MapGIS Common Cloud Meter -->
             <dependency>
                 <groupId>com.zondy.mapgis</groupId>
                 <artifactId>mapgis-common-cloud-meter</artifactId>
-                <version>${mapgis.boot.version}</version>
+                <version>${project.version}</version>
             </dependency>
 
             <!-- MapGIS Common Schedule -->
             <dependency>
                 <groupId>com.zondy.mapgis</groupId>
                 <artifactId>mapgis-common-schedule</artifactId>
-                <version>${mapgis.boot.version}</version>
+                <version>${project.version}</version>
             </dependency>
 
             <!-- MapGIS Common MyBatis -->
             <dependency>
                 <groupId>com.zondy.mapgis</groupId>
                 <artifactId>mapgis-common-mybatis</artifactId>
-                <version>${mapgis.boot.version}</version>
+                <version>${project.version}</version>
             </dependency>
 
             <!-- MapGIS Common Service -->
             <dependency>
                 <groupId>com.zondy.mapgis</groupId>
                 <artifactId>mapgis-common-service</artifactId>
-                <version>${mapgis.boot.version}</version>
+                <version>${project.version}</version>
             </dependency>
 
             <!-- MapGIS Common ObjectSerializer -->
             <dependency>
                 <groupId>com.zondy.mapgis</groupId>
                 <artifactId>mapgis-common-objectserializer</artifactId>
-                <version>${mapgis.boot.version}</version>
+                <version>${project.version}</version>
             </dependency>
 
             <!-- MapGIS Common RestTemplate -->
             <dependency>
                 <groupId>com.zondy.mapgis</groupId>
                 <artifactId>mapgis-common-resttemplate</artifactId>
-                <version>${mapgis.boot.version}</version>
+                <version>${project.version}</version>
             </dependency>
 
             <!-- MapGIS Common WebServer -->
             <dependency>
                 <groupId>com.zondy.mapgis</groupId>
                 <artifactId>mapgis-common-webserver</artifactId>
-                <version>${mapgis.boot.version}</version>
+                <version>${project.version}</version>
             </dependency>
 
             <!-- MapGIS System Base Api -->
             <dependency>
                 <groupId>com.zondy.mapgis</groupId>
                 <artifactId>mapgis-module-system-base-api</artifactId>
-                <version>${mapgis.boot.version}</version>
+                <version>${project.version}</version>
             </dependency>
 
             <!-- MapGIS System Local Api -->
             <dependency>
                 <groupId>com.zondy.mapgis</groupId>
                 <artifactId>mapgis-module-system-local-api</artifactId>
-                <version>${mapgis.boot.version}</version>
+                <version>${project.version}</version>
             </dependency>
 
             <!-- MapGIS System Cloud Api -->
             <dependency>
                 <groupId>com.zondy.mapgis</groupId>
                 <artifactId>mapgis-module-system-cloud-api</artifactId>
-                <version>${mapgis.boot.version}</version>
+                <version>${project.version}</version>
             </dependency>
 
             <!-- MapGIS System Cross Api -->
             <dependency>
                 <groupId>com.zondy.mapgis</groupId>
                 <artifactId>mapgis-module-system-cross-api</artifactId>
-                <version>${mapgis.boot.version}</version>
+                <version>${project.version}</version>
             </dependency>
 
             <!-- MapGIS File Base Api -->
             <dependency>
                 <groupId>com.zondy.mapgis</groupId>
                 <artifactId>mapgis-module-file-base-api</artifactId>
-                <version>${mapgis.boot.version}</version>
+                <version>${project.version}</version>
             </dependency>
 
             <!-- MapGIS File Local Api -->
             <dependency>
                 <groupId>com.zondy.mapgis</groupId>
                 <artifactId>mapgis-module-file-local-api</artifactId>
-                <version>${mapgis.boot.version}</version>
+                <version>${project.version}</version>
             </dependency>
 
             <!-- MapGIS File Cloud Api -->
             <dependency>
                 <groupId>com.zondy.mapgis</groupId>
                 <artifactId>mapgis-module-file-cloud-api</artifactId>
-                <version>${mapgis.boot.version}</version>
+                <version>${project.version}</version>
             </dependency>
 
             <!-- MapGIS Auth Base Api -->
             <dependency>
                 <groupId>com.zondy.mapgis</groupId>
                 <artifactId>mapgis-module-auth-base-api</artifactId>
-                <version>${mapgis.boot.version}</version>
+                <version>${project.version}</version>
             </dependency>
 
             <!-- MapGIS Auth Local Api -->
             <dependency>
                 <groupId>com.zondy.mapgis</groupId>
                 <artifactId>mapgis-module-auth-local-api</artifactId>
-                <version>${mapgis.boot.version}</version>
+                <version>${project.version}</version>
             </dependency>
 
             <!-- MapGIS Auth Cloud Api -->
             <dependency>
                 <groupId>com.zondy.mapgis</groupId>
                 <artifactId>mapgis-module-auth-cloud-api</artifactId>
-                <version>${mapgis.boot.version}</version>
+                <version>${project.version}</version>
             </dependency>
 
             <!-- 系统模块 -->
             <dependency>
                 <groupId>com.zondy.mapgis</groupId>
                 <artifactId>mapgis-module-system-biz</artifactId>
-                <version>${mapgis.boot.version}</version>
+                <version>${project.version}</version>
             </dependency>
 
             <!-- 文件模块 -->
             <dependency>
                 <groupId>com.zondy.mapgis</groupId>
                 <artifactId>mapgis-module-file-biz</artifactId>
-                <version>${mapgis.boot.version}</version>
+                <version>${project.version}</version>
             </dependency>
 
             <!-- 授权模块 -->
             <dependency>
                 <groupId>com.zondy.mapgis</groupId>
                 <artifactId>mapgis-module-auth-biz</artifactId>
-                <version>${mapgis.boot.version}</version>
+                <version>${project.version}</version>
             </dependency>
 
             <!-- 定时任务模块 -->
             <dependency>
                 <groupId>com.zondy.mapgis</groupId>
                 <artifactId>mapgis-module-job-biz</artifactId>
-                <version>${mapgis.boot.version}</version>
+                <version>${project.version}</version>
             </dependency>
 
             <!-- 代码生成模块 -->
             <dependency>
                 <groupId>com.zondy.mapgis</groupId>
                 <artifactId>mapgis-module-gen-biz</artifactId>
-                <version>${mapgis.boot.version}</version>
+                <version>${project.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -739,7 +739,7 @@
                 <plugin>
                     <groupId>org.springframework.boot</groupId>
                     <artifactId>spring-boot-maven-plugin</artifactId>
-                    <version>${mapgis.boot.version}</version>
+                    <version>${spring-boot.version}</version>
                     <executions>
                         <execution>
                             <goals>
