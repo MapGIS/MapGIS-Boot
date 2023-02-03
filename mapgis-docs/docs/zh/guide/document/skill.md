@@ -8,6 +8,8 @@
 > `mapgis-docs`为`mapgis-boot`的开发手册，用于扩展项目参考，建议在扩展项目中移除
 #### 修改产品标识
 
+替换项目artifactId，全项目搜索`<artifactId>mapgis-boot</artifactId>`，替换成`<artifactId>mapgis-xxx</artifactId>`
+
 全项目搜索 `xxx`，替换成产品小写标识，如：`igs、datastore、igs-x、igs-s、workspace、psmap、portal、manager`
 
 #### 推送到新的项目
