@@ -30,6 +30,7 @@
         <module>mapgis-common-objectserializer</module>
         <module>mapgis-common-resttemplate</module>
         <module>mapgis-common-webserver</module>
+        <module>mapgis-common-json</module>
     </modules>
 
     <artifactId>mapgis-common</artifactId>

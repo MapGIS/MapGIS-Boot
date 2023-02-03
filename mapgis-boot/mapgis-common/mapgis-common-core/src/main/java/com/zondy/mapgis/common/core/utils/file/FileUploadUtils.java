@@ -1,12 +1,12 @@
 package com.zondy.mapgis.common.core.utils.file;
 
+import cn.hutool.core.io.file.FileNameUtil;
 import com.zondy.mapgis.common.core.exception.file.FileNameLengthLimitExceededException;
 import com.zondy.mapgis.common.core.exception.file.FileSizeLimitExceededException;
 import com.zondy.mapgis.common.core.exception.file.InvalidExtensionException;
 import com.zondy.mapgis.common.core.utils.DateUtils;
 import com.zondy.mapgis.common.core.utils.StringUtils;
 import com.zondy.mapgis.common.core.utils.uuid.Seq;
-import org.apache.commons.io.FilenameUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -81,7 +81,7 @@ public class FileUploadUtils {
      */
     public static final String extractFilename(MultipartFile file) {
         return StringUtils.format("{}/{}_{}.{}", DateUtils.datePath(),
-                FilenameUtils.getBaseName(file.getOriginalFilename()), Seq.getId(Seq.uploadSeqType), FileTypeUtils.getExtension(file));
+                FileNameUtil.mainName(file.getOriginalFilename()), Seq.getId(Seq.uploadSeqType), FileTypeUtils.getExtension(file));
     }
 
     public static final File getAbsoluteFile(String uploadDir, String fileName) throws IOException {

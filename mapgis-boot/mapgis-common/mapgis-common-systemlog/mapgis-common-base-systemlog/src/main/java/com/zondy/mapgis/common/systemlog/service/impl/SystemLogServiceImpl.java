@@ -4,6 +4,7 @@ import ch.qos.logback.classic.Level;
 import cn.hutool.core.date.DatePattern;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.io.IoUtil;
+import cn.hutool.core.io.file.FileNameUtil;
 import cn.hutool.core.util.ZipUtil;
 import com.zondy.mapgis.common.core.utils.EnvUtils;
 import com.zondy.mapgis.common.systemlog.model.LogFileReadState;
@@ -13,7 +14,6 @@ import com.zondy.mapgis.common.systemlog.service.ISystemLogService;
 import io.krakens.grok.api.Grok;
 import io.krakens.grok.api.GrokCompiler;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
@@ -72,7 +72,8 @@ public class SystemLogServiceImpl implements ISystemLogService, InitializingBean
      * @return
      */
     @Override
-    public SysLoginfoList getLogs(String logId, String position, int count, String level, String beginTime, String endTime, String keyword) {
+    public SysLoginfoList getLogs(String logId, String position, int count, String level, String beginTime, String endTime,
+                                  String keyword) {
         SysLoginfoList sysLoginfoList = new SysLoginfoList();
         sysLoginfoList.setLogs(new ArrayList<>());
 
@@ -191,7 +192,7 @@ public class SystemLogServiceImpl implements ISystemLogService, InitializingBean
      * @return
      */
     private int getLogFileIndex(String logFileName) {
-        String name = FilenameUtils.getBaseName(logFileName);
+        String name = FileNameUtil.mainName(logFileName);
         int index = name.lastIndexOf('.');
         int i = 0;
         if (index > -1) {
@@ -212,7 +213,7 @@ public class SystemLogServiceImpl implements ISystemLogService, InitializingBean
 
         try (Stream<Path> stream = Files.find(Paths.get(logDir), 1, (p, attr) -> {
             if (attr.isRegularFile()) {
-                String name = FilenameUtils.getBaseName(p.toString());
+                String name = FileNameUtil.mainName(p.toString());
                 // 这里包含当前日志文件
                 return name.startsWith(fileNameWithoutExt) && getLogFileIndex(p.toString()) >= logFileIndex;
             }

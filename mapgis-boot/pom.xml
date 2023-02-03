@@ -457,6 +457,13 @@
                 <version>${project.version}</version>
             </dependency>
 
+            <!-- MapGIS Common Json -->
+            <dependency>
+                <groupId>com.zondy.mapgis</groupId>
+                <artifactId>mapgis-common-json</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
             <!-- MapGIS Common Base AccessLog -->
             <dependency>
                 <groupId>com.zondy.mapgis</groupId>

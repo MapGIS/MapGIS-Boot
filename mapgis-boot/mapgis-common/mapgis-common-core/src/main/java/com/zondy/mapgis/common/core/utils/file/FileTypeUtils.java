@@ -1,7 +1,8 @@
 package com.zondy.mapgis.common.core.utils.file;
 
+import cn.hutool.core.io.file.FileNameUtil;
+import cn.hutool.core.util.StrUtil;
 import com.zondy.mapgis.common.core.utils.StringUtils;
-import org.apache.commons.io.FilenameUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -52,8 +53,8 @@ public class FileTypeUtils {
      * @return 后缀名
      */
     public static final String getExtension(MultipartFile file) {
-        String extension = FilenameUtils.getExtension(file.getOriginalFilename());
-        if (org.apache.commons.lang3.StringUtils.isEmpty(extension)) {
+        String extension = FileNameUtil.extName(file.getOriginalFilename());
+        if (StrUtil.isEmpty(extension)) {
             extension = MimeTypeUtils.getExtension(Objects.requireNonNull(file.getContentType()));
         }
         return extension;

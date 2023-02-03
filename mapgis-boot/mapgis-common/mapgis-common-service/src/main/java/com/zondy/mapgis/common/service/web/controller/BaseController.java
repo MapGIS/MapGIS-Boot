@@ -8,7 +8,7 @@ import com.zondy.mapgis.common.core.web.controller.BaseStaticResourceController;
 import com.zondy.mapgis.common.service.exception.web.BadRequestException;
 import com.zondy.mapgis.common.service.factory.ResponseFactory;
 import com.zondy.mapgis.common.service.format.ResponseFormat;
-import com.zondy.mapgis.common.service.id.ServiceId;
+import com.zondy.mapgis.common.core.services.ServiceId;
 import com.zondy.mapgis.common.service.session.UserSession;
 import com.zondy.mapgis.common.service.session.UserSessionManager;
 import com.zondy.mapgis.common.service.utils.WebUtil;

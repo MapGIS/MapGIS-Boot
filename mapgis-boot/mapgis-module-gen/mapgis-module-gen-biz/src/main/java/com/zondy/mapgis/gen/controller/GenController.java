@@ -1,5 +1,6 @@
 package com.zondy.mapgis.gen.controller;
 
+import cn.hutool.core.io.IoUtil;
 import com.zondy.mapgis.common.controllerprefix.annotation.ManagerRestController;
 import com.zondy.mapgis.common.core.text.Convert;
 import com.zondy.mapgis.common.core.web.controller.BaseController;
@@ -15,7 +16,6 @@ import com.zondy.mapgis.gen.service.IGenTableService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
@@ -216,6 +216,6 @@ public class GenController extends BaseController {
         response.setHeader("Content-Disposition", "attachment; filename=\"mapgis.zip\"");
         response.addHeader("Content-Length", "" + data.length);
         response.setContentType("application/octet-stream; charset=UTF-8");
-        IOUtils.write(data, response.getOutputStream());
+        IoUtil.write(response.getOutputStream(), false, data);
     }
 }

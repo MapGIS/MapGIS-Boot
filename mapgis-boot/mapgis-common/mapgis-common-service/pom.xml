@@ -41,27 +41,6 @@
             <artifactId>xstream</artifactId>
         </dependency>
 
-        <!-- jts -->
-        <dependency>
-            <groupId>org.locationtech.jts</groupId>
-            <artifactId>jts-core</artifactId>
-            <optional>true</optional>
-        </dependency>
-
-        <!-- geojson -->
-        <dependency>
-            <groupId>org.geotools</groupId>
-            <artifactId>gt-geojson-core</artifactId>
-            <optional>true</optional>
-        </dependency>
-
-        <!-- geojson datatype -->
-        <dependency>
-            <groupId>com.fasterxml.jackson.datatype</groupId>
-            <artifactId>jackson-datatype-json-org</artifactId>
-            <optional>true</optional>
-        </dependency>
-
         <!-- guava -->
         <dependency>
             <groupId>com.google.guava</groupId>
@@ -72,6 +51,12 @@
         <dependency>
             <groupId>com.zondy.mapgis</groupId>
             <artifactId>mapgis-common-core</artifactId>
+        </dependency>
+
+        <!--MapGIS Common Json 模块 -->
+        <dependency>
+            <groupId>com.zondy.mapgis</groupId>
+            <artifactId>mapgis-common-json</artifactId>
         </dependency>
     </dependencies>
 </project>

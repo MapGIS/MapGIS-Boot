@@ -1,10 +1,12 @@
 package com.zondy.mapgis.gen.service.impl;
 
+import cn.hutool.core.io.FileUtil;
+import cn.hutool.core.io.IORuntimeException;
+import cn.hutool.core.io.IoUtil;
 import cn.hutool.core.lang.Dict;
 import com.zondy.mapgis.common.core.constant.Constants;
 import com.zondy.mapgis.common.core.constant.GenConstants;
 import com.zondy.mapgis.common.core.exception.ServiceException;
-import com.zondy.mapgis.common.core.text.CharsetKit;
 import com.zondy.mapgis.common.core.utils.JsonUtils;
 import com.zondy.mapgis.common.core.utils.StringUtils;
 import com.zondy.mapgis.common.security.utils.SecurityUtils;
@@ -16,8 +18,7 @@ import com.zondy.mapgis.gen.service.IGenTableService;
 import com.zondy.mapgis.gen.util.GenUtils;
 import com.zondy.mapgis.gen.util.VelocityInitializer;
 import com.zondy.mapgis.gen.util.VelocityUtils;
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.IOUtils;
+import org.apache.poi.util.IOUtils;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
@@ -31,6 +32,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.StringWriter;
+import java.nio.charset.StandardCharsets;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -213,7 +215,7 @@ public class GenTableServiceImpl implements IGenTableService {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         ZipOutputStream zip = new ZipOutputStream(outputStream);
         generatorCode(tableName, zip);
-        IOUtils.closeQuietly(zip);
+        IoUtil.close(zip);
         return outputStream.toByteArray();
     }
 
@@ -245,8 +247,8 @@ public class GenTableServiceImpl implements IGenTableService {
                 tpl.merge(context, sw);
                 try {
                     String path = getGenPath(table, template);
-                    FileUtils.writeStringToFile(new File(path), sw.toString(), CharsetKit.UTF_8);
-                } catch (IOException e) {
+                    FileUtil.writeString(sw.toString(), new File(path), StandardCharsets.UTF_8);
+                } catch (IORuntimeException e) {
                     throw new ServiceException("渲染模板失败，表名：" + table.getTableName());
                 }
             }
@@ -342,8 +344,8 @@ public class GenTableServiceImpl implements IGenTableService {
             try {
                 // 添加到zip
                 zip.putNextEntry(new ZipEntry(VelocityUtils.getFileName(template, table)));
-                IOUtils.write(sw.toString(), zip, Constants.UTF8);
-                IOUtils.closeQuietly(sw);
+                IoUtil.writeUtf8(zip, false, sw.toString());
+                IoUtil.close(sw);
                 zip.flush();
                 zip.closeEntry();
             } catch (IOException e) {

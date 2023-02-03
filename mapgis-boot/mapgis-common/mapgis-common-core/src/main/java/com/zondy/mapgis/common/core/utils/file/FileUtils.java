@@ -1,10 +1,10 @@
 package com.zondy.mapgis.common.core.utils.file;
 
+import cn.hutool.core.io.IoUtil;
+import cn.hutool.core.io.file.FileNameUtil;
 import com.zondy.mapgis.common.core.utils.DateUtils;
 import com.zondy.mapgis.common.core.utils.StringUtils;
 import com.zondy.mapgis.common.core.utils.uuid.IdUtils;
-import org.apache.commons.io.FilenameUtils;
-import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.ArrayUtils;
 
 import javax.servlet.http.HttpServletRequest;
@@ -55,8 +55,8 @@ public class FileUtils {
         } catch (IOException e) {
             throw e;
         } finally {
-            IOUtils.close(os);
-            IOUtils.close(fis);
+            IoUtil.close(os);
+            IoUtil.close(fis);
         }
     }
 
@@ -78,7 +78,7 @@ public class FileUtils {
             fos = new FileOutputStream(file);
             fos.write(data);
         } finally {
-            IOUtils.close(fos);
+            IoUtil.close(fos);
         }
         return FileUploadUtils.getPathFileName(uploadDir, pathName);
     }
@@ -266,7 +266,6 @@ public class FileUtils {
         if (fileName == null) {
             return null;
         }
-        String baseName = FilenameUtils.getBaseName(fileName);
-        return baseName;
+        return FileNameUtil.mainName(fileName);
     }
 }

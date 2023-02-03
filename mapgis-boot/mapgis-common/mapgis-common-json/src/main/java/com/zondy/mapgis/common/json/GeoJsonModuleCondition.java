@@ -1,4 +1,4 @@
-package com.zondy.mapgis.common.service.json;
+package com.zondy.mapgis.common.json;
 
 import com.bedatadriven.jackson.datatype.jts.JtsModule;
 import com.fasterxml.jackson.databind.Module;

@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;
 
+import java.util.Objects;
+
 /**
  * 更新HTTP访问日志配置监听器（用于单体版监听）
  *
@@ -25,7 +27,7 @@ public class UpdateHttpAccessLogConfigListener implements ApplicationListener<Sy
 
     @Override
     public void onApplicationEvent(SysConfigEvent event) {
-        if (event.getName() == SysEventConstants.UPDATE_HTTP_ACCESS_LOG) {
+        if (Objects.equals(event.getName(), SysEventConstants.UPDATE_HTTP_ACCESS_LOG)) {
             SysLogConfig postLogConfig = sysServiceProxy.getLogConfig();
 
             httpAccessLogConfigUpdateHandler.updateLogConfig(postLogConfig);

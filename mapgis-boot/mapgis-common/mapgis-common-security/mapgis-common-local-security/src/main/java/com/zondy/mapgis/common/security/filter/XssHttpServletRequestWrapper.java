@@ -1,8 +1,8 @@
 package com.zondy.mapgis.common.security.filter;
 
+import cn.hutool.core.io.IoUtil;
 import com.zondy.mapgis.common.core.utils.StringUtils;
 import com.zondy.mapgis.common.core.utils.html.EscapeUtil;
-import org.apache.commons.io.IOUtils;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 
@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 
 /**
  * XSS过滤处理
@@ -50,14 +51,14 @@ public class XssHttpServletRequestWrapper extends HttpServletRequestWrapper {
         }
 
         // 为空，直接返回
-        String json = IOUtils.toString(super.getInputStream(), "utf-8");
+        String json = IoUtil.read(super.getInputStream(), StandardCharsets.UTF_8);
         if (StringUtils.isEmpty(json)) {
             return super.getInputStream();
         }
 
         // xss过滤
         json = EscapeUtil.clean(json).trim();
-        byte[] jsonBytes = json.getBytes("utf-8");
+        byte[] jsonBytes = json.getBytes(StandardCharsets.UTF_8);
         final ByteArrayInputStream bis = new ByteArrayInputStream(jsonBytes);
         return new ServletInputStream() {
             @Override

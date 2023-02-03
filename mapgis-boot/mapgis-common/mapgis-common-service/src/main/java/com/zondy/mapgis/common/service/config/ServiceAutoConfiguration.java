@@ -1,6 +1,5 @@
 package com.zondy.mapgis.common.service.config;
 
-import com.zondy.mapgis.common.service.json.JacksonModuleConfiguration;
 import com.zondy.mapgis.common.service.session.impl.UserSessionManagerGuavaImpl;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
@@ -12,6 +11,6 @@ import org.springframework.context.annotation.Import;
  * @since 2023/1/11 14:09
  */
 @Configuration
-@Import({JacksonModuleConfiguration.class, UserSessionManagerGuavaImpl.class})
+@Import({UserSessionManagerGuavaImpl.class})
 public class ServiceAutoConfiguration {
 }
