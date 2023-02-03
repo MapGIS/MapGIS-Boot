@@ -25,9 +25,9 @@ MapGIS Boot 是一个 Java EE 企业级快速开发平台，基于经典技术�
 
 ### 开发环境
 
-- 语言：Java 8
+- 语言：Java 8+ (小于17)
 
-- IDE(JAVA)： IDEA
+- IDE(JAVA)： IDEA (必须安装lombok插件 )
 
 - IDE(前端)： VSCode
 
@@ -35,21 +35,21 @@ MapGIS Boot 是一个 Java EE 企业级快速开发平台，基于经典技术�
 
 - 缓存：Redis
 
-- 数据库脚本：MySQL5.7
+- 数据库脚本：MySQL5.7+
 
 ### 后端
 
-- 基础框架：Spring Boot 2.6.3.RELEASE
+- 基础框架：Spring Boot 2.7.7
 
-- 微服务框架： Spring Cloud Alibaba 2021.1.RELEASE
+- 微服务框架： Spring Cloud Alibaba 2021.0.4.0
 
-- 持久层框架：Mybatis
+- 持久层框架：Mybatis-Plus 3.5.3
 
 - 安全框架：Spring Security，Jwt
 
 - 微服务技术栈：Spring Cloud Alibaba、Nacos、Gateway、Sentinel
 
-- 数据库连接池：阿里巴巴 Druid
+- 数据库连接池：阿里巴巴 Druid 1.2.15
 
 - 缓存框架：Redis
 
@@ -71,16 +71,18 @@ MapGIS Boot 是一个 Java EE 企业级快速开发平台，基于经典技术�
 ├─总览
 ├─监控管理
 │  ├─在线用户
-│  ├─系统监控（单体）
-│  ├─Sentinel控制台（微服务）
-│  ├─Nacos控制台（微服务）
-│  ├─Admin控制台（微服务）
+│  ├─服务器监控
+│  ├─服务器性能监控
 ├─日志管理
 │  ├─登录日志
 │  ├─操作日志
+│  ├─系统日志
+│  ├─服务访问日志
+│  ├─日志配置
 ├─安全管理
 │  ├─安全配置
 │  ├─用户管理
+│  ├─用户组管理
 │  ├─角色管理
 │  ├─菜单管理
 │  ├─部门管理

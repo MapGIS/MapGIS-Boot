@@ -36,9 +36,9 @@ MapGIS Boot 是一款基于 Spring Boot、Spring Cloud & Alibaba、MyBatis、Jwt
 
 ### 开发环境
 
-- 语言：Java 8
+- 语言：Java 8+ (小于17)
 
-- IDE(JAVA)： IDEA
+- IDE(JAVA)： IDEA (必须安装lombok插件 )
 
 - IDE(前端)： VSCode
 
@@ -46,21 +46,21 @@ MapGIS Boot 是一款基于 Spring Boot、Spring Cloud & Alibaba、MyBatis、Jwt
 
 - 缓存：Redis
 
-- 数据库脚本：MySQL5.7
+- 数据库脚本：MySQL5.7+
 
 ### 后端
 
-- 基础框架：Spring Boot 2.6.3.RELEASE
+- 基础框架：Spring Boot 2.7.7
 
-- 微服务框架： Spring Cloud Alibaba 2021.1.RELEASE
+- 微服务框架： Spring Cloud Alibaba 2021.0.4.0
 
-- 持久层框架：Mybatis
+- 持久层框架：Mybatis-Plus 3.5.3
 
 - 安全框架：Spring Security，Jwt
 
 - 微服务技术栈：Spring Cloud Alibaba、Nacos、Gateway、Sentinel
 
-- 数据库连接池：阿里巴巴 Druid
+- 数据库连接池：阿里巴巴 Druid 1.2.15
 
 - 缓存框架：Redis
 
@@ -82,16 +82,18 @@ MapGIS Boot 是一款基于 Spring Boot、Spring Cloud & Alibaba、MyBatis、Jwt
 ├─总览
 ├─监控管理
 │  ├─在线用户
-│  ├─系统监控（单体）
-│  ├─Sentinel控制台（微服务）
-│  ├─Nacos控制台（微服务）
-│  ├─Admin控制台（微服务）
+│  ├─服务器监控
+│  ├─服务器性能监控
 ├─日志管理
 │  ├─登录日志
 │  ├─操作日志
+│  ├─系统日志
+│  ├─服务访问日志
+│  ├─日志配置
 ├─安全管理
 │  ├─安全配置
 │  ├─用户管理
+│  ├─用户组管理
 │  ├─角色管理
 │  ├─菜单管理
 │  ├─部门管理
@@ -124,22 +126,31 @@ MapGIS Boot 是一款基于 Spring Boot、Spring Cloud & Alibaba、MyBatis、Jwt
         <td><img src="./mapgis-docs/docs/.vuepress/public/images/mapgis-boot-dashboard.png"/></td>
     </tr>
     <tr>
-        <td><img src="./mapgis-docs/docs/.vuepress/public/images/mapgis-boot-system.png"/></td>
-        <td><img src="./mapgis-docs/docs/.vuepress/public/images/mapgis-boot-server.png"/></td>
+        <td><img src="./mapgis-docs/docs/.vuepress/public/images/mapgis-boot-monitor-server.png"/></td>
+        <td><img src="./mapgis-docs/docs/.vuepress/public/images/mapgis-boot-monitor-server-performance.png"/></td>
     </tr>
     <tr>
-        <td><img src="./mapgis-docs/docs/.vuepress/public/images/mapgis-boot-job.png"/></td>
-        <td><img src="./mapgis-docs/docs/.vuepress/public/images/mapgis-boot-gateway-route.png"/></td>
+        <td><img src="./mapgis-docs/docs/.vuepress/public/images/mapgis-boot-log-systemlog.png"/></td>
+        <td><img src="./mapgis-docs/docs/.vuepress/public/images/mapgis-boot-log-accesslog.png"/></td>
     </tr>
     <tr>
-        <td><img src="./mapgis-docs/docs/.vuepress/public/images/mapgis-boot-micro-app-route.png"/></td>
-        <td><img src="./mapgis-docs/docs/.vuepress/public/images/mapgis-boot-from.png"/></td>
+        <td><img src="./mapgis-docs/docs/.vuepress/public/images/mapgis-boot-security-config.png"/></td>
+        <td><img src="./mapgis-docs/docs/.vuepress/public/images/mapgis-boot-security-user.png"/></td>
     </tr>
     <tr>
-        <td><img src="./mapgis-docs/docs/.vuepress/public/images/mapgis-boot-code.png"/></td>
-        <td><img src="./mapgis-docs/docs/.vuepress/public/images/mapgis-boot-api.png"/></td>
+        <td><img src="./mapgis-docs/docs/.vuepress/public/images/mapgis-boot-security-menu.png"/></td>
+        <td><img src="./mapgis-docs/docs/.vuepress/public/images/mapgis-boot-security-ldap.png"/></td>
+    </tr>
+    <tr>
+        <td><img src="./mapgis-docs/docs/.vuepress/public/images/mapgis-boot-dev-gen.png"/></td>
+        <td><img src="./mapgis-docs/docs/.vuepress/public/images/mapgis-boot-dev-microapp.png"/></td>
+    </tr>
+    <tr>
+        <td><img src="./mapgis-docs/docs/.vuepress/public/images/mapgis-boot-config-base.png"/></td>
+        <td><img src="./mapgis-docs/docs/.vuepress/public/images/mapgis-boot-config-theme.png"/></td>
     </tr>
 </table>
+
 
 # 环境部署
 
@@ -228,6 +239,10 @@ __  __              _____ _____  _____    _____
 
 导入数据脚本`mapgis-cloud-config-xxxxxxxx.sql`（必须，会自动创建数据库`mapgis-cloud-config`）
 
+导入数据脚本`mapgis-cloud-xxx-access-log-xxxxxxxx.sql`（必须，会自动创建数据库`mapgis-cloud-xxx-access-log`）
+
+导入数据脚本`mapgis-cloud-xxx-hardware-monitor-xxxxxxxx.sql`（必须，会自动创建数据库`mapgis-cloud-xxx-hardware-monitor`）
+
 > 这里 mapgis-cloud-xxx 请与产品标识保持一致
 > 字符集：utf8mb4、排序规则：utf8mb4_general_ci
 
@@ -301,29 +316,52 @@ npm run serve
 ```text
 com.zondy.mapgis
 ├── mapgis-common                                       // 通用模块
-│   ├── mapgis-common-core                              // 核心模块
-│   ├── mapgis-common-datascope                         // 权限范围
-│   ├── mapgis-common-datasource                        // 多数据源
-│   ├── mapgis-common-log                               // 日志记录
-│       ├── mapgis-common-base-log                      // 基础日志记录
-│       ├── mapgis-common-cloud-log                     // 微服务日志记录
-│       ├── mapgis-common-local-log                     // 单体日志记录
-│   ├── mapgis-common-ratelimiter                       // 接口限流
+│   ├── mapgis-common-accesslog                         // 访问日志记录
+│       ├── mapgis-common-base-accesslog                // 基础访问日志记录
+│       ├── mapgis-common-cloud-accesslog               // 微服务访问日志记录
+│       ├── mapgis-common-local-accesslog               // 单体访问日志记录
 │   ├── mapgis-common-cache                             // 缓存模块
 │       ├── mapgis-common-base-cache                    // 基础缓存模块
 │       ├── mapgis-common-cloud-cache                   // 微服务缓存模块
 │       ├── mapgis-common-local-cache                   // 单体缓存模块
+│   ├── mapgis-common-captcha                           // 验证码生成和校验
+│   ├── mapgis-common-controllerprefix                  // 控制器前缀
+│   ├── mapgis-common-core                              // 核心模块
+│   ├── mapgis-common-datascope                         // 权限范围
+│   ├── mapgis-common-datasource                        // 多数据源
+│   ├── mapgis-common-har                               // HTTP归档文件模块
+│   ├── mapgis-common-ldap                              // LDAP模块
+│   ├── mapgis-common-log                               // 日志记录
+│       ├── mapgis-common-base-log                      // 基础日志记录
+│       ├── mapgis-common-cloud-log                     // 微服务日志记录
+│       ├── mapgis-common-cross-log                     // 跨架构日志记录
+│       ├── mapgis-common-local-log                     // 单体日志记录
+│   ├── mapgis-common-meter                             // 指标记录
+│       ├── mapgis-common-base-meter                    // 基础指标记录
+│       ├── mapgis-common-cloud-meter                   // 微服务指标记录
+│       ├── mapgis-common-local-meter                   // 单体指标记录
+│   ├── mapgis-common-mybatis                           // Mybatis模块
+│   ├── mapgis-common-objectserializer                  // 对象序列化模块
+│   ├── mapgis-common-ratelimiter                       // 接口限流
 │   ├── mapgis-common-repeatsubmit                      // 防重复提交
+│   ├── mapgis-common-resttemplate                      // Rest请求工具
+│   ├── mapgis-common-schedule                          // 定时任务
 │   ├── mapgis-common-security                          // 安全模块
 │       ├── mapgis-common-base-security                 // 基础安全模块
 │       ├── mapgis-common-cloud-security                // 微服务安全模块
 │       ├── mapgis-common-local-security                // 单体安全模块
+│   ├── mapgis-common-service                           // 服务模块
 │   ├── mapgis-common-swagger                           // 系统接口
-│   ├── mapgis-common-controllerprefix                  // 控制器前缀
+│   ├── mapgis-common-systemlog                         // 系统日志记录
+│       ├── mapgis-common-base-systemlog                // 基础系统日志记录
+│       ├── mapgis-common-cloud-systemlog               // 微服务系统日志记录
+│       ├── mapgis-common-local-systemlog               // 单体系统日志记录
+│   ├── mapgis-common-webserver                         // Web服务器模块
 ├── mapgis-module-auth                                  // 授权模块
 │   ├── mapgis-module-auth-api                          // 授权API
 │       ├── mapgis-module-auth-base-api                 // 基础授权API
 │       ├── mapgis-module-auth-cloud-api                // 微服务授权API
+│       ├── mapgis-module-auth-cross-api                // 跨架构授权API
 │       ├── mapgis-module-auth-local-api                // 单体授权API
 │   ├── mapgis-module-auth-biz                          // 授权业务
 │   ├── mapgis-module-auth-server                       // 授权服务器 [10000]
@@ -368,6 +406,7 @@ com.zondy.mapgis
 │   ├── components             // 全局公用组件
 │   ├── directive              // 全局指令
 │   ├── layout                 // 布局
+│   ├── locales                // 国际化资源
 │   ├── qiankun                // 微应用注册
 │   ├── router                 // 路由
 │   ├── store                  // 全局 store管理
