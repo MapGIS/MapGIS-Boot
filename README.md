@@ -181,6 +181,8 @@ sentinel >= 1.6.0
 1、初始化 MySQL 数据库（采用本地数据库 Sqlite 可跳过此步骤）
 
 创建数据库`mapgis-xxx`（必须）
+创建数据库`mapgis-xxx-access-log`（必须）
+创建数据库`mapgis-xxx-hardware-monitor`（必须）
 
 > 这里 mapgis-xxx 请与产品标识保持一致
 > 字符集：utf8mb4、排序规则：utf8mb4_general_ci
