@@ -235,13 +235,13 @@ __  __              _____ _____  _____    _____
 
 2、初始化 MySQL 数据库
 
-创建数据库`mapgis-cloud-xxx`并导入 `cloud-script/sql`下数据脚本`mapgis-cloud-xxx-xxxxxxxx.sql`（必须），`quartz.sql`（可选）
+创建数据库`mapgis-cloud-xxx`并导入 `cloud-script/sql`下数据脚本`mapgis-cloud-xxx-yyyymmdd.sql`（必须），`quartz.sql`（可选）
 
-导入数据脚本`mapgis-cloud-config-xxxxxxxx.sql`（必须，会自动创建数据库`mapgis-cloud-config`）
+导入数据脚本`mapgis-cloud-config-yyyymmdd.sql`（必须，会自动创建数据库`mapgis-cloud-config`）
 
-导入数据脚本`mapgis-cloud-xxx-access-log-xxxxxxxx.sql`（必须，会自动创建数据库`mapgis-cloud-xxx-access-log`）
+导入数据脚本`mapgis-cloud-xxx-access-log-yyyymmdd.sql`（必须，会自动创建数据库`mapgis-cloud-xxx-access-log`）
 
-导入数据脚本`mapgis-cloud-xxx-hardware-monitor-xxxxxxxx.sql`（必须，会自动创建数据库`mapgis-cloud-xxx-hardware-monitor`）
+导入数据脚本`mapgis-cloud-xxx-hardware-monitor-yyyymmdd.sql`（必须，会自动创建数据库`mapgis-cloud-xxx-hardware-monitor`）
 
 > 这里 mapgis-cloud-xxx 请与产品标识保持一致
 > 字符集：utf8mb4、排序规则：utf8mb4_general_ci

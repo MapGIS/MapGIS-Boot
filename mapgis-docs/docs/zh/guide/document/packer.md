@@ -93,7 +93,7 @@ package.bat
 
 ##### 调整镜像参数
 
-编辑`docker/linux-xxx/deploy.sh`中的镜像标签等参数。
+编辑`docker/linux-arch/deploy.sh`中的镜像标签等参数。
 
 ##### 上传打包文件
 
@@ -129,7 +129,7 @@ sh package-linux-x86_64.sh
 
 ##### 调整镜像参数
 
-编辑`docker/linux-xxx/deploy.sh`中的镜像标签等参数。
+编辑`docker/linux-arch/deploy.sh`中的镜像标签等参数。
 
 ##### 上传打包文件
 
