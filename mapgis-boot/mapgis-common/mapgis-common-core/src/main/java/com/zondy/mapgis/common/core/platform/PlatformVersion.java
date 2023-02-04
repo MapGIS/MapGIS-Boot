@@ -9,7 +9,7 @@ import com.zondy.mapgis.common.core.utils.EnvUtils;
  * @since 2023/1/10 9:48
  */
 public class PlatformVersion {
-    private PlatformVersion() {
+    protected PlatformVersion() {
     }
 
     public static String getVersion() {
