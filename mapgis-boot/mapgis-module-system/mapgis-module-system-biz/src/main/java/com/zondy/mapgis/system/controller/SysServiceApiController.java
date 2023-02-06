@@ -146,4 +146,15 @@ public class SysServiceApiController extends BaseController {
     public R<Boolean> saveAccessLog(@RequestBody SysHttpAccess httpAccess) {
         return sysServiceApi.saveAccessLog(httpAccess, "");
     }
+
+    /**
+     * 获取指定用户的角色列表
+     *
+     * @param userId 用户id
+     * @return 角色ID列表
+     */
+    @GetMapping("/users/{userId}/roles")
+    public R<List<Long>> selectRolesByUserId(@PathVariable("userId") Long userId) {
+        return sysServiceApi.selectRolesByUserId(userId, "");
+    }
 }

@@ -147,4 +147,14 @@ public interface ISysServiceApi {
      */
     @PostMapping("/system/api/assesslog")
     public R<Boolean> saveAccessLog(@RequestBody SysHttpAccess httpAccess, @RequestHeader(SecurityConstants.FROM_SOURCE) String source);
+
+    /**
+     * 获取指定用户的角色列表
+     *
+     * @param userId 用户id
+     * @param source 请求来源
+     * @return 角色ID列表
+     */
+    @GetMapping("/user/{userId}/roles")
+    public R<List<Long>> selectRolesByUserId(@PathVariable("userId") Long userId, @RequestHeader(SecurityConstants.FROM_SOURCE) String source);
 }

@@ -51,6 +51,9 @@ public class SysServiceApiImpl implements ISysServiceApi {
     @Autowired
     private ISysHttpAccessService httpAccessService;
 
+    @Autowired
+    private ISysRoleService roleService;
+
     @Override
     public R<LoginUser> getUserInfo(String username, String source) {
         SysUser sysUser = userService.selectUserByUserName(username);
@@ -176,5 +179,10 @@ public class SysServiceApiImpl implements ISysServiceApi {
         } else {
             return R.fail("添加HTTP访问日志失败");
         }
+    }
+
+    @Override
+    public R<List<Long>> selectRolesByUserId(Long userId, String source) {
+        return R.ok(roleService.selectRoleListByUserId(userId));
     }
 }

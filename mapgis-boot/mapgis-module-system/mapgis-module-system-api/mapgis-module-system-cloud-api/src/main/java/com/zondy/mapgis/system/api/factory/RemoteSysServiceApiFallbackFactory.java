@@ -89,6 +89,11 @@ public class RemoteSysServiceApiFallbackFactory implements FallbackFactory<ISysS
             public R<Boolean> saveAccessLog(SysHttpAccess httpAccess, String source) {
                 return R.fail("保存HTTP访问日志失败:" + throwable.getMessage());
             }
+
+            @Override
+            public R<List<Long>> selectRolesByUserId(Long userId, String source) {
+                return R.fail("获取指定用户的角色列表失败:" + throwable.getMessage());
+            }
         };
     }
 }

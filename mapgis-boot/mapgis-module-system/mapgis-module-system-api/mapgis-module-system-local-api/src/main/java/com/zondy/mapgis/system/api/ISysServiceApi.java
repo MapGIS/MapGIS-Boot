@@ -128,4 +128,13 @@ public interface ISysServiceApi {
      * @return 结果
      */
     public R<Boolean> saveAccessLog(SysHttpAccess httpAccess, String source);
+
+    /**
+     * 获取指定用户的角色列表
+     *
+     * @param userId 用户id
+     * @param source 请求来源
+     * @return 角色ID列表
+     */
+    public R<List<Long>> selectRolesByUserId(Long userId, String source);
 }
