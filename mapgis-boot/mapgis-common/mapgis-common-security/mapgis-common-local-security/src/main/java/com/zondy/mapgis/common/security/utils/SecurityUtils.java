@@ -3,6 +3,7 @@ package com.zondy.mapgis.common.security.utils;
 import com.zondy.mapgis.common.core.constant.HttpStatus;
 import com.zondy.mapgis.common.core.exception.ServiceException;
 import com.zondy.mapgis.system.api.model.LoginUser;
+import org.springframework.lang.Nullable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
@@ -44,6 +45,15 @@ public class SecurityUtils extends BaseSecurityUtils {
         } catch (Exception e) {
             throw new ServiceException("获取用户账号异常", HttpStatus.UNAUTHORIZED);
         }
+    }
+
+    @Nullable
+    public static String optUsername() {
+        try {
+            return getUsername();
+        } catch (Exception ignored) {
+        }
+        return null;
     }
 
     /**

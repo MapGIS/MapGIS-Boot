@@ -3,6 +3,7 @@ package com.zondy.mapgis.common.security.utils;
 import com.zondy.mapgis.common.core.constant.SecurityConstants;
 import com.zondy.mapgis.common.core.context.SecurityContextHolder;
 import com.zondy.mapgis.system.api.model.LoginUser;
+import org.springframework.lang.Nullable;
 
 /**
  * 安全服务工具类
@@ -23,6 +24,15 @@ public class SecurityUtils extends BaseSecurityUtils {
      */
     public static String getUsername() {
         return SecurityContextHolder.getUserName();
+    }
+
+    @Nullable
+    public static String optUsername() {
+        try {
+            return getUsername();
+        } catch (Exception ignored) {
+        }
+        return null;
     }
 
     /**

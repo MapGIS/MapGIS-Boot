@@ -56,4 +56,24 @@ public enum BusinessType {
      * 清空数据
      */
     CLEAN,
+
+    /**
+     * 保存数据，包括新增或更新
+     */
+    SAVE,
+
+    /**
+     * 发布
+     */
+    PUBLISH,
+
+    /**
+     * 开启
+     */
+    START,
+
+    /**
+     * 停止
+     */
+    STOP
 }

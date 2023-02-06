@@ -16,6 +16,7 @@ import java.util.Base64;
 @Slf4j
 public class AESUtils {
     private static final String ALGORITHMSTR = "AES/ECB/PKCS5Padding";
+    public static final String KEYONE = "313233343536373a";
 
     public static String encrypt(String content, String key) {
         try {
