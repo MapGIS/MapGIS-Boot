@@ -25,8 +25,3 @@ spring:
           data-id: ${mapgis.product.full-name}-application-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}
           #  配置中心发布配置时自动刷新
           refresh: true
-
-# 日志配置
-logging:
-  file:
-    name: ./logs/${mapgis.product.full-name}-gen-server

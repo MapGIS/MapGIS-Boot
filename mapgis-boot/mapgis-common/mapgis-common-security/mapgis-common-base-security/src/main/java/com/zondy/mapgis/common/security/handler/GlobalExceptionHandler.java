@@ -35,7 +35,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(AccessDeniedException.class)
     public AjaxResult handleAccessDeniedException(AccessDeniedException e, HttpServletRequest request) {
         String requestURI = request.getRequestURI();
-        log.error("请求地址'{}',权限校验失败'{}'", requestURI, e.getMessage());
+        log.info("请求地址'{}',权限校验失败'{}'", requestURI, e.getMessage());
         return AjaxResult.error(HttpStatus.FORBIDDEN, "没有权限，请联系管理员授权");
     }
 
@@ -45,7 +45,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(NotPermissionException.class)
     public AjaxResult handleNotPermissionException(NotPermissionException e, HttpServletRequest request) {
         String requestURI = request.getRequestURI();
-        log.error("请求地址'{}',权限码校验失败'{}'", requestURI, e.getMessage());
+        log.info("请求地址'{}',权限码校验失败'{}'", requestURI, e.getMessage());
         return AjaxResult.error(HttpStatus.FORBIDDEN, "没有访问权限，请联系管理员授权");
     }
 
@@ -55,7 +55,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(NotRoleException.class)
     public AjaxResult handleNotRoleException(NotRoleException e, HttpServletRequest request) {
         String requestURI = request.getRequestURI();
-        log.error("请求地址'{}',角色权限校验失败'{}'", requestURI, e.getMessage());
+        log.info("请求地址'{}',角色权限校验失败'{}'", requestURI, e.getMessage());
         return AjaxResult.error(HttpStatus.FORBIDDEN, "没有访问权限，请联系管理员授权");
     }
 
@@ -66,7 +66,7 @@ public class GlobalExceptionHandler {
     public AjaxResult handleHttpRequestMethodNotSupported(HttpRequestMethodNotSupportedException e,
                                                           HttpServletRequest request) {
         String requestURI = request.getRequestURI();
-        log.error("请求地址'{}',不支持'{}'请求", requestURI, e.getMethod());
+        log.info("请求地址'{}',不支持'{}'请求", requestURI, e.getMethod());
         return AjaxResult.error(e.getMessage());
     }
 
@@ -75,7 +75,7 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(ServiceException.class)
     public AjaxResult handleServiceException(ServiceException e, HttpServletRequest request) {
-        log.error(e.getMessage(), e);
+        log.error("业务异常:" + e.getMessage());
         Integer code = e.getCode();
         return StringUtils.isNotNull(code) ? AjaxResult.error(code, e.getMessage()) : AjaxResult.error(e.getMessage());
     }
@@ -105,7 +105,7 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(BindException.class)
     public AjaxResult handleBindException(BindException e) {
-        log.error(e.getMessage(), e);
+        log.info("数据绑定异常:" + e.getMessage());
         String message = e.getAllErrors().get(0).getDefaultMessage();
         return AjaxResult.error(message);
     }
@@ -115,7 +115,7 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public Object handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
-        log.error(e.getMessage(), e);
+        log.info("参数无效异常:" + e.getMessage());
         String message = e.getBindingResult().getFieldError().getDefaultMessage();
         return AjaxResult.error(message);
     }

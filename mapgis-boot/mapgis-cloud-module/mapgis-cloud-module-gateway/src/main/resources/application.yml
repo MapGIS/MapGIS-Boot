@@ -1,0 +1,29 @@
+# Spring
+spring:
+  cloud:
+    sentinel:
+      # 取消控制台懒加载
+      eager: true
+      transport:
+        # 控制台地址
+        dashboard: ${mapgis.product.full-name}-sentinel:8718
+      # nacos配置持久化
+      datasource:
+        ds1:
+          nacos:
+            server-addr: ${spring.cloud.nacos.discovery.server-addr}
+            dataId: sentinel-${mapgis.product.full-name}-gateway-server
+            data-type: json
+            rule-type: gw-flow
+      enabled: true
+
+# feign 配置
+feign:
+  compression:
+    request:
+      min-request-size: 8192
+
+# 日志配置
+logging:
+  file:
+    name: ./logs/${mapgis.product.full-name}-gateway-server

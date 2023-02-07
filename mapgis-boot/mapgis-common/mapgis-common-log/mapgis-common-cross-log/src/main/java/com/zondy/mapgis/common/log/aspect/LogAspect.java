@@ -26,7 +26,9 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * 操作日志记录处理
@@ -77,7 +79,7 @@ public class LogAspect {
             String ip = IpUtils.getIpAddr(ServletUtils.getRequest());
             operLog.setOperIp(ip);
             operLog.setOperUrl(StringUtils.substring(ServletUtils.getRequest().getRequestURI(), 0, 255));
-            String username = SecurityUtils.getUsername();
+            String username = SecurityUtils.optUsername();
             if (StringUtils.isNotBlank(username)) {
                 operLog.setOperName(username);
             }
@@ -156,12 +158,26 @@ public class LogAspect {
                 if (StringUtils.isNotNull(o) && !isFilterObject(o)) {
                     try {
                         String str = JsonUtils.toJsonString(o);
-                        Dict dict = JsonUtils.parseMap(str);
-                        if (MapUtil.isNotEmpty(dict)) {
-                            MapUtil.removeAny(dict, EXCLUDE_PROPERTIES);
-                            str = JsonUtils.toJsonString(dict);
+                        if (str != null) {
+                            if (str.trim().startsWith("{")) {
+                                Dict dict = JsonUtils.parseMap(str);
+                                if (MapUtil.isNotEmpty(dict)) {
+                                    MapUtil.removeAny(dict, EXCLUDE_PROPERTIES);
+                                    str = JsonUtils.toJsonString(dict);
+                                }
+                            } else if (str.trim().startsWith("[")) {
+                                List<Dict> dictList = JsonUtils.parseArrayMap(str);
+                                if (dictList != null) {
+                                    dictList = dictList.stream().peek(t -> {
+                                        if (MapUtil.isNotEmpty(t)) {
+                                            MapUtil.removeAny(t, EXCLUDE_PROPERTIES);
+                                        }
+                                    }).collect(Collectors.toList());
+                                    str = JsonUtils.toJsonString(dictList);
+                                }
+                            }
+                            params.append(str).append(" ");
                         }
-                        params.append(str).append(" ");
                     } catch (Exception e) {
                         e.printStackTrace();
                     }

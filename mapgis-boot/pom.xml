@@ -250,12 +250,6 @@
                 <version>${grok.version}</version>
             </dependency>
 
-            <dependency>
-                <groupId>com.google.guava</groupId>
-                <artifactId>guava</artifactId>
-                <version>${guava.version}</version>
-            </dependency>
-
             <!-- MyBatis Plus -->
             <dependency>
                 <groupId>com.baomidou</groupId>

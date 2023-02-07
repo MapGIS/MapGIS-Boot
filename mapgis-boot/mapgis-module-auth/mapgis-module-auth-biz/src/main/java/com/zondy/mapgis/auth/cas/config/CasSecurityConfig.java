@@ -176,7 +176,7 @@ public class CasSecurityConfig extends WebSecurityConfigurerAdapter {
                         strManagerPrefix + "/system/webConfig/**")
                 .permitAll()
                 // 除上面外的所有请求全部需要鉴权认证
-                .anyRequest().authenticated()
+                .antMatchers(strManagerPrefix + "/**").authenticated()
                 .and()
                 .headers().frameOptions().disable();
         // 添加Logout filter

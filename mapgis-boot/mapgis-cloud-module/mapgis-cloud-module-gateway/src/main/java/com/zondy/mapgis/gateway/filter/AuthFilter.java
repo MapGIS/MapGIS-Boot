@@ -1,6 +1,7 @@
 package com.zondy.mapgis.gateway.filter;
 
 import com.zondy.mapgis.common.cache.service.ICacheService;
+import com.zondy.mapgis.common.core.config.properties.ApiPathProperties;
 import com.zondy.mapgis.common.core.constant.CacheConstants;
 import com.zondy.mapgis.common.core.constant.HttpStatus;
 import com.zondy.mapgis.common.core.constant.SecurityConstants;
@@ -19,6 +20,7 @@ import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.core.Ordered;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.stereotype.Component;
+import org.springframework.util.AntPathMatcher;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
@@ -39,6 +41,11 @@ public class AuthFilter implements GlobalFilter, Ordered {
     @Autowired
     private ICacheService cacheService;
 
+    @Autowired
+    private ApiPathProperties apiPathProperties;
+
+    private AntPathMatcher antPathMatcher = new AntPathMatcher();
+
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
         ServerHttpRequest request = exchange.getRequest();
@@ -47,6 +54,10 @@ public class AuthFilter implements GlobalFilter, Ordered {
         String url = request.getURI().getPath();
         // 跳过不需要验证的路径
         if (StringUtils.matches(url, ignoreWhite.getWhites())) {
+            return chain.filter(exchange);
+        }
+        // 非指定(manager相关地址）校验url，跳过
+        if (!antPathMatcher.match(apiPathProperties.getManagerPrefix() + "/**", url)) {
             return chain.filter(exchange);
         }
         String token = getToken(request);

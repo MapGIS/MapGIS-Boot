@@ -42,9 +42,9 @@ nbdist/
 !*/build/*.html
 !*/build/*.xml
 
-local-script/config/application.properties
-local-script/config/application.yml
-mapgis-server/src/main/resources/static
-mapgis-module-system/mapgis-module-system-biz/src/main/resources/static
+/local-script/config/application.properties
+/local-script/config/application.yml
+/mapgis-server/src/main/resources/static/*
+/mapgis-module-system/mapgis-module-system-biz/src/main/resources/static/*
 
 /data/

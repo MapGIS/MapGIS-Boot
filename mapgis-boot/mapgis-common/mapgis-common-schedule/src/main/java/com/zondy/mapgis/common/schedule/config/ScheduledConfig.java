@@ -28,7 +28,9 @@ public class ScheduledConfig implements SchedulingConfigurer {
     @Bean(name = "taskScheduler", destroyMethod = "shutdown")
     public ThreadPoolTaskScheduler taskScheduler() {
         ThreadPoolTaskScheduler scheduler = new ThreadPoolTaskScheduler();
-        scheduler.setPoolSize(1);
+        int cpuCount = Runtime.getRuntime().availableProcessors();
+        // 根据任务数来控制 2-4
+        scheduler.setPoolSize(Math.min(4, Math.max(2, cpuCount)));
         scheduler.setDaemon(true);
         scheduler.setThreadNamePrefix("timer-");
         return scheduler;
