@@ -1,3 +1,4 @@
+com.zondy.mapgis.auth.api.service.SysLoginService
 com.zondy.mapgis.common.security.filter.JwtAuthenticationTokenFilter
 com.zondy.mapgis.common.security.handler.AuthenticationEntryPointImpl
 com.zondy.mapgis.common.security.handler.LogoutSuccessHandlerImpl
