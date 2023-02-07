@@ -37,7 +37,7 @@ public class SwaggerAutoConfiguration {
                 .info(new Info()
                         .title(swaggerProperties.getTitle())
                         .description(swaggerProperties.getDescription())
-                        .version("版本号:" + swaggerProperties.getVersion()))
+                        .version(swaggerProperties.getVersion()))
                 .addSecurityItem(new SecurityRequirement().addList(SECURITY_SCHEME_NAME))
                 .components(new Components()
                         .addSecuritySchemes(SECURITY_SCHEME_NAME,

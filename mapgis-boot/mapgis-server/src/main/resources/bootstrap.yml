@@ -1,0 +1,4 @@
+spring:
+  # 应用名称
+  application:
+    name: ${APP_NAME:${mapgis.product.full-name}-server}

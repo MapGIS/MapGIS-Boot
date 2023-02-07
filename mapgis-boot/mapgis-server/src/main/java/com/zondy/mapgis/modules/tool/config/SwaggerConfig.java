@@ -63,12 +63,14 @@ public class SwaggerConfig {
                         // 设置标题
                         .title(title)
                         // 描述
-                        .description(description)
+                        .description(des)
                         // 版本
-                        .version("版本号:" + version))
-                .addSecurityItem(new SecurityRequirement().addList(JWT_SECURITY_SCHEME_NAME))
+                        .version(version))
+                .addSecurityItem(new SecurityRequirement()
+                        .addList(JWT_SECURITY_SCHEME_NAME))
                 .components(new Components()
-                        .addSecuritySchemes(JWT_SECURITY_SCHEME_NAME, jwtScheme));
+                        .addSecuritySchemes(JWT_SECURITY_SCHEME_NAME, jwtScheme)
+                );
     }
 
     @Bean
