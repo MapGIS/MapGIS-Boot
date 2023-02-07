@@ -75,5 +75,15 @@ public enum BusinessType {
     /**
      * 停止
      */
-    STOP
+    STOP,
+
+    /**
+     * 备份
+     */
+    BACKUP,
+
+    /**
+     * 恢复
+     */
+    RESTORE
 }
