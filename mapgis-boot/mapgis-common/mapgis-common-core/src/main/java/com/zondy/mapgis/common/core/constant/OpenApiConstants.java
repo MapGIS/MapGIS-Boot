@@ -11,7 +11,7 @@ public class OpenApiConstants {
      * 控制tag顺序，可以自定义顺序规则
      * 使用方式：用在@Tag注解上
      *
-     * @Tag(name="", description="", extensions = {@Extension(properties = @ExtensionProperty(name = OpenApiConst.X_ORDER_PROPERTY, value = "1"))})
+     * @Tag(name="", description="", extensions = {@Extension(properties = @ExtensionProperty(name = OpenApiConstants.X_ORDER_PROPERTY, value = "1"))})
      */
     public final static String X_ORDER_PROPERTY = "x-order";
 }

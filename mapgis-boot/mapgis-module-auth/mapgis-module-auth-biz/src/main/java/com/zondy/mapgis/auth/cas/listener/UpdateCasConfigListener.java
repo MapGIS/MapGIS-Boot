@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;
 
+import java.util.Objects;
+
 /**
  * 更新CAS配置的监听器（用于单体版监听）
  *
@@ -23,7 +25,7 @@ public class UpdateCasConfigListener implements ApplicationListener<SysConfigEve
 
     @Override
     public void onApplicationEvent(SysConfigEvent event) {
-        if (event.getName() == SysEventConstants.UPDATE_CAS_CONFIG) {
+        if (Objects.equals(event.getName(), SysEventConstants.UPDATE_CAS_CONFIG)) {
             casSecurityConfig.updateCasSecurityConfig();
         }
     }

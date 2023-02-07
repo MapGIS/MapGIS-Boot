@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;
 
+import java.util.Objects;
+
 /**
  * 更新系统日志配置监听器（用于单体版监听）
  *
@@ -21,7 +23,7 @@ public class UpdateSystemLogConfigListener implements ApplicationListener<SysCon
 
     @Override
     public void onApplicationEvent(SysConfigEvent event) {
-        if (event.getName() == SysEventConstants.UPDATE_SYSTEM_LOG) {
+        if (Objects.equals(event.getName(), SysEventConstants.UPDATE_SYSTEM_LOG)) {
             LogUtils.setLogLevel("com.zondy.mapgis", sysServiceProxy.getLogConfig().getSystemLoglevel());
         }
     }
