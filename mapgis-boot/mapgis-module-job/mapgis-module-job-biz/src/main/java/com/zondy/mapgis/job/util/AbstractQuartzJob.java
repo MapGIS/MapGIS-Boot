@@ -7,7 +7,7 @@ import com.zondy.mapgis.common.core.utils.bean.BeanUtils;
 import com.zondy.mapgis.common.core.utils.spring.SpringUtils;
 import com.zondy.mapgis.job.domain.SysJob;
 import com.zondy.mapgis.job.domain.SysJobLog;
-import com.zondy.mapgis.job.server.ISysJobLogService;
+import com.zondy.mapgis.job.service.ISysJobLogService;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;

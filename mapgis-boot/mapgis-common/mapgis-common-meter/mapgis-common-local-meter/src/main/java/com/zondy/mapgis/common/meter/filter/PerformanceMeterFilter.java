@@ -23,24 +23,29 @@ public class PerformanceMeterFilter implements Filter {
     }
 
     @Override
-    public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
+    public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse,
+                         FilterChain filterChain) throws IOException, ServletException {
         HttpServletRequest httpServletRequest = (HttpServletRequest) servletRequest;
         HttpServletResponse httpServletResponse = (HttpServletResponse) servletResponse;
         SysServerPerformanceData serverPerformanceData = new SysServerPerformanceData();
 
         long start = System.currentTimeMillis();
-
-        filterChain.doFilter(servletRequest, servletResponse);
-
-        // 性能监控记录
         serverPerformanceData.setAccessTimeMillis(start);
-        serverPerformanceData.setTime(System.currentTimeMillis() - start);
         serverPerformanceData.setUrl(httpServletRequest.getRequestURI());
         serverPerformanceData.setIpaddr(IpUtils.getIpAddr(httpServletRequest));
         serverPerformanceData.setRemoteAddr(httpServletRequest.getRemoteAddr());
         serverPerformanceData.setMethod(httpServletRequest.getMethod());
         serverPerformanceData.setQueryString(httpServletRequest.getQueryString());
-        serverPerformanceData.setResponseStatus((long) httpServletResponse.getStatus());
-        metricContext.record(serverPerformanceData);
+
+        metricContext.start(httpServletRequest, serverPerformanceData);
+        try {
+            filterChain.doFilter(servletRequest, servletResponse);
+        } finally {
+            metricContext.end(httpServletRequest);
+            // 性能监控记录
+            serverPerformanceData.setTime(System.currentTimeMillis() - start);
+            serverPerformanceData.setResponseStatus((long) httpServletResponse.getStatus());
+            metricContext.record(serverPerformanceData);
+        }
     }
 }

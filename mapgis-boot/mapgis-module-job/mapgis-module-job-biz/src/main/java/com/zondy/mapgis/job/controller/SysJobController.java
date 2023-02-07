@@ -13,7 +13,7 @@ import com.zondy.mapgis.common.log.enums.BusinessType;
 import com.zondy.mapgis.common.security.annotation.RequiresPermissions;
 import com.zondy.mapgis.common.security.utils.SecurityUtils;
 import com.zondy.mapgis.job.domain.SysJob;
-import com.zondy.mapgis.job.server.ISysJobService;
+import com.zondy.mapgis.job.service.ISysJobService;
 import com.zondy.mapgis.job.util.CronUtils;
 import com.zondy.mapgis.job.util.ScheduleUtils;
 import io.swagger.v3.oas.annotations.Operation;

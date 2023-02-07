@@ -17,6 +17,12 @@
     </properties>
 
     <dependencies>
+        <!-- SpringCloud bootstrap 启动器 -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-bootstrap</artifactId>
+        </dependency>
+
         <!-- SpringBoot Admin -->
         <dependency>
             <groupId>de.codecentric</groupId>

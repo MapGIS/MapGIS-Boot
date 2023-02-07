@@ -12,9 +12,9 @@ import com.zondy.mapgis.common.security.service.TokenService;
 import com.zondy.mapgis.common.security.utils.SecurityUtils;
 import com.zondy.mapgis.system.api.model.LoginUser;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
+import org.springframework.stereotype.Component;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -27,7 +27,7 @@ import java.io.IOException;
  * @author xiongbo
  * @since 2022/3/15 18:00
  */
-@Configuration
+@Component
 public class LogoutSuccessHandlerImpl implements LogoutSuccessHandler {
     @Autowired
     private SysRecordLogService recordLogService;

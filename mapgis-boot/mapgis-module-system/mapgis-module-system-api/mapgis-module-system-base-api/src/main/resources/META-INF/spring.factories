@@ -1,0 +1,2 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  com.zondy.mapgis.system.api.event.SysEventPublisher

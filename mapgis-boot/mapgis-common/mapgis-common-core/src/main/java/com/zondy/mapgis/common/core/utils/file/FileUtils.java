@@ -266,6 +266,7 @@ public class FileUtils {
         if (fileName == null) {
             return null;
         }
-        return FileNameUtil.mainName(fileName);
+        String baseName = FileNameUtil.mainName(fileName);
+        return baseName;
     }
 }

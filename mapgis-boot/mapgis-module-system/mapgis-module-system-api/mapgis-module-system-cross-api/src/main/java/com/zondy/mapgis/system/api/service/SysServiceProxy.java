@@ -1,5 +1,6 @@
 package com.zondy.mapgis.system.api.service;
 
+import cn.hutool.core.util.StrUtil;
 import com.zondy.mapgis.common.core.config.properties.ApiPathProperties;
 import com.zondy.mapgis.common.core.constant.ConfigConstants;
 import com.zondy.mapgis.common.core.constant.SecurityConstants;
@@ -140,7 +141,7 @@ public class SysServiceProxy {
     public String selectConfigValueByKey(String key, String defaultValue) {
         R<String> configResult = sysServiceApi.selectConfigValueByKey(key, SecurityConstants.INNER);
 
-        if (R.FAIL == configResult.getCode()) {
+        if (R.FAIL == configResult.getCode() || (R.SUCCESS == configResult.getCode() && StrUtil.isBlank(configResult.getData()))) {
             return defaultValue;
         }
 

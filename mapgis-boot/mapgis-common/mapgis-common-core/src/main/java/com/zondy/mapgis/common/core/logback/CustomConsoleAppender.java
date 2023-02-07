@@ -22,7 +22,6 @@ public class CustomConsoleAppender<E> extends ConsoleAppender<E> {
         super.setOutputStream(outputStream);
     }
 
-
     static class NullPrintStream extends PrintStream {
         public static final NullPrintStream NULL_PRINT_STREAM = new NullPrintStream();
 

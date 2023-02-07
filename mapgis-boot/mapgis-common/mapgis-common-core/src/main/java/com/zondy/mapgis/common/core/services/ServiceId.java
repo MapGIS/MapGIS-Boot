@@ -53,10 +53,6 @@ public abstract class ServiceId {
         return new DefaultServiceId(compositeName);
     }
 
-    public static ServiceId fromServicePubItem(@NonNull String serviceName, String folder) {
-        return new DefaultServiceId(serviceName, folder);
-    }
-
     public static ServiceId from(@NonNull String name, String folder) {
         return new DefaultServiceId(name, folder);
     }

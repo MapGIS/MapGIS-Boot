@@ -74,10 +74,20 @@ public class MetricContext {
 
     private MeterRegistry meterRegistry;
     private List<String> excludeUrls = new ArrayList<>();
+    /**
+     * 监控统计中去掉一些定时频繁访问的接口
+     */
+    private final static String[] EXCLUDE_URLS = {};
+
+    /**
+     * 记录服务器正在处理的http request的集合
+     */
+    private final ConcurrentHashMap<Object, SysServerPerformanceData> RUNNING_REQUESTS = new ConcurrentHashMap<>();
+
 
     public MetricContext(MeterRegistry meterRegistry, ApiPathProperties apiPathProperties) {
         String strManagerPrefix = apiPathProperties.getManagerPrefix();
-
+        excludeUrls.addAll(Arrays.stream(EXCLUDE_URLS).collect(Collectors.toList()));
         excludeUrls.add(strManagerPrefix + "/system/monitor/**");
 
         this.meterRegistry = meterRegistry;
@@ -257,5 +267,17 @@ public class MetricContext {
         } catch (Exception e) {
             log.error("监控服务性能结束时出现异常", e);
         }
+    }
+
+    public void start(Object httpRequest, SysServerPerformanceData serverPerformanceData) {
+        RUNNING_REQUESTS.put(httpRequest, serverPerformanceData);
+    }
+
+    public void end(Object httpRequest) {
+        RUNNING_REQUESTS.remove(httpRequest);
+    }
+
+    public List<SysServerPerformanceData> getRunningRequests() {
+        return new ArrayList<>(RUNNING_REQUESTS.values());
     }
 }

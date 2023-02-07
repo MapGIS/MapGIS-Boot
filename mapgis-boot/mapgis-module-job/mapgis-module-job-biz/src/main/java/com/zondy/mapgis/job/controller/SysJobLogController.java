@@ -9,7 +9,7 @@ import com.zondy.mapgis.common.log.annotation.Log;
 import com.zondy.mapgis.common.log.enums.BusinessType;
 import com.zondy.mapgis.common.security.annotation.RequiresPermissions;
 import com.zondy.mapgis.job.domain.SysJobLog;
-import com.zondy.mapgis.job.server.ISysJobLogService;
+import com.zondy.mapgis.job.service.ISysJobLogService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
