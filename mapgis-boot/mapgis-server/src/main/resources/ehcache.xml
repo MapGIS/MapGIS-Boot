@@ -16,7 +16,7 @@
             绝对路径（如：d:\\ehcache）
         查看路径方法：String tmpDir = System.getProperty("java.io.tmpdir");
      -->
-    <diskStore path="java.io.tmpdir"/>
+    <diskStore path="user.dir/temp/ehcache"/>
 
     <!--
         defaultCache:默认的缓存配置信息,如果不加特殊说明,则所有对象按照此配置项处理,只能定义一个defaultCache
