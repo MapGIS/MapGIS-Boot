@@ -93,6 +93,12 @@
         <dependency>
             <groupId>com.zondy.mapgis</groupId>
             <artifactId>mapgis-module-system-biz</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.zaxxer</groupId>
+                    <artifactId>HikariCP</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <!-- 文件模块 -->
@@ -155,6 +161,18 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
                     <fork>true</fork> <!-- 如果没有该配置，devtools不会生效 -->
+                    <!-- 这里必须指定为zip，否则无法使用loader.path加载外部jar -->
+                    <layout>ZIP</layout>
+                    <excludes>
+                        <exclude>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                        </exclude>
+                        <exclude>
+                            <groupId>org.springframework.boot</groupId>
+                            <artifactId>spring-boot-configuration-processor</artifactId>
+                        </exclude>
+                    </excludes>
                 </configuration>
                 <executions>
                     <execution>
@@ -166,8 +184,20 @@
             </plugin>
         </plugins>
         <resources>
+            <!-- 保证所有的resources下的配置文件能被编译打包，即能够被复制到classpath目录下 -->
             <resource>
                 <directory>src/main/resources</directory>
+                <includes>
+                    <include>**/*.*</include>
+                </includes>
+                <filtering>false</filtering>
+            </resource>
+            <!-- 保证resources下的所有的配置文件可以被过滤，即可以根据profile进行属性替换 -->
+            <resource>
+                <directory>src/main/resources</directory>
+                <includes>
+                    <include>**/*.yml</include>
+                </includes>
                 <filtering>true</filtering>
             </resource>
         </resources>

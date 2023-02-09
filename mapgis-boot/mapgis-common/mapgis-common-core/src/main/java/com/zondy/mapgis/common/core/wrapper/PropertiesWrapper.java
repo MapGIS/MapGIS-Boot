@@ -4,6 +4,8 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
@@ -72,10 +74,10 @@ public class PropertiesWrapper extends Properties {
      */
     public boolean store(String path, String charset) {
         if (path != null && !"".equals(path)) {
-            try (OutputStream os = new FileOutputStream(path)) {
-                BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(os, charset));
-                this.store(bw, null);
-                bw.close();
+            try (OutputStream os = Files.newOutputStream(Paths.get(path))) {
+                try (BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(os, charset))) {
+                    this.store(bw, null);
+                }
                 return true;
             } catch (IOException e) {
                 return false;
