@@ -48,3 +48,4 @@ nbdist/
 /mapgis-module-system/mapgis-module-system-biz/src/main/resources/static/*
 
 /data/
+/temp/
