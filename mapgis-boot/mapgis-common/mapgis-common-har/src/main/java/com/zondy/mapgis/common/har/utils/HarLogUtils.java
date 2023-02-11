@@ -52,7 +52,7 @@ public class HarLogUtils {
                 // 清空response
                 response.reset();
                 // 设置response的Header
-                response.addHeader("Content-Disposition", "attachment;filename=igserver.har");
+                response.addHeader("Content-Disposition", "attachment;filename=accesslog.har");
                 response.addHeader("Content-Length", "" + harFile.length());
                 response.setContentType(MediaType.APPLICATION_OCTET_STREAM_VALUE);
                 outputStream = response.getOutputStream();

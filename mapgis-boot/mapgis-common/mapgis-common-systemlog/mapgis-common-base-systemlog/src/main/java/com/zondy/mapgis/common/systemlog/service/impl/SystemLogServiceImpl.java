@@ -169,7 +169,7 @@ public class SystemLogServiceImpl implements ISystemLogService, InitializingBean
                     // 清空response
                     response.reset();
                     // 设置response的Header
-                    response.addHeader("Content-Disposition", "attachment;filename=igserver-logs.zip");
+                    response.addHeader("Content-Disposition", "attachment;filename=systemlog.zip");
                     response.addHeader("Content-Length", "" + zipFile.length());
                     response.setContentType(MediaType.APPLICATION_OCTET_STREAM_VALUE);
                     outputStream = response.getOutputStream();
