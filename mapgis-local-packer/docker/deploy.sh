@@ -12,6 +12,9 @@ DOCKER_REGISTRY_URL=192.168.177.1:5000/
 # 镜像标签
 MAPGIS_IMAGE_TAG=10.6.2.10
 
+# 镜像操作系统
+IMAGE_OS_NAME=linux
+
 # 使用说明，用来提示输入参数
 usage() {
 	echo "Usage: sh 执行脚本.sh [build|base|modules|stop|rm|down|publish]"
@@ -25,6 +28,7 @@ build() {
 
 # 启动基础环境（必须）
 base(){
+	echo "unimplement"
 }
 
 # 启动程序模块（必须）
@@ -49,9 +53,9 @@ down() {
 
 # 发布镜像到私有仓库
 publish() {
-	docker tag mapgis/${MAPGIS_PRODUCT_NAME} ${DOCKER_REGISTRY_URL}mapgis/${MAPGIS_PRODUCT_NAME}:${MAPGIS_IMAGE_TAG}
+	docker tag mapgis/${MAPGIS_PRODUCT_NAME}-${IMAGE_OS_NAME} ${DOCKER_REGISTRY_URL}mapgis/${MAPGIS_PRODUCT_NAME}-${IMAGE_OS_NAME}:${MAPGIS_IMAGE_TAG}
 
-	docker push ${DOCKER_REGISTRY_URL}mapgis/${MAPGIS_PRODUCT_NAME}:${MAPGIS_IMAGE_TAG}
+	docker push ${DOCKER_REGISTRY_URL}mapgis/${MAPGIS_PRODUCT_NAME}-${IMAGE_OS_NAME}:${MAPGIS_IMAGE_TAG}
 }
 
 # 根据输入参数，选择执行对应方法，不输入则执行使用说明
