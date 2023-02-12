@@ -1,2 +1,4 @@
 output
 release
+output_*/
+output-*/
