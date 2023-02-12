@@ -8,9 +8,9 @@ usage() {
 
 # 拷贝对应平台下的文件
 # 平台名称
-PLATFORM_NAME=`basename $(pwd)`
+PLATFORM_NAME=$1
 # 源目录
-SRC_SERVER_PATH=../../release/$PLATFORM_NAME
+SRC_SERVER_PATH=../release/$PLATFORM_NAME
 
 # 调用copy-server.sh脚本进行拷贝mapgis-server
-bash ./copy-server.sh $SRC_SERVER_PATH "./mapgis/server/app" "mapgis-server"
+bash ./copy-server.sh $SRC_SERVER_PATH "./${PLATFORM_NAME}/mapgis/server/app" "mapgis-server"

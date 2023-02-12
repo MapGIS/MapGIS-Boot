@@ -1,10 +1,30 @@
 #!/bin/bash
 cd `dirname $0`
 
-# 平台名称
-PLATFORM_NAME=$1
 CURRENT_DIR=$(cd `dirname $0`; pwd)
-DOCKER_BUILD_PATH=${CURRENT_DIR}/../docker/${PLATFORM_NAME}
+function set_env_by_key(){
+    # 参数1 文件路径
+    # 参数2 变量名
+    eval "$2=$(cat $1 | grep "$2=" | cut -d '=' -f2 | sed "s/[\r ]\{1,\}$//g")"
+}
+# read env.config
+function read_env_config(){
+    EVN_CONFIG="${SHELL_DIR}/.env"
+    if [ ! -f "$EVN_CONFIG" ];then
+        return
+    fi
+    set_env_by_key "$EVN_CONFIG" IMAGE_OS_NAME
+    set_env_by_key "$EVN_CONFIG" IMAGE_ARCH
+    if [[ -n $IMAGE_OS_NAME && -n $IMAGE_ARCH ]] ; then
+        PLATFORM_NAME=${IMAGE_OS_NAME}-${IMAGE_ARCH}
+    fi
+}
+
+read_env_config
+
+# 平台名称
+PLATFORM_NAME=${PLATFORM_NAME:-linux-x86_64}
+DOCKER_BUILD_PATH=${CURRENT_DIR}/../docker
 RELEASE_DIR=${CURRENT_DIR}/../docker-release/${PLATFORM_NAME}
 
 echo "开始构建平台${PLATFORM_NAME} Docker镜像"
@@ -16,7 +36,7 @@ cd $DOCKER_BUILD_PATH
 chmod +x ./copy.sh ./copy-server.sh ./deploy.sh
 
 # 准备打包资源
-./copy.sh
+./copy.sh ${PLATFORM_NAME}
 
 # 构建镜像
 ./deploy.sh build

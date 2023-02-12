@@ -1,0 +1,11 @@
+version: '3'
+services:
+  mapgis-xxx:
+    image: ${DOCKER_REGISTRY_URL}mapgis/xxx-${IMAGE_OS_NAME}:${MAPGIS_IMAGE_TAG}
+    restart: always
+    ports:
+      - "${MAPGIS_APP_PORT}:8080"
+    volumes:
+      - ./mapgis/server/logs:/mapgis/logs
+      - ./mapgis/server/upload:/mapgis/upload
+      - ./mapgis/server/data:/mapgis/data
