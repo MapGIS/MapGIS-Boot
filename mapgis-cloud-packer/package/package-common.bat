@@ -15,7 +15,7 @@ if "%~1" neq "" set "RELEASE_DIR=%CURRENT_DIR%/release/%~1"
 echo "系统架构: %~1"
 
 set OUTPUT_DIR=%CURRENT_DIR%/output
-if "%~2" neq "" set "OUTPUT_DIR=%CURRENT_DIR%\%~2"
+if "%~2" neq "" set "OUTPUT_DIR=%~2"
 
 echo "来源目录: %OUTPUT_DIR%"
 

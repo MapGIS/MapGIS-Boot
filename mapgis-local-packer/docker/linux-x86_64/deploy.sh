@@ -14,13 +14,17 @@ MAPGIS_IMAGE_TAG=10.6.2.10
 
 # 使用说明，用来提示输入参数
 usage() {
-	echo "Usage: sh 执行脚本.sh [build|modules|stop|rm|down|publish]"
+	echo "Usage: sh 执行脚本.sh [build|base|modules|stop|rm|down|publish]"
 	exit 1
 }
 
 # 构建镜像
 build() {
 	docker-compose -f docker-compose-local.yml build
+}
+
+# 启动基础环境（必须）
+base(){
 }
 
 # 启动程序模块（必须）
@@ -54,6 +58,9 @@ publish() {
 case "$1" in
 "build")
 	build
+;;
+"base")
+	base
 ;;
 "modules")
 	modules

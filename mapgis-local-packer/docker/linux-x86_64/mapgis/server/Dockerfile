@@ -16,8 +16,11 @@ WORKDIR /mapgis
 # 复制文件到路径
 COPY ./app /mapgis
 
+# 复制入口脚本到路径
+COPY docker-entrypoint.sh /mapgis/bin
+
 # 暴露端口
 EXPOSE 8080
 
 # 启动服务
-ENTRYPOINT ["/mapgis/bin/docker-startup.sh"]
+ENTRYPOINT ["sh", "/mapgis/bin/docker-entrypoint.sh"]

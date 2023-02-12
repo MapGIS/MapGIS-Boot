@@ -1,4 +1,10 @@
 #!/bin/bash
 cd `dirname $0`
 
-sh shutdown-process.sh lib/mapgis-server
+LIBS=(
+  "mapgis-server"
+  )
+
+for lib in ${LIBS[@]}; do
+  sh shutdown-process.sh lib/${lib}
+done
