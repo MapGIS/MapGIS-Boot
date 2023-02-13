@@ -20,7 +20,7 @@ usage() {
 
 # 构建镜像
 build() {
-	docker-compose -f docker-compose-local.yml build
+	docker-compose -f docker-compose-local.yml build --no-cache
 }
 
 # 启动基础环境（必须）
