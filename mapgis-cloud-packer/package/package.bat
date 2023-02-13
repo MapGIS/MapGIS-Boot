@@ -7,8 +7,7 @@ cd /d %~dp0
 
 set ROOT_DIR_REV=%cd%
 
-call %ROOT_DIR_REV%/build.bat
-call %ROOT_DIR_REV%/package-win-x86_64.bat
-call %ROOT_DIR_REV%/package-linux-x86_64.bat
+echo. | call %ROOT_DIR_REV%/package-win-x86_64.bat "" "" "%ROOT_DIR_REV%/../output-cloud"
+echo. | call %ROOT_DIR_REV%/package-linux-x86_64.bat "" "SKIL_FRONT_BACK" "%ROOT_DIR_REV%/../output-cloud"
 
 pause
