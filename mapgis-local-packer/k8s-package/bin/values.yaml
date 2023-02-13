@@ -12,7 +12,7 @@ namespace: mapgis-xxx
 imageRegistry: 
 imageNamespace: mapgis
 imageNfsClientProvisioner: sig-storage/nfs-subdir-external-provisioner:v4.0.2
-imageRepository: xxx
+imageRepository: xxx-linux
 imageTag: "10.6.2.10"
 imagePullPolicy: IfNotPresent
 imagePullSecret: 
