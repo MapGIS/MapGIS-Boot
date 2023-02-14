@@ -6,7 +6,7 @@ echo.
 cd /d %~dp0
 
 set ROOT_DIR_REV=%cd%
-set BASE_PACKER_DIR=%ROOT_DIR_REV%/../../common-packer
+set BASE_PACKER_DIR=%ROOT_DIR_REV%/../../mapgis-base-packer
 
 set COMPILE_FRONT=true
 if "%~1" == "SKIL_FRONT" set COMPILE_FRONT=false
