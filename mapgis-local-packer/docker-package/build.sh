@@ -37,7 +37,7 @@ chmod +x ./copy.sh ./copy-server.sh ./deploy.sh
 echo "开始发布平台${PLATFORM_NAME} Docker镜像"
 
 # 发布镜像
-./deploy.sh publish
+./deploy.sh publish ${IMAGE_OS_NAME}
 
 echo "开始打包平台${PLATFORM_NAME}"
 

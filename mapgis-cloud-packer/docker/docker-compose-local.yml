@@ -1,0 +1,191 @@
+version : '3'
+services:
+  mapgis-xxx-nacos:
+    container_name: mapgis-xxx-nacos
+    image: nacos/nacos-server
+    restart: always
+    environment:
+      MODE: standalone
+      SPRING_DATASOURCE_PLATFORM: mysql
+      MYSQL_SERVICE_HOST: mapgis-xxx-mysql
+      MYSQL_SERVICE_PORT: 3306
+      MYSQL_SERVICE_DB_NAME: mapgis-cloud-config
+      MYSQL_SERVICE_USER: root
+      MYSQL_SERVICE_PASSWORD: cloud123.mapgis
+      MYSQL_SERVICE_DB_PARAM: characterEncoding=utf8&connectTimeout=30000&socketTimeout=60000&autoReconnect=true&useSSL=false
+    volumes:
+      - ./nacos/logs:/home/nacos/logs
+    ports:
+      - "8848"
+      - "9848"
+      - "9849"
+    depends_on:
+      - mapgis-xxx-mysql
+    links:
+      - mapgis-xxx-mysql
+  mapgis-xxx-mysql:
+    build:
+      context: ./${IMAGE_OS_NAME}-${IMAGE_ARCH}/mysql
+    container_name: mapgis-xxx-mysql
+    image: mapgis/xxx-mysql-${IMAGE_OS_NAME}
+    restart: always
+    ports:
+      - "3306"
+    volumes:
+      - ./mysql/conf:/etc/mysql/conf.d
+      - ./mysql/logs:/logs
+      - ./mysql/data:/var/lib/mysql
+    command: [
+          'mysqld',
+          '--innodb-buffer-pool-size=80M',
+          '--character-set-server=utf8mb4',
+          '--collation-server=utf8mb4_general_ci',
+          '--default-time-zone=+8:00',
+          '--lower-case-table-names=1',
+          '--max_connect_errors=1000',
+          '--max_connections=1000'
+        ]
+    environment:
+      MYSQL_DATABASE: 'mapgis-cloud-xxx'
+      MYSQL_ROOT_PASSWORD: cloud123.mapgis
+  mapgis-xxx-redis:
+    container_name: mapgis-xxx-redis
+    image: redis
+    restart: always
+    ports:
+      - "6379"
+    volumes:
+      - ./redis/data:/data
+    command: redis-server --requirepass cloud123.mapgis
+  mapgis-xxx-gateway:
+    build:
+      context: ./${IMAGE_OS_NAME}-${IMAGE_ARCH}/mapgis/gateway
+    container_name: mapgis-xxx-gateway
+    image: mapgis/xxx-gateway-${IMAGE_OS_NAME}
+    restart: always
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./mapgis/gateway/logs:/mapgis/logs
+    environment:
+      NACOS_HOST: mapgis-xxx-nacos
+      NACOS_PORT: 8848
+    depends_on:
+      - mapgis-xxx-redis
+      - mapgis-xxx-nacos
+    links:
+      - mapgis-xxx-redis
+      - mapgis-xxx-nacos
+  mapgis-xxx-monitor:
+    build:
+      context: ./${IMAGE_OS_NAME}-${IMAGE_ARCH}/mapgis/monitor
+    image: mapgis/xxx-monitor-${IMAGE_OS_NAME}
+    restart: always
+    ports:
+      - "9200:9200"
+    volumes:
+      - ./mapgis/monitor/logs:/mapgis/logs
+    environment:
+      NACOS_HOST: mapgis-xxx-nacos
+      NACOS_PORT: 8848
+    depends_on:
+      - mapgis-xxx-nacos
+    links:
+      - mapgis-xxx-nacos
+  mapgis-xxx-auth:
+    build:
+      context: ./${IMAGE_OS_NAME}-${IMAGE_ARCH}/mapgis/auth
+    image: mapgis/xxx-auth-${IMAGE_OS_NAME}
+    restart: always
+    ports:
+      - "10000"
+    volumes:
+      - ./mapgis/auth/logs:/mapgis/logs
+    environment:
+      NACOS_HOST: mapgis-xxx-nacos
+      NACOS_PORT: 8848
+    depends_on:
+      - mapgis-xxx-redis
+      - mapgis-xxx-nacos
+    links:
+      - mapgis-xxx-redis
+      - mapgis-xxx-nacos
+  mapgis-xxx-system:
+    build:
+      context: ./${IMAGE_OS_NAME}-${IMAGE_ARCH}/mapgis/system
+    image: mapgis/xxx-system-${IMAGE_OS_NAME}
+    restart: always
+    ports:
+      - "11000"
+    volumes:
+      - ./mapgis/system/logs:/mapgis/logs
+    environment:
+      NACOS_HOST: mapgis-xxx-nacos
+      NACOS_PORT: 8848
+    depends_on:
+      - mapgis-xxx-redis
+      - mapgis-xxx-mysql
+      - mapgis-xxx-nacos
+    links:
+      - mapgis-xxx-redis
+      - mapgis-xxx-mysql
+      - mapgis-xxx-nacos
+  mapgis-xxx-file:
+    build:
+      context: ./${IMAGE_OS_NAME}-${IMAGE_ARCH}/mapgis/file
+    image: mapgis/xxx-file-${IMAGE_OS_NAME}
+    restart: always
+    ports:
+      - "12000"
+    volumes:
+      - ./mapgis/file/logs:/mapgis/logs
+      - ./mapgis/file/upload:/mapgis/upload
+    environment:
+      NACOS_HOST: mapgis-xxx-nacos
+      NACOS_PORT: 8848
+    depends_on:
+      - mapgis-xxx-redis
+      - mapgis-xxx-nacos
+    links:
+      - mapgis-xxx-redis
+      - mapgis-xxx-nacos
+  mapgis-xxx-job:
+    build:
+      context: ./${IMAGE_OS_NAME}-${IMAGE_ARCH}/mapgis/job
+    image: mapgis/xxx-job-${IMAGE_OS_NAME}
+    restart: always
+    ports:
+      - "13000"
+    volumes:
+      - ./mapgis/job/logs:/mapgis/logs
+    environment:
+      NACOS_HOST: mapgis-xxx-nacos
+      NACOS_PORT: 8848
+    depends_on:
+      - mapgis-xxx-redis
+      - mapgis-xxx-mysql
+      - mapgis-xxx-nacos
+    links:
+      - mapgis-xxx-redis
+      - mapgis-xxx-mysql
+      - mapgis-xxx-nacos
+  mapgis-xxx-gen:
+    build:
+      context: ./${IMAGE_OS_NAME}-${IMAGE_ARCH}/mapgis/gen
+    image: mapgis/xxx-gen-${IMAGE_OS_NAME}
+    restart: always
+    ports:
+      - "14000"
+    volumes:
+      - ./mapgis/gen/logs:/mapgis/logs
+    environment:
+      NACOS_HOST: mapgis-xxx-nacos
+      NACOS_PORT: 8848
+    depends_on:
+      - mapgis-xxx-redis
+      - mapgis-xxx-mysql
+      - mapgis-xxx-nacos
+    links:
+      - mapgis-xxx-redis
+      - mapgis-xxx-mysql
+      - mapgis-xxx-nacos

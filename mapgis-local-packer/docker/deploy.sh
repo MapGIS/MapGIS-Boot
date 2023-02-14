@@ -13,7 +13,7 @@ DOCKER_REGISTRY_URL=192.168.177.1:5000/
 MAPGIS_IMAGE_TAG=10.6.2.10
 
 # 镜像操作系统
-IMAGE_OS_NAME=linux
+IMAGE_OS_NAME=$2
 
 # 使用说明，用来提示输入参数
 usage() {

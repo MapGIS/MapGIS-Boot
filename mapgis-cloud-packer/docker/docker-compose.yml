@@ -1,0 +1,218 @@
+version : '3'
+services:
+  mapgis-xxx-nacos:
+    container_name: ${NACOS_HOST}
+    image: ${DOCKER_REGISTRY_URL}nacos/nacos-server
+    restart: always
+    environment:
+      MODE: standalone
+      SPRING_DATASOURCE_PLATFORM: mysql
+      MYSQL_SERVICE_HOST: ${MYSQL_HOST}
+      MYSQL_SERVICE_PORT: ${MYSQL_PORT}
+      MYSQL_SERVICE_DB_NAME: ${MYSQL_CONFIG_DB}
+      MYSQL_SERVICE_USER: ${MYSQL_USER}
+      MYSQL_SERVICE_PASSWORD: ${MYSQL_PWD}
+      MYSQL_SERVICE_DB_PARAM: characterEncoding=utf8&connectTimeout=30000&socketTimeout=60000&autoReconnect=true&useSSL=false
+    volumes:
+      - ./nacos/logs:/home/nacos/logs
+    ports:
+      - "8848"
+      - "9848"
+      - "9849"
+    depends_on:
+      - mapgis-xxx-mysql
+    links:
+      - mapgis-xxx-mysql
+  mapgis-xxx-mysql:
+    container_name: ${MYSQL_HOST}
+    image: ${DOCKER_REGISTRY_URL}mapgis/xxx-mysql-${IMAGE_OS_NAME}:${MAPGIS_IMAGE_TAG}
+    restart: always
+    ports:
+      - "3306"
+    volumes:
+      - ./mysql/conf:/etc/mysql/conf.d
+      - ./mysql/logs:/logs
+      - ./mysql/data:/var/lib/mysql
+    command: [
+          'mysqld',
+          '--innodb-buffer-pool-size=80M',
+          '--character-set-server=utf8mb4',
+          '--collation-server=utf8mb4_general_ci',
+          '--default-time-zone=+8:00',
+          '--lower-case-table-names=1',
+          '--max_connect_errors=1000',
+          '--max_connections=1000'
+        ]
+    environment:
+      MYSQL_DATABASE: ${MYSQL_DB}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_PWD}
+  mapgis-xxx-redis:
+    container_name: ${REDIS_HOST}
+    image: ${DOCKER_REGISTRY_URL}redis
+    restart: always
+    ports:
+      - "6379"
+    volumes:
+      - ./redis/data:/data
+    command: redis-server --requirepass ${REDIS_PWD}
+  mapgis-xxx-gateway:
+    container_name: ${GATEWAY_HOST}
+    image: ${DOCKER_REGISTRY_URL}mapgis/xxx-gateway-${IMAGE_OS_NAME}:${MAPGIS_IMAGE_TAG}
+    restart: always
+    ports:
+      - "${GATEWAY_PUBLIC_PORT}:8080"
+    volumes:
+      - ./mapgis/gateway/logs:/mapgis/logs
+    environment:
+      NACOS_HOST: ${NACOS_HOST}
+      NACOS_PORT: ${NACOS_PORT}
+      REDIS_HOST: ${REDIS_HOST}
+      REDIS_PORT: ${REDIS_PORT}
+      REDIS_PWD: ${REDIS_PWD}
+    depends_on:
+      - mapgis-xxx-redis
+      - mapgis-xxx-nacos
+    links:
+      - mapgis-xxx-redis
+      - mapgis-xxx-nacos
+  mapgis-xxx-monitor:
+    image: ${DOCKER_REGISTRY_URL}mapgis/xxx-monitor-${IMAGE_OS_NAME}:${MAPGIS_IMAGE_TAG}
+    restart: always
+    ports:
+      - "${MONITOR_PUBLIC_PORT}:9200"
+    volumes:
+      - ./mapgis/monitor/logs:/mapgis/logs
+    environment:
+      NACOS_HOST: ${NACOS_HOST}
+      NACOS_PORT: ${NACOS_PORT}
+    depends_on:
+      - mapgis-xxx-nacos
+    links:
+      - mapgis-xxx-nacos
+  mapgis-xxx-auth:
+    image: ${DOCKER_REGISTRY_URL}mapgis/xxx-auth-${IMAGE_OS_NAME}:${MAPGIS_IMAGE_TAG}
+    restart: always
+    ports:
+      - "10000"
+    volumes:
+      - ./mapgis/auth/logs:/mapgis/logs
+    environment:
+      NACOS_HOST: ${NACOS_HOST}
+      NACOS_PORT: ${NACOS_PORT}
+      GATEWAY_PUBLIC_HOST: ${GATEWAY_PUBLIC_HOST}
+      GATEWAY_PUBLIC_PORT: ${GATEWAY_PUBLIC_PORT}
+      REDIS_HOST: ${REDIS_HOST}
+      REDIS_PORT: ${REDIS_PORT}
+      REDIS_PWD: ${REDIS_PWD}
+    depends_on:
+      - mapgis-xxx-redis
+      - mapgis-xxx-nacos
+    links:
+      - mapgis-xxx-redis
+      - mapgis-xxx-nacos
+  mapgis-xxx-system:
+    image: ${DOCKER_REGISTRY_URL}mapgis/xxx-system-${IMAGE_OS_NAME}:${MAPGIS_IMAGE_TAG}
+    restart: always
+    ports:
+      - "11000"
+    volumes:
+      - ./mapgis/system/logs:/mapgis/logs
+    environment:
+      NACOS_HOST: ${NACOS_HOST}
+      NACOS_PORT: ${NACOS_PORT}
+      GATEWAY_PUBLIC_HOST: ${GATEWAY_PUBLIC_HOST}
+      GATEWAY_PUBLIC_PORT: ${GATEWAY_PUBLIC_PORT}
+      REDIS_HOST: ${REDIS_HOST}
+      REDIS_PORT: ${REDIS_PORT}
+      REDIS_PWD: ${REDIS_PWD}
+      MYSQL_HOST: ${MYSQL_HOST}
+      MYSQL_PORT: ${MYSQL_PORT}
+      MYSQL_DB: ${MYSQL_DB}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PWD: ${MYSQL_PWD}
+    depends_on:
+      - mapgis-xxx-redis
+      - mapgis-xxx-mysql
+      - mapgis-xxx-nacos
+    links:
+      - mapgis-xxx-redis
+      - mapgis-xxx-mysql
+      - mapgis-xxx-nacos
+  mapgis-xxx-file:
+    image: ${DOCKER_REGISTRY_URL}mapgis/xxx-file-${IMAGE_OS_NAME}:${MAPGIS_IMAGE_TAG}
+    restart: always
+    ports:
+      - "12000"
+    volumes:
+      - ./mapgis/file/logs:/mapgis/logs
+      - ./mapgis/file/upload:/mapgis/upload
+    environment:
+      NACOS_HOST: ${NACOS_HOST}
+      NACOS_PORT: ${NACOS_PORT}
+      GATEWAY_PUBLIC_HOST: ${GATEWAY_PUBLIC_HOST}
+      GATEWAY_PUBLIC_PORT: ${GATEWAY_PUBLIC_PORT}
+      REDIS_HOST: ${REDIS_HOST}
+      REDIS_PORT: ${REDIS_PORT}
+      REDIS_PWD: ${REDIS_PWD}
+    depends_on:
+      - mapgis-xxx-redis
+      - mapgis-xxx-nacos
+    links:
+      - mapgis-xxx-redis
+      - mapgis-xxx-nacos
+  mapgis-xxx-job:
+    image: ${DOCKER_REGISTRY_URL}mapgis/xxx-job-${IMAGE_OS_NAME}:${MAPGIS_IMAGE_TAG}
+    restart: always
+    ports:
+      - "13000"
+    volumes:
+      - ./mapgis/job/logs:/mapgis/logs
+    environment:
+      NACOS_HOST: ${NACOS_HOST}
+      NACOS_PORT: ${NACOS_PORT}
+      GATEWAY_PUBLIC_HOST: ${GATEWAY_PUBLIC_HOST}
+      GATEWAY_PUBLIC_PORT: ${GATEWAY_PUBLIC_PORT}
+      REDIS_HOST: ${REDIS_HOST}
+      REDIS_PORT: ${REDIS_PORT}
+      REDIS_PWD: ${REDIS_PWD}
+      MYSQL_HOST: ${MYSQL_HOST}
+      MYSQL_PORT: ${MYSQL_PORT}
+      MYSQL_DB: ${MYSQL_DB}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PWD: ${MYSQL_PWD}
+    depends_on:
+      - mapgis-xxx-redis
+      - mapgis-xxx-mysql
+      - mapgis-xxx-nacos
+    links:
+      - mapgis-xxx-redis
+      - mapgis-xxx-mysql
+      - mapgis-xxx-nacos
+  mapgis-xxx-gen:
+    image: ${DOCKER_REGISTRY_URL}mapgis/xxx-gen-${IMAGE_OS_NAME}:${MAPGIS_IMAGE_TAG}
+    restart: always
+    ports:
+      - "14000"
+    volumes:
+      - ./mapgis/gen/logs:/mapgis/logs
+    environment:
+      NACOS_HOST: ${NACOS_HOST}
+      NACOS_PORT: ${NACOS_PORT}
+      GATEWAY_PUBLIC_HOST: ${GATEWAY_PUBLIC_HOST}
+      GATEWAY_PUBLIC_PORT: ${GATEWAY_PUBLIC_PORT}
+      REDIS_HOST: ${REDIS_HOST}
+      REDIS_PORT: ${REDIS_PORT}
+      REDIS_PWD: ${REDIS_PWD}
+      MYSQL_HOST: ${MYSQL_HOST}
+      MYSQL_PORT: ${MYSQL_PORT}
+      MYSQL_DB: ${MYSQL_DB}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PWD: ${MYSQL_PWD}
+    depends_on:
+      - mapgis-xxx-redis
+      - mapgis-xxx-mysql
+      - mapgis-xxx-nacos
+    links:
+      - mapgis-xxx-redis
+      - mapgis-xxx-mysql
+      - mapgis-xxx-nacos
