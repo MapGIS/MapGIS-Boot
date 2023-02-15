@@ -1,5 +1,6 @@
 #!/bin/bash
 cd `dirname $0`
+set -e
 
 # 平台名称
 IMAGE_OS_NAME=$1
