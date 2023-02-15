@@ -1,7 +1,7 @@
 @echo off
 echo.
 echo [信息] 开始拷贝成果文件组织成不区分架构平台的产品包 
-echo        参数1:[输出目录,默认为output-local]
+echo        参数1:[输出目录,默认为output]
 echo.
 
 cd /d %~dp0
@@ -10,7 +10,7 @@ setlocal
 set CURRENT_DIR=%cd%
 set BOOT_DIR=%CURRENT_DIR%/../../mapgis-boot
 
-set OUT_DIR=%CURRENT_DIR%/../output-local
+set OUT_DIR=%CURRENT_DIR%/../output
 if "%~1" neq "" set "OUT_DIR=%~1"
 
 if exist "%OUT_DIR%" rmdir /s/q "%OUT_DIR%"

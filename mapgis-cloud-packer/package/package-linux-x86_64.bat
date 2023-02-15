@@ -14,7 +14,7 @@ if "%~1" == "SKIL_FRONT" set COMPILE_FRONT=false
 set COMPILE_FORNT_BACK=true
 if "%~2" == "SKIL_FRONT_BACK" set COMPILE_FORNT_BACK=false
 
-set OUTPUT_DIR="%ROOT_DIR_REV%/../output-cloud
+set OUTPUT_DIR="%ROOT_DIR_REV%/../output
 if "%~3" neq "" set "OUTPUT_DIR=%~3"
 
 if "%COMPILE_FORNT_BACK%" == "true" (
@@ -23,7 +23,7 @@ if "%COMPILE_FORNT_BACK%" == "true" (
     echo 已跳过前端和后端编译
 )
 
-echo. | call %ROOT_DIR_REV%/copy-cloud-dist.bat "%OUTPUT_DIR%"
+echo. | call %ROOT_DIR_REV%/copy-dist.bat "%OUTPUT_DIR%"
 
 echo. | call %ROOT_DIR_REV%/package-common.bat linux-x86_64 "%OUTPUT_DIR%"
 
