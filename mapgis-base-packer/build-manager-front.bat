@@ -17,6 +17,7 @@ mkdir "%MANAGER_DIST_DIR%"
 
 cd %MANAGER_FRONT_DIR%
 
+call yarn install
 call yarn build:backend
 
 xcopy /s /y /e "%MANAGER_FRONT_DIR%\dist\*" "%MANAGER_DIST_DIR%\"
