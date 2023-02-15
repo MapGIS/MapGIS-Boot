@@ -1,4 +1,5 @@
-#!/bin/sh
+#!/bin/bash
+cd `dirname $0`
 
 # 产品名称
 MAPGIS_PRODUCT_NAME=xxx

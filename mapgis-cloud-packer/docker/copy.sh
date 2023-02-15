@@ -1,4 +1,5 @@
-#!/bin/sh
+#!/bin/bash
+cd `dirname $0`
 
 # 复制项目的文件到对应docker路径，便于一键生成镜像
 usage() {

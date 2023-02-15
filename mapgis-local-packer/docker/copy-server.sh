@@ -1,4 +1,5 @@
-#!/bin/sh
+#!/bin/bash
+cd `dirname $0`
 
 # 源目录
 SRC_SERVER_PATH=$1
