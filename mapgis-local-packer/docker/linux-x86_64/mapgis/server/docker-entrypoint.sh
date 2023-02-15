@@ -4,4 +4,4 @@ cd `dirname $0`
 
 LIB="mapgis-server"
 
-./docker-startup.sh ${LIB}
+sh docker-startup.sh ${LIB}

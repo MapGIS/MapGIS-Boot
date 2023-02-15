@@ -18,8 +18,8 @@ spec:
       labels:
         app: {{ include "mapgis.fullname" . }}-nfs-client-provisioner
     spec:
+      {{- include "mapgis.imagePullSecret" . | nindent 6 }}
       serviceAccount: {{ include "mapgis.fullname" . }}-nfs-client-provisioner
-      {{ include "mapgis.imagePullSecret" . }}
       containers:
       - name: {{ include "mapgis.fullname" . }}-nfs-client-provisioner
         image: {{ include "mapgis.imageRegistry" . }}/{{ include "mapgis.imageNfsClientProvisioner" . }}

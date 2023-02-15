@@ -13,7 +13,7 @@ fi
 # set nacos server host
 if [ ! -z "${NACOS_HOST}" ]; then
   echo ${NACOS_HOST}:${NACOS_SERVER_PORT}
-  ./wait-for.sh ${NACOS_HOST}:${NACOS_SERVER_PORT} -t 0 -- ./docker-startup.sh ${LIB}
+  sh wait-for.sh ${NACOS_HOST}:${NACOS_SERVER_PORT} -t 0 -- sh docker-startup.sh ${LIB}
 else
-  ./docker-startup.sh ${LIB}
+  sh docker-startup.sh ${LIB}
 fi

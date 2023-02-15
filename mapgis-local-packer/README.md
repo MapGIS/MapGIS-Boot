@@ -47,6 +47,8 @@ release/win-x86_64/bin/startup.bat
 ├─docker-package(打包后自动生成)
 ```
 
+设置打包的镜像版本，修改`docker/linux-x86_64/deploy.sh`中变量MAPGIS_IMAGE_TAG
+
 ```bash
 # 进入到docker-package目录
 cd docker-package

@@ -2,7 +2,7 @@ version : '3'
 services:
   mapgis-xxx-nacos:
     container_name: mapgis-xxx-nacos
-    image: nacos/nacos-server
+    image: 192.168.177.1:5000/nacos/nacos-server
     restart: always
     environment:
       MODE: standalone
@@ -50,7 +50,7 @@ services:
       MYSQL_ROOT_PASSWORD: cloud123.mapgis
   mapgis-xxx-redis:
     container_name: mapgis-xxx-redis
-    image: redis
+    image: 192.168.177.1:5000/redis
     restart: always
     ports:
       - "6379"

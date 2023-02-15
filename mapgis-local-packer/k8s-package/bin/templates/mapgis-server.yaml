@@ -15,7 +15,7 @@ spec:
       labels:
         {{- include "mapgis.selectorLabels" . | nindent 8 }}
     spec:
-      {{ include "mapgis.imagePullSecret" . }}
+      {{- include "mapgis.imagePullSecret" . | nindent 6 }}
       containers:
       - name: {{ include "mapgis.fullname" . }}
         image: {{ include "mapgis.imageRegistry" . }}/{{ include "mapgis.imageNamespace" . }}/{{ include "mapgis.imageRepository" . }}:{{ include "mapgis.imageTag" . }}

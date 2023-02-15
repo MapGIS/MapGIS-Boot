@@ -67,6 +67,8 @@ spec:
         - --collation-server=utf8mb4_general_ci
         - --default-time-zone=+8:00
         - --lower-case-table-names=1
+        - --max_connect_errors=1000
+        - --max_connections=1000
         volumeMounts:
         - name: {{ include "mapgis.fullname" . }}-mysql-conf
           mountPath: /etc/mysql/conf.d

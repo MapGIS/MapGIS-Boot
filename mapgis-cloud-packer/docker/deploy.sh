@@ -54,8 +54,6 @@ down() {
 
 # 发布镜像到私有仓库
 publish() {
-	docker tag nacos/nacos-server ${DOCKER_REGISTRY_URL}nacos/nacos-server
-	docker tag redis ${DOCKER_REGISTRY_URL}redis
 	docker tag mapgis/${MAPGIS_PRODUCT_NAME}-mysql-${IMAGE_OS_NAME} ${DOCKER_REGISTRY_URL}mapgis/${MAPGIS_PRODUCT_NAME}-mysql-${IMAGE_OS_NAME}:${MAPGIS_IMAGE_TAG}
 	docker tag mapgis/${MAPGIS_PRODUCT_NAME}-gateway-${IMAGE_OS_NAME} ${DOCKER_REGISTRY_URL}mapgis/${MAPGIS_PRODUCT_NAME}-gateway-${IMAGE_OS_NAME}:${MAPGIS_IMAGE_TAG}
 	docker tag mapgis/${MAPGIS_PRODUCT_NAME}-monitor-${IMAGE_OS_NAME} ${DOCKER_REGISTRY_URL}mapgis/${MAPGIS_PRODUCT_NAME}-monitor-${IMAGE_OS_NAME}:${MAPGIS_IMAGE_TAG}
@@ -65,8 +63,6 @@ publish() {
 	docker tag mapgis/${MAPGIS_PRODUCT_NAME}-job-${IMAGE_OS_NAME} ${DOCKER_REGISTRY_URL}mapgis/${MAPGIS_PRODUCT_NAME}-job-${IMAGE_OS_NAME}:${MAPGIS_IMAGE_TAG}
   docker tag mapgis/${MAPGIS_PRODUCT_NAME}-gen-${IMAGE_OS_NAME} ${DOCKER_REGISTRY_URL}mapgis/${MAPGIS_PRODUCT_NAME}-gen-${IMAGE_OS_NAME}:${MAPGIS_IMAGE_TAG}
 
-	docker push ${DOCKER_REGISTRY_URL}nacos/nacos-server
-	docker push ${DOCKER_REGISTRY_URL}redis
 	docker push ${DOCKER_REGISTRY_URL}mapgis/${MAPGIS_PRODUCT_NAME}-mysql-${IMAGE_OS_NAME}:${MAPGIS_IMAGE_TAG}
 	docker push ${DOCKER_REGISTRY_URL}mapgis/${MAPGIS_PRODUCT_NAME}-gateway-${IMAGE_OS_NAME}:${MAPGIS_IMAGE_TAG}
 	docker push ${DOCKER_REGISTRY_URL}mapgis/${MAPGIS_PRODUCT_NAME}-monitor-${IMAGE_OS_NAME}:${MAPGIS_IMAGE_TAG}

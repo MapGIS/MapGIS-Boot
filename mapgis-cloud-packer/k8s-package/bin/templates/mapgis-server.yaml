@@ -15,7 +15,7 @@ spec:
       labels:
         {{- include "mapgis.selectorLabels" . | nindent 8 }}-gateway
     spec:
-      {{ include "mapgis.imagePullSecret" . }}
+      {{- include "mapgis.imagePullSecret" . | nindent 6 }}
       containers:
       - name: {{ include "mapgis.fullname" . }}-gateway
         image: {{ include "mapgis.imageRegistry" . }}/{{ include "mapgis.imageNamespace" . }}/{{ include "mapgis.imageGateway" . }}
@@ -90,7 +90,7 @@ spec:
       labels:
         {{- include "mapgis.selectorLabels" . | nindent 8 }}-monitor
     spec:
-      {{ include "mapgis.imagePullSecret" . }}
+      {{- include "mapgis.imagePullSecret" . | nindent 6 }}
       containers:
       - name: {{ include "mapgis.fullname" . }}-monitor
         image: {{ include "mapgis.imageRegistry" . }}/{{ include "mapgis.imageNamespace" . }}/{{ include "mapgis.imageMonitor" . }}
@@ -156,7 +156,7 @@ spec:
       labels:
         {{- include "mapgis.selectorLabels" . | nindent 8 }}-auth
     spec:
-      {{ include "mapgis.imagePullSecret" . }}
+      {{- include "mapgis.imagePullSecret" . | nindent 6 }}
       containers:
       - name: {{ include "mapgis.fullname" . }}-auth
         image: {{ include "mapgis.imageRegistry" . }}/{{ include "mapgis.imageNamespace" . }}/{{ include "mapgis.imageAuth" . }}
@@ -235,7 +235,7 @@ spec:
       labels:
         {{- include "mapgis.selectorLabels" . | nindent 8 }}-system
     spec:
-      {{ include "mapgis.imagePullSecret" . }}
+      {{- include "mapgis.imagePullSecret" . | nindent 6 }}
       containers:
       - name: {{ include "mapgis.fullname" . }}-system
         image: {{ include "mapgis.imageRegistry" . }}/{{ include "mapgis.imageNamespace" . }}/{{ include "mapgis.imageSystem" . }}
@@ -327,7 +327,7 @@ spec:
       labels:
         {{- include "mapgis.selectorLabels" . | nindent 8 }}-file
     spec:
-      {{ include "mapgis.imagePullSecret" . }}
+      {{- include "mapgis.imagePullSecret" . | nindent 6 }}
       containers:
       - name: {{ include "mapgis.fullname" . }}-file
         image: {{ include "mapgis.imageRegistry" . }}/{{ include "mapgis.imageNamespace" . }}/{{ include "mapgis.imageFile" . }}
@@ -406,7 +406,7 @@ spec:
       labels:
         {{- include "mapgis.selectorLabels" . | nindent 8 }}-job
     spec:
-      {{ include "mapgis.imagePullSecret" . }}
+      {{- include "mapgis.imagePullSecret" . | nindent 6 }}
       containers:
       - name: {{ include "mapgis.fullname" . }}-job
         image: {{ include "mapgis.imageRegistry" . }}/{{ include "mapgis.imageNamespace" . }}/{{ include "mapgis.imageJob" . }}
@@ -498,7 +498,7 @@ spec:
       labels:
         {{- include "mapgis.selectorLabels" . | nindent 8 }}-gen
     spec:
-      {{ include "mapgis.imagePullSecret" . }}
+      {{- include "mapgis.imagePullSecret" . | nindent 6 }}
       containers:
       - name: {{ include "mapgis.fullname" . }}-gen
         image: {{ include "mapgis.imageRegistry" . }}/{{ include "mapgis.imageNamespace" . }}/{{ include "mapgis.imageGen" . }}

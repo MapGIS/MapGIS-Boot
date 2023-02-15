@@ -16,6 +16,12 @@
     # 镜像标签
     MAPGIS_IMAGE_TAG=10.6.2.10
 
+    # 镜像操作系统名
+    IMAGE_OS_NAME=linux
+
+    # 镜像架构名
+    IMAGE_ARCH=x86_64
+
     # NACOS主机(用于微服务之间通信，一般不需要修改)
     NACOS_HOST=mapgis-xxx-nacos
 
