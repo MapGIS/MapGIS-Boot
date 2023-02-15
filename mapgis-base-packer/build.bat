@@ -17,7 +17,7 @@ if "%~1" neq "" set MVN_PROFILE=%~1
 echo "MVN_PROFILE:%MVN_PROFILE%"
 
 set COMPILE_FRONT=true
-if "%~2" == "SKIL_FRONT" set COMPILE_FRONT=false
+if "%~2" == "SKIP_FRONT" set COMPILE_FRONT=false
 
 if "%COMPILE_FRONT%" == "true" (
     echo. | call %CURRENT_DIR%/build-manager-front.bat
