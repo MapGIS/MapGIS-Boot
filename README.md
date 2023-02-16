@@ -303,7 +303,7 @@ npm install --registry=https://registry.npmmirror.com
 npm run serve
 ```
 
-打开浏览器，输入：[http://localhost:8000](http://localhost:8000/)，默认账号/密码 `admin/admin123`
+打开浏览器，输入：[http://localhost:8000](http://localhost:8000/)，默认账号/密码 `admin/cloud123.mapgis`
 若能正确展示登录页面，并能成功登录，菜单及页面展示正常，则表明环境搭建成功
 
 > 提示
