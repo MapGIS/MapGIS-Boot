@@ -37,9 +37,6 @@ public class WebMvcConfig implements WebMvcConfigurer {
         /** 本地文件上传路径 */
         registry.addResourceHandler(fileProperties.getPrefix() + "/**")
                 .addResourceLocations("file:" + fileProperties.getFullPath() + File.separator);
-
-        /** 前端静态资源配置 */
-        registry.addResourceHandler("/" + productConfig.getName() + "/static/**").addResourceLocations("classpath:/static/");
     }
 
     /**

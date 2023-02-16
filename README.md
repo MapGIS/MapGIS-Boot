@@ -187,9 +187,9 @@ sentinel >= 1.6.0
 > 这里 mapgis-xxx 请与产品标识保持一致
 > 字符集：utf8mb4、排序规则：utf8mb4_general_ci
 
-2、修改项目配置 (采用 MySQL 数据库需要修改 `DB_TYPE` 为 `mysql`)
+2、修改项目配置 (采用 MySQL 数据库需要修改 `xxx.storeType` 为 `mysql`)
 
-`mapgis-boot/local-script/config/application.properties`
+`mapgis-boot/home/config/application.properties`
 
 > 复制 application.example.properties 为 application.properties，可参考`application.example.properties`中变量。
 
@@ -199,10 +199,10 @@ sentinel >= 1.6.0
 
 ```
 # 数据源类型（支持`mysql`、`sqlite`，不设置默认为`sqlite`）
-DB_TYPE=mysql
+xxx.storeType=mysql
 ```
 
-> --spring.config.additional-location=file:local-script/config/
+> --spring.config.additional-location=file:home/config/
 
 3、运行 `mapgis-boot/mapgis-server/src/main/java/com/zondy/mapgis/MapApplication.java`，出现如下图表示启动成功
 

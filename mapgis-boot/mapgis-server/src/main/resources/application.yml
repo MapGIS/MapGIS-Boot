@@ -1,11 +1,16 @@
 # 开发环境配置
 server:
   # 服务器的HTTP端口，默认为8080
-  port: ${APP_PORT:8080}
+  port: ${xxx.port:8080}
   servlet:
     # 应用的访问路径
     context-path: /
-
+  error:
+    include-binding-errors: always
+    include-message: always
+    include-exception: true
+    # request param '&trace'
+    include-stacktrace: on_param
 # 日志配置
 logging:
   file:
@@ -14,8 +19,8 @@ logging:
 # Spring配置
 spring:
   profiles:
-    # 环境配置
-    active: dev
+    # 环境配置 默认为prod，开发环境下为 dev
+    active: prod
   # 资源信息
   messages:
     # 国际化资源文件路径
@@ -24,14 +29,9 @@ spring:
   servlet:
     multipart:
       # 单个文件大小
-      max-file-size: 10MB
+      max-file-size: 1GB
       # 设置总上传的文件大小
-      max-request-size: 20MB
-  # 服务模块
-  devtools:
-    restart:
-      # 热部署开关
-      enabled: true
+      max-request-size: 1GB
   mvc:
     static-path-pattern: /${mapgis.product.name}/static/**
   # 缓存配置
@@ -55,6 +55,36 @@ spring:
   # flyway配置
   flyway:
     enabled: false
+  web:
+    resources:
+      static-locations: file:resource/static/,classpath:/static/
+      cache:
+        cachecontrol:
+          max-age: 24H
+  datasource:
+    druid:
+      stat-view-servlet:
+        enabled: true
+        loginUsername: admin
+        loginPassword: cloud123.mapgis
+    dynamic:
+      druid:
+        initial-size: 5
+        min-idle: 5
+        maxActive: 20
+        maxWait: 60000
+        timeBetweenEvictionRunsMillis: 60000
+        minEvictableIdleTimeMillis: 300000
+        validationQuery: SELECT 1
+        testWhileIdle: true
+        testOnBorrow: false
+        testOnReturn: false
+        poolPreparedStatements: true
+        maxPoolPreparedStatementPerConnectionSize: 20
+        filters: stat,slf4j
+        connectionProperties: druid.stat.mergeSql\=true;druid.stat.slowSqlMillis\=5000
+      primary: master
+      strict: false
   # 配置freemarker
   freemarker:
     # 设置模板后缀名
@@ -69,6 +99,17 @@ spring:
     # 设置ftl文件路径
     template-loader-path:
       - classpath:/templates
+management:
+  endpoints:
+    jmx:
+      exposure:
+        exclude: '*'
+    web:
+      exposure:
+        include: '*'
+      base-path: /${mapgis.product.name}/rest/actuator
+  server:
+    add-application-context-header: true
 
 # MyBatis Plus配置
 mybatis-plus:
@@ -88,11 +129,11 @@ pagehelper:
 # Swagger配置
 swagger:
   # 是否开启swagger
-  enabled: ${SWAGGER_DOC_ENABLED:true}
+  enabled: true
   # 标题
-  title: ${SWAGGER_DOC_TIILE:MapGIS服务器产品 接口文档}
+  title: MapGIS服务器产品 接口文档
   # 描述
-  description: ${SWAGGER_DOC_DESC:MapGIS服务器产品}
+  description: MapGIS服务器产品
   version: @project.version@
 
 # SpringDoc配置
@@ -101,6 +142,10 @@ springdoc:
     # 开启Swagger UI界面
     enabled: ${swagger.enabled}
     path: /webjars/swagger-ui.html
+    groups-order: desc
+  api-docs:
+    groups:
+      enabled: true
 
 # API前缀
 api:
@@ -121,7 +166,7 @@ security:
   # 访问
   access:
     # 只读开关
-    readonlyEnabled: ${SECURITY_ACCESS_READONLY_ENABLED:false}
+    readonlyEnabled: false
 
 # 本地文件上传
 file:

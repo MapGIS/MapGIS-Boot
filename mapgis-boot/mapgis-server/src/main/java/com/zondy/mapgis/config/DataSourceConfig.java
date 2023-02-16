@@ -32,22 +32,22 @@ public class DataSourceConfig {
     @Autowired
     private DruidDataSourceCreator druidDataSourceCreator;
 
-    @Value("${DB_TYPE:sqlite}")
+    @Value("${${mapgis.product.name}.storeType:sqlite}")
     private String dbType;
 
-    @Value("${DB_HOST:localhost}")
+    @Value("${${mapgis.product.name}.datasource.host:localhost}")
     private String dbHost;
 
-    @Value("${DB_PORT:3306}")
+    @Value("${${mapgis.product.name}.datasource.port:3306}")
     private String dbPort;
 
-    @Value("${DB_NAME:${mapgis.product.full-name}}")
+    @Value("${${mapgis.product.name}.datasource.name:${mapgis.product.full-name}}")
     private String dbName;
 
-    @Value("${DB_USER:root}")
+    @Value("${${mapgis.product.name}.datasource.username:root}")
     private String dbUser;
 
-    @Value("${DB_PWD:cloud123.mapgis}")
+    @Value("${${mapgis.product.name}.datasource.password:cloud123.mapgis}")
     private String dbPwd;
 
     @Primary
