@@ -11,6 +11,7 @@ server:
     include-exception: true
     # request param '&trace'
     include-stacktrace: on_param
+
 # 日志配置
 logging:
   file:
@@ -99,6 +100,7 @@ spring:
     # 设置ftl文件路径
     template-loader-path:
       - classpath:/templates
+
 management:
   endpoints:
     jmx:
