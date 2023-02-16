@@ -42,7 +42,7 @@ public class SystemLogServiceImpl implements ISystemLogService, InitializingBean
     /**
      * 日志路径
      */
-    public String logDir = Paths.get(EnvUtils.getCurrentProjectPath(), "logs").toAbsolutePath().normalize().toString();
+    public String logDir = Paths.get(EnvUtils.getServerHomePath(), "logs").toAbsolutePath().normalize().toString();
 
     /**
      * grok对象

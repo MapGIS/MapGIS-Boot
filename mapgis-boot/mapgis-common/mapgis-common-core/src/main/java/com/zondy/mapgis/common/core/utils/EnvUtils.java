@@ -1,7 +1,9 @@
 package com.zondy.mapgis.common.core.utils;
 
+import cn.hutool.core.util.StrUtil;
 import cn.hutool.setting.dialect.Props;
 import com.sun.management.OperatingSystemMXBean;
+import com.zondy.mapgis.common.core.constant.Constants;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -90,10 +92,14 @@ public class EnvUtils {
     public static final String NACOS_DISCOVERY_SERVER_ADDR = "spring.cloud.nacos.discovery.server-addr";
 
     /**
-     * 获取当前项目路径
+     * 获取Home根目录的绝对路径
      */
-    public static String getCurrentProjectPath() {
-        return System.getProperty("user.dir");
+    public static String getServerHomePath() {
+        String p = System.getProperty(Constants.SERVER_HOME_PROPERTY_NAME, Paths.get("home").toString());
+        if (StrUtil.isBlank(p)) {
+            return Paths.get(p).toAbsolutePath().normalize().toString();
+        }
+        return p;
     }
 
     /**

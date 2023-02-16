@@ -61,7 +61,7 @@ public class DataSourceConfig {
         dynamicRoutingDataSource.setP6spy(properties.getP6spy());
         dynamicRoutingDataSource.setSeata(properties.getSeata());
 
-        String rootPath = EnvUtils.getCurrentProjectPath();
+        String rootPath = EnvUtils.getServerHomePath();
         DataSource masterDataSource = null;
         DataSource accessLogDataSource = null;
         DataSource hardwareMonitorDataSource = null;

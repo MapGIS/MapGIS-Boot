@@ -9,7 +9,7 @@ server:
 # 日志配置
 logging:
   file:
-    name: ./logs/${mapgis.product.full-name}-server
+    name: ${xxx.home:home}/logs/${mapgis.product.full-name}-server
 
 # Spring配置
 spring:

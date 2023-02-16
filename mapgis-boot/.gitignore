@@ -47,5 +47,10 @@ nbdist/
 /mapgis-server/src/main/resources/static/*
 /mapgis-module-system/mapgis-module-system-biz/src/main/resources/static/*
 
-/data/
 /temp/
+/home/temp/
+/home/upload/
+/home/data/
+/home/logs/
+/home/config/**
+!/home/config/*.example.properties

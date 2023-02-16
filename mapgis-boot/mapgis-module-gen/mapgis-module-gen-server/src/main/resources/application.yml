@@ -1,4 +1,4 @@
 # 日志配置
 logging:
   file:
-    name: ./logs/${mapgis.product.full-name}-gen-server
+    name: ${xxx.home:home}/logs/${mapgis.product.full-name}-gen-server

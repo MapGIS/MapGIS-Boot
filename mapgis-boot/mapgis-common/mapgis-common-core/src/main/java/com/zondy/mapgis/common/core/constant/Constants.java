@@ -57,7 +57,6 @@ public class Constants {
      */
     public static final String LOGIN_FAIL_STATUS = "1";
 
-
     /**
      * 登录成功
      */
@@ -118,4 +117,9 @@ public class Constants {
      * 更新HTTP访问日志配置的监听器名称
      */
     public static final String UPDATE_HTTP_ACCESS_LOG_CONFIG_LISTENER = "updateHttpAccessLogConfigListener";
+
+    /**
+     * Home根目录
+     */
+    public static final String SERVER_HOME_PROPERTY_NAME = "xxx.home";
 }

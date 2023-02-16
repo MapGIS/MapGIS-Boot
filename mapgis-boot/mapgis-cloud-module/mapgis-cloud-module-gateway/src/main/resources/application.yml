@@ -26,4 +26,4 @@ feign:
 # 日志配置
 logging:
   file:
-    name: ./logs/${mapgis.product.full-name}-gateway-server
+    name: ${xxx.home:home}/logs/${mapgis.product.full-name}-gateway-server

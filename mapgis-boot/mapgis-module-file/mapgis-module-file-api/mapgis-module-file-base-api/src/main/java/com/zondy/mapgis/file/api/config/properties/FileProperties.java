@@ -36,7 +36,7 @@ public class FileProperties {
      * @return 完整路径
      */
     public String getFullPath() {
-        String currentPath = EnvUtils.getCurrentProjectPath();
+        String currentPath = EnvUtils.getServerHomePath();
 
         return currentPath + path;
     }
