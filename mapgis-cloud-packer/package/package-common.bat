@@ -22,10 +22,12 @@ echo "À´Ô´Ä¿Â¼: %OUTPUT_DIR%"
 if not exist "%RELEASE_DIR%" mkdir "%RELEASE_DIR%"
 
 if exist "%RELEASE_DIR%/bin" rmdir /s/q "%RELEASE_DIR%/bin"
+if exist "%RELEASE_DIR%/config" rmdir /s/q "%RELEASE_DIR%/config"
 if exist "%RELEASE_DIR%/lib" rmdir /s/q "%RELEASE_DIR%/lib"
 if exist "%RELEASE_DIR%/sql" rmdir /s/q "%RELEASE_DIR%/sql"
 
 xcopy /y /e "%OUTPUT_DIR%\bin" "%RELEASE_DIR%\bin\"
+xcopy /y /e "%OUTPUT_DIR%\config" "%RELEASE_DIR%\config\"
 xcopy /y /e "%OUTPUT_DIR%\lib" "%RELEASE_DIR%\lib\"
 xcopy /y /e "%OUTPUT_DIR%\sql" "%RELEASE_DIR%\sql\"
 

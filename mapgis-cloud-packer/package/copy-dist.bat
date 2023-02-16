@@ -16,6 +16,7 @@ if "%~1" neq "" set "OUT_DIR=%~1"
 if exist "%OUT_DIR%" rmdir /s/q "%OUT_DIR%"
 
 mkdir "%OUT_DIR%"
+mkdir "%OUT_DIR%/config"
 mkdir "%OUT_DIR%/lib"
 mkdir "%OUT_DIR%/bin"
 mkdir "%OUT_DIR%/sql"
@@ -27,7 +28,12 @@ xcopy /y "%BOOT_DIR%\mapgis-module-system\mapgis-module-system-server\target\map
 xcopy /y "%BOOT_DIR%\mapgis-module-job\mapgis-module-job-server\target\mapgis-module-job-server-*.jar" "%OUT_DIR%\lib\"
 xcopy /y "%BOOT_DIR%\mapgis-module-file\mapgis-module-file-server\target\mapgis-module-file-server-*.jar" "%OUT_DIR%\lib\"
 xcopy /y "%BOOT_DIR%\mapgis-module-gen\mapgis-module-gen-server\target\mapgis-module-gen-server-*.jar" "%OUT_DIR%\lib\"
+
+xcopy /y "%BOOT_DIR%\home\config\application.example.properties" "%OUT_DIR%\config\"
+xcopy /y "%BOOT_DIR%\home\config\bootstrap.example.properties" "%OUT_DIR%\config\"
+
 xcopy /y /e "%BOOT_DIR%\cloud-script\sql" "%OUT_DIR%\sql\"
+
 xcopy /y /e "%CURRENT_DIR%\bin" "%OUT_DIR%\bin\"
 
 endlocal

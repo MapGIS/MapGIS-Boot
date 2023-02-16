@@ -22,10 +22,10 @@ if "%COMPILE_FORNT_BACK%" == "true" (
     echo 已跳过前端和后端编译
 )
 
-# 复制到输出目录
+rem 复制到输出目录
 echo. | call %ROOT_DIR_REV%/copy-dist.bat "%OUTPUT_DIR%"
 
-# 打包成发行包
+rem 打包成发行包
 echo. | call %ROOT_DIR_REV%/package-common.bat linux-x86_64 "%OUTPUT_DIR%"
 
 pause

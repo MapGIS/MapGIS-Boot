@@ -21,7 +21,10 @@ mkdir "%OUT_DIR%/lib"
 mkdir "%OUT_DIR%/bin"
 
 xcopy /y "%BOOT_DIR%\mapgis-server\target\mapgis-server-*.jar" "%OUT_DIR%\lib\"
-xcopy /y "%BOOT_DIR%\local-script\config\application.example.properties" "%OUT_DIR%\config\"
+
+xcopy /y "%BOOT_DIR%\home\config\application.example.properties" "%OUT_DIR%\config\"
+xcopy /y "%BOOT_DIR%\home\config\bootstrap.example.properties" "%OUT_DIR%\config\"
+
 xcopy /y /e "%CURRENT_DIR%\bin" "%OUT_DIR%\bin\"
 
 endlocal
