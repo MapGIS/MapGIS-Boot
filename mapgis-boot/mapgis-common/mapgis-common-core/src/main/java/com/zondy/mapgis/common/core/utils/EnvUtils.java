@@ -96,7 +96,7 @@ public class EnvUtils {
      */
     public static String getServerHomePath() {
         String p = System.getProperty(Constants.SERVER_HOME_PROPERTY_NAME, Paths.get("home").toString());
-        if (StrUtil.isBlank(p)) {
+        if (StrUtil.isNotBlank(p)) {
             return Paths.get(p).toAbsolutePath().normalize().toString();
         }
         return p;

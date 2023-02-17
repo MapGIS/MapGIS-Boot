@@ -11,6 +11,12 @@ server:
     include-exception: true
     # request param '&trace'
     include-stacktrace: on_param
+  ssl:
+    enabled: false
+    key-store: classpath:https/ldkeystore.p12
+    key-store-password: 123456
+    key-store-type: PKCS12
+    key-alias: undertow
 
 # 日志配置
 logging:

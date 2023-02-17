@@ -219,7 +219,7 @@
         where u.user_id = #{userId}
     </select>
 
-    <select id="checkUserNameUnique" parameterType="String" resultType="int">
+    <select id="checkUserNameUnique" parameterType="String" resultMap="SysUserResult">
         select user_id, user_name
         from sys_user
         where user_name = #{userName}
