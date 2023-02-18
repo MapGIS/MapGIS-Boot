@@ -101,7 +101,7 @@ const vueConfig = {
     proxy: {
       // detail: https://cli.vuejs.org/config/#devserver-proxy
       [process.env.VUE_APP_API_BASE_URL]: {
-        target: `http://127.0.0.1:8080`,
+        target: process.env.VUE_APP_API_URL,
         changeOrigin: true,
         pathRewrite: {
           ['^' + process.env.VUE_APP_API_BASE_URL]: ''
