@@ -30,9 +30,9 @@ export const indexRouterMap = [
  */
 export const otherRouterMap = [
   {
-    path: '/account/center',
+    path: '/account/settings',
     name: 'Center',
-    component: 'AccountCenter',
+    component: 'AccountSettings',
     meta: { title: '个人中心', noCache: true },
     hidden: true
   },
