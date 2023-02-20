@@ -107,6 +107,15 @@ export function filterDynamicRoutes(routes) {
   return res
 }
 
+function formatHasOneMenuChild(item) {
+  // 只有一个子路由且为菜单类型，直接将其提到外面
+  if (item.meta === undefined && item.name === undefined && item.children && item.children.length === 1) {
+    const child = item.children[0]
+    item = child
+  }
+  return item
+}
+
 /**
  * 格式化树形结构数据 生成 vue-router 层级路由表
  *
@@ -116,6 +125,7 @@ export function filterDynamicRoutes(routes) {
  */
 export const generator = (routerMap, parent) => {
   return routerMap.map(item => {
+    item = formatHasOneMenuChild(item)
     const { title, show, hideChildren, hiddenHeaderContent, hidden, icon, noCache } = item.meta || {}
     if (item.component) {
       // Layout ParentView 组件特殊处理
@@ -127,6 +137,7 @@ export const generator = (routerMap, parent) => {
         item.path = `${(parent && parent.path) || ''}/${item.path}`
       }
     }
+    const isInnerLink = item.meta && item.meta.routerType === 'innerLink'
     if (item.isFrame === 0) {
       item.target = '_blank'
     }
@@ -144,7 +155,7 @@ export const generator = (routerMap, parent) => {
         icon: allIcon[icon + 'Icon'] || icon,
         hiddenHeaderContent: hiddenHeaderContent,
         // 目前只能通过判断path的http链接来判断是否外链
-        target: validURL(item.path) ? '_blank' : '',
+        target: isInnerLink ? '_self' : validURL(item.path) ? '_blank' : '',
         permission: item.name,
         keepAlive: noCache === undefined ? false : !noCache,
         hidden: hidden
@@ -156,10 +167,14 @@ export const generator = (routerMap, parent) => {
       currentRouter.hidden = true
     }
     // antdv-pro的pro-layout要求每个路径需为全路径
-    if (!constantRouterComponents[item.component || item.key]) {
+    if (!isInnerLink && !constantRouterComponents[item.component || item.key]) {
       if (!validURL(item.path)) {
         currentRouter.path = `${(parent && parent.path) || ''}/${item.path}`
       }
+    }
+    // path中可能出现'//',导致路由异常
+    if (currentRouter.path && !validURL(currentRouter.path)) {
+      currentRouter.path = currentRouter.path.replace('//', '/')
     }
     // 是否设置了隐藏子菜单
     if (hideChildren) {
@@ -170,7 +185,13 @@ export const generator = (routerMap, parent) => {
       // Recursion
       currentRouter.children = generator(item.children, currentRouter)
       if (!item.meta || !item.meta.noRedirect) {
-        currentRouter.redirect = currentRouter.children[0].path
+        const children = currentRouter.children
+        for (let i = 0; i < children.length; i++) {
+          if (!children[i].hidden) {
+            currentRouter.redirect = currentRouter.children[i].path
+            break
+          }
+        }
       }
     }
     return currentRouter
