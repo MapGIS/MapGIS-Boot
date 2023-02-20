@@ -68,10 +68,12 @@
 
 <script>
 import { getCodeImg, register } from '@/api/login'
-import { getSystemConfig } from '@/api/system/config'
+import { serverMixin } from '@/store/server-mixin'
+
 export default {
   name: 'Register',
   components: {},
+  mixins: [serverMixin],
   data() {
     const validateNewPass = (rule, value, callback) => {
       if (value === '') {
@@ -136,11 +138,8 @@ export default {
   },
   computed: {},
   created() {},
-  async mounted() {
-    const systemConfigResult = await getSystemConfig()
-    const systemConfig = systemConfigResult.data
-
-    this.loginConfig = systemConfig.loginConfig
+  mounted() {
+    this.loginConfig = this.systemConfig.loginConfig
     if (this.loginConfig.captchaEnabled) {
       this.getCode()
     }

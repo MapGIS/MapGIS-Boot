@@ -7,6 +7,7 @@ import tagsView from './modules/tagsView'
 import permission from './modules/async-router'
 import microApps from './modules/micro-app'
 import cas from './modules/cas'
+import server from './modules/server'
 
 import getters from './getters'
 
@@ -19,7 +20,8 @@ export default new Vuex.Store({
     tagsView,
     permission,
     microApps,
-    cas
+    cas,
+    server
   },
   state: {},
   mutations: {},

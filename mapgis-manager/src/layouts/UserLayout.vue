@@ -17,7 +17,7 @@
         <router-view />
       </div>
       <div class="footer">
-        <div class="copyright">{{ copyright }}</div>
+        <div class="copyright">{{ fullCopyright }}</div>
       </div>
     </div>
   </div>
@@ -25,21 +25,17 @@
 
 <script>
 import { deviceMixin } from '@/store/device-mixin'
+import { serverMixin } from '@/store/server-mixin'
 import SelectLang from '@/components/SelectLang'
-import { getBaseConfig, getSystemConfig } from '@/api/system/config'
 
 export default {
   name: 'UserLayout',
-  mixins: [deviceMixin],
+  mixins: [deviceMixin, serverMixin],
   components: {
     SelectLang
   },
   data() {
-    return {
-      logo: '',
-      title: '',
-      copyright: ''
-    }
+    return {}
   },
   computed: {
     backgourndImageUrl() {
@@ -48,22 +44,6 @@ export default {
   },
   mounted() {
     document.body.classList.add('userLayout')
-
-    getBaseConfig().then(response => {
-      const configValue = response.data
-      if (configValue) {
-        const {
-          header: { logo, title },
-          footer: { copyright }
-        } = JSON.parse(configValue)
-        this.logo = logo
-        this.title = title
-
-        getSystemConfig().then(res => {
-          this.copyright = `${copyright} ${res.data.fullVersion}`
-        })
-      }
-    })
   },
   beforeDestroy() {
     document.body.classList.remove('userLayout')

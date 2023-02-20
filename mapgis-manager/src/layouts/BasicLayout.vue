@@ -39,7 +39,7 @@
       />
     </template>
     <template v-slot:footerRender v-if="!hideFooter">
-      <global-footer :copyright="copyright" />
+      <global-footer :copyright="fullCopyright" />
     </template>
     <keep-alive>
       <router-view />
@@ -80,7 +80,7 @@ import RightContent from '@/components/GlobalHeader/RightContent'
 import GlobalFooter from '@/components/GlobalFooter'
 import Ads from '@/components/Other/CarbonAds'
 import { baseMixin } from '@/store/app-mixin'
-import { getBaseConfig, getSystemConfig } from '@/api/system/config'
+import { serverMixin } from '@/store/server-mixin'
 
 export default {
   name: 'BasicLayout',
@@ -91,7 +91,7 @@ export default {
     Ads,
     MultiTab
   },
-  mixins: [baseMixin],
+  mixins: [baseMixin, serverMixin],
   data() {
     return {
       // preview.pro.antdv.com only use.
@@ -121,10 +121,7 @@ export default {
         hideBreadcrumb: defaultSettings.hideBreadcrumb
       },
       // 媒体查询
-      query: {},
-      logo: '',
-      title: '',
-      copyright: ''
+      query: {}
     }
   },
   computed: {
@@ -215,22 +212,6 @@ export default {
     }
 
     updateTheme(this.navTheme, this.settings.primaryColor)
-
-    getBaseConfig().then(response => {
-      const configValue = response.data
-      if (configValue) {
-        const {
-          header: { logo, title },
-          footer: { copyright }
-        } = JSON.parse(configValue)
-        this.logo = logo
-        this.title = title
-
-        getSystemConfig().then(res => {
-          this.copyright = `${copyright} ${res.data.fullVersion}`
-        })
-      }
-    })
   },
   methods: {
     i18nRender,

@@ -65,7 +65,7 @@
 <script>
 import { mapActions } from 'vuex'
 import { getIsNeedCode, getCodeImg } from '@/api/login'
-import { getSystemConfig } from '@/api/system/config'
+import { serverMixin } from '@/store/server-mixin'
 import { LOGIN_USERNAME, LOGIN_PASSWORD, LOGIN_REMEMBERME } from '@/store/mutation-types'
 import storage from 'store'
 import ThirdLogin from './third/ThirdLogin'
@@ -76,6 +76,7 @@ export default {
     ThirdLogin,
     CasLogin
   },
+  mixins: [serverMixin],
   data() {
     return {
       codeUrl: '',
@@ -120,14 +121,11 @@ export default {
   created() {
     this.getStorage()
   },
-  async mounted() {
-    const systemConfigResult = await getSystemConfig()
-    const systemConfig = systemConfigResult.data
-
-    this.casConfig = systemConfig.casConfig
-    this.oauthConfig = systemConfig.oauthConfig
-    this.registerConfig = systemConfig.registerConfig
-    this.loginConfig = systemConfig.loginConfig
+  mounted() {
+    this.casConfig = this.systemConfig.casConfig
+    this.oauthConfig = this.systemConfig.oauthConfig
+    this.registerConfig = this.systemConfig.registerConfig
+    this.loginConfig = this.systemConfig.loginConfig
 
     if (this.captchaEnabled) {
       this.getCode()

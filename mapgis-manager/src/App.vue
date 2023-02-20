@@ -1,7 +1,7 @@
 <template>
   <a-config-provider :locale="locale">
     <div id="app">
-      <router-view />
+      <router-view v-if="initialized" />
     </div>
   </a-config-provider>
 </template>
@@ -10,13 +10,20 @@
 import { setDocumentTitle, setFavicon } from '@/utils/domUtil'
 import watermark from 'watermark-dom'
 import { i18nRender } from '@/locales'
-import { getBaseConfig } from '@/api/system/config'
+import { serverMixin } from '@/store/server-mixin'
 
 export default {
+  mixins: [serverMixin],
   data() {
-    return {}
+    return {
+      initialized: false
+    }
   },
-  mounted() {
+  async mounted() {
+    await this.$store.dispatch('getSystemConfig')
+    await this.$store.dispatch('getBaseConfig')
+    this.initialized = true
+    setFavicon(this.baseConfig.header.logo)
     watermark.load({
       watermark_txt: 'MapGIS Boot',
       watermark_width: 300,
@@ -28,15 +35,6 @@ export default {
       watermark_x: 0,
       watermark_y: 0,
       monitor: false
-    })
-    getBaseConfig().then(response => {
-      const configValue = response.data
-      if (configValue) {
-        const {
-          header: { logo }
-        } = JSON.parse(configValue)
-        setFavicon(logo)
-      }
     })
   },
   destroyed() {

@@ -15,7 +15,9 @@ const getters = {
   cachedViews: state => state.tagsView.cachedViews,
   microApps: state => state.microApps.apps,
   mounting: state => state.microApps.mounting,
-  casInfo: state => state.cas.info
+  casInfo: state => state.cas.info,
+  systemConfig: state => state.server.systemConfig,
+  baseConfig: state => state.server.baseConfig
 }
 
 export default getters
