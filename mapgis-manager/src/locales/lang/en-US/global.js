@@ -15,7 +15,7 @@ export default {
   reset: 'Reset',
   save: 'Save',
   cancel: 'Cancel',
-  confirm: 'Confirm',
+  ok: 'OK',
   submit: 'Submit',
   upload: 'Upload',
   open: 'Open',

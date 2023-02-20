@@ -116,7 +116,7 @@
       <a-form label-width="100px">
         <footer-tool-bar :collapsed="sideCollapsed">
           <a-space>
-            <a-button type="primary" :loading="submitLoading" @click="submitForm">{{ $t('save') }}</a-button>
+            <a-button type="primary" :loading="submitLoading" @click="submitForm">{{ $t('ok') }}</a-button>
             <a-button type="dashed" @click="back">{{ $t('cancel') }}</a-button>
           </a-space>
         </footer-tool-bar>

@@ -16,7 +16,7 @@
       <a-input-password v-model="form.confirmPassword" :placeholder="$t('please.password.confirm')" :maxLength="16" />
     </a-form-model-item>
     <a-form-model-item :wrapper-col="{ lg: { span: 10, offset: 7 }, sm: { span: 17, offset: 7 } }">
-      <a-button type="primary" :loading="submitLoading" @click="submit">{{ $t('save') }}</a-button>
+      <a-button type="primary" :loading="submitLoading" @click="submit" icon="save">{{ $t('save') }}</a-button>
     </a-form-model-item>
   </a-form-model>
 </template>

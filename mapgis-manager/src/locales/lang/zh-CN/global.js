@@ -15,7 +15,7 @@ export default {
   reset: '重置',
   save: '保存',
   cancel: '取消',
-  confirm: '确定',
+  ok: '确定',
   submit: '提交',
   upload: '上传',
   open: '打开',

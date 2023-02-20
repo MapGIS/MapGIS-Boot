@@ -35,7 +35,7 @@
       </a-select>
     </a-form-model-item>
     <a-form-model-item :wrapper-col="{ lg: { span: 10, offset: 7 }, sm: { span: 17, offset: 7 } }">
-      <a-button type="primary" :loading="submitLoading" @click="submit" v-hasPermi="['system:config:edit']">
+      <a-button type="primary" :loading="submitLoading" @click="submit" v-hasPermi="['system:config:edit']" icon="save">
         {{ $t('save') }}
       </a-button>
     </a-form-model-item>

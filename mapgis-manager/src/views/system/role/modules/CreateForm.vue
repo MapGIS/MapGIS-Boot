@@ -72,7 +72,7 @@
       <div class="bottom-control">
         <a-space>
           <a-button type="primary" :loading="submitLoading" @click="submitForm" :disabled="updateDisable">
-            {{ $t('save') }}
+            {{ $t('ok') }}
           </a-button>
           <a-button type="dashed" @click="cancel">{{ $t('cancel') }}</a-button>
         </a-space>

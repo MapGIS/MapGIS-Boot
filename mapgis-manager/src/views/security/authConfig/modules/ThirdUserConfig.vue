@@ -15,6 +15,7 @@
           @click="submit"
           v-hasPermi="['system:config:edit']"
           style="float: right"
+          icon="save"
         >
           {{ $t('save') }}
         </a-button>
