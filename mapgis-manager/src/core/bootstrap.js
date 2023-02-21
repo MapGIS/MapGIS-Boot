@@ -16,7 +16,9 @@ import {
   TABLE_BORDERED,
   HIDE_FOOTER,
   HIDE_BREADCRUMB,
-  FORM_MODE
+  FORM_MODE,
+  ENABLE_DEPARTMENT,
+  ENABLE_POST
 } from '@/store/mutation-types'
 import defaultSettings from '@/config/defaultSettings'
 
@@ -39,5 +41,7 @@ export default function Initializer() {
   store.commit(HIDE_FOOTER, storage.get(HIDE_FOOTER, defaultSettings.hideFooter))
   store.commit(HIDE_BREADCRUMB, storage.get(HIDE_BREADCRUMB, defaultSettings.hideBreadcrumb))
   store.commit(FORM_MODE, storage.get(FORM_MODE, defaultSettings.formMode))
+  store.commit(ENABLE_DEPARTMENT, storage.get(ENABLE_DEPARTMENT, defaultSettings.enableDepartment))
+  store.commit(ENABLE_POST, storage.get(ENABLE_POST, defaultSettings.enablePost))
   // last step
 }

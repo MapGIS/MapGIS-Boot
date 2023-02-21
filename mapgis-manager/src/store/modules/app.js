@@ -15,7 +15,9 @@ import {
   TABLE_BORDERED,
   HIDE_FOOTER,
   HIDE_BREADCRUMB,
-  FORM_MODE
+  FORM_MODE,
+  ENABLE_DEPARTMENT,
+  ENABLE_POST
 } from '@/store/mutation-types'
 import { loadLanguageAsync } from '@/locales'
 
@@ -37,7 +39,9 @@ const app = {
     tableBordered: false,
     hideFooter: false,
     hideBreadcrumb: false,
-    formMode: ''
+    formMode: '',
+    enableDepartment: true,
+    enablePost: true
   },
   mutations: {
     [SIDE_COLLAPSED]: (state, type) => {
@@ -103,6 +107,14 @@ const app = {
     [FORM_MODE]: (state, formMode) => {
       state.formMode = formMode
       storage.set(FORM_MODE, formMode)
+    },
+    [ENABLE_DEPARTMENT]: (state, enable) => {
+      state.enableDepartment = enable
+      storage.set(ENABLE_DEPARTMENT, enable)
+    },
+    [ENABLE_POST]: (state, enable) => {
+      state.enablePost = enable
+      storage.set(ENABLE_POST, enable)
     }
   },
   actions: {

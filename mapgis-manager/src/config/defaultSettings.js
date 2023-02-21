@@ -26,5 +26,7 @@ module.exports = {
   hideFooter: false,
   hideBreadcrumb: false,
   formMode: 'Drawer', // crud form mode: `Drawer` or `Modal`
+  enableDepartment: true,
+  enablePost: true,
   production: process.env.NODE_ENV === 'production' && process.env.VUE_APP_PREVIEW !== 'true'
 }

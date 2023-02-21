@@ -171,7 +171,9 @@ import {
   TABLE_BORDERED,
   HIDE_FOOTER,
   HIDE_BREADCRUMB,
-  FORM_MODE
+  FORM_MODE,
+  ENABLE_DEPARTMENT,
+  ENABLE_POST
 } from '@/store/mutation-types'
 import { baseMixin } from '@/store/app-mixin'
 import { tableMixin } from '@/store/table-mixin'
@@ -203,7 +205,10 @@ export default {
         tableBordered: defaultSettings.tableBordered,
         hideFooter: defaultSettings.hideFooter,
         hideBreadcrumb: defaultSettings.hideBreadcrumb,
-        formMode: defaultSettings.formMode
+        formMode: defaultSettings.formMode,
+
+        enableDepartment: defaultSettings.enableDepartment,
+        enablePost: defaultSettings.enablePost
       }
     }
   },
@@ -278,6 +283,12 @@ export default {
         case 'formMode':
           this.$store.commit(FORM_MODE, value)
           break
+        case 'enableDepartment':
+          this.$store.commit(ENABLE_DEPARTMENT, value)
+          break
+        case 'enablePost':
+          this.$store.commit(ENABLE_POST, value)
+          break
       }
     },
     reset() {
@@ -294,6 +305,8 @@ export default {
       this.handleChange('hideFooter', this.settings.hideFooter)
       this.handleChange('hideBreadcrumb', this.settings.hideBreadcrumb)
       this.handleChange('formMode', this.settings.formMode)
+      this.handleChange('enableDepartment', this.settings.enableDepartment)
+      this.handleChange('enablePost', this.settings.enablePost)
     }
   }
 }

@@ -18,10 +18,10 @@
           <a-form-model-item :label="$t('usergroup')" ref="userGroup">
             <span>{{ userGroup }}</span>
           </a-form-model-item>
-          <a-form-model-item :label="$t('department')" ref="deptName">
+          <a-form-model-item v-if="enableDepartment" :label="$t('department')" ref="deptName">
             <span>{{ user.dept && user.dept.deptName }}</span>
           </a-form-model-item>
-          <a-form-model-item :label="$t('post')" ref="postGroup">
+          <a-form-model-item v-if="enablePost" :label="$t('post')" ref="postGroup">
             <span>{{ postGroup }}</span>
           </a-form-model-item>
           <a-form-model-item :label="$t('user.nickname')" ref="nickName" prop="nickName">
@@ -119,7 +119,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['nickname', 'avatar'])
+    ...mapGetters(['nickname', 'avatar', 'enableDepartment', 'enablePost'])
   },
   mounted() {
     this.getUser()

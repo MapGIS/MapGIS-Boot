@@ -2,11 +2,11 @@
   <page-header-wrapper>
     <a-card :bordered="false">
       <a-row :gutter="24">
-        <a-col :span="4">
+        <a-col v-if="enableDepartment" :span="4">
           <!-- 部门树 -->
           <dept-tree ref="deptTree" :deptOptions="deptOptions" @select="clickDeptNode" />
         </a-col>
-        <a-col :span="20">
+        <a-col :span="enableDepartment ? 20 : 24">
           <!-- 条件搜索 -->
           <div class="table-page-search-wrapper">
             <a-form layout="inline">
@@ -228,6 +228,7 @@ import CreateForm from './modules/CreateForm'
 import ImportExcel from './modules/ImportExcel'
 import DeptTree from './modules/DeptTree'
 import { tableMixin } from '@/store/table-mixin'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'User',
@@ -367,8 +368,34 @@ export default {
       this.roleOptions = response.roles
     })
   },
-  computed: {},
-  watch: {},
+  computed: {
+    ...mapGetters(['enableDepartment'])
+  },
+  watch: {
+    enableDepartment: {
+      immediate: true,
+      handler(nv) {
+        if (nv) {
+          if (
+            !this.columns.find(column => {
+              return column.dataIndex === 'dept.deptName'
+            })
+          ) {
+            this.columns.splice(3, 0, {
+              title: this.$t('department'),
+              dataIndex: 'dept.deptName',
+              scopedSlots: { customRender: 'dept.deptName' },
+              align: 'center'
+            })
+          }
+        } else {
+          this.columns = this.columns.filter(column => {
+            return column.dataIndex !== 'dept.deptName'
+          })
+        }
+      }
+    }
+  },
   methods: {
     totalItems(total) {
       const totalText = this.$t('result.total')

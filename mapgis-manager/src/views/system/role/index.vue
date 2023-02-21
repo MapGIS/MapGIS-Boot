@@ -120,7 +120,7 @@
               {{ $t('more') }}
             </a>
             <a-menu slot="overlay">
-              <a-menu-item>
+              <a-menu-item v-if="enableDepartment">
                 <a @click="$refs.createDataScopeForm.handleDataScope(record)">
                   <a-icon type="lock" />
                   {{ $t('security.role.data.permission') }}
@@ -157,6 +157,7 @@ import { listRole, delRole } from '@/api/system/role'
 import CreateForm from './modules/CreateForm'
 import CreateDataScopeForm from './modules/CreateDataScopeForm'
 import { tableMixin } from '@/store/table-mixin'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'Role',
@@ -240,7 +241,7 @@ export default {
   created() {
     this.getList()
   },
-  computed: {},
+  computed: { ...mapGetters(['enableDepartment']) },
   watch: {},
   methods: {
     totalItems(total) {

@@ -72,7 +72,9 @@ import {
   TABLE_BORDERED,
   HIDE_FOOTER,
   HIDE_BREADCRUMB,
-  FORM_MODE
+  FORM_MODE,
+  ENABLE_DEPARTMENT,
+  ENABLE_POST
 } from '@/store/mutation-types'
 
 import defaultSettings from '@/config/defaultSettings'
@@ -285,6 +287,12 @@ export default {
           break
         case 'formMode':
           this.$store.commit(FORM_MODE, value)
+          break
+        case 'enableDepartment':
+          this.$store.commit(ENABLE_DEPARTMENT, value)
+          break
+        case 'enablePost':
+          this.$store.commit(ENABLE_POST, value)
           break
       }
     }

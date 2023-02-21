@@ -15,7 +15,10 @@ const baseMixin = {
       sideCollapsed: state => state.app.sideCollapsed,
       multiTab: state => state.app.multiTab,
       hideFooter: state => state.app.hideFooter,
-      hideBreadcrumb: state => state.app.hideBreadcrumb
+      hideBreadcrumb: state => state.app.hideBreadcrumb,
+
+      enableDepartment: state => state.app.enableDepartment,
+      enablePost: state => state.app.enablePost
     }),
     isTopMenu() {
       return this.layout === 'topmenu' || this.layout === 'mixmenu' || this.layout === 'mixmenu-center'

@@ -64,7 +64,7 @@
           </a-select-option>
         </a-select>
       </a-form-model-item>
-      <a-form-model-item :label="$t('department')" prop="deptId">
+      <a-form-model-item v-if="enableDepartment" :label="$t('department')" prop="deptId">
         <a-tree-select
           v-model="form.deptId"
           style="width: 100%"
@@ -76,7 +76,7 @@
         >
         </a-tree-select>
       </a-form-model-item>
-      <a-form-model-item :label="$t('post')" prop="postIds">
+      <a-form-model-item v-if="enablePost" :label="$t('post')" prop="postIds">
         <a-select mode="multiple" v-model="form.postIds" :placeholder="$t('please.select')">
           <a-select-option v-for="(d, index) in postOptions" :key="index" :value="d.postId">
             {{ d.postName }}
@@ -116,6 +116,7 @@
 <script>
 import { getUser, addUser, updateUser } from '@/api/system/user'
 import { formMixin } from '@/store/form-mixin'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'CreateForm',
@@ -234,7 +235,7 @@ export default {
       this.initPassword = response.data
     })
   },
-  computed: {},
+  computed: { ...mapGetters(['enableDepartment', 'enablePost']) },
   watch: {},
   methods: {
     handleInitPasswordChange(check) {
