@@ -406,7 +406,10 @@ export default {
         container2.style.height = (window.innerHeight - 300) * 0.5 + 'px'
         container3.style.height = (window.innerHeight - 300) * 0.5 + 'px'
         container4.style.height = (window.innerHeight - 300) * 0.5 + 'px'
+      } else {
+        return
       }
+
       const ec = echarts
       this.cpuEchart = ec.init(container1)
       this.memoryEChart = ec.init(container2)
