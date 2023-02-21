@@ -14,7 +14,7 @@ export default {
     }
   },
   actions: {
-    GenerateMicroApps({ commit }) {
+    generateMicroApps({ commit }) {
       return new Promise(resolve => {
         getMicroApps().then(res => {
           commit('SET_APPS', res.data)

@@ -29,16 +29,16 @@ router.beforeEach((to, from, next) => {
       if (store.getters.roles.length === 0) {
         // request login userInfo
         store
-          .dispatch('GetInfo')
+          .dispatch('getInfo')
           .then(async res => {
             // generate micro apps
-            await store.dispatch('GenerateMicroApps')
+            await store.dispatch('generateMicroApps')
             // get cas info
-            await store.dispatch('GetCasInfo')
+            await store.dispatch('getCasInfo')
             // const roles = res.result && res.result.role
             const roles = res.roles
             // generate dynamic router
-            store.dispatch('GenerateRoutes', { roles }).then(() => {
+            store.dispatch('generateRoutes', { roles }).then(() => {
               // 根据roles权限生成可访问的路由表
               // 动态添加可访问路由表
               router.addRoutes(store.getters.addRouters)
@@ -61,7 +61,7 @@ router.beforeEach((to, from, next) => {
               description: '请求用户信息失败，请重试'
             })
             // 失败时，获取用户信息失败时，调用登出，来清空历史保留信息
-            store.dispatch('Logout').then(() => {
+            store.dispatch('logout').then(() => {
               location.href = '/'
             })
           })
@@ -108,7 +108,7 @@ router.afterEach(() => {
 
 function validateToken(casInfo, token, to, from, next) {
   store
-    .dispatch('ValidateLogin', token)
+    .dispatch('validateLogin', token)
     .then(res => {
       const url = document.location.toString().split('?')[0]
       window.location.href = url

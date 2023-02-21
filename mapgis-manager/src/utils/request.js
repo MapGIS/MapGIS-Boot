@@ -84,7 +84,7 @@ request.interceptors.response.use(res => {
               },
               on: {
                 click: () => {
-                  store.dispatch('Logout').then(() => {
+                  store.dispatch('logout').then(() => {
                     isReloginShow = false
                     if (!store.getters.casInfo.enabled) {
                       location.href = '/'

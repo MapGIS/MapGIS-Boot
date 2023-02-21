@@ -153,7 +153,7 @@ export default {
     rememberMe(e) {
       this.form.rememberMe = e.target.checked
     },
-    ...mapActions(['Login', 'Logout']),
+    ...mapActions(['login', 'logout']),
     handleSubmit() {
       this.logining = true
       this.$refs.form.validate(valid => {
@@ -167,7 +167,7 @@ export default {
             storage.remove(LOGIN_PASSWORD)
             storage.remove(LOGIN_REMEMBERME)
           }
-          this.Login(this.form)
+          this.login(this.form)
             .then(res => this.loginSuccess(res))
             .catch(err => this.requestFailed(err))
             .finally(() => {

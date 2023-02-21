@@ -10,7 +10,7 @@ export default {
     }
   },
   actions: {
-    GetCasInfo({ commit }) {
+    getCasInfo({ commit }) {
       return new Promise(resolve => {
         getSystemConfig().then(res => {
           commit('SET_CAS_INFO', res.data.casConfig)

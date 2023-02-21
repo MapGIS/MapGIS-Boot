@@ -47,7 +47,7 @@ export default {
         title: this.$t('tip'),
         content: this.$t('confirm.logout'),
         onOk: () => {
-          return this.$store.dispatch('Logout').then(() => {
+          return this.$store.dispatch('logout').then(() => {
             if (!this.$store.getters.casInfo.enabled) {
               location.href = '/'
             }

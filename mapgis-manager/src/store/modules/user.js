@@ -11,7 +11,6 @@ const user = {
     roles: [],
     info: {}
   },
-
   mutations: {
     SET_TOKEN: (state, token) => {
       state.token = token
@@ -32,10 +31,9 @@ const user = {
       state.permissions = permissions
     }
   },
-
   actions: {
     // 登录
-    Login({ commit }, userInfo) {
+    login({ commit }, userInfo) {
       return new Promise((resolve, reject) => {
         login(userInfo)
           .then(res => {
@@ -48,9 +46,8 @@ const user = {
           })
       })
     },
-
     // 获取用户信息
-    GetInfo({ commit, state }) {
+    getInfo({ commit, state }) {
       return new Promise((resolve, reject) => {
         getInfo(state.token)
           .then(res => {
@@ -76,9 +73,8 @@ const user = {
           })
       })
     },
-
     // 登出
-    Logout({ commit, state, rootState }) {
+    logout({ commit, state, rootState }) {
       return new Promise((resolve, reject) => {
         logout(state.token)
           .then(() => {
@@ -97,9 +93,8 @@ const user = {
           })
       })
     },
-
     // 第三方登录
-    ThirdLogin({ commit }, param) {
+    thirdLogin({ commit }, param) {
       return new Promise((resolve, reject) => {
         thirdLogin(param.token, param.source)
           .then(res => {
@@ -112,9 +107,8 @@ const user = {
           })
       })
     },
-
     // CAS登录
-    ValidateLogin({ commit }, token) {
+    validateLogin({ commit }, token) {
       return new Promise((resolve, reject) => {
         casLogin(token)
           .then(res => {

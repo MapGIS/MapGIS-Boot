@@ -21,7 +21,7 @@ const thirdLoginMixin = {
   },
   created() {},
   methods: {
-    ...mapActions(['ThirdLogin']),
+    ...mapActions(['thirdLogin']),
     onThirdLogin(source) {
       const loginUrl = `${window._CONFIG['domainURL']}${window._CONFIG['apiPathManagerPrefix']}/auth/thirdLogin/render/${source}`
       window.open(
@@ -65,7 +65,7 @@ const thirdLoginMixin = {
         const param = {}
         param.source = this.thirdType
         param.token = token
-        this.ThirdLogin(param)
+        this.thirdLogin(param)
           .then(res => this.loginSuccess(res))
           .catch(err => this.requestFailed(err))
       }

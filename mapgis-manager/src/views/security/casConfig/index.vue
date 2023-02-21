@@ -108,7 +108,7 @@ export default {
           updateConfig(this.configInfo)
             .then(response => {
               // 更新store中cas信息
-              this.$store.dispatch('GetCasInfo')
+              this.$store.dispatch('getCasInfo')
               this.$message.success(settingMessage, 3)
             })
             .finally(() => {
