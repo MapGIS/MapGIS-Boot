@@ -1,6 +1,6 @@
 // eslint-disable-next-line
 import { getRouters } from '@/api/menu'
-import { indexRouterMap, otherRouterMap } from '@/config/router.config'
+import { staticMenuRouterMap, otherRouterMap } from '@/config/router.config'
 import allIcon from '@/core/icons'
 import { validURL } from '@/utils/validate'
 import { UserLayout, BlankLayout, PageView } from '@/layouts'
@@ -38,27 +38,11 @@ const notFoundRouter = {
 // 根级菜单
 const rootRouter = {
   key: '',
-  name: 'index',
+  name: 'rootIndex',
   path: '',
   component: 'BasicLayout',
-  redirect: '/index',
-  meta: {
-    title: '总览'
-  },
+  redirect: '/dashboard',
   children: []
-}
-
-/**
- * 为解决缓存问题，自定义页面添加一层父级
- */
-const bashRouter = {
-  path: '/',
-  name: '',
-  component: 'Layout',
-  hidden: true,
-  meta: {
-    noRedirect: true
-  }
 }
 
 /**
@@ -71,15 +55,7 @@ export const generatorDynamicRouter = token => {
     // 向后端请求路由数据
     getRouters()
       .then(res => {
-        const menuNav = []
-        const routerData = res.data
-        const asyncRoutes = filterDynamicRoutes(otherRouterMap)
-        bashRouter.children = asyncRoutes
-        routerData.unshift(bashRouter)
-        rootRouter.children = indexRouterMap.concat(routerData)
-        menuNav.push(rootRouter)
-        const routers = generator(menuNav)
-        routers.push(notFoundRouter)
+        const routers = generatorRouter(staticMenuRouterMap.concat(res.data))
         resolve(routers)
       })
       .catch(err => {
@@ -88,23 +64,44 @@ export const generatorDynamicRouter = token => {
   })
 }
 
+export const generatorStaticRouter = () => {
+  return new Promise((resolve, reject) => {
+    resolve(generatorRouter(staticMenuRouterMap))
+  })
+}
+
+function generatorRouter(routerData) {
+  const menuNav = []
+  // 其他非菜单路由，需要进行权限过滤处理
+  const filterOtherRouterMap = filterDynamicRoute(otherRouterMap)
+  filterOtherRouterMap && routerData.unshift(filterOtherRouterMap)
+  // 这里需要套一个根级菜单
+  rootRouter.children = routerData
+  menuNav.push(rootRouter)
+  const routers = generator(menuNav)
+  routers.push(notFoundRouter)
+  return routers
+}
+
 // 动态路由遍历，验证是否具备权限
-export function filterDynamicRoutes(routes) {
-  const res = []
-  routes.forEach(route => {
+export function filterDynamicRoute(route) {
+  if (route) {
     if (route.permissions) {
       if (auth.hasPermiOr(route.permissions)) {
-        res.push(route)
+        return route
       }
     } else if (route.roles) {
       if (auth.hasRoleOr(route.roles)) {
-        res.push(route)
+        return route
       }
+    } else if (route.children && route.children.length > 0) {
+      route.children = route.children.map(t => filterDynamicRoute(t)).filter(t => !!t)
+      return route
     } else {
-      res.push(route)
+      return route
     }
-  })
-  return res
+  }
+  return null
 }
 
 function formatHasOneMenuChild(item) {

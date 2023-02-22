@@ -14,11 +14,14 @@ NProgress.configure({ showSpinner: false }) // NProgress Configuration
 
 const allowList = ['login', 'register'] // no redirect allowList
 const loginRoutePath = '/user/login'
-const defaultRoutePath = '/index'
+const defaultRoutePath = ''
+const indexRoutePath = '/dashboard'
 
 router.beforeEach((to, from, next) => {
   NProgress.start() // start progress bar
-  to.meta && typeof to.meta.title !== 'undefined' && setDocumentTitle(`${i18nRender(to.meta.title)}`)
+  if (to.meta && typeof to.meta.title !== 'undefined') {
+    setDocumentTitle(`${i18nRender(to.meta.title)}`)
+  }
   /* has token */
   if (storage.get(ACCESS_TOKEN)) {
     if (to.path === loginRoutePath || to.path === '/') {
@@ -41,8 +44,10 @@ router.beforeEach((to, from, next) => {
             store.dispatch('generateRoutes', { roles }).then(() => {
               // 根据roles权限生成可访问的路由表
               // 动态添加可访问路由表
-              router.addRoutes(store.getters.addRouters)
-              // router.addRoutes(accessRoutes)
+              // VueRouter@3.5.0+ New API
+              store.getters.addRouters.forEach(r => {
+                router.addRoute(r)
+              })
               // 请求带有 redirect 重定向时，登录自动重定向到该地址
               next({ ...to, replace: true }) // hack方法 确保addRoutes已完成
               // const redirect = decodeURIComponent(from.query.redirect || to.path)
@@ -70,9 +75,11 @@ router.beforeEach((to, from, next) => {
       }
     }
   } else {
-    if (allowList.includes(to.name)) {
+    if (allowList.includes(to.name) || indexRoutePath === to.path) {
       // 在免登录名单，直接进入
-      next()
+      store.dispatch('generateStaticRoutes', {}).then(() => {
+        next()
+      })
     } else {
       getSystemConfig().then(res => {
         const casInfo = res.data.casConfig

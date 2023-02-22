@@ -1,5 +1,5 @@
 // eslint-disable-next-line
-import { UserLayout } from '@/layouts'
+import { UserLayout, BasicLayout } from '@/layouts'
 /**
  * Note: 路由配置项
  *
@@ -16,65 +16,92 @@ import { UserLayout } from '@/layouts'
  * 需在侧栏展示的，如需一级展示请参考总览实现
  * 需要注意为了缓存正常,所有父级需为RouteView
  */
-export const indexRouterMap = [
+export const staticMenuRouterMap = [
   {
-    path: '/index',
-    name: 'Index',
+    // 这里与静态路由是重复的，这里仅为菜单服务
+    path: '/dashboard',
+    name: 'IndexMenu',
     component: 'Index',
-    meta: { title: '总览', noCache: false, hidden: true, icon: 'dashboard', hiddenHeaderContent: true },
-    hidden: false
-  }
-]
-/**
- * 在侧栏不会显示
- */
-export const otherRouterMap = [
-  {
-    path: '/account/settings',
-    name: 'Center',
-    component: 'AccountSettings',
-    meta: { title: '个人中心', noCache: true },
-    hidden: true
-  },
-  {
-    path: '/monitor/job/log',
-    name: 'JobLog',
-    component: 'JobLog',
-    meta: { title: '调度日志', noCache: true },
-    permissions: ['monitor:job:list'],
-    hidden: true
-  },
-  {
-    path: '/security/role/authUser',
-    name: 'AuthUser',
-    component: 'AuthUser',
-    meta: { title: '分配用户', noCache: true },
-    permissions: ['system:role:edit'],
-    hidden: true
-  },
-  {
-    path: '/message/notice/form',
-    name: 'NoticeForm',
-    component: 'NoticeForm',
-    meta: { title: '公告编辑', noCache: true },
-    permissions: ['system:notice:edit'],
-    hidden: true
-  },
-  {
-    path: '/dev/gen/edit',
-    name: 'GenEdit',
-    component: 'GenEdit',
-    meta: { title: '修改生成配置', noCache: true },
-    permissions: ['tool:gen:edit'],
-    hidden: true
+    meta: {
+      title: '首页',
+      noCache: false,
+      icon: 'dashboard',
+      hiddenHeaderContent: true
+    }
   }
 ]
 
 /**
- * 基础路由
+ * 在侧栏不会显示
+ * 其他非菜单的路由 hidden: true
+ */
+export const otherRouterMap = {
+  path: '/',
+  name: '',
+  component: 'Layout',
+  hidden: true,
+  children: [
+    {
+      path: '/account/settings',
+      name: 'Center',
+      component: 'AccountSettings',
+      meta: { title: '个人中心', noCache: true },
+      hidden: true
+    },
+    {
+      path: '/monitor/job/log',
+      name: 'JobLog',
+      component: 'JobLog',
+      meta: { title: '调度日志', noCache: true },
+      permissions: ['monitor:job:list'],
+      hidden: true
+    },
+    {
+      path: '/security/role/authUser',
+      name: 'AuthUser',
+      component: 'AuthUser',
+      meta: { title: '分配用户', noCache: true },
+      permissions: ['system:role:edit'],
+      hidden: true
+    },
+    {
+      path: '/message/notice/form',
+      name: 'NoticeForm',
+      component: 'NoticeForm',
+      meta: { title: '公告编辑', noCache: true },
+      permissions: ['system:notice:edit'],
+      hidden: true
+    },
+    {
+      path: '/dev/gen/edit',
+      name: 'GenEdit',
+      component: 'GenEdit',
+      meta: { title: '修改生成配置', noCache: true },
+      permissions: ['tool:gen:edit'],
+      hidden: true
+    }
+  ]
+}
+
+/**
+ * 静态路由，不管登录与否都会注册
  * @type { *[] }
  */
 export const constantRouterMap = [
+  // 注意，该路由不能删，因为上面的首页菜单路由加入时机较晚，会导致首页进不去
+  {
+    path: '',
+    component: BasicLayout,
+    name: 'Index',
+    redirect: '/dashboard',
+    children: [
+      {
+        path: 'dashboard',
+        name: 'dashboard',
+        component: () => import('@/views/index')
+      }
+    ]
+  },
   {
     path: '/user',
     component: UserLayout,
@@ -95,9 +122,12 @@ export const constantRouterMap = [
       }
     ]
   },
-
   {
     path: '/404',
     component: () => import(/* webpackChunkName: "fail" */ '@/views/exception/404')
+  },
+  {
+    path: '/403',
+    component: () => import(/* webpackChunkName: "fail" */ '@/views/exception/403')
   }
 ]

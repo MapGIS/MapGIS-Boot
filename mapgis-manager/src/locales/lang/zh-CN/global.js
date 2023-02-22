@@ -182,5 +182,9 @@ export default {
   'see.more': '查看更多',
   'exit.fullscreen': '退出全屏',
   'switch.to.fullscreen': '切为全屏',
-  'not.support.fullscreen': '你的浏览器不支持全屏'
+  'not.support.fullscreen': '你的浏览器不支持全屏',
+  'back.home': '返回首页',
+  'exception.403': '抱歉，您没有权限访问此页面',
+  'exception.404': '抱歉，您访问的页面不存在',
+  'exception.500': '抱歉，服务器报告错误'
 }

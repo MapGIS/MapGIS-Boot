@@ -18,8 +18,8 @@
       </a-menu>
     </template>
   </a-dropdown>
-  <span v-else>
-    <a-spin size="small" :style="{ marginLeft: 8, marginRight: 8 }" />
+  <span v-else @click="login">
+    <span>{{ $t('login') }}</span>
   </span>
 </template>
 
@@ -55,6 +55,9 @@ export default {
         },
         onCancel() {}
       })
+    },
+    login() {
+      this.$router.push('/user/login')
     }
   }
 }
