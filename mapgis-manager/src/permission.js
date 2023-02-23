@@ -14,8 +14,7 @@ NProgress.configure({ showSpinner: false }) // NProgress Configuration
 
 const allowList = ['login', 'register'] // no redirect allowList
 const loginRoutePath = '/user/login'
-const defaultRoutePath = ''
-const indexRoutePath = '/dashboard'
+const defaultRoutePath = '/dashboard'
 
 router.beforeEach((to, from, next) => {
   NProgress.start() // start progress bar
@@ -75,7 +74,7 @@ router.beforeEach((to, from, next) => {
       }
     }
   } else {
-    if (allowList.includes(to.name) || indexRoutePath === to.path) {
+    if (allowList.includes(to.name) || defaultRoutePath === to.path) {
       // 在免登录名单，直接进入
       store.dispatch('generateStaticRoutes', {}).then(() => {
         next()
