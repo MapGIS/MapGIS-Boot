@@ -87,21 +87,6 @@ export const otherRouterMap = {
  * @type { *[] }
  */
 export const constantRouterMap = [
-  // 注意，该路由不能删，因为上面的首页菜单路由加入时机较晚，会导致首页进不去
-  {
-    path: '',
-    name: '',
-    component: BasicLayout,
-    redirect: '/dashboard',
-    children: [
-      {
-        path: '/dashboard',
-        name: 'Dashboard',
-        meta: { title: '总览' },
-        component: () => import('@/views/index')
-      }
-    ]
-  },
   {
     path: '/user',
     component: UserLayout,

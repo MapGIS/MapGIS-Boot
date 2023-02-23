@@ -74,11 +74,9 @@ router.beforeEach((to, from, next) => {
       }
     }
   } else {
-    if (allowList.includes(to.name) || defaultRoutePath === to.path) {
+    if (allowList.includes(to.name)) {
       // 在免登录名单，直接进入
-      store.dispatch('generateStaticRoutes', {}).then(() => {
-        next()
-      })
+      next()
     } else {
       getSystemConfig().then(res => {
         const casInfo = res.data.casConfig
