@@ -18,12 +18,11 @@ import { UserLayout, BasicLayout } from '@/layouts'
  */
 export const staticMenuRouterMap = [
   {
-    // 这里与静态路由是重复的，这里仅为菜单服务
     path: '/dashboard',
     name: 'Dashboard',
     component: 'Index',
     meta: {
-      title: '首页',
+      title: '总览',
       noCache: false,
       icon: 'dashboard',
       hiddenHeaderContent: true
@@ -98,6 +97,7 @@ export const constantRouterMap = [
       {
         path: '/dashboard',
         name: 'Dashboard',
+        meta: { title: '总览' },
         component: () => import('@/views/index')
       }
     ]

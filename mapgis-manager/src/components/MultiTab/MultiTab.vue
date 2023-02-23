@@ -4,8 +4,8 @@ import { i18nRender } from '@/locales'
 
 // 总览
 const indexRoute = {
-  fullPath: '/index',
-  path: '/index',
+  fullPath: '/dashboard',
+  path: '/dashboard',
   meta: {
     title: '总览'
   }
