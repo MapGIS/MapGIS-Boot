@@ -38,7 +38,7 @@ const notFoundRouter = {
 // 根级菜单
 const rootRouter = {
   key: '',
-  name: 'rootIndex',
+  name: '',
   path: '',
   component: 'BasicLayout',
   redirect: '/dashboard',
@@ -66,7 +66,7 @@ export const generatorDynamicRouter = token => {
 
 export const generatorStaticRouter = () => {
   return new Promise((resolve, reject) => {
-    resolve(generatorRouter(staticMenuRouterMap))
+    resolve(generatorRouter(staticMenuRouterMap.concat([])))
   })
 }
 

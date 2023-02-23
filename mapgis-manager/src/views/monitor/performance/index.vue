@@ -168,13 +168,14 @@ export default {
             value: [time, t.responseTime]
           }
         })
-        this.avgResponseTimeChart.setOption({
-          series: [
-            {
-              data: this.avgResponseTimeRecords
-            }
-          ]
-        })
+        this.avgResponseTimeChart &&
+          this.avgResponseTimeChart.setOption({
+            series: [
+              {
+                data: this.avgResponseTimeRecords
+              }
+            ]
+          })
 
         this.concurrencyRequestRecords = records.map(t => {
           const time = this.timeFormat(t.time)
@@ -183,21 +184,22 @@ export default {
             value: [time, t.concurrency]
           }
         })
-        this.concurrencyRequestChart.setOption({
-          series: [
-            {
-              data: this.concurrencyRequestRecords
-            }
-          ]
-        })
+        this.concurrencyRequestChart &&
+          this.concurrencyRequestChart.setOption({
+            series: [
+              {
+                data: this.concurrencyRequestRecords
+              }
+            ]
+          })
       }
     },
     init() {
       const ec = echarts
       this.avgResponseTimeChart = ec.init(document.getElementById('avgResponseTimeMoniter'))
-      this.initEchartsAvgResponseTime(this.avgResponseTimeChart)
+      this.avgResponseTimeChart && this.initEchartsAvgResponseTime(this.avgResponseTimeChart)
       this.concurrencyRequestChart = ec.init(document.getElementById('concurrencyMoniter'))
-      this.initEchartsConcurrencyRequests(this.concurrencyRequestChart)
+      this.concurrencyRequestChart && this.initEchartsConcurrencyRequests(this.concurrencyRequestChart)
       this.startTimer()
     },
     closeTimer() {

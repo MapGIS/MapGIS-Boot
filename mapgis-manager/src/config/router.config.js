@@ -20,7 +20,7 @@ export const staticMenuRouterMap = [
   {
     // 这里与静态路由是重复的，这里仅为菜单服务
     path: '/dashboard',
-    name: 'IndexMenu',
+    name: 'Dashboard',
     component: 'Index',
     meta: {
       title: '首页',
@@ -91,13 +91,13 @@ export const constantRouterMap = [
   // 注意，该路由不能删，因为上面的首页菜单路由加入时机较晚，会导致首页进不去
   {
     path: '',
+    name: '',
     component: BasicLayout,
-    name: 'Index',
     redirect: '/dashboard',
     children: [
       {
-        path: 'dashboard',
-        name: 'dashboard',
+        path: '/dashboard',
+        name: 'Dashboard',
         component: () => import('@/views/index')
       }
     ]

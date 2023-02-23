@@ -1,6 +1,6 @@
 <template>
   <page-header-wrapper>
-    <a-card>
+    <a-card :bordered="false">
       <a-form-model
         :labelCol="{ lg: { span: 7 }, sm: { span: 7 } }"
         :wrapperCol="{ lg: { span: 10 }, sm: { span: 17 } }"
