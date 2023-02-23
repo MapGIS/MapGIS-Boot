@@ -42,6 +42,9 @@ const rootRouter = {
   path: '',
   component: 'BasicLayout',
   redirect: '/dashboard',
+  meta: {
+    title: '总览'
+  },
   children: []
 }
 
