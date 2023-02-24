@@ -9,5 +9,6 @@ export default {
   'user.login.create.new.account': '创建新账号',
   'user.login.confirm.bind': '确认绑定',
   'user.login.auto.create': '请确认是否自动创建新账号？',
-  'user.login.bind.tip': '已有同名账号{username}存在,请确认是否绑定该账号？'
+  'user.login.bind.tip': '已有同名账号{username}存在,请确认是否绑定该账号？',
+  'user.login.admin.default.info': '系统管理员默认用户名:{username},密码:{password}'
 }

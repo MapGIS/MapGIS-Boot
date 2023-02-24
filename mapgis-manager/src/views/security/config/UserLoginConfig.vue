@@ -12,6 +12,9 @@
     <a-form-model-item :label="$t('security.config.whether.to.enable.captcha')" prop="captchaEnabled">
       <a-checkbox v-model="form.captchaEnabled" @change="handleCaptchaChange" />
     </a-form-model-item>
+    <a-form-model-item :label="$t('security.config.whether.to.enable.tip')" prop="tipEnabled">
+      <a-checkbox v-model="form.tipEnabled" @change="handleTipChange" />
+    </a-form-model-item>
     <a-form-model-item :label="$t('security.config.captcha.type')" prop="captchaType">
       <div class="login-config-captcha">
         <div class="captcha-type-item" @click="form.captchaType = 'math'">
@@ -49,6 +52,7 @@ import { getConfigByKey, updateConfig } from '@/api/system/config'
 const defaultConfigValue = {
   soloLoginEnabled: true,
   captchaEnabled: true,
+  tipEnabled: true,
   captchaType: 'math',
   maxRetryCount: 1,
   recordTime: 10
@@ -79,6 +83,9 @@ export default {
     },
     handleCaptchaChange(e) {
       this.$set(this.form, 'captchaEnabled', e.target.checked)
+    },
+    handleTipChange(e) {
+      this.$set(this.form, 'tipEnabled', e.target.checked)
     },
     submit() {
       this.$refs.form.validate(valid => {

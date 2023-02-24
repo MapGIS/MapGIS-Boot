@@ -11,20 +11,20 @@
         :after-close="handleCloseLoginError"
       />
       <a-form-model-item prop="username">
-        <a-input v-model="form.username" size="large" placeholder="admin">
-          <a-icon slot="prefix" type="user" :style="{ color: 'rgba(0,0,0,.25)' }" />
+        <a-input v-model="form.username" size="large" autocomplete="off" placeholder="username">
+          <a-icon slot="prefix" type="user" :style="{ color: 'rgba(0,0,0,.65)' }" />
         </a-input>
       </a-form-model-item>
       <a-form-model-item prop="password">
-        <a-input-password v-model="form.password" size="large" placeholder="cloud123.mapgis">
-          <a-icon slot="prefix" type="lock" :style="{ color: 'rgba(0,0,0,.25)' }" />
+        <a-input-password v-model="form.password" size="large" autocomplete="new-password" placeholder="password">
+          <a-icon slot="prefix" type="lock" :style="{ color: 'rgba(0,0,0,.65)' }" />
         </a-input-password>
       </a-form-model-item>
       <a-row :gutter="16" v-if="captchaEnabled">
         <a-col class="gutter-row" :span="16">
           <a-form-model-item prop="code">
             <a-input v-model="form.code" size="large" type="text" autocomplete="off" :placeholder="$t('captcha')">
-              <a-icon slot="prefix" type="security-scan" :style="{ color: 'rgba(0,0,0,.25)' }" />
+              <a-icon slot="prefix" type="security-scan" :style="{ color: 'rgba(0,0,0,.65)' }" />
             </a-input>
           </a-form-model-item>
         </a-col>
@@ -32,8 +32,8 @@
           <img class="getCaptcha" :src="codeUrl" @click="getCode" />
         </a-col>
       </a-row>
-      <a-form-model-item prop="rememberMe">
-        <a-checkbox :checked="form.rememberMe" @change="rememberMe">
+      <a-form-model-item v-if="rememberMeItemEnabled" prop="rememberMe">
+        <a-checkbox v-if="rememberMeConfigEnabled" :checked="form.rememberMe" @change="rememberMe">
           {{ $t('user.login.password.remember') }}
         </a-checkbox>
         <router-link v-if="registerConfig.enabled" class="register" :to="{ name: 'register' }" style="float: right">
@@ -53,10 +53,27 @@
           {{ $t('login') }}
         </a-button>
       </a-form-item>
-      <div v-if="otherLoginValid" class="user-login-other">
-        <span>{{ $t('user.login.others') }}</span>
+      <div v-if="otherLoginItemEnabled" class="user-login-other">
+        <span v-if="otherLoginValid">{{ $t('user.login.others') }}</span>
         <cas-login :config="casConfig"></cas-login>
         <third-login :config="oauthConfig" ref="thirdLogin"></third-login>
+        <div v-if="loginConfig.tipEnabled" style="flex-grow: 1">
+          <div class="help">
+            <a-popover width="310" trigger="hover" class="popover" placement="right">
+              <template slot="content">
+                <a @click="handleAutoInputAccount">
+                  {{
+                    $t('user.login.admin.default.info', {
+                      username: adminDefaultInfo.username,
+                      password: adminDefaultInfo.password
+                    })
+                  }}
+                </a>
+              </template>
+              <a-icon type="question-circle" style="margin-right: 6px; vertical-align: -0.15em" />{{ $t('help') }}
+            </a-popover>
+          </div>
+        </div>
       </div>
     </a-form-model>
   </div>
@@ -83,7 +100,7 @@ export default {
       isLoginError: false,
       loginErrorInfo: '',
       form: {
-        username: 'admin',
+        username: '',
         password: '',
         code: undefined,
         uuid: '',
@@ -104,6 +121,11 @@ export default {
       loginConfig: {
         captchaEnabled: false,
         maxRetryCount: 1
+      },
+      rememberMeConfigEnabled: true,
+      adminDefaultInfo: {
+        username: 'admin',
+        password: 'cloud123.mapgis'
       }
     }
   },
@@ -116,6 +138,12 @@ export default {
         return true
       }
       return false
+    },
+    otherLoginItemEnabled() {
+      return this.otherLoginValid || this.loginConfig.tipEnabled
+    },
+    rememberMeItemEnabled() {
+      return this.rememberMeConfigEnabled || this.registerConfig.enabled
     }
   },
   created() {
@@ -198,6 +226,11 @@ export default {
     handleCloseLoginError() {
       this.isLoginError = false
       this.loginErrorInfo = ''
+    },
+    handleAutoInputAccount() {
+      this.form.username = this.adminDefaultInfo.username
+      this.form.password = this.adminDefaultInfo.password
+      this.$refs.form.clearValidate()
     }
   }
 }
@@ -226,12 +259,9 @@ export default {
     align-items: center;
     text-align: left;
     margin-top: 24px;
-    color: rgba(255, 255, 255, 0.85);
-  }
-
-  /deep/ .ant-checkbox-wrapper,
-  .register {
-    color: rgba(255, 255, 255, 0.85);
+    .help {
+      float: right;
+    }
   }
 }
 </style>

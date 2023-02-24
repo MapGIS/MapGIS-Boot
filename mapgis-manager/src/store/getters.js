@@ -19,7 +19,17 @@ const getters = {
   mounting: state => state.microApps.mounting,
   casInfo: state => state.cas.info,
   systemConfig: state => state.server.systemConfig,
-  baseConfig: state => state.server.baseConfig
+  baseConfig: state => state.server.baseConfig,
+  domTitle: state => {
+    if (
+      state.server.baseConfig &&
+      state.server.baseConfig.header &&
+      !state.server.baseConfig.header.defaultLogoAndTitle
+    ) {
+      return state.server.baseConfig.header.title
+    }
+    return window._CONFIG['productTitle']
+  }
 }
 
 export default getters

@@ -8,8 +8,14 @@
         <div class="top">
           <div class="header">
             <a href="/">
-              <img v-if="logo" :src="logo" class="logo" alt="logo" />
-              <span class="title">{{ title }}</span>
+              <template v-if="defaultLogoAndTitle">
+                <img src="@/assets/images/logo.svg" class="default-logo" alt="logo" />
+                <img src="@/assets/images/title.svg" class="default-title" alt="title" />
+              </template>
+              <template v-else>
+                <img v-if="logo" :src="logo" class="logo" alt="logo" />
+                <span class="title">{{ title }}</span>
+              </template>
             </a>
           </div>
           <div class="desc"></div>
@@ -87,7 +93,6 @@ export default {
         justify-content: center;
         font-size: 18px;
         vertical-align: middle;
-        color: rgba(255, 255, 255, 0.85);
       }
     }
 
@@ -124,16 +129,26 @@ export default {
 
           .title {
             font-size: 33px;
-            color: rgba(255, 255, 255, 0.85);
+            color: rgba(0, 0, 0, 0.85);
             font-family: Avenir, 'Helvetica Neue', Arial, Helvetica, sans-serif;
             font-weight: 600;
             position: relative;
             top: 2px;
           }
+
+          .default-logo {
+            height: 50px;
+            margin-right: 16px;
+          }
+
+          .default-title {
+            height: 50px;
+            position: relative;
+          }
         }
         .desc {
           font-size: 14px;
-          color: rgba(255, 255, 255, 0.45);
+          color: rgba(255, 255, 255, 0.65);
           margin-top: 12px;
           margin-bottom: 40px;
         }
@@ -158,7 +173,7 @@ export default {
         margin-bottom: 8px;
         font-size: 14px;
         a {
-          color: rgba(255, 255, 255, 0.45);
+          color: rgba(255, 255, 255, 0.65);
           transition: all 0.3s;
           &:not(:last-child) {
             margin-right: 40px;
@@ -166,7 +181,7 @@ export default {
         }
       }
       .copyright {
-        color: rgba(255, 255, 255, 0.45);
+        color: rgba(255, 255, 255, 0.65);
         font-size: 14px;
       }
     }

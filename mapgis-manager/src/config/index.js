@@ -2,6 +2,8 @@
 import Vue from 'vue'
 // 产品名称
 window._CONFIG['productName'] = window._CONFIG.VUE_APP_PRODUCT_NAME
+// 产品名称
+window._CONFIG['productTitle'] = window._CONFIG.VUE_APP_PRODUCT_TITLE
 // 管理类接口前缀
 window._CONFIG['apiPathManagerPrefix'] = `/${window._CONFIG.VUE_APP_PRODUCT_NAME}/rest/manager`
 // 服务类接口前缀

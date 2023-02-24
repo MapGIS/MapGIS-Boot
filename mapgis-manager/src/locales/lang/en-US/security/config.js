@@ -12,6 +12,7 @@ export default {
   'security.config.register.user.default.role': "Registered User's Default Role",
   'security.config.captcha.type': 'Verification Code Type',
   'security.config.whether.to.enable.captcha': 'Whether To Enable Verification Code',
+  'security.config.whether.to.enable.tip': 'Whether To Display Help Prompt',
   'security.config.whether.to.allow.simultaneous.login': 'Whether To Allow Simultaneous Login',
   'security.config.error.record.validity.period': 'Error Record Validity Period(min)',
   'security.config.captcha.display.limit': 'Verification Code Display After N Errors'

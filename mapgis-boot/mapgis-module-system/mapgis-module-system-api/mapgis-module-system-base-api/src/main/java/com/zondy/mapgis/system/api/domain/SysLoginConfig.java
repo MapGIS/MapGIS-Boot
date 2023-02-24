@@ -21,6 +21,11 @@ public class SysLoginConfig {
     Boolean captchaEnabled;
 
     /**
+     * 是否显示帮助提示
+     */
+    Boolean tipEnabled;
+    
+    /**
      * 验证码类型
      */
     String captchaType;

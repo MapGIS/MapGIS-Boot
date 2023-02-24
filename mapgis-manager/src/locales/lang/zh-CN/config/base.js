@@ -1,4 +1,5 @@
 export default {
+  'config.base.system.default': '使用默认标题与Logo',
   'config.base.system.logo': '系统Logo',
   'config.base.system.logo.placeholder': '请上传系统Logo',
   'config.base.system.name': '系统名称',

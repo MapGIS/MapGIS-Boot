@@ -9,5 +9,6 @@ export default {
   'user.login.create.new.account': 'Create New Account',
   'user.login.confirm.bind': 'Confirm Bind',
   'user.login.auto.create': 'Are you sure to automatically create a new account?',
-  'user.login.bind.tip': 'An account with the same name {username} already exists. Are you sure you want to bind it?'
+  'user.login.bind.tip': 'An account with the same name {username} already exists. Are you sure you want to bind it?',
+  'user.login.admin.default.info': 'System administrator default username: {username}, password: {password}'
 }

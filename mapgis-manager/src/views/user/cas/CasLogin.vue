@@ -20,7 +20,6 @@ export default {
 .user-login-other {
   a {
     margin-left: 16px;
-    color: rgba(255, 255, 255, 0.85);
   }
 }
 </style>

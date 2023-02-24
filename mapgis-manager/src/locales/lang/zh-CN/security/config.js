@@ -12,6 +12,7 @@ export default {
   'security.config.register.user.default.role': '注册用户的默认角色',
   'security.config.captcha.type': '验证码类型',
   'security.config.whether.to.enable.captcha': '是否启用验证码',
+  'security.config.whether.to.enable.tip': '是否显示帮助提示',
   'security.config.whether.to.allow.simultaneous.login': '是否允许同时登录',
   'security.config.error.record.validity.period': '失败记录有效期（分钟）',
   'security.config.captcha.display.limit': '连续失败N次显示验证码'

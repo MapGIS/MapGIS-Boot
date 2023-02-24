@@ -19,7 +19,7 @@ const defaultRoutePath = '/dashboard'
 router.beforeEach((to, from, next) => {
   NProgress.start() // start progress bar
   if (to.meta && typeof to.meta.title !== 'undefined') {
-    setDocumentTitle(`${i18nRender(to.meta.title)}`)
+    setDocumentTitle(`${i18nRender(to.meta.title)} - ${store.getters.domTitle}`)
   }
   /* has token */
   if (storage.get(ACCESS_TOKEN)) {

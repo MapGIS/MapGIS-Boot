@@ -157,6 +157,7 @@ public class SysWebConfigController {
 
         if (StringUtils.isNotNull(sysLoginConfig)) {
             loginConfig.put("captchaEnabled", sysLoginConfig.getCaptchaEnabled());
+            loginConfig.put("tipEnabled", sysLoginConfig.getTipEnabled());
             loginConfig.put("maxRetryCount", sysLoginConfig.getMaxRetryCount());
         }
 

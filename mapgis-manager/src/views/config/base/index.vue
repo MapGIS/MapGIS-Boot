@@ -7,28 +7,33 @@
         :wrapperCol="{ lg: { span: 10 }, sm: { span: 17 } }"
         ref="form"
         :model="form"
-        :rules="rules"
+        :rules="realRules"
       >
-        <a-form-model-item :label="$t('config.base.system.logo')" prop="logo">
-          <a-upload
-            :file-list="form.logo"
-            list-type="picture-card"
-            class="avatar-uploader"
-            :show-upload-list="false"
-            :custom-request="customRequest"
-            @change="handleFileChange"
-            accept="image/png, image/jpeg, image/jpg"
-          >
-            <img v-if="imageUrl" :src="imageUrl" alt="avatar" style="max-height: 100px; max-width: 100px" />
-            <div v-else>
-              <a-icon :type="logoLoading ? 'loading' : 'plus'" />
-              <div class="ant-upload-text">{{ $t('upload') }}</div>
-            </div>
-          </a-upload>
+        <a-form-model-item :label="$t('config.base.system.default')" prop="defaultLogoAndTitle">
+          <a-checkbox :checked="form.defaultLogoAndTitle" @change="handleDefaultChange" />
         </a-form-model-item>
-        <a-form-model-item :wrapper-col="{ span: 8 }" :label="$t('config.base.system.name')" prop="title">
-          <a-input v-model="form.title" :placeholder="$t('config.base.system.name.placeholder')" />
-        </a-form-model-item>
+        <template v-if="!form.defaultLogoAndTitle">
+          <a-form-model-item :label="$t('config.base.system.logo')" prop="logo">
+            <a-upload
+              :file-list="form.logo"
+              list-type="picture-card"
+              class="avatar-uploader"
+              :show-upload-list="false"
+              :custom-request="customRequest"
+              @change="handleFileChange"
+              accept="image/png, image/jpeg, image/jpg"
+            >
+              <img v-if="imageUrl" :src="imageUrl" alt="avatar" style="max-height: 100px; max-width: 100px" />
+              <div v-else>
+                <a-icon :type="logoLoading ? 'loading' : 'plus'" />
+                <div class="ant-upload-text">{{ $t('upload') }}</div>
+              </div>
+            </a-upload>
+          </a-form-model-item>
+          <a-form-model-item :wrapper-col="{ span: 8 }" :label="$t('config.base.system.name')" prop="title">
+            <a-input v-model="form.title" :placeholder="$t('config.base.system.name.placeholder')" />
+          </a-form-model-item>
+        </template>
         <a-form-model-item :label="$t('config.base.system.copyright')" prop="copyright">
           <a-input v-model="form.copyright" :placeholder="$t('config.base.system.copyright.placeholder')" />
         </a-form-model-item>
@@ -54,6 +59,7 @@ import { getConfigByKey, updateConfig } from '@/api/system/config'
 
 const defaultConfigValue = {
   header: {
+    defaultLogoAndTitle: true,
     logo: null,
     title: ''
   },
@@ -70,12 +76,23 @@ export default {
       configInfo: {},
       form: {},
       rules: {
-        logo: [{ required: true, message: this.$t('config.base.system.logo.placeholder'), trigger: 'blur' }],
-        title: [{ required: true, message: this.$t('config.base.system.name.placeholder'), trigger: 'blur' }],
         copyright: [{ required: true, message: this.$t('config.base.system.copyright.placeholder'), trigger: 'blur' }]
       },
       logoLoading: false,
       imageUrl: ''
+    }
+  },
+  computed: {
+    realRules() {
+      if (this.form.defaultLogoAndTitle) {
+        return this.rules
+      } else {
+        return {
+          ...this.rules,
+          logo: [{ required: true, message: this.$t('config.base.system.logo.placeholder'), trigger: 'blur' }],
+          title: [{ required: true, message: this.$t('config.base.system.name.placeholder'), trigger: 'blur' }]
+        }
+      }
     }
   },
   mounted() {
@@ -88,9 +105,12 @@ export default {
       if (logo) {
         this.imageUrl = logo
         configValue.header.logo = [{ url: logo, name: 'unique_name', uid: 'unique_uid' }]
+      } else {
+        configValue.header.logo = []
       }
 
       this.form = Object.assign({}, this.form, {
+        defaultLogoAndTitle: configValue.header.defaultLogoAndTitle,
         logo: configValue.header.logo,
         title: configValue.header.title,
         copyright: configValue.footer.copyright
@@ -100,6 +120,9 @@ export default {
     })
   },
   methods: {
+    handleDefaultChange(e) {
+      this.$set(this.form, 'defaultLogoAndTitle', e.target.checked)
+    },
     handleFileChange(info) {
       if (info.file.status === 'uploading') {
         this.logoLoading = true
@@ -134,7 +157,11 @@ export default {
         if (valid) {
           this.submitLoading = true
           this.configInfo.configValue = JSON.stringify({
-            header: { logo: this.form.logo[0].url, title: this.form.title },
+            header: {
+              defaultLogoAndTitle: this.form.defaultLogoAndTitle,
+              logo: this.form.logo.length > 0 ? this.form.logo[0].url : '',
+              title: this.form.title
+            },
             footer: { copyright: this.form.copyright }
           })
           updateConfig(this.configInfo)

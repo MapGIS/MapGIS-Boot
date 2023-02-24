@@ -186,5 +186,6 @@ export default {
   'back.home': '返回首页',
   'exception.403': '抱歉，您没有权限访问此页面',
   'exception.404': '抱歉，您访问的页面不存在',
-  'exception.500': '抱歉，服务器报告错误'
+  'exception.500': '抱歉，服务器报告错误',
+  help: '帮助'
 }

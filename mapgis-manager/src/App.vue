@@ -11,6 +11,7 @@ import { setDocumentTitle, setFavicon } from '@/utils/domUtil'
 import watermark from 'watermark-dom'
 import { i18nRender } from '@/locales'
 import { serverMixin } from '@/store/server-mixin'
+import { mapGetters } from 'vuex'
 
 export default {
   mixins: [serverMixin],
@@ -20,10 +21,11 @@ export default {
     }
   },
   computed: {
+    ...mapGetters(['domTitle']),
     locale() {
       // 只是为了切换语言时，更新标题
       const { title } = this.$route.meta
-      title && setDocumentTitle(`${i18nRender(title)}`)
+      title && setDocumentTitle(`${i18nRender(title)} - ${this.domTitle}`)
 
       return this.$i18n.getLocaleMessage(this.$store.getters.lang).antLocale
     }
@@ -32,7 +34,11 @@ export default {
     await this.$store.dispatch('getSystemConfig')
     await this.$store.dispatch('getBaseConfig')
     this.initialized = true
-    setFavicon(this.baseConfig.header.logo)
+    if (this.baseConfig.header.defaultLogoAndTitle) {
+      setFavicon(require('@/assets/images/logo.svg'))
+    } else {
+      setFavicon(this.baseConfig.header.logo)
+    }
     watermark.load({
       watermark_txt: 'MapGIS Boot',
       watermark_width: 300,

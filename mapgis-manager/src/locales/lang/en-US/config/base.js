@@ -1,4 +1,5 @@
 export default {
+  'config.base.system.default': 'Use Default Title And Logo',
   'config.base.system.logo': 'System Logo',
   'config.base.system.logo.placeholder': 'Please Upload System Logo',
   'config.base.system.name': 'System Name',

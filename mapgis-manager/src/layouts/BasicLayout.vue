@@ -22,7 +22,10 @@
           我们推荐使用这种方式进行 LOGO 和 title 自定义
     -->
     <template v-slot:menuHeaderRender>
-      <div>
+      <div v-if="defaultLogoAndTitle">
+        <img class="default-logo-title" style="width: 160px; height: 48px" :src="logoAndTitleImg" alt="logo" />
+      </div>
+      <div v-else>
         <img v-if="logo" :src="logo" class="logo" alt="logo" />
         <h1>{{ title }}</h1>
       </div>
@@ -131,7 +134,10 @@ export default {
       // 动态主路由
       mainMenu: state => state.permission.addRouters,
       mounting: state => state.microApps.mounting
-    })
+    }),
+    logoAndTitleImg() {
+      return require('@/assets/images/logo-title.svg')
+    }
   },
   watch: {
     navTheme(val) {
