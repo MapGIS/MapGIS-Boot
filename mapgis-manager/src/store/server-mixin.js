@@ -7,7 +7,7 @@ const serverMixin = {
       systemConfig: state => state.server.systemConfig
     }),
     isWindowsOS() {
-      return this.systemConfig && this.systemConfig.osName?.toLowerCase.startsWith('windows')
+      return this.systemConfig && this.systemConfig.osName?.toLowerCase().startsWith('windows')
     },
     isJava() {
       return this.systemConfig && this.systemConfig.devPlatform === 'Java'
