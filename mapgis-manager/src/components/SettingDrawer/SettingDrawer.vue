@@ -297,7 +297,6 @@ export default {
   hideFooter: ${this.hideFooter},
   hideBreadcrumb: ${this.hideBreadcrumb},
   formMode: ${this.formMode},
-  title: 'MapGIS Manager',
   production: process.env.NODE_ENV === 'production' && process.env.VUE_APP_PREVIEW !== 'true'
 }`
       this.$copyText(text)

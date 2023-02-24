@@ -41,6 +41,8 @@ public class SysWebConfigController {
 
     private final ApiPathProperties apiPathProperties;
 
+    private final Environment environment;
+
     /**
      * 获取系统配置信息
      */
@@ -63,6 +65,8 @@ public class SysWebConfigController {
         systemConfig.put("loginConfig", getLoginConfig());
         systemConfig.put("oauthConfig", getAuthConfig());
         systemConfig.put("casConfig", getCasConfig());
+        String swaggerEnabled = environment.getProperty("swagger.enabled");
+        systemConfig.put("swaggerEnabled", !"false".equals(swaggerEnabled));
         return AjaxResult.success(systemConfig);
     }
 
