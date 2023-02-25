@@ -83,7 +83,6 @@ import {
 import defaultSettings from '@/config/defaultSettings'
 import RightContent from '@/components/GlobalHeader/RightContent'
 import GlobalFooter from '@/components/GlobalFooter'
-import Ads from '@/components/Other/CarbonAds'
 import { baseMixin } from '@/store/app-mixin'
 import { serverMixin } from '@/store/server-mixin'
 
@@ -93,7 +92,6 @@ export default {
     SettingDrawer,
     RightContent,
     GlobalFooter,
-    Ads,
     MultiTab
   },
   mixins: [baseMixin, serverMixin],

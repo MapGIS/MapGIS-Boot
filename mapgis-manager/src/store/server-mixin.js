@@ -24,8 +24,14 @@ const serverMixin = {
     osArch() {
       return this.systemConfig && this.systemConfig.osArch
     },
+    isX86Arch() {
+      return this.osArch && this.osArch.indexOf('amd64') > -1
+    },
     osName() {
       return this.systemConfig && this.systemConfig.osName
+    },
+    swaggerEnabled() {
+      return !!this.systemConfig?.swaggerEnabled
     },
     logo() {
       return this.baseConfig && this.baseConfig.header.logo

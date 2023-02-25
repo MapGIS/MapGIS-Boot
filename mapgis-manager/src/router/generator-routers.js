@@ -5,6 +5,7 @@ import allIcon from '@/core/icons'
 import { validURL } from '@/utils/validate'
 import { UserLayout, BlankLayout, PageView } from '@/layouts'
 import auth from '@/plugins/auth'
+
 // 前端路由表
 const constantRouterComponents = {
   // 基础页面 layout 必须引入

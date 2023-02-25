@@ -12,12 +12,27 @@ import { saveAs } from 'file-saver'
 
 // 是否显示重新登录
 let isReloginShow
-
+axios.defaults.timeout = 120000
+axios.defaults.baseURL = window._CONFIG['domainURL']
+// url编码问题
+axios.defaults.paramsSerializer = params => {
+  return Object.keys(params)
+    .filter(it => {
+      return params.hasOwnProperty(it)
+    })
+    .reduce((pre, curr) => {
+      if (params[curr] === undefined) {
+        params[curr] = ''
+      }
+      return curr !== undefined || curr !== null
+        ? (pre ? pre + '&' : '') + curr + '=' + encodeURIComponent(params[curr])
+        : pre
+    }, '')
+}
 // 创建 axios 实例
 const request = axios.create({
-  // API 请求的默认前缀
-  baseURL: window._CONFIG['domainURL'],
-  timeout: 30000 // 请求超时时间
+  baseURL: axios.defaults.baseURL, // API 请求的默认前缀
+  timeout: axios.defaults.timeout // 请求超时时间
 })
 
 // 异常拦截处理器
@@ -29,7 +44,8 @@ const errorHandler = error => {
   } else if (message.includes('timeout')) {
     message = '系统接口请求超时'
   } else if (message.includes('Request failed with status code')) {
-    message = '系统接口' + message.substr(message.length - 3) + '异常'
+    const code = message.substr(message.length - 3)
+    message = '系统接口' + code + '异常'
   }
   notification.error({
     message: message,
@@ -48,7 +64,7 @@ request.interceptors.request.use(config => {
     // config.headers['accessAccess-Token'] = token
   }
   // 处理params参数
-  if (config.params) {
+  if (config.params && config.default === undefined) {
     const url = config.url + '?' + qs.stringify(config.params, { indices: false })
     config.params = {}
     config.url = url
@@ -61,12 +77,13 @@ request.interceptors.response.use(res => {
   // 请求rul
   const requestUrl = res.config.url
   // 未设置状态码则默认成功状态
-  const code = res.data.code || 200
+  const code =
+    res.config.default !== undefined && !res.config.default ? res.status || res.data.code || 200 : res.data.code || 200
   // 获取错误信息
   const msg = errorCode[code] || res.data.msg || errorCode['default']
   // 二进制数据则直接返回
   if (res.request.responseType === 'blob' || res.request.responseType === 'arraybuffer') {
-    return res.data
+    return res.config.default !== undefined && !res.config.default ? res : res.data
   }
   if (code === 401) {
     if (!isReloginShow) {
@@ -106,7 +123,7 @@ request.interceptors.response.use(res => {
     if (requestUrl !== '/login') {
       notification.error({
         message: msg,
-        description: msg
+        description: res.data.data || msg
       })
     }
   } else if (code === 601) {
@@ -115,10 +132,10 @@ request.interceptors.response.use(res => {
     })
   } else if (code !== 200) {
     notification.error({
-      message: msg
+      message: msg || '请求失败'
     })
   } else {
-    return res.data
+    return res.config.default !== undefined && !res.config.default ? res : res.data
   }
   return Promise.reject(msg)
 }, errorHandler)

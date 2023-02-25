@@ -26,7 +26,7 @@ function getColorList() {
       color: '#52c41a'
     },
     {
-      key: i18n.t('app.setting.themecolor.purple'),
+      key: i18n.t('app.setting.themecolor.daybreak'),
       color: '#1890ff'
     },
     {
