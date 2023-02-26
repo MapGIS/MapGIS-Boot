@@ -66,8 +66,7 @@ export default {
     margin-right: 0;
     color: @text-color;
   }
-  :deep(.ant-form-item-label),
-  .ant-form-item-control {
+  :deep(.ant-form-item-label, .ant-form-item-control) {
     padding: 0;
     line-height: 32px;
   }

@@ -8,6 +8,8 @@ window._CONFIG = {
   VUE_APP_PRODUCT_FULL_NAME: 'mapgis-xxx',
   // 产品标题
   VUE_APP_PRODUCT_TITLE: 'MapGIS Boot',
+  // 国际化支持
+  VUE_APP_SUPPROT_INTERNATIONALIZATION: 'true',
   // 接口父路径(当值不为空时会覆盖env配置)
   VUE_APP_API_BASE_URL: ''
 }

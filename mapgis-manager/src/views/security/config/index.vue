@@ -58,10 +58,13 @@ export default {
         {
           title: this.$t('security.config.user.register.config'),
           key: 'registerUser',
-          component: 'RegisterUserConfig'
+          component: 'RegisterUserConfig',
+          enabled: true
         },
         { title: this.$t('security.config.user.login.config'), key: 'userLogin', component: 'UserLoginConfig' }
-      ]
+      ].filter(item => {
+        return !(item.enabled !== undefined && item.enabled === false)
+      })
     },
     currentTitle() {
       const currnetConfig = this.configItems.find(config => {

@@ -2,8 +2,8 @@
   <div :class="wrpCls">
     <a-space size="0">
       <screenfull :class="prefixCls" />
-      <notice-icon v-hasPermi="['system:notice:list']" :class="prefixCls" />
-      <select-lang :class="prefixCls" style="vertical-align: middle" />
+      <notice-icon v-if="showNotice" v-hasPermi="['system:notice:list']" :class="prefixCls" />
+      <select-lang v-if="supportInternationalization" :class="prefixCls" style="vertical-align: middle" />
       <avatar-dropdown :menu="showMenu" :current-user="currentUser" :class="prefixCls" />
     </a-space>
   </div>
@@ -44,7 +44,8 @@ export default {
   data() {
     return {
       showMenu: true,
-      currentUser: {}
+      currentUser: {},
+      showNotice: true
     }
   },
   computed: {
@@ -53,6 +54,9 @@ export default {
         'ant-pro-global-header-index-right': true,
         [`ant-pro-global-header-index-${this.isMobile || !this.topMenu ? 'light' : this.theme}`]: true
       }
+    },
+    supportInternationalization() {
+      return window._CONFIG['supportInternationalization '] === 'true'
     }
   },
   mounted() {
