@@ -66,7 +66,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
-/deep/ .ant-descriptions-item-content {
+:deep(.ant-descriptions-item-content) {
   word-break: break-all;
 }
 </style>
