@@ -11,12 +11,17 @@
         :after-close="handleCloseLoginError"
       />
       <a-form-model-item prop="username">
-        <a-input v-model="form.username" size="large" autocomplete="off" placeholder="username">
+        <a-input v-model="form.username" size="large" autocomplete="off" :placeholder="$t('username')">
           <a-icon slot="prefix" type="user" :style="{ color: 'rgba(0,0,0,.65)' }" />
         </a-input>
       </a-form-model-item>
       <a-form-model-item prop="password">
-        <a-input-password v-model="form.password" size="large" autocomplete="new-password" placeholder="password">
+        <a-input-password
+          v-model="form.password"
+          size="large"
+          autocomplete="new-password"
+          :placeholder="$t('password')"
+        >
           <a-icon slot="prefix" type="lock" :style="{ color: 'rgba(0,0,0,.65)' }" />
         </a-input-password>
       </a-form-model-item>
@@ -261,6 +266,8 @@ export default {
     margin-top: 24px;
     .help {
       float: right;
+      color: @primary-color;
+      cursor: default;
     }
   }
 }

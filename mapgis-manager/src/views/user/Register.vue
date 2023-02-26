@@ -20,7 +20,7 @@
         <a-input-password
           v-model="form.password"
           size="large"
-          autocomplete="off"
+          autocomplete="new-password"
           :placeholder="$t('password')"
           :maxLength="16"
         />
@@ -29,7 +29,7 @@
         <a-input-password
           v-model="form.confirmPassword"
           size="large"
-          autocomplete="off"
+          autocomplete="new-password"
           :placeholder="$t('password.confirm')"
           :maxLength="20"
         />
