@@ -214,7 +214,12 @@ export default {
       })
     },
     loginSuccess(res) {
-      this.$router.push({ path: '/' })
+      const redirect = this.$route.query.redirect
+      if (redirect) {
+        location.href = decodeURIComponent(redirect)
+      } else {
+        location.href = '/'
+      }
       this.handleCloseLoginError()
     },
     requestFailed(err) {
