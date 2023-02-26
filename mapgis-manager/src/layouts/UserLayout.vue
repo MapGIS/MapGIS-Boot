@@ -2,7 +2,7 @@
   <div id="userLayout" :class="['user-layout-wrapper', isMobile && 'mobile']">
     <div class="container" :style="{ backgroundImage: backgourndImageUrl }">
       <div class="user-layout-lang">
-        <select-lang class="select-lang-trigger" />
+        <select-lang v-if="supportInternationalization" class="select-lang-trigger" />
       </div>
       <div class="user-layout-content">
         <div class="top">
@@ -46,6 +46,9 @@ export default {
   computed: {
     backgourndImageUrl() {
       return `url('${process.env.BASE_URL}login-bg.png')`
+    },
+    supportInternationalization() {
+      return window._CONFIG['supportInternationalization '] === 'true'
     }
   },
   mounted() {
