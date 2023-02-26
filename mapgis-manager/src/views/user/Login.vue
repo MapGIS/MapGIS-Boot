@@ -1,6 +1,6 @@
 <template>
-  <div class="main">
-    <a-form-model id="formLogin" ref="form" class="user-layout-login" :model="form" :rules="rules">
+  <div class="main user-layout-login">
+    <a-form-model id="formLogin" ref="form" :model="form" :rules="rules">
       <a-alert
         v-if="isLoginError"
         type="error"
