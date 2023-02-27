@@ -5,6 +5,7 @@ import com.zondy.mapgis.system.api.domain.*;
 import com.zondy.mapgis.system.api.model.LoginUser;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 系统服务API，提供其他独立模块调用
@@ -137,4 +138,20 @@ public interface ISysServiceApi {
      * @return 角色ID列表
      */
     public R<List<Long>> selectRolesByUserId(Long userId, String source);
+
+    /**
+     * 获取实时的监控信息
+     *
+     * @return 监控信息
+     */
+    R<Map<String, Object>> getMonitorInfo(String source);
+
+    /**
+     * 获取指定时间周期内的监控信息
+     *
+     * @param beginTime 开始时间
+     * @param endTime   结束时间
+     * @return 监控信息
+     */
+    R<Map<String, Object>> getMonitorInfoBetweenTime(String beginTime, String endTime, String source);
 }

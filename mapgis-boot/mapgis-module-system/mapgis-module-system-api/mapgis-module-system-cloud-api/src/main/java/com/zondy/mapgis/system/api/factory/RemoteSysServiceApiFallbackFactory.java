@@ -1,5 +1,6 @@
 package com.zondy.mapgis.system.api.factory;
 
+import com.zondy.mapgis.common.core.constant.SecurityConstants;
 import com.zondy.mapgis.common.core.domain.R;
 import com.zondy.mapgis.system.api.ISysServiceApi;
 import com.zondy.mapgis.system.api.domain.*;
@@ -8,8 +9,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cloud.openfeign.FallbackFactory;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 系统基础服务降级处理
@@ -93,6 +97,18 @@ public class RemoteSysServiceApiFallbackFactory implements FallbackFactory<ISysS
             @Override
             public R<List<Long>> selectRolesByUserId(Long userId, String source) {
                 return R.fail("获取指定用户的角色列表失败:" + throwable.getMessage());
+            }
+
+            @Override
+            public R<Map<String, Object>> getMonitorInfo(@RequestHeader(SecurityConstants.FROM_SOURCE) String source) {
+                return R.fail("获取实时监控信息失败:" + throwable.getMessage());
+            }
+
+            @Override
+            public R<Map<String, Object>> getMonitorInfoBetweenTime(@RequestParam("beginTime") String beginTime,
+                                                                    @RequestParam("endTime") String endTime,
+                                                                    @RequestHeader(SecurityConstants.FROM_SOURCE) String source) {
+                return R.fail("根据时间区间获取监控信息失败:" + throwable.getMessage());
             }
         };
     }

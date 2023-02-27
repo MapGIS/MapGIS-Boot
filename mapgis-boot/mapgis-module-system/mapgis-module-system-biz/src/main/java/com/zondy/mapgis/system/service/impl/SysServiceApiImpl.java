@@ -11,10 +11,12 @@ import com.zondy.mapgis.system.api.service.*;
 import com.zondy.mapgis.system.service.ISysAuthConfigService;
 import com.zondy.mapgis.system.service.ISysAuthUserService;
 import com.zondy.mapgis.system.service.ISysConfigService;
+import com.zondy.mapgis.system.service.ISysServerMonitorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -53,6 +55,9 @@ public class SysServiceApiImpl implements ISysServiceApi {
 
     @Autowired
     private ISysRoleService roleService;
+
+    @Autowired
+    private ISysServerMonitorService sysServerMonitorService;
 
     @Override
     public R<LoginUser> getUserInfo(String username, String source) {
@@ -184,5 +189,15 @@ public class SysServiceApiImpl implements ISysServiceApi {
     @Override
     public R<List<Long>> selectRolesByUserId(Long userId, String source) {
         return R.ok(roleService.selectRoleListByUserId(userId));
+    }
+
+    @Override
+    public R<Map<String, Object>> getMonitorInfo(String source) {
+        return R.ok(sysServerMonitorService.getMonitorInfo());
+    }
+
+    @Override
+    public R<Map<String, Object>> getMonitorInfoBetweenTime(String beginTime, String endTime, String source) {
+        return R.ok(sysServerMonitorService.getMonitorInfoBetweenTime(beginTime, endTime));
     }
 }

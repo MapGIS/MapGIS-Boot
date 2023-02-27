@@ -9,6 +9,7 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 系统服务API，提供其他独立模块调用
@@ -76,7 +77,8 @@ public interface ISysServiceApi {
      * @return 结果
      */
     @PostMapping("/system/api/authUser/list")
-    public R<List<SysAuthUser>> selectAuthUserList(@RequestBody SysAuthUser user, @RequestHeader(SecurityConstants.FROM_SOURCE) String source);
+    public R<List<SysAuthUser>> selectAuthUserList(@RequestBody SysAuthUser user,
+                                                   @RequestHeader(SecurityConstants.FROM_SOURCE) String source);
 
     /**
      * 根据uuid查询用户信息
@@ -116,7 +118,8 @@ public interface ISysServiceApi {
      * @return 结果
      */
     @GetMapping("/system/api/config/configKey/{configKey}")
-    public R<String> selectConfigValueByKey(@PathVariable("configKey") String configKey, @RequestHeader(SecurityConstants.FROM_SOURCE) String source);
+    public R<String> selectConfigValueByKey(@PathVariable("configKey") String configKey,
+                                            @RequestHeader(SecurityConstants.FROM_SOURCE) String source);
 
     /**
      * 获取第三方登录配置列表
@@ -126,7 +129,8 @@ public interface ISysServiceApi {
      * @return 结果
      */
     @GetMapping("/system/api/authConfig")
-    public R<SysAuthConfig> selectAuthConfigByType(@RequestParam("type") String type, @RequestHeader(SecurityConstants.FROM_SOURCE) String source);
+    public R<SysAuthConfig> selectAuthConfigByType(@RequestParam("type") String type,
+                                                   @RequestHeader(SecurityConstants.FROM_SOURCE) String source);
 
     /**
      * 保存服务性能数据
@@ -136,7 +140,8 @@ public interface ISysServiceApi {
      * @return 结果
      */
     @PostMapping("/system/api/monitor/serverPerformance")
-    public R<Boolean> savePerformanceMonitorRecord(@RequestBody SysServerPerformanceData sysServerPerformanceData, @RequestHeader(SecurityConstants.FROM_SOURCE) String source);
+    public R<Boolean> savePerformanceMonitorRecord(@RequestBody SysServerPerformanceData sysServerPerformanceData,
+                                                   @RequestHeader(SecurityConstants.FROM_SOURCE) String source);
 
     /**
      * 保存HTTP访问记录
@@ -156,5 +161,25 @@ public interface ISysServiceApi {
      * @return 角色ID列表
      */
     @GetMapping("/user/{userId}/roles")
-    public R<List<Long>> selectRolesByUserId(@PathVariable("userId") Long userId, @RequestHeader(SecurityConstants.FROM_SOURCE) String source);
+    public R<List<Long>> selectRolesByUserId(@PathVariable("userId") Long userId,
+                                             @RequestHeader(SecurityConstants.FROM_SOURCE) String source);
+
+    /**
+     * 获取实时的监控信息
+     *
+     * @return 监控信息
+     */
+    @GetMapping("/system/monitor/server")
+    R<Map<String, Object>> getMonitorInfo(@RequestHeader(SecurityConstants.FROM_SOURCE) String source);
+
+    /**
+     * 获取指定时间周期内的监控信息
+     *
+     * @param beginTime 开始时间
+     * @param endTime   结束时间
+     * @return 监控信息
+     */
+    @GetMapping("/system/monitor/server/range")
+    R<Map<String, Object>> getMonitorInfoBetweenTime(@RequestParam("beginTime") String beginTime, @RequestParam("endTime") String endTime,
+                                                     @RequestHeader(SecurityConstants.FROM_SOURCE) String source);
 }
