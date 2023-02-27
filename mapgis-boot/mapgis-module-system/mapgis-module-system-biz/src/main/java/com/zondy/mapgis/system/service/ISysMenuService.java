@@ -142,4 +142,13 @@ public interface ISysMenuService {
      * @return 结果
      */
     public String checkMenuNameUnique(SysMenu menu);
+
+    /**
+     * 筛选出在树中的选择项
+     *
+     * @param menuTreeSelect
+     * @param checkedKeys
+     * @return 在树中的选择项
+     */
+    public List<Long> filterCheckedKeys(List<TreeSelect> menuTreeSelect, List<Long> checkedKeys);
 }

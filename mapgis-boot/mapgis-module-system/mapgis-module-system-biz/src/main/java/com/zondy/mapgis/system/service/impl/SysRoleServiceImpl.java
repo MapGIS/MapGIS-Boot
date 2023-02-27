@@ -21,6 +21,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * 角色 业务层处理
@@ -260,6 +261,8 @@ public class SysRoleServiceImpl implements ISysRoleService {
             list.add(rm);
         }
         if (list.size() > 0) {
+            // 前端提交菜单有重复，则数据库报错，这里去重；注意去重使用equals方法
+            list = list.stream().distinct().collect(Collectors.toList());
             rows = roleMenuMapper.batchRoleMenu(list);
         }
         return rows;

@@ -18,10 +18,11 @@ export function getMenu(menuId) {
 }
 
 // 查询菜单下拉树结构
-export function treeselect() {
+export function treeselect(query) {
   return request({
     url: `${window._CONFIG['apiPathManagerPrefix']}/system/menu/treeselect`,
-    method: 'get'
+    method: 'get',
+    params: query
   })
 }
 

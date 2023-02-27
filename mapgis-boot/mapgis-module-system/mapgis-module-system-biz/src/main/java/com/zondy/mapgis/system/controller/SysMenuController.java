@@ -10,6 +10,7 @@ import com.zondy.mapgis.common.log.enums.BusinessType;
 import com.zondy.mapgis.common.security.annotation.RequiresPermissions;
 import com.zondy.mapgis.common.security.utils.SecurityUtils;
 import com.zondy.mapgis.system.domain.SysMenu;
+import com.zondy.mapgis.system.domain.vo.TreeSelect;
 import com.zondy.mapgis.system.service.ISysMenuService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -76,10 +77,15 @@ public class SysMenuController extends BaseController {
     @GetMapping(value = "/roleMenuTreeselect/{roleId}")
     public AjaxResult roleMenuTreeselect(@PathVariable("roleId") Long roleId) {
         Long userId = SecurityUtils.getUserId();
-        List<SysMenu> menus = menuService.selectMenuList(userId);
+        SysMenu menu = new SysMenu();
+        menu.setVisible("0");
+        menu.setStatus("0");
+        List<SysMenu> menus = menuService.selectMenuList(menu, userId);
+        List<Long> checkedKeys = menuService.selectMenuListByRoleId(roleId);
+        List<TreeSelect> menuTreeSelect = menuService.buildMenuTreeSelect(menus);
         AjaxResult ajax = AjaxResult.success();
-        ajax.put("checkedKeys", menuService.selectMenuListByRoleId(roleId));
-        ajax.put("menus", menuService.buildMenuTreeSelect(menus));
+        ajax.put("checkedKeys", menuService.filterCheckedKeys(menuTreeSelect, checkedKeys));
+        ajax.put("menus", menuTreeSelect);
         return ajax;
     }
 

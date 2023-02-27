@@ -150,7 +150,7 @@ export default {
     },
     /** 查询菜单树结构 */
     getMenuTreeselect() {
-      menuTreeselect().then(response => {
+      menuTreeselect({ visible: '0', status: '0' }).then(response => {
         this.menuOptions = response.data
       })
     },
@@ -289,10 +289,15 @@ export default {
         this.open = true
         this.$nextTick(() => {
           roleMenu.then(res => {
-            this.menuCheckedKeys = res.checkedKeys
-            // 过滤回显时的半选中node(父)
-            if (this.form.menuCheckStrictly) {
-              this.selectNodefilter(this.menuOptions, [])
+            if (roleId === 1) {
+              this.menuCheckedKeys = []
+              this.getAllMenuNode(this.menuOptions)
+            } else {
+              this.menuCheckedKeys = res.checkedKeys
+              // 过滤回显时的半选中node(父)
+              if (this.form.menuCheckStrictly) {
+                this.selectNodefilter(this.menuOptions, [])
+              }
             }
           })
         })

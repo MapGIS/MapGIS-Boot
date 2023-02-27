@@ -96,16 +96,18 @@
           {{ parseTime(record.createTime) }}
         </span>
         <span slot="operation" slot-scope="text, record">
-          <a @click="$refs.createForm.handleUpdate(record, undefined)" v-hasPermi="['system:role:edit']">
-            <template v-if="record.isSys == 0">
+          <template v-if="record.isSys == 0">
+            <a @click="$refs.createForm.handleUpdate(record, undefined)" v-hasPermi="['system:role:edit']">
               <a-icon type="edit" />
               {{ $t('modify') }}
-            </template>
-            <template v-else>
+            </a>
+          </template>
+          <template v-else>
+            <a @click="$refs.createForm.handleUpdate(record, undefined)" v-hasPermi="['system:role:query']">
               <a-icon type="search" />
               {{ $t('look') }}
-            </template>
-          </a>
+            </a>
+          </template>
           <template v-if="record.isSys == 0">
             <a-divider type="vertical" v-hasPermi="['system:role:remove']" />
           </template>

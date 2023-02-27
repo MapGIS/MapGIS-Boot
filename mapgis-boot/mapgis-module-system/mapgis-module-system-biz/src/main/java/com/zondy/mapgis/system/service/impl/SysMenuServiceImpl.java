@@ -194,11 +194,10 @@ public class SysMenuServiceImpl implements ISysMenuService {
     @Override
     public List<SysMenu> buildMenuTree(List<SysMenu> menus) {
         List<SysMenu> returnList = new ArrayList<SysMenu>();
-        List<Long> tempList = menus.stream().map(SysMenu::getMenuId).collect(Collectors.toList());
         for (Iterator<SysMenu> iterator = menus.iterator(); iterator.hasNext(); ) {
             SysMenu menu = (SysMenu) iterator.next();
             // 如果是顶级节点, 遍历该父节点的所有子节点
-            if (!tempList.contains(menu.getParentId())) {
+            if (menu.getParentId() == 0L) {
                 recursionFn(menus, menu);
                 returnList.add(menu);
             }
@@ -460,5 +459,34 @@ public class SysMenuServiceImpl implements ISysMenuService {
     public String innerLinkReplaceEach(String path) {
         return StringUtils.replaceEach(path, new String[]{Constants.HTTP, Constants.HTTPS, Constants.WWW, "."},
                 new String[]{"", "", "", "/"});
+    }
+
+    /**
+     * 筛选出在树中的选择项
+     *
+     * @param menuTreeSelect
+     * @param checkedKeys
+     * @return 在树中的选择项
+     */
+    public List<Long> filterCheckedKeys(List<TreeSelect> menuTreeSelect, List<Long> checkedKeys) {
+        List<Long> idList = new ArrayList<>();
+
+        getMenuTreeSelectIds(menuTreeSelect, idList);
+        return checkedKeys.stream().filter(checkedKey -> idList.contains(checkedKey)).collect(Collectors.toList());
+    }
+
+    /**
+     * 获取所有的ID
+     *
+     * @param menuTreeSelect
+     * @param idList
+     */
+    private void getMenuTreeSelectIds(List<TreeSelect> menuTreeSelect, List<Long> idList) {
+        if (menuTreeSelect != null) {
+            menuTreeSelect.stream().forEach(treeSelect -> {
+                idList.add(treeSelect.getId());
+                getMenuTreeSelectIds(treeSelect.getChildren(), idList);
+            });
+        }
     }
 }
