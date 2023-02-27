@@ -45,7 +45,7 @@
           {{ $t('user.login.account.register') }}
         </router-link>
       </a-form-model-item>
-      <a-form-item style="margin-top: 24px">
+      <a-form-item :style="{ marginTop: rememberMeItemEnabled ? '24px' : '0' }">
         <a-button
           size="large"
           type="primary"
