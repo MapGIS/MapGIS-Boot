@@ -88,7 +88,9 @@ public class SysPasswordService {
             cacheService.setCacheObject(CacheUtils.getLoginCacheKey(username, ip, isLockedByIp), retryCount, lockTime.longValue(), TimeUnit.MINUTES);
             // 记录验证码显示登录错误次数缓存
             recordCaptchaLoginCache(username, ip);
-            throw new UserPasswordNotMatchException();
+            String[] errorInfo = new String[1];
+            errorInfo[0] = String.valueOf(retryCount);
+            throw new UserPasswordNotMatchException(errorInfo);
         } else {
             clearLoginCache(username, ip, isLockedByIp);
             clearCaptchaLoginCache(username, ip);

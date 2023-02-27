@@ -12,4 +12,8 @@ public class UserPasswordNotMatchException extends UserException {
     public UserPasswordNotMatchException() {
         super("user.password.not.match", null);
     }
+
+    public UserPasswordNotMatchException(String[] errorInfo) {
+        super("user.password.retry.limit.count", errorInfo);
+    }
 }
