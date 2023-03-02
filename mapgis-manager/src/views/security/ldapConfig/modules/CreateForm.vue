@@ -1,8 +1,13 @@
 <template>
-  <a-drawer width="35%" :visible="open" @close="onClose">
-    <a-divider orientation="left">
-      <b>{{ formTitle }}</b>
-    </a-divider>
+  <pop-dialog
+    :mode="formMode"
+    :title="formTitle"
+    width="35%"
+    :visible="open"
+    :loading="submitLoading"
+    @ok="submitForm"
+    @cancel="onClose"
+  >
     <a-form-model ref="form" :model="form" :rules="rules">
       <a-form-model-item v-if="isAdd && ldapErrorMsg">
         <a-alert type="error" :message="ldapErrorMsg" banner />
@@ -23,21 +28,22 @@
           @change="handleRoleChange"
         />
       </a-form-model-item>
-      <div class="bottom-control">
+      <!-- <div class="bottom-control">
         <a-space>
-          <a-button type="primary" @click="submitForm">{{ $t('ok') }}</a-button>
+          <a-button type="primary" :loading="submitLoading" @click="submitForm">{{ $t('ok') }}</a-button>
           <a-button type="dashed" @click="cancel">{{ $t('cancel') }}</a-button>
         </a-space>
-      </div>
+      </div> -->
     </a-form-model>
-  </a-drawer>
+  </pop-dialog>
 </template>
 
 <script>
 import { ldapRoles } from '@/api/system/security'
-
+import { formMixin } from '@/store/form-mixin'
 export default {
   name: 'CreateForm',
+  mixins: [formMixin],
   props: {
     systemRoles: {
       type: Array,
@@ -49,6 +55,7 @@ export default {
   components: {},
   data() {
     return {
+      submitLoading: false,
       ldapRoles: [],
       existedExternalRoles: [],
       formTitle: '',
