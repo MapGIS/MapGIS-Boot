@@ -17,16 +17,22 @@
     </properties>
 
     <dependencies>
-        <!-- SpringBoot Web容器 -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
-
         <!-- MapGIS Common Base Cache -->
         <dependency>
             <groupId>com.zondy.mapgis</groupId>
             <artifactId>mapgis-common-base-cache</artifactId>
+        </dependency>
+
+        <!-- servlet 标准 -->
+        <dependency>
+            <groupId>jakarta.servlet</groupId>
+            <artifactId>jakarta.servlet-api</artifactId>
+        </dependency>
+
+        <!--   Spring mvc     -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-webmvc</artifactId>
         </dependency>
     </dependencies>
 </project>
