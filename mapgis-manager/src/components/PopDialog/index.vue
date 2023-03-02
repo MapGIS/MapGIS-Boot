@@ -64,7 +64,7 @@ export default {
 
 <style lang="less" scoped>
 .pop-dialog-wrapper-modal {
-  :deep(.bottom-control) {
+  /deep/ .bottom-control {
     display: none;
   }
 }

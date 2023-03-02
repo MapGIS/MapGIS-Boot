@@ -55,22 +55,22 @@ export default {
 <style lang="less" scoped>
 .notice-detail {
   /* table 样式 */
-  :deep(table) {
+  /deep/ table {
     border-top: 1px solid #ccc;
     border-left: 1px solid #ccc;
   }
-  :deep(table td, table th) {
+  /deep/ table td, table th {
     border-bottom: 1px solid #ccc;
     border-right: 1px solid #ccc;
     padding: 3px 5px;
   }
-  :deep(table th) {
+  /deep/ table th {
     border-bottom: 2px solid #ccc;
     text-align: center;
   }
 
   /* blockquote 样式 */
-  :deep(blockquote) {
+  /deep/ blockquote {
     display: block;
     border-left: 8px solid #d0e5f2;
     padding: 5px 10px;
@@ -81,7 +81,7 @@ export default {
   }
 
   /* code 样式 */
-  :deep(code) {
+  /deep/ code {
     display: inline-block;
     *display: inline;
     *zoom: 1;
@@ -90,12 +90,12 @@ export default {
     padding: 3px 5px;
     margin: 0 3px;
   }
-  :deep(pre code) {
+  /deep/ pre code {
     display: block;
   }
 
   /* ul ol 样式 */
-  :deep(ul, ol) {
+  /deep/ ul, ol {
     margin: 10px 0 10px 20px;
   }
 }

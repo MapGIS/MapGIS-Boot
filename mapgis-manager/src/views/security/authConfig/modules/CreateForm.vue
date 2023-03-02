@@ -395,7 +395,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
-:deep(.ant-upload-select-picture-card) {
+/deep/ .ant-upload-select-picture-card {
   width: 32px;
   height: 32px;
   i {
