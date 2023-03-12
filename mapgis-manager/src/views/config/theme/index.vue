@@ -351,7 +351,7 @@ export default {
   padding-left: 0px;
   padding-right: 0px;
   text-align: center;
-  color: #fff;
+  color: @checkbox-check-color;
   font-weight: 700;
 
   i {

@@ -355,7 +355,7 @@ export default {
     padding-left: 0px;
     padding-right: 0px;
     text-align: center;
-    color: #fff;
+    color: @checkbox-check-color;
     font-weight: 700;
 
     i {
@@ -467,7 +467,7 @@ export default {
   border-radius: 4px 0 0 4px;
 
   i {
-    color: rgb(255, 255, 255);
+    color: @btn-primary-color;
     font-size: 20px;
   }
 }
