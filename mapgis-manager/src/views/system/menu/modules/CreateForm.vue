@@ -34,13 +34,12 @@
         </a-radio-group>
       </a-form-model-item>
       <a-form-model-item :label="$t('icon')" prop="icon" v-if="form.menuType != 'F'">
-        <a-space size="large">
+        <a-space size="small">
           <a-icon :component="allIcon[form.icon + 'Icon']" v-if="form.icon && allIcon[form.icon + 'Icon']" />
           <a-icon :type="form.icon" v-if="form.icon && !allIcon[form.icon + 'Icon']" />
           <a-button type="dashed" @click="selectIcon"> {{ $t('security.menu.select.icon') }} </a-button>
           <a-button type="dashed" @click="removeIcon"> {{ $t('security.menu.remove.icon') }}</a-button>
           <a @click="cancelSelectIcon" v-if="iconVisible" style="margin-left: 8px">
-            {{ $t('collapse') }}
             <a-icon type="up" />
           </a>
         </a-space>
