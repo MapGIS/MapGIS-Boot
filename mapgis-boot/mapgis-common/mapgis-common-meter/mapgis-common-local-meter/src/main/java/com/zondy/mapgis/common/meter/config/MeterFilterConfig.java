@@ -7,6 +7,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
 
+import javax.servlet.Filter;
+
 /**
  * Filter配置
  *
@@ -16,12 +18,13 @@ import org.springframework.core.Ordered;
 @Configuration
 public class MeterFilterConfig {
     @Bean
-    public FilterRegistrationBean performanceMeterFilterRegistration(MetricContext metricContext) {
-        FilterRegistrationBean registration = new FilterRegistrationBean();
+    public FilterRegistrationBean<Filter> performanceMeterFilterRegistration(MetricContext metricContext) {
+        FilterRegistrationBean<Filter> registration = new FilterRegistrationBean<>();
         registration.setFilter(new PerformanceMeterFilter(metricContext));
         registration.addUrlPatterns("/*");
         registration.setName("performanceMeterFilter");
-        registration.setOrder(Ordered.HIGHEST_PRECEDENCE);
+        //有一些过滤器需要在它之前，比如ServiceMeterFilter
+        registration.setOrder(Ordered.HIGHEST_PRECEDENCE + 100);
         return registration;
     }
 }

@@ -7,6 +7,7 @@ import com.zondy.mapgis.common.core.config.properties.ApiPathProperties;
 import com.zondy.mapgis.common.security.filter.JwtAuthenticationTokenFilter;
 import com.zondy.mapgis.common.security.handler.AuthenticationEntryPointImpl;
 import com.zondy.mapgis.common.security.handler.LogoutSuccessHandlerImpl;
+import com.zondy.mapgis.common.security.service.TokenService;
 import com.zondy.mapgis.system.api.domain.SysCasConfig;
 import com.zondy.mapgis.system.api.service.SysServiceProxy;
 import org.jasig.cas.client.session.SingleSignOutFilter;
@@ -28,8 +29,6 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.web.authentication.logout.LogoutFilter;
-import org.springframework.web.filter.CorsFilter;
 
 /**
  * spring security cas默认配置
@@ -67,13 +66,7 @@ public class CasSecurityConfig extends WebSecurityConfigurerAdapter {
      * token认证过滤器
      */
     @Autowired
-    private JwtAuthenticationTokenFilter authenticationTokenFilter;
-
-    /**
-     * 跨域过滤器
-     */
-    @Autowired
-    private CorsFilter corsFilter;
+    private TokenService tokenService;
 
     /**
      * 产品配置
@@ -108,7 +101,6 @@ public class CasSecurityConfig extends WebSecurityConfigurerAdapter {
     /**
      * 解决 无法直接注入 AuthenticationManager
      *
-     * @return
      * @throws Exception
      */
     @Bean
@@ -184,12 +176,8 @@ public class CasSecurityConfig extends WebSecurityConfigurerAdapter {
         // 添加CAS 认证filter
         httpSecurity.addFilter(casAuthenticationFilter());
         // 添加JWT filter
-        httpSecurity.addFilterBefore(authenticationTokenFilter, CasAuthenticationFilter.class);
+        httpSecurity.addFilterBefore(new JwtAuthenticationTokenFilter(tokenService), CasAuthenticationFilter.class);
         httpSecurity.addFilterBefore(singleSignOutFilter(), CasAuthenticationFilter.class);
-
-        // 添加CORS filter
-        httpSecurity.addFilterBefore(corsFilter, JwtAuthenticationTokenFilter.class);
-        httpSecurity.addFilterBefore(corsFilter, LogoutFilter.class);
     }
 
     /**
@@ -212,9 +200,9 @@ public class CasSecurityConfig extends WebSecurityConfigurerAdapter {
     /**
      * CAS认证过滤器
      */
-    @Bean
     public CasAuthenticationFilter casAuthenticationFilter() throws Exception {
         CasAuthenticationFilter casAuthenticationFilter = new CasAuthenticationFilter();
+        casAuthenticationFilter.setFilterProcessesUrl(apiPathProperties.getServicesPrefix() + "/auth/casLogin/login");
         casAuthenticationFilter.setAuthenticationManager(authenticationManager());
         casAuthenticationFilter.setAuthenticationSuccessHandler(casAuthenticationSuccessHandler);
         // casAuthenticationFilter.setFilterProcessesUrl在SysConfigEvent事件响应中动态设置
@@ -239,7 +227,6 @@ public class CasSecurityConfig extends WebSecurityConfigurerAdapter {
      * 单点注销过滤器
      * 用于接收cas服务端的注销请求
      */
-    @Bean
     public SingleSignOutFilter singleSignOutFilter() {
         SingleSignOutFilter singleSignOutFilter = new SingleSignOutFilter();
         singleSignOutFilter.setIgnoreInitConfiguration(true);

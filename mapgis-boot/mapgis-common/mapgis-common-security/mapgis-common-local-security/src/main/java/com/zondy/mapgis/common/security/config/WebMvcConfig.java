@@ -4,6 +4,7 @@ import com.zondy.mapgis.common.core.config.ProductConfig;
 import com.zondy.mapgis.common.repeatsubmit.interceptor.RepeatSubmitInterceptor;
 import com.zondy.mapgis.file.api.config.properties.FileProperties;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.cors.CorsConfiguration;
@@ -13,6 +14,7 @@ import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+import javax.servlet.Filter;
 import java.io.File;
 
 /**
@@ -48,10 +50,10 @@ public class WebMvcConfig implements WebMvcConfigurer {
     }
 
     /**
-     * 跨域配置
+     * 跨域配置，需要控制filter的次序，保证在jwt、token认证之前
      */
     @Bean
-    public CorsFilter corsFilter() {
+    public FilterRegistrationBean<Filter> corsFilter() {
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowCredentials(true);
         // 设置访问源地址
@@ -65,7 +67,12 @@ public class WebMvcConfig implements WebMvcConfigurer {
         // 添加映射路径，拦截一切请求
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", config);
+
+        FilterRegistrationBean<Filter> registration = new FilterRegistrationBean<>();
+        registration.setFilter(new CorsFilter(source));
+        registration.setOrder(-1000);
+        registration.setName("CorsFilter");
         // 返回新的CorsFilter
-        return new CorsFilter(source);
+        return registration;
     }
 }

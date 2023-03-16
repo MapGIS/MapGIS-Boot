@@ -7,6 +7,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.Ordered;
 import org.springframework.util.StringUtils;
 
 import javax.servlet.DispatcherType;
@@ -36,7 +37,7 @@ public class FilterConfig {
         registration.setFilter(new XssFilter());
         registration.addUrlPatterns(StringUtils.split(urlPatterns, ","));
         registration.setName("xssFilter");
-        registration.setOrder(FilterRegistrationBean.HIGHEST_PRECEDENCE);
+        registration.setOrder(Ordered.HIGHEST_PRECEDENCE);
         Map<String, String> initParameters = new HashMap<String, String>();
         initParameters.put("excludes", excludes);
         registration.setInitParameters(initParameters);
@@ -50,7 +51,7 @@ public class FilterConfig {
         registration.setFilter(new RepeatableFilter());
         registration.addUrlPatterns("/*");
         registration.setName("repeatableFilter");
-        registration.setOrder(FilterRegistrationBean.LOWEST_PRECEDENCE);
+        registration.setOrder(Ordered.LOWEST_PRECEDENCE);
         return registration;
     }
 }
