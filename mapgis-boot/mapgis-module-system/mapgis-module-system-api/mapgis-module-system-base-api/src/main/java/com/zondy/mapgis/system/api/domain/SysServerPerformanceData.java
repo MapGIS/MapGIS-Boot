@@ -11,11 +11,6 @@ import lombok.Data;
 @Data
 public class SysServerPerformanceData {
     /**
-     * 客户端IP
-     */
-    private String ipaddr;
-
-    /**
      * 远程主机IP
      */
     private String remoteAddr;
@@ -49,4 +44,14 @@ public class SysServerPerformanceData {
      * 耗时
      */
     private Long time;
+
+    /**
+     * 服务名，复合服务名，[folder:]name
+     */
+    private String serviceName;
+
+    /**
+     * 服务类型 Protocol枚举
+     */
+    private String serviceType;
 }

@@ -32,8 +32,7 @@ public class PerformanceMeterFilter implements Filter {
         long start = System.currentTimeMillis();
         serverPerformanceData.setAccessTimeMillis(start);
         serverPerformanceData.setUrl(httpServletRequest.getRequestURI());
-        serverPerformanceData.setIpaddr(IpUtils.getIpAddr(httpServletRequest));
-        serverPerformanceData.setRemoteAddr(httpServletRequest.getRemoteAddr());
+        serverPerformanceData.setRemoteAddr(IpUtils.getIpAddr(httpServletRequest));
         serverPerformanceData.setMethod(httpServletRequest.getMethod());
         serverPerformanceData.setQueryString(httpServletRequest.getQueryString());
 

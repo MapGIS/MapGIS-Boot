@@ -588,7 +588,7 @@ VALUES (123, '日志配置', 2, 5, 'logConfig', 'log/config/index', NULL, 1, 0, 
         'file-done', 'admin', '2022-11-30 11:45:39', '', NULL, '日志配置菜单');
 INSERT INTO `sys_menu`
 VALUES (124, '服务器性能监控', 1, 3, 'performance', 'monitor/performance/index', NULL, 1, 1, 'C', '0', '0',
-        'system:serverPerformance:list', 'fund', 'admin', '2022-12-06 10:54:54', '', NULL, '服务器性能监控菜单');
+        'monitor:serverPerformance:list', 'fund', 'admin', '2022-12-06 10:54:54', '', NULL, '服务器性能监控菜单');
 INSERT INTO `sys_menu`
 VALUES (125, '用户组管理', 3, 3, 'usergroup', 'system/usergroup/index', NULL, 1, 0, 'C', '0', '0', 'system:usergroup:list',
         'team', 'admin', '2022-12-23 16:32:49', '', NULL, '用户组管理菜单');

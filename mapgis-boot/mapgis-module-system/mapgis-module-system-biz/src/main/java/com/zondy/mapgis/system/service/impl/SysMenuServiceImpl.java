@@ -50,6 +50,11 @@ public class SysMenuServiceImpl implements ISysMenuService {
         return selectMenuList(new SysMenu(), userId);
     }
 
+    @Override
+    public Set<String> getMenuPerms() {
+        return new HashSet<>(menuMapper.selectMenuPerms());
+    }
+
     /**
      * 查询系统菜单列表
      *

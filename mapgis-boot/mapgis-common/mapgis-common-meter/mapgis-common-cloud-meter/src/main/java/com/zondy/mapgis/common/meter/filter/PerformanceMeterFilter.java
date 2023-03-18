@@ -53,8 +53,7 @@ public class PerformanceMeterFilter implements GlobalFilter, Ordered {
                     serverPerformanceData.setAccessTimeMillis(start);
                     serverPerformanceData.setTime(System.currentTimeMillis() - start);
                     serverPerformanceData.setUrl(request.getURI().getPath());
-                    serverPerformanceData.setIpaddr(IpUtils.getIpAddr(request));
-                    serverPerformanceData.setRemoteAddr(request.getRemoteAddress().getAddress().getHostAddress());
+                    serverPerformanceData.setRemoteAddr(IpUtils.getIpAddr(request));
                     serverPerformanceData.setMethod(request.getMethodValue());
                     serverPerformanceData.setQueryString(getQueryString(request));
                     serverPerformanceData.setResponseStatus((long) response.getStatusCode().value());

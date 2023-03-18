@@ -199,7 +199,6 @@ public class MetricContext {
         String url = serverPerformanceData.getUrl();
         String queryString = serverPerformanceData.getQueryString();
         String remoteAddr = serverPerformanceData.getRemoteAddr();
-        String ipaddr = serverPerformanceData.getIpaddr();
         String method = serverPerformanceData.getMethod();
         Long status = serverPerformanceData.getResponseStatus();
         Long time = serverPerformanceData.getTime();
@@ -209,16 +208,11 @@ public class MetricContext {
         }
 
         try {
-            String serviceName = "";
-            // 这里需要处理一下，在测试影像时，getTile，发现uri的情况太多导致内存占满，一直GC，这里最长取5段
-            // serviceName = uri;
-            if (StringUtils.hasText(url)) {
-                serviceName = Arrays.stream(url.split("/")).limit(6).collect(Collectors.joining("/"));
-            }
+            String serviceName = serverPerformanceData.getServiceName();
             // 慢请求监控，时间超过3s，记录请求信息到log，用于跟踪性能问题
             if (time > 3000) {
                 String fullUri = url + (queryString != null ? ("?" + queryString) : "");
-                log.warn("慢请求,URL:{},Method:{},Remote:{},耗时:{}ms", fullUri, method, ipaddr, time);
+                log.warn("慢请求,URL:{},Method:{},Remote:{},耗时:{}ms", fullUri, method, remoteAddr, time);
             }
             // 所有请求，统计平均响应时间
             allServiceTimer.record(time, TimeUnit.MILLISECONDS);

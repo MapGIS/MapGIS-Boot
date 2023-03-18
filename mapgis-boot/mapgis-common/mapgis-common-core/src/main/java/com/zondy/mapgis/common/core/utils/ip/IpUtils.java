@@ -1,5 +1,6 @@
 package com.zondy.mapgis.common.core.utils.ip;
 
+import cn.hutool.core.util.StrUtil;
 import com.zondy.mapgis.common.core.utils.StringUtils;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 
@@ -58,7 +59,9 @@ public class IpUtils {
             ip = request.getRemoteAddr();
         }
 
-        return ("0:0:0:0:0:0:0:1".equals(ip) || "localhost".equals(ip)) ? "127.0.0.1" : getMultistageReverseProxyIp(ip);
+        ip = nomorize(ip);
+
+        return getMultistageReverseProxyIp(ip);
     }
 
     /**
@@ -271,7 +274,7 @@ public class IpUtils {
         if (ip != null && ip.indexOf(",") > 0) {
             final String[] ips = ip.trim().split(",");
             for (String subIp : ips) {
-                if (false == isUnknown(subIp)) {
+                if (!isUnknown(subIp)) {
                     ip = subIp;
                     break;
                 }
@@ -288,5 +291,15 @@ public class IpUtils {
      */
     public static boolean isUnknown(String checkString) {
         return StringUtils.isBlank(checkString) || "unknown".equalsIgnoreCase(checkString);
+    }
+
+    /**
+     * ip写法标准化，比如127.0.0.1的ip有多种表达方法
+     */
+    public static String nomorize(String ip) {
+        if (StrUtil.isNotBlank(ip) && ("0:0:0:0:0:0:0:1".equals(ip) || "localhost".equals(ip))) {
+            return "127.0.0.1";
+        }
+        return ip;
     }
 }

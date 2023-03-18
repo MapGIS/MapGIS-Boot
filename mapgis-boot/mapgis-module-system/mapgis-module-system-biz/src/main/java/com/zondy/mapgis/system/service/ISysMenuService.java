@@ -23,6 +23,13 @@ public interface ISysMenuService {
     public List<SysMenu> selectMenuList(Long userId);
 
     /**
+     * 获取所有权限
+     *
+     * @return 权限列表
+     */
+    public Set<String> getMenuPerms();
+
+    /**
      * 根据用户查询系统菜单列表
      *
      * @param menu   菜单信息

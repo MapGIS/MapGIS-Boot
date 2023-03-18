@@ -21,7 +21,7 @@ public interface SysMenuMapper {
     public List<SysMenu> selectMenuList(SysMenu menu);
 
     /**
-     * 根据用户所有权限
+     * 获取所有权限
      *
      * @return 权限列表
      */

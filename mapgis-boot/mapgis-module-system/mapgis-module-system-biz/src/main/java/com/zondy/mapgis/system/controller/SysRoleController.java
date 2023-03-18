@@ -163,6 +163,22 @@ public class SysRoleController extends BaseController {
     }
 
     /**
+     * 刷新用户权限
+     */
+    @Operation(summary = "刷新用户权限")
+    @Log(title = "角色管理", businessType = BusinessType.UPDATE)
+    @GetMapping("/refresh")
+    public AjaxResult refresh() {
+        LoginUser loginUser = SecurityUtils.getLoginUser();
+        if (StringUtils.isNotNull(loginUser.getUser()) && !loginUser.getUser().isAdmin()) {
+            loginUser.setPermissions(permissionService.getMenuPermission(loginUser.getUser()));
+            loginUser.setUser(userService.selectUserByUserName(loginUser.getUser().getUserName()));
+            tokenService.setLoginUser(loginUser);
+        }
+        return AjaxResult.success();
+    }
+
+    /**
      * 获取角色选择框列表
      */
     @Operation(summary = "获取角色选择框列表")

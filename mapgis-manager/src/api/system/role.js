@@ -35,6 +35,14 @@ export function updateRole(data) {
   })
 }
 
+// 刷新角色权限
+export function refresh(data) {
+  return request({
+    url: `${window._CONFIG['apiPathManagerPrefix']}/system/role/refresh`,
+    method: 'get'
+  })
+}
+
 // 角色数据权限
 export function dataScope(data) {
   return request({

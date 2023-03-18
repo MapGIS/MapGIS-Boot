@@ -5,6 +5,7 @@ import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.util.NumberUtil;
 import com.baomidou.dynamic.datasource.annotation.DS;
 import com.zondy.mapgis.common.core.utils.DateUtils;
+import com.zondy.mapgis.common.core.utils.EnvUtils;
 import com.zondy.mapgis.common.core.utils.StringUtils;
 import com.zondy.mapgis.common.core.utils.ip.IpUtils;
 import com.zondy.mapgis.system.domain.SysCpu;
@@ -119,8 +120,12 @@ public class SysServerMonitorServiceImpl implements ISysServerMonitorService {
      */
     @Scheduled(initialDelay = 5 * DateUtils.MILLIS_PER_SECOND, fixedDelay = 60 * DateUtils.MILLIS_PER_SECOND)
     public void dealHardwareMonitor() {
+        // oshi不支持申威
+        if (EnvUtils.IS_SHENWEI64_LINUX) {
+            return;
+        }
+
         SystemInfo si = new SystemInfo();
-        OperatingSystem os = si.getOperatingSystem();
         HardwareAbstractionLayer hal = si.getHardware();
         Date time = DateUtils.getNowDate();
 
