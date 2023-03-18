@@ -24,8 +24,8 @@ public class SysPerformanceMonitorController extends BaseController {
     private final IPerformanceMeterService performanceMeterService;
 
     @Operation(summary = "获取服务器性能监控详细信息")
-    @PreAuthorize("@ss.hasPermi('system:serverPerformance:list')")
-    @RequiresPermissions("system:serverPerformance:list")
+    @PreAuthorize("@ss.hasPermi('monitor:serverPerformance:list')")
+    @RequiresPermissions("monitor:serverPerformance:list")
     @GetMapping("/serverPerformance")
     public AjaxResult getServerPerformanceInfo() {
         return success(performanceMeterService.getPerformanceInfo());

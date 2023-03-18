@@ -25,14 +25,14 @@ public class SysServerMonitorController {
     private final ISysServerMonitorService serverMonitorService;
 
     @Operation(summary = "获取服务器监控详细信息")
-    @PreAuthorize("@ss.hasPermi('system:server:list')")
+    @PreAuthorize("@ss.hasPermi('monitor:server:list')")
     @GetMapping("/server")
     public AjaxResult getServerInfo() throws Exception {
         return AjaxResult.success(serverMonitorService.getMonitorInfo());
     }
 
     @Operation(summary = "获取指定时间周期内的服务器监控详细信息")
-    @PreAuthorize("@ss.hasPermi('system:server:list')")
+    @PreAuthorize("@ss.hasPermi('monitor:server:list')")
     @GetMapping("/server/range")
     public AjaxResult getServerInfoBetweenTime(@RequestParam("beginTime") String beginTime, @RequestParam("endTime") String endTime) throws Exception {
         return AjaxResult.success(serverMonitorService.getMonitorInfoBetweenTime(beginTime, endTime));
