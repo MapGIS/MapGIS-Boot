@@ -23,7 +23,7 @@ public class MeterFilterConfig {
         registration.setFilter(new PerformanceMeterFilter(metricContext));
         registration.addUrlPatterns("/*");
         registration.setName("performanceMeterFilter");
-        //有一些过滤器需要在它之前，比如ServiceMeterFilter
+        // 有一些过滤器需要在它之前，比如ServiceMeterFilter
         registration.setOrder(Ordered.HIGHEST_PRECEDENCE + 100);
         return registration;
     }

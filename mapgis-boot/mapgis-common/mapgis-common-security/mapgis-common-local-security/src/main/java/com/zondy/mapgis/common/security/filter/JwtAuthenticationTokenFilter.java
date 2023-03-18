@@ -4,11 +4,9 @@ import com.zondy.mapgis.common.core.utils.StringUtils;
 import com.zondy.mapgis.common.security.service.TokenService;
 import com.zondy.mapgis.common.security.utils.SecurityUtils;
 import com.zondy.mapgis.system.api.model.LoginUser;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
-import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
@@ -24,11 +22,11 @@ import java.io.IOException;
  * @since 2022/3/15 18:00
  */
 public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
+    private TokenService tokenService;
+
     public JwtAuthenticationTokenFilter(TokenService tokenService) {
         this.tokenService = tokenService;
     }
-
-    private TokenService tokenService;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)

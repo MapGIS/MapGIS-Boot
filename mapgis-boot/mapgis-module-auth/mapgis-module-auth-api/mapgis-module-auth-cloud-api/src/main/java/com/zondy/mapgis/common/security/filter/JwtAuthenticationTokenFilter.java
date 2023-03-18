@@ -1,6 +1,6 @@
 package com.zondy.mapgis.common.security.filter;
 
-import org.springframework.stereotype.Component;
+import com.zondy.mapgis.common.security.service.TokenService;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
@@ -16,8 +16,13 @@ import java.io.IOException;
  * @author xiongbo
  * @since 2022/6/10 13:47
  */
-@Component
 public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
+    private TokenService tokenService;
+
+    public JwtAuthenticationTokenFilter(TokenService tokenService) {
+        this.tokenService = tokenService;
+    }
+
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
             throws ServletException, IOException {
