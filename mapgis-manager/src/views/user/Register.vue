@@ -38,7 +38,7 @@
         <a-col class="gutter-row" :span="16">
           <a-form-model-item prop="code">
             <a-input v-model="form.code" size="large" type="text" autocomplete="off" :placeholder="$t('captcha')">
-              <a-icon slot="prefix" type="security-scan" :style="{ color: 'rgba(0,0,0,.25)' }" />
+              <a-icon slot="prefix" type="security-scan" />
             </a-input>
           </a-form-model-item>
         </a-col>

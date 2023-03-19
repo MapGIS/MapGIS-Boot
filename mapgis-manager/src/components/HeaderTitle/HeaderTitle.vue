@@ -18,7 +18,7 @@ export default {
 
 <style lang="less" scoped>
 .header-title-wrapper {
-  background-color: @table-header-bg;
+  background-color: #f5f5f5;
   height: 40px;
   line-height: 40px;
   padding: 0 16px;

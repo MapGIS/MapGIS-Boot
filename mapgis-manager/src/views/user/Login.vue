@@ -12,7 +12,7 @@
       />
       <a-form-model-item prop="username">
         <a-input v-model="form.username" size="large" autocomplete="off" :placeholder="$t('username')">
-          <a-icon slot="prefix" type="user" :style="{ color: 'rgba(0,0,0,.65)' }" />
+          <a-icon slot="prefix" type="user" />
         </a-input>
       </a-form-model-item>
       <a-form-model-item prop="password">
@@ -22,14 +22,14 @@
           autocomplete="new-password"
           :placeholder="$t('password')"
         >
-          <a-icon slot="prefix" type="lock" :style="{ color: 'rgba(0,0,0,.65)' }" />
+          <a-icon slot="prefix" type="lock" />
         </a-input-password>
       </a-form-model-item>
       <a-row :gutter="16" v-if="captchaEnabled">
         <a-col class="gutter-row" :span="16">
           <a-form-model-item prop="code">
             <a-input v-model="form.code" size="large" type="text" autocomplete="off" :placeholder="$t('captcha')">
-              <a-icon slot="prefix" type="security-scan" :style="{ color: 'rgba(0,0,0,.65)' }" />
+              <a-icon slot="prefix" type="security-scan" />
             </a-input>
           </a-form-model-item>
         </a-col>
