@@ -161,7 +161,8 @@ export const generator = (routerMap, parent) => {
         target: isInnerLink ? '_self' : validURL(item.path) ? '_blank' : '',
         permission: item.name,
         keepAlive: noCache === undefined ? false : !noCache,
-        hidden: hidden
+        hidden: hidden,
+        isMircoApp: isMircoApp
       },
       redirect: item.redirect
     }

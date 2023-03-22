@@ -148,7 +148,10 @@ export default {
   },
   watch: {
     $route: function (newVal) {
-      let currentIndex = this.pages.findIndex(item => item.path === newVal.path)
+      // 微应用的子路由共享一个Tab，微应用使用name区分
+      let currentIndex = newVal?.meta?.isMircoApp
+      ? this.pages.findIndex(item => item.name === newVal.name)
+      : this.pages.findIndex(item => item.path === newVal.path)
       if (currentIndex < 0) {
         this.pages.push(newVal)
         currentIndex = this.pages.length - 1
