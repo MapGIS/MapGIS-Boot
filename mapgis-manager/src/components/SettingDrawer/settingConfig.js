@@ -49,7 +49,7 @@ const updateTheme = (theme, color) => {
 
 const updateColorWeak = colorWeak => {
   // document.body.className = colorWeak ? 'colorWeak' : '';
-  const app = document.body.querySelector('#app')
+  const app = document.body.querySelector('#main-app')
   colorWeak ? app.classList.add('colorWeak') : app.classList.remove('colorWeak')
 }
 

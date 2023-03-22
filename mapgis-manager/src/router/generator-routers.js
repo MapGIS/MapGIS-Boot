@@ -138,6 +138,8 @@ export const generator = (routerMap, parent) => {
         item.path = `${(parent && parent.path) || ''}/${item.path}`
       }
     }
+    // 是否为微应用
+    const isMircoApp = item.component === 'system/microPage/index'
     const isInnerLink = item.meta && item.meta.routerType === 'innerLink'
     if (item.isFrame === 0) {
       item.target = '_blank'
@@ -168,7 +170,13 @@ export const generator = (routerMap, parent) => {
       currentRouter.hidden = true
     }
     // antdv-pro的pro-layout要求每个路径需为全路径
-    if (!isInnerLink && !constantRouterComponents[item.component || item.key]) {
+    if (isMircoApp) {
+      if (!item.path.startsWith('/')) {
+        item.path = '/' + item.path
+      }
+      // 实现微应用内部的子路由
+      currentRouter.path = item.path + '/*'
+    } else if (!isInnerLink && !constantRouterComponents[item.component || item.key]) {
       if (!validURL(item.path)) {
         currentRouter.path = `${(parent && parent.path) || ''}/${item.path}`
       }

@@ -71,4 +71,4 @@ new Vue({
   // init localstorage, vuex
   created: bootstrap,
   render: h => h(App)
-}).$mount('#app')
+}).$mount('#main-app')

@@ -47,7 +47,9 @@ const renderMenuItem = (h, item, i18nRender, mode) => {
   const target = meta.target || null
   const hasRemoteUrl = httpReg.test(item.path)
   const CustomTag = (target && 'a') || 'router-link'
-  const props = { to: { path: item.path } }
+  // 微应用的路由是以'/*'结尾，但这里菜单的链接需要动态去掉'*'
+  const menuPath = item.path?.endsWith('/*') ? item.path.substring(0, item.path.length - 1) : item.path
+  const props = { to: { path: menuPath } }
   const attrs = hasRemoteUrl || target ? { href: item.path, target: target } : {}
   if (item.children && item.hideChildrenInMenu) {
     // 把有子菜单的 并且 父菜单是要隐藏子菜单的

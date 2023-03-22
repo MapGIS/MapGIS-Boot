@@ -52,3 +52,4 @@ nbdist/
 /home/logs/
 /home/config/**
 !/home/config/*.example.properties
+/resource/static/*

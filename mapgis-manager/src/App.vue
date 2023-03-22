@@ -1,6 +1,6 @@
 <template>
   <a-config-provider :locale="locale">
-    <div id="app">
+    <div id="main-app">
       <router-view v-if="initialized" />
     </div>
   </a-config-provider>
