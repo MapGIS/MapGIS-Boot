@@ -14,10 +14,10 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import ${packageName}.domain.${ClassName};
 import ${packageName}.service.I${ClassName}Service;
-    #if($table.crud || $table.sub)
-    import com.zondy.mapgis.common.core.web.page.TableDataInfo;
-    #elseif($table.tree)
-    #end
+#if($table.crud || $table.sub)
+import com.zondy.mapgis.common.core.web.page.TableDataInfo;
+#elseif($table.tree)
+#end
 
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
@@ -34,13 +34,13 @@ public class ${ClassName}Controller extends BaseController {
     @Autowired
     private I${ClassName}Service ${className}Service;
 
-/**
- * 查询${functionName}列表
- */
-@Operation(summary = "查询${functionName}列表")
-@PreAuthorize("@ss.hasPermi('${permissionPrefix}:list')")
-@RequiresPermissions("${permissionPrefix}:list")
-@GetMapping("/list")
+    /**
+     * 查询${functionName}列表
+     */
+    @Operation(summary = "查询${functionName}列表")
+    @PreAuthorize("@ss.hasPermi('${permissionPrefix}:list')")
+    @RequiresPermissions("${permissionPrefix}:list")
+    @GetMapping("/list")
     #if($table.crud || $table.sub)
     public TableDataInfo list(${ClassName} ${className}) {
         startPage();
