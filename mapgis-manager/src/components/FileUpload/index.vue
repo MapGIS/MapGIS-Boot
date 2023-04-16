@@ -1,27 +1,28 @@
 <template>
-  <div class="clearfix">
+  <div class="file-upload clearfix">
     <a-upload
       :action="uploadImgUrl"
       :list-type="type == 'image' ? 'picture-card' : 'picture'"
+      :accept="type == 'image' ? 'image/png, image/jpeg' : ''"
       :show-upload-list="false"
       :headers="headers"
       :before-upload="beforeUpload"
       @change="handleChange"
     >
-      <img v-if="value && type == 'image'" :src="value" alt="avatar" />
+      <img v-if="realValue && type == 'image'" :src="realValue" />
       <div v-if="type == 'file'">
         <a-button> <a-icon type="upload" /> 上传 </a-button>
       </div>
-      <div v-if="value == '' || value == null">
+      <div v-if="realValue == '' || realValue == null">
         <span v-if="type == 'image'">
           <a-icon :type="loading ? 'loading' : 'plus'" />
           <div class="ant-upload-text">上传</div>
         </span>
       </div>
     </a-upload>
-    <span v-if="value && type == 'file'">
+    <span v-if="realValue && type == 'file'">
       <br />
-      <a :href="value" target="_blank">{{ value }}</a>
+      <a :href="realValue" target="_blank">{{ realValue }}</a>
     </span>
   </div>
 </template>
@@ -51,10 +52,15 @@ export default {
     return {
       loading: false,
       open: false,
-      uploadImgUrl: window._CONFIG['domainURL'] + '/common/upload',
+      uploadImgUrl: window._CONFIG['domainURL'] + window._CONFIG['apiPathManagerPrefix'] + '/file/upload',
       headers: {
         Authorization: 'Bearer ' + storage.get(ACCESS_TOKEN)
       }
+    }
+  },
+  computed: {
+    realValue() {
+      return window._CONFIG['domainURL'] + this.value
     }
   },
   mounted() {},
@@ -74,7 +80,7 @@ export default {
           return
         }
         this.loading = false
-        this.$emit('input', info.file.response.url)
+        this.$emit('input', info.file.response.data.url)
       }
     },
     beforeUpload(file) {
