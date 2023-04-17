@@ -28,12 +28,12 @@
           @change="handleRoleChange"
         />
       </a-form-model-item>
-      <!-- <div class="bottom-control">
+      <div class="bottom-control">
         <a-space>
           <a-button type="primary" :loading="submitLoading" @click="submitForm">{{ $t('ok') }}</a-button>
           <a-button type="dashed" @click="cancel">{{ $t('cancel') }}</a-button>
         </a-space>
-      </div> -->
+      </div>
     </a-form-model>
   </pop-dialog>
 </template>
