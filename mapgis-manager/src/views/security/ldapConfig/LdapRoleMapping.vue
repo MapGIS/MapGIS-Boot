@@ -1,5 +1,5 @@
 <template>
-  <a-card :bordered="false">
+  <div>
     <!-- 操作 -->
     <div class="table-operations">
       <a-button type="primary" @click="handleAdd()" v-hasPermi="['system:config:edit']">
@@ -59,7 +59,7 @@
         </a>
       </span>
     </a-table>
-  </a-card>
+  </div>
 </template>
 
 <script>
