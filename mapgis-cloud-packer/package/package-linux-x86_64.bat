@@ -1,6 +1,6 @@
 @echo off
 echo.
-echo [ä¿¡æ¯] æ‰“åŒ…æœåŠ¡å™¨äº§å“
+echo [ĞÅÏ¢] ´ò°ü·şÎñÆ÷²úÆ·
 echo.
 
 cd /d %~dp0
@@ -9,6 +9,7 @@ set ROOT_DIR_REV=%cd%
 set BASE_PACKER_DIR=%ROOT_DIR_REV%/../../mapgis-base-packer
 
 set SKIP_FRONT=%~1
+if "%SKIP_FRONT%" == "" set SKIP_FRONT=""
 
 set COMPILE_FORNT_BACK=true
 if "%~2" == "SKIP_FRONT_BACK" set COMPILE_FORNT_BACK=false
@@ -19,13 +20,13 @@ if "%~3" neq "" set "OUTPUT_DIR=%~3"
 if "%COMPILE_FORNT_BACK%" == "true" (
     echo. | call %BASE_PACKER_DIR%/build.bat "cloud" %SKIP_FRONT%
 ) else (
-    echo å·²è·³è¿‡å‰ç«¯å’Œåç«¯ç¼–è¯‘
+    echo ÒÑÌø¹ıÇ°¶ËºÍºó¶Ë±àÒë
 )
 
-rem å¤åˆ¶åˆ°è¾“å‡ºç›®å½•
+rem ¸´ÖÆµ½Êä³öÄ¿Â¼
 echo. | call %ROOT_DIR_REV%/copy-dist.bat "%OUTPUT_DIR%"
 
-rem æ‰“åŒ…æˆå‘è¡ŒåŒ…
+rem ´ò°ü³É·¢ĞĞ°ü
 echo. | call %ROOT_DIR_REV%/package-common.bat linux-x86_64 "%OUTPUT_DIR%"
 
 pause
