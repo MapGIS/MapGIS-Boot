@@ -2,10 +2,13 @@ package com.zondy.mapgis.common.core.web.controller;
 
 import cn.hutool.core.io.IoUtil;
 import com.zondy.mapgis.common.core.constant.ResourceConstants;
+import com.zondy.mapgis.common.core.utils.EnvUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
@@ -41,7 +44,14 @@ public class BaseStaticResourceController {
      * @return
      */
     public ResponseEntity<?> getFrontResource(String staticPath) {
-        InputStream is = BaseController.class.getClassLoader().getResourceAsStream(staticPath);
+        InputStream is = null;
+        try {
+            is = new FileInputStream(EnvUtils.getServerHomePath() + "/resource/" + staticPath);
+        } catch (FileNotFoundException e) {
+        }
+        if (is == null) {
+            is = BaseController.class.getClassLoader().getResourceAsStream(staticPath);
+        }
         if (is == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         } else {
