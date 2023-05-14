@@ -69,7 +69,7 @@ export default {
       width: 100%;
       height: 50px;
     }
-    .security-settings-info-right {
+    .ldap-settings-info-right {
       padding: 20px 40px;
     }
   }
