@@ -28,7 +28,7 @@ export default {
 
   .setting-drawer-index-title {
     font-size: 14px;
-    color: rgba(0, 0, 0, 0.85);
+    color: @heading-color;
     line-height: 22px;
     margin-bottom: 12px;
   }

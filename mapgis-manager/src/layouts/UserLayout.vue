@@ -9,11 +9,13 @@
           <div class="header">
             <a href="/">
               <template v-if="defaultLogoAndTitle">
-                <img src="@/assets/images/logo.svg" class="default-logo" alt="logo" />
-                <img src="@/assets/images/title.svg" class="default-title" alt="title" />
+                <img :src="logoImageUrl" class="default-logo" alt="logo" />
+                <img :src="titleImageUrl" class="default-title" alt="title" />
               </template>
               <template v-else>
-                <img v-if="logo" :src="logo" class="logo" alt="logo" />
+                <div style="display: inline-block" class="logo">
+                  <img v-if="logo" :src="logo" alt="logo" />
+                </div>
                 <span class="title">{{ title }}</span>
               </template>
             </a>
@@ -49,6 +51,12 @@ export default {
     },
     supportInternationalization() {
       return window._CONFIG['supportInternationalization '] === 'true'
+    },
+    logoImageUrl() {
+      return `${process.env.BASE_URL}logo.svg`
+    },
+    titleImageUrl() {
+      return `${process.env.BASE_URL}title.svg`
     }
   },
   mounted() {
@@ -124,10 +132,13 @@ export default {
           }
 
           .logo {
-            height: 44px;
             vertical-align: top;
-            margin-right: 16px;
-            border-style: none;
+            img {
+              height: 44px;
+              vertical-align: top;
+              margin-right: 16px;
+              border-style: none;
+            }
           }
 
           .title {

@@ -35,7 +35,7 @@ export default {
     await this.$store.dispatch('getBaseConfig')
     this.initialized = true
     if (this.baseConfig.header.defaultLogoAndTitle) {
-      setFavicon(require('@/assets/images/logo.svg'))
+      setFavicon(`${process.env.BASE_URL}logo.svg`)
     } else {
       setFavicon(this.baseConfig.header.logo)
     }

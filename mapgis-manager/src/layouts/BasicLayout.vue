@@ -134,7 +134,7 @@ export default {
       mounting: state => state.microApps.mounting
     }),
     logoAndTitleImg() {
-      return require('@/assets/images/logo-title.svg')
+      return `${process.env.BASE_URL}logo-title.svg`
     }
   },
   watch: {

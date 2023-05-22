@@ -39,7 +39,8 @@ const ANTD = {
       'menu-dark-selected-item-text-color': '#fefefe',
       'menu-dark-arrow-color': '#fefefe',
       'btn-primary-color': '#fefefe',
-      'btn-danger-color': '#fefefe'
+      'btn-danger-color': '#fefefe',
+      'descriptions-bg': '#fafafa'
     },
     light: {
       'layout-body-background': '#f0f2f5',
@@ -63,7 +64,8 @@ const ANTD = {
       'menu-dark-selected-item-text-color': '#fefefe',
       'menu-dark-arrow-color': '#fefefe',
       'btn-primary-color': '#fefefe',
-      'btn-danger-color': '#fefefe'
+      'btn-danger-color': '#fefefe',
+      'descriptions-bg': '#fafafa'
     },
     night: {
       'layout-body-background': '#000',
@@ -88,7 +90,8 @@ const ANTD = {
       'menu-dark-selected-item-text-color': '#fefefe',
       'menu-dark-arrow-color': '#fefefe',
       'btn-primary-color': '#fefefe',
-      'btn-danger-color': '#fefefe'
+      'btn-danger-color': '#fefefe',
+      'descriptions-bg': '#ffffff0a'
     }
   }
 }
