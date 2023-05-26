@@ -520,7 +520,7 @@ export default {
     .text-body {
       font-size: 16px;
       text-align: center;
-      color: #000;
+      color: @primary-color;
     }
   }
 }
