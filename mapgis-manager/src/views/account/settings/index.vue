@@ -90,7 +90,7 @@ export default {
     padding: 8px 40px;
 
     .account-settings-info-title {
-      color: rgba(0, 0, 0, 0.85);
+      color: @heading-color;
       font-size: 20px;
       font-weight: 500;
       line-height: 28px;
