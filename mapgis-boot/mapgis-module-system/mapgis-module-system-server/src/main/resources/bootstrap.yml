@@ -1,6 +1,8 @@
 # Tomcat
 server:
   port: 11000
+  compression:
+    enabled: true
 
 # Spring
 spring:
