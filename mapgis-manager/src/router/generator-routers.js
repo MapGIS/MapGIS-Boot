@@ -172,11 +172,8 @@ export const generator = (routerMap, parent) => {
     }
     // antdv-pro的pro-layout要求每个路径需为全路径
     if (isMircoApp) {
-      if (!item.path.startsWith('/')) {
-        item.path = '/' + item.path
-      }
       // 实现微应用内部的子路由
-      currentRouter.path = item.path + '/*'
+      currentRouter.path = `${(parent && parent.path) || ''}/${item.path}/*`
     } else if (!isInnerLink && !constantRouterComponents[item.component || item.key]) {
       if (!validURL(item.path)) {
         currentRouter.path = `${(parent && parent.path) || ''}/${item.path}`
