@@ -84,6 +84,18 @@ const vueConfig = {
         return args
       })
     }
+    config.module
+      .rule('images')
+      .test(/\.(png|jpe?g|gif|ico)$/i)
+      .use('url-loader')
+      .loader('url-loader')
+      .tap(options =>
+        Object.assign(options, {
+          limit: 2000,
+          esModule: false,
+          publicPath: process.env.VUE_APP_CONTEXT_PATH === '/' ? '' : process.env.VUE_APP_CONTEXT_PATH
+        })
+      )
   },
 
   css: {

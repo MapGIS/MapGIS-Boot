@@ -1,7 +1,7 @@
+import './public-path'
 import Vue from 'vue'
 import App from './App.vue'
 import { initRouter } from './router'
-import './public-path'
 import './theme/index.less'
 import store from './store'
 import actions from './shared/actions'
