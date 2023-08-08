@@ -12,7 +12,7 @@
     <groupId>com.zondy.mapgis</groupId>
     <artifactId>mapgis-boot</artifactId>
     <packaging>pom</packaging>
-    <version>10.6.2.10</version>
+    <version>10.6.4.10</version>
 
     <modules>
         <module>mapgis-common</module>

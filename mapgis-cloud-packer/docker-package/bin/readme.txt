@@ -14,7 +14,7 @@
     DOCKER_REGISTRY_URL=
 
     # 镜像标签
-    MAPGIS_IMAGE_TAG=10.6.2.10
+    MAPGIS_IMAGE_TAG=10.6.4.10
 
     # 镜像操作系统名
     IMAGE_OS_NAME=linux
