@@ -4,4 +4,4 @@ set -e
 
 chmod +x ./build.sh
 
-./build.sh linux x86_64
+./build.sh linux arm64
