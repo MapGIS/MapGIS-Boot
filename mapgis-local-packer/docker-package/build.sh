@@ -40,6 +40,9 @@ echo "开始发布平台${PLATFORM_NAME} Docker镜像"
 # 发布镜像
 ./deploy.sh publish ${IMAGE_OS_NAME}
 
+# 打包镜像
+chmod +x $CURRENT_DIR/build-image.sh && $CURRENT_DIR/build-image.sh $IMAGE_OS_NAME $IMAGE_ARCH
+
 echo "开始打包平台${PLATFORM_NAME}"
 
 # 如果存在目标目录先删除

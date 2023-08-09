@@ -7,9 +7,6 @@ MAPGIS_PRODUCT_NAME=xxx
 # 产品完整名称
 MAPGIS_PRODUCT_FULL_NAME=mapgis-xxx
 
-# 私有镜像仓库地址，注意结尾需含/
-DOCKER_REGISTRY_URL=192.168.177.1:5000/
-
 # 镜像标签
 MAPGIS_IMAGE_TAG=10.6.4.10
 
@@ -52,11 +49,9 @@ down() {
 	docker-compose -f docker-compose-local.yml down
 }
 
-# 发布镜像到私有仓库
+# 发布镜像到本地
 publish() {
-	docker tag mapgis/${MAPGIS_PRODUCT_NAME}-${IMAGE_OS_NAME} ${DOCKER_REGISTRY_URL}mapgis/${MAPGIS_PRODUCT_NAME}-${IMAGE_OS_NAME}:${MAPGIS_IMAGE_TAG}
-
-	docker push ${DOCKER_REGISTRY_URL}mapgis/${MAPGIS_PRODUCT_NAME}-${IMAGE_OS_NAME}:${MAPGIS_IMAGE_TAG}
+	docker tag mapgis/${MAPGIS_PRODUCT_NAME}-${IMAGE_OS_NAME} mapgis/${MAPGIS_PRODUCT_NAME}-${IMAGE_OS_NAME}:${MAPGIS_IMAGE_TAG}
 }
 
 # 根据输入参数，选择执行对应方法，不输入则执行使用说明
