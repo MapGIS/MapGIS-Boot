@@ -1,5 +1,5 @@
 # 基础镜像
-FROM 192.168.177.1:5000/mysql:5.7
+FROM mysql:5.7
 
 # author
 LABEL author="mapgis"
