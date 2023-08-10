@@ -15,12 +15,15 @@ IMAGES_RELEASE_DIR=${CURRENT_DIR}/../docker-images-release/${PLATFORM_NAME}
 cd $IMAGES_BUILD_PATH
 
 # 准备image-list.txt文件
-# 判断是否存在，存在即删除
-if [ -f ".image-list.txt" ];then
-  rm -f .image-list.txt
+# 判断平台是否自定义了image-list.txt，是则拷贝到images目录
+if [ -f "$DOCKER_BUILD_PATH/$PLATFORM_NAME/image-list.txt" ];then
+  # 判断是否存在，存在即删除
+  if [ -f "image-list.txt" ];then
+    rm -f image-list.txt
+  fi
+  # 拷贝image-list.txt到images目录
+  cp $DOCKER_BUILD_PATH/$PLATFORM_NAME/image-list.txt image-list.txt
 fi
-# 拷贝image-list.txt到images目录
-cp $DOCKER_BUILD_PATH/$PLATFORM_NAME/image-list.txt image-list.txt
 
 # 赋予执行权限
 chmod +x ./image-pkg.sh

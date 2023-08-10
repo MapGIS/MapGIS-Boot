@@ -9,3 +9,4 @@ services:
       - ./mapgis/server/logs:/mapgis/logs
       - ./mapgis/server/upload:/mapgis/upload
       - ./mapgis/server/data:/mapgis/data
+      - ./mapgis/server/manager-apps:/mapgis/resource/static/manager-apps

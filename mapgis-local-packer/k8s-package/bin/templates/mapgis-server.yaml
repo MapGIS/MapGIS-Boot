@@ -47,20 +47,20 @@ spec:
         - containerPort: 8080
           name: http
         volumeMounts:
-          - name: {{ include "mapgis.fullname" . }}-logs
+          - name: {{ include "mapgis.fullname" . }}-data
             mountPath: /mapgis/logs
-          - name: {{ include "mapgis.fullname" . }}-upload
+            subPath: logs
+          - name: {{ include "mapgis.fullname" . }}-data
             mountPath: /mapgis/upload
+            subPath: upload
           - name: {{ include "mapgis.fullname" . }}-data
             mountPath: /mapgis/data
+            subPath: data
+          - name: {{ include "mapgis.fullname" . }}-data
+            mountPath: /mapgis/resource/static/manager-apps
+            subPath: manager-apps
       restartPolicy: Always
       volumes:
-        - name: {{ include "mapgis.fullname" . }}-logs
-          persistentVolumeClaim:
-            claimName: pvc-{{ include "mapgis.fullname" . }}-logs
-        - name: {{ include "mapgis.fullname" . }}-upload
-          persistentVolumeClaim:
-            claimName: pvc-{{ include "mapgis.fullname" . }}-upload
         - name: {{ include "mapgis.fullname" . }}-data
           persistentVolumeClaim:
             claimName: pvc-{{ include "mapgis.fullname" . }}-data
@@ -86,34 +86,6 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: pvc-{{ include "mapgis.fullname" . }}-data
-  labels:
-    {{- include "mapgis.kindLabel" . | nindent 4 }}
-spec:
-  storageClassName: {{ include "mapgis.nfsStorageClassName" . }}
-  accessModes:
-  - ReadWriteMany
-  resources:
-    requests:
-      storage: 2Gi
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: pvc-{{ include "mapgis.fullname" . }}-logs
-  labels:
-    {{- include "mapgis.kindLabel" . | nindent 4 }}
-spec:
-  storageClassName: {{ include "mapgis.nfsStorageClassName" . }}
-  accessModes:
-  - ReadWriteMany
-  resources:
-    requests:
-      storage: 500Mi
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: pvc-{{ include "mapgis.fullname" . }}-upload
   labels:
     {{- include "mapgis.kindLabel" . | nindent 4 }}
 spec:
