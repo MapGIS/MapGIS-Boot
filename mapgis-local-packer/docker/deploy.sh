@@ -13,6 +13,14 @@ MAPGIS_IMAGE_TAG=10.6.4.10
 # 镜像操作系统
 IMAGE_OS_NAME=$2
 
+# 传入的镜像标签
+IMAGE_TAG=$3
+
+# 如果传入的镜像标签参数有值，则用传入的镜像标签
+if [ "$IMAGE_TAG" ];then
+  MAPGIS_IMAGE_TAG=$IMAGE_TAG
+fi
+
 # 使用说明，用来提示输入参数
 usage() {
 	echo "Usage: sh 执行脚本.sh [build|base|modules|stop|rm|down|publish]"

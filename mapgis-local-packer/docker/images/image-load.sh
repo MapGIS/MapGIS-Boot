@@ -2,7 +2,7 @@
 
 CURRENT_DIR=$(cd `dirname $0`; pwd)
 # 是否需要推送的目标镜像仓库，如果需要，则填写仓库地址
-DEST_REGISTRY=""
+DEST_REGISTRY=$1
 
 version="$(docker -v | cut -d ' ' -f3 | cut -d ',' -f1)"
 MAJOR_W=1

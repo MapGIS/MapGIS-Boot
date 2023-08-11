@@ -2,7 +2,7 @@
 set -e
 
 # 待打包镜像来源的仓库,结尾不带'/'，没有为本地
-SOURCE_REGISTRY=
+SOURCE_REGISTRY=$1
 
 # 打包需要的registry image配置
 REGISTRY_IMAGE=registry:latest

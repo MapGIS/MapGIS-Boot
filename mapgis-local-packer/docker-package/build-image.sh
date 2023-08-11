@@ -5,6 +5,7 @@ set -e
 # 平台名称
 IMAGE_OS_NAME=$1
 IMAGE_ARCH=$2
+IMAGE_TAG=$3
 CURRENT_DIR=$(cd `dirname $0`; pwd)
 PLATFORM_NAME=${IMAGE_OS_NAME}-${IMAGE_ARCH}
 DOCKER_BUILD_PATH=${CURRENT_DIR}/../docker
@@ -25,11 +26,16 @@ if [ -f "$DOCKER_BUILD_PATH/$PLATFORM_NAME/image-list.txt" ];then
   cp $DOCKER_BUILD_PATH/$PLATFORM_NAME/image-list.txt image-list.txt
 fi
 
+# 如果传入的镜像标签参数有值，则需要替换image-list.txt里面的标签
+if [ "$IMAGE_TAG" ];then
+  sed -i "/mapgis/s/:.*/:${IMAGE_TAG}/" image-list.txt
+fi
+
 # 赋予执行权限
 chmod +x ./image-pkg.sh
 
 # 打包镜像
-./image-pkg.sh ${IMAGE_OS_NAME}
+./image-pkg.sh
 
 # 如果存在目标目录先删除
 if [ -d $IMAGES_RELEASE_DIR ]; then
