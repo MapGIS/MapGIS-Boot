@@ -2,3 +2,4 @@ output
 release
 output_*/
 output-*/
+k8s-package/support
