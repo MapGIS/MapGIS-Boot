@@ -1,0 +1,103 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mapgis-xxx-${appId}
+  labels:
+    app: mapgis-xxx
+    kind: mapgis-xxx
+  annotations:
+    description: MapGIS Boot
+spec:
+  selector:
+    matchLabels:
+      app: mapgis-xxx-${appId}
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: mapgis-xxx-${appId}
+    spec:
+      imagePullSecrets:
+        - name: "${imagePullSecret}"
+      containers:
+        - name: mapgis-xxx
+          image: ${registryUrl}${imageNamespace}${conf.imageName}
+          imagePullPolicy: ${imagePullPolicy}
+          resources:
+            requests:
+              cpu: "${conf['request.cpu']}"
+              memory: "${conf['request.memory']}Gi"
+            limits:
+              cpu: "${conf['limit.cpu']}"
+              memory: "${conf['limit.memory']}Gi"
+          livenessProbe:
+            httpGet:
+              port: 8080
+            initialDelaySeconds: 20
+            timeoutSeconds: 20
+            successThreshold: 1
+            failureThreshold: 5
+            periodSeconds: 30
+          readinessProbe:
+            httpGet:
+              port: 8080
+            initialDelaySeconds: 20
+            timeoutSeconds: 20
+            successThreshold: 1
+            failureThreshold: 5
+            periodSeconds: 30
+          ports:
+            - containerPort: 8080
+              name: http
+          volumeMounts:
+            - name: mapgis-xxx-data
+              mountPath: /mapgis/logs
+              subPath: logs
+            - name: mapgis-xxx-data
+              mountPath: /mapgis/upload/data
+              subPath: upload
+            - name: mapgis-xxx-data
+              mountPath: /mapgis/data
+              subPath: data
+            - name: mapgis-xxx-data
+              mountPath: /mapgis/resource/static/manager-apps
+              subPath: manager-apps
+      restartPolicy: Always
+      volumes:
+        - name: mapgis-xxx-data
+          persistentVolumeClaim:
+            claimName: pvc-mapgis-xxx-data-${appId}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mapgis-xxx-${appId}
+  labels:
+    app: mapgis-xxx
+    entrance: true
+  annotations:
+    linkExpression: "http://${serviceIp}:${conf['node.port']}"
+spec:
+  selector:
+    app: mapgis-xxx-${appId}
+  type: NodePort
+  ports:
+    - name: http
+      protocol: TCP
+      port: 8080
+      targetPort: 8080
+      nodePort: ${conf['node.port']}
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: pvc-mapgis-xxx-data-${appId}
+  labels:
+    app: mapgis-xxx
+spec:
+  storageClassName: ${storageClassName}
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 2Gi

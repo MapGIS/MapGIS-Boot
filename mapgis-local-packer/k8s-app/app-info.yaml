@@ -1,0 +1,54 @@
+fileOrdering:
+  - xxx.yaml
+
+configurations:
+  - name: imageName
+    description: "镜像名称"
+    recommendExpression: "xxx-linux:10.6.4.10"
+    valueType: InputString
+    tag: "镜像管理"
+  - name: limit.enable
+    description: "是否开启资源限额"
+    recommendExpression: false
+    valueType: Switch
+    cascadeItems:
+      - limit.cpu
+      - limit.memory
+      - request.cpu
+      - request.memory
+    tag: "资源管理"
+  - name: limit.cpu
+    description: "CPU使用限额"
+    recommendExpression: 2
+    valueType: InputNumber
+    validateRegex: '^(([1-9]{1}\d*)(\.\d{0,2})?|(0{1}(\.\d{0,2})))$'
+    validateMessage: "CPU使用限额输入不合法"
+    tag: "资源管理"
+  - name: limit.memory
+    description: "内存使用限额，单位GB"
+    recommendExpression: 4
+    valueType: InputNumber
+    validateRegex: '^(([1-9]{1}\d*)(\.\d{0,2})?|(0{1}(\.\d{0,2})))$'
+    validateMessage: "内存使用限额输入不合法"
+    unit: Gi
+    tag: "资源管理"
+  - name: request.cpu
+    description: "容器的CPU请求量"
+    recommendExpression: 1
+    valueType: InputNumber
+    validateRegex: '^(([1-9]{1}\d*)(\.\d{0,2})?|(0{1}(\.\d{0,2})))$'
+    validateMessage: "CPU请求量输入不合法"
+    tag: "资源管理"
+  - name: request.memory
+    description: "内存请求量，单位GB"
+    recommendExpression: 2
+    valueType: InputNumber
+    validateRegex: '^(([1-9]{1}\d*)(\.\d{0,2})?|(0{1}(\.\d{0,2})))$'
+    validateMessage: "内存请求量输入不合法"
+    unit: Gi
+    tag: "资源管理"
+  - name: node.port
+    description: "访问端口"
+    recommendExpression: 32000
+    valueType: InputNumber
+    tag: "端口"
