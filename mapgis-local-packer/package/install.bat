@@ -1,6 +1,6 @@
 @echo off
 echo.
-echo [info] package  mapgis-boot
+echo [info] package  mapgis-xxx
 echo.
 
 cd /d %~dp0
@@ -13,9 +13,9 @@ set DIST_DIR_WEB_APPS_WIN_X86_64="%CURRENT_DIR%\release\win-x86_64"
 set DIST_DIR_WEB_APPS_LINUX_X86_64="%CURRENT_DIR%\release\linux-x86_64"
 set DIST_DIR_WEB_APPS_LINUX_ARM64="%CURRENT_DIR%\release\linux-arm64"
 set VERSION=10.6.4.10
-set PACKAGE_NAME_WEB_APPS_WIN_X86_64=mapgis-boot-%VERSION%-win-x86_64
-set PACKAGE_NAME_WEB_APPS_LINUX_X86_64=mapgis-boot-%VERSION%-linux-x86_64
-set PACKAGE_NAME_WEB_APPS_LINUX_ARM64=mapgis-boot-%VERSION%-linux-arm64
+set PACKAGE_NAME_WEB_APPS_WIN_X86_64=mapgis-xxx-%VERSION%-win-x86_64
+set PACKAGE_NAME_WEB_APPS_LINUX_X86_64=mapgis-xxx-%VERSION%-linux-x86_64
+set PACKAGE_NAME_WEB_APPS_LINUX_ARM64=mapgis-xxx-%VERSION%-linux-arm64
 set INSTALL_DIR=%CURRENT_DIR%\..\install\
 set INSTALL_DIR_WIN_X86_64="%INSTALL_DIR%%PACKAGE_NAME_WEB_APPS_WIN_X86_64%"
 set INSTALL_DIR_LINUX_X86_64="%INSTALL_DIR%%PACKAGE_NAME_WEB_APPS_LINUX_X86_64%"

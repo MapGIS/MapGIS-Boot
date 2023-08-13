@@ -10,3 +10,5 @@
 ## front
 **/*.lock
 install
+install-local-release
+install-cloud-release

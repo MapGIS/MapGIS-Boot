@@ -31,6 +31,12 @@ release/win-x86_64/bin/startup.bat
 
 > 将与服务器架构一致的 release/os-arch 下的目录发布到该服务器下，需要先启动Nacos、MySQL、Redis等基础服务，然后运行启动脚本即可。
 
+## 发布
+```bash
+install.bat
+```
+通过install.bat可以将打包好的资源按照产品发行的要求进行压缩，存放在项目的install目录内
+
 ## Docker打包
 
 将与Linux服务器架构一致的产品包和Docker脚本拷贝到具备联网环境的该服务器下
@@ -90,7 +96,7 @@ sudo ./shutdown.sh
 > 需要的依赖可以从\\192.168.17.59\06-K8S-Support获取，账号为 support/support
 
 :::tip
-外部用户请访问[链接：https://pan.baidu.com/s/10kjngShwtrpdDnb7Mu4-lg 提取码：toub](https://pan.baidu.com/s/10kjngShwtrpdDnb7Mu4-lg)，获取`06-K8S-Support`支持环境内容添加到release目录内
+外部用户请访问[链接：https://pan.baidu.com/s/10kjngShwtrpdDnb7Mu4-lg 提取码：toub](https://pan.baidu.com/s/10kjngShwtrpdDnb7Mu4-lg)，获取`06-K8S-Support`支持环境内容添加到k8s-package/support目录内
 :::
 
 ```
@@ -141,3 +147,65 @@ sudo ./shutdown.sh
 
 {ip}为外部访问k8s的IP，{appPort}为应用端口
 
+## 一键打包发布Docker相关包
+支持一键打包和发布Docker镜像仓库、Docker包、Kubernetes包和支持在云管上部署的应用包
+
+### 准备kubernetes Helm依赖
+将需要的依赖放置到`k8s-package/support`目录内，形成如下目录：
+:::tip
+外部用户请访问[链接：https://pan.baidu.com/s/10kjngShwtrpdDnb7Mu4-lg 提取码：toub](https://pan.baidu.com/s/10kjngShwtrpdDnb7Mu4-lg)，获取`06-K8S-Support`支持环境内容添加到k8s-package/support目录内
+:::
+```
+├─k8s-package
+│  ├─support(将依赖拷贝到该处)
+│  │  ├─linux-x86-64
+│  │  ├─linux-arm64
+```
+
+### 准备免密登录打包服务器
+在windows上，可使用Git Bash或Cygwin作为客户端，在上面设置SSH key，以便打包服务器调用
+```shell
+# 生成SSH key
+ssh-keygen -t rsa
+
+# 将公钥拷贝到服务器
+ssh-copy-id username@ip
+
+# 免密登录测试，第一次登录会提示输入密码并保存，后续不再需要输入
+ssh username@ip "ls ~"
+```
+
+#### 确保服务器支持免密登录
+当服务器不支持免密登录的时候需要进行配置
+```shell
+# 编辑sshd_config配置文件
+vi /etc/ssh/ssd_config
+
+# 将RSAAuthentication及PubkeyAuthentication设置为yes
+RSAAuthentication yes
+PubkeyAuthentication yes
+
+# 保存配置，并重启sshd服务
+service sshd restart
+```
+
+### 执行打包和发布命令
+```shell
+# 授权
+chmod +x install-release.sh
+
+# 执行
+# install-release.sh 一共有6个参数
+# 参数1：远程打包服务器IP
+# 参数2：远程打包服务器用户名
+# 参数3：镜像操作系统名称
+# 参数4：镜像操作系统架构
+# 参数5：镜像标签
+# 参数6：包名上添加时间
+# sh install-release.sh ip username os arch tag date
+# 10.0.1.166 root linux x86_64 10.6.5.10-0808 ADD_DATE
+sh install-release.sh 10.0.1.166 root linux x86_64 10.6.5.10-0808 ADD_DATE
+# 10.0.1.188 root linux arm64 10.6.5.10-0808 ADD_DATE
+sh install-release.sh 10.0.1.188 root linux arm64 10.6.5.10-0808 ADD_DATE
+```
+完成后会自动将包放置到install-cloud-release目录内
