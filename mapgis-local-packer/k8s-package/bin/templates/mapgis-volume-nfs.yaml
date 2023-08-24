@@ -1,3 +1,4 @@
+{{- if .Values.nfsServer }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -54,3 +55,4 @@ metadata:
     {{- include "mapgis.kindLabel" . | nindent 4 }}
   name: {{ template "mapgis.nfsStorageClassName" . }}
 provisioner: {{ include "mapgis.fullname" . }}-nfs-client-provisioner
+{{- end }}
