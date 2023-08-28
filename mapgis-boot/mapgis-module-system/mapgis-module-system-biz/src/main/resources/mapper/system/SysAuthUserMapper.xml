@@ -119,8 +119,7 @@
         select count(1)
         from sys_auth_user
         where user_id = #{userId}
-          and source = #{source}
-        limit 1
+          and source = #{source} limit 1
     </select>
 
     <insert id="insertAuthUser" parameterType="SysAuthUser">

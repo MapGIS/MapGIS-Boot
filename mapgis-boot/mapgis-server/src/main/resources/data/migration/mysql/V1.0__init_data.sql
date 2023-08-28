@@ -61,7 +61,7 @@ DROP TABLE IF EXISTS `gen_table_column`;
 CREATE TABLE `gen_table_column`
 (
     `column_id`      bigint(20)                                                    NOT NULL AUTO_INCREMENT COMMENT '编号',
-    `table_id`       varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci  NULL DEFAULT NULL COMMENT '归属表编号',
+    `table_id`       bigint(20)                                                    NULL DEFAULT NULL COMMENT '归属表编号',
     `column_name`    varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '列名称',
     `column_comment` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '列描述',
     `column_type`    varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '列类型',

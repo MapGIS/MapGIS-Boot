@@ -87,6 +87,6 @@ public class WebUtil {
      * @return IP地址
      */
     public static String getIp() {
-        return IpUtils.getIpAddr(ServletUtils.getRequest());
+        return IpUtils.getIpAddr();
     }
 }

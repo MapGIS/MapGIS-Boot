@@ -59,17 +59,11 @@ public class SysUserOnlineController extends BaseController {
         for (String key : keys) {
             LoginUser user = cacheService.getCacheObject(key.replace(name + ":", ""));
             if (StringUtils.isNotEmpty(ipaddr) && StringUtils.isNotEmpty(userName)) {
-                if (StringUtils.equals(ipaddr, user.getIpaddr()) && StringUtils.equals(userName, user.getUsername())) {
-                    userOnlineList.add(userOnlineService.selectOnlineByInfo(ipaddr, userName, user));
-                }
+                userOnlineList.add(userOnlineService.selectOnlineByInfo(ipaddr, userName, user));
             } else if (StringUtils.isNotEmpty(ipaddr)) {
-                if (StringUtils.equals(ipaddr, user.getIpaddr())) {
-                    userOnlineList.add(userOnlineService.selectOnlineByIpaddr(ipaddr, user));
-                }
+                userOnlineList.add(userOnlineService.selectOnlineByIpaddr(ipaddr, user));
             } else if (StringUtils.isNotEmpty(userName) && StringUtils.isNotNull(user.getUser())) {
-                if (StringUtils.equals(userName, user.getUsername())) {
-                    userOnlineList.add(userOnlineService.selectOnlineByUserName(userName, user));
-                }
+                userOnlineList.add(userOnlineService.selectOnlineByUserName(userName, user));
             } else {
                 userOnlineList.add(userOnlineService.loginUserToUserOnline(user));
             }

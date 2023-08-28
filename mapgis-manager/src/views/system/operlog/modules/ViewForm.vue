@@ -24,11 +24,14 @@
       <a-descriptions-item :label="$t('log.operlog.return.params')" span="3">
         {{ form.jsonResult }}
       </a-descriptions-item>
-      <a-descriptions-item :label="$t('operation.status')" span="2">
+      <a-descriptions-item :label="$t('operation.status')" span="1">
         <a-badge v-if="form.status === 0" status="processing" :text="$t('normal')" />
         <a-badge v-if="form.status === 1" status="error" :text="$t('failed')" />
       </a-descriptions-item>
-      <a-descriptions-item :label="$t('operation.time')">
+      <a-descriptions-item :label="$t('operation.cost.time')" span="1">
+        {{ form.costTime }}
+      </a-descriptions-item>
+      <a-descriptions-item :label="$t('operation.time')" span="1">
         {{ parseTime(form.operTime) }}
       </a-descriptions-item>
       <a-descriptions-item :label="$t('log.operlog.exception.info')" span="3" v-if="form.status === 1">

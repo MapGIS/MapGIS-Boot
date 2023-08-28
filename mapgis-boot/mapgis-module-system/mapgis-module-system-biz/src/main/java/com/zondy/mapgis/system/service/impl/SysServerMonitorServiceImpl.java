@@ -459,7 +459,7 @@ public class SysServerMonitorServiceImpl implements ISysServerMonitorService {
         jvmInfo.put("name", ManagementFactory.getRuntimeMXBean().getVmName());
         jvmInfo.put("version", ManagementFactory.getRuntimeMXBean().getVmVersion());
         jvmInfo.put("startTime", DateUtils.parseDateToStr(DateUtils.YYYY_MM_DD_HH_MM_SS, DateUtils.getServerStartDate()));
-        jvmInfo.put("runTime", DateUtils.getDatePoor(DateUtils.getNowDate(), DateUtils.getServerStartDate()));
+        jvmInfo.put("runTime", DateUtils.timeDistance(DateUtils.getNowDate(), DateUtils.getServerStartDate()));
         jvmInfo.put("javaVersion", props.getProperty("java.version"));
         jvmInfo.put("javaPath", props.getProperty("java.home"));
         jvmInfo.put("inputArgs", ManagementFactory.getRuntimeMXBean().getInputArguments().toString());

@@ -1,7 +1,6 @@
 package com.zondy.mapgis.system.controller;
 
 import com.zondy.mapgis.common.controllerprefix.annotation.ManagerRestController;
-import com.zondy.mapgis.common.core.constant.UserConstants;
 import com.zondy.mapgis.common.core.utils.poi.ExcelUtil;
 import com.zondy.mapgis.common.core.web.controller.BaseController;
 import com.zondy.mapgis.common.core.web.domain.AjaxResult;
@@ -100,7 +99,7 @@ public class SysConfigController extends BaseController {
     @Log(title = "参数管理", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@Validated @RequestBody SysConfig config) {
-        if (UserConstants.NOT_UNIQUE.equals(configService.checkConfigKeyUnique(config))) {
+        if (!configService.checkConfigKeyUnique(config)) {
             return error("新增参数'" + config.getConfigName() + "'失败，参数键名已存在");
         }
         config.setCreateBy(SecurityUtils.getUsername());
@@ -116,7 +115,7 @@ public class SysConfigController extends BaseController {
     @Log(title = "参数管理", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@Validated @RequestBody SysConfig config) {
-        if (UserConstants.NOT_UNIQUE.equals(configService.checkConfigKeyUnique(config))) {
+        if (!configService.checkConfigKeyUnique(config)) {
             return error("修改参数'" + config.getConfigName() + "'失败，参数键名已存在");
         }
         config.setUpdateBy(SecurityUtils.getUsername());

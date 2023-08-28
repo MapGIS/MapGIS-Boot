@@ -71,7 +71,7 @@ public class SysUserGroupServiceImpl implements ISysUserGroupService {
      * @return 结果
      */
     @Override
-    public String checkUserGroupNameUnique(String userGroupName) {
+    public boolean checkUserGroupNameUnique(String userGroupName) {
         int count = sysUserGroupMapper.checkUserGroupNameUnique(userGroupName);
         if (count > 0) {
             return UserConstants.NOT_UNIQUE;

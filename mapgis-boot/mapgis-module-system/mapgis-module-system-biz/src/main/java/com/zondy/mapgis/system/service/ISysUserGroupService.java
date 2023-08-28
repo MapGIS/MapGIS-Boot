@@ -40,7 +40,7 @@ public interface ISysUserGroupService {
      * @param userGroupName 用户组名称
      * @return 结果
      */
-    public String checkUserGroupNameUnique(String userGroupName);
+    public boolean checkUserGroupNameUnique(String userGroupName);
 
     /**
      * 新增用户组

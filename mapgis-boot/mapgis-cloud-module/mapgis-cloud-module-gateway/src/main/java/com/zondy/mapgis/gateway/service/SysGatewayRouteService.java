@@ -1,8 +1,9 @@
 package com.zondy.mapgis.gateway.service;
 
+import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.lang.Dict;
 import cn.hutool.core.util.ArrayUtil;
-import com.google.common.collect.Lists;
+import com.alibaba.nacos.shaded.com.google.common.collect.Lists;
 import com.zondy.mapgis.common.cache.service.ICacheService;
 import com.zondy.mapgis.common.core.constant.CacheConstants;
 import com.zondy.mapgis.common.core.utils.JsonUtils;
@@ -56,7 +57,7 @@ public class SysGatewayRouteService implements ApplicationEventPublisherAware {
      * @param message 消息对象
      */
     public void refresh(HashMap<String, Object> message) {
-        List<SysGatewayRoute> routes = Lists.newArrayList();
+        List<SysGatewayRoute> routes = CollectionUtil.newArrayList();
         final String strRoutes = cacheService.getCacheObject(CacheConstants.SYS_ROUTES_KEY);
 
         if (StringUtils.isNotEmpty(strRoutes)) {

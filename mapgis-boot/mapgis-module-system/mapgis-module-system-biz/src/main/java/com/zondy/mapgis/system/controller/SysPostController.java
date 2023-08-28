@@ -1,7 +1,6 @@
 package com.zondy.mapgis.system.controller;
 
 import com.zondy.mapgis.common.controllerprefix.annotation.ManagerRestController;
-import com.zondy.mapgis.common.core.constant.UserConstants;
 import com.zondy.mapgis.common.core.utils.poi.ExcelUtil;
 import com.zondy.mapgis.common.core.web.controller.BaseController;
 import com.zondy.mapgis.common.core.web.domain.AjaxResult;
@@ -80,9 +79,9 @@ public class SysPostController extends BaseController {
     @Log(title = "岗位管理", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@Validated @RequestBody SysPost post) {
-        if (UserConstants.NOT_UNIQUE.equals(postService.checkPostNameUnique(post))) {
+        if (!postService.checkPostNameUnique(post)) {
             return error("新增岗位'" + post.getPostName() + "'失败，岗位名称已存在");
-        } else if (UserConstants.NOT_UNIQUE.equals(postService.checkPostCodeUnique(post))) {
+        } else if (!postService.checkPostCodeUnique(post)) {
             return error("新增岗位'" + post.getPostName() + "'失败，岗位编码已存在");
         }
         post.setCreateBy(SecurityUtils.getUsername());
@@ -98,9 +97,9 @@ public class SysPostController extends BaseController {
     @Log(title = "岗位管理", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@Validated @RequestBody SysPost post) {
-        if (UserConstants.NOT_UNIQUE.equals(postService.checkPostNameUnique(post))) {
+        if (!postService.checkPostNameUnique(post)) {
             return error("修改岗位'" + post.getPostName() + "'失败，岗位名称已存在");
-        } else if (UserConstants.NOT_UNIQUE.equals(postService.checkPostCodeUnique(post))) {
+        } else if (!postService.checkPostCodeUnique(post)) {
             return error("修改岗位'" + post.getPostName() + "'失败，岗位编码已存在");
         }
         post.setUpdateBy(SecurityUtils.getUsername());

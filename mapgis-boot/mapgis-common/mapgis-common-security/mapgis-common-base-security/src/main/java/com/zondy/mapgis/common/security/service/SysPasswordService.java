@@ -7,7 +7,6 @@ import com.zondy.mapgis.common.core.exception.user.UserPasswordNotMatchException
 import com.zondy.mapgis.common.core.exception.user.UserPasswordRetryLimitExceedException;
 import com.zondy.mapgis.common.core.utils.CacheUtils;
 import com.zondy.mapgis.common.core.utils.MessageUtils;
-import com.zondy.mapgis.common.core.utils.ServletUtils;
 import com.zondy.mapgis.common.core.utils.StringUtils;
 import com.zondy.mapgis.common.core.utils.ip.IpUtils;
 import com.zondy.mapgis.common.core.utils.spring.SpringUtils;
@@ -48,7 +47,7 @@ public class SysPasswordService {
         Integer maxRetryCount = sysPasswordProtectedConfig.getMaxRetryCount();
         Integer lockTime = sysPasswordProtectedConfig.getLockTime();
         Boolean isLockedByIp = sysPasswordProtectedConfig.getIsLockedByIp();
-        String ip = IpUtils.getIpAddr(ServletUtils.getRequest());
+        String ip = IpUtils.getIpAddr();
 
         if (!lockEnabled) {
             if (!matches(user, password)) {

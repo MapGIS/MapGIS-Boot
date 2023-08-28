@@ -82,8 +82,7 @@
     <select id="checkUserGroupNameUnique" parameterType="String" resultType="int">
         select count(1)
         from sys_user_group
-        where user_group_name = #{userGroupName}
-        limit 1
+        where user_group_name = #{userGroupName} limit 1
     </select>
 
     <insert id="insertSysUserGroup" parameterType="SysUserGroup" useGeneratedKeys="true" keyProperty="userGroupId">

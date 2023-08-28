@@ -63,7 +63,7 @@ public class SysLoginService extends BaseLoginService {
         // 记录成功登录日志
         recordLogService.recordLogininfor(username, Constants.LOGIN_SUCCESS, MessageUtils.message("user.login.success"));
         // 记录用户登录信息
-        recordLoginInfo(loginUser.getUserId(), IpUtils.getIpAddr(ServletUtils.getRequest()));
+        recordLoginInfo(loginUser.getUserId(), IpUtils.getIpAddr());
         // 踢人
         tokenService.kickoutLoginUser(loginUser.getUserId());
     }

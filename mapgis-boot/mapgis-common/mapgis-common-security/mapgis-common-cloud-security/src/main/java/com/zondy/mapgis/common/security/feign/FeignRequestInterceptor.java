@@ -43,7 +43,7 @@ public class FeignRequestInterceptor implements RequestInterceptor {
             }
 
             // 配置客户端IP
-            requestTemplate.header("X-Forwarded-For", IpUtils.getIpAddr(ServletUtils.getRequest()));
+            requestTemplate.header("X-Forwarded-For", IpUtils.getIpAddr());
         }
     }
 }

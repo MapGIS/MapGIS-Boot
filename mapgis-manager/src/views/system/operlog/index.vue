@@ -221,6 +221,12 @@ export default {
           align: 'center'
         },
         {
+          title: this.$t('operation.cost.time'),
+          dataIndex: 'costTime',
+          align: 'center',
+          sorter: true
+        },
+        {
           title: this.$t('operation.time'),
           dataIndex: 'operTime',
           align: 'center',

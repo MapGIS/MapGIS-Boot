@@ -6,7 +6,10 @@ import com.zondy.mapgis.common.cache.service.ICacheService;
 import com.zondy.mapgis.common.captcha.service.IValidateCodeService;
 import com.zondy.mapgis.common.core.constant.UserConstants;
 import com.zondy.mapgis.common.core.exception.ServiceException;
-import com.zondy.mapgis.common.core.utils.*;
+import com.zondy.mapgis.common.core.utils.CacheUtils;
+import com.zondy.mapgis.common.core.utils.DateUtils;
+import com.zondy.mapgis.common.core.utils.MessageUtils;
+import com.zondy.mapgis.common.core.utils.StringUtils;
 import com.zondy.mapgis.common.core.utils.ip.IpUtils;
 import com.zondy.mapgis.common.core.utils.spring.SpringUtils;
 import com.zondy.mapgis.common.ldap.utils.LdapUtils;
@@ -214,11 +217,18 @@ public abstract class BaseLoginService {
         sysServiceProxy.registerUserInfo(sysUser);
     }
 
-    // 获取加密后的密码
+    /**
+     * 获取加密后的密码
+     *
+     * @param password 原始密码
+     * @return 加密后的密码
+     */
     public abstract String getEncryptPassword(String password);
 
     /**
      * 成功注册之后操作
+     *
+     * @param username 用户名
      */
     public abstract void afterSuccessRegister(String username);
 
@@ -280,7 +290,7 @@ public abstract class BaseLoginService {
      * @param username
      */
     public boolean isNeedCaptcha(String username) {
-        String ip = IpUtils.getIpAddr(ServletUtils.getRequest());
+        String ip = IpUtils.getIpAddr();
         SysLoginConfig sysLoginConfig = sysServiceProxy.getLoginConfig();
         Boolean captchaEnabled = sysLoginConfig.getCaptchaEnabled();
         final Integer maxRetryCount = sysLoginConfig.getMaxRetryCount();

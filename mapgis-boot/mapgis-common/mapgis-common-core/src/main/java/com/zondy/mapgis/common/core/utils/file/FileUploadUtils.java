@@ -1,6 +1,7 @@
 package com.zondy.mapgis.common.core.utils.file;
 
 import cn.hutool.core.io.file.FileNameUtil;
+import com.zondy.mapgis.common.core.exception.file.FileException;
 import com.zondy.mapgis.common.core.exception.file.FileNameLengthLimitExceededException;
 import com.zondy.mapgis.common.core.exception.file.FileSizeLimitExceededException;
 import com.zondy.mapgis.common.core.exception.file.InvalidExtensionException;
@@ -42,6 +43,8 @@ public class FileUploadUtils {
     public static final String upload(String baseDir, MultipartFile file) throws IOException {
         try {
             return upload(baseDir, file, MimeTypeUtils.DEFAULT_ALLOWED_EXTENSION);
+        } catch (FileException fe) {
+            throw new IOException(fe.getDefaultMessage(), fe);
         } catch (Exception e) {
             throw new IOException(e.getMessage(), e);
         }

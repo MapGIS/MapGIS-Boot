@@ -2,7 +2,6 @@ package com.zondy.mapgis.auth.api.service;
 
 import com.zondy.mapgis.common.core.constant.Constants;
 import com.zondy.mapgis.common.core.utils.MessageUtils;
-import com.zondy.mapgis.common.core.utils.ServletUtils;
 import com.zondy.mapgis.common.core.utils.ip.IpUtils;
 import com.zondy.mapgis.common.core.utils.spring.SpringUtils;
 import com.zondy.mapgis.common.security.context.AuthenticationContextHolder;
@@ -81,7 +80,7 @@ public class SysLoginService extends BaseLoginService {
         // 记录成功登录日志
         recordLogService.recordLogininfor(username, Constants.LOGIN_SUCCESS, MessageUtils.message("user.login.success"));
         // 记录用户登录信息
-        recordLoginInfo(loginUser.getUserId(), IpUtils.getIpAddr(ServletUtils.getRequest()));
+        recordLoginInfo(loginUser.getUserId(), IpUtils.getIpAddr());
         // 踢人
         tokenService.kickoutLoginUser(loginUser.getUserId());
     }

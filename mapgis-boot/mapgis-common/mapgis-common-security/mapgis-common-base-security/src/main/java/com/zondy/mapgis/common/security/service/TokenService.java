@@ -12,6 +12,7 @@ import com.zondy.mapgis.common.security.utils.BaseSecurityUtils;
 import com.zondy.mapgis.system.api.model.LoginUser;
 import com.zondy.mapgis.system.api.service.SysServiceProxy;
 import eu.bitwalker.useragentutils.UserAgent;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -27,6 +28,7 @@ import java.util.concurrent.TimeUnit;
  * @since 2022/3/15 18:00
  */
 @Component
+@Slf4j
 public class TokenService {
     @Autowired
     private ICacheService cacheService;
@@ -80,6 +82,7 @@ public class TokenService {
                 return user;
             }
         } catch (Exception e) {
+            log.error("获取用户信息异常'{}'", e.getMessage());
         }
         return user;
     }
@@ -190,7 +193,7 @@ public class TokenService {
      */
     public void setUserAgent(LoginUser loginUser) {
         UserAgent userAgent = UserAgent.parseUserAgentString(ServletUtils.getRequest().getHeader("User-Agent"));
-        String ip = IpUtils.getIpAddr(ServletUtils.getRequest());
+        String ip = IpUtils.getIpAddr();
         loginUser.setIpaddr(ip);
         loginUser.setBrowser(userAgent.getBrowser().getName());
         loginUser.setOs(userAgent.getOperatingSystem().getName());

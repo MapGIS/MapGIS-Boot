@@ -108,6 +108,7 @@ export default {
   'operation.address': 'Opertion Address',
   'operation.status': 'Opertiaon Status',
   'operation.time': 'Operation Time',
+  'operation.cost.time': 'Cost Time(ms)',
   date: 'Date',
   level: 'Level',
   id: 'ID',

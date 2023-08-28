@@ -1,7 +1,6 @@
 package com.zondy.mapgis.system.controller;
 
 import com.zondy.mapgis.common.controllerprefix.annotation.ManagerRestController;
-import com.zondy.mapgis.common.core.constant.UserConstants;
 import com.zondy.mapgis.common.core.utils.StringUtils;
 import com.zondy.mapgis.common.core.utils.poi.ExcelUtil;
 import com.zondy.mapgis.common.core.web.controller.BaseController;
@@ -95,9 +94,9 @@ public class SysRoleController extends BaseController {
     @Log(title = "角色管理", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@Validated @RequestBody SysRole role) {
-        if (UserConstants.NOT_UNIQUE.equals(roleService.checkRoleNameUnique(role))) {
+        if (!roleService.checkRoleNameUnique(role)) {
             return error("新增角色'" + role.getRoleName() + "'失败，角色名称已存在");
-        } else if (UserConstants.NOT_UNIQUE.equals(roleService.checkRoleKeyUnique(role))) {
+        } else if (!roleService.checkRoleKeyUnique(role)) {
             return error("新增角色'" + role.getRoleName() + "'失败，角色权限已存在");
         }
         role.setCreateBy(SecurityUtils.getUsername());
@@ -116,9 +115,9 @@ public class SysRoleController extends BaseController {
     public AjaxResult edit(@Validated @RequestBody SysRole role) {
         roleService.checkRoleAllowed(role);
         roleService.checkRoleDataScope(role.getRoleId());
-        if (UserConstants.NOT_UNIQUE.equals(roleService.checkRoleNameUnique(role))) {
+        if (!roleService.checkRoleNameUnique(role)) {
             return error("修改角色'" + role.getRoleName() + "'失败，角色名称已存在");
-        } else if (UserConstants.NOT_UNIQUE.equals(roleService.checkRoleKeyUnique(role))) {
+        } else if (!roleService.checkRoleKeyUnique(role)) {
             return error("修改角色'" + role.getRoleName() + "'失败，角色权限已存在");
         }
         role.setUpdateBy(SecurityUtils.getUsername());

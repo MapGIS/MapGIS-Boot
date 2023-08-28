@@ -1,7 +1,6 @@
 package com.zondy.mapgis.system.controller;
 
 import com.zondy.mapgis.common.controllerprefix.annotation.ManagerRestController;
-import com.zondy.mapgis.common.core.constant.UserConstants;
 import com.zondy.mapgis.common.core.domain.R;
 import com.zondy.mapgis.common.core.utils.StringUtils;
 import com.zondy.mapgis.common.core.utils.file.FileTypeUtils;
@@ -66,26 +65,21 @@ public class SysProfileController extends BaseController {
     @PutMapping
     public AjaxResult updateProfile(@RequestBody SysUser user) {
         LoginUser loginUser = SecurityUtils.getLoginUser();
-        SysUser sysUser = loginUser.getUser();
-        user.setUserName(sysUser.getUserName());
+        SysUser currentUser = loginUser.getUser();
+        currentUser.setNickName(user.getNickName());
+        currentUser.setEmail(user.getEmail());
+        currentUser.setPhonenumber(user.getPhonenumber());
+        currentUser.setSex(user.getSex());
         if (StringUtils.isNotEmpty(user.getPhonenumber())
-                && UserConstants.NOT_UNIQUE.equals(userService.checkPhoneUnique(user))) {
+                && !userService.checkPhoneUnique(currentUser)) {
             return error("修改用户'" + user.getUserName() + "'失败，手机号码已存在");
         }
         if (StringUtils.isNotEmpty(user.getEmail())
-                && UserConstants.NOT_UNIQUE.equals(userService.checkEmailUnique(user))) {
+                && !userService.checkEmailUnique(currentUser)) {
             return error("修改用户'" + user.getUserName() + "'失败，邮箱账号已存在");
         }
-        user.setUserId(sysUser.getUserId());
-        user.setPassword(null);
-        user.setAvatar(null);
-        user.setDeptId(null);
-        if (userService.updateUserProfile(user) > 0) {
+        if (userService.updateUserProfile(currentUser) > 0) {
             // 更新缓存用户信息
-            sysUser.setNickName(user.getNickName());
-            sysUser.setPhonenumber(user.getPhonenumber());
-            sysUser.setEmail(user.getEmail());
-            sysUser.setSex(user.getSex());
             tokenService.setLoginUser(loginUser);
             return success();
         }

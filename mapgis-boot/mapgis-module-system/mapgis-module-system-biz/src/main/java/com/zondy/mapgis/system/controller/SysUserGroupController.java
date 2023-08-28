@@ -1,7 +1,6 @@
 package com.zondy.mapgis.system.controller;
 
 import com.zondy.mapgis.common.controllerprefix.annotation.ManagerRestController;
-import com.zondy.mapgis.common.core.constant.UserConstants;
 import com.zondy.mapgis.common.core.utils.poi.ExcelUtil;
 import com.zondy.mapgis.common.core.web.controller.BaseController;
 import com.zondy.mapgis.common.core.web.domain.AjaxResult;
@@ -80,7 +79,7 @@ public class SysUserGroupController extends BaseController {
     @Log(title = "用户组", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@RequestBody SysUserGroup sysUserGroup) {
-        if (UserConstants.NOT_UNIQUE.equals(sysUserGroupService.checkUserGroupNameUnique(sysUserGroup.getUserGroupName()))) {
+        if (!sysUserGroupService.checkUserGroupNameUnique(sysUserGroup.getUserGroupName())) {
             return error("新增用户组'" + sysUserGroup.getUserGroupName() + "'失败，用户组名称已存在");
         }
         sysUserGroup.setCreateBy(SecurityUtils.getUsername());

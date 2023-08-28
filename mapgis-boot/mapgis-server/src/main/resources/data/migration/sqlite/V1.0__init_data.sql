@@ -52,7 +52,7 @@ DROP TABLE IF EXISTS "gen_table_column";
 CREATE TABLE "gen_table_column"
 (
     "column_id"      integer NOT NULL PRIMARY KEY AUTOINCREMENT,
-    "table_id"       text(64)    DEFAULT NULL,
+    "table_id"       integer     DEFAULT NULL,
     "column_name"    text(200)   DEFAULT NULL,
     "column_comment" text(500)   DEFAULT NULL,
     "column_type"    text(100)   DEFAULT NULL,

@@ -61,7 +61,7 @@ DROP TABLE IF EXISTS `gen_table_column`;
 CREATE TABLE `gen_table_column`
 (
     `column_id`      bigint(20)                                                    NOT NULL AUTO_INCREMENT COMMENT '编号',
-    `table_id`       varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci  NULL DEFAULT NULL COMMENT '归属表编号',
+    `table_id`       bigint(20)                                                    NULL DEFAULT NULL COMMENT '归属表编号',
     `column_name`    varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '列名称',
     `column_comment` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '列描述',
     `column_type`    varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '列类型',
@@ -914,6 +914,7 @@ CREATE TABLE `sys_oper_log`
     `status`         int(1)                                                         NULL DEFAULT 0 COMMENT '操作状态（0正常 1异常）',
     `error_msg`      varchar(2000) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '错误消息',
     `oper_time`      datetime                                                       NULL DEFAULT NULL COMMENT '操作时间',
+    `cost_time`      bigint(20)                                                     NULL DEFAULT 0 COMMENT '消耗时间',
     PRIMARY KEY (`oper_id`) USING BTREE
 ) ENGINE = InnoDB
   AUTO_INCREMENT = 1

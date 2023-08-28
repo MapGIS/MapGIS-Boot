@@ -34,7 +34,9 @@ import reactor.core.publisher.Mono;
 public class AuthFilter implements GlobalFilter, Ordered {
     private static final Logger log = LoggerFactory.getLogger(AuthFilter.class);
 
-    // 排除过滤的 uri 地址，nacos自行添加
+    /**
+     * 排除过滤的 uri 地址，nacos自行添加
+     */
     @Autowired
     private IgnoreWhiteProperties ignoreWhite;
 

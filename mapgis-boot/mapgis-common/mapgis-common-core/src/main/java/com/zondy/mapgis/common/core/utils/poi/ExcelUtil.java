@@ -4,6 +4,7 @@ import com.zondy.mapgis.common.core.annotation.Excel;
 import com.zondy.mapgis.common.core.annotation.Excel.ColumnType;
 import com.zondy.mapgis.common.core.annotation.Excel.Type;
 import com.zondy.mapgis.common.core.annotation.Excels;
+import com.zondy.mapgis.common.core.exception.UtilException;
 import com.zondy.mapgis.common.core.text.Convert;
 import com.zondy.mapgis.common.core.utils.DateUtils;
 import com.zondy.mapgis.common.core.utils.StringUtils;
@@ -223,8 +224,17 @@ public class ExcelUtil<T> {
      * @param is 输入流
      * @return 转换后集合
      */
-    public List<T> importExcel(InputStream is) throws Exception {
-        return importExcel(is, 0);
+    public List<T> importExcel(InputStream is) {
+        List<T> list;
+        try {
+            list = importExcel(is, 0);
+        } catch (Exception e) {
+            log.error("导入Excel异常{}", e.getMessage());
+            throw new UtilException(e.getMessage());
+        } finally {
+            IOUtils.closeQuietly(is);
+        }
+        return list;
     }
 
     /**
@@ -258,7 +268,6 @@ public class ExcelUtil<T> {
 
         // 获取最后一个非空行的行下标，比如总行数为n，则返回的为n-1
         int rows = sheet.getLastRowNum();
-
         if (rows > 0) {
             // 定义一个map用于存放excel列的序号和field.
             Map<String, Integer> cellMap = new HashMap<String, Integer>();
@@ -336,10 +345,11 @@ public class ExcelUtil<T> {
                         String propertyName = field.getName();
                         if (StringUtils.isNotEmpty(attr.targetAttr())) {
                             propertyName = field.getName() + "." + attr.targetAttr();
-                        } else if (StringUtils.isNotEmpty(attr.readConverterExp())) {
+                        }
+                        if (StringUtils.isNotEmpty(attr.readConverterExp())) {
                             val = reverseByExp(Convert.toStr(val), attr.readConverterExp(), attr.separator());
                         } else if (!attr.handler().equals(ExcelHandlerAdapter.class)) {
-                            val = dataFormatHandlerAdapter(val, attr);
+                            val = dataFormatHandlerAdapter(val, attr, null);
                         }
                         ReflectUtils.invokeSetter(entity, propertyName, val);
                     }
@@ -752,7 +762,7 @@ public class ExcelUtil<T> {
                 } else if (value instanceof BigDecimal && -1 != attr.scale()) {
                     cell.setCellValue((((BigDecimal) value).setScale(attr.scale(), attr.roundingMode())).doubleValue());
                 } else if (!attr.handler().equals(ExcelHandlerAdapter.class)) {
-                    cell.setCellValue(dataFormatHandlerAdapter(value, attr));
+                    cell.setCellValue(dataFormatHandlerAdapter(value, attr, cell));
                 } else {
                     // 设置列类型
                     setCellVo(value, attr, cell);
@@ -808,7 +818,8 @@ public class ExcelUtil<T> {
      * @param firstCol      开始列
      * @param endCol        结束列
      */
-    public void setXSSFValidationWithHidden(Sheet sheet, String[] textlist, String promptContent, int firstRow, int endRow, int firstCol, int endCol) {
+    public void setXSSFValidationWithHidden(Sheet sheet, String[] textlist, String promptContent, int firstRow, int endRow, int firstCol,
+                                            int endCol) {
         String hideSheetName = "combo_" + firstCol + "_" + endCol;
         Sheet hideSheet = wb.createSheet(hideSheetName); // 用于存储 下拉菜单数据
         for (int i = 0; i < textlist.length; i++) {
@@ -908,11 +919,11 @@ public class ExcelUtil<T> {
      * @param excel 数据注解
      * @return
      */
-    public String dataFormatHandlerAdapter(Object value, Excel excel) {
+    public String dataFormatHandlerAdapter(Object value, Excel excel, Cell cell) {
         try {
             Object instance = excel.handler().newInstance();
-            Method formatMethod = excel.handler().getMethod("format", new Class[]{Object.class, String[].class});
-            value = formatMethod.invoke(instance, value, excel.args());
+            Method formatMethod = excel.handler().getMethod("format", new Class[]{Object.class, String[].class, Cell.class, Workbook.class});
+            value = formatMethod.invoke(instance, value, excel.args(), cell, this.wb);
         } catch (Exception e) {
             log.error("不能格式化数据 " + excel.handler(), e.getMessage());
         }
@@ -1038,7 +1049,8 @@ public class ExcelUtil<T> {
                     Excels attrs = field.getAnnotation(Excels.class);
                     Excel[] excels = attrs.value();
                     for (Excel attr : excels) {
-                        if (attr != null && (attr.type() == Type.ALL || attr.type() == type)) {
+                        if (!ArrayUtils.contains(this.excludeFields, field.getName() + "." + attr.targetAttr())
+                                && (attr != null && (attr.type() == Type.ALL || attr.type() == type))) {
                             field.setAccessible(true);
                             fields.add(new Object[]{field, attr});
                         }

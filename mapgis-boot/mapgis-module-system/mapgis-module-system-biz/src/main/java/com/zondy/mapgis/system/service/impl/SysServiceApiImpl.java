@@ -1,6 +1,5 @@
 package com.zondy.mapgis.system.service.impl;
 
-import com.zondy.mapgis.common.core.constant.UserConstants;
 import com.zondy.mapgis.common.core.domain.R;
 import com.zondy.mapgis.common.core.utils.StringUtils;
 import com.zondy.mapgis.common.meter.context.MetricContext;
@@ -82,7 +81,7 @@ public class SysServiceApiImpl implements ISysServiceApi {
     public R<Boolean> registerUserInfo(SysUser sysUser, String source) {
         String username = sysUser.getUserName();
 
-        if (UserConstants.NOT_UNIQUE.equals(userService.checkUserNameUnique(sysUser))) {
+        if (!userService.checkUserNameUnique(sysUser)) {
             return R.fail("保存用户'" + username + "'失败，注册账号已存在");
         }
         boolean registerResult = userService.registerUser(sysUser);

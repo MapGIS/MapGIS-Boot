@@ -34,7 +34,7 @@ public class SysRecordLogService implements ISysRecordLogService {
     @Override
     public void recordLogininfor(String username, String status, String message) {
         final UserAgent userAgent = UserAgent.parseUserAgentString(ServletUtils.getRequest().getHeader("User-Agent"));
-        final String ip = IpUtils.getIpAddr(ServletUtils.getRequest());
+        final String ip = IpUtils.getIpAddr();
         // 获取客户端操作系统
         String os = userAgent.getOperatingSystem().getName();
         // 获取客户端浏览器
