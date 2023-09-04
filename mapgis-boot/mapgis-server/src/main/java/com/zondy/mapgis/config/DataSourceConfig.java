@@ -141,7 +141,13 @@ public class DataSourceConfig {
 
     void migrateDataBase(DataSource dataSource, String dbName, String sqlPath) {
         try {
-            org.flywaydb.core.api.configuration.Configuration configuration = Flyway.configure().dataSource(dataSource).baselineDescription("initByServer").baselineOnMigrate(true).validateOnMigrate(false).locations(String.format("classpath:data/migration/%s", sqlPath));
+            org.flywaydb.core.api.configuration.Configuration configuration = Flyway.configure()
+                    .dataSource(dataSource)
+                    .baselineDescription("initByServer")
+                    .baselineOnMigrate(true)
+                    .validateOnMigrate(false)
+                    .locations(String.format("classpath:data/migration/%s", sqlPath),
+                            String.format("filesystem:migration/%s", sqlPath));
             Flyway flyway = new Flyway(configuration);
             flyway.migrate();
         } catch (Exception e) {
