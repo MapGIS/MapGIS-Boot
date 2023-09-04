@@ -6,6 +6,7 @@ metadata:
     app: mapgis-xxx
     kind: mapgis-xxx
   annotations:
+    scale: unscalable
     description: MapGIS Boot
 spec:
   selector:
