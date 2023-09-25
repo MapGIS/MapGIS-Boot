@@ -13,6 +13,7 @@ import security from './en-US/security'
 import schedule from './en-US/schedule'
 import msg from './en-US/msg'
 import dev from './en-US/dev'
+import file from './en-US/file'
 
 const components = {
   antLocale: antdEnUS,
@@ -35,5 +36,6 @@ export default {
   ...security,
   ...schedule,
   ...msg,
-  ...dev
+  ...dev,
+  ...file
 }

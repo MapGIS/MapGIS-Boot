@@ -380,6 +380,19 @@ spec:
             secretKeyRef:
               name: {{ include "mapgis.fullname" . }}-secret
               key: mapgis.redis.password
+        - name: MYSQL_HOST
+          value: {{ include "mapgis.fullname" . }}-mysql
+        - name: MYSQL_PORT
+          value: '3306'
+        - name: MYSQL_DB
+          value: {{ include "mapgis.dbName" . }}
+        - name: MYSQL_USER
+          value: root
+        - name: MYSQL_PWD
+          valueFrom:
+            secretKeyRef:
+              name: {{ include "mapgis.fullname" . }}-secret
+              key: mapgis.mysql.root.password
         volumeMounts:
         - name: {{ include "mapgis.fullname" . }}-file-logs
           mountPath: /mapgis/logs

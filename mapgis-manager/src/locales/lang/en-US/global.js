@@ -18,6 +18,7 @@ export default {
   ok: 'OK',
   submit: 'Submit',
   upload: 'Upload',
+  download: 'Download',
   open: 'Open',
   close: 'Close',
   on: 'On',

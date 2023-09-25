@@ -154,11 +154,18 @@ services:
       REDIS_HOST: ${REDIS_HOST}
       REDIS_PORT: ${REDIS_PORT}
       REDIS_PWD: ${REDIS_PWD}
+      MYSQL_HOST: ${MYSQL_HOST}
+      MYSQL_PORT: ${MYSQL_PORT}
+      MYSQL_DB: ${MYSQL_DB}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PWD: ${MYSQL_PWD}
     depends_on:
       - mapgis-xxx-redis
+      - mapgis-xxx-mysql
       - mapgis-xxx-nacos
     links:
       - mapgis-xxx-redis
+      - mapgis-xxx-mysql
       - mapgis-xxx-nacos
   mapgis-xxx-job:
     image: ${DOCKER_REGISTRY_URL}mapgis/xxx-job-${IMAGE_OS_NAME}:${MAPGIS_IMAGE_TAG}

@@ -18,6 +18,7 @@ export default {
   ok: '确定',
   submit: '提交',
   upload: '上传',
+  download: '下载',
   open: '打开',
   close: '关闭',
   on: '开',

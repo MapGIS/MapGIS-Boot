@@ -3,7 +3,7 @@ package com.zondy.mapgis.file.service.impl;
 import cn.hutool.core.io.IoUtil;
 import com.zondy.mapgis.common.core.utils.file.FileUploadUtils;
 import com.zondy.mapgis.file.config.MinioConfig;
-import com.zondy.mapgis.file.service.IFileStorageService;
+import com.zondy.mapgis.file.enums.FileEngineType;
 import io.minio.MinioClient;
 import io.minio.PutObjectArgs;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +17,7 @@ import java.io.InputStream;
  * @author xiongbo
  * @since 2022/3/15 18:00
  */
-public class MinioSysFileServiceImpl implements IFileStorageService {
+public class MinioSysFileServiceImpl extends FileStorageServiceImpl {
     @Autowired
     private MinioConfig minioConfig;
 
@@ -31,7 +31,6 @@ public class MinioSysFileServiceImpl implements IFileStorageService {
      * @return 访问地址
      * @throws Exception
      */
-    @Override
     public String uploadFile(MultipartFile file) throws Exception {
         String fileName = FileUploadUtils.extractFilename(file);
         InputStream inputStream = file.getInputStream();
@@ -44,5 +43,16 @@ public class MinioSysFileServiceImpl implements IFileStorageService {
         client.putObject(args);
         IoUtil.close(inputStream);
         return minioConfig.getUrl() + "/" + minioConfig.getBucketName() + "/" + fileName;
+    }
+
+    /**
+     * 文件存储接口（需要保存到数据库中）
+     *
+     * @param file 上传的文件
+     * @return 结果
+     */
+    @Override
+    public int storageFile(MultipartFile file) {
+        return storageFile(FileEngineType.MINIO.getValue(), minioConfig.getBucketName(), file);
     }
 }

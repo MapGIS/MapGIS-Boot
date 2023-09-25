@@ -1,5 +1,6 @@
 package com.zondy.mapgis.file.bootstrap;
 
+import com.zondy.mapgis.common.security.annotation.EnableMapConfig;
 import com.zondy.mapgis.common.security.annotation.EnableMapFeignClients;
 import com.zondy.mapgis.common.swagger.annotation.EnableCustomSwagger3;
 import com.zondy.mapgis.common.systemlog.listener.UpdateSystemLogConfigListener;
@@ -8,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.context.annotation.Import;
 
 /**
@@ -17,9 +17,10 @@ import org.springframework.context.annotation.Import;
  * @author xiongbo
  * @since 2022/3/15 18:00
  */
+@EnableMapConfig
 @EnableCustomSwagger3
 @EnableMapFeignClients
-@SpringBootApplication(exclude = {DataSourceAutoConfiguration.class})
+@SpringBootApplication
 @Import(ResourcesConfig.class)
 public class MapFileApplication implements CommandLineRunner {
     @Autowired

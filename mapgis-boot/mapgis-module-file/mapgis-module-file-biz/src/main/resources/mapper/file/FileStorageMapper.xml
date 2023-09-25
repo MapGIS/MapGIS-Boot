@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zondy.mapgis.file.mapper.FileStorageMapper">
+
+    <resultMap type="FileStorage" id="FileStorageResult">
+        <result property="fileId" column="file_id"/>
+        <result property="engine" column="engine"/>
+        <result property="bucket" column="bucket"/>
+        <result property="name" column="name"/>
+        <result property="suffix" column="suffix"/>
+        <result property="sizeKb" column="size_kb"/>
+        <result property="size" column="size"/>
+        <result property="url" column="url"/>
+        <result property="thumbnail" column="thumbnail"/>
+        <result property="createBy" column="create_by"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateBy" column="update_by"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="remark" column="remark"/>
+    </resultMap>
+
+    <sql id="selectFileStorageVo">
+        select file_id, engine, bucket, name, suffix, size_kb, size, url, thumbnail, create_by, create_time, update_by, update_time, remark
+        from file_storage
+    </sql>
+
+    <select id="selectFileStorageList" parameterType="FileStorage" resultMap="FileStorageResult">
+        <include refid="selectFileStorageVo"/>
+        <where>
+            <if test="name != null  and name != ''">
+                <bind name="name_like" value="'%' + name + '%'"/>
+                and name like #{name_like}
+            </if>
+            <if test="url != null  and url != ''">
+                <bind name="url_like" value="'%' + url + '%'"/>
+                and url like #{url_like}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectFileStorageByFileId" parameterType="Long"
+            resultMap="FileStorageResult">
+        <include refid="selectFileStorageVo"/>
+        where file_id = #{fileId}
+    </select>
+
+    <insert id="insertFileStorage" parameterType="FileStorage" useGeneratedKeys="true" keyProperty="fileId">
+        insert into file_storage
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="engine != null">engine,</if>
+            <if test="bucket != null">bucket,</if>
+            <if test="name != null">name,</if>
+            <if test="suffix != null">suffix,</if>
+            <if test="sizeKb != null">size_kb,</if>
+            <if test="size != null">size,</if>
+            <if test="url != null">url,</if>
+            <if test="thumbnail != null">thumbnail,</if>
+            <if test="remark != null">remark,</if>
+            <if test="createBy != null">create_by,</if>
+            create_time
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="engine != null">#{engine},</if>
+            <if test="bucket != null">#{bucket},</if>
+            <if test="name != null">#{name},</if>
+            <if test="suffix != null">#{suffix},</if>
+            <if test="sizeKb != null">#{sizeKb},</if>
+            <if test="size != null">#{size},</if>
+            <if test="url != null">#{url},</if>
+            <if test="thumbnail != null">#{thumbnail},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <choose>
+                <when test="_databaseId == 'sqlite'">
+                    (datetime(CURRENT_TIMESTAMP,'localtime'))
+                </when>
+                <otherwise>
+                    sysdate()
+                </otherwise>
+            </choose>
+        </trim>
+    </insert>
+
+    <update id="updateFileStorage" parameterType="FileStorage">
+        update file_storage
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="engine != null">engine = #{engine},</if>
+            <if test="bucket != null">bucket = #{bucket},</if>
+            <if test="name != null">name = #{name},</if>
+            <if test="suffix != null">suffix = #{suffix},</if>
+            <if test="sizeKb != null">size_kb = #{sizeKb},</if>
+            <if test="size != null">size = #{size},</if>
+            <if test="url != null">url = #{url},</if>
+            <if test="thumbnail != null">thumbnail = #{thumbnail},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <choose>
+                <when test="_databaseId == 'sqlite'">
+                    update_time = datetime(CURRENT_TIMESTAMP,'localtime')
+                </when>
+                <otherwise>
+                    update_time = sysdate()
+                </otherwise>
+            </choose>
+        </trim>
+        where file_id = #{fileId}
+    </update>
+
+    <delete id="deleteFileStorageByFileId" parameterType="Long">
+        delete
+        from file_storage
+        where file_id = #{fileId}
+    </delete>
+
+    <delete id="deleteFileStorageByFileIds" parameterType="String">
+        delete from file_storage where file_id in
+        <foreach item="fileId" collection="array" open="(" separator="," close=")">
+            #{fileId}
+        </foreach>
+    </delete>
+</mapper>
