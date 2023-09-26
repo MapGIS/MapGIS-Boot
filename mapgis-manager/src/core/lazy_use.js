@@ -62,6 +62,7 @@ import PageLoading from '@/components/PageLoading'
 import PermissionHelper from '@/core/permission/permission'
 import VueClipboard from 'vue-clipboard2'
 import './directives/action'
+import HevueImgPreview from 'hevue-img-preview'
 
 Vue.use(ConfigProvider)
 Vue.use(Layout)
@@ -126,4 +127,6 @@ Vue.use(MultiTab)
 Vue.use(PageLoading)
 Vue.use(PermissionHelper)
 Vue.use(VueCropper)
+Vue.use(HevueImgPreview)
+
 process.env.NODE_ENV !== 'production' && console.warn('[antd-pro] NOTICE: Antd use lazy-load.')

@@ -12,6 +12,7 @@ import PageLoading from '@/components/PageLoading'
 import PermissionHelper from '@/core/permission/permission'
 // import '@/components/use'
 import './directives/action'
+import HevueImgPreview from 'hevue-img-preview'
 
 VueClipboard.config.autoSetContainer = true
 
@@ -21,5 +22,6 @@ Vue.use(PageLoading)
 Vue.use(VueClipboard)
 Vue.use(PermissionHelper)
 Vue.use(VueCropper)
+Vue.use(HevueImgPreview)
 
 process.env.NODE_ENV !== 'production' && console.warn('[antd-pro] WARNING: Antd now use fulled imported.')

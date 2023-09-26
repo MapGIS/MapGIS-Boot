@@ -1,6 +1,6 @@
 <template>
   <page-header-wrapper>
-    <a-card :bordered="false">
+    <a-card :bordered="false" v-show="!officePreviewing">
       <!-- 条件搜索 -->
       <div class="table-page-search-wrapper">
         <a-form layout="inline">
@@ -78,6 +78,8 @@
           {{ parseTime(record.createTime) }}
         </span>
         <span slot="operation" slot-scope="text, record">
+          <a v-if="canPreview(record)" @click="onPreview(record)"> <a-icon type="play-circle" />{{ $t('preview') }} </a>
+          <a-divider v-if="canPreview(record)" type="vertical" />
           <a @click="$refs.detailForm.handleLook(record)"><a-icon type="eye" />{{ $t('details') }}</a>
           <a-divider type="vertical" />
           <a :href="downloadUrl(record)" target="_blank"><a-icon type="download" />{{ $t('download') }}</a>
@@ -99,7 +101,9 @@
         @showSizeChange="onShowSizeChange"
         @change="changeSize"
       />
+      <preview-video ref="previewVideo"></preview-video>
     </a-card>
+    <preview-office ref="previewOffice" @goBack="previewOfficeBack"></preview-office>
   </page-header-wrapper>
 </template>
 
@@ -107,13 +111,17 @@
 import { listFile, delFile } from '@/api/file/storage'
 import DetailForm from './modules/DetailForm'
 import UploadFile from './modules/UploadFile'
+import PreviewVideo from './modules/PreviewVideo'
+import PreviewOffice from './modules/PreviewOffice'
 import { tableMixin } from '@/store/table-mixin'
 
 export default {
   name: 'Storage',
   components: {
     DetailForm,
-    UploadFile
+    UploadFile,
+    PreviewVideo,
+    PreviewOffice
   },
   mixins: [tableMixin],
   data() {
@@ -219,7 +227,10 @@ export default {
           scopedSlots: { customRender: 'operation' },
           align: 'center'
         }
-      ]
+      ],
+      imgSuffixs: ['png', 'jpg', 'jpeg', 'bmp', 'gif', 'ico'],
+      officeSuffixs: ['docx', 'xlsx', 'pdf'],
+      officePreviewing: false
     }
   },
   filters: {},
@@ -238,7 +249,6 @@ export default {
     },
     realThumbnail() {
       return function (record) {
-        const imgSuffixs = ['png', 'jpg', 'jpeg', 'bmp', 'gif', 'ico']
         const fileSuffixs = [
           {
             suffixs: ['doc', 'docx'],
@@ -273,7 +283,7 @@ export default {
             img: require('@/assets/images/fileImg/html.png')
           }
         ]
-        if (imgSuffixs.includes(record.suffix)) {
+        if (this.imgSuffixs.includes(record.suffix)) {
           return record.thumbnail
         } else {
           const result = fileSuffixs.find(item => {
@@ -373,6 +383,46 @@ export default {
         },
         onCancel() {}
       })
+    },
+    // 判断是否显示预览按钮
+    canPreview(record) {
+      if (!record.suffix) {
+        return false
+      }
+      const suffix = record.suffix.toLowerCase()
+      if (this.imgSuffixs.includes(suffix) || this.officeSuffixs.includes(suffix) || suffix === 'mp4') {
+        return true
+      }
+    },
+    // 预览
+    onPreview(record) {
+      const previewUrl = this.getPreviewUrl(record)
+      const suffix = record.suffix.toLowerCase()
+
+      if (suffix === 'mp4') {
+        this.$refs.previewVideo.preview(previewUrl)
+      } else if (this.imgSuffixs.includes(suffix)) {
+        this.$hevueImgPreview({
+          url: previewUrl,
+          clickMaskCLose: true
+        })
+      } else if (this.officeSuffixs.includes(suffix)) {
+        this.$refs.previewOffice.preview({
+          url: previewUrl,
+          fileType: suffix
+        })
+        this.officePreviewing = true
+      }
+    },
+    getPreviewUrl(record) {
+      if (record.engine === 'LOCAL') {
+        return `${window.location.protocol}//${window.location.host}${window._CONFIG['domainURL']}${record.url}`
+      } else {
+        return record.url
+      }
+    },
+    previewOfficeBack() {
+      this.officePreviewing = false
     }
   }
 }
