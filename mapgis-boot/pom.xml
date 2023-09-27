@@ -767,5 +767,33 @@
                 <module>mapgis-cloud-module</module>
             </modules>
         </profile>
+        <profile>
+            <!-- 申威平台 -->
+            <id>shenwei</id>
+            <dependencyManagement>
+                <dependencies>
+                    <!-- 申威平台特有的sqlite -->
+                    <dependency>
+                        <groupId>org.xerial</groupId>
+                        <artifactId>sqlite-jdbc</artifactId>
+                        <version>3.32.3.3-shenwei</version>
+                    </dependency>
+                </dependencies>
+            </dependencyManagement>
+        </profile>
+        <profile>
+            <!-- 龙芯平台 -->
+            <id>longxin</id>
+            <dependencyManagement>
+                <dependencies>
+                    <!-- 龙芯平台特有的sqlite -->
+                    <dependency>
+                        <groupId>org.xerial</groupId>
+                        <artifactId>sqlite-jdbc</artifactId>
+                        <version>3.25.2-longxin</version>
+                    </dependency>
+                </dependencies>
+            </dependencyManagement>
+        </profile>
     </profiles>
 </project>

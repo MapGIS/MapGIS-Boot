@@ -7,7 +7,7 @@
       <a-card :bordered="false">
         <div class="server-base-info" v-if="data.sys">
           <a-icon type="setting" style="margin-right: 5px" />
-          <span> {{ `${$t('system')}： ${data.sys.osFullInfo}` }}</span>
+          <span v-if="data.sys.osFullInfo"> {{ `${$t('system')}： ${data.sys.osFullInfo}` }}</span>
           <span> {{ `IP：${data.sys.ip}` }} </span>
           <span> {{ `${$t('monitor.server.running.desc')}：${data.jvm.runTime}` }} </span>
           <a-icon type="sync" class="icon-refresh" @click="onRefreshServerInfo" />
@@ -15,7 +15,7 @@
       </a-card>
 
       <a-row :gutter="[10, 10]">
-        <a-col :xs="24" :sm="12" :md="12" :lg="6" :xl="6">
+        <a-col v-if="data.cpu" :xs="24" :sm="12" :md="12" :lg="6" :xl="6">
           <a-card
             :title="$t('monitor.server.cpu.monitor')"
             :bordered="false"
@@ -34,7 +34,7 @@
             <div>{{ $t('monitor.server.cpu.total.usage') }}</div>
           </a-card>
         </a-col>
-        <a-col :xs="24" :sm="12" :md="12" :lg="6" :xl="6">
+        <a-col v-if="data.memory" :xs="24" :sm="12" :md="12" :lg="6" :xl="6">
           <a-card
             :title="$t('monitor.server.memory.info')"
             :bordered="false"
@@ -56,7 +56,7 @@
             <div>{{ $t('monitor.server.memory.usage') }}</div>
           </a-card>
         </a-col>
-        <a-col :xs="24" :sm="12" :md="12" :lg="6" :xl="6">
+        <a-col v-if="data.disk" :xs="24" :sm="12" :md="12" :lg="6" :xl="6">
           <a-card :title="$t('monitor.server.disk.info')" :bordered="false" class="monitor-server-center-row-col-card">
             <a-tooltip>
               <template #title>
@@ -139,7 +139,7 @@
         </a-row>
       </div>
 
-      <a-card :title="$t('monitor.server.cpu.monitor')" :bordered="false">
+      <a-card v-if="data.cpu" :title="$t('monitor.server.cpu.monitor')" :bordered="false">
         <a-descriptions size="middle" :column="2" bordered>
           <a-descriptions-item :label="$t('monitor.server.cpu.name')">
             {{ data.cpu.name }}
@@ -194,7 +194,7 @@
         </a-descriptions>
       </a-card>
 
-      <a-card :title="$t('monitor.server.disk.status')" :bordered="false">
+      <a-card v-if="data.files" :title="$t('monitor.server.disk.status')" :bordered="false">
         <a-table
           :size="tableSize"
           rowKey="dir"

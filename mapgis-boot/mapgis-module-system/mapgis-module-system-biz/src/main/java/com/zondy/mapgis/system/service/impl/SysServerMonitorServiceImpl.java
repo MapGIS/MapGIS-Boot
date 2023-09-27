@@ -64,6 +64,16 @@ public class SysServerMonitorServiceImpl implements ISysServerMonitorService {
     @Override
     public Map<String, Object> getMonitorInfo() {
         Map<String, Object> resultMap = new LinkedHashMap<>(8);
+        // oshi不支持申威、龙芯
+        if (EnvUtils.IS_SHENWEI64_LINUX || EnvUtils.IS_LONGXIN_LINUX) {
+            // 系统信息
+            resultMap.put("sys", getSystemInfo());
+            // JVM
+            resultMap.put("jvm", getJvmInfo());
+            resultMap.put("time", DateUtil.format(new Date(), "HH:mm:ss"));
+            return resultMap;
+        }
+
         try {
             SystemInfo si = new SystemInfo();
             OperatingSystem os = si.getOperatingSystem();
@@ -121,7 +131,7 @@ public class SysServerMonitorServiceImpl implements ISysServerMonitorService {
     @Scheduled(initialDelay = 5 * DateUtils.MILLIS_PER_SECOND, fixedDelay = 60 * DateUtils.MILLIS_PER_SECOND)
     public void dealHardwareMonitor() {
         // oshi不支持申威
-        if (EnvUtils.IS_SHENWEI64_LINUX) {
+        if (EnvUtils.IS_SHENWEI64_LINUX || EnvUtils.IS_LONGXIN_LINUX) {
             return;
         }
 
@@ -432,6 +442,20 @@ public class SysServerMonitorServiceImpl implements ISysServerMonitorService {
      * @return /
      */
     private Map<String, Object> getSystemInfo(OperatingSystem os) {
+        Map<String, Object> systemInfo = getSystemInfo();
+
+        // 系统信息
+        systemInfo.put("osFullInfo", os.toString());
+
+        return systemInfo;
+    }
+
+    /**
+     * 获取系统相关信息,系统名称、操作系统、IP、架构、项目路径
+     *
+     * @return /
+     */
+    private Map<String, Object> getSystemInfo() {
         Properties props = System.getProperties();
         Map<String, Object> systemInfo = new LinkedHashMap<>();
 
@@ -441,7 +465,6 @@ public class SysServerMonitorServiceImpl implements ISysServerMonitorService {
         systemInfo.put("ip", IpUtils.getHostIp());
         systemInfo.put("arch", props.getProperty("os.arch"));
         systemInfo.put("userDir", props.getProperty("user.dir"));
-        systemInfo.put("osFullInfo", os.toString());
 
         return systemInfo;
     }
