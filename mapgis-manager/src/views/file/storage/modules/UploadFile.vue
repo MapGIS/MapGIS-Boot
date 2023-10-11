@@ -33,7 +33,7 @@ export default {
   components: {},
   data() {
     return {
-      title: this.$t('security.user.user.import'),
+      title: this.$t('file.storage.file.upload'),
       open: false,
       uploadStatus: '',
       fileList: [],
