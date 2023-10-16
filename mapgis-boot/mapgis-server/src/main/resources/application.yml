@@ -132,7 +132,7 @@ mybatis-plus:
 
 # PageHelper分页插件
 pagehelper:
-  helperDialect: mysql
+  helperDialect: ${xxx.storeType:sqlite}
   supportMethodsArguments: true
   params: count=countSql
 
