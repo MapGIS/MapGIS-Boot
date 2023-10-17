@@ -39,26 +39,26 @@
             <if test="params.beginTime != null and params.beginTime != ''"><!-- 开始时间检索 -->
                 <choose>
                     <when test="_databaseId == 'sqlite'">
-                        and r.create_time &gt;= #{params.beginTime}
+                        and create_time &gt;= #{params.beginTime}
                     </when>
                     <when test="_databaseId == 'postgresql'">
-                        and to_date(r.create_time::text,'YYYY-MM-DD') &gt;= to_date(#{params.beginTime},'YYYY-MM-DD')
+                        and to_date(create_time::text,'YYYY-MM-DD') &gt;= to_date(#{params.beginTime},'YYYY-MM-DD')
                     </when>
                     <otherwise>
-                        and date_format(r.create_time,'%y%m%d') &gt;= date_format(#{params.beginTime},'%y%m%d')
+                        and date_format(create_time,'%y%m%d') &gt;= date_format(#{params.beginTime},'%y%m%d')
                     </otherwise>
                 </choose>
             </if>
             <if test="params.endTime != null and params.endTime != ''"><!-- 结束时间检索 -->
                 <choose>
                     <when test="_databaseId == 'sqlite'">
-                        and r.create_time &lt;= #{params.endTime}
+                        and create_time &lt;= #{params.endTime}
                     </when>
                     <when test="_databaseId == 'postgresql'">
-                        and to_date(r.create_time::text,'YYYY-MM-DD') &lt;= to_date(#{params.endTime},'YYYY-MM-DD')
+                        and to_date(create_time::text,'YYYY-MM-DD') &lt;= to_date(#{params.endTime},'YYYY-MM-DD')
                     </when>
                     <otherwise>
-                        and date_format(r.create_time,'%y%m%d') &lt;= date_format(#{params.endTime},'%y%m%d')
+                        and date_format(create_time,'%y%m%d') &lt;= date_format(#{params.endTime},'%y%m%d')
                     </otherwise>
                 </choose>
             </if>

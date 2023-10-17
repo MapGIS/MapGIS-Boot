@@ -210,8 +210,8 @@ export default {
         this.daterangeCreateTime !== '' &&
         this.daterangeCreateTime.length !== 0
       ) {
-        this.queryParam.params['beginCreateTime'] = this.daterangeCreateTime[0]
-        this.queryParam.params['endCreateTime'] = this.daterangeCreateTime[1]
+        this.queryParam.params['beginTime'] = this.daterangeCreateTime[0]
+        this.queryParam.params['endTime'] = this.daterangeCreateTime[1]
       }
       listUsergroup(this.queryParam).then(response => {
         this.list = response.rows
