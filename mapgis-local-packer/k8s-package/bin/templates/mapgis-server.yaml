@@ -48,6 +48,9 @@ spec:
           name: http
         volumeMounts:
           - name: {{ include "mapgis.fullname" . }}-data
+            mountPath: /mapgis/config
+            subPath: config
+          - name: {{ include "mapgis.fullname" . }}-data
             mountPath: /mapgis/logs
             subPath: logs
           - name: {{ include "mapgis.fullname" . }}-data

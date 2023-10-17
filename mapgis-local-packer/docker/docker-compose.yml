@@ -6,6 +6,7 @@ services:
     ports:
       - "${MAPGIS_APP_PORT}:8080"
     volumes:
+      - ./mapgis/server/config:/mapgis/config
       - ./mapgis/server/logs:/mapgis/logs
       - ./mapgis/server/upload:/mapgis/upload
       - ./mapgis/server/data:/mapgis/data

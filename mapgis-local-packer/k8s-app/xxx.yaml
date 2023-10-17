@@ -52,6 +52,9 @@ spec:
               name: http
           volumeMounts:
             - name: mapgis-xxx-data
+              mountPath: /mapgis/config
+              subPath: config
+            - name: mapgis-xxx-data
               mountPath: /mapgis/logs
               subPath: logs
             - name: mapgis-xxx-data
