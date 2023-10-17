@@ -1356,13 +1356,13 @@ COMMENT ON TABLE "public"."sys_role" IS '角色信息表';
 -- Records of sys_role
 -- ----------------------------
 INSERT INTO "public"."sys_role"
-VALUES (1, '系统管理员', 'admin', 1, '1', true, true, 1, '0', 'admin', '2022-03-23 22:12:32', '', NULL,
+VALUES (1, '系统管理员', 'admin', 1, '1', 't', 't', 1, '0', 'admin', '2022-03-23 22:12:32', '', NULL,
         '内置的系统管理员角色，拥有整个服务器的管理权限');
 INSERT INTO "public"."sys_role"
-VALUES (2, '第三方用户', 'third', 2, '5', true, true, 1, '0', 'admin', '2022-10-24 11:44:51', '', NULL,
+VALUES (2, '第三方用户', 'third', 2, '5', 't', 't', 1, '0', 'admin', '2022-10-24 11:44:51', '', NULL,
         '内置的第三方用户角色，表示用户是使用第三方登录');
 INSERT INTO "public"."sys_role"
-VALUES (3, '普通用户', 'user', 3, '1', true, true, 1, '0', 'admin', '2022-10-17 15:18:18', '', NULL, '内置的普通用户角色');
+VALUES (3, '普通用户', 'user', 3, '1', 't', 't', 1, '0', 'admin', '2022-10-17 15:18:18', '', NULL, '内置的普通用户角色');
 
 -- ----------------------------
 -- Table structure for sys_role_dept
