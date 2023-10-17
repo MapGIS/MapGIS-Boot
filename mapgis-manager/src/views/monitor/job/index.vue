@@ -396,7 +396,7 @@ export default {
         content: this.$t('export.condition.data.description'),
         onOk() {
           that.download(
-            `${window._CONFIG['apiPathManagerPrefix']}/monitor/job/export`,
+            `${window._CONFIG['apiPathManagerPrefix']}/schedule/job/export`,
             {
               ...that.queryParam
             },

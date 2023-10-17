@@ -334,7 +334,7 @@ export default {
         content: this.$t('export.condition.data.description'),
         onOk() {
           that.download(
-            `${window._CONFIG['apiPathManagerPrefix']}/monitor/jobLog/export`,
+            `${window._CONFIG['apiPathManagerPrefix']}/schedule/jobLog/export`,
             {
               ...that.queryParam
             },
