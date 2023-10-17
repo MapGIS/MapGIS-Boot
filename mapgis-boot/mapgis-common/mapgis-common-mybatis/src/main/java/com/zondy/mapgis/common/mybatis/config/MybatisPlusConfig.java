@@ -56,6 +56,7 @@ public class MybatisPlusConfig {
         Properties properties = new Properties();
         properties.setProperty("MySQL", "mysql");
         properties.setProperty("SQLite", "sqlite");
+        properties.setProperty("PostgreSQL", "postgresql");
         databaseIdProvider.setProperties(properties);
         return databaseIdProvider;
     }

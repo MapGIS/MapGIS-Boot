@@ -24,6 +24,9 @@
                     <when test="_databaseId == 'sqlite'">
                         and time &gt; #{time}
                     </when>
+                    <when test="_databaseId == 'postgresql'">
+                        and to_timestamp(time::text,'YYYY-MM-DD HH24:MI:SS') &gt;= to_timestamp(#{time},'YYYY-MM-DD HH24:MI:SS')
+                    </when>
                     <otherwise>
                         and date_format(time,'%y%m%d %H:%i:%S') &gt; date_format(#{time},'%y%m%d %H:%i:%S')
                     </otherwise>
@@ -44,6 +47,9 @@
                     <when test="_databaseId == 'sqlite'">
                         and time &gt;= #{params.beginTime}
                     </when>
+                    <when test="_databaseId == 'postgresql'">
+                        and to_timestamp(time::text,'YYYY-MM-DD HH24:MI:SS') &gt;= to_timestamp(#{params.beginTime},'YYYY-MM-DD HH24:MI:SS')
+                    </when>
                     <otherwise>
                         and date_format(time,'%y%m%d %H:%i:%S') &gt;= date_format(#{params.beginTime},
                         '%y%m%d %H:%i:%S')
@@ -54,6 +60,9 @@
                 <choose>
                     <when test="_databaseId == 'sqlite'">
                         and time &lt;= #{params.endTime}
+                    </when>
+                    <when test="_databaseId == 'postgresql'">
+                        and to_timestamp(time::text,'YYYY-MM-DD HH24:MI:SS') &lt;= to_timestamp(#{params.endTime},'YYYY-MM-DD HH24:MI:SS')
                     </when>
                     <otherwise>
                         and date_format(time,'%y%m%d %H:%i:%S') &lt;= date_format(#{params.endTime},
@@ -92,6 +101,9 @@
             <choose>
                 <when test="_databaseId == 'sqlite'">
                     and time &lt; datetime(CURRENT_TIMESTAMP,'localtime','-90 day')
+                </when>
+                <when test="_databaseId == 'postgresql'">
+                    and to_date(time::text,'YYYY-MM-DD') &lt; to_date((current_timestamp-interval'90 day')::text,'YYYY-MM-DD')
                 </when>
                 <otherwise>
                     and date_format(time,'%y%m%d') &lt; date_format(date_sub(sysdate(),INTERVAL 90 DAY),'%y%m%d')

@@ -7,6 +7,8 @@ import com.zondy.mapgis.common.core.constant.GenConstants;
 import com.zondy.mapgis.common.core.utils.DateUtils;
 import com.zondy.mapgis.common.core.utils.JsonUtils;
 import com.zondy.mapgis.common.core.utils.StringUtils;
+import com.zondy.mapgis.common.core.utils.spring.SpringUtils;
+import com.zondy.mapgis.gen.config.GenAutoConfiguration;
 import com.zondy.mapgis.gen.domain.GenTable;
 import com.zondy.mapgis.gen.domain.GenTableColumn;
 import org.apache.velocity.VelocityContext;
@@ -132,7 +134,11 @@ public class VelocityUtils {
         templates.add("vm/java/serviceImpl.java.vm");
         templates.add("vm/java/controller.java.vm");
         templates.add("vm/xml/mapper.xml.vm");
-        templates.add("vm/sql/sql.vm");
+        if ("postgresql".equalsIgnoreCase(SpringUtils.getBean(GenAutoConfiguration.class).dbType)) {
+            templates.add("vm/sql/postgresql-sql.vm");
+        } else {
+            templates.add("vm/sql/sql.vm");
+        }
         templates.add("vm/js/api.js.vm");
         if (GenConstants.TPL_CRUD.equals(tplCategory) || GenConstants.TPL_TREE.equals(tplCategory)) {
             templates.add("vm/vue/index.vue.vm");

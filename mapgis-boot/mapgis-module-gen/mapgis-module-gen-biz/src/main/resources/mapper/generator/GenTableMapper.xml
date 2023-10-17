@@ -93,6 +93,9 @@
                     <when test="_databaseId == 'sqlite'">
                         and create_time &gt;= #{params.beginTime}
                     </when>
+                    <when test="_databaseId == 'postgresql'">
+                        and to_date(create_time::text,'YYYY-MM-DD') &gt;= to_date(#{params.beginTime},'YYYY-MM-DD')
+                    </when>
                     <otherwise>
                         and date_format(create_time,'%y%m%d') &gt;= date_format(#{params.beginTime},'%y%m%d')
                     </otherwise>
@@ -102,6 +105,9 @@
                 <choose>
                     <when test="_databaseId == 'sqlite'">
                         and create_time &lt;= #{params.endTime}
+                    </when>
+                    <when test="_databaseId == 'postgresql'">
+                        and to_date(create_time::text,'YYYY-MM-DD') &lt;= to_date(#{params.endTime},'YYYY-MM-DD')
                     </when>
                     <otherwise>
                         and date_format(create_time,'%y%m%d') &lt;= date_format(#{params.endTime},'%y%m%d')
@@ -125,24 +131,10 @@
             AND lower(table_comment) like lower(#{table_comment_like})
         </if>
         <if test="params.beginTime != null and params.beginTime != ''"><!-- 开始时间检索 -->
-            <choose>
-                <when test="_databaseId == 'sqlite'">
-                    and create_time &gt;= #{params.beginTime}
-                </when>
-                <otherwise>
-                    and date_format(create_time,'%y%m%d') &gt;= date_format(#{params.beginTime},'%y%m%d')
-                </otherwise>
-            </choose>
+            and date_format(create_time,'%y%m%d') &gt;= date_format(#{params.beginTime},'%y%m%d')
         </if>
         <if test="params.endTime != null and params.endTime != ''"><!-- 结束时间检索 -->
-            <choose>
-                <when test="_databaseId == 'sqlite'">
-                    and create_time &lt;= #{params.endTime}
-                </when>
-                <otherwise>
-                    and date_format(create_time,'%y%m%d') &lt;= date_format(#{params.endTime},'%y%m%d')
-                </otherwise>
-            </choose>
+            and date_format(create_time,'%y%m%d') &lt;= date_format(#{params.endTime},'%y%m%d')
         </if>
         order by create_time desc
     </select>
@@ -155,6 +147,28 @@
             <bind name="table_name_like" value="'%' + tableName + '%'"/>
             AND lower(tbl_name) like lower(#{table_name_like})
         </if>
+    </select>
+
+    <select id="selectDbTableList" parameterType="GenTable" resultMap="GenTableResult" databaseId="postgresql">
+        select table_name, table_comment, create_time, update_time from view_self_table
+        where table_schema = (select current_schema()) and table_catalog = (select current_catalog)
+        AND table_name NOT LIKE 'qrtz_%' AND table_name NOT LIKE 'gen_%'
+        AND table_name NOT IN (select table_name from gen_table)
+        <if test="tableName != null and tableName != ''">
+            <bind name="table_name_like" value="'%' + tableName + '%'"/>
+            AND lower(table_name) like lower(#{table_name_like})
+        </if>
+        <if test="tableComment != null and tableComment != ''">
+            <bind name="table_comment_like" value="'%' + tableComment + '%'"/>
+            AND lower(table_comment) like lower(#{table_comment_like})
+        </if>
+        <if test="params.beginTime != null and params.beginTime != ''"><!-- 开始时间检索 -->
+            and to_date(create_time::text,'YYYY-MM-DD') &gt;= to_date(#{params.beginTime},'YYYY-MM-DD')
+        </if>
+        <if test="params.endTime != null and params.endTime != ''"><!-- 结束时间检索 -->
+            and to_date(create_time::text,'YYYY-MM-DD') &lt;= to_date(#{params.endTime},'YYYY-MM-DD')
+        </if>
+        order by create_time desc
     </select>
 
     <select id="selectDbTableListByNames" resultMap="GenTableResult">
@@ -170,6 +184,16 @@
         select tbl_name AS table_name from sqlite_master
         where tbl_name NOT LIKE 'qrtz_%' and tbl_name NOT LIKE 'gen_%' and tbl_name NOT LIKE 'flyway_%' and tbl_name != 'sqlite_sequence'
         and tbl_name in
+        <foreach collection="array" item="name" open="(" separator="," close=")">
+            #{name}
+        </foreach>
+    </select>
+
+    <select id="selectDbTableListByNames" resultMap="GenTableResult" databaseId="postgresql">
+        select table_name, table_comment, create_time, update_time from view_self_table
+        where table_name NOT LIKE 'qrtz_%' and table_name NOT LIKE 'gen_%' and table_schema = (select current_schema()) and table_catalog =
+        (select current_catalog)
+        and table_name in
         <foreach collection="array" item="name" open="(" separator="," close=")">
             #{name}
         </foreach>
@@ -326,6 +350,9 @@
             <when test="_databaseId == 'sqlite'">
                 (datetime(CURRENT_TIMESTAMP,'localtime'))
             </when>
+            <when test="_databaseId == 'postgresql'">
+                current_timestamp
+            </when>
             <otherwise>
                 sysdate()
             </otherwise>
@@ -355,6 +382,9 @@
             <choose>
                 <when test="_databaseId == 'sqlite'">
                     update_time = (datetime(CURRENT_TIMESTAMP,'localtime'))
+                </when>
+                <when test="_databaseId == 'postgresql'">
+                    update_time = current_timestamp
                 </when>
                 <otherwise>
                     update_time = sysdate()

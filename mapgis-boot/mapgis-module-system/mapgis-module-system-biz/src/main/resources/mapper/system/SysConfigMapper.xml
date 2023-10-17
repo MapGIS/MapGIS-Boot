@@ -66,6 +66,9 @@
                     <when test="_databaseId == 'sqlite'">
                         and create_time &gt;= #{params.beginTime}
                     </when>
+                    <when test="_databaseId == 'postgresql'">
+                        and to_date(create_time::text,'YYYY-MM-DD') &gt;= to_date(#{params.beginTime},'YYYY-MM-DD')
+                    </when>
                     <otherwise>
                         and date_format(create_time,'%y%m%d') &gt;= date_format(#{params.beginTime},'%y%m%d')
                     </otherwise>
@@ -75,6 +78,9 @@
                 <choose>
                     <when test="_databaseId == 'sqlite'">
                         and create_time &lt;= #{params.endTime}
+                    </when>
+                    <when test="_databaseId == 'postgresql'">
+                        and to_date(create_time::text,'YYYY-MM-DD') &lt;= to_date(#{params.endTime},'YYYY-MM-DD')
                     </when>
                     <otherwise>
                         and date_format(create_time,'%y%m%d') &lt;= date_format(#{params.endTime},'%y%m%d')
@@ -114,6 +120,9 @@
             <when test="_databaseId == 'sqlite'">
                 (datetime(CURRENT_TIMESTAMP,'localtime'))
             </when>
+            <when test="_databaseId == 'postgresql'">
+                current_timestamp
+            </when>
             <otherwise>
                 sysdate()
             </otherwise>
@@ -133,6 +142,9 @@
             <choose>
                 <when test="_databaseId == 'sqlite'">
                     update_time = (datetime(CURRENT_TIMESTAMP,'localtime'))
+                </when>
+                <when test="_databaseId == 'postgresql'">
+                    update_time = current_timestamp
                 </when>
                 <otherwise>
                     update_time = sysdate()

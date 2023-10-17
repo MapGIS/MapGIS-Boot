@@ -33,9 +33,7 @@
                response_status,
                response_headers,
                response_body,
-               response_body_size,
-               time,
-               access_time
+               response_body_size, time, access_time
         from sys_http_access
     </sql>
 
@@ -58,6 +56,9 @@
                     <when test="_databaseId == 'sqlite'">
                         and access_time &gt;= #{params.beginTime}
                     </when>
+                    <when test="_databaseId == 'postgresql'">
+                        and to_date(access_time::text,'YYYY-MM-DD') &gt;= to_date(#{params.beginTime},'YYYY-MM-DD')
+                    </when>
                     <otherwise>
                         and date_format(access_time,'%y%m%d') &gt;= date_format(#{params.beginTime},'%y%m%d')
                     </otherwise>
@@ -67,6 +68,9 @@
                 <choose>
                     <when test="_databaseId == 'sqlite'">
                         and access_time &lt;= #{params.endTime}
+                    </when>
+                    <when test="_databaseId == 'postgresql'">
+                        and to_date(access_time::text,'YYYY-MM-DD') &lt;= to_date(#{params.endTime},'YYYY-MM-DD')
                     </when>
                     <otherwise>
                         and date_format(access_time,'%y%m%d') &lt;= date_format(#{params.endTime},'%y%m%d')
@@ -158,6 +162,9 @@
             <choose>
                 <when test="_databaseId == 'sqlite'">
                     and access_time &lt; datetime(CURRENT_TIMESTAMP,'localtime','-90 day')
+                </when>
+                <when test="_databaseId == 'postgresql'">
+                    and to_date(access_time::text,'YYYY-MM-DD') &lt; to_date((current_timestamp-interval'90 day')::text,'YYYY-MM-DD')
                 </when>
                 <otherwise>
                     and date_format(access_time,'%y%m%d') &lt; date_format(date_sub(sysdate(),INTERVAL 90 DAY),'%y%m%d')

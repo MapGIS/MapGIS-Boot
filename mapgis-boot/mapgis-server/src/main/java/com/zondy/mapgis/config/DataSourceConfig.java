@@ -77,6 +77,11 @@ public class DataSourceConfig {
                 accessLogDataSource = createMySQLDataSource(accessLogDbName);
                 hardwareMonitorDataSource = createMySQLDataSource(hardwareMonitorDbName);
                 break;
+            case "postgresql":
+                masterDataSource = createPostgreSQLDataSource(dbName);
+                accessLogDataSource = createPostgreSQLDataSource(accessLogDbName);
+                hardwareMonitorDataSource = createPostgreSQLDataSource(hardwareMonitorDbName);
+                break;
             default:
                 masterDataSource = createSQLiteDataSource(rootPath, dbName);
                 accessLogDataSource = createSQLiteDataSource(rootPath, accessLogDbName);
@@ -103,6 +108,18 @@ public class DataSourceConfig {
         String dbUrl = "jdbc:mysql://" + dbHost + ":" + dbPort + "/" + db + "?useUnicode=true&characterEncoding=utf8&connectTimeout=30000&socketTimeout=60000&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8";
 
         dataSourceProperty.setDriverClassName("com.mysql.cj.jdbc.Driver");
+        dataSourceProperty.setUrl(dbUrl);
+        dataSourceProperty.setUsername(dbUser);
+        dataSourceProperty.setPassword(dbPwd);
+
+        return druidDataSourceCreator.createDataSource(dataSourceProperty);
+    }
+
+    DataSource createPostgreSQLDataSource(String db) {
+        DataSourceProperty dataSourceProperty = new DataSourceProperty();
+        String dbUrl = "jdbc:postgresql://" + dbHost + ":" + dbPort + "/" + db + "?useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true&serverTimezone=Asia/Shanghai";
+
+        dataSourceProperty.setDriverClassName("org.postgresql.Driver");
         dataSourceProperty.setUrl(dbUrl);
         dataSourceProperty.setUsername(dbUser);
         dataSourceProperty.setPassword(dbPwd);

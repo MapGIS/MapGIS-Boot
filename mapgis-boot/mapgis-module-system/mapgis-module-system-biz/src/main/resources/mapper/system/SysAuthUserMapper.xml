@@ -144,6 +144,9 @@
             <when test="_databaseId == 'sqlite'">
                 (datetime(CURRENT_TIMESTAMP,'localtime'))
             </when>
+            <when test="_databaseId == 'postgresql'">
+                current_timestamp
+            </when>
             <otherwise>
                 sysdate()
             </otherwise>

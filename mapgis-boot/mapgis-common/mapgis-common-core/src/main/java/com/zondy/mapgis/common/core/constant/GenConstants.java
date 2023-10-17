@@ -50,7 +50,7 @@ public class GenConstants {
     /**
      * 数据库字符串类型
      */
-    public static final String[] COLUMNTYPE_STR = {"char", "varchar", "nvarchar", "varchar2"};
+    public static final String[] COLUMNTYPE_STR = {"char", "varchar", "nvarchar", "varchar2", "bpchar"};
 
     /**
      * 数据库文本类型
@@ -65,7 +65,7 @@ public class GenConstants {
     /**
      * 数据库数字类型
      */
-    public static final String[] COLUMNTYPE_NUMBER = {"tinyint", "smallint", "mediumint", "int", "number", "integer", "bit", "bigint", "float", "double", "decimal"};
+    public static final String[] COLUMNTYPE_NUMBER = {"tinyint", "smallint", "mediumint", "int", "number", "integer", "bit", "bigint", "float", "double", "decimal", "int2", "int4", "int8"};
 
     /**
      * 页面不需要编辑字段

@@ -81,6 +81,9 @@
                 <when test="_databaseId == 'sqlite'">
                     (datetime(CURRENT_TIMESTAMP,'localtime'))
                 </when>
+                <when test="_databaseId == 'postgresql'">
+                    current_timestamp
+                </when>
                 <otherwise>
                     sysdate()
                 </otherwise>
@@ -100,7 +103,10 @@
             <if test="updateBy != null">update_by = #{updateBy},</if>
             <choose>
                 <when test="_databaseId == 'sqlite'">
-                    update_time = datetime(CURRENT_TIMESTAMP,'localtime')
+                    update_time = (datetime(CURRENT_TIMESTAMP,'localtime'))
+                </when>
+                <when test="_databaseId == 'postgresql'">
+                    update_time = current_timestamp
                 </when>
                 <otherwise>
                     update_time = sysdate()

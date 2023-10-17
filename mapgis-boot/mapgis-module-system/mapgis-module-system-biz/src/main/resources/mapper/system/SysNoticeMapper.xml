@@ -19,15 +19,22 @@
 
     <sql id="selectNoticeVo">
         select notice_id,
-               notice_title,
-               notice_type,
-               cast(notice_content as char) as notice_content,
-               status,
-               create_by,
-               create_time,
-               update_by,
-               update_time,
-               remark
+        notice_title,
+        notice_type,
+        <choose>
+            <when test="_databaseId == 'postgresql'">
+                notice_content,
+            </when>
+            <otherwise>
+                cast(notice_content as char) as notice_content,
+            </otherwise>
+        </choose>
+        status,
+        create_by,
+        create_time,
+        update_by,
+        update_time,
+        remark
         from sys_notice
     </sql>
 
@@ -73,6 +80,9 @@
             <when test="_databaseId == 'sqlite'">
                 (datetime(CURRENT_TIMESTAMP,'localtime'))
             </when>
+            <when test="_databaseId == 'postgresql'">
+                current_timestamp
+            </when>
             <otherwise>
                 sysdate()
             </otherwise>
@@ -91,6 +101,9 @@
             <choose>
                 <when test="_databaseId == 'sqlite'">
                     update_time = (datetime(CURRENT_TIMESTAMP,'localtime'))
+                </when>
+                <when test="_databaseId == 'postgresql'">
+                    update_time = current_timestamp
                 </when>
                 <otherwise>
                     update_time = sysdate()

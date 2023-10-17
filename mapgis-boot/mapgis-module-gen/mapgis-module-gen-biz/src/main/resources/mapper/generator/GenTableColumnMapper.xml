@@ -64,10 +64,10 @@
     <select id="selectDbTableColumnsByName" parameterType="String" resultMap="GenTableColumnResult">
         select column_name,
                (case when (is_nullable = 'no' <![CDATA[ && ]]> column_key != 'PRI') then '1' else null end) as is_required,
-               (case when column_key = 'PRI' then '1' else '0' end)                           as is_pk,
-               ordinal_position                                                               as sort,
+               (case when column_key = 'PRI' then '1' else '0' end)                               as is_pk,
+               ordinal_position                                                                   as sort,
                column_comment,
-               (case when extra = 'auto_increment' then '1' else '0' end)                     as is_increment,
+               (case when extra = 'auto_increment' then '1' else '0' end)                         as is_increment,
                column_type
         from information_schema.columns
         where table_schema = (select database())
@@ -76,9 +76,24 @@
     </select>
 
     <select id="selectDbTableColumnsByName" parameterType="String" resultMap="GenTableColumnResult" databaseId="sqlite">
-        PRAGMA table_info(
+        PRAGMA
+        table_info(
         ${tableName}
         )
+    </select>
+
+    <select id="selectDbTableColumnsByName" parameterType="String" resultMap="GenTableColumnResult" databaseId="postgresql">
+        select column_name,
+               is_required,
+               is_pk,
+               sort,
+               column_comment,
+               is_increment,
+               column_type
+        from view_self_table_columns
+        where table_catalog = (select current_catalog)
+          and table_schema = (select current_schema())
+          and table_name = (#{tableName})
     </select>
 
     <insert id="insertGenTableColumn" parameterType="GenTableColumn" useGeneratedKeys="true" keyProperty="columnId">
@@ -125,6 +140,9 @@
             <when test="_databaseId == 'sqlite'">
                 (datetime(CURRENT_TIMESTAMP,'localtime'))
             </when>
+            <when test="_databaseId == 'postgresql'">
+                current_timestamp
+            </when>
             <otherwise>
                 sysdate()
             </otherwise>
@@ -151,6 +169,9 @@
             <choose>
                 <when test="_databaseId == 'sqlite'">
                     update_time = (datetime(CURRENT_TIMESTAMP,'localtime'))
+                </when>
+                <when test="_databaseId == 'postgresql'">
+                    update_time = current_timestamp
                 </when>
                 <otherwise>
                     update_time = sysdate()

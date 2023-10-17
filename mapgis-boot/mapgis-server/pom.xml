@@ -24,6 +24,13 @@
             <artifactId>mysql-connector-java</artifactId>
         </dependency>
 
+        <!-- PostgreSQL驱动包 -->
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+
         <!-- sqlite3 驱动包 -->
         <dependency>
             <groupId>org.xerial</groupId>

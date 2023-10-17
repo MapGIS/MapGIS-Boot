@@ -22,6 +22,9 @@
             <when test="_databaseId == 'sqlite'">
                 (datetime(CURRENT_TIMESTAMP,'localtime'))
             </when>
+            <when test="_databaseId == 'postgresql'">
+                current_timestamp
+            </when>
             <otherwise>
                 sysdate()
             </otherwise>
@@ -48,6 +51,9 @@
                     <when test="_databaseId == 'sqlite'">
                         and login_time &gt;= #{params.beginTime}
                     </when>
+                    <when test="_databaseId == 'postgresql'">
+                        and to_date(login_time::text,'YYYY-MM-DD') &gt;= to_date(#{params.beginTime},'YYYY-MM-DD')
+                    </when>
                     <otherwise>
                         and date_format(login_time,'%y%m%d') &gt;= date_format(#{params.beginTime},'%y%m%d')
                     </otherwise>
@@ -57,6 +63,9 @@
                 <choose>
                     <when test="_databaseId == 'sqlite'">
                         and login_time &lt;= #{params.endTime}
+                    </when>
+                    <when test="_databaseId == 'postgresql'">
+                        and to_date(login_time::text,'YYYY-MM-DD') &lt;= to_date(#{params.endTime},'YYYY-MM-DD')
                     </when>
                     <otherwise>
                         and date_format(login_time,'%y%m%d') &lt;= date_format(#{params.endTime},'%y%m%d')
