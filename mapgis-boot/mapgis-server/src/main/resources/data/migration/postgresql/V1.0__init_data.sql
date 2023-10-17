@@ -1554,8 +1554,6 @@ COMMENT ON TABLE "public"."sys_user_post" IS '用户与岗位关联表';
 -- ----------------------------
 -- Records of sys_user_post
 -- ----------------------------
-INSERT INTO "public"."sys_user_post"
-VALUES (1, 1);
 
 -- ----------------------------
 -- Table structure for sys_user_role

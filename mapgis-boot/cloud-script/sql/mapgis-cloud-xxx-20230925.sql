@@ -1211,8 +1211,6 @@ CREATE TABLE `sys_user_post`
 -- ----------------------------
 -- Records of sys_user_post
 -- ----------------------------
-INSERT INTO `sys_user_post`
-VALUES (1, 1);
 
 -- ----------------------------
 -- Table structure for sys_user_role
