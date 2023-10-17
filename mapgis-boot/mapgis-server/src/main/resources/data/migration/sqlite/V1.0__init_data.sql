@@ -466,7 +466,7 @@ INSERT INTO "sys_menu"
 VALUES (109, '定时任务', 4, 1, 'job', 'monitor/job/index', '', 1, 0, 'C', 0, 0, 'monitor:job:list', 'job', 'admin', '2022-03-23 22:12:32',
         '', NULL, '定时任务菜单');
 INSERT INTO "sys_menu"
-VALUES (110, '通知公告', 5, 1, 'notice', 'system/notice/index', '', 1, 0, 'C', 0, 0, 'system:notice:list', 'message', 'admin',
+VALUES (110, '通知公告', 5, 1, 'notice', 'system/notice/index', '', 1, 1, 'C', 0, 0, 'system:notice:list', 'message', 'admin',
         '2022-03-23 22:12:32', '', NULL, '通知公告菜单');
 INSERT INTO "sys_menu"
 VALUES (111, '接口文档', 6, 1, 'swagger', 'tool/swagger/index', '', 1, 0, 'C', 0, 0, 'tool:swagger:list', 'swagger', 'admin',
