@@ -101,6 +101,7 @@ MapGIS Boot 是一款基于 Spring Boot、Spring Cloud & Alibaba、MyBatis、Jwt
 │  ├─第三方登录配置
 │  ├─CAS登录配置
 │  ├─LDAP登录配置
+├─文件管理
 ├─计划任务
 │  ├─定时任务
 ├─消息中心
@@ -178,7 +179,7 @@ sentinel >= 1.6.0
 
 > 请确保`Maven Profiles`为`local`
 
-1、初始化 MySQL 数据库（采用本地数据库 Sqlite 可跳过此步骤）
+1、初始化 MySQL 数据库（采用本地数据库 Sqlite 可跳过此步骤、采用PostgreSQL数据库同MySQL数据库）
 
 创建数据库`mapgis-xxx`（必须）
 创建数据库`mapgis-xxx-access-log`（必须）
