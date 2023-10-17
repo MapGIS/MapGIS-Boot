@@ -50,7 +50,7 @@
         <a-button type="primary" @click="$refs.importTable.show()" v-hasPermi="['tool:gen:import']">
           <a-icon type="cloud-upload" />{{ $t('import') }}
         </a-button>
-        <a-button type="primary" @click="handleGenTable" v-hasPermi="['tool:gen:code']">
+        <a-button type="primary" :disabled="multiple" @click="handleGenTable" v-hasPermi="['tool:gen:code']">
           <a-icon type="cloud-download" />{{ $t('dev.gen.generate') }}
         </a-button>
         <a-button type="primary" :disabled="single" @click="handleEditTable" v-hasPermi="['tool:gen:edit']">

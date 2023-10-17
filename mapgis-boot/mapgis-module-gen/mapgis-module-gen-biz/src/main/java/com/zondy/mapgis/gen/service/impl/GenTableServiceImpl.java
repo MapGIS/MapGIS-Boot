@@ -325,6 +325,11 @@ public class GenTableServiceImpl implements IGenTableService {
     private void generatorCode(String tableName, ZipOutputStream zip) {
         // 查询表信息
         GenTable table = genTableMapper.selectGenTableByName(tableName);
+
+        if (table == null) {
+            return;
+        }
+
         // 设置主子表信息
         setSubTable(table);
         // 设置主键列信息
