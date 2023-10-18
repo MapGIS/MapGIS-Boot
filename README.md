@@ -199,7 +199,7 @@ sentinel >= 1.6.0
 `Edit Configurations->Configuration->Environment->Program arguments：`
 
 ```
-# 数据源类型（支持`mysql`、`sqlite`，不设置默认为`sqlite`）
+# 数据源类型（支持`mysql`、`sqlite`、`postgresql`，不设置默认为`sqlite`）
 xxx.storeType=mysql
 ```
 
