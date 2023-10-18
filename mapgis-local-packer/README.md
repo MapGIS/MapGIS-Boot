@@ -203,9 +203,9 @@ chmod +x install-release.sh
 # 参数5：镜像标签
 # 参数6：包名上添加时间
 # sh install-release.sh ip username os arch tag date
-# 10.0.1.166 root linux x86_64 10.6.5.10-0808 ADD_DATE
-sh install-release.sh 10.0.1.166 root linux x86_64 10.6.5.10-0808 ADD_DATE
-# 10.0.1.188 root linux arm64 10.6.5.10-0808 ADD_DATE
-sh install-release.sh 10.0.1.188 root linux arm64 10.6.5.10-0808 ADD_DATE
+# 10.0.1.166 root linux x86_64 10.6.6.10-0808 ADD_DATE
+sh install-release.sh 10.0.1.166 root linux x86_64 10.6.6.10-0808 ADD_DATE
+# 10.0.1.188 root linux arm64 10.6.6.10-0808 ADD_DATE
+sh install-release.sh 10.0.1.188 root linux arm64 10.6.6.10-0808 ADD_DATE
 ```
 完成后会自动将包放置到install-local-release目录内

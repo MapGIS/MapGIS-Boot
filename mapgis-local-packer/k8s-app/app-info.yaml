@@ -4,7 +4,7 @@ fileOrdering:
 configurations:
   - name: imageName
     description: "镜像名称"
-    recommendExpression: "xxx-linux:10.6.4.10"
+    recommendExpression: "xxx-linux:10.6.6.10"
     valueType: InputString
     tag: "镜像管理"
   - name: limit.enable

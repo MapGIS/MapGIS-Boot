@@ -45,6 +45,10 @@ export default {
     return {
       updateLogs: [
         {
+          time: '2023年10月',
+          description: 'MapGIS Boot v10.6.6.10 发布'
+        },
+        {
           time: '2023年7月',
           description: 'MapGIS Boot v10.6.4.10 发布'
         },

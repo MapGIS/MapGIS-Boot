@@ -16,14 +16,14 @@ imageNamespace: mapgis
 imageNfsClientProvisioner: sig-storage/nfs-subdir-external-provisioner:v4.0.2
 imageNacos: nacos/nacos-server
 imageRedis: redis
-imageMySQL: xxx-mysql-linux:10.6.4.10
-imageGateway: xxx-gateway-linux:10.6.4.10
-imageMonitor: xxx-monitor-linux:10.6.4.10
-imageAuth: xxx-auth-linux:10.6.4.10
-imageSystem: xxx-system-linux:10.6.4.10
-imageFile: xxx-file-linux:10.6.4.10
-imageJob: xxx-job-linux:10.6.4.10
-imageGen: xxx-gen-linux:10.6.4.10
+imageMySQL: xxx-mysql-linux:10.6.6.10
+imageGateway: xxx-gateway-linux:10.6.6.10
+imageMonitor: xxx-monitor-linux:10.6.6.10
+imageAuth: xxx-auth-linux:10.6.6.10
+imageSystem: xxx-system-linux:10.6.6.10
+imageFile: xxx-file-linux:10.6.6.10
+imageJob: xxx-job-linux:10.6.6.10
+imageGen: xxx-gen-linux:10.6.6.10
 imagePullPolicy: IfNotPresent
 imagePullSecret: 
 

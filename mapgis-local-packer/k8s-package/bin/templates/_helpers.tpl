@@ -68,7 +68,7 @@ Image
 {{- end -}}
 
 {{- define "mapgis.imageTag" -}}
-  {{ .Values.imageTag | default "10.6.4.10" }}
+  {{ .Values.imageTag | default "10.6.6.10" }}
 {{- end -}}
 
 {{- define "mapgis.imagePullPolicy" -}}

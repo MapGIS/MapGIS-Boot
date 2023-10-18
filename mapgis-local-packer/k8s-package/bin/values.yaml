@@ -13,7 +13,7 @@ imageRegistry:
 imageNamespace: mapgis
 imageNfsClientProvisioner: sig-storage/nfs-subdir-external-provisioner:v4.0.2
 imageRepository: xxx-linux
-imageTag: "10.6.4.10"
+imageTag: "10.6.6.10"
 imagePullPolicy: IfNotPresent
 imagePullSecret: 
 
